@@ -472,7 +472,8 @@ function getEditedValues() {
         var editedVehiclesIdValues = [];
         $this.find('.gps-instrument-id').each(function () { // Use '.gps-instrument-id' instead of '.VehiclesID'
             var $thisTextbox = $(this);
-            var originalValue = $thisTextbox.data("original-value");
+            //var originalValue = $thisTextbox.data("original-value");
+            var originalValue = String($thisTextbox.data("original-value"));
             var editedValue = $thisTextbox.val();
 
             // Check if the textbox value has been edited

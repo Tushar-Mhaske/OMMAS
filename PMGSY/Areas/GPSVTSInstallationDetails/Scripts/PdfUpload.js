@@ -59,7 +59,7 @@ $(document).ready(function () {
             }, 4000);
             $("#tbPDFFilesList").trigger('reloadGrid');
           
-            $("#tblPresentation tbody tr").remove();
+           // $("#tblPresentation tbody tr").remove();
             $("#divGlobalProgress").html("");
         });
 
@@ -280,7 +280,8 @@ function Finalize() {
                         //$('.ui-icon-pencil').addClass('ui-icon-locked').removeClass('ui-icon-pencil');
                         //$('.ui-icon-trash').addClass('ui-icon-locked').removeClass('ui-icon-trash');
 
-                        Alert("Details Finilized Succesfully.");
+                        /* Alert("Details Finilized Succesfully.");*/
+                        Alert("Details Finalized Succesfully.");
                         //Reload Grid
                         Load_GPSVTS_RoadList()
                        //End reload Grid

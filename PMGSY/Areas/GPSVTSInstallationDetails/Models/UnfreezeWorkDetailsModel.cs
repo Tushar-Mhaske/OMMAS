@@ -75,4 +75,40 @@ namespace PMGSY.Areas.GPSVTSInstallationDetails.Models
 
         public string isGPSINSTALLED { get; set; }
     }
+    public class ViewGPSVTSDetailsNewTabModel
+    {
+ 
+        public string GPS_INSTALLED { get; set; }
+        public string VehicleName { get; set; }
+        public int NO_OF_VEHICLES { get; set; }
+        public DateTime DATE_OF_INSTALLATION { get; set; }
+        public string VTS_INSTRUMENT_GPS_ID { get; set; }
+
+
+
+    }
+
+    public class ViewGPSVTSDetailsNewTabDetailsModel
+    {
+        public string RoadName { get; set; }
+        public string PackageId { get; set; }
+        public string Year { get; set; }
+        public string Batch { get; set; }
+        public List<ViewGPSVTSDetailsNewTabModel> viewGPSVTSDetailsNewTabModels { get; set; }
+
+
+    }
+
+    public class ListPdfFileUnfreezeWork
+    {
+
+        [Display(Name = "Road Name")]
+        public string RoadName { get; set; }
+        public string Year { get; set; }
+        public string Package { get; set; }
+        public string Batch { get; set; }
+
+        public int RoadCode { get; set; }
+
+    }
 }

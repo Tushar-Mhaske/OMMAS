@@ -6949,6 +6949,7 @@
     <Content Include="Areas\GPSVTSInstallationDetails\Scripts\FileUpload.js" />
     <Content Include="Areas\GPSVTSInstallationDetails\Scripts\GPSVTSLayout.js" />
     <Content Include="Areas\GPSVTSInstallationDetails\Scripts\GPSVTSReport.js" />
+    <Content Include="Areas\GPSVTSInstallationDetails\Scripts\ListPdfFileUnfreezeWork.js" />
     <Content Include="Areas\GPSVTSInstallationDetails\Scripts\PdfUpload.js" />
     <Content Include="Areas\GPSVTSInstallationDetails\Scripts\UnfreezeWorkDetailsLayout.js" />
     <Content Include="Areas\LocationSSRSReports\Scripts\BlockLayout.js" />
@@ -10423,6 +10424,8 @@
     <Content Include="Content\fontawesome_6.4.0-web\webfonts\fa-v4compatibility.woff2" />
     <Content Include="Areas\ErrorLogArea\Views\ErrorLog\Index.cshtml" />
     <Content Include="Areas\ErrorLogArea\Views\Web.config" />
+    <Content Include="Areas\GPSVTSInstallationDetails\Views\GPSVTSDetails\ListPdfFilesUnfreezeWorks.cshtml" />
+    <Content Include="Areas\GPSVTSInstallationDetails\Views\GPSVTSDetails\ViewGPSVTSDetailsNewTab.cshtml" />
     <None Include="packages\jQuery.1.4.4\Content\Scripts\jquery-1.4.4-vsdoc.js" />
     <Content Include="obj\Debug\PMGSY.csproj.FileListAbsolute.txt" />
     <Content Include="OmmasDoRDIntegration\OmmasDoRDIntegration.asmx" />
@@ -13348,7 +13351,7 @@
           <AutoAssignPort>True</AutoAssignPort>
           <DevelopmentServerPort>49815</DevelopmentServerPort>
           <DevelopmentServerVPath>/</DevelopmentServerVPath>
-          <IISUrl>http://localhost:41666/</IISUrl>
+          <IISUrl>http://localhost:41667/</IISUrl>
           <NTLMAuthentication>False</NTLMAuthentication>
           <UseCustomServer>False</UseCustomServer>
           <CustomServerUrl>

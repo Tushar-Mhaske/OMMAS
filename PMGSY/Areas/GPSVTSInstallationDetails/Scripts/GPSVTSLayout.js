@@ -162,6 +162,7 @@ var customDialog;
 
 var latestUrlParameter = null;
 function Load_GPSVTS_Saved_Details(urlparameter) {
+    $("#tbGPSVTSRoadList").jqGrid('setGridState', 'hidden');
     $(".AddViewMainDiv").show();
     $("#accordion_Upload div").html("");
     $("#accordion_Upload").hide();
@@ -389,6 +390,7 @@ function EditGPSVTSDetails(urlparameter) {
                    //Reload Grid
                     Load_GPSVTS_RoadList()
                     //End reload Grid
+                    $("#tbGPSVTSRoadList").jqGrid('setGridState', 'hidden');
                 },
                 error: function (xhr, ajaxOptions, thrownError) {
                     Alert("Error occurred while processing the request.");

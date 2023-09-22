@@ -1,4 +1,5 @@
-﻿using PMGSY.Areas.GPSVTSInstallationDetails.DAL;
+﻿using AttributeRouting.Web.Mvc;
+using PMGSY.Areas.GPSVTSInstallationDetails.DAL;
 using PMGSY.Areas.GPSVTSInstallationDetails.Models;
 using PMGSY.Common;
 using PMGSY.Controllers;
@@ -500,7 +501,26 @@ namespace PMGSY.Areas.GPSVTSInstallationDetails.Controllers
                         if (!string.IsNullOrEmpty(GPSInstrumentIDAlreadyExist))
                         {
                             ResMessage = "GPS Instrument ID(s) [" + GPSInstrumentIDAlreadyExist + "] is already present with the corresponding vehicle.";
+                            return Json(new { success = true, message = ResMessage });
                         }
+                        //Added By Tushar on 11 Sep 2023 for check GPS Instrument ID present in same work
+                        string GPSInstrumentIDAlreadyExistForSameWork = objDAL.GPSInstrumentIDAlreadyExistsForSameWorkDAL(gpsInstrumentIDs, Convert.ToInt32(gPSVTSDetailsDataModel.RoadCodeValue));
+                     
+                        if (!string.IsNullOrEmpty(GPSInstrumentIDAlreadyExistForSameWork))
+                        {
+                            ResMessage = "GPS Instrument ID(s) [" + GPSInstrumentIDAlreadyExistForSameWork + "] is already present with the corresponding vehicle for same work.";
+                            return Json(new { success = true, message = ResMessage });
+                        }
+                        //Added By Tushar on 11 Sep 2023 for check same GPS Instrument ID and same corresponding vehicle present for multiple works
+                        int vehicle = Convert.ToInt32(gPSVTSDetailsDataModel.VTS_INSTRUMENT_GPS_Details.Select(c => c.Vehicle).FirstOrDefault());
+                        string SameGPSInstrumentIDAlreadyExistForWork = objDAL.IsSameGPSInstrumentIDAlreadyExistsForWorkDAL(gpsInstrumentIDs, Convert.ToInt32(gPSVTSDetailsDataModel.RoadCodeValue), vehicle);
+                        
+                        if (!string.IsNullOrEmpty(SameGPSInstrumentIDAlreadyExistForWork))
+                        {
+                            ResMessage = "GPS Instrument ID(s) [" + SameGPSInstrumentIDAlreadyExistForWork + "] is already assigned to another vehicle.";
+                            return Json(new { success = true, message = ResMessage });
+                        }
+                        //End By Tushar on 11 Sep 2023
                         return Json(new { success = true, message = ResMessage });
                     }
                     else
@@ -1235,6 +1255,150 @@ namespace PMGSY.Areas.GPSVTSInstallationDetails.Controllers
             }
            
         }
+        [Route("GPSVTSInstallationDetails/GPSVTSDetails/ViewGPSVTSDetailsNewTab")]
+        public ActionResult ViewGPSVTSDetailsNewTab(String parameter)
+        {
+            try
+            {
+                int Road_Code = 0;
+                long totalRecords = 0;
+                objDAL = new GPSVTSDetailsDAL();
+                ViewGPSVTSDetailsNewTabDetailsModel viewGPSVTSDetailsNewTabDetailsModel = new ViewGPSVTSDetailsNewTabDetailsModel();
+                if (!string.IsNullOrEmpty(parameter))
+                {
+
+                    string[] splitValues = parameter.Split('/');
+                    decryptedParameters = URLEncrypt.DecryptParameters1(new string[] { splitValues[0], splitValues[1], splitValues[2] });
+                    if (decryptedParameters.Count() > 0)
+                    {
+                        Road_Code = Convert.ToInt32(decryptedParameters["roadcode"].ToString());
+                        viewGPSVTSDetailsNewTabDetailsModel.RoadName = decryptedParameters["RoadName"].ToString();
+                        viewGPSVTSDetailsNewTabDetailsModel.Batch = decryptedParameters["Batch"].ToString();
+                        viewGPSVTSDetailsNewTabDetailsModel.PackageId = decryptedParameters["Package"].ToString();
+                        viewGPSVTSDetailsNewTabDetailsModel.Year = decryptedParameters["Year"].ToString();
+                        //
+                    }
+                }else
+                {
+                    return null;
+                }
+                
+
+                var Result = objDAL.GetGPSVTSSavedDetailsDAL(Road_Code, 0, 0, "", "", out totalRecords);
+
+                viewGPSVTSDetailsNewTabDetailsModel.viewGPSVTSDetailsNewTabModels = new List<ViewGPSVTSDetailsNewTabModel>();
+
+                foreach (var anonymousItem in Result)
+                {
+                    var cellProperty = anonymousItem.GetType().GetProperty("cell");
+                    object[] cell = (object[])cellProperty.GetValue(anonymousItem);
+
+                    DateTime dateOfInstallation;
+                    if (DateTime.TryParse((string)cell[4], out dateOfInstallation))
+                    {
+                        ViewGPSVTSDetailsNewTabModel model = new ViewGPSVTSDetailsNewTabModel
+                        {
+                            GPS_INSTALLED = (string)cell[0],//GPSInstalled
+                            VehicleName = (string)cell[1],//VehicleName
+                            DATE_OF_INSTALLATION = dateOfInstallation,//DateOfInstallation
+                            NO_OF_VEHICLES = (int)cell[3],//NumberOfVehicles
+                            VTS_INSTRUMENT_GPS_ID = (string)cell[9]//VTSVehicleGPSID
+                        };
+
+                        viewGPSVTSDetailsNewTabDetailsModel.viewGPSVTSDetailsNewTabModels.Add(model);
+                    }
+                    
+                }
+
+                return View("~/Areas/GPSVTSInstallationDetails/Views/GPSVTSDetails/ViewGPSVTSDetailsNewTab.cshtml", viewGPSVTSDetailsNewTabDetailsModel);
+
+            }
+            catch(Exception ex)
+            {
+                ErrorLog.LogError(ex, "GPSVTSDetailsController.ViewGPSVTSDetailsNewTab()");
+                return null;
+            }
+        }
+
+        public JsonResult ListPDFFilesUnfreezeWorkDetails(FormCollection formCollection)
+        {
+            try
+            {
+                objDAL = new GPSVTSDetailsDAL();
+                CommonFunctions commonFunction = new CommonFunctions();
+                if (!commonFunction.ValidateGridParameters(new GridParams(Convert.ToInt32(formCollection["page"]), Convert.ToInt32(formCollection["rows"]), formCollection["sidx"], formCollection["sord"], Convert.ToBoolean(Request.Params["_search"]), Convert.ToInt64(Request.Params["nd"]))))
+                {
+                    return null;
+                }
+
+                int IMS_PR_ROAD_CODE = Convert.ToInt32(Request["parameter"]);
+                int totalRecords;
+
+                var jsonData = new
+                {
+                    rows = objDAL.GetPDFFilesListUnfreezeWorkDetailsDAL(
+                        Convert.ToInt32(formCollection["page"]) - 1,
+                        Convert.ToInt32(formCollection["rows"]),
+                        formCollection["sidx"],
+                        formCollection["sord"],
+                        out totalRecords,
+                        IMS_PR_ROAD_CODE),
+                    total = totalRecords <= Convert.ToInt32(formCollection["rows"]) ? 1 : totalRecords / Convert.ToInt32(formCollection["rows"]) + 1,
+                    page = Convert.ToInt32(formCollection["page"]),
+                    records = totalRecords
+                };
+
+                return Json(jsonData);
+            }
+            catch (Exception ex)
+            {
+                ErrorLog.LogError(ex, "GPSVTSDetailsController.ListPDFFilesUnfreezeWorkDetails()");
+                throw;
+            }
+        }
+
+        public ActionResult GetListPDFFilesUnfreezeWorkDetails(string parameter)
+        {
+            objDAL = new GPSVTSDetailsDAL();
+            
+            if (!string.IsNullOrEmpty(parameter))
+            {
+                string[] splitValues = parameter.Split('/');
+                decryptedParameters = URLEncrypt.DecryptParameters1(new string[] { splitValues[0], splitValues[1], splitValues[2] });
+
+                if (decryptedParameters.Count() > 0)
+                {
+                    try
+                    {
+                        ListPdfFileUnfreezeWork listPdfFileUnfreezeWork = new ListPdfFileUnfreezeWork();
+                        listPdfFileUnfreezeWork.RoadCode = Convert.ToInt32(decryptedParameters["roadcode"].ToString());
+                        listPdfFileUnfreezeWork.RoadName = decryptedParameters["RoadName"].ToString();
+                        listPdfFileUnfreezeWork.Batch = decryptedParameters["Batch"].ToString();
+                        listPdfFileUnfreezeWork.Package = decryptedParameters["Package"].ToString();
+                        listPdfFileUnfreezeWork.Year = decryptedParameters["Year"].ToString();
+
+                        return View("~/Areas/GPSVTSInstallationDetails/Views/GPSVTSDetails/ListPdfFilesUnfreezeWorks.cshtml", listPdfFileUnfreezeWork);
+                    }
+                    catch (Exception ex)
+                    {
+                        ErrorLog.LogError(ex, "GPSVTSDetailsController.GetListPDFFilesUnfreezeWorkDetails()");
+                        return Json(new { Success = false, ErrorMessage = "An error occurred while processing your request." }, JsonRequestBehavior.AllowGet);
+                        
+                    }
+                }
+                else
+                {
+                 
+                    return Json(new { Success = false, ErrorMessage = "Invalid parameters. Please check the input." }, JsonRequestBehavior.AllowGet);
+                }
+            }
+
+            return Json(new { Success = false, ErrorMessage = "An error occurred while processing your request." }, JsonRequestBehavior.AllowGet);
+
+        }
+
+
+
     }
 
 }

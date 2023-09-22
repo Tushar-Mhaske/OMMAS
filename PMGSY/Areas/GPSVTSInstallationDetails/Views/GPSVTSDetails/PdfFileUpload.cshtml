@@ -55,9 +55,9 @@
 
 
     <center>
-        @{
-            if (Model.isFinalized == "N")
-            {
+        @*@{*@
+@*//if (Model.isFinalized == "N")
+//{*@
                 <div class="row fileupload-buttonbar">
                     <div style="text-align:left" class="span5">
                         <table>
@@ -99,8 +99,8 @@
                     </div>
 
                 </div>
-            }
-        }
+                @*//}*@
+        @*}*@
     </center>
     <br>
     <table id="tblPresentation" role="presentation" class="table table-striped"><tbody class="files" data-toggle="modal-gallery" data-target="#modal-gallery"></tbody></table>

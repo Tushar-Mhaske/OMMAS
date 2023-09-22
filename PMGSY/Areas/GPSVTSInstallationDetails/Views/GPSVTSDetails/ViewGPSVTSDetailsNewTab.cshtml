@@ -1,0 +1,108 @@
+﻿@model PMGSY.Areas.GPSVTSInstallationDetails.Models.ViewGPSVTSDetailsNewTabDetailsModel
+@{
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+@Scripts.Render("~/bundles/jquery")
+<script>
+    $(".demo").hide();
+    $("#UserLogin").hide();
+    $("#footer").hide();
+
+</script>
+<html>
+<head>
+    <title></title>
+    <script src="~/Scripts/jquery-ui.js"></script>
+    <script src="~/Scripts/jquery.ui.tabs.js"></script>
+    <script src="~/Scripts/custom/Generic.js"></script>
+    <script src="~/Scripts/Bootstrap/bootstrap.min.js"></script>
+    <link href="~/Content/Bootstrap/bootstrap.min.css" rel="stylesheet" />
+    <script>
+        $(document).ready(function () {
+
+            $.ajaxSetup({ cache: false });
+        });
+    </script>
+    <style type="text/css">
+        #preview {
+            border: 1px solid #ccc;
+            position: absolute;
+            background: #333;
+            padding: 5px;
+            display: none;
+            color: #fff;
+        }
+
+        #mainDiv {
+            width: 100%;
+        }
+
+       
+        .table-bordered th, .table-bordered td {
+            border: 1px solid #ddd;
+            text-align: center;
+            padding: 8px;
+        }
+    </style>
+
+</head>
+<body>
+
+    <div class="container">
+        <div class="row" style="margin-top:12%">
+            <div class="span12">
+                <div style="background: #fccc6b; font-size: 17px; text-align:center;padding: 1px;" class="well;">
+                    Road Name :- @Model.RoadName
+                    <br />
+                    Package :-  @Model.PackageId &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                    Batch :- @Model.Batch &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                    Year :- @Model.Year
+
+                </div>
+            </div>
+        </div>
+        @{
+            int srNo = 1;
+        }
+        <table class="table table-bordered">
+            <thead>
+                <tr>
+                    <th>Sr. No</th>
+                    <th>GPS Installed</th>
+                    <th>Vehicle Name</th>
+                    <th>No of Vehicles</th>
+                    <th>GPS Instrument ID</th>
+                    <th>Date of Installation</th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var item in Model.viewGPSVTSDetailsNewTabModels)
+                {
+                    <tr>
+                        <td>@srNo</td>
+                        <td>@item.GPS_INSTALLED</td>
+                        <td>@item.VehicleName</td>
+                        <td>@item.NO_OF_VEHICLES</td>
+                        <td>
+                            @{
+                                var vtsIds = item.VTS_INSTRUMENT_GPS_ID.Split(',');
+                                for (int j = 0; j < vtsIds.Length; j++)
+                                {
+                                    <div>@(j + 1)) @vtsIds[j]</div>
+                                }
+                            }
+                        </td>
+                        <td>@item.DATE_OF_INSTALLATION.ToString("dd/MM/yyyy")</td>
+                    </tr>
+                    srNo++;
+                }
+
+
+            </tbody>
+        </table>
+    </div>
+
+
+</body>
+</html>
+

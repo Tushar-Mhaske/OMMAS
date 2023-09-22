@@ -1196,10 +1196,14 @@ namespace PMGSY.Areas.GPSVTSInstallationDetails.DAL
                         RoadDetails.Batch.ToString(),
                         RoadDetails.Length.ToString(),
                         RoadDetails.SanctionedAmt.ToString(),
-                        RoadDetails.RoadName,
+                        //RoadDetails.RoadName,
+                        "<a href='#' style='color:blue' title='Click here to view GPS/VTS details' onClick=GetGPSVTSSavedDetails('" + URLEncrypt.EncryptParameters1(new String[] { "roadcode =" + RoadDetails.RoadCode.ToString().Trim(),"RoadName="+RoadDetails.RoadName.ToString().Trim(),"Year="+RoadDetails.Year.ToString().Trim(),"Batch="+RoadDetails.Batch.ToString().Trim(),"Package="+RoadDetails.PackageId.ToString().Trim() }) + "'); return false;'>" + RoadDetails.RoadName + "</a>",
                         RoadDetails.WorkStatus,
                         RoadDetails.isGPSINSTALLED,
                         RoadDetails.isFinalized,
+                        RoadDetails.isFinalized.Equals("No") ?
+                        "<span class='ui-icon ui-icon-locked ui-align-center' title='Pdf not available.'></span>"
+                        : "<span class='ui-icon ui-icon-zoomin ui-align-center' title='Pdf View' onclick='GetListPDFFilesUnfreezeWorkDetails(\"" + URLEncrypt.EncryptParameters1(new string[] { "roadcode =" + RoadDetails.RoadCode.ToString().Trim(),"RoadName="+ RoadDetails.RoadName.ToString().Trim(),"Year="+RoadDetails.Year.ToString().Trim(),"Batch="+RoadDetails.Batch.ToString().Trim(),"Package="+RoadDetails.PackageId.ToString().Trim()}) + "\");' > </span>",
                         RoadDetails.WorkStatus == "Freezed"?"<span class='ui-icon ui-icon-circle-plus ui-align-center' title='UnFreeze Work' onclick='UnFreezeWork(\"" + URLEncrypt.EncryptParameters1(new string[] { "roadcode =" + RoadDetails.RoadCode.ToString().Trim()}) + "\");' > </span>"
                                                   :"<span class='ui-icon ui-icon-locked ui-align-center' title='Work Already UnFreezed'></span>"
 
@@ -1250,5 +1254,135 @@ namespace PMGSY.Areas.GPSVTSInstallationDetails.DAL
                 return "An error occurred while processing the request.";
             }
         }
+
+
+        public Array GetPDFFilesListUnfreezeWorkDetailsDAL(int page, int rows, string sidx, string sord, out int totalRecords, int IMS_PR_ROAD_CODE)
+        {
+            try
+            {
+                dbContext = new PMGSYEntities();
+                //List<IMS_PROPOSAL_FILES> listProposalFiles = PMGSYSession.Current.PMGSYScheme == 3 ? dbContext.IMS_PROPOSAL_FILES.Where(p => p.IMS_PR_ROAD_CODE == IMS_PR_ROAD_CODE && p.ISPF_TYPE == "P" && p.ISPF_UPLOAD_BY == "D").ToList() : dbContext.IMS_PROPOSAL_FILES.Where(p => p.IMS_PR_ROAD_CODE == IMS_PR_ROAD_CODE && p.ISPF_TYPE == "C" && p.ISPF_UPLOAD_BY == "D").ToList();
+                List<VTS_GPS_FILES_DETAILS> vTS_GPS_FILES_DETAILs = dbContext.VTS_GPS_FILES_DETAILS.Where(p => p.IMS_PR_ROAD_CODE == IMS_PR_ROAD_CODE && p.FILE_TYPE == "P").ToList();
+                IQueryable<VTS_GPS_FILES_DETAILS> query = vTS_GPS_FILES_DETAILs.AsQueryable<VTS_GPS_FILES_DETAILS>();
+
+               
+                totalRecords = vTS_GPS_FILES_DETAILs.Count();
+
+                if (sidx.Trim() != string.Empty)
+                {
+                    if (sord.ToString() == "asc")
+                    {
+                        query = query.OrderBy(x => x.IMS_PR_ROAD_CODE).Skip(Convert.ToInt32(page * rows)).Take(Convert.ToInt16(rows));
+                    }
+                    else
+                    {
+                        query = query.OrderByDescending(x => x.IMS_PR_ROAD_CODE).Skip(Convert.ToInt32(page * rows)).Take(Convert.ToInt16(rows));
+                    }
+                }
+                else
+                {
+                    query = query.OrderBy(x => x.IMS_PR_ROAD_CODE).Skip(Convert.ToInt32(page * rows)).Take(Convert.ToInt16(rows));
+                }
+
+
+
+                return query.Select(fileDetails => new
+                {
+                    id = fileDetails.FILE_ID + "$" + fileDetails.IMS_PR_ROAD_CODE,
+                    cell = new[] {
+                                    URLEncrypt.EncryptParameters(new string[] { fileDetails.FILE_NAME.ToString()  }),
+                                    fileDetails.FILE_DESC,
+                                    fileDetails.FILE_UPLOAD_DATE.ToString("dd/MM/yyyy hh:mm:ss")
+                                  
+
+                    }
+                }).ToArray();
+            }
+            catch (Exception ex)
+            {
+                ErrorLog.LogError(ex, "GPSVTSDetailsDAL.GetPDFFilesListUnfreezeWorkDetailsDAL()");
+                totalRecords = 0;
+                return null;
+            }
+            finally
+            {
+                dbContext.Dispose();
+            }
+
+        }
+
+        public string GPSInstrumentIDAlreadyExistsForSameWorkDAL(List<string> gpsInstrumentIDs, int RoadCode)
+        {
+            try
+            {
+                
+                using (var dbContext = new PMGSYEntities())
+                {
+                    var result = (from det in dbContext.VTS_VEHICLEWISE_GPS_DETAILS
+                                  join ava in dbContext.VTS_ROADWISE_GPS_AVAILABILITY
+                                  on new { p1 = det.VTS_GPS_ID } equals new { p1 = (long?)ava.VTS_GPS_ID, }
+                                  into joinedAvaCou
+                                  from ava in joinedAvaCou.DefaultIfEmpty()
+                                  where  gpsInstrumentIDs.Contains(det.VTS_INSTRUMENT_GPS_ID)
+                                  && ava.IMS_PR_ROAD_CODE == RoadCode
+                                  select new
+                                  {
+                                      det.VTS_INSTRUMENT_GPS_ID
+                                  }).ToList();
+                    if (result == null || result.Count == 0)
+                    {
+
+                        return "";
+                    }
+
+                    string resultString = string.Join(",", result.Select(x => x.VTS_INSTRUMENT_GPS_ID));
+
+                    return resultString;
+                }
+            }
+            catch (Exception ex)
+            {
+                ErrorLog.LogError(ex, "GPSVTSDetailsDAL.GPSInstrumentIDAlreadyExistsForSameWorkDAL()");
+                throw;
+            }
+
+        }
+
+
+        public string IsSameGPSInstrumentIDAlreadyExistsForWorkDAL(List<string> gpsInstrumentIDs, int roadCode, int vehicle)
+        {
+            try
+            {
+                using (var dbContext = new PMGSYEntities())
+                {
+                    var result = (from gpsDetails in dbContext.VTS_VEHICLEWISE_GPS_DETAILS
+                                  join roadwiseGpsCount in dbContext.VTS_ROADWISE_GPS_VEHICLE_COUNT
+                                  on new { p1 = gpsDetails.VEHICLE_ID, p2 = gpsDetails.VTS_GPS_ID }
+                                  equals new { p1 = (long?)roadwiseGpsCount.VEHICLE_ID, p2 = roadwiseGpsCount.VTS_GPS_ID }
+                                  into joinedData
+                                  from subData in joinedData.DefaultIfEmpty()
+                                  select new { subData.VEHICLE_TYPE_ID, gpsDetails.VTS_INSTRUMENT_GPS_ID })
+               .AsEnumerable()
+               .FirstOrDefault(x => gpsInstrumentIDs.Any(id => String.Equals(id, x.VTS_INSTRUMENT_GPS_ID, StringComparison.Ordinal)));
+
+
+
+
+                    if (result != null && vehicle != result.VEHICLE_TYPE_ID)
+                    {
+                        return string.Join(",", result.VTS_INSTRUMENT_GPS_ID);
+
+                    }
+
+                    return "";
+                }
+            }
+            catch (Exception ex)
+            {
+                ErrorLog.LogError(ex, "GPSVTSDetailsDAL.IsSameGPSInstrumentIDAlreadyExistsForWorkDAL()");
+                throw;
+            }
+        }
+
     }
 }

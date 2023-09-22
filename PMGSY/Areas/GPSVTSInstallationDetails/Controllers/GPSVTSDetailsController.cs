@@ -1188,7 +1188,7 @@ namespace PMGSY.Areas.GPSVTSInstallationDetails.Controllers
                 //
                 var jsonData = new
                 {
-                    //rows = objDAL.GPSVTSRoadListDAL(state, district, block, sanction_year, batch, proposalType, Convert.ToInt32(Request.Params["page"]) - 1, Convert.ToInt32(Request.Params["rows"]), Request.Params["sidx"], Request.Params["sord"], out totalRecords),
+                   
                     rows = objDAL.GPSVTSUnfreezeWorkDetailsRoadListDAL(WorkStatus, state, district, block, sanction_year, batch, proposalType, Convert.ToInt32(Request.Params["page"]) - 1, Convert.ToInt32(Request.Params["rows"]), Request.Params["sidx"], Request.Params["sord"], out totalRecords),
                     total = totalRecords <= Convert.ToInt32(Request.Params["rows"]) ? 1 : totalRecords / Convert.ToInt32(Request.Params["rows"]) + 1,
                     page = Convert.ToInt32(Request.Params["page"]),

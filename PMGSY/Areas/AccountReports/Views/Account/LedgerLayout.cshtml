@@ -1,0 +1,170 @@
+﻿@{  
+    Layout = Request.IsAjaxRequest() ? null : "~/Areas/AccountReports/Views/Account/_Layout.cshtml";
+}
+@model PMGSY.Areas.AccountReports.Models.LedgerModel
+@using PMGSY.Extensions
+
+<!DOCTYPE html>
+
+<html>
+<head>
+    <meta name="viewport" content="width=device-width" />
+    <script src="~/Scripts/custom/Generic.js"></script>
+    <script src="~/Areas/AccountReports/Scripts/LedgerReport.js"></script>
+    <title>Credit / Debit Ledger</title>
+</head>
+
+<body>
+
+    
+<div id="dvContainer" style="height:520px">
+    <div id="loadFilte">
+
+        <div class="ui-widget-header innerDivHeader" style="margin-bottom: 0px; margin-top: 0px; height: 20px;">
+            <label style="margin-left: 5px">Credit-Debit Ledger</label>
+            <span style="float: right; margin-right: 2Px; margin-top: 2px" id="spnLedger" class="ui-icon ui-icon-circle-triangle-n"></span>
+        </div>
+        <form id="LedgerForm">
+            @Html.Hidden("LevelID", PMGSYSession.Current.LevelId)
+            @Html.Hidden("NDCode", PMGSYSession.Current.AdminNdCode)
+            @Html.HiddenFor(m => m.SelectedHead)
+            <div class="CBHeader ui-state-default ui-corner-all" style="background: none;" id="dvFilterForm">
+                <table class="table-content ui-corner-all" style="border: 0.1em solid gray; width: 100%; margin-top: 1px" id="LedgertblOptions">
+                    <tr>
+                        <td style="width: 2%"></td>
+                        @if (PMGSYSession.Current.LevelId == 4 || PMGSYSession.Current.LevelId == 6)
+                        {
+                            <td style="text-align: left; width: 07%">@Html.RadioButtonFor(model => model.SRRDA_DPIU, "S", new { @id = "rdoSRRDA", @title = "SRRDA", @checked = "checked", @tabindex = "1" }) @Html.LabelFor(model => model.SRRDA):</td>            
+                            <td style="width: 15%">
+
+                                @if (PMGSYSession.Current.LevelId == 4)//login DPIU
+                                {
+                                    @Html.DropDownListFor(model => model.SRRDA, ViewBag.SRRDA as IEnumerable<SelectListItem>, new { @id = "ddlSRRDA", @title = "SRRDA", @disabled = "disabled", @tabindex = "2" })                        
+                                }
+                                else
+                                {
+                                    @Html.DropDownListFor(model => model.SRRDA, ViewBag.SRRDA as IEnumerable<SelectListItem>, new { @id = "ddlSRRDA", @title = "SRRDA", @tabindex = "2" })
+                                }
+
+                            </td>
+
+                            <td style="width: 07%; text-align: left">@Html.RadioButtonFor(model => model.SRRDA_DPIU, "D", new { @id = "rdoDPIU", @title = "DPIU", @tabindex = "3" })  @Html.LabelFor(model => model.DPIU):</td>
+                            <td style="width: 15%">@Html.DropDownListFor(model => model.DPIULevel, ViewBag.DPIULevel as IEnumerable<SelectListItem>, new { @id = "DPIULevel", @title = "DPIU", @tabindex = "4" })</td>
+                
+                            <td style="text-align: left; width: 20%">
+                                <div id="divCredit" style="margin-left: 5px">
+                                    @Html.RadioButtonFor(model => model.CREDIT_DEBIT, "C", new { @id = "rdCredit", @checked = "checked", @title = "Credit", @tabindex = "5" })
+                                    <label for="rdCredit">Credit </label>
+                                    @Html.RadioButtonFor(model => model.CREDIT_DEBIT, "D", new { @id = "rdDebit", @title = "Debit", @tabindex = "6" })
+                                    <label for="rdDebit">Debit </label>
+                                </div>
+                            </td>
+                            <td style="width: 15%"></td>
+                        }
+                    </tr>
+                    <tr>
+                        <td style="width: 2%"></td>
+                        @if (PMGSYSession.Current.LevelId == 5)
+                        {
+                            <td style="text-align: left; width: 15%">
+                                <div id="divCredit" style="margin-left: 5px">
+                                    @Html.RadioButtonFor(model => model.CREDIT_DEBIT, "C", new { @id = "rdCredit", @checked = "checked", @tabindex = "5", @title = "Credit" })
+                                    <label for="rdCredit">Credit </label>
+                                    @Html.RadioButtonFor(model => model.CREDIT_DEBIT, "D", new { @id = "rdDebit", @tabindex = "6", @title = "Debit" })
+                                    <label for="rdDebit">Debit </label>
+                                </div>
+                            </td>
+                        }
+                        <td style="width: 07%">Month
+                            <label style="color: red">*</label>
+                        </td>
+                        <td style="text-align: left; width: 15%">
+                            @Html.DropDownListFor(model => model.MONTH, new SelectList(Model.MONTH_LIST, "Value", "Text"), new { Title = " Month", tabindex = "7", @class = "dropdown" })
+                            @Html.ValidationMessageFor(model => model.MONTH)
+                        </td>
+                        <td style="width: 07%">Year
+                            <label style="color: red">*</label>
+                        </td>
+
+                        <td style="text-align: left; width: 15%">
+                            @Html.DropDownListFor(model => model.YEAR, new SelectList(Model.YEAR_LIST, "Value", "Text"), new { Title = " Year", tabindex = "8", @class = "dropdown" })
+                            @Html.ValidationMessageFor(model => model.YEAR)
+                        </td>
+                        <td style="text-align: left; width: 20%">Head  
+                            <label style="color: red">*</label>&nbsp;&nbsp;
+                     @Html.DropDownListFor(model => model.HEAD, new SelectList(Model.HEAD_LIST, "Value", "Text"), new { Title = "Head", tabindex = "9", @class = "dropdown", @style = "width:75%" }) @*@style="width:87%"*@
+
+                        </td>
+                        <td style="text-align: left">
+
+                            <div id="divPIU">
+                                DPIU   
+                        @Html.DropDownListFor(model => model.DPIU, new SelectList(Model.PIU_LIST, "Value", "Text"), new { id = "ddlDPIU", @class = "dropdown", @style = "width:200", @tabindex = "10" })
+                                <br />
+                                @Html.ValidationMessageFor(model => model.DPIU)
+                                @Html.HiddenFor(model => model.isPiuLedger, new { value = false, id = "hdIsPIUHead" })
+                            </div>
+                            <div id="divRoadStatus" @*style="margin-left:5px"*@>
+                                @Html.RadioButtonFor(model => model.RoadStatus, "C", new { @id = "rdRoadCompleted", @checked = "checked", @tabindex = "11" })
+                                <label for="rdRoadCompleted">Completed </label>
+                                @Html.RadioButtonFor(model => model.RoadStatus, "P", new { @id = "rdRoadInprogress", @tabindex = "12" })
+                                <label for="rdRoadCompleted">In-Progress </label>
+                            </div>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td>@if (PMGSYSession.Current.LevelId == 4 || PMGSYSession.Current.LevelId == 6)
+                            {
+                            <table>
+                                <tr>
+                                    <td style="width: 2%"></td>
+                                    <td style="width: 10%">@Html.ValidationMessageFor(model => model.HEAD, null, new { @style = "text-align:rigth" })</td>
+                                </tr>
+                            </table>
+                            }
+                        </td>
+                        <td>
+
+                            @if (PMGSYSession.Current.LevelId == 5)
+                            {
+                                <table>
+                                    <tr>
+                                        <td style="width: 4%"></td>
+                                        <td style="width: 10%">@Html.ValidationMessageFor(model => model.HEAD, null, new { @style = "text-align:rigth" })</td>
+                                    </tr>
+                                </table>
+                            }
+                        </td>
+                    </tr>
+                    <tr>
+                        @if (PMGSYSession.Current.LevelId == 5)
+                        {
+                            <td style="text-align: center;" colspan="8">
+                                <input type="button" class="jqueryButton" name="btnViewDetails" id="btnViewDetails" title="Click To See details" value='View Details' tabindex="13" />
+                            </td>
+                        }
+                        else
+                        {
+                            <td style="text-align: center;" colspan="7">
+                                <input type="button" class="jqueryButton" name="btnViewDetails" id="btnViewDetails" title="Click To See details" value='View Details' tabindex="13" />
+                            </td>
+                        }
+                    </tr>
+
+                </table>
+            </div>
+            <br />
+            @Html.HiddenFor(model => model.levelId, new { id = "hdLevelId" })
+        </form>
+    </div>
+
+    <div id="LoadReport" class="divLoadReport"></div>
+    </div>
+</body>
+</html>
+

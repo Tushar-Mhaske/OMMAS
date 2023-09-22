@@ -1,0 +1,47 @@
+﻿@*@model PMGSY.Models.Master.AdminDepartmentViewModel*@
+
+<script src="@Url.Content("~/Scripts/custom/Generic.js")" type="text/javascript" ></script>
+<script src="@Url.Content("~/Scripts/Master/MapPMGSYScheme.js")" type="text/javascript" ></script>
+
+
+@*<div id="dvhdSearch_Map_District" class="ui-corner-top ui-widget-header panelheader" style="text-align: left; margin-left: 0px; margin-right: 0px; margin-top: 10px; height: 20px;">
+    <span class="ui-jqgrid-title" style="float: left">&nbsp;Map Scheme </span>
+
+    <span id="spCollapseIcon_Map" class="ui-icon ui-icon-circle-triangle-n" style="float: right"></span>
+</div>*@
+
+@*<div id="dvSearchParameter_Map_Scheme" class="ui-corner-bottom" style="margin-left: 0px; margin-right: 0px; display: block; border: 1px solid #B5B8C8;">*@
+
+<form id="frmMapPMGSYScheme">
+    <table style="width: 100%;" class="rowstyle">
+        @Html.Hidden("EncryptedAgencyId")
+        @Html.Hidden("MAST_PMGSY")
+
+        @Html.ValidationSummary(true)
+        @Html.AntiForgeryToken()
+        <tr>
+            <td style="width: 5%;"></td>
+            <td style="width: 20%;">@Html.Label("Map PMGSY Scheme")</td>
+            <td style="width: 20%;">
+                @Html.CheckBox("chkPMGSY1", (bool)ViewBag.MAST_PMGSY1, new { @title = "PMGSY1", @id = "chkPMGSY1", tabindex = 3 })@Html.Label("PMGSY1")
+                @Html.CheckBox("chkPMGSY2", (bool)ViewBag.MAST_PMGSY2, new { @title = "PMGSY2", @id = "chkPMGSY2", tabindex = 3 })@Html.Label("PMGSY2")
+                @Html.CheckBox("chkRCPLWE", (bool)ViewBag.RCPLWE, new { @title = "PMGSY1", @id = "chkRCPLWE", tabindex = 3 })@Html.Label("RCPLWE")
+                @Html.CheckBox("chkPMGSY3", (bool)ViewBag.MAST_PMGSY3, new { @title = "PMGSY3", @id = "chkPMGSY3", tabindex = 3 })@Html.Label("PMGSY3")
+                <br />
+                @Html.ValidationMessage("", new { id = "ValMAST_PMGSY" })
+            </td>
+        </tr>
+    </table>
+</form>
+
+<table style="width: 100%;" class="rowstyle">
+    <tr></tr>
+    <tr>
+        <td style="text-align: center">
+            <input type="button" id="btnMapScheme" name="btnMapScheme" value="Map Scheme" class="jqueryButton" title="Map Scheme" tabindex="201" />
+            @*<input type="button" id="btnMapDistrictCancel" name="btnMapDistrictCancel" value="Back" class="jqueryButton" title="Back" tabindex="202" />*@
+        </td>
+    </tr>
+    <tr></tr>
+</table>
+</div>

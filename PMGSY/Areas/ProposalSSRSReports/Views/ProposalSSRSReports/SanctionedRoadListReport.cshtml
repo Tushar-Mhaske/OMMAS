@@ -1,0 +1,12 @@
+﻿@using MvcReportViewer
+
+@model PMGSY.Areas.ProposalSSRSReports.Models.SanctionedRoadListViewModel
+
+@Html.MvcReportViewer("/PMGSYCitizen/Download_Road_List_Report",
+     new
+     {
+         State = Model.stateCode,
+         PMGSY = Model.pmgsyScheme
+
+     },
+       new { Height = 650, Width = "100%", style = "border:none;" })

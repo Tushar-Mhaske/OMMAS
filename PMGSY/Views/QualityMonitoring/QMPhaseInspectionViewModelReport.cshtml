@@ -1,0 +1,32 @@
+﻿@*
+    * Project Id    :
+    * Project Name  :   OMMAS II
+    * Name          :   QMPhaseInspectionViewModelReport.cshtml
+    * Description   :   Sends QM Phase Inspection Filter Parameters to report server.
+    * Author        :   Rohit Jadhav
+    * Creation Date :   01/Sept/2014
+*@
+
+
+@using MvcReportViewer
+@model PMGSY.Models.QualityMonitoring.QMPhaseInspectionViewModel
+
+<div id="QMPhaseInspectionsDetails" style="width: 100%; height: 590px; overflow-x: hidden; overflow-y: hidden;">
+    @Html.MvcReportViewer("/PMGSYCitizen/QM_Phasewise_Inspections_Report",
+     new
+     {
+         Level = Model.Level,
+         State = Model.Mast_State_Code,
+         District = Model.Mast_District_Code,
+         Agency = Model.AgencyCode,
+         YEAR = Model.Year,
+         RDSTATUS = Model.RoadStatus,
+         QMTYPE = Model.qmType,
+         STATUS = Model.Status,
+         PMGSY = PMGSY.Extensions.PMGSYSession.Current.PMGSYScheme,
+         StateName = Model.StateName,
+         DistrictName = Model.DistName,
+         AgencyName = Model.AgencyName,
+     },
+     new { Height = 600, Width = "100%", style = "border:none;" })
+</div>

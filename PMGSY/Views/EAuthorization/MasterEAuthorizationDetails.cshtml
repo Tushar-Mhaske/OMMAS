@@ -1,0 +1,147 @@
+﻿@{
+    Layout = null;
+}
+
+@{
+    ViewBag.Title = "MasterEAuthorizationDetails";
+}
+
+
+<!DOCTYPE html>
+
+<html>
+<head>
+    <meta name="viewport" content="width=device-width" />
+    <title>MasterDetailsPayment</title>
+    <script>
+        var month = '@ViewBag.month';
+        var year = '@ViewBag.year';
+        var operation = '@ViewBag.operationType';
+        var Bill_ID = '@ViewBag.Bill_id';
+        var Bill_finalized = '@ViewBag.BillFinalized';
+        var fundType = '@PMGSY.Extensions.PMGSYSession.Current.FundType';  
+        var cntEntryInDetailsForFinalizedButton = '@ViewBag.cntEntryInDetailsForFinalizedButton';
+    </script>
+    <script src="~/Scripts/custom/Generic.js"></script>
+    <script src="~/Scripts/EAuthorization/MasterEAuthorizationDetails.js"></script>
+    <script src="~/Scripts/jquery.ui.dialog.js"></script>
+
+
+ 
+
+
+</head>
+<body>
+   @* <div class="ui-widget-header innerDivHeader">
+        Add Edit E Authorization Details
+    </div>*@
+    <br />
+    @Html.AntiForgeryToken()
+
+
+    <div style="padding: 0pt 0.7em; cursor: pointer;" class="jqueryButton" id="btnGoToListPage1">
+
+                        <span class="ui-icon ui-icon-circle-plus" style="float: left; margin-right: 0.3em;"></span><strong>Go To List Page
+                        </strong>
+                    </div>
+
+
+
+    <br />
+    <div id="divError" style="margin-left: 10px; margin-right: 15px; display: none" class="ui-state-error ui-corner-all">
+        <span class="ui-icon ui-icon-alert " style="float: left"></span>
+        <span id="errorSpan"></span>
+    </div>
+
+    @*Adding Master eAuthorizationForm*@
+
+    <div id="divPlaceAddEditEAuthorizationDetails">
+    </div>
+
+
+
+   @* <div id="masterEAuthorizationListGrid" style="display: none;width: 98%; margin-top: 5px">
+        
+        <table id="EAuthorizationList"></table>
+        <div id="EAuthpager"></div>
+        
+
+    </div>*@
+
+
+
+
+
+<br />
+  
+<div style="width: 98%">
+    
+<table id="EAuthorizationList" ></table>
+<div id="EAuthpager"></div>
+ </div>
+<br />
+
+
+    
+             <div style="padding: 0pt 0.7em;display:none;cursor: pointer;" class="jqueryButton" id="btnAddNewEAuthorizationDetails" >
+                        <span class="ui-icon ui-icon-circle-plus" style="float: left; margin-right: 0.3em;"></span><strong>Add e-Authorization Details
+                        </strong>
+                    </div><br /><br />
+    
+               
+
+
+         <table id="trShowHideLinkTable">
+        <tr id="trnsShowtable">
+
+         
+        </tr>
+    </table>
+
+    
+
+    @*Adding Details eAuthorizationForm*@
+    <div id="TransactionForm" style="display:none">
+    <div id="EAuthorizationTransactionFormPlaceHolder" style="width: 99%; margin-bottom: 5px">
+            <br />
+        </div>
+    </div>
+    <br />
+
+
+    @* <div id="DetailsGrid" style="width:98%; clear:both;">
+            <center>        
+                <table id="PaymentGridDivList"></table>
+                <div id="PaymentGridDivpager"></div>
+            </center>
+        </div>
+    </div>*@
+
+        <div id="DetailsGrid" style="width:98%; clear:both; margin:0px; padding:0px;">
+                <table id="PaymentGridDivList" ></table>
+                <div id="PaymentGridDivpager"></div>
+        </div>
+
+    
+
+
+
+        <table id="tblFinalize" class="table-content ui-corner-all" style="width: 98%; border: .1em solid gray; display: none; margin-top: 5px; margin-bottom: 5px;">
+            <tr>
+            </tr>
+            <tr>
+
+                <td style="text-align: center">
+
+                    <div style="padding: 0pt 0.7em; cursor: pointer;" class="jqueryButton" id="btnfinalize">
+
+                        <span class="ui-icon ui-icon-locked" style="float: left; margin-right: 0.3em;"></span><strong>Finalize
+                        </strong>
+                    </div>
+                </td>
+            </tr>
+        </table>
+
+
+</body>
+</html>

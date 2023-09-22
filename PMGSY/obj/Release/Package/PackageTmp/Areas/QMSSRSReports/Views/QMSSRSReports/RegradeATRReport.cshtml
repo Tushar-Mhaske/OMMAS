@@ -1,0 +1,18 @@
+﻿@using MvcReportViewer
+
+@model PMGSY.Areas.QMSSRSReports.Models.QualityReportsViewModel
+
+@Html.MvcReportViewer("/PMGSYCitizen/Regraded_Action_Taken_Report",
+     new
+     {
+         STATE = Model.State,
+         DISTRICT = Model.District,
+         GRADE = Model.RegradeATRGrade,
+         REGRADE = Model.Regrade,
+         STATUS = Model.RoadStatus,
+         REGRADEDATEFROM = Model.FROM_DATE,
+         REGRADEDATETO = Model.TO_DATE,
+         StateName = Model.StateName,
+
+     },
+       new { Height = 600, Width = "100%", style = "border:none;" })

@@ -1,0 +1,14 @@
+﻿@model PMGSY.Areas.QMSSRSReports.Models.QMTeamFilterModel
+
+@using MvcReportViewer
+    @Html.MvcReportViewer("/PMGSYCitizen/QMTeamSchedule",
+     new
+     {
+         STATE =Model.StateCode,
+         MONITOR=Model.MonitorCode,
+         SYEAR= Model.ScheduleYear,
+         SMONTH=Model.ScheduleMonth
+     },
+       new { Height = 500, Width = "100%", style = "border:none;" })
+
+@*  *@

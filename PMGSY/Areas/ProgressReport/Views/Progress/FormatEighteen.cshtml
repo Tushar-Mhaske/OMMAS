@@ -1,0 +1,15 @@
+﻿@{
+    ViewBag.Title = "FormatEighteen";
+}
+
+@using MvcReportViewer
+
+@model PMGSY.Areas.ProgressReport.Models.MonthYear
+
+@Html.MvcReportViewer("/PMGSYCitizen/OutcomeTargetAchievement",
+         new
+         {
+             Month = Model.Month,
+             Year =  Model.Year,
+         },
+     new { Height = "100%", Width = "100%", style = "border:none;" })

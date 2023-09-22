@@ -1,0 +1,23 @@
+﻿@using MvcReportViewer
+
+@model PMGSY.Areas.ECBriefReport.Models.RoadProgress
+
+
+    
+    @Html.MvcReportViewer("/PMGSYCitizen/Roadwise_Progress",
+     new
+     {
+         
+         State = Model.StateCode,
+         Level = 1,
+         District = Model.DistrictCode,
+         Block = Model.BlockCode,
+         Month=Model.Month,
+         Year=Model.Year,
+         Collaboration = Model.CollaborationCode,
+         PMGSY = Model.schemeCode,
+         AGENCY = Model.AgencyCode,
+        
+
+     },
+       new { Height = 600, Width = "100%", style = "border:none;" })

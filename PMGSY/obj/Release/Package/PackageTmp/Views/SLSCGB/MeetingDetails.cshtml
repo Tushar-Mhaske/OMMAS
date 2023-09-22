@@ -1,0 +1,55 @@
+﻿@model PMGSY.Areas.MeetingReport.MeetingModel
+
+<script src="~/Scripts/SLSCGB/MeetingDetails.js"></script>
+<script src="~/Scripts/custom/Generic.js"></script>
+
+<div id="reportHeader" class="ui-corner-top ui-widget-header panelheader" style="text-align: left; height: 20px;margin-top:20px;">@*margin-left:0px;margin-right:0px;margin-top:0px; *@
+    <span class="ui-jqgrid-title" style="float: left;margin-top:1px;">&nbsp;SLSC/GB meeting Details</span>
+
+   @* <span id="spCollapseIconCN" class="ui-icon ui-icon-circle-triangle-n" style="float: right"></span>*@
+</div>
+<form id="MeetingForm">
+
+
+@Html.Hidden("hdnLevelId", PMGSY.Extensions.PMGSYSession.Current.LevelId.ToString())
+
+@if (PMGSY.Extensions.PMGSYSession.Current.StateCode != 0)
+{           
+    @Html.Hidden("STATE_NAME", PMGSY.Extensions.PMGSYSession.Current.StateName.ToString())
+}
+
+@if (PMGSY.Extensions.PMGSYSession.Current.DistrictCode != 0)
+{
+    @Html.Hidden("DISTRICT_NAME", PMGSY.Extensions.PMGSYSession.Current.DistrictName.ToString())   
+}
+
+@Html.Hidden("RoleID", PMGSY.Extensions.PMGSYSession.Current.RoleCode)
+<div style="width: 100%">
+    <table class="ui-state-default " style="width: 100%;border-bottom-left-radius:5px;border-bottom-right-radius:5px;">
+        <tr>
+            <td style="width: 2%;"></td>
+            <td style="text-align: left; width: 5%;">
+                @Html.Label("State")
+            </td>
+            <td style="width: 15%;">
+                @Html.DropDownListFor(model=>model.StateCode, ViewData["STATE"] as IEnumerable<SelectListItem>, new { @title = "State",@id="StateForMeeting", @tabindex = 1 })
+            </td>
+            <td style="text-align: left; width: 8%;">
+                @Html.Label("Meeting Type")
+            </td>
+            <td style="width: 15%;">
+                @Html.DropDownListFor(model=>model.MeetingType, ViewData["MEETING"] as IEnumerable<SelectListItem>, new { @title = "Meeting Type", @tabindex = 2 })
+            </td>
+            <td style="text-align: center; width: 20%; margin-left: 5px;">
+                <input type="button" id="MeetingDetailsButton" value="View" class="jqueryButton" title="View Details" tabindex="3" />
+            </td>
+            <td style="width: 30%;"></td>
+        </tr>
+    </table>
+</div>
+<br />
+</form>
+<div id="MeetingDetailsDiv">
+ 
+</div>
+

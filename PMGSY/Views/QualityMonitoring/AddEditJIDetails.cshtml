@@ -1,0 +1,265 @@
+﻿@model PMGSY.Models.QualityMonitoring.QMJIViewModel
+
+<script src="~/Scripts/jquery.ui.datepicker.js"></script>
+<script src="@Url.Content("~/Scripts/custom/Generic.js")" type="text/javascript" ></script>
+<script src="~/Scripts/QualityMonitoring/AddEditJIDetails.js"></script>
+
+<div id="dvJIPartial">
+    <form id="frmQMJointInspections">
+
+        @Html.AntiForgeryToken()
+        @Html.ValidationSummary(true)
+        @Html.HiddenFor(model => model.dbOperation)
+        @Html.HiddenFor(model => model.roadCode)
+        @Html.HiddenFor(model => model.qmJICode)
+        @Html.HiddenFor(x => x.imsUpgradeConnect)
+        @Html.HiddenFor(x => x.workType)
+        @Html.HiddenFor(x => x.imsProgress)
+        @Html.HiddenFor(x => x.dbOperation)
+        @Html.HiddenFor(x => x.previousFileName)
+
+        <table style="width: 100%;" class="rowstyle">
+            <tr>
+                <td style="width: 3%; vertical-align: top"></td>
+
+                <td style="text-align: left; width: 5%; vertical-align: top">Block:
+                </td>
+                <td style="width: 10%; vertical-align: top">
+                    @Model.BlockName
+                </td>
+                <td style="text-align: left; width: 10%; vertical-align: top">Package: 
+                </td>
+                <td style="width: 10%; vertical-align: top">
+                    @Model.PackageId
+                </td>
+
+                <td style="width: 2%; vertical-align: top"></td>
+            </tr>
+            <tr>
+                <td style="width: 3%; vertical-align: top"></td>
+
+                <td style="text-align: left; width: 10%; vertical-align: top">Work Type:
+                </td>
+                <td style="width: 10%; vertical-align: top">
+                    @Model._workType
+                </td>
+                <td style="text-align: left; width: 10%; vertical-align: top">Work Name:
+                </td>
+                <td style="width: 10%; vertical-align: top">
+                    @Model.WorkName
+                </td>
+
+                <td style="width: 2%; vertical-align: top"></td>
+            </tr>
+            <tr>
+                <td style="width: 3%"></td>
+
+                <td style="width: 10%; vertical-align: top">Connectivity Type:
+                </td>
+                <td style="vertical-align: top; text-align: left; width: 10%;">
+                    @Model.connectivityType
+                </td>
+                <td style="text-align: left; vertical-align: top">Progress Status: 
+
+                </td>
+                <td style="vertical-align: top; text-align: left; width: 10%;">
+                    @Model.progressStatus
+                </td>
+                <td style="width: 2%; vertical-align: top"></td>
+            </tr>
+            <tr class="ui-widget-header">
+                <td style="vertical-align: top; text-align: center;" colspan="6"><strong>Public Representative and Accompanying Government Officer Detail
+                </strong></td>
+            </tr>
+            <tr>
+                <td style="width: 3%; vertical-align: top"></td>
+                <td style="width: 10%; vertical-align: top">
+                    @Html.LabelFor(model => model.publicRepresentativeType)
+                </td>
+                <td style="width: 10%; vertical-align: top">
+                    @Html.CheckBoxFor(model => model.isMP, new { @title = "MP", @id = "chkMP", tabindex = 7 })@Html.Label("MP")
+                    @Html.CheckBoxFor(model => model.isMLA, new { @title = "MLA", @id = "chkMLA", tabindex = 8 })@Html.Label("MLA")
+                    @Html.CheckBoxFor(model => model.isGP, new { @title = "GP Level", @id = "chkGP", tabindex = 9 })@Html.Label("GP")
+                    @Html.CheckBoxFor(model => model.isOther, new { @title = "Other", @id = "chkOther", tabindex = 10 })@Html.Label("Other")
+                </td>
+                <td style="width: 10%; vertical-align: top">
+                    @Html.LabelFor(model => model.accGovtOfficerType)
+                </td>
+                <td style="width: 10%; vertical-align: top">
+                    @Html.CheckBoxFor(model => model.isSE, new { @title = "SE", @id = "chkSE", tabindex = 11 })@Html.Label("SE")
+                    @Html.CheckBoxFor(model => model.isPIU, new { @title = "PIU", @id = "chkPIU", tabindex = 12 })@Html.Label("PIU")
+                    @Html.CheckBoxFor(model => model.isAE, new { @title = "AE", @id = "chkAE", tabindex = 13 })@Html.Label("AE")
+                    @Html.CheckBoxFor(model => model.isDO, new { @title = "District Officer", @id = "chkDO", tabindex = 14 })@Html.Label("DO")
+                </td>
+                <td style="width: 2%; vertical-align: top"></td>
+            </tr>
+            <tr>
+                <td style="width: 3%; vertical-align: top"></td>
+                <td style="width: 10%; vertical-align: top">@Html.Label("MP name")</td>
+                <td style="vertical-align: top; width: 10%;">@Html.TextBoxFor(model => model.mpName, new { @maxlength = "255", @title = "MP name", tabindex = 15 })
+                    @Html.ValidationMessageFor(x=>x.mpName)
+                </td>
+                <td style="width: 5%; vertical-align: top">@Html.Label("SE name")</td>
+                <td style="vertical-align: top; width: 10%;">@Html.TextBoxFor(model => model.seName, new { @maxlength = "255", @title = "SE name", tabindex = 16 })
+                    @Html.ValidationMessageFor(x=>x.seName)
+                </td>
+                <td style="width: 2%; vertical-align: top"></td>
+            </tr>
+            <tr>
+                <td style="width: 3%; vertical-align: top"></td>
+                <td style="width: 10%; vertical-align: top">@Html.Label("MLA name")</td>
+                <td style="vertical-align: top; width: 10%;">@Html.TextBoxFor(model => model.mlaName, new { @maxlength = "255", @title = "MLA name", tabindex = 17 })
+                    @Html.ValidationMessageFor(x=>x.mlaName)
+                </td>
+                <td style="width: 10%; vertical-align: top">@Html.Label("PIU incharge name")</td>
+                <td style="vertical-align: top; width: 10%;">@Html.TextBoxFor(model => model.piuName, new { @maxlength = "255", @title = "PIU incharge name", tabindex = 18 })
+                    @Html.ValidationMessageFor(x=>x.piuName)
+                </td>
+                <td style="width: 2%; vertical-align: top"></td>
+            </tr>
+            <tr>
+                <td style="width: 3%; vertical-align: top"></td>
+                <td style="width: 10%; vertical-align: top">@Html.Label("GP level representative name")</td>
+                <td style="vertical-align: top; width: 10%;">@Html.TextBoxFor(model => model.gpName, new { @maxlength = "255", @title = "GP level representative name", tabindex = 19 })
+                    @Html.ValidationMessageFor(x=>x.gpName)
+                </td>
+                <td style="width: 10%; vertical-align: top">@Html.Label("AE name")</td>
+                <td style="vertical-align: top; width: 10%;">@Html.TextBoxFor(model => model.aeName, new { @maxlength = "255", @title = "AE name", tabindex = 20 })
+                    @Html.ValidationMessageFor(x=>x.aeName)
+                </td>
+                <td style="width: 3%; vertical-align: top"></td>
+            </tr>
+            <tr>
+                <td style="width: 2%; vertical-align: top"></td>
+                <td style="width: 10%; vertical-align: top">@Html.Label("Other representative name")</td>
+                <td style="vertical-align: top; width: 10%;">@Html.TextBoxFor(model => model.otherRepresentativeName, new { @maxlength = "255", @title = "Other representative name", tabindex = 22 })
+                    @Html.ValidationMessageFor(x=>x.otherRepresentativeName)
+                </td>
+                <td style="width: 10%; vertical-align: top">@Html.Label("District officer name")</td>
+                <td style="vertical-align: top; width: 10%;">@Html.TextBoxFor(model => model.districtOfficerName, new { @maxlength = "255", @title = "Other representative name", tabindex = 23 })
+                    @Html.ValidationMessageFor(x=>x.districtOfficerName)
+                </td>
+                <td style="width: 2%; vertical-align: top"></td>
+            </tr>
+            <tr class="ui-widget-header">
+                <td style="vertical-align: top; text-align: center;" colspan="6"><strong>Contractor Representative
+                </strong></td>
+            </tr>
+            <tr>
+                <td style="width: 3%; vertical-align: top"></td>
+                <td style="width: 10%; vertical-align: top">@Html.Label("Contractor/contractor representative available during inspection")</td>
+                <td style="vertical-align: top; width: 10%;">
+                    @Html.RadioButtonFor(m => m.contractorRepresentative, "Y", new { @id = "rdbContrReprY", tabindex = 24 })
+                    @Html.Label("Yes")
+                    @Html.RadioButtonFor(m => m.contractorRepresentative, "N", new { @id = "rdbContrReprN", tabindex = 25 })
+                    @Html.Label("No")
+                    @Html.HiddenFor(x => x.contractorRepresentative)
+                </td>
+                <td style="width: 10%; vertical-align: top">@Html.Label("Name of Contractor/contractor representative")</td>
+                <td style="vertical-align: top; width: 10%;">@Html.TextBoxFor(model => model.contractorName, new { @id = "txtContractorName", @maxlength = "255", @title = "Name of Contractor/contractor representative", tabindex = 26 })</td>
+                <td style="width: 2%; vertical-align: top"></td>
+            </tr>
+            <tr class="ui-widget-header">
+                <td style="vertical-align: top; text-align: center;" colspan="6"><strong>Inspection Detail
+                </strong></td>
+            </tr>
+            <tr>
+                <td style="width: 3%; vertical-align: top"></td>
+                <td style="width: 10%; vertical-align: top">@Html.Label("Serve connectivity to target habitation (For new connectivity road)")</td>
+                <td style="vertical-align: top; width: 10%;">
+                    @Html.RadioButtonFor(m => m.serveConnectivity, "Y", new { @id = "rdbserveConnectivityY", tabindex = 27 })
+                    @Html.Label("Yes")
+                    @Html.RadioButtonFor(m => m.serveConnectivity, "N", new { @id = "rdbserveConnectivityN", tabindex = 28 })
+                    @Html.Label("No")
+                    @Html.HiddenFor(x => x.serveConnectivity)
+                </td>
+                <td style="width: 5%; vertical-align: top">@Html.Label("Upload file(pdf upto 4 MB)")<span style="color: red">*</span></td>
+                <td style="vertical-align: top; width: 10%;">
+                    <input type="file" name="file" id="QMJIFileUpload" tabindex="29" />
+                    <label id="lbQMJointInspectionFileUpload"></label>
+                    <img id="imgQMJointInspectionFileUpload" style="display: none; margin-left: 5px; cursor: pointer;" title="Click here to clear file" src="~/Content/images/close-icon.png" />
+                </td>
+                <td style="width: 2%; vertical-align: top"></td>
+            </tr>
+            <tr>
+                <td style="width: 3%; vertical-align: top"></td>
+                <td style="width: 10%; vertical-align: top">@Html.Label("Work progress satisfactory ")</td>
+                <td style="vertical-align: top; width: 10%;">
+                    @Html.RadioButtonFor(m => m.workProgressSatisfactory, "Y", new { @id = "rdbworkProgressSatisfactoryY", tabindex = 30 })
+                    @Html.Label("Yes")
+                    @Html.RadioButtonFor(m => m.workProgressSatisfactory, "N", new { @id = "rdbworkProgressSatisfactoryN", tabindex = 31 })
+                    @Html.Label("No")</td>
+
+                @Html.HiddenFor(x => x.workProgressSatisfactory)
+                <td style="width: 10%; vertical-align: top">
+                    <label>Reason for variation in executed length w.r.t sanction length (if so)</label>
+                </td>
+                <td style="vertical-align: top; width: 10%;">
+                    @Html.TextAreaFor(model => model.variationExecLengthReason, new { @maxlength = "255", @style = "width:150px; resize : none", @title = "Reason for variation in executed length", tabindex = 32 })
+                    <br />
+                    @Html.ValidationMessageFor(m => m.variationExecLengthReason)
+                </td>
+                <td style="width: 2%; vertical-align: top"></td>
+            </tr>
+            <tr>
+                <td style="width: 3%; vertical-align: top"></td>
+                <td style="width: 10%; vertical-align: top">@Html.Label("CD work sufficient")</td>
+                <td style="vertical-align: top; width: 10%;">
+                    @Html.RadioButtonFor(m => m.cdWorkSufficient, "Y", new { @id = "rdbcdWorskSufficientY", tabindex = 33 })
+                    @Html.Label("Yes")
+                    @Html.RadioButtonFor(m => m.cdWorkSufficient, "N", new { @id = "rdbcdWorkSufficientN", tabindex = 34 })
+                    @Html.Label("No")
+                    @Html.HiddenFor(x => x.cdWorkSufficient)
+                </td>
+                <td style="width: 10%; vertical-align: top">@Html.LabelFor(m => m.inspectionDate)<span style="color: red">*</span></td>
+                <td style="vertical-align: top; width: 10%;">
+                    @Html.TextBoxFor(m => m.inspectionDate, new { @id = "txtInspectionDate", @maxlength = "10", placeholder = "dd/MM/yyyy", tabindex = 35, @readonly = "readonly" })
+                    <br />
+                    @Html.ValidationMessageFor(m => m.inspectionDate)
+                </td>
+                <td style="width: 2%; vertical-align: top"></td>
+            </tr>
+            <tr>
+                <td style="width: 3%; vertical-align: top"></td>
+                <td style="width: 10%; vertical-align: top"></td>
+                <td colspan="2" style="text-align: center; vertical-align: top">
+                    @Html.Label("Overall quality grading")<span style="color: red">*</span>
+                    @Html.RadioButtonFor(m => m.qualityGrading, "G", new { @id = "rdbqualityGradingG", tabindex = 36 })
+                    @Html.Label("Good")
+                    @Html.RadioButtonFor(m => m.qualityGrading, "I", new { @id = "rdbqualityGradingI", tabindex = 37 })
+                    @Html.Label("Improvement Required")
+                    @Html.RadioButtonFor(m => m.qualityGrading, "U", new { @id = "rdbqualityGradingU", tabindex = 38 })
+                    @Html.Label("Unsatisfactory")
+                </td>
+                <td style="vertical-align: top; width: 10%;"></td>
+                <td style="width: 2%; vertical-align: top"></td>
+            </tr>
+            <tr>
+                <td style="width: 3%; vertical-align: top"></td>
+                <td style="width: 10%; vertical-align: top"></td>
+                <td colspan="2" style="text-align: center; vertical-align: top">
+                    <label>Remarks</label>
+                    @Html.TextAreaFor(model => model.remarks, new { @maxlength = "255", @style = "width:300px; resize : none", @title = "Reason for variation in executed length", tabindex = 39 })
+                    <br />
+                    @Html.ValidationMessageFor(m => m.remarks)
+                </td>
+                <td style="vertical-align: top; width: 10%;"></td>
+                <td style="width: 2%; vertical-align: top"></td>
+            </tr>
+            <tr>
+                <td colspan="6" style="text-align: center; vertical-align: top">
+                    @if (Model.dbOperation == "E")
+                    {
+                        <input type="button" class="jqueryButton" value="Update" id="btnUpdateJI" name="btnUpdate" tabindex="40" />
+                    }
+                    else
+                    { 
+                        <input type="button" class="jqueryButton" value="Submit" id="btnSubmitJI" name="btnSubmit" tabindex="40" />
+                        <input type="reset" class="jqueryButton" value="Reset" id="btnResetJI" tabindex="41" />
+                    }
+
+                </td>
+            </tr>
+        </table>
+    </form>
+</div>

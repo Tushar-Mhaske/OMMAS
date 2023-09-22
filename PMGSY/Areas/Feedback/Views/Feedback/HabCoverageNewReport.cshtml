@@ -1,0 +1,38 @@
+﻿@using MvcReportViewer
+
+@model PMGSY.Areas.Feedback.Models.HabitationClusterModel
+
+@if (Model.LevelCode == 3)
+{
+    @Html.MvcReportViewer("/PMGSYCitizen/HabitationCoverageNewReport_Blockwise",
+     new
+     {
+         Level = Model.LevelCode,
+         State = Model.StateCode,
+         District = Model.DistrictCode,
+         Block = 0,
+         PMGSY = PMGSY.Extensions.PMGSYSession.Current.PMGSYScheme,
+         Month = Model.Month,
+         year = Model.Year,
+         StateName = PMGSY.Extensions.PMGSYSession.Current.StateCode > 0 ? PMGSY.Extensions.PMGSYSession.Current.StateName : Model.StateName
+
+     },
+     new { Height = 600, Width = 1215, style = "border:none;" })
+}
+else
+{ 
+    @Html.MvcReportViewer("/PMGSYCitizen/HabitationCoverageNewReport",
+     new
+     {
+         Level = Model.LevelCode,
+         State = Model.StateCode,
+         District = Model.DistrictCode,
+         Block = 0,
+         PMGSY = PMGSY.Extensions.PMGSYSession.Current.PMGSYScheme,
+         Month = Model.Month,
+         year = Model.Year,
+         StateName = PMGSY.Extensions.PMGSYSession.Current.StateCode > 0 ? PMGSY.Extensions.PMGSYSession.Current.StateName : Model.StateName
+     },
+     new { Height = 600, Width = 1215, style = "border:none;" })
+
+}

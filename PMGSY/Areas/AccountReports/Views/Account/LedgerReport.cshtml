@@ -1,0 +1,22 @@
+﻿@using MvcReportViewer
+@model PMGSY.Areas.AccountReports.Models.LedgerModel
+
+<div id="dvLedgerReport" style="width: 95%;">
+    @Html.MvcReportViewer("/PMGSYCitizen/LedgerDetails",
+         new
+         {
+             PrmFundType = Model.FundType,
+             PrmAdminNdCode = Model.AdminNdCode,
+             PrmMonth = Model.MONTH,
+             PrmYear = Model.YEAR,
+             Prmlvl = Model.levelId,
+             PrmHead = Model.HeadCode,
+             PrmCrDb = Model.CREDIT_DEBIT,
+             PrmLvlSrrdaDpiu = Model.SRRDA_DPIU,
+             PrmHeadDetails = Model.HeadDetails,
+             PrmDPIUNdCode = Model.DPIU,
+             PrmReportType = Model.ReportType,
+             PrmSRRDANdCode = Model.SRRDA
+         },
+         new { Height = 600, Width = 1200, style = "border:none;" })
+</div>

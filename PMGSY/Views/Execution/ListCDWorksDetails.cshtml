@@ -1,0 +1,79 @@
+﻿@model PMGSY.Models.Execution.ExecutionCDWorksViewModel
+
+@{
+    ViewBag.Title = "ListCDWorksDetails";
+}
+
+<script src="~/Scripts/custom/Generic.js"></script>
+<script src="~/Scripts/Execution/ListCDWorksDetails.js"></script>
+<center>
+<div style="height: auto; width: 100%; text-align: left; padding-top: 0.6em;" >@*class="ui-state-default ui-corner-all">*@
+    <table class="rowstyle ui-corner-all" style="width:100%; border:solid black 1px;">
+        <tr>
+            <td style="width: 5%"></td>
+            <td style="width: 12%;font-weight:bold">
+                Block 
+            </td>
+            <td style="width: 15%">
+                @Model.BlockName
+            </td>
+            <td style="width: 12%;font-weight:bold">Package No.
+            </td>
+            <td style="width: 15%">
+                @Model.Package
+            </td>
+        </tr>
+        <tr>
+            <td></td>
+            <td style="font-weight:bold">Road Name:
+            </td>
+            <td>
+                @Model.RoadName
+            </td>
+        </tr>
+        <tr>
+            <td></td>
+            <td style="font-weight:bold">Sanction Cost(Rs. in Lakh):
+            </td>
+            <td>
+                @Model.Sanction_Cost
+            </td>
+            <td style="font-weight:bold">Sanction Length(in Km)
+            </td>
+            <td>
+                @Model.Sanction_length
+            </td>
+        </tr>
+        <tr>
+            <td></td>
+            <td style="font-weight:bold">CDWorks Cost(Rs. in Lakh):
+            </td>
+            <td>
+                @Model.CDWorks_Cost
+            </td>
+            <td style="font-weight:bold">No. of CDWorks 
+            </td>
+            <td>
+                @Model.CDWorks_No
+            </td>
+        </tr>
+    </table>
+</div>
+
+<br />
+
+<div id="divCDWorksDetails" style="width:100%">
+    <table id="tbCDWorksList">
+    </table>
+    <div id="pagerCDWorksList">
+    </div>
+</div>
+<br />
+@*<div style="text-align:left">
+    <input type="button" class="jqueryButton" id="btnAddCDWorksProgress" value="Add CDWorks Details"/>
+</div>*@
+<br />
+@Html.HiddenFor(model => model.IMS_PR_ROAD_CODE, new { @id = "prRoadCode" })
+<div id="divAddCDWorksProgress">
+</div>
+</center>

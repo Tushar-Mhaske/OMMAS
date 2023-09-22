@@ -1,0 +1,20 @@
+﻿@using MvcReportViewer
+
+@model PMGSY.Areas.ProposalSSRSReports.Models.ProposalAnalysisViewModel
+
+
+    
+    @Html.MvcReportViewer("/PMGSYCitizen/Propopsal_Analysis_Report",
+     new
+     {
+         State = Model.State,
+         Type = Model.Proposal,
+         Sanction = Model.Sanctioned,
+         Scrutiny = Model.Scrutiny,
+         PMGSY = PMGSY.Extensions.PMGSYSession.Current.PMGSYScheme,
+         StateName = Model.StateName,
+         ScrutinyName = Model.ScrutinyName,
+         SanctionName = Model.SanctionName,
+         ProposalType = Model.ProposalType,
+     },
+       new { Height = 600, Width = "100%", style = "border:none;" })

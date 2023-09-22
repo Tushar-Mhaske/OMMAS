@@ -1,0 +1,75 @@
+﻿  @model PMGSY.Areas.PFMSReports.Models.DSCReportModel
+
+<script src="~/Areas/PFMSReports/Scripts/DSCReport.js"></script>
+<script src="~/Scripts/custom/Generic.js"></script>
+<div id="loadFilters">
+    <div id="dvDscRegFilter" class="ui-corner-top ui-widget-header panelheader" style="text-align: left; width: 99.9%;height: 20px;margin-top:3px;">
+    <span class="ui-jqgrid-title" style="float: left;margin-top:1px;">&nbsp;PFMS DSC Details</span>
+   </div>
+    <form id="DscRegForm">
+         @Html.AntiForgeryToken()
+
+        @Html.HiddenFor(model => model.StateName)
+        @Html.HiddenFor(model => model.DistrictName)
+        <table style="width: 100%;" class=" ui-state-default ui-corner-bottom">
+            <tr>
+                <td style="width: 2%;"></td>
+                <td style="text-align: left; width: 10%;">
+                    @Html.LabelFor(model => model.StateCode)
+                </td>
+
+                <td style="width: 10%;">
+                  
+                        @Html.DropDownListFor(model => model.StateCode, new SelectList(Model.StateList, "Value", "Text"), new {  @tabindex = 1, @id = "StateList", @style = "width:150px" })
+                        @Html.ValidationMessageFor(m => m.StateCode)
+                   
+                </td>
+                <td style="text-align: left; width: 10%;">
+                    @Html.LabelFor(model => model.DistrictCode)
+                </td>
+                <td style="width: 10%;">
+                   
+                        @Html.DropDownListFor(model => model.DistrictCode, new SelectList(Model.DistrictList, "Value", "Text"), new {  @id = "DistrictList", @tabindex = 2, @style = "width:150px" })
+                        @Html.ValidationMessageFor(m => m.DistrictCode)
+
+                    
+                </td>
+                <td style="text-align: left; width: 10%;">
+                  <input type="button" id="btnViewDscReport" value="View" class="button" title="View" style="" tabindex="3" />
+                </td>
+            </tr>
+          
+          @*  <tr>
+                <td style="width: 2%;"></td>
+        
+
+                <td style="text-align: left; width: 5%;">
+                    @Html.LabelFor(model => model.ConnectivityCode)
+                </td>
+                <td style="width: 25%;">
+                    @Html.DropDownListFor(model => model.ConnectivityCode, new SelectList(Model.ConnectivitysList, "Value", "Text"), new { @id = "Connectivity1", @tabindex = 5, @style = "width:150px" })
+                    @Html.ValidationMessageFor(model => model.ConnectivityCode)
+                </td>
+
+                <td class="test1" style="text-align: left; width: 5%;">
+                    @Html.LabelFor(model => model.RoadStatus)
+                </td>
+                <td class="test1" style="width: 25%;">
+                    @Html.DropDownListFor(model => model.RoadStatus, new SelectList(Model.RoadStatusList, "Value", "Text"), new {  @tabindex = 5, @style = "width:150px" })
+                    @Html.ValidationMessageFor(model => model.RoadStatus)
+                </td>
+                 <td>
+                    <input type="button" id="btnRndViewStateListRoad" value="View" class="button" title="View" style="margin-left:101%" tabindex="7" />
+                </td>
+            </tr>*@
+          
+        </table>
+    </form>
+    
+</div>
+
+<div id="loadDscReport" class="divLoadReport">
+
+</div>
+
+

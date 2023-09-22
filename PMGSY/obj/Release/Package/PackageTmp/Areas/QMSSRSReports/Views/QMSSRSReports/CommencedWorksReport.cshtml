@@ -1,0 +1,10 @@
+﻿@using MvcReportViewer
+
+@model PMGSY.Areas.QMSSRSReports.Models.QualityReportsViewModel
+
+    @Html.MvcReportViewer("/PMGSYCitizen/QMCommencedWorks",
+     new
+     {
+           State =    PMGSY.Extensions.PMGSYSession.Current.RoleCode == 8 ? PMGSY.Extensions.PMGSYSession.Current.StateCode  : 0
+     },
+       new { Height = 600, Width = "100%", style = "border:none;" })

@@ -1,0 +1,47 @@
+﻿@*@{
+    ViewBag.Title = "AccountRefreshDataLayout";
+}
+
+<h2>AccountRefreshDataLayout</h2>*@
+@model PMGSY.Models.UserManager.AccountRefreshData
+<!DOCTYPE html>
+<html>
+    
+<head>
+    <script src="~/Scripts/custom/Generic.js"></script>
+    <script src="~/Scripts/UserManager/UserManager.js"></script>
+</head>
+<body>
+
+    <center>
+      <div style="text-align:left;margin-left:5px;margin-bottom:5px;">
+          <form id="frmRefreshdata">
+          <table  style="width: 100%;">
+        <tr>
+          
+            <td style="width: 5%;">
+                @Html.RadioButtonFor(model => model.Report,true,new {id="NSP" ,@checked="checked" })
+            </td>
+              <td style="width: 20%;">
+                @Html.Label("NSP Report")
+            </td>
+          
+            <td style="width: 5%;">
+               @Html.RadioButtonFor(model => model.Report,false, new {id="FPP" })
+            </td>
+              <td style="text-align: left; width: 20%;">
+                @Html.Label("FPP Report")
+            </td>
+
+            <td>
+                <input type="button" value="Refresh" title="Click Here to refresh Data" class="jqueryButton" id="btnRefreshDetails" tabindex="3"/>
+            </td>
+        </tr>
+       
+
+    </table>
+ </form>
+</div>
+</center>
+</body>
+</html>

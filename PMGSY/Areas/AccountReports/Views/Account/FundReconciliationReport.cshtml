@@ -1,0 +1,20 @@
+﻿@using MvcReportViewer
+@model PMGSY.Areas.AccountReports.Models.ScheduleModel
+
+@{ PMGSY.Models.Report.ReportFilter objParam = new PMGSY.Models.Report.ReportFilter();}
+
+@Html.MvcReportViewer("/PMGSYCitizen/Acc_Reconcilition_Of_Funds_Report",
+     new
+     {
+         PrmFundType = Model.FundType,
+         PrmSRRDANDCode = Model.AdminNdCode,
+         PrmMonth = Model.Month,
+         PrmYear = Model.Year,
+         Year = Model.YearName,
+         Agency = Model.NodalAgencyName,
+         ReportHeading = Model.ReportName,
+         FormName = Model.FormNumber,
+         Paragraph = Model.Paragraph1
+
+     },
+     new { Height = 570, Width = "100%", style = "border:none;" })

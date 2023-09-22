@@ -1,0 +1,87 @@
+﻿@model PMGSY.Areas.LocationSSRSReports.Models.LocationMasterReports
+
+@if (Layout == null)
+{
+    Layout = Request.IsAjaxRequest() ? null : "~/Areas/AccountReports/Views/Account/_Layout.cshtml";
+}
+
+<script src="~/Areas/LocationSSRSReports/Scripts/PanchayatHabitationLayout.js"></script>
+<script src="~/Scripts/custom/Generic.js"></script>
+
+<div id="dvhdPanchayatHabitationLayout" class="ui-corner-top ui-widget-header panelheader" style="text-align: left; height: 20px;">
+    <span class="ui-jqgrid-title" style="float: left">Panchayat Habitation</span>
+    <span id="spCollapseIconCN" class="ui-icon ui-icon-circle-triangle-n" style="float: right"></span>
+</div>
+<div id="dvPanchayatHabitationLayout" class="ui-corner-bottom" style="display: block; border: 1px solid #B5B8C8;">
+    <form id="frmPanchayatHabitationLayout">
+        @Html.AntiForgeryToken()
+        @Html.ValidationSummary(true)
+        @Html.HiddenFor(model => model.StateName)
+        @Html.HiddenFor(model => model.DistName)
+        @Html.HiddenFor(model => model.BlockName)
+        @Html.HiddenFor(model => model.PanchayatName)
+        @Html.HiddenFor(model => model.ActiveFlagName)
+        @Html.HiddenFor(model => model.MPConstituencyName)
+        @Html.HiddenFor(model => model.Mast_State_Code)
+        @Html.HiddenFor(model => model.Mast_District_Code)
+
+        <table class="rowstyle" style="width: 100%;">
+            <tr>
+                <td style="width: 2%;"></td>
+                <td style="text-align: left; width: 5%;">
+                    @Html.Label("State")
+                </td>
+                <td style="width: 15%;">
+                    @*@Html.DropDownList("StateList_PanchayatHabitationDetails", ViewData["STATE"] as IEnumerable<SelectListItem>, new { @title = "State", @tabindex = 1 })*@
+                    @Html.DropDownListFor(model => model.State, new SelectList(Model.StateList, "Value", "Text"), new { @id = "StateList_PanchayatHabitationDetails", @title = "State", @tabindex = 1 })
+                    <br />
+                    @Html.ValidationMessageFor(m => m.State)
+                </td>
+                <td style="text-align: left; width: 5%;">
+                    @Html.Label("District")
+                </td>
+                <td style="width: 15%;">
+                    @*@Html.DropDownList("DistrictList_PanchayatHabitationDetails", ViewData["DISTRICT"] as IEnumerable<SelectListItem>, new { @title = "District", @tabindex = 2 })*@
+                    @Html.DropDownListFor(model => model.District, new SelectList(Model.DistrictList, "Value", "Text"), new { @id = "DistrictList_PanchayatHabitationDetails", @title = "District", @tabindex = 2 })
+                    <br />
+                    @Html.ValidationMessageFor(m => m.District)
+                </td>
+                <td style="text-align: left; width: 5%;">
+                    @Html.Label("Block")
+                </td>
+                <td style="width: 15%;">
+                    @*@Html.DropDownList("BlockList_PanchayatHabitationDetails", ViewData["BLOCK"] as IEnumerable<SelectListItem>, new { @title = "Block", @tabindex = 3 })*@
+                    @Html.DropDownListFor(model => model.Block, new SelectList(Model.BlockList, "Value", "Text"), new { @id = "BlockList_PanchayatHabitationDetails", @title = "State", @tabindex = 3 })
+                    <br />
+                    @Html.ValidationMessageFor(m => m.Block)
+                </td>
+                <td style="text-align: left; width: 5%;">
+                    @Html.Label("Panchayat")
+                </td>
+                <td style="width: 15%;">
+                    @*@Html.DropDownList("PanchayatList_PanchayatHabitationDetails", ViewData["PANCHAYAT"] as IEnumerable<SelectListItem>, new { @title = "Panchayat", @tabindex = 4 })*@
+                    @Html.DropDownListFor(model => model.Panchayat, new SelectList(Model.PanchayatList, "Value", "Text"), new { @id = "PanchayatList_PanchayatHabitationDetails", @title = "Panchayat", @tabindex = 4 })
+                    <br />
+                    @Html.ValidationMessageFor(m => m.Panchayat)
+                </td>
+                <td style="text-align: left; width: 4%;">
+                    @Html.Label("Active")
+                </td>
+                <td style="width: 10%;">
+                    @*@Html.DropDownList("ActiveType_PanchayatHabitationDetails", ViewData["Active_TYPE"] as IEnumerable<SelectListItem>, new { @title = "Active", @tabindex = 5 })*@
+                    @Html.DropDownListFor(model => model.ActiveFlag, new SelectList(Model.ActiveFlagList, "Value", "Text"), new { @id = "ActiveType_PanchayatHabitationDetails", @title = "Active", @tabindex = 6 })
+                    <br />
+                    @Html.ValidationMessageFor(m => m.ActiveFlag)
+                </td>
+                <td style="text-align: center; width: 5%; margin-left: 5px;">
+                    <input type="button" id="PanchayatHabitationDetailsButton" value="View" class="jqueryButton" title="View Details" tabindex="6" />
+                </td>
+            </tr>
+        </table>
+    </form>
+</div>
+
+<div id="dvLoadPanchayatHabitationReport">
+</div>
+
+

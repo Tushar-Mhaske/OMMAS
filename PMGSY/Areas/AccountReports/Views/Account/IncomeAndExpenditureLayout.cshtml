@@ -1,0 +1,110 @@
+﻿@model PMGSY.Areas.AccountReports.Models.IncomeAndExpenditureModel
+@using PMGSY.Extensions
+@{
+    Layout = Request.IsAjaxRequest() ? null : "~/Areas/AccountReports/Views/Account/_Layout.cshtml";
+}
+<style type="text/css">
+
+div.CBHeader{
+			padding:5px;
+            width:98%;
+			display:inline-block;
+			cursor:default;
+			/*font:12px/14px Arial, Helvetica, sans-serif;*/
+            font-family: Trebuchet MS,Tahoma,Verdana,Arial,sans-serif;
+			color:#000;
+			background-color:#eee;
+			-moz-border-radius:10px;
+			-webkit-border-radius:10px;
+			-moz-box-shadow:#999 2px 0px 3px;
+			-webkit-box-shadow:#999 2px 0px 3px;
+		}
+</style>
+<script src="~/Scripts/custom/Generic.js"></script>
+@*<script src="~/Scripts/Report/IncomeAndExpenditure.js"></script>*@
+<script src="~/Areas/AccountReports/Scripts/IncomeAndExpenditureLayout.js"></script>
+<form id="frmScheduleOfDurableAssets" >
+    
+     @Html.HiddenFor(m=>m.LevelId)
+    @if (Model.LevelId == 5)
+    {
+        @Html.Hidden("AdminNdCode",PMGSYSession.Current.AdminNdCode)
+        @Html.Hidden("ParentNdCode",PMGSYSession.Current.ParentNDCode)
+    }
+ <div  class="ui-widget-header innerDivHeader" style="margin-bottom:5px;height:20px;width:99.3%">&nbsp;&nbsp;@ViewBag.ScheduleName</div> 
+  
+    <div id="divError" class="ui-state-error ui-corner-all" style="text-align: left; display: none; width: 99%">
+                <span class="ui-icon ui-icon-alert" style="float: left;" id="spnErrorMessage"></span>                                   
+    </div>
+      
+    <div id="filterContainer">
+        @Html.Action("ReportForm")
+    </div>
+
+    <table class="ui-state-default ui-corner-all" style="border:0.1em solid gray; width:99%; margin-top:4px;display:none" id="tblHeading" align="center">
+        <tr>
+            <td style="text-align: right; font-weight: bold;width: 25%;color:green" colspan="8">
+                <label id="lblHeaderFormNumber">&nbsp;</label>
+            </td>
+        </tr>
+        <tr>
+            <td style="text-align: center; font-weight: bold;width: 25%;color:green" colspan="8">
+                <label id="lblHeaderFundType">&nbsp;</label>
+            </td>
+        </tr>
+        <tr>
+            <td style="text-align: center; font-weight: bold;width: 25%;color:green"colspan="8">
+
+                <label id="lblReportHeader">&nbsp;</label>
+            </td>
+        </tr>
+        <tr>
+            <td style="text-align: center; font-weight: bold;width: 25%;color:green"colspan="8">
+                <label id="lblReportReference">&nbsp;</label>
+            </td>
+        </tr>
+        <tr >
+            <td></td>
+        </tr>
+     
+
+        <tr>
+            <td style="text-align: left; font-weight: bold; width: 03%"></td>
+            <td style="text-align: left; font-weight: bold; width: 30%;color:green">Nodal Agency:
+                @if(Model.LevelId!=5)
+                {  
+                    <label id="lblAgency" class="ui-state-default" style="border:none"></label>
+                }
+                else
+                {
+                    <label class="ui-state-default" style="border:none">@ViewBag.PiuName</label>
+                }
+            </td>
+
+            <td style="text-align: left; font-weight: bold; width: 22%;color:green">DPIU:
+               @if(Model.LevelId!=5)
+               {
+                    <label id="lblDPIU" class="ui-state-default" style="border:none"></label>
+               }
+               else
+               {
+                   <label class="ui-state-default" style="border:none">@PMGSYSession.Current.DepartmentName</label>
+               }
+            </td>
+            <td id="tdlblYear" style="text-align: left; font-weight: bold; width: 22%;color:green">Year:
+                <label id="lblYear" class="ui-state-default" style="border:none"></label>
+            </td>
+            <td id="tdlblMonthYear"  style="text-align: left; font-weight: bold; width: 22%;color:green">Month-Year:
+                <label id="lblMonthYear" class="ui-state-default" style="border:none"></label>
+            </td>
+        </tr>
+    </table>
+    
+     <div id="dvIncomeAndExpenditure">
+        <table id="tbIncomeAndExpenditureList" style="width:98%"></table>
+        <div id="dvPagerIncomeAndExpenditure" ></div>            
+    </div>
+    
+    @*<span style="font-size:xx-large;font-weight:bold"></span>*@
+
+</form>

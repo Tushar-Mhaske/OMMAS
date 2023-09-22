@@ -1,0 +1,174 @@
+﻿@model PMGSY.Models.ExistingRoads.ExistingRoadsViewModel
+@{
+    ViewBag.Title = "Create ExistingRoads";
+}
+@using PMGSY.Extensions
+<script src="~/Scripts/custom/Generic.js"></script>
+<script src="~/Scripts/jquery.ui.accordion.js"></script>
+<script src="~/Scripts/ExistingRoads/ViewExistingRoadsPMGSY3.js"></script>
+
+
+<style type="text/css">
+    td {
+        height: 20px;
+    }
+</style>
+
+@{      
+    <div style="height: 20px; width: 100%; text-align: left; padding-top: 0.6em;" class="ui-state-default ui-corner-all">
+        &nbsp;&nbsp;Road Number:@Model.MAST_ER_ROAD_NUMBER
+        &nbsp;&nbsp;&nbsp;&nbsp; <strong>Road Name:</strong>  @Model.MAST_ER_ROAD_NAME
+    </div>
+    <div id="tabs">
+
+        <ul>
+            <li><a href="#tabs-1">Existing Road Details</a></li>
+            <li><a href="#tabs-2">Surface Type Details</a></li>
+            <li><a href="#tabs-3">CBR Value Details</a></li>
+            <li><a href="#tabs-4">Traffic Intensity Details</a></li>
+            <li><a href="#tabs-5">CD Works Details</a></li>
+            <li><a href="#tabs-6">Habitation Mapped Details</a></li>
+            <li style="display:none;"><a href="#tabs-7">Core Network Details</a></li>
+        </ul>
+        <div id="tabs-1" style="text-align: left">
+            <center>
+             <table id="Table1"  cellspacing="0" cellpadding="3" class="rowstyle" style="margin-top:0px; text-align:left; border:ridge 0.1em #ccc; width:100%; padding-top:5px; padding-left:5px; padding-right:5px; padding-bottom:5px;">
+                      @* <tr style="text-align:left;">
+                        <td class="ui-widget-header" colspan="4" style="height:20px" >Existing Roads Inventory of @Html.DisplayFor(model=>model.MAST_ER_ROAD_NAME)</td>
+                    </tr>*@
+                          @Html.HiddenFor(m => m.MAST_ER_ROAD_CODE)
+                    <tr style="text-align:left;">
+                        <td class="editor-label">@Html.LabelFor(model => model.MAST_ER_ROAD_NAME)</td>
+                        <td class="editor-field">@Html.DisplayFor(model => model.MAST_ER_ROAD_NAME)</td>
+                        <td>@Html.LabelFor(model => model.MAST_ER_ROAD_NUMBER)</td>
+                        <td>@Html.DisplayFor(model => model.MAST_ER_ROAD_NUMBER)</td>                       
+                    </tr>
+                    <tr style="text-align:left;">
+                        <td>@Html.LabelFor(model => model.MAST_ROAD_CAT_CODE)</td>
+                        <td>@Html.DisplayFor(model => Model.CategoryOfRoadName)</td>
+                        <td class="editor-label">@Html.LabelFor(model => model.MAST_ER_ROAD_OWNER)</td>
+                        <td class="editor-field">@Html.DisplayFor(model => model.OwnerOfRoadName)</td>
+                    </tr>
+                    <tr style="text-align:left;">
+                        <td class="editor-label">@Html.LabelFor(model => model.MAST_ER_ROAD_TYPE)</td>
+                        <td class="editor-field">@Html.DisplayFor(model => model.MAST_ER_ROAD_TYPE)</td>
+                        <td class="editor-label" >
+                            
+                            @*@if(PMGSYSession.Current.PMGSYScheme==1)
+                            {
+                                @Html.Label("Is Included in Core Network ?")
+                            }
+                            else if (PMGSYSession.Current.PMGSYScheme == 2)
+                            {
+                                @Html.Label("Is Included in Candidate Road ?")
+                            }*@
+                        </td>
+                        <td class="editor-field">@*@Html.DisplayFor(model => model.MAST_CORE_NETWORK)*@</td>
+                    </tr>
+                    <tr style="text-align:left;">
+                        <td class="editor-label">@Html.LabelFor(model => model.MAST_SOIL_TYPE_CODE)</td>
+                        <td class="editor-field">@Html.DisplayFor(model => model.SoilTypeName)</td>
+                        <td class="editor-label">@Html.LabelFor(model => model.MAST_TERRAIN_TYPE_CODE)</td>
+                        <td class="editor-field">@Html.DisplayFor(model => model.TerrainTypeName)</td>                       
+                    </tr>
+                    <tr style="text-align:left;">
+                        <td class="editor-label">@Html.LabelFor(model => model.MAST_CONS_YEAR)</td>
+                        <td class="editor-field" >@Html.DisplayFor(model => model.MAST_CONS_YEAR)</td>
+                        <td class="editor-label" >@Html.LabelFor(model => model.MAST_RENEW_YEAR)</td>
+                        <td class="editor-field" >@Html.DisplayFor(model => model.MAST_RENEW_YEAR)</td>
+                    </tr>   
+                    <tr style="text-align:left;">
+                        <td class="editor-label">@Html.LabelFor(model => model.MAST_ER_ROAD_L_WIDTH) @Html.Label("(In Mtrs)")</td>
+                        <td class="editor-field">@Model.MAST_ER_ROAD_L_WIDTH</td>
+                        <td class="editor-label">@Html.LabelFor(model => model.MAST_ER_ROAD_F_WIDTH) @Html.Label("(In Mtrs)")</td>
+                        <td class="editor-field">@Model.MAST_ER_ROAD_F_WIDTH</td>
+                    </tr>
+                    <tr style="text-align:left;">
+                        <td class="editor-label">@Html.LabelFor(model => model.MAST_ER_ROAD_C_WIDTH) @Html.Label("(In Mtrs)")</td>
+                        <td class="editor-field" colspan="3">@Model.MAST_ER_ROAD_C_WIDTH</td>
+                    </tr>
+                    <tr style="text-align:left;">
+                        <td class="editor-label">@Html.LabelFor(model => model.MAST_ER_ROAD_STR_CHAIN) @Html.Label("(In Kms)")</td>
+                        <td class="editor-field">@Model.MAST_ER_ROAD_STR_CHAIN</td>
+                        <td class="editor-label">@Html.LabelFor(model => model.MAST_ER_ROAD_END_CHAIN) @Html.Label("(In Kms)")</td>
+                        <td class="editor-field">@Model.MAST_ER_ROAD_END_CHAIN</td>
+                    </tr>
+                 <tr style="text-align:left;">
+                     <td class="editor-label">Is Benefitted Habitation</td>
+                        <td class="editor-field" colspan="3">@Html.DisplayFor(model => model.MAST_IS_BENEFITTED_HAB)</td>
+                 </tr>
+
+            </table>
+     </center>
+        </div>
+        @* End of Existing road details tab *@
+
+        <div id="tabs-2">
+            <div id="divSurfaceType" style="text-align: left">
+                <center> 
+               <table id="tbSurfaceType"></table>
+            <div id="dvSurfaceTypePager"></div>
+                     </center>
+            </div>
+        </div>
+
+
+        <div id="tabs-3" style="text-align: left">
+            <div id="divCBR">
+                <center>      
+            <table id="tbCBR"></table>
+            <div id="dvCBRPager"></div>
+            </center>
+            </div>
+        </div>
+
+        <div id="tabs-4">
+            <div id="divTraffic" style="text-align: left">
+                <center>
+            <table id="tbTraffic"></table>
+            <div id="dvTrafficPager"></div>
+            </center>
+            </div>
+        </div>
+
+
+
+        <div id="tabs-5">
+            <div id="divCdWorks" style="text-align: left">
+                <center>
+               <table id="tbCdWorks"></table>
+            <div id="dvCdWorksPager"></div>
+              </center>
+            </div>
+        </div>
+
+        <div id="tabs-6">
+            <div id="divHabitation" style="text-align: left">
+                <center>
+               <table id="tbHabitation"></table>
+            <div id="dvHabitationPager"></div>
+               </center>
+            </div>
+        </div>
+        <div id="tabs-7" style="display:none;">
+            <div id="divCoreNetwork" style="text-align: left; display:none;">
+                <center>
+            <table id="tbCoreNetwork"></table>
+        <div id="dvCoreNetwork"></div>
+            </center>
+            </div>
+        </div>
+
+    </div>
+@* End of Main tab div*@
+
+    <div style="text-align: center">
+        @if (Model.MAST_LOCK_STATUS.ToUpper() == "N")
+        {
+            if (PMGSYSession.Current.RoleCode == 22)
+            {
+            <input type="button" id="btnFinalizeExistingRoad" name="btnFinalizeProposal" class="jqueryButton" value="Finalize" style="height: 35px; width: 100px" />
+            }
+        }
+    </div>
+}

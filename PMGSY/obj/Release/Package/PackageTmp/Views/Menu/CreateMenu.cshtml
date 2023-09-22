@@ -1,0 +1,130 @@
+﻿@model PMGSY.Models.Menu.Menu_Master
+
+<link href="~/Content/UserManager.css" rel="stylesheet" />
+<link href="~/Content/jquery.multiselect.css" rel="stylesheet" />
+<script src="~/Scripts/jquery.multiselect.min.js"></script>
+<script src="~/Scripts/custom/Generic.js"></script>
+<script src="~/Scripts/UserManager/CreateMenu.js"></script>
+<script type="text/javascript">
+    $(document).ready(function () {
+        if ('@ViewBag.Operation' == 'A') {
+            $("#btnAddMenu").attr('value', 'Save');
+            $('#btnReset').show();
+            $('#btnCancel').hide();
+        }
+        else if ('@ViewBag.Operation' == 'U') {
+                $("#btnAddMenu").attr('value', 'Update');
+                $('#btnReset').hide();
+                $('#btnCancel').show();
+
+                var arr = "";
+                if ($("#hidLevelGroupCode").val().indexOf("$$") >= 0) {
+                    arr = $("#hidLevelGroupCode").val().split("$$");
+                    $("#LevelGroupList").val(arr);
+                    $("#LevelGroupList").multiselect("refresh");
+                }    
+        }//else ends here
+
+    });//doc.Ready ends here
+
+</script>
+<center>
+
+@using (Html.BeginForm("CreateMenu", "Menu", FormMethod.Post, new { id = "createMenuForm" }))
+{
+    @Html.ValidationSummary(true)
+    @Html.AntiForgeryToken()
+
+    
+    if(ViewBag.Operation == "U"){
+        @Html.HiddenFor(model => model.MenuID, new { id = "hidMenuId" })
+        @Html.HiddenFor(model => model.IsActive, new { @id = "hidIsActive" })
+    }
+   
+    @Html.HiddenFor(model => model.Sequence, new { id = "hidSequence" })
+    @Html.HiddenFor(model => model.HorizontalSequence, new { id = "hidHorizontalSequence" })
+    @Html.HiddenFor(model => model.LevelGroupCode, new { id = "hidLevelGroupCode" })
+    @Html.HiddenFor(model => model.VerticalLevel, new { id = "hidVerticalLevel" })
+    @Html.HiddenFor(model => model.MenucombinationCode, new { id = "hidMenucombinationCode" })
+    
+    <div id="divError" class="ui-state-error ui-corner-all" style="text-align: left; display: none; width: 99%">
+        <span class="ui-icon ui-icon-alert" style="float: left;"></span>
+        <span></span>
+    </div> 
+    <table id="Table1"  cellspacing="0" cellpadding="2" class="rowstyle" style="margin-top:10px; text-align:left; border:ridge 0.1em #ccc; width:100%; padding: 5px 5px 5px 5px;">
+        <tr>
+            <td style="font-weight:bold;width:10%"> @Html.LabelFor(model => model.MenuName)<span style="color:red">*</span></td>
+            <td>@Html.TextBoxFor(model => model.MenuName, new { @maxlength = "30", style="width:220px;" }) </td>
+            
+            <td style="font-weight:bold;width:20%"> @Html.LabelFor(model => model.ParentID)<span style="color:red">*</span></td>
+            <td>
+                 @*@Html.DropDownList("MenuList")*@
+                 @Html.DropDownListFor( model => model.ParentID , new SelectList(Model.MenuList,"Value","Text"))
+            </td>
+
+        </tr>
+        <tr>
+            <td></td>
+            <td colspan="3">@Html.ValidationMessageFor(model => model.MenuName)</td>
+        </tr>
+        <tr>
+            <td style="font-weight:bold;width:20%"> @Html.LabelFor(model => model.Sequence)<span style="color:red">*</span></td>
+            <td><input id="spinner" name="value" style="width:120px"/></td>
+            
+            <td style="font-weight:bold;width:20%"> @Html.LabelFor(model => model.LevelGroupCode)<span style="color:red">*</span></td>
+            <td>@Html.ListBox("LevelGroupList") </td>
+        </tr>
+        @if(ViewBag.Operation == "U"){
+            <tr>
+                <td> @Html.LabelFor(model => model.HorizontalSequence)<span style="color:red">*</span></td>
+                <td><input id="spinnerHSequence" name="value" style="width:120px"/></td>
+                <td></td>
+                <td></td>
+            </tr>
+        }
+        <tr>
+            <td></td>
+            <td></td>
+            <td colspan="2"><span id="showLevelError"> @Html.ValidationMessage("showLevelError")</span></td>
+        </tr>
+        <tr style="border:ridge 0.1em #ccc; ">
+            <td style="font-weight:bold;width:20%"> @Html.LabelFor(model => model.VerticalLevel)<span style="color:red">*</span></td>
+            <td colspan="3" >
+                    <div id="radio">
+                        <table>
+                            <tr>
+                                <td style="margin-left:0px"><input type="radio" id="radio1" name="radio" value="1" checked="checked"/><label id="radio1Lbl" for="radio1">Parent</label>
+                                    &nbsp;  @Html.DropDownListFor(model => model.MenuCombinationLevelList1, new SelectList(Model.MenuCombinationList1, "Value", "Text"), new { @id="MenuCombinationLevelList1" })
+                                </td>
+                            </tr>
+                            <tr>
+                                <td style="padding-left:30px"><input type="radio" id="radio2" name="radio" value="2"/><label id="radio2Lbl" for="radio2">Child 1</label>
+                                    &nbsp; @Html.DropDownListFor( model => model.MenuCombinationLevelList2 , new SelectList(Model.MenuCombinationList2,"Value","Text"), new { @id="MenuCombinationLevelList2" })
+                                </td>
+                                
+                            </tr>
+                            <tr>
+                                <td style="padding-left:60px"><input type="radio" id="radio3" name="radio" value="3"/><label id="radio3Lbl"  for="radio3">Child 2</label>
+                                    &nbsp; @Html.DropDownListFor( model => model.MenuCombinationLevelList3 , new SelectList(Model.MenuCombinationList3,"Value","Text"), new { @id="MenuCombinationLevelList3" })
+                                </td>
+                                
+                            </tr>
+                             <tr>
+                                <td style="padding-left:90px"><input type="radio" id="radio4" name="radio" value="4"/><label id="radio4Lbl"  for="radio4">Child 3</label>
+                                </td>
+                            </tr>
+                        </table>
+                   </div>
+            </td>
+        </tr>
+        <tr>
+            <td colspan="2" style="text-align:right"><input type="button" class="jqueryButton" value="Add Menu" id="btnAddMenu"/></td>
+            <td colspan="2" style="text-align:left">
+                <input type="reset" class="jqueryButton" value="Reset" id="btnReset"/>
+                <input type="button" class="jqueryButton" value="Cancel" id="btnCancel" style="display:none;"/>
+            </td>
+        </tr>  
+</table>
+}
+
+</center>

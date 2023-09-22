@@ -1,0 +1,88 @@
+﻿@{
+    ViewBag.Title = "ERR1ReportDetails";
+}
+
+
+@model PMGSY.Models.ExistingRoadsReports.ExistingRoadsReportsViewModel
+<script type="text/javascript" src="@Url.Content("~/Scripts/jquery.ui.dialog.js")"> </script>
+<script type="text/javascript" src="~/Scripts/ExistingRoadsReports/ERR1ReportDetails.js"></script>
+<script src="~/Scripts/custom/Generic.js"></script>
+<form id="frmERR1StateLevelReport">
+    @Html.Hidden("hdnLevelId", PMGSY.Extensions.PMGSYSession.Current.LevelId.ToString())
+    @Html.Hidden("hdnLevelId", PMGSY.Extensions.PMGSYSession.Current.LevelId.ToString())
+
+    @if (PMGSY.Extensions.PMGSYSession.Current.StateCode != 0) 
+    {           
+    @Html.Hidden("STATE_NAME", PMGSY.Extensions.PMGSYSession.Current.StateName.ToString())
+    }   
+
+    @if (PMGSY.Extensions.PMGSYSession.Current.DistrictCode != 0)
+    {
+    @Html.Hidden("DISTRICT_NAME", PMGSY.Extensions.PMGSYSession.Current.DistrictName.ToString())   
+    }
+    @Html.HiddenFor(model => model.BLOCK_NAME)
+
+
+    @if (PMGSY.Extensions.PMGSYSession.Current.LevelId == 6)     //Mord
+    {
+        <div id="ERR1StateReport">
+            <table id="ERR1StateReportTable"></table>
+        </div>
+        <div id="ERR1StateReportPager"></div>
+
+        <br />
+        <div id="ERR1DistrictReport">
+            <table id="ERR1DistrictReportTable"></table>
+        </div>
+        <div id="ERR1DistrictReportPager"></div>
+
+        <br />
+        <div id="ERR1BlockReport">
+            <table id="ERR1BlockReportTable"></table>
+        </div>
+        <div id="ERR1BlockReportPager"></div>
+
+        <br />
+        <div id="ERR1FinalReport">
+            <table id="ERR1FinalReportTable"></table>
+        </div>
+        <div id="ERR1FinalReportPager"></div>
+        
+    }
+
+    else if (PMGSY.Extensions.PMGSYSession.Current.LevelId == 4)     //State
+    {
+        @Html.HiddenFor(model => model.MAST_STATE_CODE)
+        <div id="ERR1DistrictReport">
+            <table id="ERR1DistrictReportTable"></table>
+        </div>
+        <div id="ERR1DistrictReportPager"></div>
+
+        <br />
+        <div id="ERR1BlockReport">
+            <table id="ERR1BlockReportTable"></table>
+        </div>
+        <div id="ERR1BlockReportPager"></div>
+
+        <br />
+        <div id="ERR1FinalReport">
+            <table id="ERR1FinalReportTable"></table>
+        </div>
+        <div id="ERR1FinalReportPager"></div>
+    }
+    else if (PMGSY.Extensions.PMGSYSession.Current.LevelId == 5)     //District
+    {
+        @Html.HiddenFor(model => model.MAST_STATE_CODE)
+        @Html.HiddenFor(model => model.MAST_DISTRICT_CODE)
+        <div id="ERR1BlockReport">
+            <table id="ERR1BlockReportTable"></table>
+        </div>
+        <div id="ERR1BlockReportPager"></div>
+
+        <br />
+        <div id="ERR1FinalReport">
+            <table id="ERR1FinalReportTable"></table>
+        </div>
+        <div id="ERR1FinalReportPager"></div>
+    }
+</form>

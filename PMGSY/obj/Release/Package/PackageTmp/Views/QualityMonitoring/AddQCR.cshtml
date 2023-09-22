@@ -1,0 +1,121 @@
+﻿@model PMGSY.Models.QualityMonitoring.AddUploadQCRDetailsModel
+
+@{
+    ViewBag.Title = "AddQCR";
+}
+
+
+<style>
+    .ui-datepicker td {
+        border: 1px solid #CCC;
+        padding: 0;
+    }
+
+    .fileremove {
+     float:left;
+    }
+</style>
+  
+
+
+<script src="~/Scripts/custom/Generic.js"></script>
+<script src="~/Scripts/jquery-ui.js"></script>
+<script src="~/Scripts/QualityMonitoring/AddQCRDetails.js"></script>
+
+<center>
+<div id="dvAddQCRDetails" class="ui-corner-top ui-widget-header panelheader" style="text-align: center; height: 20px; width: 76%">
+    <span class="ui-jqgrid-title" id="qcrOperation" style="float: left">&nbsp;&nbsp;Add QCR Grading Details</span>
+    <span id="spCollapseIconCN" class="ui-icon ui-icon-circle-close" style="float: right"></span>
+</div>
+
+
+<div id="dvQCRDetails" class="ui-corner-bottom" style="display: block; border: 1px solid #B5B8C8; width: 76%">
+   
+ 
+<form id="formAddQCR"  enctype="multipart/form-data">
+        @Html.AntiForgeryToken()
+      @Html.HiddenFor(model => model.IMS_PR_ROAD_CODE)
+                    <div style="width: 98%; border:none; margin-top:0px; margin-bottom:10px;" class="ui-state-default">                       
+                       
+                        <table style="margin-top:10px; margin-bottom:5px;">
+
+                            <tr>
+                                <td>
+                                    @Html.LabelFor(model => model.QCRFile)<b style="color: red">*</b>
+                                </td>
+                                <td>
+                                    @Html.TextBoxFor(model => model.QCRFile, new { @id="BGFile",type="file",@tabindex=1 })
+                                
+                                </td>
+
+                                 <td style="width: 9%"></td>
+
+                                <td>
+                                    @Html.LabelFor(model => model.UploadedDate)
+                                </td>
+
+                                <td>                            
+                                    @Html.TextBoxFor(model => model.UploadedDate, new {@id="txtUploaddate", @tabindex = 1,Class="textWidth", @disabled = "disabled",@readonly="readonly" }) 
+                                </td>
+                            </tr>
+
+                            <tr></tr>
+
+                            <tr>
+                                <td>
+                                    @Html.LabelFor(model => model.awardGradeSE)<b style="color: red">*</b>
+                                </td>
+                                
+                                <td>                            
+                                    @Html.DropDownListFor(model => model.awardGradeSE, new SelectList(Model.gradeSE, "Value", "Text"), new { @id = "awardGradeSE" })                                 
+                                       @Html.ValidationMessageFor(model => model.awardGradeSE)
+                                
+                                </td>
+
+                                 <td style="width: 9%"></td>
+
+                                 <td>
+                                    @Html.LabelFor(model => model.awardGradeSQC)<b style="color: red">*</b>
+                                </td>
+                                
+                                <td>                            
+                                    @Html.DropDownListFor(model => model.awardGradeSQC, new SelectList(Model.gradeSQC, "Value", "Text"), new { @id = "awardGradeSQC" })  
+                                    @Html.ValidationMessageFor(model => model.awardGradeSQC)    
+                                                        
+                                </td>
+                              
+                            </tr>
+
+                            <tr></tr>
+
+                            <tr>                                 
+                                 <td>
+                                    @Html.LabelFor(model => model.uploadRemark)
+                                </td>
+                                
+                                <td>                            
+                                    @Html.TextAreaFor(model => model.uploadRemark, new {@id="txtUploadRemark", @tabindex = 1,Class="textWidth" }) 
+                                </td> 
+
+                                <td style="width: 9%"></td>
+
+                                <td>
+                                   <input type="button"  class="jqueryButton" value="Add QCR Details" id="btnAddQCR" name ="btnAddQCR" title="Click here to add QCR Details"/>                   
+                                </td>
+                             
+                            </tr>                      
+                             
+                        </table>
+                        
+                    </div>
+</form>
+
+</div>
+
+    <div id="divListExecutionPDF" style="margin-top:20px; width:100%"> 
+        <table id="tbExecutionListPDF"> </table>
+        <div id="pagerExecutionPDF"> </div>
+    </div>
+
+ </center>
+

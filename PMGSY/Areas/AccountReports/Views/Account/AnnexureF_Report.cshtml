@@ -1,0 +1,39 @@
+﻿
+@using MvcReportViewer
+@model PMGSY.Areas.AccountReports.Models.ANNEXURE
+
+    <div id="dvLoadReport" style="width: 95%;">
+        @if(Model.Districtwise)
+     {
+       @Html.MvcReportViewer("/PMGSYCitizen/Annexure_F",
+         new
+         {
+             STATE=Model.sessionStatecode,
+             DISTRICT=0,
+             BLOCK=0,
+             CYEAR=Model.Year,
+             PMGSY=Model.schemeCode
+             
+         },
+         new { Height = 600, Width = "100%", style = "border:0.75px;" })
+
+        }
+
+        else
+        {
+        @Html.MvcReportViewer("/PMGSYCitizen/Annexure_F",
+         new
+         {
+             
+             STATE=0,
+             DISTRICT=0,
+             BLOCK=0,
+             CYEAR=Model.Year,
+             PMGSY=Model.schemeCode
+             
+         },
+         new { Height = 600, Width = "100%", style = "border:0.75px;" })
+        
+        }
+    </div>
+

@@ -1,0 +1,73 @@
+﻿@*
+    * Project Id    :
+    * Project Name  :   OMMAS II
+    * Name          :   AddRepackagingDetails.cshtml
+    * Description   :   This View Updates the Core Network details associated with the Proposals
+    * Author        :   Vikram Nandanwar
+    * Creation Date :   19/09/2014
+*@
+
+@model PMGSY.Models.Proposal.CoreNetworkUpdateViewModel
+
+
+<script src="~/Scripts/custom/Generic.js"></script>
+<script src="~/Scripts/Proposal/ProposalCoreNetworkUpdate.js"></script>
+
+<center>
+<form id="frmCNUpdateDetails" style="width:98%">
+    <div style="margin-left: 100px">
+        @Html.ValidationSummary(true)
+        @Html.HiddenFor(model => model.EncryptedProposalCode)
+        @Html.AntiForgeryToken()
+    </div>
+    <div id="divError" class="ui-state-error ui-corner-all" style="text-align: left; display: none; width: 100%">
+        <span class="ui-icon ui-icon-alert" style="float: left;"></span>
+        <span></span>
+    </div>
+    <div style="height: 20px; width: 100%; text-align: left; padding-top: 0.6em;" class="ui-state-default ui-corner-all">
+        &nbsp; <strong>Note :</strong>  Fields marked with * are mandatory.
+    </div>
+    <table id="tb" cellpadding="3px" class="rowstyle" style="margin-top: 10px; text-align: left; border: ridge 0.1em #ccc; width: 100%; padding-top: 5px 5px 5px 5px;">
+        <tr></tr>
+        <tr>
+            <td style="width:10%">
+            </td>
+            <td style="width: 10%;">
+                @(PMGSY.Extensions.PMGSYSession.Current.PMGSYScheme == 1 ? "Core Network" : "Candidate Road")<label style="color:red">*</label>
+            </td>
+            <td style="width: 30%;">
+                @Html.DropDownListFor(model => model.CnCode, Model.lstCoreNetworks, new { @id = "ddlCoreNetworks", @title = "Select Core Networks", @tabindex = 2,@style="width:350px" })
+                @Html.ValidationMessageFor(model => model.CnCode)
+            </td>
+            <td style="width:10%"></td>
+            <td style="width:30%"></td>
+        </tr>
+        <tr>
+            <td>
+            </td>
+            <td>
+                @Html.LabelFor(model => model.RoadFrom)<label style="color:red">*</label>
+            </td>
+            <td>
+                @Html.TextBoxFor(model => model.RoadFrom, new { @id = "txtRoadFrom", @placeholder = "Please enter Road From", @tabindex = 3, @title = "Please enter Road From" })
+                @Html.ValidationMessageFor(model => model.RoadFrom)
+            </td>
+            <td>
+                @Html.LabelFor(model => model.RoadTo)<label style="color:red">*</label>
+            </td>
+            <td>
+                @Html.TextBoxFor(model => model.RoadTo, new { @id = "txtRoadTo", @placeholder = "Please enter Road To", @tabindex = 4, @title = "Please enter Road To" })
+                @Html.ValidationMessageFor(model => model.RoadTo)
+            </td>
+        </tr>
+        <tr>
+            <td colspan="5">
+                <center>
+                    <input type="button" id="btnUpdate" name="btnUpdate" value="Update" class= "jqueryButton" title="Update Details" tabindex="5"  />  
+                    <input type="reset" id="btnReset" name="btnReset" value="Reset" class= "jqueryButton" title="Reset" tabindex="6"  />
+                </center>
+            </td>
+        </tr>
+    </table>
+</form>
+</center>

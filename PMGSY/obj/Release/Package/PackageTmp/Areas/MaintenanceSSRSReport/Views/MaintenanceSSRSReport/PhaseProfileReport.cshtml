@@ -1,0 +1,26 @@
+﻿@using MvcReportViewer
+
+@model PMGSY.Areas.MaintenanceSSRSReport.Models.PhaseProfileViewModel
+
+@Html.MvcReportViewer("/PMGSYCitizen/NSP_Mane_Phase_Profile_Report",
+     new
+     {
+         Level = Model.Level,
+         State = Model.StateCode,
+         District = Model.DistrictCode,
+         Block = Model.BlockCode,
+         Year = Model.Year,
+         Agency = Model.Agency,
+         Collaboration = Model.CollabCode,
+         Month = Model.Month,
+         PMGSY = PMGSY.Extensions.PMGSYSession.Current.PMGSYScheme,
+         StateName = Model.StateName,
+         DistrictName = Model.DistrictName,
+         BlockName = Model.BlockName,
+         MonthName = Model.MonthName,
+         CollabName = Model.CollabName,
+         YearName = Model.YearName,
+         AgencyName = Model.AgencyName
+
+     },
+       new { Height = 550, Width = 1215, style = "border:none;" })

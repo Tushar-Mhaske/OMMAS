@@ -1,0 +1,140 @@
+﻿@*
+    * Project Id    :
+    * Project Name  :   OMMAS II
+    * Name          :   AddRepackagingDetails.cshtml
+    * Description   :   This View lists the Proposals for Sanction Order Generation
+    * Author        :   Vikram Nandanwar
+    * Creation Date :   30/04/2014
+*@
+
+@model PMGSY.Models.Proposal.SanctionOrderFilterModel
+
+<script src="~/Scripts/jquery.ui.datepicker.js"></script>
+<script src="~/Scripts/custom/Generic.js"></script>
+<script src="~/Scripts/Proposal/ListProposalForSanctionOrder.js"></script>
+
+<div id="dvhdOmmasSystemCodesLayout" class="ui-corner-top ui-widget-header panelheader" style="text-align: left; height: 20px;">
+    <span class="ui-jqgrid-title" style="float: left">Generate Sanction Order</span>
+    @*<span id="spCollapseIconGenSO" class="ui-icon ui-icon-circle-triangle-n" style="float: right"></span>*@
+</div>
+<div id="dvGenerateSanctionOrder" class="ui-state-default ui-corner-bottom" style="display: block; border: 1px solid #B5B8C8;">
+    <form id="frmFilterProposal">
+        <div style="margin-left: 100px">
+
+            @Html.ValidationSummary(true)
+        </div>
+        <div id="divError" class="ui-state-error ui-corner-all" style="text-align: left; display: none; width: 100%">
+            <span class="ui-icon ui-icon-alert" style="float: left;"></span>
+            <span></span>
+        </div>
+        <table id="tb" cellpadding="3px" style="margin-top: 0px; text-align: left; border: ridge 0.1em #ccc; width: 100%; padding-top: 5px 5px 5px 5px;">
+            <tr>
+                <td>
+                    @Html.LabelFor(model => model.State)
+                </td>
+                <td>
+                    @Html.DropDownListFor(model => model.State, Model.StateList, new { @id = "ddlStates", @title = "Please select state", @tabindex = 1 })
+                    <br />
+                    @Html.ValidationMessageFor(model => model.State)
+                </td>
+                 <td>
+                    @Html.LabelFor(model => model.Agency)
+                </td>
+                <td>
+                    @Html.DropDownListFor(model => model.Agency, Model.AgencyList, new { @id = "ddlAgency", @title = "Please select Agency", @tabindex = 1 })
+                    <br />
+                    @Html.ValidationMessageFor(model => model.Agency)
+                </td>
+                <td>
+                    @Html.LabelFor(model => model.Year)
+                </td>
+                <td>
+                    @Html.DropDownListFor(model => model.Year, Model.YearList, new { @id = "ddlYears", @title = "Please select year", @tabindex = 2 })
+                    <br />
+                    @Html.ValidationMessageFor(model => model.Year)
+                </td>
+                <td>
+                    @Html.LabelFor(model => model.Stream)
+                </td>
+                <td>
+                    @Html.DropDownListFor(model => model.Stream, Model.StreamList, new { @id = "ddlStreams", @title = "Please select Stream", @tabindex = 3, @style = "width:100px" })
+                    <br />
+                    @Html.ValidationMessageFor(model => model.Stream)
+                </td>
+                <td>
+                    @Html.LabelFor(model => model.Batch)
+                </td>
+                <td>
+                    @Html.DropDownListFor(model => model.Batch, Model.BatchList, new { @id = "ddlBatch", @title = "Please select Batch", @tabindex = 4, @style = "width:100px" })
+                    <br />
+                    @Html.ValidationMessageFor(model => model.Batch)
+                </td>
+                <td>
+                    @Html.LabelFor(model => model.PMGSYScheme)
+                </td>
+                <td>
+                    @Html.DropDownListFor(model => model.PMGSYScheme, Model.SchemeList, new { @id = "ddlSchemes", @title = "Please select Scheme", @tabindex = 5 })
+                    <br />
+                    @Html.ValidationMessageFor(model => model.PMGSYScheme)
+                </td>
+                <td>
+                    @Html.LabelFor(model => model.ProposalType)
+                </td>
+                <td>
+                    @Html.DropDownListFor(model => model.ProposalType, Model.TypeList, new { @id = "ddlProposalType", @title = "Please select Type", @tabindex = 5, @style = "width:100px" })
+                    <br />
+                    @Html.ValidationMessageFor(model => model.ProposalType)
+                </td>
+            </tr>
+            @*<tr>
+                <td></td>
+                <td>
+                    @Html.ValidationMessageFor(model => model.State)
+                </td>
+                <td></td>
+                <td>
+                    @Html.ValidationMessageFor(model => model.Year)
+                </td>
+                <td></td>
+                <td>
+                    @Html.ValidationMessageFor(model => model.Stream)
+                </td>
+                <td></td>
+                <td>
+                    @Html.ValidationMessageFor(model => model.Batch)
+                </td>
+                <td></td>
+                <td>
+                    @Html.ValidationMessageFor(model => model.PMGSYScheme)
+                </td>
+                <td>
+                    @Html.ValidationMessageFor(model => model.ProposalType)
+                </td>
+            </tr>*@
+            <tr>
+                <td colspan="12">
+                    <center>
+                <input type="button" id="btnListProposal" name="btnListProposal" value="View Details" class= "jqueryButton" title="List Proposal Details" tabindex="6"  />  
+                </center>
+                </td>
+            </tr>
+        </table>
+    </form>
+</div>
+<div id="dvSanctionOrderList" style="margin-top: 20px; width: 98%">
+    <table id="tblstSanctionOrder"></table>
+    <div id="dvlstPagerSanctionOrder"></div>
+</div>
+
+<div id="dvProposalList" style="margin-top: 20px; width: 98%">
+    <table id="tblstProposal"></table>
+    <div id="dvlstPagerProposal"></div>
+</div>
+<div id="accordion" style="display: none; width: 98%; margin-top: 20px">
+    <h3 style="text-align: left"><a id="" href="#" style="font-size: .9em;">Save Sanction Order Details</a>
+        <a href="#" style="float: right;">
+            <img class="ui-icon ui-icon-closethick" onclick="CloseDetails();" /></a>
+    </h3>
+    <div id="divAddSanctionOrder" style="display: none"></div>
+</div>
+

@@ -1,0 +1,82 @@
+﻿@*
+    * Project Id    :
+    * Project Name  :   OMMAS II
+    * Name          :   AddProgressRemarks.cshtml
+    * Description   :   This View Adds the Road Progress Remarks Details to Road Proposal Execution
+    * Author        :   Vikram Nandanwar        
+    * Creation Date :   25/June/2013    
+*@
+
+
+@model PMGSY.Models.Execution.ProposalRemarksViewModel
+
+@{
+    ViewBag.Title = "AddProgressRemarks";
+}
+
+
+<script src="~/Scripts/custom/Generic.js"></script>
+<script src="~/Scripts/Execution/AddProgressRemarks.js"></script>
+
+
+
+<div id="divAddProposalRemarks" style="margin-top:0px">
+<form id="frmAddProposalRemarks">
+<center>
+@Html.HiddenFor(model=>model.IMS_PR_ROAD_CODE)
+
+<div style="margin-left: 100px">
+    @Html.ValidationSummary(true)             
+</div>            
+<div id="divError" class="ui-state-error ui-corner-all" style="text-align: left; display: none; width: 100%">
+        <span class="ui-icon ui-icon-alert" style="float: left;"></span>                   
+        <span></span>
+</div>
+<div style="height:20px; width: 100%; text-align:left; padding-top: 0.6em;" class="ui-state-default ui-corner-all" > 
+            &nbsp;<strong> Note :</strong>  Fields marked with * are mandatory.
+</div>
+<center>
+<table id="tbAddRemarksDetails"  cellpadding="3px" class="rowstyle" style="margin-top:0px; text-align:left; border:ridge 0.1em #ccc; width:100%; padding-top:5px 5px 5px 5px;">
+    <tr>
+        @*<td style="width:5%">
+        </td>
+        *@
+        <td style="width:40%"></td>
+        <td style="width:5%;">
+            @Html.LabelFor(model=>model.Remarks)<label style="color:red">*</label>
+        </td>
+        <td>
+            @Html.TextAreaFor(model=>model.Remarks,new{@title="Enter Remark",@placeholder="Enter Remark...",@tabindex=1,@maxlength=255})
+            @Html.ValidationMessageFor(model=>model.Remarks)
+        </td>
+        @*<td style="width:10%">
+        </td>
+        <td style="width:20%">
+        </td>*@
+    </tr>
+    <tr>
+        <td colspan="3">
+        <center>
+            <table>
+                <td>
+                    @if (Model.Operation != "E")
+                    {
+                        <input type="button" value="Add Remark" name="btnAddRemarksDetails" id="btnAddRemarksDetails" class="jqueryButton" />
+                        <input type="reset" value="Reset" name="btnResetCDWorksDetails" id="btnResetDetails" class="jqueryButton" />
+                    }
+                    else
+                    {
+                        <input type="button" value="Update" name="btnAddRemarksDetails" id="btnUpdateRemarksDetails" class="jqueryButton" />
+                        <input type="button" value="Cancel" name="btnResetCDWorksDetails" id="btnCancelDetails" class="jqueryButton" />
+                    }
+                    
+                </td>
+            </table>
+        </center>
+        </td>
+    </tr>
+</table>
+</center>
+</center>
+</form>
+</div>

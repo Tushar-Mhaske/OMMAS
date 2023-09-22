@@ -1,0 +1,109 @@
+﻿@model PMGSY.Models.Proposal.MordSanctionViewModel
+<script src="~/Scripts/custom/Generic.js"></script>
+<script src="~/Scripts/jquery.ui.datepicker.js"></script>
+<script src="~/Scripts/Proposal/BulkRoadSanction.js"></script>
+<style type="text/css">
+    td {
+        height: 20px;
+        text-align: left;
+    }
+
+    body {
+        text-align: left;
+    }
+</style>
+<html>
+<body>
+    <form id="frmBulkRoadSanction">
+    @Html.HiddenFor(model => model.IMS_PR_ROAD_CODES)
+    <div id="divError" class="ui-state-error ui-corner-all" style="text-align: left; display: none; width: 100%">
+        <span></span>
+        <span></span>
+    </div>
+        
+    @if(Model.IS_EXECUTION_STARTED == "N")
+    {
+        <table class="rowstyle ui-corner-all" style="border: ridge 0.1em black; padding: 5px 5px 5px 5px; width: 100%; margin-top: 10px">
+        <tr>
+            <td style="width:10%">Action <span style="color: red">*</span> </td>
+            <td style="text-align: left; "  colspan="3">
+                    
+                @if(Model.IS_DROPPABLE)
+                {                                 
+                    @Html.RadioButtonFor(model => model.IMS_SANCTIONED, "D", new { @id = "rdoDrop" }) <strong>Drop</strong> 
+                }
+
+                @if (Model.IS_SANCTIONABLE)
+                {
+                    @Html.RadioButtonFor(model => model.IMS_SANCTIONED, "Y", new { @id = "rdoSanction" , @checked = "checked"}) <strong>Sanction</strong> 
+                }
+                    
+                @if(Model.IS_UNSANCTIONABLE)                   
+                {
+                    @Html.RadioButtonFor(model => model.IMS_SANCTIONED, "U", new { @id = "rdoSanction" })<strong> Un-Sanction</strong>
+                }
+
+                @if(Model.IS_RECONSIDERABLE)
+                {
+                    @Html.RadioButtonFor(model => model.IMS_SANCTIONED, "R", new { @id = "rdoReconsider" }) <strong> Recommendation Subject to Improvement</strong>
+                }  
+                @Html.ValidationMessageFor(model => model.IMS_SANCTIONED, "Please Select the Action")       
+
+            </td>   
+
+        </tr>
+            
+        <tr id="tdHabReasonLabel" style="display:none">
+            <td>
+                @Html.LabelFor(model => model.IMS_REASON)     
+                <span style="color:red">*</span>              
+            </td>
+            <td colspan="3">
+                @Html.DropDownListFor(model => model.IMS_REASON, new SelectList(Model.REASONS, "Value", "Text"))
+            </td>
+        </tr>
+
+        <tr>
+            <td style="text-align: left">
+                @Html.LabelFor(model => model.IMS_SANCTIONED_DATE)
+                <span style="color: red">*</span>
+            </td>
+            <td style="text-align: left" colspan="3">
+                @Html.TextBoxFor(model => model.IMS_SANCTIONED_DATE)
+                @Html.ValidationMessageFor(model => model.IMS_SANCTIONED_DATE)
+            </td>
+        </tr>
+
+        <tr id="trSanctionedBy">
+	        <td style="text-align: left">
+		        @Html.LabelFor(model => model.IMS_SANCTIONED_BY)<span style="color: red">*</span>
+	        </td>
+	        <td style="text-align: left" colspan="3">
+		        @Html.TextBoxFor(model => model.IMS_SANCTIONED_BY, new { @maxlength = 50 , @id="txtSanctionBy"})		            
+                @Html.ValidationMessageFor(model => model.IMS_SANCTIONED_BY)
+	        </td>                
+        </tr>
+            
+        <tr id="trSanctionRemark">
+	        <td style="text-align: left">
+		        @Html.LabelFor(model => model.IMS_PROG_REMARKS)
+		        <span style="color: red">*</span>
+	        </td>
+	        <td colspan="3">
+		        @Html.TextAreaFor(model => model.IMS_PROG_REMARKS, new { @style = "width: 330px;", @id="txtRemarks" })
+		        @Html.ValidationMessageFor(model => model.IMS_PROG_REMARKS)
+	        </td>                
+        </tr>
+
+        <tr>
+            <td></td>
+            <td colspan="3" style="text-align: left">
+                <input type="button" value="Submit" id="btnSanctionAll" name="btnSanctionAll" class="jqueryButton" />
+            </td>
+        </tr>
+        </table>
+    }
+
+    </form>
+</body>
+</html>

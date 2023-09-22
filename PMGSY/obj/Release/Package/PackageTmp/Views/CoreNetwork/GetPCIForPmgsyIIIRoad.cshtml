@@ -1,0 +1,76 @@
+﻿@model PMGSY.Models.CoreNetwork.PCIEntryViewModel
+
+<script src="~/Scripts/jquery.ui.accordion.js"></script>
+<script src="~/Scripts/CoreNetwork/PCIEntry.js"></script>
+
+<center>
+    
+ <div id="hdrPCIForm" class="ui-corner-top ui-widget-header panelheader" style="text-align:left;  height:20px;"> @*margin-left:10px;margin-right:10px;margin-top:10px;*@ 
+     <span class="ui-jqgrid-title" style="float:left">&nbsp;PCI Entry</span>
+     <span  id="spCollapseIconCN" class="ui-icon ui-icon-circle-triangle-n" style="float:right"></span>
+ </div>
+
+    <div style="width: 100%; border:none; margin-top:5px; margin-bottom:10px;" class="ui-state-default">     
+        <div id="divFilterForm">
+            <table class="rowstyle" style="width:100%">
+                <tr>
+                    <td style="text-align:right; width:10%">
+                        @Html.Label("Road Type")
+                    </td>
+                    <td style="text-align:left; width:15%">
+                        @Html.DropDownListFor(m => m.RoadType , Model.RoadtypeList ,  new{@title = " Select Road Type"})                        
+                    </td>  
+
+                    <td style="text-align:right; width:10%">
+                        @Html.Label("Block")
+                    </td>
+                    <td style="text-align:left; width:15%">
+                        @Html.DropDownListFor(m => m.BlockID , Model.BlockList ,  new{@title = " Select Block"})          
+                    </td>        
+
+                    <td style="text-align:right; width:10%" id="tdlblYear">
+                        @Html.Label("Year")
+                    </td>
+                    <td style="text-align:left; width:15%" id="tdddlYear">
+                        @Html.DropDownListFor(m => m.Year , Model.FyearList ,  new{@title = " Select Financial Year"})          
+                    </td>        
+                                                                
+                    <td style="text-align:left">
+                        <input type="button" id="btnGo" name="btnGo" value="View" class="jqueryButton" />
+                    </td>                    
+                </tr>
+            </table>
+        </div> 
+    </div>
+    
+    <div id="dvPmgsyRoadList" style="margin-top:20px;width:98%;">
+        <table id="tbPmgsyRoadList"></table>
+        <div id="tbPmgsyRoadListPager"></div>          
+    </div>
+
+    <div id="dvCNRoadList" style="margin-top:20px;width:98%;">
+        <table id="tbCNRoadList"></table>
+        <div id="tbCNRoadListPager"></div>          
+    </div>
+
+    <div id="accordionMonitorsInspection"  style="display: none; width: 80%; margin-top: 10px;">
+        <h3 style="text-align: left" class="ui-accordion-header ui-helper-reset ui-state-default ui-accordion-header-active ui-state-active ui-corner-top"><a id="" href="#" style="font-size: .9em;">Upload photograph for chainage</a>
+        <a href="#" style="float: right;">
+            <img style="border: none" class="ui-icon ui-icon-closethick" onclick="closeMonitorsInspectionDetails();" /></a>
+        </h3>
+    </div>
+    
+    <div id="divDisplayPhotographUploadView"  style="display: none; text-align :center ; width:80%" class="ui-accordion-content ui-helper-reset ui-widget-content ui-corner-bottom ui-accordion-content-active">
+    </div>
+
+    <div id="accordion" style="display:none;width:98%;margin-top:10px;">                    
+        <h3 style="text-align:left"><a id="" href="#" style=" font-size:.9em;" >Add PCI Index For PMGSY Road</a>
+            <a href="#"  style="float: right;">
+            <img style="border:none" src="" alt="Close" class="ui-icon ui-icon-closethick" onclick="CloseDetails();" /></a>
+        </h3>
+        <div id="divPciForm" style="display:none;">
+        </div>                     
+    </div>
+
+</center>
+

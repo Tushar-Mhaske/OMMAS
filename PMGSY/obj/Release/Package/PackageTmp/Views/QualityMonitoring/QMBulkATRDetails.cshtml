@@ -1,0 +1,49 @@
+﻿@*
+    * Project Id    :
+    * Project Name  :   OMMAS II
+    * Name          :   QualityFilters.cshtml
+    * Description   :   Render View for QualityFilters.
+    * Author        :   Shyam Yadav
+    * Creation Date :   11/Jun/2013
+*@
+
+
+@model PMGSY.Models.QualityMonitoring.QMFilterViewModel
+@{ Layout = null; }
+
+<!DOCTYPE html>
+
+<html>
+<head>
+
+<script src="~/Scripts/QualityMonitoring/QMBulkATRDetails.js"></script>
+
+</head>
+<body>
+     <div style="width: 100%; border:none; margin-top:-15px; margin-bottom:5px;" class="ui-state-default">      
+        <table style="margin-top:10px; margin-bottom:5px; width:100%">
+            <tr>
+                <td style="width:10%;padding-left:25px;">
+                    @Html.LabelFor(model => model.MAST_STATE_CODE)
+                </td>
+                <td style="width:20%">
+                        @Html.DropDownListFor(model => model.MAST_STATE_CODE, new SelectList(Model.STATES, "Value", "Text"), new { @id = "ddlBlkATRRegradeStates"})
+                </td>
+                <td style="width:10%;">
+                    @Html.LabelFor(model => model.ATR_SUBMIT_DURATION)
+                </td>
+                <td style="width:20%">
+                        @Html.DropDownListFor(model => model.ATR_SUBMIT_DURATION, new SelectList(Model.ATR_SUBMIT_DURATION_LIST, "Value", "Text"), new { @id = "ddlBlkATRDuration"})
+                </td> 
+                <td style="text-align:left;width:10%">
+                    <input type="button" class="jqueryButton" value="List Details" id="btnListBulkATRList" name ="btnListBulkATRList"/>
+                </td>
+                <td></td>
+        </table>
+      </div>
+       <div id="divBulkATRList" style="width: 99%;">
+            <table id="tbBulkATRList"></table>
+            <div id="dvBulkATRListPager"></div>
+        </div>  
+</body>
+</html>

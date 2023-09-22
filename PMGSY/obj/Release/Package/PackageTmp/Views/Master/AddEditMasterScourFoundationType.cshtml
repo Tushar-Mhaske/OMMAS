@@ -1,0 +1,88 @@
+﻿@model PMGSY.Models.Master.MasterScourFoundationTypeViewModel
+
+<script src="~/Scripts/custom/Generic.js"></script>
+<script src="~/Scripts/Master/Master_CreateScourFoundationType.js"></script>
+
+<div id="dvhdCreateNewScourFoundationDetails" class="ui-corner-top ui-widget-header panelheader" style="text-align: left; height: 20px;">
+    <span class="ui-jqgrid-title" style="float: left">&nbsp;Scour/Foundation Details</span>
+    <span id="spCollapseIconCN" class="ui-icon ui-icon-circle-triangle-n" style="float: right"></span>
+</div>
+
+<div id="dvCreateNewScourFoundationDetails" style="display: block; border: 1px solid #B5B8C8;">
+
+    <div id="dvErrorMessage" class="ui-widget ui-state-error ui-corner-all" style="padding: 0.7em .7em; display: none; margin: 5px 5px 5px 5px; text-align: left">
+        <span class="ui-icon ui-icon-alert" style="float: left; margin-right: .3em;"></span>
+        <strong>Alert:</strong> <span id="message"></span>
+    </div>
+    <form id="frmMasterScourFoundationType">
+        @Html.AntiForgeryToken()
+        <center>@Html.ValidationSummary(true)</center>
+
+        <table style="width: 100%; margin-top: 10px;" class="rowstyle">
+
+            <tr style="display: none">
+                <td colspan="3">
+                    @Html.HiddenFor(model => model.EncryptedScourCode)
+                </td>
+            </tr>
+
+            <tr>
+                <td style="width: 30%;"></td>
+                <td style="text-align: left; width: 20%;">
+                    @Html.LabelFor(model => model.IMS_SC_FD_TYPE)
+                    <label style="color: red;">*</label>
+                </td>
+                <td>
+
+                    @if (Model.EncryptedScourCode == null)
+                    {
+                        @Html.DropDownListFor(model => model.IMS_SC_FD_TYPE, new[] { new SelectListItem() { Text = "Foundation", Value = "F" }, new SelectListItem() { Text = "Scour", Value = "S" } }, "--Select--", new { @tabindex = 1, @title = "Scour/Foundation Type" })
+                        @Html.ValidationMessageFor(model => model.IMS_SC_FD_TYPE)
+                    }
+                    else
+                    {
+                        @Html.DropDownListFor(model => model.IMS_SC_FD_TYPE, new[] { new SelectListItem() { Text = "Foundation", Value = "F" }, new SelectListItem() { Text = "Scour", Value = "S" } }, "--Select--", new { @disabled = "disabled", @tabindex = 1, @title = "Scour/Foundation Type" })                 
+                    }
+                </td>
+            </tr>
+
+            <tr>
+                <td style="width: 30%;"></td>
+                <td style="text-align: left; width: 15%;">
+                    @Html.LabelFor(model => model.IMS_SC_FD_NAME)
+                    <label style="color: red;">*</label>
+                </td>
+                <td>
+                    @Html.TextBoxFor(model => model.IMS_SC_FD_NAME, new { maxlength = 100, @title = "Scour/Foundation Name", @tabindex = 2, placeholder = "Enter Scour/Foundation Name..." })
+                    @Html.ValidationMessageFor(model => model.IMS_SC_FD_NAME)
+                </td>
+            </tr>
+
+            <tr>
+                <td></td>
+                <td></td>
+                <td>
+                    @if (Model.EncryptedScourCode == null)
+                    {                  
+                        <input type="button" id="btnSave" name="btnSave" value="Save" class="jqueryButton" title="Save Scour/Foundation Details" tabindex="3" /> 
+                        <input type="reset" id="btnReset" name="btnReset" value="Reset" class="jqueryButton" title="Reset" tabindex="4" />
+                    }
+                    else
+                    {
+                        <input type="button" id="btnUpdate" name="btnUpdate" value="Update" class="jqueryButton" title="Update Scour/Foundation Details" tabindex="3" /> 
+                        <input type="button" id="btnCancel" name="btnCancel" value="Cancel" class="jqueryButton" title="Cancel" tabindex="4" />
+                    }
+                </td>
+            </tr>
+
+            <tr>
+                <td colspan="5">
+                    <label @*class="ui-state-default" *@style="border:none">[ Note: Fields marked with<label style="color: red;"> * </label>are mandatory.]</label>
+                </td>
+
+            </tr>
+        </table>
+    </form>
+
+
+</div>

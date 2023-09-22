@@ -1,0 +1,144 @@
+﻿@model PMGSY.Models.EAuthorization.SRRDAeAuthorizationListModel
+@{
+    ViewBag.Title = "SRRDAeAuthorizationList";
+}
+
+
+<script src="~/Scripts/EAuthorization/SRRDAeAuthorizationList.js"></script>
+<link href="~/Content/Bootstrap/bootstrap.min.css" rel="stylesheet" />
+<script src="~/Scripts/Bootstrap/bootstrap.min.js"></script>
+<br />
+
+<div class="ui-widget-header innerDivHeader" style="margin-bottom: 5px">e-Authorization Request Details</div>
+
+@*<script type="text/javascript">
+    $(function () {
+        $("#eAuthDialog").dialog({
+            modal: true,
+            autoOpen: false,
+            title: "e-Authorization",
+            width: 1900,
+            height: 500
+        });
+        
+    });
+</script>*@
+
+
+
+<form id="frmEAuthRequestList">
+    @Html.ValidationSummary(true)
+    @Html.AntiForgeryToken()
+    <center>
+    <table class="ui-state-default ui-corner-all" style="border:0.1em solid gray; width:98%; margin-bottom:5px" id="tblViewDetails">
+<tr>
+    <td style="text-align:right; width:15%">@Html.LabelFor(m => m.ADMIN_ND_CODE)@*<label style="color: red;"> *</label></td>*@
+    <td style="width:10%">@Html.DropDownListFor(m => m.ADMIN_ND_CODE, ViewBag.DPIU as IEnumerable<SelectListItem>, new { @title = "DPIU" })</td>
+
+
+    <td style="text-align:right; width:15%">@Html.LabelFor(m => m.EAUTH_STATUS1)@*<label style="color: red;"> *</label></td>*@
+    <td style="width:15%">@Html.DropDownListFor(m => m.EAUTH_STATUS1, ViewBag.ddlStatus as IEnumerable<SelectListItem>, new { @title = "Status" })</td>
+
+
+
+    <td style="text-align:right; width:05%">@Html.LabelFor(m => m.EAUTH_MONTH)@*<span style="color:red"> *</span>*@</td>
+    <td style="width:15%">
+        
+        @Html.DropDownListFor(m => m.EAUTH_MONTH, new SelectList(Model.EAUTH_MONTH_LIST, "Value", "Text"), new { @id = "ddlMonth", @title = "Month" })
+    </td>
+    <td style="text-align:right; width:5%">@Html.LabelFor(m => m.EAUTH_YEAR)@*<span style="color:red"> *</span>*@</td>
+    <td style="width:15%">
+        
+        @Html.DropDownListFor(m => m.EAUTH_YEAR, new SelectList(Model.EAUTH_YEAR_LIST, "Value", "Text"), new { @id = "ddlYear", @title = "Year" })
+    </td>
+    <td style="width:25%; text-align:center"><input type="button" id="btnView" value="View Details" class="jqueryButton" title="Click here to view details"></td>        
+</tr>
+    <tr>
+        <td></td>
+        <td id="tdDpiu">@Html.ValidationMessageFor(m => m.ADMIN_ND_CODE)</td>
+        <td></td>
+        <td id="tdStatus">@Html.ValidationMessageFor(m => m.EAUTH_STATUS1)</td>
+        <td>@Html.ValidationMessageFor(m => m.EAUTH_MONTH)</td>
+        <td></td>
+        <td>@Html.ValidationMessageFor(m => m.EAUTH_YEAR)</td>
+        <td></td>
+    </tr>
+</table>
+
+
+
+
+</center>
+</form>
+
+<div style="width: 98%; margin-bottom: 5px" id="dvMasterGrid">
+    <table id="tblEAuthSRRDARequestGrid"></table>
+    <div id="divEAuthSRRDARequestPager"></div>
+</div>
+
+
+<form>
+    @Html.AntiForgeryToken()
+    <div style="width: 98%; margin-bottom: 5px" id="dvDetailGrid">
+        <input type='text' hidden='hidden' id='hidEncId' value="" />
+        <input type='text' hidden='hidden' id='hidStatus' value="" />
+        <input type='text' hidden='hidden' id='hid_ApprovalRejectCount' value="" />
+
+
+          <div id="divEauthDetailNote1" class="ui-corner-top ui-widget-header panelheader" style="text-align: left; height: 25px;width:100%;margin-left:0%;">
+        <span class="ui-jqgrid-title" style="float: none; text-align: left;"><b>e-Authorization Details For:<label id="lbleAuthNO"></label></b>
+        </span>
+    </div>
+    <br />
+
+
+        <table id="tblEAuthSRRDARequestGrid1"></table>
+        <div id="divEAuthSRRDARequestPager1"></div>
+
+        <table id="tblSave" class="table-content ui-corner-all" style="width: 100%; border: .1em solid gray; display: none; margin-top: 5px; margin-bottom: 5px;">
+            <tr>
+            </tr>
+            <tr>
+
+                <td style="width: 10%; text-align: center">
+                    <input type="button" id="btnProceed" value="Proceed For e-Authorization" class="jqueryButton" title="Click here to Proceed">@*<input type="button" id="btnViewReport" value="View" class="jqueryButton" title="Click here to View Eauthorization details">*@
+                    <input type="button" id="btnContinue" value="View PDF Details" class="jqueryButton" title="Click here to Continue">
+                </td>
+
+
+
+
+            </tr>
+
+
+
+
+
+        </table>
+
+
+    </div>
+</form>
+<br />
+
+
+
+
+<div class="ui-widget-header innerDivHeader" style="margin-bottom: 5px; height: 5%" id="dvEauthNoNote">
+    <label style="border: none">e-Authorization Details for e-Authorization Number:</label><span id="spnEAuthNo"></span>
+</div>
+
+
+<div id="dialog">
+    <div id="divloadReport" style="background-color:white;">
+        
+    </div>
+   
+</div>
+
+
+@section Scripts {
+    @Scripts.Render("~/bundles/jqueryval")
+}
+
+

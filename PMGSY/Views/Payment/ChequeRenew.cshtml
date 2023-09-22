@@ -1,0 +1,268 @@
+﻿@model PMGSY.Models.Payment.ChequeRenewModel
+
+<style>
+    .ui-autocomplete {
+        max-height: 200px;
+        overflow-y: auto;
+    }
+
+    html .ui-autocomplete {
+        height: 100px;
+    }
+</style>
+
+<script type="text/javascript">
+
+    // var availableCheques = @Html.Raw(Json.Encode(@ViewBag.availableCheques));
+      
+</script>
+<script src="~/Scripts/jquery.ui.autocomplete.js"></script>
+<script src="~/Scripts/custom/Generic.js"></script>
+<script src="~/Scripts/Payment/ChequeRenew.js"></script>
+
+
+@*<table id="ChequeRenewCancelTable">
+    <tr id="trnsShowtable">
+        <td style="width: auto">
+            <span id="ChequeCancelIcon">
+                <span id="iconSpan" class="ui-icon ui-icon-circle-triangle-n" style="float: left"></span>
+                <span title="Click to hide/show" style="cursor: pointer"><b>Cancel/Renew Cheques/Advice
+                </b></span>
+            </span>
+        </td>
+        <td>&nbsp;&nbsp;&nbsp;
+        </td>
+
+    </tr>
+</table>*@
+<center>
+<div id="PaymentDiv" style="width:100%;margin-top:10px;" class="ui-corner-all">
+   
+        
+ <div class="ui-jqgrid-titlebar ui-widget-header ui-corner-top ui-helper-clearfix"style="width: 98%">
+                                <span id="ChequeRenewCancelIcon" class="ui-icon ui-icon-circle-close" style="float:right"></span>
+                                @if (Model.CHQ_EPAY == "A")
+                                {
+                                        <span class="ui-jqgrid-title" style="float: left; font-weight: bold; height: 20px">
+                                    Cancel/Renew Advice
+                                        </span>
+                                }
+                                else
+                                {
+                                        <span class="ui-jqgrid-title" style="float: left; font-weight: bold; height: 20px">
+                                    Cancel/Renew Cheques
+                                        </span>
+                                }
+                                
+      </div>
+   
+   <div style="border: .1em solid gray;display:block;width: 98%">
+       
+<form id ="ChqRenewForm" style="margin-top:10px;margin-bottom:5px">
+    @Html.AntiForgeryToken()
+   <center>
+    @Html.ValidationSummary(true)
+       @Html.Hidden("str_bill_id")
+        @Html.Hidden("LevelID")
+       @Html.HiddenFor(model => model.BILL_MONTH)
+        @Html.HiddenFor(model => model.BILL_YEAR)
+      @Html.HiddenFor(model => model.CURRENT_DATE)
+      @Html.HiddenFor(model => model.CHQ_EPAY)
+
+        <table id="chq_renew_selection" class="table-content ui-corner-all" style="width: 98%; border: .1em solid gray;margin-top:5px;margin-bottom:5px" cellspacing="1px">
+        
+        <tr>
+                    
+            <td style="width:10%;text-align:right">
+               Operation <label style="color:red">*</label>
+             </td>
+
+            <td style="width:20%;text-align:left">
+                @* If condition added by Abhishek kamble to Allow Cheque Renewal only at SRRDA level 23-july-2014 *@
+                @*|| PMGSY.Extensions.PMGSYSession.Current.FundType=="A"*@
+                @if (PMGSY.Extensions.PMGSYSession.Current.LevelId == 5)
+                {
+               <div id="divCancel" style="float: left;margin-right:15px;margin-left:15px">
+                          @{ if (Model.CHQ_CANCEL_RENEW.Trim() == "C")
+                             {
+                                @Html.RadioButtonFor(model => model.CHQ_CANCEL_RENEW, "C", new { @id = "RdCancel", @checked = "checked", @tabindex = 3 })
+                             }
+                             else
+                             {
+                                @Html.RadioButtonFor(model => model.CHQ_CANCEL_RENEW, "C", new { @id = "RdCancel", @tabindex = 3 })
+                             }
+                            }
+                 <label for="RdCancel">Cancel </label>
+                 </div>
+                }
+               @* else if (PMGSY.Extensions.PMGSYSession.Current.LevelId == 4 && PMGSY.Extensions.PMGSYSession.Current.FundType.Equals("A"))
+                {
+                   <div id="divCancel" style="float: left;margin-right:15px;margin-left:15px">
+                     @Html.RadioButtonFor(model => model.CHQ_CANCEL_RENEW, "C", new { @id = "RdCancel" ,@checked = "checked", @tabindex = 3 })
+                        <label for="RdCancel">Cancel </label>
+                 </div>
+                }*@
+
+                 <div id="divRenew" style="float: left;margin-right:15px;margin-left:15px">
+                @{ if (Model.CHQ_CANCEL_RENEW.Trim() == "R")
+                   {
+                                @Html.RadioButtonFor(model => model.CHQ_CANCEL_RENEW, "R", new { @id = "RdRenew", @checked = "checked", @tabindex = 4 })
+                   }
+                   else
+                   {
+                                @Html.RadioButtonFor(model => model.CHQ_CANCEL_RENEW, "R", new { @id = "RdRenew", @tabindex = 4 })
+                   }
+                            }
+                <label for="RdRenew">Renew</label>
+                 </div>
+             </td>
+            <td style="width:10%;text-align:center">              
+                @if (Model.CHQ_EPAY == "A")
+                {
+                                        <span>Advice Number</span>
+                }
+                else
+                {
+                                       <span>Cheque Number</span>
+                }
+            </td>
+            <td style="text-align:left">
+              <b>  @Html.Raw(ViewBag.Chq_No) </b>
+            </td>
+            <td style="width:10%;text-align:center">     
+                <span>Cheque Amount</span>
+            </td>
+            <td style="text-align:left">
+              <b>  @Html.Raw(ViewBag.ChequeAmount) </b>
+            </td>
+            <td style="width:10%;text-align:center">
+              Voucher Number
+            </td>
+            <td style="text-align:left">
+              <b>  @Html.Raw(ViewBag.VoucherNumber) </b>
+            </td>
+            <td style="width:10%;text-align:center">
+              Voucher Date
+            </td>
+            <td style="text-align:left">
+              <b>  @Html.Raw(ViewBag.VoucherDate) </b>
+            </td>
+        </tr>
+     
+      </table>
+       
+    
+       <table id="chq_renew_form" class="rowstyle ui-corner-all" style="width: 98%; border: .1em solid gray;margin-bottom:5px;margin-top:5px;" cellspacing="1px">
+         
+           @* Added By Abhishek for Advice No 6Apr2015 *@
+           @if (Model.CHQ_EPAY != "A")
+           {
+           <tr class="chequeTr" id="chqseriesTr">
+                    <td style="text-align: left;">
+                        @Html.LabelFor(model => model.CHQ_Book_ID)  @{ 
+               if (ViewBag.LevelID == 5)
+               { <label style="color:red">*</label>
+               }
+                         }
+
+                    </td>
+                    <td style="text-align: left;">
+                        @Html.DropDownListFor(model => model.CHQ_Book_ID, new SelectList(Model.CHQ_Book_ID_List, "Value", "Text"), new { Title = "Cheque Book Series", tabindex = "5", @class = "dropdown", @style = "width:60%" })
+                      <br />
+                        @Html.ValidationMessageFor(model => model.CHQ_Book_ID)
+                    </td>
+                     <td> @Html.Label("Cheque book Issue date : ", new { @id = "lblChqBookIssueDate", @Style = "display:none" })</td>
+                      <td>
+                          @Html.HiddenFor(m => m.ChequeBookIssueDate)
+                          <span id="spnChqBookIssueDate" style="display:none">@ViewBag.ChequeIssueDate</span>
+                      </td>
+                </tr>
+           }
+           
+            <tr>
+            
+
+            <td style="width:20%;text-align:left">
+                  @Html.LabelFor(model => model.BILL_DATE)<label style="color:red">*</label>
+            </td>
+             <td style="width:30%;text-align:left">
+                  @Html.TextBoxFor(model => model.BILL_DATE, new { @style = "width:20%", @tabindex = "7" })
+                 <br />    
+                  @Html.ValidationMessageFor(model => model.BILL_DATE)
+             </td>
+
+
+            <td style="width:20%;text-align:left">
+                   @Html.LabelFor(model => model.BILL_NO) <label style="color:red">*</label>
+            </td>
+             <td style="width:30%;text-align:left">
+                  @Html.TextBoxFor(model => model.BILL_NO, new { @tabindex = "6", @readonly = "readonly" })
+                  <br />  
+                 @Html.ValidationMessageFor(model => model.BILL_NO)
+             </td>
+        </tr>
+        <tr>
+             <td style="width:20%;text-align:left">
+                @Html.LabelFor(model => model.CHQ_NO)<label style="color:red">*</label>
+            </td>
+             <td style="width:30%;text-align:left">
+                   @Html.TextBoxFor(model => model.CHQ_NO, new { @tabindex = "8" })
+                  <br />    
+                  @Html.ValidationMessageFor(model => model.CHQ_NO)
+             </td>
+            <td style="width:20%;text-align:left">
+                  @Html.LabelFor(model => model.CHQ_DATE)<label style="color:red">*</label>
+            </td>
+             <td style="width:30%;text-align:left">
+                  @Html.TextBoxFor(model => model.CHQ_DATE, new { @style = "width:20%", @tabindex = "9" })
+                  <br />    
+                 @Html.ValidationMessageFor(model => model.CHQ_DATE)
+             </td>
+        </tr>
+        <tr>
+            <td style="width:20%;text-align:left">
+                  @Html.LabelFor(model => model.NARRATION)<label style="color:red">*</label>
+            </td>
+             <td style="width:30%;text-align:left">
+                   @Html.TextAreaFor(model => model.NARRATION, new { Title = "Narration", @style = "width:82%", placeholder = "Enter the reason for cheque renewal", @tabindex = "10" })
+                 <br />   
+                 @Html.ValidationMessageFor(model => model.NARRATION)
+             </td>
+            <td style="width:20%;text-align:left">
+
+            </td>
+             <td style="width:30%;text-align:left">
+
+             </td>
+        </tr>
+
+            <tr>
+                <td colspan="2" style="text-align: right">
+                      @if (Model.CHQ_EPAY == "A")
+                      {
+                       <input type="button" id="btnChq_renewal_Submit"  value="Renew Advice"  class="jqueryButton" title= "Renew Advice" tabindex="11"/>
+                      }
+                      else
+                      {
+                    <input type="button" id="btnChq_renewal_Submit"  value="Renew Cheque"  class="jqueryButton" title= "Renew Cheque" tabindex="11"/>
+                      }
+                </td>
+                <td colspan="2" style="text-align: left">
+                    <input type="reset" class="jqueryButton"
+                            name="btnChq_renew_Cancel" id="btnChq_renew_Cancel" title="Click here to cancel" value='Reset' tabindex="12"/>
+                </td>
+            </tr>
+    </table>
+
+         
+        </center>
+</form>
+ 
+ <div id="chqCancelFormDiv">
+
+    </div>
+      
+        
+  </div>
+ </div>
+  </center>

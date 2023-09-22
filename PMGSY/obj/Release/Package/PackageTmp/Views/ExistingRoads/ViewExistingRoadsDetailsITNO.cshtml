@@ -1,0 +1,55 @@
+﻿@model PMGSY.Models.ExistingRoads.ExistingRoadsViewModel
+@{
+    ViewBag.Title = "Create ExistingRoads";
+}
+@using PMGSY.Extensions
+<script src="~/Scripts/custom/Generic.js"></script>
+<script src="~/Scripts/jquery.ui.accordion.js"></script>
+<script src="~/Scripts/ExistingRoads/DisplayExistingRoadsDetailsITNO.js"></script>
+
+
+<style type="text/css">
+    td {
+        height: 20px;
+    }
+</style>
+@Html.HiddenFor(m => m.MAST_ER_ROAD_CODE)
+@{      
+    <div style="height: 20px; width: 100%; text-align: left; padding-top: 0.6em;" class="ui-state-default ui-corner-all">
+        &nbsp;&nbsp;Road Number:@Model.MAST_ER_ROAD_NUMBER
+        &nbsp;&nbsp;&nbsp;&nbsp; <strong>Road Name:</strong>  @Model.MAST_ER_ROAD_NAME
+    </div>
+<div id="tabs">
+
+    <ul>
+     @*   <li><a href="#tabs-1">Existing Road Details</a></li>
+        <li><a href="#tabs-2">Surface Type Details</a></li>
+        <li><a href="#tabs-3">CBR Value Details</a></li>
+        <li><a href="#tabs-4">Traffic Intensity Details</a></li>
+        <li><a href="#tabs-5">CD Works Details</a></li>
+        <li><a href="#tabs-6">Habitation Mapped Details</a></li>*@
+        <li><a href="#tabs-7">Candidate Road Details</a></li>
+    </ul>
+
+    <div id="tabs-7">
+        <div id="divCoreNetwork" style="text-align: left">
+            <center>
+            <table id="tbCoreNetwork"></table>
+        <div id="dvCoreNetwork"></div>
+            </center>
+        </div>
+    </div>
+
+    </div>
+    @* End of Main tab div*@
+
+    <div style="text-align: center">
+        @if (Model.MAST_LOCK_STATUS.ToUpper() == "N")
+        {
+            if(PMGSYSession.Current.RoleCode == 22)
+            {
+               <input type="button" id="btnFinalizeExistingRoad" name="btnFinalizeProposal" class="jqueryButton" value="Finalize" style="height: 35px; width: 100px" />
+            }
+        }
+    </div>
+}

@@ -1,0 +1,154 @@
+﻿@model PMGSY.Models.Report.RunningAccountViewModel
+@using PMGSY.Extensions
+@{
+    ViewBag.Title = "RunningAccount";
+}
+
+<script src="~/Scripts/custom/Generic.js"></script>
+<script src="~/Scripts/Report/RunningAccount.js"></script>
+
+<div id="dvHeader" class="ui-widget-header innerDivHeader" style="margin-bottom: 05px; margin-top:5px;height: 20px;">
+         <label style="margin-left:5px">Running Account Details</label> 
+        <span style="float: right; margin-right: 2Px; margin-top: 2px" id="spnMonthlyStateSRRDA" class="ui-icon ui-icon-circle-triangle-n"></span>
+</div>
+<center>
+<form id="frmRunningAccount">
+    @Html.AntiForgeryToken()
+    @Html.Hidden("CurMonth",Model.MonthName)
+    @Html.Hidden("PreMonth",Model.PreviousMonthName)
+    <div class="CBHeader ui-state-default ui-corner-all" style ="background:none;" id="dvFilterForm">
+        <table class="ui-state-default ui-corner-all" style="border:0.1em solid gray; background:none; width:100%; margin-top:1px" id="tblFilter">
+            @if(PMGSY.Extensions.PMGSYSession.Current.LevelId == 4)
+            {
+            <tr>
+                <td></td>
+                <td>Report Type:</td>
+                <td>
+                    @Html.RadioButtonFor(model => model.ReportType, "S", new { @id="rdState",@checked="checked"})
+                </td>
+                <td>SRRDA</td>
+                <td>
+                    @Html.RadioButtonFor(model => model.ReportType, "D", new { @id="rdDistrict"})
+                </td>
+                <td>DPIU</td>
+                <td>
+                    <span id="ddlPIU" style="display:none">
+                        @Html.DropDownListFor(model => model.DPIUCode, new SelectList(Model.ddlDPIU, "Value", "Text"), new { @id="ddlDPIU"})
+                    </span>
+                </td>
+                <td></td>
+            </tr>
+            }
+            <tr>
+                <td style="width:5%"></td>
+                <td style="width:15%">Report Duration:</td>
+                <td style="width:5%">@Html.LabelFor(model => model.Year, new {@style="margin-right:0px" })<label style="color:red">*</label></td>
+                <td style="width:10%">@Html.DropDownListFor(model => model.Year, new SelectList(Model.ddlYear, "Value", "Text"), new { @id="ddlYear",@placeholder="Select Year"})@Html.ValidationMessageFor(model=>model.Year)</td>
+                <td style="width:5%">@Html.LabelFor(model=>model.Month)<label style="color:red">*</label></td>
+                <td style="width:10%">@Html.DropDownListFor(model => model.Month, new SelectList(Model.ddlMonth, "Value", "Text"), new { @id="ddlMonth",@placeholder="Select Month"})@Html.ValidationMessageFor(model=>model.Month)</td>
+                <td style="margin-left:20px;text-align:center">Balance Type<label style="color:red">*</label></td>
+                <td>@Html.DropDownListFor(model=>model.Balance,new SelectList(Model.ddlBalance,"Value","Text",new {@id="ddlBalance",@placeholder="Select Balance Type" }))@Html.ValidationMessageFor(model=>model.Balance)</td>
+            </tr>
+            <tr>
+                <td></td>
+            </tr>
+            <tr>
+                <td colspan="8">
+                    <center><input type="button" value="View Details" id="btnView" class="jqueryButton" title="View Running Account" style="text-align:center"></input></center>
+                </td>
+            </tr>
+        </table>
+    </div>
+
+<div id="rptHeaderDesc" class="CBHeader ui-state-default ui-corner-all" style="display:none;margin-top:20px">
+    <table class="ui-state-default ui-corner-all" style="border: 0.1em solid gray; width: 100%; margin-top: 1px" id="rptMAAnnex">
+        <tr>
+            <td colspan="6" style="color: green;text-align:right">@Html.DisplayFor(model=>model.ReportFormNumber)</td>
+        </tr>
+        <tr>
+            <td colspan="6" style="color: green;text-align:center">@Html.DisplayFor(model=>model.FundTypeName)</td>
+        </tr>
+        <tr>
+            <td colspan="6" style="color: green;text-align:center">@Html.DisplayFor(model=>model.ReportName)-Running</td>
+        </tr>
+        <tr>
+            <td colspan="6" style="color: green;text-align:center">@Html.DisplayFor(model=>model.ReportParagraphName)</td>
+        </tr>
+        <tr>
+            <td colspan="6"><br /></td>
+        </tr>
+        <tr>
+            <td style="color:green;font-weight:bold;width:20%">@Html.Label("Report Type : ") </td>
+            <td style="font-weight:bold;width:30%">
+                @if (Model.SRRDADPIU == null)
+                { 
+                    <label>DPIU</label>
+                }
+                else
+                {
+                    @Html.DisplayFor(model=>model.SRRDADPIU)
+                }
+            </td>
+            <td style="color:green;font-weight:bold;width:10%">@Html.Label("Month - Year : ") </td>
+            <td style="font-weight:bold;width:20%">@Html.DisplayFor(model=>model.MonthName) - @Html.DisplayFor(model=>model.Year)</td>
+            <td style="color:green;font-weight:bold;width:10%">@Html.Label("Balance : ") </td>
+            <td style="font-weight:bold;width:20%">@Html.DisplayFor(model=>model.BalanceName)</td>
+        </tr>
+        <tr>
+            <td style="color:green; font-weight:bold">
+                
+                @if(PMGSY.Extensions.PMGSYSession.Current.LevelId==5 || (Model.SRRDADPIU=="DPIU"))
+                {
+                    @Html.Label("State - Name Of DPIU") @Html.Label(" :")
+                }
+                else
+                {
+                    @Html.Label("State - ") @Html.LabelFor(m=>m.NodalAgency) @Html.Label(" :")
+                }
+            </td>    
+            <td style="font-weight:bold">
+                @if (Model.NodalAgency == null)
+                { 
+                    @Html.Label(" - ")
+                }
+                else
+                {
+                    if (PMGSY.Extensions.PMGSYSession.Current.LevelId == 6)
+                    {    
+                        @Html.DisplayFor(model=>model.StateName) @Html.Label(" - ") @Model.NodalAgency                   
+                    }
+                    else {                     
+                        @Html.Label(PMGSY.Extensions.PMGSYSession.Current.StateName) @Html.Label(" - ") @Model.NodalAgency
+                    }
+                }
+            </td>    
+            <td>
+                @* Added By Abhishek Kamble 4-dec-2013 *@
+                 @if (Model.SRRDADPIU == null)
+                { 
+                     <label style="color:green">Name Of DPIU :</label>
+                }
+                </td>
+            <td>
+                @* Added By Abhishek Kamble 4-dec-2013 *@
+                @if (Model.SRRDADPIU == null)
+                { 
+                    @Html.DisplayFor(model=>model.DPIUName)
+                }
+                @if (PMGSYSession.Current.LevelId == 5) {                 
+                    @Html.Label(PMGSYSession.Current.DepartmentName)
+                }
+                
+            </td>
+            <td></td>
+            <td></td>
+        </tr>
+    </table>
+</div>
+</form>
+<div style="margin-top:20px;width:100%">
+    <table id="tbRunningAccountList"></table>
+    <div id="pagerRunningAccount"></div>
+</div>
+
+</center>

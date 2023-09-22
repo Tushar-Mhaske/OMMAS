@@ -1,0 +1,161 @@
+﻿@model PMGSY.Models.Publication.PublicationViewModel
+
+<style>
+    .ui-datepicker td {
+        border: 1px solid #CCC;
+        padding: 0;
+    }
+</style>
+
+<script src="~/Scripts/custom/Generic.js"></script>
+<script src="~/Scripts/jquery.validate.min.js"></script>
+<script src="~/Scripts/jquery.validate.unobtrusive.min.js"></script>
+<link href="~/Content/Bootstrap/bootstrap.css" rel="stylesheet" />
+<link href="~/Content/Bootstrap/bootstrap-responsive.css" rel="stylesheet" />
+<script src="~/Scripts/jquery.ui.datepicker.js"></script>
+<script src="~/Scripts/Publication/PublicationAddEdit.js"></script>
+<center>
+  <div id="divError" class="ui-state-error ui-corner-all" style="text-align: left;width : 90%;display:none;">
+                <span class="ui-icon ui-icon-alert" style="float: left;"></span>                   
+                <span></span>
+    </div>  
+<form id="frmPublication" method="post">
+
+    @Html.AntiForgeryToken()
+    @Html.ValidationSummary(true)
+
+    @Html.HiddenFor(model => Model.Action)
+    @Html.HiddenFor(model => Model.publicationCode)
+
+
+    <table class="rowstyle" style="margin-top: 10px; text-align: left; border: ridge 0.1em #ccc; width: 100%; padding: 5px 5px 5px 5px;">
+
+        <tr>
+            <td style="text-align: center;" colspan="5"><b>Publication Details</b></td>
+        </tr>
+        <tr>
+            <td style="text-align: left;" colspan="5">
+                <font color="red">Note*- All fields are mandatory.</font>
+            </td>
+
+        </tr>
+        <tr>
+            <td style="width: 2%"></td>
+            <td style="width: 15%; text-align: right;">Publication
+                <label style="color: red;">*</label></td>
+            <td style="width: 30%">
+
+                @Html.DropDownListFor(model => model.publicationCategoryCode, Model.PublicationCategoryList, new { @title = "Publication", @tabindex = 1 })<br />
+                @Html.ValidationMessageFor(model => model.publicationCategoryCode)
+
+            </td>
+            <td style="text-align: right;">@Html.LabelFor(model => model.Date_Type)
+                <label style="color: red;">*</label></td>
+            <td style="text-align: left;">
+
+
+                @Html.DropDownListFor(model => model.Date_Type, Model.Date_Type_List, new { @title = "Type", @tabindex = 2 })<br />
+                @Html.ValidationMessageFor(model => model.Date_Type)
+
+            </td>
+
+
+        </tr>
+
+        <tr id="trDateTypeParam" style="display: none">
+            <td style="width: 2%"></td>
+            <td id="tdLblDate" style="width: 15%; text-align: right;">Date
+                <label style="color: red;">*</label></td>
+            <td id="tdTxtDate" style="width: 30%; display: none;">
+
+                @Html.TextBoxFor(model => model.publicationDate, new { @title = "Date", @tabindex = 3 })<br />
+                @Html.ValidationMessageFor(model => model.publicationDate)
+            </td>
+            <td id="tdLblYear" style="text-align: right; display: none;">@Html.LabelFor(model => model.Year)
+                <label style="color: red;">*</label></td>
+            <td id="tdDdYear" style="text-align: left; display: none">
+                @Html.DropDownListFor(model => model.Year, Model.YearList, new { @title = "Year", @tabindex = 4 })<br />
+                @Html.ValidationMessageFor(model => model.Year)
+            </td>
+            <td id="tdLblMonth" style="text-align: right; display: none;">@Html.LabelFor(model => model.Month)
+                <label style="color: red;">*</label></td>
+            <td id="tdDdMonth" style="text-align: left; display: none;">
+                @Html.DropDownListFor(model => model.Month, Model.MonthList, new { @title = "Month", @tabindex = 5 })<br />
+                @Html.ValidationMessageFor(model => model.Month)
+            </td>
+        </tr>
+        <tr>
+            <td style="width: 2%"></td>
+            <td style="width: 15%; text-align: right;">@Html.LabelFor(model => model.publicationTitle)
+                <label style="color: red;">*</label></td>
+            <td style="width: 30%; text-align: left;">
+                @Html.TextAreaFor(model => model.publicationTitle, new { cols = 75, @rows = 5, maxlength = 255, @style = "width:300px;height:70px;", @title = "Enter Title", @tabindex = 3, @placeholder = "Enter Title..." })<br />
+                @Html.ValidationMessageFor(model => model.publicationTitle)
+            </td>
+            <td style="text-align: right;">@Html.LabelFor(model => model.publicationName)
+                <label style="color: red;">*</label></td>
+            <td style="text-align: left;">
+                @Html.TextAreaFor(model => model.publicationName, new { cols = 75, @rows = 5, maxlength = 100, @style = "width:300px;height:70px;", @title = "Enter Name", @tabindex = 4, @placeholder = "Enter Name..." })<br />
+                @Html.ValidationMessageFor(model => model.publicationName)
+            </td>
+        </tr>
+        <tr>
+            <td style="width: 2%"></td>
+            <td style="width: 15%; text-align: right;">@Html.LabelFor(model => model.publicationAuther)
+                <label style="color: red;">*</label></td>
+            <td style="width: 30%; text-align: left;">
+                @Html.TextAreaFor(model => model.publicationAuther, new { cols = 75, @rows = 5, maxlength = 255, @style = "width:300px;height:70px;", @title = "Enter Author Name..", @tabindex = 5, @placeholder = "Enter Author Name..." })<br />
+                @Html.ValidationMessageFor(model => model.publicationAuther)
+            </td>
+            <td style="text-align: right;">@Html.LabelFor(model => model.publicationVolume)
+                <label style="color: red;">*</label></td>
+            <td style="text-align: left;">
+                @Html.TextAreaFor(model => model.publicationVolume, new { cols = 75, @rows = 5, maxlength = 100, @style = "width:300px;height:70px;", @title = "Enter Volume", @tabindex = 6, @placeholder = "Enter Volume..." })<br />
+                @Html.ValidationMessageFor(model => model.publicationVolume)
+            </td>
+        </tr>
+        <tr>
+            <td style="width: 2%"></td>
+            <td style="width: 15%; text-align: right;">@Html.LabelFor(model => model.publicationPagination)
+                <label style="color: red;">*</label></td>
+            <td style="width: 30%; text-align: left;">
+
+                @Html.TextAreaFor(model => model.publicationPagination, new { cols = 75, @rows = 5, maxlength = 100, @style = "width:300px;height:70px;", @title = "Pagination", @placeholder = "Enter Pagination...", @tabindex = 7 })<br />
+                @Html.ValidationMessageFor(model => model.publicationPagination)
+            </td>
+            <td style="text-align: right;">@Html.LabelFor(model => model.publicationDescription)
+                <label style="color: red;">*</label></td>
+            <td style="text-align: left;">
+                @Html.TextAreaFor(model => model.publicationDescription, new { cols = 75, @rows = 5, maxlength = 500, @style = "width:300px;height:70px;", @title = "Enter Description..", @tabindex = 8, @placeholder = "Enter Description..." })<br />
+                @Html.ValidationMessageFor(model => model.publicationDescription)
+            </td>
+        </tr>
+        <tr>
+            <td style="text-align: center;" colspan="5">&nbsp;
+            </td>
+
+        </tr>
+        <tr>
+            <td style="width: 2%"></td>
+            @if (Model.Action == "A")
+            {
+                <td style="text-align: center;" colspan="4">
+
+                    <input type="submit" value="Submit" id="btnSubmit" title="Submit" class="jqueryButton" tabindex="9" />&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                 <input type="reset" value="Reset" id="btnReset" title="Reset" class="jqueryButton" tabindex="10" />
+                </td>
+            }
+            else
+            {
+                <td style="text-align: center;" colspan="4">
+
+                    <input type="submit" value="Update" id="btnUpdate" title="Update" class="jqueryButton" tabindex="9" />&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                 <input type="button" value="Cancel" id="btnCancel" title="Cancel" class="jqueryButton" tabindex="10" />
+                </td> 
+            }
+
+        </tr>
+    </table>
+
+</form>
+    <center>

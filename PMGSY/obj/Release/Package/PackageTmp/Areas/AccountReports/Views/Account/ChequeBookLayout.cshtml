@@ -1,0 +1,168 @@
+﻿@model PMGSY.Areas.AccountReports.Models.CheckBookDetailsViewFilterModel
+@using PMGSY.Extensions;
+@{
+    Layout = Request.IsAjaxRequest() ? null : "~/Areas/AccountReports/Views/Account/_Layout.cshtml";
+}
+<style type="text/css">
+
+    div.CBHeader 
+    {
+        padding: 5px;
+        width: 98%;
+        display: inline-block;
+        cursor: default;
+        font-family: Trebuchet MS,Tahoma,Verdana,Arial,sans-serif;
+        color: #000;
+        background-color: #eee;
+        -moz-border-radius: 10px;
+        -webkit-border-radius: 10px;
+        -moz-box-shadow: #999 2px 0px 3px;
+        -webkit-box-shadow: #999 2px 0px 3px;
+    }
+
+</style>
+
+<link href="~/Content/demo_page.css" rel="stylesheet" />
+<link href="~/Content/demo_table_jui.css" rel="stylesheet" />
+<link href="~/Content/TableTools.css" rel="stylesheet" />
+<link href="~/Content/TableTools_JUI.css" rel="stylesheet" />
+<script src="~/Scripts/custom/Generic.js"></script>
+<script src="~/Scripts/DataTables/jquery.dataTables.js"></script>
+<script src="~/Scripts/DataTables/TableTools.js"></script>
+
+@*<script src="~/Scripts/AccountsReports/ChequebookDetails/ChequebookDetails.js"></script>*@
+<script src="~/Areas/AccountReports/Scripts/ChequeBookLayout.js"></script>
+<form id="frmCheckbookDetails">
+
+    @Html.HiddenFor(model => model.LevelId)
+    @Html.HiddenFor(model => model.MonthName)
+    @Html.HiddenFor(model => model.Month)
+    @Html.HiddenFor(model => model.Year)
+    @Html.HiddenFor(model => model.YearName)
+    @Html.HiddenFor(model => model.CheckbookSeriesName)
+    @Html.HiddenFor(model => model.MonthlyOrChequebookWiseSelection)
+    @Html.Hidden("AdminNdCode",PMGSYSession.Current.AdminNdCode)
+    @Html.Hidden("FundType",PMGSYSession.Current.FundType)
+
+    <div id="dvhdrViewChequeBookDetails" class="ui-widget-header innerDivHeader" style="margin-bottom: 05px; height: 20px">
+        Register Of Cheques issued
+        <span style="float: right; margin-right: 2Px; margin-top: 2px" id="idFilterDiv" class="ui-icon ui-icon-circle-triangle-n"></span>
+    </div>
+    <div id="dvError" class="ui-state-error ui-corner-all" style="text-align: left; display: none; width: 99%;height: 30px">
+                <span class="ui-icon ui-icon-alert" style="float: left;"></span>
+                <span id="errorMessage"></span>
+    </div>
+
+    <div class="CBHeader ui-corner-all" id="dvChequebookDetails">
+        <table class="ui-state-default ui-corner-all" style="border: 0.1em solid gray; width: 100%; margin-top: 1px" id="tblViewDetails">
+            <tr>
+                @{
+                    int tdDPIUSize = PMGSYSession.Current.FundType == "A" ? 15 : 5;  
+                 }
+
+                @if (PMGSYSession.Current.LevelId == 4 ||PMGSYSession.Current.LevelId==6)
+                {
+                    <td style="width: @tdDPIUSize%">
+                        @if(PMGSYSession.Current.FundType=="A")
+                        {
+                        @Html.RadioButtonFor(model => model.IsSRRDA_DPIU, "S", new { @id = "rdoSRRDA", @title = "SRRDA", @checked = "checked" }) @Html.Label("SRRDA : ")
+                          @Html.RadioButtonFor(model => model.IsSRRDA_DPIU, "D", new { @id = "rdoDPIU", @title = "DPIU"}) @Html.Label("DPIU :")
+                        }
+                    </td>
+                    
+                    <td style="width:10%">
+                        @Html.LabelFor(model=>model.SRRDA)
+                    </td>
+                    <td style="width:16%">
+                        @if(PMGSYSession.Current.LevelId==6)//mord
+                        {
+                            @Html.DropDownListFor(model => model.SRRDA, ViewData["SRRDA"] as IEnumerable<SelectListItem>, new { @id = "ddlSRRDA", @title = "SRRDA", @tabindex = 3 })                        
+                        }
+                        else //SRRDA
+                        {
+                            @Html.DropDownListFor(model => model.SRRDA, ViewData["SRRDA"] as IEnumerable<SelectListItem>, new { @id = "ddlSRRDA", @title = "SRRDA", @tabindex = 3,@disabled="disabled" })                        
+                        }
+                    </td>
+                    
+                    <td style="width: 15%;" class="thDPIUShow">
+                        @Html.Label("DPIU", new { @id = "lblDPIU" })<label style="color: red;" id="lblStarMark">*</label>
+                    </td>     
+                    <td style="width: 16%; font-weight: bold;" id="tdDdlDPIU" class="thDPIUShow">
+                        @Html.DropDownListFor(model => model.DPIU, ViewData["DPIU"] as IEnumerable<SelectListItem>, new { @id = "ddlDPIU", @title = "DPIU", @tabindex = 3 })
+                    </td>                    
+                    <td style="width: 15%">
+                        @Html.RadioButtonFor(model => model.CheckbookMonthYearWise, "M", new { @id = "rdoMonthWise", @title = "Month wise", @tabindex = 4, @checked = "checked" })
+                        @Html.Label("Month Wise")
+                    </td>
+                    <td>
+                        @Html.RadioButtonFor(model => model.CheckbookMonthYearWise, "C", new { @id = "rdoCheckbookWise", @title = "Cheque book wise", @tabindex = 7 })
+                        @Html.Label("Cheque Book Wise")
+                    </td>
+                    <td></td>
+                }
+                else if (PMGSYSession.Current.LevelId == 5)
+                { 
+                    <td style="width: 5%"></td>
+                    <td style="width: 15%">
+                            @Html.RadioButtonFor(model => model.CheckbookMonthYearWise, "M", new { @id = "rdoMonthWise", @title = "Month", @tabindex = 4, @checked = "checked" })
+                            @Html.Label("Month Wise")
+                    </td>
+                    <td style="width: 15%">
+                        @Html.RadioButtonFor(model => model.CheckbookMonthYearWise, "C", new { @id = "rdoCheckbookWise", @title = "Cheque book wise", @tabindex = 7 })
+                        @Html.Label("Chequebook Wise")
+                    </td>
+                    <td style="width: 10%;"></td>     
+                    <td style="width: 10%; font-weight: bold;" id="tdDdlDPIU" class="thDPIUShow"></td>                    
+                    <td></td>
+                }
+            </tr>
+
+            <tr id="trMonthWise">
+                <td></td>
+              
+                <td class="tdMonthYear">
+                    @Html.DisplayNameFor(model => model.Month)
+                    <label style="color: red;">*</label>
+                </td>
+                <td class="tdMonthYear">
+                    @Html.DropDownListFor(model => model.Month, ViewData["Month"] as IEnumerable<SelectListItem>, new { @id = "ddlMonth", @title = "Month", @tabindex = 5 })
+                    @*@Html.DropDownListFor(model => model.Month, Model.lstMonths, new { @id = "ddlMonth", @title = "Month", @tabindex = 5 })*@
+                </td>
+                <td>
+                    @Html.DisplayNameFor(model => model.Year)<label style="color: red;">*</label>
+                </td>
+                <td>
+                    @Html.DropDownListFor(model => model.Year, ViewData["Year"] as IEnumerable<SelectListItem>, new { @id = "ddlYear", @title = "Year", @tabindex = 6 })
+                </td>
+                <td style="font-weight: bold"></td>
+                  @if (PMGSYSession.Current.LevelId == 6 ||PMGSYSession.Current.LevelId==4)
+                {
+                    <td></td>
+                    <td></td>
+                }
+            </tr>
+
+            <tr id="trCheckbookWise" style="display: none">
+                <td></td>
+                <td>
+                    @Html.DisplayNameFor(model => model.CheckbookSeries)<label style="color: red;">*</label>
+                </td>
+                <td style="font-weight: bold">
+                    @Html.DropDownListFor(model => model.CheckbookSeries, ViewData["ChequebookSeries"] as IEnumerable<SelectListItem>, new { @id = "ddlCheckBookSeries", @title = "Cheque Book Series", @tabindex = 8 })
+                </td>
+                <td style="font-weight: bold"></td>
+                <td></td>
+                <td></td>
+            </tr>
+
+            <tr>
+                <td colspan="7" style="text-align: center">
+                    <input type="button" value="View Details" class="jqueryButton" id="btnViewDetails" name="btnCreate" title="View Details" tabindex="9" />
+                </td>
+            </tr>
+        </table>
+    </div>
+</form>
+<div id="dvShowCheckBookDetails">
+</div>
+

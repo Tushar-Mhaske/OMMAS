@@ -1,0 +1,64 @@
+﻿@model PMGSY.Models.Agreement.AgreementFilterViewModel
+
+
+<script  src="~/Scripts/custom/Generic.js"></script>
+<script type="text/javascript" src="@Url.Content("~/Scripts/jquery.ui.dialog.js")"> </script>
+<script src="~/Scripts/Agreement/ListAgreementsToFinalize.js"></script>
+
+
+<form id="frmFilterAgreements">
+    <div style="margin-left: 100px">
+        @Html.ValidationSummary(true)
+    </div>
+    @*<div id="divError" class="ui-state-error ui-corner-all" style="text-align: left; display: none; width: 100%">
+        <span class="ui-icon ui-icon-alert" style="float: left;"></span>
+        <span></span>
+    </div>*@
+    <table id="tb" class="rowstyle" cellpadding="3px" style="margin-top: 10px; text-align: left; border: ridge 0.1em #ccc; width: 100%; padding-top: 5px 5px 5px 5px;">
+        <tr>
+            <td>@Html.LabelFor(model=>model.Year)</td>
+            <td>@Html.DropDownListFor(model => model.Year, Model.lstYears ,new { @id="ddlYears",@title="Please select year",@tabindex = 1})</td>
+            <td>@Html.LabelFor(model=>model.Block)</td>
+            <td>@Html.DropDownListFor(model => model.Block, Model.lstBlocks ,new { @id="ddlBlocks",@title="Please select block",@tabindex = 2})</td>
+            <td>@Html.LabelFor(model=>model.Package)</td>
+            <td>@Html.DropDownListFor(model => model.Package, Model.lstPackages ,new { @id="ddlPackages",@title="Please select package",@tabindex = 3})
+                @Html.ValidationMessageFor(model=>model.Package)
+            </td>
+            <td>@Html.LabelFor(model=>model.ProposalType)</td>
+            <td>@Html.DropDownListFor(model => model.ProposalType, Model.lstProposalType ,new { @id="ddlProposalType",@title="Please select proposal type",@tabindex = 4})
+                @Html.ValidationMessageFor(model=>model.ProposalType)
+            </td>
+        </tr>
+        <tr>
+            <td>@Html.LabelFor(model=>model.AgreementStatus)</td>
+            <td>@Html.DropDownListFor(model => model.AgreementStatus, Model.lstStatus,new { @id="ddlAgreementStatus",@title="Please select Agreement Status",@tabindex = 5})
+                @Html.ValidationMessageFor(model=>model.AgreementStatus)
+            </td>
+            <td>@Html.LabelFor(model=>model.FinalizeUnfinalize)</td>
+            <td>@Html.DropDownListFor(model => model.FinalizeUnfinalize, Model.lstFinalizeUnfinalize,new { @id="ddlFinalize",@title="Please select Finalized/Unfinalized",@tabindex = 6})
+                @Html.ValidationMessageFor(model=>model.FinalizeUnfinalize)
+            </td>
+            <td>@Html.LabelFor(model=>model.AgreementType)</td>
+            <td>@Html.DropDownListFor(model => model.AgreementType, Model.lstAgreementTypes,new { @id="ddlAgreementType",@title="Please select Agreement Type",@tabindex = 7})
+                @Html.ValidationMessageFor(model=>model.AgreementType)
+            </td>
+        </tr>
+        <tr>
+            <td colspan="12">
+                <center>
+                <input type="button" id="btnListAgreements" name="btnListAgreements" value="View Details" class= "jqueryButton" title="List Agreement Details" tabindex="5"  />  
+                </center>
+            </td>
+        </tr>
+    </table>
+</form>
+<center>
+<div id="dvAgreementList" style="margin-top:20px;width:98%">
+    <table id="tblstAgreements"></table>
+
+    <div id="dvlstPagerAgreements"></div>
+</div>
+</center>
+<div id="dvViewAgreementMaster">
+
+</div>

@@ -1,0 +1,353 @@
+﻿@model PMGSY.Models.Proposal.LSBOthDetailsModel
+<script src="~/Scripts/custom/Generic.js"></script>
+<script src="~/Scripts/Proposal/LSBOthDetails.js"></script>
+<script>
+</script>
+<center>  
+  
+    <form id="frmLSBOthDetails">
+        @Html.HiddenFor(model => model.OPERATION)
+        @Html.HiddenFor(model => model.IMS_PR_ROAD_CODE)
+        <div id="divError" class="ui-state-error ui-corner-all" style="text-align: left; display: none; width: 100%">
+            <span class="ui-icon ui-icon-alert" style="float: left;"></span>
+            <span></span>
+        </div>
+         <div style="height:20px; width: 100%; text-align:left; padding-top: 0.6em;" class="ui-state-default ui-corner-all" > 
+                   &nbsp; <strong> Note :</strong>  All amounts are in Lakhs and all lenghts are in mtrs.
+                </div>
+        <div style="margin-left: 100px">
+             @Html.ValidationSummary(true)             
+        </div>   
+        <table class="rowstyle" style="margin-top:10px; text-align:left; border:ridge 0.1em #ccc; width:100%; padding:5px 5px 5px 5px;">
+             
+            @* ///////////   Type of Bridge Details   /////////////////////// *@
+            <tr style="text-align:left">
+                <td colspan="4"  class="ui-widget-header">
+                    <strong>
+                        Type of Bridge Details
+                    </strong>
+                </td>
+             </tr>
+            <tr>                        
+                <td style="width:20%">                                   
+                    @Html.LabelFor(model => model.IMS_ROAD_TYPE_LEVEL)<span style="color:red">*</span>
+                </td>
+                <td  style="width:30%">
+                   @Html.TextBoxFor(model => model.IMS_ROAD_TYPE_LEVEL, new { @maxlength = "8"})
+                </td> 
+                 <td style="width:20%">
+                    @Html.LabelFor(model => model.IMS_HIGHEST_FLOOD_LEVEL)<span style="color:red">*</span>
+                </td>
+                <td style="width:30%">
+                    @Html.TextBoxFor(model => model.IMS_HIGHEST_FLOOD_LEVEL, new { @maxlength = "8"})
+                </td>    
+                
+            </tr>
+            <tr>
+                <td style="width:20%"></td>
+                <td style="width:30%">@Html.ValidationMessageFor(model => model.IMS_ROAD_TYPE_LEVEL)</td>
+                <td style="width:20%"></td>
+                <td style="width:30%">@Html.ValidationMessageFor(model => model.IMS_HIGHEST_FLOOD_LEVEL)</td>                
+            </tr>
+            <tr>  
+                <td style="width:20%">                                   
+                    @Html.LabelFor(model => model.IMS_ORDINARY_FLOOD_LEVEL)<span style="color:red">*</span>
+                </td>
+                <td style="width:30%">
+                   @Html.TextBoxFor(model => model.IMS_ORDINARY_FLOOD_LEVEL, new { @maxlength = "8"})
+                </td>
+                <td style="width:20%">
+                   @Html.LabelFor(model => model.IMS_AVERAGE_GROUND_LEVEL)<span style="color:red">*</span>
+                </td>
+                <td style="width:30%">
+                    @Html.TextBoxFor(model => model.IMS_AVERAGE_GROUND_LEVEL, new { @maxlength = "8"})
+                </td>                           
+                   
+               
+            </tr>
+            <tr>
+                <td style="width:20%"></td>
+                <td style="width:30%">@Html.ValidationMessageFor(model => model.IMS_ORDINARY_FLOOD_LEVEL)</td>
+                <td style="width:20%"></td>
+                <td style="width:30%">@Html.ValidationMessageFor(model => model.IMS_AVERAGE_GROUND_LEVEL)</td>
+                
+            </tr>
+            <tr>                        
+                <td style="width:20%">                                   
+                    @Html.LabelFor(model => model.IMS_NALA_BED_LEVEL)<span style="color:red">*</span>
+                </td>
+                <td style="width:30%">
+                   @Html.TextBoxFor(model => model.IMS_NALA_BED_LEVEL, new { @maxlength = "8"})
+                </td>  
+                <td style="width:20%">
+                    @Html.LabelFor(model => model.IMS_FOUNDATION_LEVEL)<span style="color:red">*</span>
+                </td>
+                <td style="width:30%">
+                    @Html.TextBoxFor(model => model.IMS_FOUNDATION_LEVEL, new { @maxlength = "8"})
+                </td>
+            </tr>
+            <tr>
+                <td style="width:20%"></td>
+                <td style="width:30%">@Html.ValidationMessageFor(model => model.IMS_NALA_BED_LEVEL)</td>
+                <td style="width:20%"></td>
+                <td style="width:30%">@Html.ValidationMessageFor(model => model.IMS_FOUNDATION_LEVEL)</td>
+                
+            </tr>
+            <tr>                        
+                <td style="width:20%">                                   
+                    @Html.LabelFor(model => model.IMS_HGT_BIRDGE_NBL)<span style="color:red">*</span>
+                </td>
+                <td style="width:30%">
+                   @Html.TextBoxFor(model => model.IMS_HGT_BIRDGE_NBL, new { @readOnly = "true" })
+                </td>     
+                <td style="width:20%">
+                    @Html.LabelFor(model => model.IMS_HGT_BRIDGE_FL)<span style="color:red">*</span>
+                </td>
+                <td style="width:30%">
+                    @Html.TextBoxFor(model => model.IMS_HGT_BRIDGE_FL, new { @readOnly = "true" })
+                </td>
+            </tr>
+            <tr>
+                <td style="width:20%"></td>
+                <td style="width:30%">@Html.ValidationMessageFor(model => model.IMS_HGT_BIRDGE_NBL)</td>
+                <td style="width:20%"></td>
+                <td style="width:30%">@Html.ValidationMessageFor(model => model.IMS_HGT_BRIDGE_FL)</td>
+                
+            </tr>
+            @* ///////////   Type of Bridge Details Ends  /////////////////////// *@
+           
+
+             @* ///////////   Type of Proposed Bridge   /////////////////////// *@
+
+            <tr style="text-align:left">
+                <td colspan="4"  class="ui-widget-header">
+                    <strong>
+                        Type of Proposed Bridge
+                    </strong>
+                </td>
+             </tr>
+            <tr>                        
+                <td colspan="2">                                   
+                   @Html.CheckBoxFor(model => model.IMS_BRG_SUBMERSIBLE) &nbsp; @Html.LabelFor(model => model.IMS_BRG_SUBMERSIBLE) 
+                </td>
+                <td colspan="2">
+                   @Html.CheckBoxFor(model => model.IMS_BRG_BOX_CULVERT) &nbsp; @Html.LabelFor(model => model.IMS_BRG_BOX_CULVERT) 
+                </td>     
+                 
+            </tr>
+            <tr>
+                <td colspan="2">                                   
+                   @Html.CheckBoxFor(model => model.IMS_BRG_RCC_ABUMENT) &nbsp; @Html.LabelFor(model => model.IMS_BRG_RCC_ABUMENT) 
+                </td>
+                <td colspan="2">
+                   @Html.CheckBoxFor(model => model.IMS_BRG_HLB) &nbsp; @Html.LabelFor(model => model.IMS_BRG_HLB) 
+                </td> 
+            </tr>
+            <tr>                        
+                <td style="padding-top:10px;width:20%">
+                    @Html.LabelFor(model => model.IMS_SC_FD_CODE)<span style="color:red">*</span>
+                </td>
+                <td style="width:30%">                            
+                    @Html.DropDownListFor(model => model.IMS_SC_FD_CODE, new SelectList(Model.FOUNDATION_CODE, "Value", "Text"),"Select Foundation Type")
+                </td>        
+                <td style="padding-top:10px;width:20%">
+                    @Html.LabelFor(model => model.IMS_BEARING_CAPACITY)<span style="color:red">*</span>
+                </td>
+                <td style="width:30%">
+                    @Html.TextBoxFor(model => model.IMS_BEARING_CAPACITY)
+                </td>
+            </tr>
+            <tr>
+                <td style="width:20%"></td>
+                <td style="width:30%">@Html.ValidationMessageFor(model => model.IMS_SC_FD_CODE)</td>
+                <td style="width:20%"></td>
+                <td style="width:30%">@Html.ValidationMessageFor(model => model.IMS_BEARING_CAPACITY)</td>
+                
+            </tr>
+            
+            @* ///////////   Type of Proposed Bridge Ends  /////////////////////// *@
+
+
+             @* ///////////   Arrangement of Spans  /////////////////////// *@
+
+
+            <tr  style="text-align:left">
+                <td colspan="4"  class="ui-widget-header">
+                    <strong>
+                        Arrangement of Spans
+                    </strong>
+                </td>
+             </tr>
+             <tr> 
+                 
+                <td></td>                       
+                <td style="text-align:left">                                   
+                   @Html.LabelFor(model => model.IMS_ARG_TOT_SPANS)<span style="color:red">*</span>
+                </td>
+                <td >                        
+                   @Html.LabelFor(model => model.IMS_NO_OF_VENTS)<span style="color:red">*</span>
+                </td>     
+                <td>                        
+                    @Html.LabelFor(model => model.IMS_SPAN_VENT)<span style="color:red">*</span>
+                </td>
+            </tr>
+            <tr>  
+                <td></td>                                             
+                <td style="text-align:left">                                   
+                   @Html.TextBoxFor(model => model.IMS_ARG_TOT_SPANS)
+                </td>
+                <td>                        
+                   @Html.TextBoxFor(model => model.IMS_NO_OF_VENTS)
+                </td>     
+                <td>                        
+                    @Html.TextBoxFor(model => model.IMS_SPAN_VENT)
+                </td>
+            </tr>
+             <tr>
+                 <td></td>                                               
+                <td>                                   
+                   @Html.ValidationMessageFor(model => model.IMS_ARG_TOT_SPANS)
+                </td>
+                <td >                        
+                   @Html.ValidationMessageFor(model => model.IMS_NO_OF_VENTS)
+                </td>     
+                <td>                        
+                    @Html.ValidationMessageFor(model => model.IMS_SPAN_VENT)
+                </td>
+            </tr>
+            <tr>                        
+                <td style="width:20%">                                   
+                     @Html.LabelFor(model => model.IMS_SCOUR_DEPTH)<span style="color:red">*</span>
+                </td>
+                <td style="width:30%">
+                    @Html.DropDownListFor(model => model.IMS_SCOUR_DEPTH, new SelectList(Model.SCOUR_DEPTH, "Value", "Text"),"Select Scour Depth")
+                </td>     
+                <td style="width:20%">
+                    @Html.LabelFor(model => model.IMS_WIDTH_OF_BRIDGE)<span style="color:red">*</span>
+                </td>
+                <td style="width:30%">
+                    @Html.DropDownListFor(model => model.IMS_WIDTH_OF_BRIDGE, new SelectList(Model.WIDTH_OF_BRIDGE, "Value", "Text"), "Select Width")
+                </td>
+            </tr>
+             <tr>
+                <td style="width:20%"></td>
+                <td style="width:30%">@Html.ValidationMessageFor(model => model.IMS_SCOUR_DEPTH)</td>
+                <td style="width:20%"></td>
+                <td style="width:30%">@Html.ValidationMessageFor(model => model.IMS_WIDTH_OF_BRIDGE)</td>
+                
+            </tr>
+
+            @* ///////////   Arrangement of Spans Ends  /////////////////////// *@
+
+
+
+            @* ///////////   Cost Details /////////////////////// *@
+
+            <tr  style="text-align:left">
+                <td colspan="4"  class="ui-widget-header">
+                    <strong>
+                        Estimated Cost Details
+                    </strong>
+                </td>
+             </tr>
+             <tr>                        
+                <td style="font-weight:bold; text-align:left">                                   
+                   <strong>Item</strong>
+                </td>
+                <td style="font-weight:bold;">                        
+                   <strong>Total Cost</strong>
+                </td>     
+                <td style="font-weight:bold;" colspan="2">                        
+                   <strong> Cost Per Km.</strong>
+                </td>
+            </tr>
+            <tr>                        
+                <td>                                   
+                    @Html.LabelFor(model => model.IMS_APPROACH_COST)<span style="color:red">*</span>
+                </td>
+                <td>
+                   @Html.TextBoxFor(model => model.IMS_APPROACH_COST)
+                </td>     
+                <td colspan="2">
+                    @Html.TextBoxFor(model => model.IMS_APPROACH_PER_MTR)
+                </td>
+            </tr>
+            <tr>
+                <td></td>
+                <td>@Html.ValidationMessageFor(model => model.IMS_APPROACH_COST)</td>
+                <td colspan="2">@Html.ValidationMessageFor(model => model.IMS_APPROACH_PER_MTR)</td>
+            </tr>
+            <tr>                        
+                <td>                                   
+                    @Html.LabelFor(model => model.IMS_BRGD_STRUCTURE_COST)<span style="color:red">*</span>
+                </td>
+                <td>
+                   @Html.TextBoxFor(model => model.IMS_BRGD_STRUCTURE_COST)
+                </td>     
+                <td colspan="2">
+                    @Html.TextBoxFor(model => model.IMS_BRGD_STRUCTURE_PER_MTR)
+                </td>
+            </tr>
+            <tr>
+                <td></td>
+                <td>@Html.ValidationMessageFor(model => model.IMS_BRGD_STRUCTURE_COST)</td>
+                <td colspan="2">@Html.ValidationMessageFor(model => model.IMS_BRGD_STRUCTURE_PER_MTR)</td>
+            </tr>
+            <tr>                        
+                <td>                                   
+                    @Html.LabelFor(model => model.IMS_STRUCTURE_COST)<span style="color:red">*</span>
+                </td>
+                <td>
+                   @Html.TextBoxFor(model => model.IMS_STRUCTURE_COST)
+                </td>     
+                <td colspan="2">
+                    @Html.TextBoxFor(model => model.IMS_STRUCTURE_PER_MTR)
+                </td>
+            </tr>
+            <tr>
+                <td></td>
+                <td>@Html.ValidationMessageFor(model => model.IMS_STRUCTURE_COST)</td>
+                <td colspan="2">@Html.ValidationMessageFor(model => model.IMS_STRUCTURE_PER_MTR)</td>
+            </tr>
+            <tr>                        
+                <td>                                   
+                    @Html.LabelFor(model => model.IMS_BRGD_OTHER_COST)<span style="color:red">*</span>
+                </td>
+                <td>
+                   @Html.TextBoxFor(model => model.IMS_BRGD_OTHER_COST)
+                </td>     
+                <td colspan="2">
+                    @Html.TextBoxFor(model => model.IMS_BRGD_OTHER_PER_MTR)
+                </td>
+            </tr>
+            <tr>
+                <td></td>
+                <td>@Html.ValidationMessageFor(model => model.IMS_BRGD_OTHER_COST)</td>
+                <td colspan="2">@Html.ValidationMessageFor(model => model.IMS_BRGD_OTHER_PER_MTR)</td>
+            </tr>
+            <tr>
+                <td>@Html.LabelFor(model => model.TotalEstimatedCost)</td>
+                <td>@Html.TextBoxFor(model => model.TotalEstimatedCost, new { @readOnly = "true"})</td>
+                <td colspan="2"></td>
+            </tr>
+             @* ///////////   Cost Details Ends /////////////////////// *@
+
+            <tr>
+                <td colspan="2" style="text-align:right">
+                    <input type="button" id="btnAdd" name="btnAdd" value="Save" class="jqueryButton"/>
+                    <input type="reset" id="btnReset" name="btnReset" value="Reset" class="jqueryButton" />
+                </td>
+                <td colspan="2" style="text-align:left">
+                    @if(Model.IS_UPDATED)
+                    {
+                        <input type="button" id="btnDelete" name="btnDelete" value="Delete Details" class="jqueryButton"/>
+                    }
+                </td>
+            </tr>
+        </table>
+    </form>
+    
+</center>
+
+
+                

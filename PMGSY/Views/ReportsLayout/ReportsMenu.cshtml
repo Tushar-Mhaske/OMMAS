@@ -1,0 +1,75 @@
+﻿@*
+    * Project Id    :
+    * Project Name  :   OMMAS II
+    * Name          :   ReportsMenu.cshtml
+    * Description   :   Renders Menus for Reports
+    * Author        :   Shyam Yadav
+    * Creation Date :   26/August/2013    
+*@
+
+@model PMGSY.Models.ReportsLayout.ReportMenuListModel
+@{Layout = null;}
+@using PMGSY.Extensions;
+<style type="text/css">
+    .reports-link a {
+        cursor: pointer;
+        display: block;
+        height: 20px;
+        line-height: 20px;
+        text-decoration: none;
+        width: 100%;
+        font-size: 1.1em;
+        text-wrap: normal;
+    }
+
+    /*#dvReportsMenu .ui-accordion-content {
+        border: 0px solid #F6BD05;
+        font-family: Trebuchet MS,Tahoma,Verdana,Arial,sans-serif;
+        font-size: 0.9em;
+    }*/
+</style>
+ 
+<script src="~/Scripts/ReportsLayout/ReportsMenu.js"></script>       
+
+     
+    <!-- Form Reports Starts Here -->
+        @{
+            System.Text.StringBuilder m_sbBuilder = new System.Text.StringBuilder();
+            Int32 renderedParentMenuId = 0;
+            string renderedParentMenuName = string.Empty;
+            }
+
+        @foreach (var parentItem in Model.ReportParentMenusList)
+        {
+                    
+            //First Render ParentMenu for creation of accordion
+            // Keep its id in temp variable as renderedParentMenuId
+            // Compare ParentMenu id for all childMenuItems, if matches create menuLink for ChildMenuItem
+            if (parentItem.ParentId == 0)
+            {
+                m_sbBuilder.Append("<h3 style='background:none;background-color:#f6f3ec;' onclick='funManageFilters(\"" + parentItem.MenuName + "\")' ><a href='#' onclick='funManageFilters(\"" + parentItem.MenuName + "\")'>" + parentItem.MenuName + "</a></h3>");
+                m_sbBuilder.Append("<div style='width:165px;' id='dvMenu" + parentItem.MenuName + "' class='reports-link'>");
+
+                renderedParentMenuId = parentItem.MenuId;
+                renderedParentMenuName = parentItem.MenuName;
+            }
+
+            //Build here ChildMenu 
+            foreach (var childItem in Model.ReportChildMenusList)
+            {
+                if (childItem.ParentId == renderedParentMenuId)
+                {
+                    m_sbBuilder.Append("<span class='ui-icon ui-icon-triangle-1-e' style='float: left'></span> ");
+                    m_sbBuilder.Append("<a href='/" + childItem.Controller + "/" + childItem.Action + "' id='" + childItem.MenuName  + "' onclick='funSetCurrentURL(\"" + renderedParentMenuName + "\", \"" + childItem.MenuName + "\")'    >" + childItem.MenuName + "</a>");
+                }
+            }
+
+                m_sbBuilder.Append("</div>");
+       }
+            
+                    
+
+        <div id="accordionMenu" style="width:98%;"> @Html.Raw(@m_sbBuilder) </div> 
+
+                 
+                

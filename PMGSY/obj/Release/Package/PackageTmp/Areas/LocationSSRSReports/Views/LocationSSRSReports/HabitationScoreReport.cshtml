@@ -1,0 +1,21 @@
+﻿@using MvcReportViewer
+
+@model PMGSY.Areas.LocationSSRSReports.Models.HabitationScoreModel
+
+
+
+
+    @Html.MvcReportViewer("/PMGSYCitizen/Habitation_Score_PMGSY2_Report",
+     new
+     {     
+         State = Model.Mast_State_Code,
+         District = Model.Mast_District_Code,
+         Block = Model.Mast_Block_Code,         
+         PMGSY = PMGSY.Extensions.PMGSYSession.Current.PMGSYScheme,
+         StateName = Model.StateName,
+         DistrictName = Model.DistName,
+         BlockName = Model.BlockName
+     },
+     new { Height = 600, Width = 1215, style = "border:none;" })
+
+

@@ -1,0 +1,108 @@
+﻿@{
+    ViewBag.Title = "CN2ReportDetails";
+}
+
+
+@model PMGSY.Models.CoreNetworkReports.CoreNetworkReportViewModel
+<script type="text/javascript" src="@Url.Content("~/Scripts/jquery.ui.dialog.js")"> </script>
+<script type="text/javascript" src="~/Scripts/CoreNetworkReports/CN2ReportDetails.js"></script>
+<script src="~/Scripts/custom/Generic.js"></script>
+<form id="frmCN2StateLevelReport">
+    @Html.Hidden("hdnLevelId", PMGSY.Extensions.PMGSYSession.Current.LevelId.ToString())
+    @Html.Hidden("hdnLevelId", PMGSY.Extensions.PMGSYSession.Current.LevelId.ToString())
+
+    @if (PMGSY.Extensions.PMGSYSession.Current.StateCode != 0) 
+    {           
+    @Html.Hidden("STATE_NAME", PMGSY.Extensions.PMGSYSession.Current.StateName.ToString())
+    }   
+
+    @if (PMGSY.Extensions.PMGSYSession.Current.DistrictCode != 0)
+    {
+    @Html.Hidden("DISTRICT_NAME", PMGSY.Extensions.PMGSYSession.Current.DistrictName.ToString())   
+    }
+    @Html.HiddenFor(model => model.BLOCK_NAME)
+     <div style="width: 100%">
+        <table class="ui-state-default ui-corner-all" style="width: 100%;">
+            <tr>
+                   <td style="width: 2%;"></td>
+                <td style="text-align: left; width: 1%;">
+                    @Html.Label("Population") &nbsp;
+                </td>
+                <td style="width: 2%;">
+                        @Html.DropDownList("Population_CN2Details", ViewData["Population"] as IEnumerable<SelectListItem>,new { @title = "Population", @tabindex = 1 })            
+                </td>
+                <td style="width: 20%;">
+                    <input type="button" value="View" class="jqueryButton" id="btCN2Details" title="View Details" tabindex="2"/>
+                </td>
+            </tr>
+        </table>
+    </div>
+    <br />
+
+    @if (PMGSY.Extensions.PMGSYSession.Current.LevelId == 6)     //Mord
+    {
+        <div id="CN2StateReport">
+            <table id="CN2StateReportTable"></table>
+        </div>
+        <div id="CN2StateReportPager"></div>
+
+        <br />
+        <div id="CN2DistrictReport">
+            <table id="CN2DistrictReportTable"></table>
+        </div>
+        <div id="CN2DistrictReportPager"></div>
+
+        <br />
+        <div id="CN2BlockReport">
+            <table id="CN2BlockReportTable"></table>
+        </div>
+        <div id="CN2BlockReportPager"></div>
+
+        <br />
+        <div id="CN2FinalReport">
+            <table id="CN2FinalReportTable"></table>
+        </div>
+        <div id="CN2FinalReportPager"></div>
+        
+    }
+
+    else if (PMGSY.Extensions.PMGSYSession.Current.LevelId == 4)     //State
+    {
+        @Html.HiddenFor(model => model.MAST_STATE_CODE)
+        <div id="CN2DistrictReport">
+            <table id="CN2DistrictReportTable"></table>
+        </div>
+        <div id="CN2DistrictReportPager"></div>
+
+        <br />
+        <div id="CN2BlockReport">
+            <table id="CN2BlockReportTable"></table>
+        </div>
+        <div id="CN2BlockReportPager"></div>
+
+        <br />
+        <div id="CN2FinalReport">
+            <table id="CN2FinalReportTable"></table>
+        </div>
+        <div id="CN2FinalReportPager"></div>
+    }
+    else if (PMGSY.Extensions.PMGSYSession.Current.LevelId == 5)     //District
+    {
+        @Html.HiddenFor(model => model.MAST_STATE_CODE)
+        @Html.HiddenFor(model => model.MAST_DISTRICT_CODE)
+        <div id="CN2BlockReport">
+            <table id="CN2BlockReportTable"></table>
+        </div>
+        <div id="CN2BlockReportPager"></div>
+
+        <br />
+        <div id="CN2FinalReport">
+            <table id="CN2FinalReportTable"></table>
+        </div>
+        <div id="CN2FinalReportPager"></div>
+    }
+</form>
+
+
+
+

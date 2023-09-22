@@ -1,0 +1,53 @@
+﻿@model PMGSY.Models.Master.FeedbackCategoryViewModel
+<script src="~/Scripts/custom/Generic.js"></script>
+<script src="~/Scripts/Master/AddFeedbackCategoryDetails.js"></script>
+
+<div id="dvheaderTestDetails" class="ui-corner-top ui-widget-header panelheader" style="text-align: left; height: 20px;">
+    <span class="ui-jqgrid-title" style="float: left">&nbsp;Feedback Category Details</span>
+    <span id="iconClose" class="ui-icon ui-icon-circle-close" style="float: right"></span>
+</div>
+<div id="dvAddTestDetails" style="display: block; border: 1px solid #B5B8C8;">
+    <div id="dvErrorMessage" class="ui-widget ui-state-error ui-corner-all" style="padding: 0.7em .7em; display: none; margin: 5px 5px 5px 5px; text-align: left;">
+        <span class="ui-icon ui-icon-alert" style="float: left; margin-right: .3em;"></span>
+        <strong>Alert:</strong> <span id="message"></span>
+    </div>
+<form id="frmFeedbackDetails">
+    @Html.AntiForgeryToken()
+    @Html.HiddenFor(model => model.EncryptedFeedId)            
+
+<center>@Html.ValidationSummary(true)</center>
+<table style="width: 100%; margin-top: 10px;" class="rowstyle">  
+    <tr>
+        <td style="width:10%"></td>
+        <td style="width:05%">@Html.LabelFor(model=>model.MAST_FEED_NAME) <span style="color:red"> *</span></td>
+        <td style="width:15%">
+            @Html.TextBoxFor(model => model.MAST_FEED_NAME, new {@placeholder="Enter Name...",@tabindex=1,@title="Enter Name",@maxlength=255 })
+            @Html.ValidationMessageFor(model=>model.MAST_FEED_NAME)
+        </td>               
+    </tr>  
+    <tr>
+        <td colspan="3">
+            @if(Model.EncryptedFeedId==null)
+            {
+            <center>
+                    <input type="button" value="Save" name="btnSaveFeedbackDetails" id="btnSaveFeedbackDetails" class="jqueryButton" tabindex="2" title="Save Details"/>
+                    <input type="reset" value="Reset" name="btnResetFeedbackDetails" id="btnResetFeedbackDetails" class="jqueryButton" tabindex="3" title="Reset"/>
+            </center>
+            }
+            else
+            {
+            <center>
+                <input type="button" value="Update" name="btnUpdateFeedbackDetails" id="btnUpdateFeedbackDetails" class="jqueryButton" tabindex="4" title="Update Details"/>
+                <input type="button" value="Cancel" name="btnCancelFeedbackDetails" id="btnCancelFeedbackDetails" class="jqueryButton" tabindex="5" title="Cancel"/>
+            </center>
+            }
+        </td>
+    </tr>
+      <tr>
+            <td colspan="3">
+                   <label style="border:none">[ Note: Fields marked with<label style="color: red;"> * </label>are mandatory.]</label>
+            </td>
+       </tr>
+</table>
+</form>
+</div>

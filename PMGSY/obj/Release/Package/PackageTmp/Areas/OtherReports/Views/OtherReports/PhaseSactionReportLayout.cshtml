@@ -1,0 +1,58 @@
+﻿@{
+    ViewBag.Title = "PhaseSactionReportLayout";
+}
+<script src="~/Areas/OtherReports/Scripts/PhaseSanctionReport.js"></script>
+<script src="~/Scripts/custom/Generic.js"></script>
+
+<div id="DivPhaseSanctionReportDetails" class="ui-corner-top ui-widget-header panelheader" style="text-align: left; height: 20px;margin-top:3px;">
+    <span class="ui-jqgrid-title" style="float: left;margin-top:1px;">&nbsp;Phase Sanctioned Report</span>
+</div>
+@model PMGSY.Areas.OtherReports.Models.PhaseSanctionModel
+<form id="phaseSanctionForm">
+@Html.AntiForgeryToken()
+
+<div style="width: 100%">
+    <table class="ui-state-default ui-corner-bottom" style="width: 100%;">
+        <tr>
+            <td style="width: 2%;"></td>
+            <td style="text-align: left; width: 9%;">
+                @Html.Label("State")
+            </td>
+            <td style="width: 12%;">
+                @Html.DropDownListFor(model=>model.StateCode, new SelectList(Model.StateList,"Value","Text"), new { @title = "State",@id="StateId",@tabindex = 1 })<br/>
+                @Html.ValidationMessageFor(model=>model.StateCode)
+            </td>
+            <td style="text-align: left; width: 7%;">
+                @Html.Label("Sanctioned Year")
+            </td>
+            <td style="width: 12%;">
+                @Html.DropDownListFor(model=>model.Year, new SelectList(Model.YearList,"Value","Text"), new { @title = "Financial year",@id="YearId", @tabindex = 2 })<br/>
+                @Html.ValidationMessageFor(model=>model.Year)
+            </td>
+            <td style="text-align: left; width: 5%;">
+                @Html.Label("Batch")
+            </td>
+            <td style="width: 12%;">
+                @Html.DropDownListFor(model=>model.Batch, new SelectList(Model.BatchList,"Value","Text"), new { @title = "Batch", @tabindex = 3 })<br/>
+                @Html.ValidationMessageFor(model=>model.Batch)
+            </td>
+             <td style="text-align: left; width: 5%;">
+                @Html.Label("PMGSY")
+            </td>
+            <td style="width: 12%;">
+                @Html.DropDownListFor(model=>model.PMGSY, new SelectList(Model.PMGSYList,"Value","Text"), new { @title = "Batch", @tabindex = 3 })<br/>
+                @Html.ValidationMessageFor(model=>model.PMGSY)
+            </td>
+            <td style="width: 15%;">
+              <input type="button" id="PhasedetailButton" value="View" class="jqueryButton" title="View Details" tabindex="8" />
+            </td>
+        </tr>
+       
+    </table>
+</div>
+
+</form>
+
+<div id="PhaseSanctionedreportDiv">
+
+</div> 

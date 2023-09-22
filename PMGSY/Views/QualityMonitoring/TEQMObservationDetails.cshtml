@@ -1,0 +1,1143 @@
+﻿@*
+    * Project Id    :
+    * Project Name  :   OMMAS II
+    * Name          :   QMObservationDetails.cshtml
+    * Description   :   Render View for QMObservationDetails.
+    * Author        :   Shyam Yadav
+    * Creation Date :   11/Jun/2013
+*@
+
+@model PMGSY.Models.QualityMonitoring.TEQMFillObservationModel
+<!DOCTYPE html>
+<html>
+<head>
+    <meta name="viewport" content="initial-scale=1.0, user-scalable=no" />
+    <meta http-equiv="content-type" content="text/html; charset=UTF-8" />
+    <script src="~/Scripts/custom/Generic.js"></script>
+    <script src="@Url.Content(" ~ /Scripts/jquery.validate.min.js")" type="text/javascript"></script>
+    <script src="@Url.Content(" ~ /Scripts/jquery.validate.unobtrusive.min.js")" type="text/javascript"></script>
+    <script src="~/Scripts/QualityMonitoring/AllocateTechnicalExpertFilter.js"></script>
+
+    <script src="~/Scripts/jquery.ui.dialog.js"></script>
+
+</head>
+<body>
+    <form id="frmGradeCorrection">
+        <div id="divFillObservationsError" class="ui-state-error ui-corner-all" style="text-align: left; display: none; width: 100%">
+            <span class="ui-icon ui-icon-alert" style="float: left;"></span>
+            <span></span>
+        </div>
+        @Html.HiddenFor(model => model.ADMIN_SCHEDULE_CODE)
+        @Html.HiddenFor(model => model.IMS_PR_ROAD_CODE)
+        @Html.HiddenFor(model => model.QM_OBSERVATION_ID)
+        @Html.HiddenFor(model => model.IMS_ISCOMPLETED)
+        @Html.HiddenFor(model => model.IMS_PROPOSAL_TYPE)
+        @Html.Hidden("hdnRole", PMGSY.Extensions.PMGSYSession.Current.RoleCode.ToString())
+        <center>
+            <table class="rowstyle" id="tblObsDetails" style="margin-top:0px; text-align:left; border:ridge 0.1em #ccc; width:100%; padding:5px 5px 5px 5px;">
+                <tr style="text-align:left;">
+                    <td style="width:15%;font-weight:bold;">
+                        Observation No. :
+                    </td>
+                    <td colspan="5">
+                        @Html.DisplayFor(model => model.QM_OBSERVATION_ID)
+                    </td>
+                </tr>
+                <tr style="text-align:left;">
+                    <td style="width:15%;font-weight:bold;">
+                        @Html.LabelFor(model => model.MONITOR_NAME)
+                    </td>
+                    <td style="width:15%;">
+                        @Html.DisplayFor(model => model.MONITOR_NAME)
+                    </td>
+                    <td style="width:15%;font-weight:bold;">
+                        @Html.LabelFor(model => model.STATE_NAME)
+                    </td>
+                    <td style="width:10%">
+                        @Html.DisplayFor(model => model.STATE_NAME)
+                    </td>
+                    <td style="width:15%;font-weight:bold;">
+                        @Html.LabelFor(model => model.DISTRICT_NAME)
+                    </td>
+                    <td style="width:10%">
+                        @Html.DisplayFor(model => model.DISTRICT_NAME)
+                    </td>
+                </tr>
+                <tr style="text-align:left;">
+
+                    @if (Model.IMS_PROPOSAL_TYPE.Equals("P"))
+                    {
+                        <td style="width:10%">
+                            @Html.LabelFor(model => model.IMS_ROAD_NAME)
+                        </td>
+                        <td colspan="7">
+                            @Html.DisplayFor(model => model.IMS_ROAD_NAME)
+                        </td>
+                    }
+                    else
+                    {
+                        <td style="width:12%;font-weight:bold;">
+                            @Html.LabelFor(model => model.IMS_ROAD_NAME)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(model => model.IMS_ROAD_NAME)
+                        </td>
+                        <td style="width:12%;font-weight:bold;">
+                            @Html.LabelFor(model => model.IMS_BRIDGE_NAME)
+                        </td>
+                        <td colspan="3">
+                            @Html.DisplayFor(model => model.IMS_BRIDGE_NAME)
+                        </td>
+
+                    }
+                </tr>
+                <tr>
+                    <td style="width:15%;font-weight:bold;">
+                        @Html.LabelFor(model => model.IMS_YEAR)
+                    </td>
+                    <td style="width:10%">
+                        @Html.DisplayFor(model => model.IMS_YEAR)
+                    </td>
+                    <td style="width:15%;font-weight:bold;">
+                        @Html.LabelFor(model => model.IMS_PACKAGE_ID)
+                    </td>
+                    <td style="width:15%">
+                        @Html.DisplayFor(model => model.IMS_PACKAGE_ID)
+                    </td>
+                    @if (Model.IMS_PROPOSAL_TYPE.Equals("P"))
+                    {
+                        <td style="width:10%;font-weight:bold;">
+                            @Html.LabelFor(model => model.IMS_PAV_LENGTH)
+                        </td>
+                        <td style="width:10%">
+                            @Html.DisplayFor(model => model.IMS_PAV_LENGTH)
+                        </td>
+                    }
+                    else
+                    {
+                        <td style="width:10%;font-weight:bold;">
+                            @Html.LabelFor(model => model.IMS_BRIDGE_LENGTH)
+                        </td>
+                        <td style="width:10%">
+                            @Html.DisplayFor(model => model.IMS_BRIDGE_LENGTH)
+                        </td>
+                    }
+                </tr>
+
+                <tr style="text-align:left;">
+                    <td style="width:15%;font-weight:bold;">
+                        @Html.LabelFor(model => model.IMS_ISCOMPLETED)
+                    </td>
+                    <td style="width:10%;">
+                        @if (Model.IMS_ISCOMPLETED.Equals("C"))
+                        {
+                            <b>Completed</b>
+                        }
+                        else if (Model.IMS_ISCOMPLETED.Equals("P"))
+                        {
+                            <b>In Progress</b>
+                        }
+                        else if (Model.IMS_ISCOMPLETED.Equals("M"))
+                        {
+                            <b>Maintenance</b>
+                        }
+                    </td>
+                    <td style="width:12%;font-weight:bold;">
+                        @Html.LabelFor(model => model.COMPLETION_DATE)
+                    </td>
+                    <td style="width:15%;">
+                        @Html.DisplayFor(model => model.COMPLETION_DATE)
+                    </td>
+                    <td style="width:15%;font-weight:bold;">
+                        @Html.LabelFor(model => model.QM_INSPECTION_DATE)
+                    </td>
+                    <td colspan="7">
+                        @Html.DisplayFor(model => model.QM_INSPECTION_DATE)
+                    </td>
+                </tr>
+                @if (Model.IMS_PROPOSAL_TYPE.Equals("P"))
+                {
+                    <tr style="text-align:left;">
+                        <td style="width:15%;font-weight:bold;">
+                            @Html.LabelFor(model => model.FROM_ROAD_LENGTH)
+                        </td>
+                        <td style="width:10%;">
+                            @Html.DisplayFor(model => model.FROM_ROAD_LENGTH)
+                        </td>
+                        <td style="width:12%;font-weight:bold;">
+                            @Html.LabelFor(model => model.TO_ROAD_LENGTH)
+                        </td>
+                        <td style="width:15%;">
+                            @Html.DisplayFor(model => model.TO_ROAD_LENGTH)
+                        </td>
+                        <td></td>
+                        <td colspan="3"></td>
+                    </tr>
+                }
+            </table>
+
+
+            @if (Model.IMS_ISCOMPLETED.Equals("M"))
+            {
+                <div class="ui-state-default ui-corner-top" style="text-align:left; width:98.5%;height:20px;padding-left:15px; padding-top:3px; font-size:11px; font-weight:bold;">
+                    Note : Overall Grading denotes, [ <strong> U </strong> - No Maintenance | <strong> SRI </strong> - Low Maintenance | <strong> S </strong> - Maintenance Not Required / Proper Maintenance ]
+                </div>
+            }
+
+            @if (ViewBag.AddEditView == "A" || ViewBag.AddEditView == "E") //Add , Edit
+            {
+                <table id="tblObsGradeDetails" style="margin-top:0px; text-align:left; border:ridge 0.1em #ccc; width:100%; padding:5px 5px 5px 5px;">
+
+                    <tr>
+                        @{
+                            int i = 0;
+                            //String tebtn = "tebtn_" + i;
+                            //String teRemarkView = "teRemarkView_" + i;
+
+                        }
+
+
+                        @*//---------------------------------------------------------- Grading for COMPLETED/ IN PROGRESS Roads Starts Here ---------------------------------------------------------------------------------------*@
+
+                        @if (Model.IMS_PROPOSAL_TYPE.Equals("P"))
+                        {
+                            if (Model.IMS_ISCOMPLETED.Equals("C") || Model.IMS_ISCOMPLETED.Equals("P"))
+                            {
+                                //for (int cnt = 0; cnt < 2; cnt++ )
+                                //{
+                                <td style="width:99%; vertical-align:top;">
+                                    <table class="rowstyle" id="tblObsGrading" style="margin-top:1px; text-align:left; border:ridge 0.1em #ccc; width:100%; padding:5px 5px 5px 5px;">
+                                        <tr style="text-align:left;">
+                                            <td style="width:5%;font-weight:bold;text-align:center;">Sr.No.</td>
+                                            <td style="width:35%;font-weight:bold;">Item Description</td>
+                                            <td style="width:10%;font-weight:bold;">Grade</td>
+                                            <td style="width:10%;font-weight:bold;">Remarks</td>
+                                            @if (PMGSY.Extensions.PMGSYSession.Current.RoleCode == 6)
+                                            {
+                                        <td style="width:15%;font-weight:bold;">Technical Expert Observations</td>
+                                                <td style="width:15%;font-weight:bold;">NQM Remarks</td>
+                                            }
+                                            else if (PMGSY.Extensions.PMGSYSession.Current.RoleCode == 81)
+                                            {
+                                        <td style="width:30%;font-weight:bold;">Technical Expert Observations</td>
+                                            }
+                                            else
+                                            {
+                                                <td style="width:30%;font-weight:bold;"></td>
+                                            }
+                                        </tr>
+                                        @{
+                                            //int endIndex = 0;
+                                            //if(cnt == 0)
+                                            //{
+                                            //    endIndex = Model.GRADE_DETAILS_LIST.Count / 2;
+                                            //}
+                                            //else if (cnt == 1)
+                                            //{
+                                            //    endIndex = Model.GRADE_DETAILS_LIST.Count;
+                                            //}
+                                        }
+
+                                        @while (i < Model.GRADE_DETAILS_LIST.Count)
+                                        {
+                                            if (Model.GRADE_DETAILS_LIST[i].MAST_SUB_ITEM_CODE == 0)
+                                            {
+                                                <tr>
+                                                    @if (Model.GRADE_DETAILS_LIST[i].MAST_ITEM_CODE == 4 || Model.GRADE_DETAILS_LIST[i].MAST_ITEM_CODE == 5 || Model.GRADE_DETAILS_LIST[i].MAST_ITEM_CODE == 6 || Model.GRADE_DETAILS_LIST[i].MAST_ITEM_CODE == 7)
+                                                    {
+                                                        <td style="width:5%;text-align:center;color:red;">@Model.GRADE_DETAILS_LIST[i].MAST_ITEM_CODE</td>
+                                                    }
+                                                    else
+                                                    {
+                                                        <td style="width:5%;text-align:center;">@Model.GRADE_DETAILS_LIST[i].MAST_ITEM_CODE</td>
+                                                    }
+                                                    <td style="width:35%;font-weight:bold;">@Model.GRADE_DETAILS_LIST[i].MAST_ITEM_NAME</td>
+                                                    <td style="width:10%;font-weight:bold;">@Model.GRADE_DETAILS_LIST[i].MAST_GRADE_NAME</td>
+                                                    <td style="width:10%;font-weight:normal;">@Model.GRADE_DETAILS_LIST[i].REMARKS</td>
+
+                                                    @if (PMGSY.Extensions.PMGSYSession.Current.RoleCode == 6)
+                                                    {
+                                                        <td style="width:15%;font-weight:normal;" hidden>
+
+                                                            @Html.TextAreaFor(model => model.GRADE_DETAILS_LIST[i].TEREMARKS, new { @readonly = "readonly", @disabled = "true" })
+                                                            <br />
+                                                            @Html.ValidationMessageFor(model => model.GRADE_DETAILS_LIST[i].TEREMARKS, "", new { @class = "text-danger" })
+                                                        </td>
+                                                        if (Model.GRADE_DETAILS_LIST[i].TEREMARKS != "")
+                                                        {
+                                                            <td style="width:15%;font-weight:normal;" hidden>
+
+                                                                @Html.TextAreaFor(model => model.GRADE_DETAILS_LIST[i].NQMREMARKS)
+                                                                <br />
+                                                                @Html.ValidationMessageFor(model => model.GRADE_DETAILS_LIST[i].NQMREMARKS, "", new { @class = "text-danger" })
+                                                            </td>
+                                                            @Html.HiddenFor(model => model.GRADE_DETAILS_LIST[i].MAST_ITEM_NO)
+                                                        }
+                                                        else
+                                                        {
+                                                            <td style="width:15%;font-weight:normal;" hidden>
+
+                                                                @Html.TextAreaFor(model => model.GRADE_DETAILS_LIST[i].NQMREMARKS)
+                                                                <br />
+                                                                @Html.ValidationMessageFor(model => model.GRADE_DETAILS_LIST[i].NQMREMARKS, "", new { @class = "text-danger" })
+                                                            </td>
+                                                            @Html.HiddenFor(model => model.GRADE_DETAILS_LIST[i].MAST_ITEM_NO)
+                                                        }
+                                                    }
+                                                    else if (PMGSY.Extensions.PMGSYSession.Current.RoleCode == 81)
+                                                    {
+
+                                                        <td style="width:30%;font-weight:normal;" hidden>
+
+                                                            @Html.TextAreaFor(model => model.GRADE_DETAILS_LIST[i].TEREMARKS)
+                                                            <br />
+                                                            @Html.ValidationMessageFor(model => model.GRADE_DETAILS_LIST[i].TEREMARKS, "", new { @class = "text-danger" })
+                                                        </td>
+                                                        @Html.HiddenFor(model => model.GRADE_DETAILS_LIST[i].MAST_ITEM_NO)
+
+                                                    }
+
+
+                                                </tr>
+
+                                            }
+                                            else
+                                            {
+                                                <tr>
+                                                    <td style="width:5%">&nbsp;</td>
+                                                    <td style="width:35%;font-weight:bold;">@Model.GRADE_DETAILS_LIST[i].MAST_SUB_ITEM_CODE<b>. </b>@Model.GRADE_DETAILS_LIST[i].MAST_ITEM_NAME</td>
+                                                    <td style="width:10%;font-weight:bold;">@Model.GRADE_DETAILS_LIST[i].MAST_GRADE_NAME</td>
+                                                    <td style="width:10%;font-weight:normal;">@Model.GRADE_DETAILS_LIST[i].REMARKS</td>
+                                                    @if (PMGSY.Extensions.PMGSYSession.Current.RoleCode == 6)
+                                                    {
+                                                        <td style="width:15%;font-weight:normal;">
+
+                                                            @Html.TextAreaFor(model => model.GRADE_DETAILS_LIST[i].TEREMARKS, new { @readonly = "readonly", @disabled = "true" })
+                                                            <br />
+                                                            @Html.ValidationMessageFor(model => model.GRADE_DETAILS_LIST[i].TEREMARKS, "", new { @class = "text-danger" })
+                                                        </td>
+                                                        if (Model.GRADE_DETAILS_LIST[i].TEREMARKS != "")
+                                                        {
+                                                            <td style="width:15%;font-weight:normal;">
+
+                                                                @Html.TextAreaFor(model => model.GRADE_DETAILS_LIST[i].NQMREMARKS)
+                                                                <br />
+                                                                @Html.ValidationMessageFor(model => model.GRADE_DETAILS_LIST[i].NQMREMARKS, "", new { @class = "text-danger" })
+                                                            </td>
+                                                            @Html.HiddenFor(model => model.GRADE_DETAILS_LIST[i].MAST_ITEM_NO)
+                                                        }
+                                                        else
+                                                        {
+                                                            <td style="width:15%;font-weight:normal;" hidden>
+
+                                                                @Html.TextAreaFor(model => model.GRADE_DETAILS_LIST[i].NQMREMARKS)
+                                                                <br />
+                                                                @Html.ValidationMessageFor(model => model.GRADE_DETAILS_LIST[i].NQMREMARKS, "", new { @class = "text-danger" })
+                                                            </td>
+                                                            @Html.HiddenFor(model => model.GRADE_DETAILS_LIST[i].MAST_ITEM_NO)
+                                                        }
+                                                    }
+                                                    else if (PMGSY.Extensions.PMGSYSession.Current.RoleCode == 81)
+                                                    {
+                                                        <td style="width:30%;font-weight:normal;">
+
+                                                            @Html.TextAreaFor(model => model.GRADE_DETAILS_LIST[i].TEREMARKS)
+                                                            <br />
+                                                            @Html.ValidationMessageFor(model => model.GRADE_DETAILS_LIST[i].TEREMARKS, "", new { @class = "text-danger" })
+                                                        </td>
+                                                        @Html.HiddenFor(model => model.GRADE_DETAILS_LIST[i].MAST_ITEM_NO)
+                                                    }
+                                                </tr>
+
+                                            }
+
+                                            i++;
+                                        }
+                                        @*While ends here*@
+                                        @if (PMGSY.Extensions.PMGSYSession.Current.RoleCode == 81)
+                                        {
+                                            <tr>
+                                                <td style="width:5%;font-weight:bold;"></td>
+                                                <td style="width:35%;font-weight:bold;color:brown;">General Observation</td>
+                                                <td style="width:10%;font-weight:bold;"></td>
+                                                <td style="width:10%;font-weight:bold;"></td>
+                                                <td style="width:30%;font-weight:bold;">
+                                                    @Html.TextAreaFor(model => model.GENERALREMARKS)
+                                                    <br />
+                                                    @Html.ValidationMessageFor(model => model.GENERALREMARKS, "", new { @class = "text-danger" })
+                                                </td>
+                                                <td style="width:30%;font-weight:bold;"></td>
+                                            </tr>
+
+                                        }
+
+                                    </table>
+                                </td>
+                                //}         @*for ends here*@
+
+                            } @*If for INS_ISCOMPLETED ends here*@
+                            @*---------------------------------------------------------- Grading for COMPLETED/ IN PROGRESS Roads Ends Here ---------------------------------------------------------------------------------------*@
+
+                            else if (Model.IMS_ISCOMPLETED.Equals("M"))
+                            {
+                                <td style="width:98%; vertical-align:top;">
+                                    <table class="rowstyle" id="tblObsGrading" style="margin-top:1px; text-align:left; border:ridge 0.1em #ccc; width:100%; padding:5px 5px 5px 5px;">
+                                        <tr style="text-align:left;">
+                                            <td style="width:5%;font-weight:bold;text-align:center;">Sr.No.</td>
+                                            <td style="width:35%;font-weight:bold;">Item Description</td>
+                                            <td style="width:10%;font-weight:bold;">Grade</td>
+                                            <td style="width:10%;font-weight:bold;">Remarks</td>
+                                            @*
+                                                <td style="width:20%;font-weight:bold;">TE Remarks</td>*@
+                                            @if (PMGSY.Extensions.PMGSYSession.Current.RoleCode == 6)
+                                            {
+                                        <td style="width:15%;font-weight:bold;">Technical Expert Observations</td>
+                                                <td style="width:15%;font-weight:bold;">NQM Remarks</td>
+                                            }
+                                            else if (PMGSY.Extensions.PMGSYSession.Current.RoleCode == 81)
+                                            {
+                                        <td style="width:30%;font-weight:bold;">Technical Expert Observations</td>
+                                            }
+                                            else
+                                            {
+                                                <td style="width:30%;font-weight:bold;"></td>
+                                            }
+                                        </tr>
+
+                                        @while (i < Model.GRADE_DETAILS_LIST.Count)
+                                        {
+
+                                            @*//---------------------------------------------------------- NQM / CQC Grading for Maintenance Roads Starts Here ------------------------------------------------------------------------------------*@
+                                            <tr>
+                                                <td style="width:5%;text-align:center">@Model.GRADE_DETAILS_LIST[i].MAST_SUB_ITEM_CODE</td>
+                                                <td style="width:35%;font-weight:bold;">@Model.GRADE_DETAILS_LIST[i].MAST_ITEM_NAME</td>
+                                                <td style="width:10%;font-weight:bold;">@Model.GRADE_DETAILS_LIST[i].MAST_GRADE_NAME</td>
+                                                <td style="width: 10%; font-weight: normal;">@Model.GRADE_DETAILS_LIST[i].REMARKS</td>
+
+                                                @if (PMGSY.Extensions.PMGSYSession.Current.RoleCode == 6)
+                                                {
+                                                    if (Model.GRADE_DETAILS_LIST[i].MAST_ITEM_NO != 75)
+                                                    {
+                                                        <td style="width:15%;font-weight:normal;">
+
+                                                            @Html.TextAreaFor(model => model.GRADE_DETAILS_LIST[i].TEREMARKS, new { @readonly = "readonly", @disabled = "true" })
+                                                            <br />
+                                                            @Html.ValidationMessageFor(model => model.GRADE_DETAILS_LIST[i].TEREMARKS, "", new { @class = "text-danger" })
+                                                        </td>
+                                                    }
+
+
+                                                    if (Model.GRADE_DETAILS_LIST[i].TEREMARKS != "")
+                                                    {
+
+                                                        <td style="width:15%;font-weight:normal;">
+
+                                                            @Html.TextAreaFor(model => model.GRADE_DETAILS_LIST[i].NQMREMARKS, new { @required = "required" })
+                                                            <br />
+                                                            @Html.ValidationMessageFor(model => model.GRADE_DETAILS_LIST[i].NQMREMARKS, "", new { @class = "text-danger" })
+                                                        </td>
+                                                        @Html.HiddenFor(model => model.GRADE_DETAILS_LIST[i].MAST_ITEM_NO)
+
+                                                    }
+                                                    else
+                                                    {
+                                                        <td style="width:15%;font-weight:normal;" hidden>
+
+                                                            @Html.TextAreaFor(model => model.GRADE_DETAILS_LIST[i].NQMREMARKS, new { @required = "required" })
+                                                            <br />
+                                                            @Html.ValidationMessageFor(model => model.GRADE_DETAILS_LIST[i].NQMREMARKS, "", new { @class = "text-danger" })
+                                                        </td>
+                                                        @Html.HiddenFor(model => model.GRADE_DETAILS_LIST[i].MAST_ITEM_NO)
+                                                    }
+                                                }
+                                                else if (PMGSY.Extensions.PMGSYSession.Current.RoleCode == 81)
+                                                {
+                                                    if (i < Model.GRADE_DETAILS_LIST.Count - 1)
+                                                    {
+                                                        <td style="width:30%;font-weight:normal;">
+
+                                                            @Html.TextAreaFor(model => model.GRADE_DETAILS_LIST[i].TEREMARKS)
+                                                            <br />
+                                                            @Html.ValidationMessageFor(model => model.GRADE_DETAILS_LIST[i].TEREMARKS, "", new { @class = "text-danger" })
+                                                        </td>
+                                                        @Html.HiddenFor(model => model.GRADE_DETAILS_LIST[i].MAST_ITEM_NO)
+                                                    }
+                                                    else
+                                                    {
+                                                        <td style="width:30%;font-weight:normal;"></td>
+                                                    }
+
+                                                }
+                                            </tr>
+                                            i++;
+
+                                        }       @*While ends here*@
+
+                                        @if (PMGSY.Extensions.PMGSYSession.Current.RoleCode == 81)
+                                        {
+                                            <tr>
+                                                <td style="width:5%;font-weight:bold;"></td>
+                                                <td style="width:35%;font-weight:bold;color:brown;">General Observation</td>
+                                                <td style="width:10%;font-weight:bold;"></td>
+                                                <td style="width:10%;font-weight:bold;"></td>
+                                                <td style="width:30%;font-weight:bold;">
+                                                    @Html.TextAreaFor(model => model.GENERALREMARKS)
+                                                    <br />
+                                                    @Html.ValidationMessageFor(model => model.GENERALREMARKS, "", new { @class = "text-danger" })
+                                                </td>
+                                                <td style="width:30%;font-weight:bold;"></td>
+                                            </tr>
+
+                                        }
+                                    </table>
+                                </td>
+
+                            }
+                        }
+                        else if (Model.IMS_PROPOSAL_TYPE.Equals("L"))
+                        {
+
+                            <td style="width:49%; vertical-align:top;">
+                                <table class="rowstyle" id="tblObsGrading" style="margin-top:1px; text-align:left; border:ridge 0.1em #ccc; width:100%; padding:5px 5px 5px 5px;">
+                                    <tr style="text-align:left;">
+                                        <td style="width:5%;font-weight:bold;text-align:center;">Sr.No.</td>
+                                        <td style="width:35%;font-weight:bold;">Item Description</td>
+                                        <td style="width:10%;font-weight:bold;">Grade</td>
+                                        <td style="width:10%;font-weight:bold;">Remarks</td>
+                                        @if (PMGSY.Extensions.PMGSYSession.Current.RoleCode == 6)
+                                        {
+                                    <td style="width:15%;font-weight:bold;">Technical Expert Observations</td>
+                                            <td style="width:15%;font-weight:bold;">NQM Remarks</td>
+                                        }
+                                        else if (PMGSY.Extensions.PMGSYSession.Current.RoleCode == 81)
+                                        {
+                                    <td style="width:30%;font-weight:bold;">Technical Expert Observations</td>
+                                        }
+                                        else
+                                        {
+                                            <td style="width:30%;font-weight:bold;"></td>
+                                        }
+                                    </tr>
+
+                                    @while (i < Model.GRADE_DETAILS_LIST.Count)
+                                    {
+                                        @*//---------------------------------------------------------- NQM/CQC Grading for Completed & In Progress Bridge Starts here ------------------------------------------------------------------------*@
+
+                                        if (Model.GRADE_DETAILS_LIST[i].MAST_SUB_ITEM_CODE == 0)
+                                        {
+                                            <tr>
+                                                @if (Model.GRADE_DETAILS_LIST[i].MAST_ITEM_CODE == 2 || Model.GRADE_DETAILS_LIST[i].MAST_ITEM_CODE == 3 || Model.GRADE_DETAILS_LIST[i].MAST_ITEM_CODE == 4)
+                                                {
+                                                    <td style="width:5%;text-align:center;color:red;">@Model.GRADE_DETAILS_LIST[i].MAST_ITEM_CODE</td>
+                                                }
+                                                else
+                                                {
+                                                    <td style="width:5%;text-align:center;">@Model.GRADE_DETAILS_LIST[i].MAST_ITEM_CODE</td>
+                                                }
+                                                <td style="width:35%;font-weight:bold;">@Model.GRADE_DETAILS_LIST[i].MAST_ITEM_NAME</td>
+                                                <td style="width:10%;font-weight:bold;">@Model.GRADE_DETAILS_LIST[i].MAST_GRADE_NAME</td>
+                                                <td style="width:10%;font-weight:normal;">@Model.GRADE_DETAILS_LIST[i].REMARKS</td>
+                                                @if (PMGSY.Extensions.PMGSYSession.Current.RoleCode == 6)
+                                                {
+                                                    <td style="width:15%;font-weight:normal;" hidden>
+
+                                                        @Html.TextAreaFor(model => model.GRADE_DETAILS_LIST[i].TEREMARKS, new { @readonly = "readonly", @disabled = "true" })
+                                                        <br />
+                                                        @Html.ValidationMessageFor(model => model.GRADE_DETAILS_LIST[i].TEREMARKS, "", new { @class = "text-danger" })
+                                                    </td>
+                                                    if (Model.GRADE_DETAILS_LIST[i].TEREMARKS != "")
+                                                    {
+                                                        <td style="width:15%;font-weight:normal;" hidden>
+
+                                                            @Html.TextAreaFor(model => model.GRADE_DETAILS_LIST[i].NQMREMARKS)
+                                                            <br />
+                                                            @Html.ValidationMessageFor(model => model.GRADE_DETAILS_LIST[i].NQMREMARKS, "", new { @class = "text-danger" })
+                                                        </td>
+                                                        @Html.HiddenFor(model => model.GRADE_DETAILS_LIST[i].MAST_ITEM_NO)
+                                                    }
+                                                    else
+                                                    {
+                                                        <td style="width:15%;font-weight:normal;" hidden>
+
+                                                            @Html.TextAreaFor(model => model.GRADE_DETAILS_LIST[i].NQMREMARKS)
+                                                            <br />
+                                                            @Html.ValidationMessageFor(model => model.GRADE_DETAILS_LIST[i].NQMREMARKS, "", new { @class = "text-danger" })
+                                                        </td>
+                                                        @Html.HiddenFor(model => model.GRADE_DETAILS_LIST[i].MAST_ITEM_NO)
+                                                    }
+                                                }
+                                                else if (PMGSY.Extensions.PMGSYSession.Current.RoleCode == 81)
+                                                {
+
+                                                    <td style="width:30%;font-weight:normal;" hidden>
+
+                                                        @Html.TextAreaFor(model => model.GRADE_DETAILS_LIST[i].TEREMARKS)
+                                                        <br />
+                                                        @Html.ValidationMessageFor(model => model.GRADE_DETAILS_LIST[i].TEREMARKS, "", new { @class = "text-danger" })
+                                                    </td>
+                                                    @Html.HiddenFor(model => model.GRADE_DETAILS_LIST[i].MAST_ITEM_NO)
+
+                                                }
+
+                                            </tr>
+                                        }
+                                        else
+                                        {
+                                            <tr>
+                                                <td style="width:5%">&nbsp;</td>
+                                                <td style="width:35%;font-weight:bold;">@Model.GRADE_DETAILS_LIST[i].MAST_SUB_ITEM_CODE<b>. </b>@Model.GRADE_DETAILS_LIST[i].MAST_ITEM_NAME</td>
+                                                <td style="width:10%;font-weight:bold;">@Model.GRADE_DETAILS_LIST[i].MAST_GRADE_NAME</td>
+                                                <td style="width:10%;font-weight:normal;">@Model.GRADE_DETAILS_LIST[i].REMARKS</td>
+                                                @if (PMGSY.Extensions.PMGSYSession.Current.RoleCode == 6)
+                                                {
+                                                    <td style="width:15%;font-weight:normal;">
+
+                                                        @Html.TextAreaFor(model => model.GRADE_DETAILS_LIST[i].TEREMARKS, new { @readonly = "readonly", @disabled = "true" })
+                                                        <br />
+                                                        @Html.ValidationMessageFor(model => model.GRADE_DETAILS_LIST[i].TEREMARKS, "", new { @class = "text-danger" })
+                                                    </td>
+                                                    if (Model.GRADE_DETAILS_LIST[i].TEREMARKS != "")
+                                                    {
+                                                        <td style="width:15%;font-weight:normal;">
+
+                                                            @Html.TextAreaFor(model => model.GRADE_DETAILS_LIST[i].NQMREMARKS, new { @required = "required" })
+                                                            <br />
+                                                            @Html.ValidationMessageFor(model => model.GRADE_DETAILS_LIST[i].NQMREMARKS, "", new { @class = "text-danger" })
+                                                        </td>
+                                                        @Html.HiddenFor(model => model.GRADE_DETAILS_LIST[i].MAST_ITEM_NO)
+                                                    }
+                                                    else
+                                                    {
+                                                        <td style="width:15%;font-weight:normal;" hidden>
+
+                                                            @Html.TextAreaFor(model => model.GRADE_DETAILS_LIST[i].NQMREMARKS, new { @required = "required" })
+                                                            <br />
+                                                            @Html.ValidationMessageFor(model => model.GRADE_DETAILS_LIST[i].NQMREMARKS, "", new { @class = "text-danger" })
+                                                        </td>
+                                                        @Html.HiddenFor(model => model.GRADE_DETAILS_LIST[i].MAST_ITEM_NO)
+                                                    }
+                                                }
+                                                else if (PMGSY.Extensions.PMGSYSession.Current.RoleCode == 81)
+                                                {
+                                                    <td style="width:30%;font-weight:normal;">
+
+                                                        @Html.TextAreaFor(model => model.GRADE_DETAILS_LIST[i].TEREMARKS)
+                                                        <br />
+                                                        @Html.ValidationMessageFor(model => model.GRADE_DETAILS_LIST[i].TEREMARKS, "", new { @class = "text-danger" })
+                                                    </td>
+                                                    @Html.HiddenFor(model => model.GRADE_DETAILS_LIST[i].MAST_ITEM_NO)
+                                                }
+                                            </tr>
+                                        }
+
+                                        //---------------------------------------------------------- NQM / CQC Grading for Completed & In Progress Bridge Ends here ------------------------------------------------------------------------
+
+                                        i++;
+                                    }       @*While ends here*@
+
+                                    @if (PMGSY.Extensions.PMGSYSession.Current.RoleCode == 81)
+                                    {
+                                        <tr>
+                                            <td style="width:5%;font-weight:bold;"></td>
+                                            <td style="width:35%;font-weight:bold;color:brown;">General Observation</td>
+                                            <td style="width:10%;font-weight:bold;"></td>
+                                            <td style="width:10%;font-weight:bold;"></td>
+                                            <td style="width:30%;font-weight:bold;">
+                                                @Html.TextAreaFor(model => model.GENERALREMARKS)
+                                                <br />
+                                                @Html.ValidationMessageFor(model => model.GENERALREMARKS, "", new { @class = "text-danger" })
+                                            </td>
+                                            <td style="width:30%;font-weight:bold;"></td>
+                                        </tr>
+
+                                    }
+                                </table>
+                            </td>
+
+                        }
+                    </tr>
+                    <tr class="ui-state-default">
+                        <td style="font-weight:bold;text-align:center" colspan="2">
+                            @Model.GRADE_DETAILS_LIST[Model.GRADE_DETAILS_LIST.Count - 1].MAST_ITEM_NAME
+                            &nbsp;&nbsp; - &nbsp;&nbsp;@Model.GRADE_DETAILS_LIST[Model.GRADE_DETAILS_LIST.Count - 1].MAST_GRADE_NAME
+                        </td>
+                    </tr>
+
+                </table>
+                <br />
+
+                if (ViewBag.AddEditView == "A")
+                {
+                    <input style="margin-left:6rem" type="button" class="jqueryButton" value="Save" id="btnsubmitform" name="btnSubmit" />
+                    <input style="margin-left:6rem" type="button" class="jqueryButton" value="Save and Forward to CQC" onclick="SaveFinalizeAndForwardTEQMRemarksToCQC(@Model.QM_OBSERVATION_ID)" name="btnSubmit" />
+
+                }
+                else if (ViewBag.AddEditView == "E")
+                {
+                    <input style="margin-left:6rem" type="button" class="jqueryButton" value="Update" id="btnUpdateform" name="btnUpdate" />
+                    <input style="margin-left:6rem" type="button" class="jqueryButton" value="Update and Forward to CQC" onclick="EditFinalizeAndForwardTEQMRemarksToCQC(@Model.QM_OBSERVATION_ID)" name="btnUpdate" />
+
+                }
+            }
+            else if (ViewBag.AddEditView == "V")//Region for View
+            {
+                <table id="tblObsGradeDetails" style="margin-top:0px; text-align:left; border:ridge 0.1em #ccc; width:100%; padding:5px 5px 5px 5px;">
+
+                    <tr>
+                        @{
+                            int i = 0;
+                            //String tebtn = "tebtn_" + i;
+                            //String teRemarkView = "teRemarkView_" + i;
+
+                        }
+
+
+                        @*//---------------------------------------------------------- Grading for COMPLETED/ IN PROGRESS Roads Starts Here ---------------------------------------------------------------------------------------*@
+
+                        @if (Model.IMS_PROPOSAL_TYPE.Equals("P"))
+                        {
+                            if (Model.IMS_ISCOMPLETED.Equals("C") || Model.IMS_ISCOMPLETED.Equals("P"))
+                            {
+                                //for (int cnt = 0; cnt < 2; cnt++ )
+                                //{
+                                <td style="width:99%; vertical-align:top;">
+                                    <table class="rowstyle" id="tblObsGrading" style="margin-top:1px; text-align:left; border:ridge 0.1em #ccc; width:100%; padding:5px 5px 5px 5px;">
+                                        <tr style="text-align:left;">
+                                            <td style="width:5%;font-weight:bold;text-align:center;">Sr.No.</td>
+                                            <td style="width:35%;font-weight:bold;">Item Description</td>
+                                            <td style="width:10%;font-weight:bold;">Grade</td>
+                                            <td style="width:10%;font-weight:bold;">Remarks</td>
+                                            @if (PMGSY.Extensions.PMGSYSession.Current.RoleCode == 6)
+                                            {
+                                        <td style="width:15%;font-weight:bold;">Technical Expert Observations</td>
+                                                <td style="width:15%;font-weight:bold;">NQM Remarks</td>
+                                            }
+                                            else if (PMGSY.Extensions.PMGSYSession.Current.RoleCode == 81)
+                                            {
+                                        <td style="width:30%;font-weight:bold;">Technical Expert Observations</td>
+                                            }
+                                            else
+                                            {
+                                                <td style="width:30%;font-weight:bold;"></td>
+                                            }
+                                        </tr>
+                                        @{
+                                            //int endIndex = 0;
+                                            //if(cnt == 0)
+                                            //{
+                                            //    endIndex = Model.GRADE_DETAILS_LIST.Count / 2;
+                                            //}
+                                            //else if (cnt == 1)
+                                            //{
+                                            //    endIndex = Model.GRADE_DETAILS_LIST.Count;
+                                            //}
+                                        }
+
+                                        @while (i < Model.GRADE_DETAILS_LIST.Count)
+                                        {
+                                            if (Model.GRADE_DETAILS_LIST[i].MAST_SUB_ITEM_CODE == 0)
+                                            {
+                                                <tr>
+                                                    @if (Model.GRADE_DETAILS_LIST[i].MAST_ITEM_CODE == 4 || Model.GRADE_DETAILS_LIST[i].MAST_ITEM_CODE == 5 || Model.GRADE_DETAILS_LIST[i].MAST_ITEM_CODE == 6 || Model.GRADE_DETAILS_LIST[i].MAST_ITEM_CODE == 7)
+                                                    {
+                                                        <td style="width:5%;text-align:center;color:red;">@Model.GRADE_DETAILS_LIST[i].MAST_ITEM_CODE</td>
+                                                    }
+                                                    else
+                                                    {
+                                                        <td style="width:5%;text-align:center;">@Model.GRADE_DETAILS_LIST[i].MAST_ITEM_CODE</td>
+                                                    }
+                                                    <td style="width:35%;font-weight:bold;">@Model.GRADE_DETAILS_LIST[i].MAST_ITEM_NAME</td>
+                                                    <td style="width:10%;font-weight:bold;">@Model.GRADE_DETAILS_LIST[i].MAST_GRADE_NAME</td>
+                                                    <td style="width:10%;font-weight:normal;">@Model.GRADE_DETAILS_LIST[i].REMARKS</td>
+
+                                                    @if (PMGSY.Extensions.PMGSYSession.Current.RoleCode == 6)
+                                                    {
+                                                        <td style="width:15%;font-weight:normal;" hidden>
+
+                                                            @Html.TextAreaFor(model => model.GRADE_DETAILS_LIST[i].TEREMARKS, new { @readonly = "readonly", @disabled = "true" })
+                                                        </td>
+
+                                                        <td style="width:15%;font-weight:normal;" hidden>
+
+                                                            @Html.TextAreaFor(model => model.GRADE_DETAILS_LIST[i].NQMREMARKS, new { @readonly = "readonly", @disabled = "true" })
+                                                        </td>
+
+                                                    }
+                                                    else if (PMGSY.Extensions.PMGSYSession.Current.RoleCode == 81)
+                                                    {
+                                                        <td style="width:30%;font-weight:normal;" hidden>
+
+                                                            @Html.TextAreaFor(model => model.GRADE_DETAILS_LIST[i].TEREMARKS, new { @readonly = "readonly", @disabled = "true" })
+                                                        </td>
+
+                                                    }
+                                                    else
+                                                    {
+                                                        <td style="width:30%;font-weight:normal;"></td>
+                                                    }
+
+                                                </tr>
+
+                                            }
+                                            else
+                                            {
+                                                <tr>
+                                                    <td style="width:5%">&nbsp;</td>
+                                                    <td style="width:35%;font-weight:bold;">@Model.GRADE_DETAILS_LIST[i].MAST_SUB_ITEM_CODE<b>. </b>@Model.GRADE_DETAILS_LIST[i].MAST_ITEM_NAME</td>
+                                                    <td style="width:10%;font-weight:bold;">@Model.GRADE_DETAILS_LIST[i].MAST_GRADE_NAME</td>
+                                                    <td style="width:10%;font-weight:normal;">@Model.GRADE_DETAILS_LIST[i].REMARKS</td>
+                                                    @if (PMGSY.Extensions.PMGSYSession.Current.RoleCode == 6)
+                                                    {
+                                                        <td style="width:15%;font-weight:normal;">
+
+                                                            @Html.TextAreaFor(model => model.GRADE_DETAILS_LIST[i].TEREMARKS, new { @readonly = "readonly", @disabled = "true" })
+                                                        </td>
+
+                                                        <td style="width:15%;font-weight:normal;">
+
+                                                            @Html.TextAreaFor(model => model.GRADE_DETAILS_LIST[i].NQMREMARKS, new { @readonly = "readonly", @disabled = "true" })
+                                                        </td>
+
+                                                    }
+                                                    else if (PMGSY.Extensions.PMGSYSession.Current.RoleCode == 81)
+                                                    {
+                                                        <td style="width:30%;font-weight:normal;">
+
+                                                            @Html.TextAreaFor(model => model.GRADE_DETAILS_LIST[i].TEREMARKS, new { @readonly = "readonly", @disabled = "true" })
+                                                        </td>
+
+
+                                                    }
+                                                    else
+                                                    {
+                                                        <td style="width:30%;font-weight:normal;"></td>
+                                                    }
+                                                </tr>
+
+                                            }
+
+                                            i++;
+                                        }       @*While ends here*@
+
+                                        @if (PMGSY.Extensions.PMGSYSession.Current.RoleCode == 81)
+                                        {
+                                            <tr>
+                                                <td style="width:5%;font-weight:bold;"></td>
+                                                <td style="width:35%;font-weight:bold;color:brown;">General Observation</td>
+                                                <td style="width:10%;font-weight:bold;"></td>
+                                                <td style="width:10%;font-weight:bold;"></td>
+                                                <td style="width:30%;font-weight:bold;">
+                                                    @Html.TextAreaFor(model => model.GENERALREMARKS, new { @readonly = "readonly", @disabled = "true" })
+                                                    <br />
+                                                    @Html.ValidationMessageFor(model => model.GENERALREMARKS, "", new { @class = "text-danger" })
+                                                </td>
+                                                <td style="width:30%;font-weight:bold;"></td>
+                                            </tr>
+
+                                        }
+                                    </table>
+                                </td>
+                                //}         @*for ends here*@
+
+                            } @*If for INS_ISCOMPLETED ends here*@
+                            @*---------------------------------------------------------- Grading for COMPLETED/ IN PROGRESS Roads Ends Here ---------------------------------------------------------------------------------------*@
+
+                            else if (Model.IMS_ISCOMPLETED.Equals("M"))
+                            {
+                                <td style="width:98%; vertical-align:top;">
+                                    <table class="rowstyle" id="tblObsGrading" style="margin-top:1px; text-align:left; border:ridge 0.1em #ccc; width:100%; padding:5px 5px 5px 5px;">
+                                        <tr style="text-align:left;">
+                                            <td style="width:5%;font-weight:bold;text-align:center;">Sr.No.</td>
+                                            <td style="width:35%;font-weight:bold;">Item Description</td>
+                                            <td style="width:10%;font-weight:bold;">Grade</td>
+                                            <td style="width:10%;font-weight:bold;">Remarks</td>
+                                            @*
+                                                <td style="width:20%;font-weight:bold;">TE Remarks</td>*@
+                                            @if (PMGSY.Extensions.PMGSYSession.Current.RoleCode == 6)
+                                            {
+                                        <td style="width:15%;font-weight:bold;">Technical Expert Observations</td>
+                                                <td style="width:15%;font-weight:bold;">NQM Remarks</td>
+                                            }
+                                            else if (PMGSY.Extensions.PMGSYSession.Current.RoleCode == 81)
+                                            {
+                                        <td style="width:30%;font-weight:bold;">Technical Expert Observations</td>
+                                            }
+                                            else
+                                            {
+                                                <td style="width:30%;font-weight:bold;"></td>
+                                            }
+                                        </tr>
+
+                                        @while (i < Model.GRADE_DETAILS_LIST.Count)
+                                        {
+
+                                            @*//---------------------------------------------------------- NQM / CQC Grading for Maintenance Roads Starts Here ------------------------------------------------------------------------------------*@
+                                            <tr>
+                                                <td style="width:5%;text-align:center">@Model.GRADE_DETAILS_LIST[i].MAST_SUB_ITEM_CODE</td>
+                                                <td style="width:35%;font-weight:bold;">@Model.GRADE_DETAILS_LIST[i].MAST_ITEM_NAME</td>
+                                                <td style="width:10%;font-weight:bold;">@Model.GRADE_DETAILS_LIST[i].MAST_GRADE_NAME</td>
+                                                <td style="width: 10%; font-weight: normal;">@Model.GRADE_DETAILS_LIST[i].REMARKS</td>
+
+                                                @if (PMGSY.Extensions.PMGSYSession.Current.RoleCode == 6)
+                                                {
+                                                    <td style="width:15%;font-weight:normal;">
+
+                                                        @Html.TextAreaFor(model => model.GRADE_DETAILS_LIST[i].TEREMARKS, new { @readonly = "readonly", @disabled = "true" })
+                                                    </td>
+
+                                                    <td style="width:15%;font-weight:normal;">
+
+                                                        @Html.TextAreaFor(model => model.GRADE_DETAILS_LIST[i].NQMREMARKS, new { @readonly = "readonly", @disabled = "true" })
+                                                    </td>
+
+                                                }
+                                                else if (PMGSY.Extensions.PMGSYSession.Current.RoleCode == 81)
+                                                {
+                                                    if (i < Model.GRADE_DETAILS_LIST.Count - 1)
+                                                    {
+                                                        <td style="width:30%;font-weight:normal;">
+
+                                                            @Html.TextAreaFor(model => model.GRADE_DETAILS_LIST[i].TEREMARKS, new { @readonly = "readonly", @disabled = "true" })
+                                                        </td>
+                                                    }
+                                                    else
+                                                    {
+                                                        <td style="width:30%;font-weight:normal;"></td>
+                                                    }
+
+                                                }
+                                                else
+                                                {
+                                                    <td style="width:30%;font-weight:normal;"></td>
+                                                }
+                                            </tr>
+                                            i++;
+
+                                        }       @*While ends here*@
+
+                                        @if (PMGSY.Extensions.PMGSYSession.Current.RoleCode == 81)
+                                        {
+                                            <tr>
+                                                <td style="width:5%;font-weight:bold;"></td>
+                                                <td style="width:35%;font-weight:bold;color:brown;">General Observation</td>
+                                                <td style="width:10%;font-weight:bold;"></td>
+                                                <td style="width:10%;font-weight:bold;"></td>
+                                                <td style="width:30%;font-weight:bold;">
+                                                    @Html.TextAreaFor(model => model.GENERALREMARKS, new { @readonly = "readonly", @disabled = "true" })
+                                                    <br />
+                                                    @Html.ValidationMessageFor(model => model.GENERALREMARKS, "", new { @class = "text-danger" })
+                                                </td>
+                                                <td style="width:30%;font-weight:bold;"></td>
+                                            </tr>
+
+                                        }
+                                    </table>
+                                </td>
+
+                            }
+                        }
+                        else if (Model.IMS_PROPOSAL_TYPE.Equals("L"))
+                        {
+
+                            <td style="width:49%; vertical-align:top;">
+                                <table class="rowstyle" id="tblObsGrading" style="margin-top:1px; text-align:left; border:ridge 0.1em #ccc; width:100%; padding:5px 5px 5px 5px;">
+                                    <tr style="text-align:left;">
+                                        <td style="width:5%;font-weight:bold;text-align:center;">Sr.No.</td>
+                                        <td style="width:35%;font-weight:bold;">Item Description</td>
+                                        <td style="width:10%;font-weight:bold;">Grade</td>
+                                        <td style="width:10%;font-weight:bold;">Remarks</td>
+                                        @if (PMGSY.Extensions.PMGSYSession.Current.RoleCode == 6)
+                                        {
+                                    <td style="width:15%;font-weight:bold;">Technical Expert Observations</td>
+                                            <td style="width:15%;font-weight:bold;">NQM Remarks</td>
+                                        }
+                                        else if (PMGSY.Extensions.PMGSYSession.Current.RoleCode == 81)
+                                        {
+                                    <td style="width:30%;font-weight:bold;">Technical Expert Observations</td>
+                                        }
+                                        else
+                                        {
+                                            <td style="width:30%;font-weight:bold;"></td>
+                                        }
+                                    </tr>
+
+                                    @while (i < Model.GRADE_DETAILS_LIST.Count)
+                                    {
+                                        @*//---------------------------------------------------------- NQM/CQC Grading for Completed & In Progress Bridge Starts here ------------------------------------------------------------------------*@
+
+                                        if (Model.GRADE_DETAILS_LIST[i].MAST_SUB_ITEM_CODE == 0)
+                                        {
+                                            <tr>
+                                                @if (Model.GRADE_DETAILS_LIST[i].MAST_ITEM_CODE == 2 || Model.GRADE_DETAILS_LIST[i].MAST_ITEM_CODE == 3 || Model.GRADE_DETAILS_LIST[i].MAST_ITEM_CODE == 4)
+                                                {
+                                                    <td style="width:5%;text-align:center;color:red;">@Model.GRADE_DETAILS_LIST[i].MAST_ITEM_CODE</td>
+                                                }
+                                                else
+                                                {
+                                                    <td style="width:5%;text-align:center;">@Model.GRADE_DETAILS_LIST[i].MAST_ITEM_CODE</td>
+                                                }
+                                                <td style="width:35%;font-weight:bold;">@Model.GRADE_DETAILS_LIST[i].MAST_ITEM_NAME</td>
+                                                <td style="width:10%;font-weight:bold;">@Model.GRADE_DETAILS_LIST[i].MAST_GRADE_NAME</td>
+                                                <td style="width:10%;font-weight:normal;">@Model.GRADE_DETAILS_LIST[i].REMARKS</td>
+                                                @if (PMGSY.Extensions.PMGSYSession.Current.RoleCode == 6)
+                                                {
+                                                    <td style="width:15%;font-weight:normal;" hidden>
+
+                                                        @Html.TextAreaFor(model => model.GRADE_DETAILS_LIST[i].TEREMARKS, new { @readonly = "readonly", @disabled = "true" })
+                                                    </td>
+
+                                                    <td style="width:15%;font-weight:normal;" hidden>
+
+                                                        @Html.TextAreaFor(model => model.GRADE_DETAILS_LIST[i].NQMREMARKS, new { @readonly = "readonly", @disabled = "true" })
+                                                    </td>
+
+                                                }
+                                                else if (PMGSY.Extensions.PMGSYSession.Current.RoleCode == 81)
+                                                {
+
+
+                                                    <td style="width:30%;font-weight:normal;" hidden>
+
+                                                        @Html.TextAreaFor(model => model.GRADE_DETAILS_LIST[i].TEREMARKS, new { @readonly = "readonly", @disabled = "true" })
+                                                    </td>
+
+                                                }
+                                                else
+                                                {
+                                                    <td style="width:30%;font-weight:normal;"></td>
+                                                }
+                                            </tr>
+                                        }
+                                        else
+                                        {
+                                            <tr>
+                                                <td style="width:5%">&nbsp;</td>
+                                                <td style="width:35%;font-weight:bold;">@Model.GRADE_DETAILS_LIST[i].MAST_SUB_ITEM_CODE<b>. </b>@Model.GRADE_DETAILS_LIST[i].MAST_ITEM_NAME</td>
+                                                <td style="width:10%;font-weight:bold;">@Model.GRADE_DETAILS_LIST[i].MAST_GRADE_NAME</td>
+                                                <td style="width:10%;font-weight:normal;">@Model.GRADE_DETAILS_LIST[i].REMARKS</td>
+                                                @if (PMGSY.Extensions.PMGSYSession.Current.RoleCode == 6)
+                                                {
+                                                    <td style="width:15%;font-weight:normal;">
+
+                                                        @Html.TextAreaFor(model => model.GRADE_DETAILS_LIST[i].TEREMARKS, new { @readonly = "readonly", @disabled = "true" })
+                                                    </td>
+
+                                                    <td style="width:15%;font-weight:normal;">
+
+                                                        @Html.TextAreaFor(model => model.GRADE_DETAILS_LIST[i].NQMREMARKS, new { @readonly = "readonly", @disabled = "true" })
+                                                    </td>
+
+                                                }
+                                                else if (PMGSY.Extensions.PMGSYSession.Current.RoleCode == 81)
+                                                {
+                                                    <td style="width:30%;font-weight:normal;">
+
+                                                        @Html.TextAreaFor(model => model.GRADE_DETAILS_LIST[i].TEREMARKS, new { @readonly = "readonly", @disabled = "true" })
+                                                    </td>
+
+
+                                                }
+                                                else
+                                                {
+                                                    <td style="width:30%;font-weight:normal;"></td>
+                                                }
+                                            </tr>
+                                        }
+
+                                        //---------------------------------------------------------- NQM / CQC Grading for Completed & In Progress Bridge Ends here ------------------------------------------------------------------------
+
+                                        i++;
+                                    }       @*While ends here*@
+
+                                    @*To Show General Remarks Field*@
+                                    @if (PMGSY.Extensions.PMGSYSession.Current.RoleCode == 81)
+                                    {
+                                        <tr>
+                                            <td style="width:5%;font-weight:bold;"></td>
+                                            <td style="width:35%;font-weight:bold;color:brown;">General Observation</td>
+                                            <td style="width:10%;font-weight:bold;"></td>
+                                            <td style="width:10%;font-weight:bold;"></td>
+                                            <td style="width:30%;font-weight:bold;">
+                                                @Html.TextAreaFor(model => model.GENERALREMARKS, new { @readonly = "readonly", @disabled = "true" })
+                                                <br />
+                                                @Html.ValidationMessageFor(model => model.GENERALREMARKS, "", new { @class = "text-danger" })
+                                            </td>
+                                            <td style="width:30%;font-weight:bold;"></td>
+                                        </tr>
+
+                                    }
+                                </table>
+                            </td>
+
+                        }
+                    </tr>
+
+
+
+                    <tr class="ui-state-default">
+                        <td style="font-weight:bold;text-align:center" colspan="2">
+                            @Model.GRADE_DETAILS_LIST[Model.GRADE_DETAILS_LIST.Count - 1].MAST_ITEM_NAME
+                            &nbsp;&nbsp; - &nbsp;&nbsp;@Model.GRADE_DETAILS_LIST[Model.GRADE_DETAILS_LIST.Count - 1].MAST_GRADE_NAME
+                        </td>
+                    </tr>
+
+                </table>
+
+                <h2></h2>
+                <table class="rowstyle" style="margin-top:0px; text-align:left; border:ridge 0.1em #ccc; width:100%; padding:5px 5px 5px 5px;">
+                    @*Show Consolidated grading to Tech Expert and CQC*@
+                    @if (PMGSY.Extensions.PMGSYSession.Current.RoleCode == 81)
+                    {
+
+                        int j = 1;
+                        foreach (var item in @ViewBag.ConsTERemarks)
+                        {
+                            <tr class="ui-state-default">
+                                <td style="font-weight:bold;text-align:left" colspan="2">
+                                    @j<span>.&nbsp;&nbsp;&nbsp;&nbsp;@item.TECH_EXPERT_REMARK</span>
+                                </td>
+                            </tr>
+                            j++;
+                        }
+                        if (!(Model.GENERALREMARKS == null || Model.GENERALREMARKS == string.Empty))
+                        {
+                            <tr class="ui-state-default">
+                                <td style="font-weight:bold;text-align:left" colspan="2">
+                                    @j<span>.&nbsp;&nbsp;&nbsp;&nbsp;@Model.GENERALREMARKS</span>
+                                </td>
+                            </tr>
+                        }
+
+
+                    }
+
+                </table>
+            }
+
+
+        </center>
+    </form>
+
+    <!--  <div id="my_dialog" title="Technical Expert Remark">
+          <form id=f1>
+              <p>
+                  <textarea style="margin-left:3.5rem;" type=text id=t1 name=t1></textarea>
+              </p>
+              <input style="margin-left:6rem" type="button" class="jqueryButton" value="Submit" id="dialogBtn" name="dialogBtn" />
+          </form>
+      </div>-->
+
+</body>
+</html>
+
+<script>
+    //var pos = { my: "center center", at: "center top+150", of: window };
+    //$("#my_dialog").dialog({
+    //    autoOpen: false,
+    //    position: pos
+
+    //});
+
+</script>
+
+

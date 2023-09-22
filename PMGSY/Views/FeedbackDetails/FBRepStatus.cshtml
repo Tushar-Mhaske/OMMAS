@@ -1,0 +1,242 @@
+﻿@model PMGSY.Models.Feedback.FBRepStatus
+@{
+    ViewBag.Title = "FBRepStatus";
+}
+
+@*<h2>FBRepStatus</h2>*@
+
+@*<script src="~/Scripts/jquery.ui.accordion.js"></script>
+<script src="~/Scripts/jquery.ui.tabs.js"></script>*@
+
+<script src="~/Scripts/custom/Generic.js"></script>
+<script src="~/Scripts/Feedback/FBRepStatus.js"></script>
+
+<div id="dvViewFBMain">
+    @* <div id="dvTabs">*@
+    <form id="frmFBRepStatus" style="display: none">
+        @Html.AntiForgeryToken()
+        @Html.ValidationSummary(true)
+        @*<table class="rowstyle" id="tblFBDetails" style="text-align: left; border: ridge 0.1em #ccc; width: 100%; padding: 5px 5px 5px 5px;">
+            <tr>
+                <td style="width: 15%; height: 25px; text-align: left">To</td>
+                <td style="width: 25%; text-align: left">
+                    @Html.HiddenFor(m => m.hdnfeedId, new { @id = "hdnFeedId" })
+                    @Html.HiddenFor(m => m.hdnappr, new { @id = "hdnAppr" })
+                    @Html.HiddenFor(m => m.hdRole, new { @id = "hdnRole" })
+                    @Html.DisplayFor(m => m.ToAdd)
+                </td>
+            </tr>
+            <tr>
+                <td style="width: 15%; height: 25px; text-align: left">Date</td>
+                <td style="width: 25%; text-align: left">
+                    @Html.DisplayFor(m => m.Date)
+                </td>
+            </tr>
+            <tr>
+                <td style="width: 15%; height: 25px; text-align: left">Subject</td>
+                <td style="width: 25%; text-align: left">
+                    
+                </td>
+            </tr>
+            @if (Model.RepStat == "N" || Model.RepStat == "O")
+            {
+                <tr>
+                    <td style="text-align: center" colspan="2">
+                        @Html.RadioButton("rdbRepI", "I", new { @id = "rdbRepI", @checked = "true", @title = "Interim Reply" })
+                        @Html.Label("Interim Reply")
+                        @Html.RadioButton("rdbRepF", "F", new { @id = "rdbRepF", @title = "Final Reply" })
+                        @Html.Label("Final Reply")
+                    </td>
+                </tr>
+                <tr>
+                    <td style="width: 15%; height: 25px; text-align: left">Reply</td>
+                    <td style="width: 25%; text-align: left">
+                        @Html.TextAreaFor(m => m.Reply, new { @id = "txtRep", @style = "width:300px" })
+                    </td>
+                </tr>
+                <tr>
+                    <td style="text-align: center" colspan="2">
+                        <input type="button" id="btnSubmit" value="Submit" title="Submit" />
+                        <input type="button" id="btnReset" value="Reset" title="Reset" />
+                    </td>
+                </tr>
+            }
+            @if (Model.RepStat == "F")
+            {
+                foreach (String item in Model.interimList)
+                {
+                <tr>
+                    <td style="width: 15%; height: 25px; text-align: left">Interim Reply</td>
+                    <td style="width: 25%; text-align: left">
+                        @item
+                    </td>
+                </tr>
+                }
+                <tr>
+                    <td style="width: 15%; height: 25px; text-align: left">Final Reply</td>
+                    <td style="width: 25%; text-align: left">
+
+                        @Html.DisplayFor(m => m.Final)
+                    </td>
+                </tr>
+            }
+            @if (Model.RepStat == "I")
+            {
+                foreach (String item in Model.interimList)
+                {
+                <tr>
+                    <td style="width: 15%; height: 25px; text-align: left">Interim Reply</td>
+                    <td style="width: 25%; text-align: left">
+                        @item
+                    </td>
+                </tr>
+                }
+                <tr>
+                    <td style="width: 15%; height: 25px; text-align: left">Final Reply</td>
+                    <td style="width: 25%; text-align: left">
+
+                        @Html.DisplayFor(m => m.Final)
+                    </td>
+                </tr>
+                <tr>
+                    <td style="text-align: center" colspan="2">
+                        @Html.RadioButton("rdbRepI", "I", new { @id = "rdbRepI", @title = "Interim Reply" })
+                        @Html.Label("Interim Reply")
+                        @Html.RadioButton("rdbRepF", "F", new { @id = "rdbRepF", @title = "Final Reply" })
+                        @Html.Label("Final Reply")
+                    </td>
+                </tr>
+                <tr>
+                    <td style="width: 15%; height: 25px; text-align: left">Reply</td>
+                    <td style="width: 25%; text-align: left">
+                        @Html.TextAreaFor(m => m.Reply, new { @id = "txtRep", @style = "width:300px" })
+                    </td>
+                </tr>
+                <tr>
+                    <td style="text-align: center" colspan="2">
+                        <input type="button" id="btnSubmit" value="Submit" title="Submit" class="jqueryButton" />
+                        <input type="reset" id="btnReset" value="Reset" title="Reset" class="jqueryButton" />
+                    </td>
+                </tr>
+            }
+        </table>*@
+        <div id="divRepStatus" style="width: 95%; padding: 10px 0px 5px 0px;">
+            <table id="tbFBRepStatusJqGrid"></table>
+            <div id="divFBRepStatusPager"></div>
+
+        </div>
+
+
+    </form>
+    @*</div>*@
+    @if (Model.hdnappr.Trim() == "Y")
+    {
+        //if ((PMGSY.Extensions.PMGSYSession.Current.RoleCode == 25 && Model.FBState == null) || PMGSY.Extensions.PMGSYSession.Current.RoleCode != 25)
+        {
+        <div id="divFBRepStatus" style="width: 99%; padding: 10px 0px 5px 0px;">
+            <table id="tbFBReplyStatusJqGrid" style="width: 99%"></table>
+            <div id="divFBRepStatusReportPager" style="width: 99%"></div>
+        </div>
+            if (
+                !(Model.hdnstate.Trim() != "" && Model.hdndist.Trim() != "" && Model.hdnblock.Trim() != "" && (PMGSY.Extensions.PMGSYSession.Current.RoleCode == 25 || PMGSY.Extensions.PMGSYSession.Current.RoleCode == 5))
+                && Model.hdRepStatus != "F"
+
+                /*MRD & CQCAdmin*/
+                //(Model.hdnStateCode == 0 && Model.hdRepStatus.Trim() != "F" && (PMGSY.Extensions.PMGSYSession.Current.RoleCode == 25 || PMGSY.Extensions.PMGSYSession.Current.RoleCode == 5))
+                /*SQC*/
+                //|| (Model.hdnStateCode != 0 && Model.hdnDistrictCode == 0 && PMGSY.Extensions.PMGSYSession.Current.RoleCode == 8 && Model.hdRepStatus.Trim() != "F")
+                /*PIU*/
+                //|| (Model.hdnStateCode != 0 && Model.hdnDistrictCode != 0 && PMGSY.Extensions.PMGSYSession.Current.RoleCode == 22 && Model.hdRepStatus.Trim() != "F")
+
+                    //|| (PMGSY.Extensions.PMGSYSession.Current.RoleCode == 8 && Model.hdRole == 22 && Model.hdRepStatus.Trim() == "F")
+                )
+            {
+                if (!(PMGSY.Extensions.PMGSYSession.Current.RoleCode == 8 && Model.hdRole == 22 && Model.hdRepStatus.Trim() == "F"))
+                {
+        <table>
+            <tr>
+                <td colspan="2">
+                    <input type="button" id="btnAdd" value="Add" title="Add" class="jqueryButton" />
+                </td>
+            </tr>
+        </table>
+                }
+            }
+            else
+            {
+        <table class="rowstyle">
+            <tr>
+                <td colspan="5">
+                    @if ((PMGSY.Extensions.PMGSYSession.Current.RoleCode == 8 || PMGSY.Extensions.PMGSYSession.Current.RoleCode == 25) && 
+                            Model.hdRole == 22 && Model.hdRepStatus.Trim() == "F")
+                    {
+                        @Html.Label("Final Reply is under review by SQC")
+                    }
+                    else if (Model.hdRepStatus == "F")
+                    {
+                        @Html.Label("Thank you for Viewing Feedback, the queries regarding this feedback are solved and this feedback is closed")
+                    }
+                    else if (Model.hdnStateCode > 0 && Model.hdnDistrictCode > 0)
+                    {
+                        @Html.Label("The action against this feedback should be taken by respective SQC/PIU")
+                    }
+                </td>
+            </tr>
+        </table>
+            }
+        <div id="dvReplyStatus" style="display: none; width: 99%;">
+            @*<img alt="" style="border: none" src="" class="ui-icon ui-icon-closethick" />*@
+        </div>
+        }
+        //else
+        //{
+        //<table>
+        //    <tr>
+        //        <td colspan="2"></td>
+        //        @Html.Label("The feedback has been accepted")
+        //    </tr>
+        //</table>
+        //}
+    }
+    else
+    {
+        <table class="rowstyle">
+            <tr>
+                <td style="width: 5%;"></td>
+                <td style="width: 25%;">
+                    <strong>
+                        @if (Model.RepStat == "F")
+                        {
+                            @Html.Label("Feedback not accepted on date : " + Model.fbapprDate)
+                        }
+                        else if (PMGSY.Extensions.PMGSYSession.Current.RoleCode == 8 && Model.IS_PMGSY_ROAD && Model.hdnDistrictCode > 0)
+                        {
+                            @Html.Label("Please accept the feedback")
+                        }
+                        else if (PMGSY.Extensions.PMGSYSession.Current.RoleCode == 22 && Model.IS_PMGSY_ROAD && Model.hdnDistrictCode > 0)
+                        {
+                            @Html.Label("Feedback has to be accepted by SQC")
+                        }
+                        else if (PMGSY.Extensions.PMGSYSession.Current.RoleCode == 25 || PMGSY.Extensions.PMGSYSession.Current.RoleCode == 5)
+                        {
+                            if (Model.IS_PMGSY_ROAD && Model.hdnDistrictCode > 0)
+                            {
+                            @Html.Label("Feedback has to be accepted by SQC")
+                            }
+                            else
+                            {
+                            @Html.Label("Please accept the feedback")
+                            }
+                        }
+                        else
+                        {
+                            @Html.Label("The feedback has to be accepted by MORD")
+                        }
+                    </strong>
+                </td>
+                <td style="width: 5%;"></td>
+                <td style="width: 15%;"></td>
+            </tr>
+        </table>
+    }
+</div>

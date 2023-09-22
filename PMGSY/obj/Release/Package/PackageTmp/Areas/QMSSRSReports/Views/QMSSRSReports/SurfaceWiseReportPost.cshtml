@@ -1,0 +1,16 @@
+﻿@using MvcReportViewer
+
+@model PMGSY.Areas.QMSSRSReports.Models.DRRPSurfaceWiseReportModel
+
+@Html.MvcReportViewer("/PMGSYCitizen/DRRPSurfaceWiseReport",
+     new
+     {
+        
+         state = Model.States,
+         District = Model.Districts,
+         PMGSY = Model.PMGSY,
+         StateName = Model.StateName,
+         DistName = Model.DistName
+     },
+     new { Height = 600, Width = "100%", style = "border:none;" })
+

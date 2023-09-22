@@ -1,0 +1,12 @@
+﻿@using MvcReportViewer
+
+@model PMGSY.Models.ARRR.ARRRReports
+    @Html.MvcReportViewer("/PMGSYCitizen/ARRRLabourMaster",
+     new
+     {
+         State = Model.Mast_State_Code,
+         Year=Model.PhaseYear
+         
+         
+     },
+       new { Height = 600, Width = "100%", style = "border:none;" })

@@ -1,0 +1,103 @@
+﻿@model PMGSY.Models.ARRR.Labour
+<script src="~/Scripts/custom/Generic.js"></script>
+<script src="~/Scripts/ARRR/AddLabourDetails.js"></script>
+
+<div id="dvheaderchapterdetails" class="ui-corner-top ui-widget-header panelheader" style="text-align:left;height:20px">
+    <span class="ui-jqgrid-title" style="float:left" >&nbsp;
+        Labour Details
+    </span>
+    <span id="iconClose" class="ui-icon ui-icon-circle-close" style="float:right">
+    </span>
+
+</div>
+<div id="dvLayoutofAddChapterView" style="display: block; border: 1px solid #B5B8C8;">
+      <div id="dvErrorMessage" class="ui-widget ui-state-error ui-corner-all" style="padding: 0.7em .7em; display: none; margin: 5px 5px 5px 5px; text-align: left;">
+        <span class="ui-icon ui-icon-alert" style="float: left; margin-right: .3em;"></span>
+        <strong>Alert:</strong> 
+        <span id="message"></span>
+    </div>
+    <form id="frmAddChapterDetails">
+         @Html.AntiForgeryToken()
+        <center>@Html.ValidationSummary(true)</center>
+        <table style="width:100%; margin-top:10px" class="rowstyle">
+            <tr>
+                <td style="width:100%" align="center">
+                    @Html.HiddenFor(model=>model.EncryptedMaterialCode)
+                    @Html.HiddenFor(model=>model.Operation)
+                </td>
+            </tr>
+                <tr>
+                <td style="width:100%"; align="center">
+                     @Html.LabelFor(model=>model.TypeCodes)&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp<span style="color:red">*</span>
+
+                     @Html.DropDownListFor(model => model.TypeCodes, Model.Typess, new { id = "Unit", @tabindex = 9, @title = "Select Category" })
+                     @Html.ValidationMessageFor(model => model.TypeCodes)
+                     @Html.HiddenFor(model => model.TypeCodes)
+                </td>
+            </tr>
+
+            <tr>
+               <td   style="width:100%"; align="center">
+              
+                   
+                      
+                @Html.LabelFor(model=>model.MaterialName)<span style="color:red">*</span>
+                @Html.TextBoxFor(model => Model.MaterialName, new {@placeholder="Enter Labour Description",@title="Enter Labour Description",@tabindex=1 })@Html.ValidationMessageFor(model=>model.MaterialName)
+                </td>
+            </tr>
+            <tr>
+                <td style="width:100%"; align="center">
+                     @Html.LabelFor(model=>model.UnitCode)&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp<span style="color:red">*</span>
+
+                     @Html.DropDownListFor(model => model.UnitCode, Model.Units, new { id = "Unit", @tabindex = 9, @title = "Select Unit" })
+                     @Html.ValidationMessageFor(model => model.UnitCode)
+                     @Html.HiddenFor(model => model.UnitCode)
+                </td>
+            </tr>
+              <tr>
+               <td   style="width:100%"; align="center">
+              
+                   
+                      
+                @Html.LabelFor(model=>model.LMM_CODE_NAME)&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp<span style="color:red">*</span>
+                @Html.TextBoxFor(model => Model.LMM_CODE_NAME, new {@placeholder="Enter Code.",@title="Enter Code.",@tabindex=1 })@Html.ValidationMessageFor(model=>model.LMM_CODE_NAME)
+                </td>
+            </tr>
+            <tr>
+
+                <td  style="width:100%"; align="center" >
+                  @if (Model.Operation == "A")
+                  { 
+                      <center>
+                          <table>
+                              <td >
+                                  <input type="button" value="Save" name="btnSave" id="btnSave" class="jqueryButton" tabindex="2">
+                                  <input type="reset" value="Reset" name="btnReset" id="btnReset" class="jqueryButton" tabindex="3">
+                              </td>
+                         </table>
+                      </center>
+                  }
+                    else
+                  {
+                       <center>
+                          <table>
+                              <td>
+                                  <input type="button" value="Update" name="btnUpdate" id="btnUpdate" class="jqueryButton" tabindex="2">
+                                  <input type="button" value="Cancel" name="btnCancel" id="btnCancel" class="jqueryButton" tabindex="3">
+                              </td>
+                          </table>
+                      </center>
+                      
+                  }
+               </td>
+
+            </tr>
+
+            <tr>
+            <td >
+                   <label @*class="ui-state-default"*@ style="border:none">[ Note: Fields marked with<label style="color: red;"> * </label>are mandatory.]</label>
+            </td>
+       </tr>
+        </table>
+    </form>
+ </div>

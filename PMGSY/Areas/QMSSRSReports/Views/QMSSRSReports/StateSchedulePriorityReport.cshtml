@@ -1,0 +1,14 @@
+﻿@using MvcReportViewer
+@model PMGSY.Areas.QMSSRSReports.Models.SchedulePriorityViewModel
+
+@Html.MvcReportViewer("/PMGSYCitizen/QMSchedulePriorityState",
+new
+{
+    PRIORITY = Model.priority,
+    ProgMax = Model.ProgressMax,
+    ProgMin = Model.ProgressMin,
+    CompMax = Model.CompletedMax,
+    CompMin = Model.CompletedMin
+         
+},
+new { Height = 600, Width = "100%", style = "border:none;" })

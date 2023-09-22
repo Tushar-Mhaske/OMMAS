@@ -1,0 +1,186 @@
+﻿@*
+    * Project Id    :
+    * Project Name  :   OMMAS II
+    * Name          :   QualityATRFilters.cshtml
+    * Description   :   Render View for QualityATRFilters.
+    * Author        :   Shyam Yadav
+    * Creation Date :   11/Jun/2013
+*@
+
+@model PMGSY.Models.QualityMonitoring.QMFilterViewModel
+
+<!DOCTYPE html>
+
+<html>
+<head>
+
+    <!--#Added For Searchable Dropdown for Monitor on 25-01-2023-->
+    <link href="~/Content/Chosen/chosen.min.css" rel="stylesheet" />
+    <script src="~/Scripts/chosen.jquery.min.js"></script>
+
+    <script src="~/Scripts/QualityMonitoring/Quality3TierSQCInspFilters.js"></script>
+
+</head>
+<body>
+
+    <div style="width: 99%; height: 20px; border: none; margin-top: 5px; margin-bottom: -15px;" class="ui-state-default">
+        <span style="float: right; margin-right: 2Px; margin-top: 2px" id="id3TierSQCInspFilterDiv" class="ui-icon ui-icon-circle-triangle-n"></span>
+    </div>
+
+    <div style="width: 99%; border: none; margin-top: -15px; margin-bottom: 10px;" class="ui-state-default">
+        <div id="div3TierSQCInspFilterForm">
+            <center>
+                <form id="3TierSQCInspFilterForm">
+                    <table style="margin-top:10px; margin-bottom:5px; width:90%">
+                        <tr>
+
+                            <td style="width:5%;padding-left:25px;">
+                                @Html.LabelFor(model => model.MAST_STATE_CODE)
+                            </td>
+                            <td style="width:8%">
+                                @if (PMGSY.Extensions.PMGSYSession.Current.RoleCode == 5)
+                                {
+                                    @Html.DropDownListFor(model => model.MAST_STATE_CODE, new SelectList(Model.STATES, "Value", "Text"), new { @id = "stateCode3TierSQCInsp" })
+
+                                }
+                                else
+                                {
+                                    @Html.HiddenFor(model => model.MAST_STATE_CODE, new { @id = "stateCode3TierSQCInsp" })
+                                    @PMGSY.Extensions.PMGSYSession.Current.StateName
+                                }
+                            </td>
+
+                            <td style="text-align:left;width:10%;padding-right:5px;">
+                                Schedule From :
+                            </td>
+                            <td style="width:5%;">
+                                @Html.LabelFor(model => model.FROM_MONTH)
+                            </td>
+                            <td style="width:8%">
+                                @Html.DropDownListFor(model => model.FROM_MONTH, new SelectList(Model.FROM_MONTHS_LIST, "Value", "Text"), new { @id = "frmMonth3TierSQCInsp" })
+                            </td>
+                            <td style="width:5%;padding-left:25px;">
+                                @Html.LabelFor(model => model.FROM_YEAR)
+                            </td>
+                            <td style="width:8%">
+                                @Html.DropDownListFor(model => model.FROM_YEAR, new SelectList(Model.FROM_YEARS_LIST, "Value", "Text"), new { @id = "frmYear3TierSQCInsp" })
+                            </td>
+
+                            @*add on 01-07-2022*@
+                            @if (PMGSY.Extensions.PMGSYSession.Current.RoleCode == 8 || PMGSY.Extensions.PMGSYSession.Current.RoleCode == 48 || PMGSY.Extensions.PMGSYSession.Current.RoleCode == 69 || PMGSY.Extensions.PMGSYSession.Current.RoleCode == 5)
+                            {
+                                <td style="width: 8%; text-align: right; padding-right: 10px;">  @Html.Label("Scheme") </td>
+                                <td style="width:10%">
+                                    @Html.DropDownListFor(model => model.schemeType, new SelectList(Model.schemeList, "Value", "Text"), new { @id = "schemeType" })
+                                    <br />
+                                    @Html.ValidationMessageFor(m => m.schemeType)
+                                </td>
+
+                                <td style="width: 8%; text-align: right; padding-right: 10px;">    @Html.LabelFor(model => model.eFormStatusType) </td>
+                                <td style="width:10%">
+                                    @Html.DropDownListFor(model => model.eFormStatusType, new SelectList(Model.eFormStatusTypeList, "Value", "Text"), new { @id = "eFormStatusType3TierSQCInsp" })
+                                    <br />
+                                    @Html.ValidationMessageFor(m => m.eFormStatusType)
+                                </td>
+
+
+
+
+                                <td style="width: 8%; text-align: right; padding-right: 10px;">    @Html.LabelFor(model => model.qmType) </td>
+                                <td style="width:10%">
+                                    @*@Html.DropDownListFor(model => model.qmType, new SelectList(Model.qmTypeList, "Value", "Text"), new { @id = "qmType3TierSQCInsp" })*@
+                                    @Html.DisplayFor(model => model.qmType)
+                                    <br />
+                                    @Html.ValidationMessageFor(m => m.qmType)
+                                </td>
+                            }
+
+                            @*add on 01-07-2022*@
+
+
+                        </tr>
+                        <tr>
+                            <td style="width:5%;padding-left:25px;">
+                                @Html.LabelFor(model => model.ADMIN_QM_CODE)
+                            </td>
+                            <td style="width:15%">
+                                <div class="ui-widget">
+                                    @Html.DropDownListFor(model => model.ADMIN_QM_CODE, new SelectList(Model.MONITORS, "Value", "Text"), new { @id = "monitorCode3TierSQCInsp" })
+                                    @Html.ValidationMessageFor(model => model.ADMIN_QM_CODE)
+                                </div>
+                            </td>
+                            <td style="text-align:left;width:10%;padding-right:5px;">
+                                Schedule To :
+                            </td>
+                            <td style="text-align:left;width:5%;">
+                                @Html.LabelFor(model => model.TO_MONTH)
+                            </td>
+                            <td style="width:8%">
+                                @Html.DropDownListFor(model => model.TO_MONTH, new SelectList(Model.TO_MONTHS_LIST, "Value", "Text"), new { @id = "toMonth3TierSQCInsp" })
+                            </td>
+                            <td style="text-align:left;width:5%;padding-left:25px;">
+                                @Html.LabelFor(model => model.TO_YEAR)
+                            </td>
+                            <td style="width:8%">
+                                @Html.DropDownListFor(model => model.TO_YEAR, new SelectList(Model.TO_YEARS_LIST, "Value", "Text"), new { @id = "toYear3TierSQCInsp" })
+                            </td>
+
+                            @*add on 01-07-2022*@
+                            @if (PMGSY.Extensions.PMGSYSession.Current.RoleCode == 8 || PMGSY.Extensions.PMGSYSession.Current.RoleCode == 48 || PMGSY.Extensions.PMGSYSession.Current.RoleCode == 69 || PMGSY.Extensions.PMGSYSession.Current.RoleCode == 5)
+                            {
+                                <td style="width: 8%; text-align: right; padding-right: 10px;">    @Html.LabelFor(model => model.roadOrBridge) </td>
+                                <td style="width:10%">
+                                    @Html.DropDownListFor(model => model.roadOrBridge, new SelectList(Model.roadOrBridgeList, "Value", "Text"), new { @id = "roadOrBridge3TierSQCInsp" })
+                                    <br />
+                                    @Html.ValidationMessageFor(m => m.roadOrBridge)
+                                </td>
+
+                                <td style="text-align: right; padding-right: 10px; width: 8%;">
+                                    @Html.LabelFor(model => model.ROAD_STATUS)
+                                </td>
+                                <td style="width:10%;padding-left:0px;">
+                                    @Html.DropDownListFor(model => model.ROAD_STATUS, new SelectList(Model.ROAD_STATUS_LIST, "Value", "Text"))
+                                    @Html.ValidationMessageFor(model => model.ROAD_STATUS)
+                                </td>
+
+                                <td style="width: 8%; text-align: right; padding-right: 10px;">    @Html.LabelFor(model => model.gradeType) </td>
+                                <td style="width:10%">
+                                    @Html.DropDownListFor(model => model.gradeType, new SelectList(Model.gradeTypeList, "Value", "Text"), new { @id = "gradeType3TierSQCInsp" })
+                                    <br />
+                                    @Html.ValidationMessageFor(m => m.gradeType)
+                                </td>
+                            }
+
+
+                            @*add on 01-07-2022*@
+
+
+                        </tr>
+                        <tr>
+                            @if (PMGSY.Extensions.PMGSYSession.Current.RoleCode == 5)
+                            {
+                                <td colspan="12" style="text-align:center;">
+                                    <input type="button" class="jqueryButton" value="List Details" id="btn3TierCQCAdminInspDetails" name="btn3TierCQCAdminInspDetails" />
+                                </td>
+                            }
+                            else
+                            {
+                                <td colspan="12" style="text-align:center;">
+                                    <input type="button" class="jqueryButton" value="List Details" id="btn3TierSQCInspDetails" name="btn3TierSQCInspDetails" />
+                                </td>
+                            }
+
+
+
+
+
+                        </tr>
+                    </table>
+                </form>
+            </center>
+        </div>
+    </div>
+
+
+</body>
+</html>

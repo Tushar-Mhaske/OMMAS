@@ -1,0 +1,259 @@
+﻿@{
+    ViewBag.Title = "RegisterGrievanceForm";
+}
+
+@model PMGSY.Areas.ContractorGrievances.Models.AgreementDetailsModel
+
+<script src="~/Scripts/custom/Generic.js"></script>
+<script src="~/Scripts/jquery.ui.datepicker.js" type="text/javascript"></script>
+<script src="~/Scripts/jquery.ui.css" type="text/javascript"></script>
+<script type="text/javascript" src="@Url.Content("~/Scripts/jquery.ui.autocomplete.js")"> </script>
+<script src="~/Areas/ContractorGrievances/Scripts/RegisterGrievanceForm.js"></script>
+
+  <div id="divError" class="ui-state-error ui-corner-all" style="text-align: left; display: none; width: 100%">          
+            <span></span>
+            <span></span>
+        </div>
+
+
+    <form id="frmRegisterGrievance" method="POST" enctype="multipart/form-data">
+        <div style="margin-left: 100px">
+            @Html.ValidationSummary(true)
+            @Html.AntiForgeryToken()
+        </div>
+        <center>
+            <table class="rowstyle ui-corner-all" id="tblRegisterGrievance"  style="width:100%; border:solid black 1px;"  >
+                @if (ViewBag.Operation == "A")
+                 {
+                 <tr  style="height:20px;text-align:left" >
+                     <td id="roadcode" style="width:5%;">
+                          @Html.Hidden("hdnOperation", ((string)ViewBag.Operation))
+                          @Html.HiddenFor((model => model.Agreement_Code), new { @id = "agreementCode"})                        
+                         @Html.HiddenFor((model => model.IMS_PR_ROAD_CODE), new { @id = "roadCode"})
+                     </td>
+                     <td style="width:10%;text-align:right;"><strong>AGREEMENT NO  :  </strong></td>
+                         <td style="width:10%;text-align:left">
+                            <strong>
+                                  @Html.DisplayFor(model => model.Agreement_Number)                         
+                            </strong>
+                        </td>
+                     <td style="width:10%;text-align:right;"><strong>@Html.Label("AGREEMENT DATE :  ") </strong></td>
+                         <td style="width:5%;text-align:left">
+                            <strong> 
+                                @Html.DisplayFor(model => model.Agreement_Date,"{0:d}")            
+                            </strong>
+                        </td>
+                     <td style="width:10%;text-align:right;"><strong>@Html.Label("STATE :  ") </strong></td>
+                         <td style="width:10%;text-align:left">
+                            <strong>
+                                      @Html.DisplayFor(model => model.State)                      
+                            </strong>
+                        </td>
+                     <td style="width:10%;text-align:right;"><strong>@Html.Label("DISTRICT :  ") </strong></td>
+                         <td style="width:10%;text-align:left">
+                            <strong>
+                                      @Html.DisplayFor(model => model.District)                          
+                            </strong>
+                        </td>
+                     </tr>
+                 <tr style="text-align:left;height:25px">
+                    <td colspan="9" class="ui-widget-header" style="width:100%;font-size:1.2em;">
+                         <strong>Add Grievance Details </strong>
+                    </td>
+                </tr>
+                            
+                   <tr id="grievanceType" style="text-align:center;">
+                   <td style="width: 5%;"></td>
+                    <td style=" width: 15%;"></td>
+                    <td style=" width: 15%;"></td>
+                    <td  style="width: 15%;">@Html.RadioButtonFor(model => model.Feedback_Complaint,false, new {@id="feedback",@title="Feedback" })
+                   <label  style="width: 15%; text-align: right;"><strong>@Html.Label("Feedback")</strong></label>
+                    </td> 
+                     <td  style=" width: 15%;">@Html.RadioButtonFor(model => model.Feedback_Complaint,true,new {@id="complaint" ,@title="Complaint",@checked="checked" })
+                    <label  style="width: 15%; text-align: left;"><strong>@Html.Label("Complaint")</strong></label>
+                  </td>
+                       <td colspan ="8"></td>
+                    </tr>
+
+                    <tr id="grievanceNature" style="text-align:left;">
+                      <td style="width: 5%;"></td>
+                     <td style=" width: 15%;"><strong>@Html.Label("Grievance Type")</strong><span style="color:red">*</span></td>
+                     <td style="width:15%; text-align: left;">
+                            @Html.DropDownListFor(model => model.Grievance_Type, new SelectList(Model.Grievance_Type_List, "Value", "Text"), new { @title = "Grievance Type", @id = "ddlType", @style = "width:150px" })
+                              @Html.ValidationMessageFor(model => model.Grievance_Type)
+                     </td>
+                     <td style=" width: 15%;"><strong>@Html.Label("Grievance Sub-Type")</strong><span style="color:red">*</span></td>
+                     <td style="width: 15%; text-align: left;">
+                          @Html.DropDownListFor(model => model.Grievance_SubType, new SelectList(Model.Grievance_SubType_List, "Value", "Text"), new { @title = "Grievance Sub-Type", @id = "ddlSubType", @style = "width:150px" })
+                           @Html.ValidationMessageFor(model => model.Grievance_SubType)
+                     </td>
+                 </tr>
+
+                   <tr style="text-align:left;">  
+                       <td style="width: 5%;"></td>     
+                     <td  style=" width: 15%;text-align: left;"><strong>@Html.Label("Remarks :")</strong><span style="color:red">*</span></td>      
+                     <td colspan="7"style="width: 15%; text-align: left;">
+                        @Html.TextAreaFor(m => m.Grievance_Description, new { @title = "Grievance Description", @tabindex = "4", @maxlength = "250", @style = "height: 200px; width: 650px; font-size: 1.2em;", @placeholder = "Please provide details about your grievance here."})
+                        @Html.ValidationMessageFor(model => model.Grievance_Description)
+                      </td> 
+                      </tr>
+
+                  <tr id="fileUpload" style="text-align:left;">     
+                      <td style="width: 5%;"></td>
+                            <td style="text-align:left;width: 15%;">
+                                <strong>@Html.Label("Upload Document")</strong><span style="color:red">*</span><br />
+                                @*<ul style="text-align: left;font-size:0.9em;color:forestgreen;">
+                                     <li>File Format allowed : [*.pdf, *.png, *.jpg, *.jpeg].</li>
+                                        <li>Upload upto 20 images.</li>
+                                        <li>Max File Size : 4 MB.</li>
+                                </ul>*@                          
+                            </td> 
+                            <td   style="text-align:left;width: 15%;">
+                              @Html.TextBoxFor(model => model.files,"", new { @type="file",@name = "file[]", @id ="grievanceFile", multiple="multiple", @tabindex = 1 })                
+                            </td>
+                       <td colspan="7">
+                            <span style ="font-size:1em;color:forestgreen;">Max File Size : 4 MB</span><br />
+                            <span style ="font-size:1em;color:forestgreen;">File Format allowed : PDF, JPEG, JPG and PNG</span>
+                        </td>
+                     </tr>
+
+                <tr style="text-align:right;height:30px;font-size:1.2em;">
+                     <td style="width: 5%;"></td>                         
+                       <td  colspan="3" style="text-align:right;width: 15%;">
+                           <input type="button" value="Submit" class="jqueryButton" id="btnSubmit"/>                                                     
+                             </td>       
+                       <td  colspan="3" style="text-align:left;width: 15%;">
+                           <input type="button" value="Reset" class="jqueryButton" id="btnReset"/>  
+                       </td>  
+                    <td colspan="4"></td>            
+                        </tr>
+                  }
+                 @if (ViewBag.Operation == "E")
+                 {
+                    <tr style="text-align:left;height:25px">
+                    <td colspan="9" class="ui-widget-header" style="width:100%;font-size:1.2em;">
+                         <strong>Edit Grievance Details </strong>
+                    </td>
+                    </tr>
+                     <tr  style="height:20px;text-align:left" >
+                     <td id="roadcode" style="width:5%;">
+                          @Html.Hidden("hdnOperation", ((string)ViewBag.Operation))                      
+                         @Html.HiddenFor((model => model.IMS_PR_ROAD_CODE), new { @id = "roadCode"})
+                         @Html.HiddenFor((model => model.Detail_Id), new { @id = "DetailId"})
+                         </td>
+                         <td colspan="7"></td>
+                     </tr>
+                    
+                    <tr id="grievanceType" style="text-align:center;">
+                   <td style="width: 5%;"></td>
+                    <td style=" width: 15%;"></td>
+                    <td style=" width: 15%;"></td>
+                    <td  style="width: 15%;">@Html.RadioButtonFor(model => model.Feedback_Complaint,false, new {@id="feedback",@title="Feedback" })
+                   <label  style="width: 15%; text-align: right;"><strong>@Html.Label("Feedback")</strong></label>
+                    </td> 
+                     <td  style=" width: 15%;">@Html.RadioButtonFor(model => model.Feedback_Complaint,true,new {@id="complaint" ,@title="Complaint" })
+                    <label  style="width: 15%; text-align: left;"><strong>@Html.Label("Complaint")</strong></label>
+                  </td>
+                       <td colspan ="8"></td>
+                    </tr>
+
+                    <tr id="grievanceNature" style="text-align:left;">
+                      <td style="width: 5%;"></td>
+                     <td style=" width: 15%;"><strong>@Html.Label("Grievance Type")</strong><span style="color:red">*</span></td>
+                     <td style="width:15%; text-align: left;">
+                            @Html.DropDownListFor(model => model.Grievance_Type, new SelectList(Model.Grievance_Type_List, "Value", "Text"), new { @title = "Grievance Type", @id = "ddlType", @style = "width:150px" })
+                              @Html.ValidationMessageFor(model => model.Grievance_Type)
+                     </td>
+                     <td style=" width: 15%;"><strong>@Html.Label("Grievance Sub-Type")</strong><span style="color:red">*</span></td>
+                     <td style="width: 15%; text-align: left;">
+                          @Html.DropDownListFor(model => model.Grievance_SubType, new SelectList(Model.Grievance_SubType_List, "Value", "Text"), new { @title = "Grievance Sub-Type", @id = "ddlSubType", @style = "width:150px" })
+                           @Html.ValidationMessageFor(model => model.Grievance_SubType)
+                     </td>
+                        <td colspan="7"></td>
+                 </tr>
+
+                    <tr style="text-align:left;">  
+                       <td style="width: 5%;"></td>     
+                     <td  style=" width: 15%;text-align: left;"><strong>@Html.Label("Remarks :")</strong><span style="color:red">*</span></td>      
+                     <td colspan="7"style="width: 15%; text-align: left;">
+                        @Html.TextAreaFor(m => m.Grievance_Description, new { @title = "Grievance Description", @tabindex = "4", @maxlength = "250", @style = "height: 200px; width: 650px; font-size: 1.2em;", @placeholder = "Please provide details about your grievance here."})
+                        @Html.ValidationMessageFor(model => model.Grievance_Description)
+                      </td> 
+                      </tr>
+
+                    <tr id="fileUpload" style="text-align:left;">     
+                      <td style="width: 5%;"></td>
+                            <td style="text-align:left;width: 15%;">
+                                <strong>@Html.Label("Upload Document")</strong><span style="color:red">*</span><br />
+                                
+                            </td> 
+                            <td   style="text-align:left;width: 15%;">
+                              @Html.TextBox("File","", new { @type="file",@id ="grievanceFile", multiple="multiple", @tabindex = 1 })                
+                            </td>
+                        <td colspan="7">
+                            <span style ="font-size:1em;color:forestgreen;">Max File Size : 4 MB</span><br />
+                            <span style ="font-size:1em;color:forestgreen;">File Format allowed : PDF, JPEG, JPG and PNG</span>
+                        </td>
+                     </tr>
+
+                   <tr style="text-align:right;height:30px;font-size:1.2em;">
+                     <td style="width: 5%;"></td>                         
+                       <td  colspan="3" style="text-align:right;width: 15%;">
+                           <input type="button" value="Update" class="jqueryButton" id="btnEdit"/>                                                     
+                             </td>       
+                       <td  colspan="3" style="text-align:left;width: 15%;">
+                           <input type="button" value="Cancel" class="jqueryButton" id="btnCancel"/>  
+                       </td>  
+                    <td colspan="4"></td>            
+                        </tr>
+                 }
+                    @if (ViewBag.Operation == "V")
+                 {
+                    
+                   <tr style="text-align:left;height:25px">
+                    <td colspan="9" class="ui-widget-header" style="width:100%;font-size:1.2em;">
+                         <strong>Read-Only Grievance Details </strong>
+                    </td>
+                    </tr>
+                    <tr id="grievanceType" style="text-align:center;">
+                   <td style="width: 5%;"></td>
+                    <td style=" width: 15%;"></td>
+                    <td style=" width: 15%;"></td>
+                    <td  style="width: 15%;">@Html.RadioButtonFor(model => model.Feedback_Complaint,false, new {@onclick = "return false;", @id="feedback",@title="Feedback" })
+                   <label  style="width: 15%; text-align: right;"><strong>@Html.Label("Feedback")</strong></label>
+                    </td> 
+                     <td  style=" width: 15%;">@Html.RadioButtonFor(model => model.Feedback_Complaint,true,new {@onclick = "return false;", @id="complaint" ,@title="Complaint" })
+                    <label  style="width: 15%; text-align: left;"><strong>@Html.Label("Complaint")</strong></label>
+                  </td>
+                       <td colspan ="8"></td>
+                    </tr>
+
+                    <tr id="grievanceNature" style="text-align:left;">
+                      <td style="width: 5%;"></td>
+                     <td style=" width: 15%;"><strong>@Html.Label("Grievance Type")</strong><span style="color:red">*</span></td>
+                     <td style="width:15%; text-align: left;">
+                            @Html.DropDownListFor(model => model.Grievance_Type, new SelectList(Model.Grievance_Type_List, "Value", "Text"), new { @disabled = "disabled", @title = "Grievance Type", @id = "ddlType", @style = "width:150px" })
+                              @Html.ValidationMessageFor(model => model.Grievance_Type)
+                     </td>
+                     <td style=" width: 15%;"><strong>@Html.Label("Grievance Sub-Type")</strong><span style="color:red">*</span></td>
+                     <td style="width: 15%; text-align: left;">
+                          @Html.DropDownListFor(model => model.Grievance_SubType, new SelectList(Model.Grievance_SubType_List, "Value", "Text"), new { @disabled = "disabled", @title = "Grievance Sub-Type", @id = "ddlSubType", @style = "width:150px" })
+                           @Html.ValidationMessageFor(model => model.Grievance_SubType)
+                     </td>
+                        <td colspan="7"></td>
+                 </tr>
+
+                    <tr style="text-align:left;">  
+                       <td style="width: 5%;"></td>     
+                     <td  style=" width: 15%;text-align: left;"><strong>@Html.Label("Remarks :")</strong><span style="color:red">*</span></td>      
+                     <td colspan="7"style="width: 15%; text-align: left;">
+                        @Html.TextAreaFor(m => m.Grievance_Description, new { @title = "Grievance Description", @readOnly = true, @tabindex = "4", @maxlength = "250", @style = "height: 200px; width: 650px; font-size: 1.2em;", @placeholder = "Please provide details about your grievance here."})
+                        @Html.ValidationMessageFor(model => model.Grievance_Description)
+                      </td> 
+                      </tr>
+
+                 }
+            </table>       
+        </center>
+    </form>
+

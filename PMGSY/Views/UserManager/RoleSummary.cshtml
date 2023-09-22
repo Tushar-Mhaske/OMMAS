@@ -1,0 +1,145 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <script src="~/Scripts/UserManager/UMAdminHome.js"></script>
+    <script src="~/Scripts/jquery-ui.js"></script>
+    <script src="~/Scripts/custom/Generic.js"></script>
+    <script>
+        //$(document).ready(function () {
+
+        //    setInterval('autoRefreshUserCount()', 5000);
+        //});
+
+        @* function autoRefreshUserCount() {
+            //alert(@HttpContext.Current.Application["OnlineUsers"].ToString());
+            $("#spnOnlineUsers").html(@HttpContext.Current.Application["OnlineUsers"].ToString());
+        }*@
+    </script>
+</head>
+<fieldset>
+    <table style="vertical-align: top; width: 97%">
+        <tr>
+            <td style="vertical-align: top; width: 5%">
+                <table style="width: 100%" id="treegrid"></table>
+                <div id="ReportLinks" style="height: 100%; font-size: 1em; font-family: Trebuchet MS,Tahoma,Verdana,Arial,sans-serif;">
+                    <h3><a href="#">Quick Links</a></h3>
+
+                    <div id="tableMain" class="ui-state-default" style="height: 280px; overflow: hidden">
+                        <table id="tableContentName" style="width: 100%;" cellspacing="0" cellpadding="0" border="0">
+                            <tr>
+                                <td>
+                                    <a href="/elmah.axd" id="errorLogLink" style="text-decoration: none;">Error Log</a> |
+                                                            @*<a href="/Proposal/BulkDetails/2" >Click</a>*@
+                                    <a href="#" id="loginListLink" style="text-decoration: none;">Login Report</a>
+                                    <hr />
+                                    <a href="#" id="logAccessListLink" style="text-decoration: none;">Access</a> |
+                                                 <a href="#" id="elmaherrorLink" style="text-decoration: none;">Delete Errors</a>
+                                    <hr />
+                                    <a href="#" id="RefreshDataLink" style="text-decoration: none;">Refresh Data</a>  |
+                                                 <a href="#" id="TestEmailLink" style="text-decoration: none;">Test Mail</a>
+                                    <hr />
+                                    <a href="#" id="DeFinalizeBalSheet" style="text-decoration: none;">Definalize Balance Sheet</a>
+                                    <hr />
+                                    <a href="#" id="GeneratePDFKeyForBank" style="text-decoration: none;">Generate PDF Key For Bank</a>
+                                    <hr />
+                                    <a href="#" id="proposalPIULink" style="text-decoration: none;">Proposal PIU Mapping</a>
+                                    <hr />
+                                    <a href="#" id="AvgConcLink" onclick="window.open('https://omms.nic.in/Home/AverageConcurrencyCalculationLayout');" style="text-decoration: none;">Average Concurrency</a>
+                                    <hr />
+
+                                    <a href="#" id="qmHelpDeskLink" style="text-decoration: none;">QM Help Desk</a>
+                                    <hr />
+
+                                    <a href="#" id="propDataGapLink" style="text-decoration: none;">Proposal DataGap</a>
+                                    <hr />
+
+                                    <a href="#" id="modulewiseFilesCount" style="text-decoration: none;">Proposal DataGap</a>
+                                    <hr />
+                                    @* <a href="#" id="agrUpdateLink" style="text-decoration: none;">Agreement Updation</a> <hr />*@
+                                </td>
+                            </tr>
+                        </table>
+                    </div>
+                </div>
+            </td>
+            <td style="vertical-align: top; width: 95%">
+                <table style="width: 100%">
+                    <tr>
+                        <td style="width: 50%; vertical-align: top;">
+                            <div id="roleDetailsAccordionDiv" style="width: 100%; font-size: 1em; font-family: Trebuchet MS,Tahoma,Verdana,Arial,sans-serif;">
+                                <h3><a href="#">Role Details</a></h3>
+                                <div style="height: 60px; overflow: auto">
+                                    @* <div style="padding:3px;border-bottom:1px solid #CCC;">
+                                       <b> Active Online Users : </b> <span id="spnOnlineUsers">@HttpContext.Current.Application["OnlineUsers"].ToString()</span> 
+                                    </div>  *@
+                                    <div id="roleDetailsDiv" style="padding: 3px; margin-top: 15px; border-bottom: 1px solid #CCC;">
+                                        Please select role in left pane, to view role details
+                                    </div>
+                                </div>
+                            </div>
+                        </td>
+                        <td style="width: 50%; height: 100%">
+                            <div id="linksTable" style="height: 100%; font-size: 1em; font-family: Trebuchet MS,Tahoma,Verdana,Arial,sans-serif;">
+                                <h3><a href="#">Click links to update details</a></h3>
+
+                                <div id="tableMain" class="ui-state-default" style="height: 50px; overflow: hidden">
+                                    <table id="tableContentName" style="width: 100%;" cellspacing="0" cellpadding="0" border="0">
+                                        <tr>
+                                            <td>
+                                                <a href="#" id="userListLink" style="text-decoration: none;">Manage Users</a>  |  
+                                                             <a href="#" id="roleListLink" style="text-decoration: none;">Manage Roles</a>
+
+                                                <hr />
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td>
+                                                <a href="#" id="menuListLink" style="text-decoration: none;">Manage Menus</a>  |  
+                                                            <a href="#" id="roleHomePageLink" style="text-decoration: none;">Map Home Page</a>
+
+
+                                            </td>
+                                        </tr>
+                                    </table>
+                                </div>
+                            </div>
+                        </td>
+                    </tr>
+
+
+                    <tr>
+                        <td colspan="2">
+                            <div id="notaccordion" style="font-size: 1em; font-family: Trebuchet MS,Tahoma,Verdana,Arial,sans-serif;">
+                                <h3><a href="#">Menus Mapped</a></h3>
+                                <div id="menuDetailsAccordionDiv">
+                                    <div id="menuMappingDiv">
+                                        No details available.
+                                    </div>
+                                </div>
+                                <h3><a href="#">Users Mapped</a></h3>
+                                <div id="userDetailsAccordionDiv">
+
+                                    <div id="userMappingDiv">
+                                        No details available.
+                                    </div>
+                                </div>
+                                <div id="formDiv" style="display: none; font-size: 1em; font-family: Trebuchet MS,Tahoma,Verdana,Arial,sans-serif;">
+                                    <h3 id="updateDetailsHead"><a href="#">Update Details</a>
+                                        <a href="#" style="float: right;">
+                                            <img src="" class="ui-icon ui-icon-closethick" onclick="closeUpdateDetails();" /></a>
+                                    </h3>
+                                    <div id="addDetailsDiv" style="font-size: 1em; font-family: Trebuchet MS,Tahoma,Verdana,Arial,sans-serif;">
+                                    </div>
+                                </div>
+                            </div>
+                            <!-- Accordion ends here -->
+                        </td>
+
+                    </tr>
+                </table>
+            </td>
+        </tr>
+    </table>
+</fieldset>
+
+</html>

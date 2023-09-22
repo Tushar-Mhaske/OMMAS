@@ -1,0 +1,75 @@
+﻿@model PMGSY.Models.NewsDetails.CreateNews
+@{
+    ViewBag.Title = "CreateNews";
+}
+
+<script src="~/Scripts/jquery.ui.datepicker.js"></script>
+<script src="~/Scripts/NewsDetails/CreateNews.js"></script>
+<script src="~/Scripts/custom/Generic.js"></script>
+@*<div id="dvhdrChequeAbstractDetails" class="ui-state-default ui-corner-all " style="margin-bottom: 05px; height: 20px">Abstract at the end of the month<span style="float: right; margin-right: 2Px; margin-top: 2px;cursor:pointer" id="spnCloseDetails" class="ui-icon ui-icon-closethick"></span>  </div>    *@
+@*class="ui-state-default"*@@*class="ui-icon ui-icon-circle-triangle-n"*@
+<div style="width: 98%; height: 20px; border: none; margin-top: 5px; margin-bottom: -15px;">
+    <span style="float: right; margin-right: 2Px; margin-top: 2px" id="idFilterDiv"></span>
+</div>
+<div style="width: 98%; border: none; margin-top: -15px; margin-bottom: 10px;" class="ui-state-default">
+    <div id="dvCreateNewsMain" style="margin-top: 0px; text-align: left; border: ridge 0.1em #ccc; width: 100%; padding-top: 5px; padding-left: 5px; padding-right: 5px; padding-bottom: 5px;">
+        <form id="frmCreateNews">
+            @Html.AntiForgeryToken()
+            @Html.ValidationSummary(true)
+            <table style="margin-top: 10px; margin-bottom: 5px">
+                <tr>
+                    <td style="width: 30px;">
+                        @Html.Label("Title", new { @id = "lblNewsTitle" })<span style="color: red;">*</span>
+                    </td>
+                    <td>
+                        @Html.TextBoxFor(m => m.newsTitle, new { @id = "txtNewsTitle", @maxlength = "255" })
+                        @Html.ValidationMessageFor(m => m.newsTitle)
+                        @Html.HiddenFor(m => m.hdnewsId, new { @id = "hdnnewsId" })
+                    </td>
+                </tr>
+                <tr>
+                    <td style="width: 30px;">
+                        @Html.Label("Description", new { @id = "lblNewsDesc" })<span style="color: red;">*</span>
+                    </td>
+                    <td>
+                        @Html.TextAreaFor(m => m.news_Desc, new { @id = "txtNewsDesc", @maxlength = "8000", @style = "width:300px;resize:none" })
+                        @Html.ValidationMessageFor(m => m.news_Desc)
+                        <br />
+                        <span><b>Note: </b>Special Charachers <b>',.)('</b> are allowed</span>
+                    </td>
+                </tr>
+                <tr>
+                    <td style="width: 150px;">
+                        @Html.Label("News Publish Start Date", new { @id = "lblNewsPublishSt" })<span style="color: red;">*</span>
+                    </td>
+                    <td style="width: 300px;">
+                        @Html.TextBoxFor(m => m.newa_Pub_Start_Date, new { @id = "txtNewsPublishSt", @maxlength = "10", placeholder = "dd/MM/yyyy" })
+                        <br />
+                        @Html.ValidationMessageFor(m => m.newa_Pub_Start_Date)
+                    </td>
+                    <td style="width: 150px;">
+                        @Html.Label("News Publish End Date", new { @id = "lblNewsPublishEnd" })
+                    </td>
+                    <td style="width: 300px;">
+                        @Html.TextBoxFor(m => m.newa_Pub_End_Date, new { @id = "txtNewsPublishEnd", @maxlength = "10" })
+                        <br />
+                        @Html.ValidationMessageFor(m => m.newa_Pub_End_Date)
+                    </td>
+                </tr>
+                <tr>
+                    <td colspan="4" style="text-align: center;">
+                        @if (Model.newsDBOpr == "I")
+                        {
+                            <input type="button" id="btnCreateNews" title="Create" value="Create" class="jqueryButton" />
+                        }
+                        else
+                        {
+                            <input type="button" id="btnUpdateNews" title="Update" value="Update" class="jqueryButton" />
+                        }
+                        <input type="reset" id="btnResetCreateNews" title="Reset" value="Reset" class="jqueryButton" />
+                    </td>
+                </tr>
+            </table>
+        </form>
+    </div>
+</div>

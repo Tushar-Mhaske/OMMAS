@@ -1,0 +1,22 @@
+﻿@using MvcReportViewer
+@model PMGSY.Areas.AccountReports.Models.ScheduleRoadModel
+
+@*overflow-x: hidden; overflow-y: hidden*@
+<div id="dvRoadDetailsReport" style="width: 95%; ">
+    @Html.MvcReportViewer("/PMGSYCitizen/ScheduleRoad",
+         new
+         {
+             PCHARFUNDTYPE = Model.FundType,
+             PINTAdminNDCode = Model.Piu,
+             PINTAccMonth = Model.Month,
+             PINTAccYear = Model.Year,             
+             LevelId = Model.LevelId,             
+             PINTHeadID = Model.HeadCode,             
+             PCHARFACode = Model.FundingAgency,             
+             ScheduleRoadReportType = Model.RoadReportType,             
+             SrrdaNdCode=Model.SRRDANdCode,
+             HeadName=Model.HeadName,
+             FundingAgencyName=Model.AgencyName
+         },
+         new { Height = 600, Width = 1200, style = "border:none;" })
+</div>

@@ -1,0 +1,17 @@
+﻿@{
+    ViewBag.Title = "ViewCompletedPriorityWorkReport";
+    //Layout = "~/Views/QualityMonitoring/InProgressPriorityWorkView.cshtml";
+}
+
+
+@using MvcReportViewer
+
+@Html.MvcReportViewer("/PMGSYCitizen/COMPLETED_PRIORITY_WORKS",
+ new
+ {
+    State = @ViewBag.stateCode,
+    district = @ViewBag.districtCode,
+
+ },
+   new { Height = 600, Width = "100%", style = "border:none;" })
+

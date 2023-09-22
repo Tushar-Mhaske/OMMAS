@@ -1,0 +1,29 @@
+﻿@using MvcReportViewer
+
+@model PMGSY.Areas.ECBriefReport.Models.ECBriefReportViewModel
+
+
+    
+    @Html.MvcReportViewer("/PMGSYCitizen/EC_Brief_Report",
+     new
+     {
+         Level = Model.LevelCode,
+         State = Model.StateCode,
+         District = Model.DistrictCode,
+         Block = Model.BlockCode,
+         Agency = Model.AgencyCode,
+         Collaboration = Model.CollaborationCode,
+         Year = Model.Year,
+         Batch = Model.BatchCode,
+         
+         PMGSY = PMGSY.Extensions.PMGSYSession.Current.PMGSYScheme,
+         StateName = Model.StateName,
+         DistName = Model.DistName,
+         BlockName = Model.BlockName,
+         //BatchName = Model.BatchName,
+         CollabName = Model.CollabName,
+         AgencyName = Model.AgencyName,
+         //StatusName = Model.StatusName
+
+     },
+       new { Height = 600, Width = "100%", style = "border:none;" })

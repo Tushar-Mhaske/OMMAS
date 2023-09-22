@@ -1,0 +1,22 @@
+﻿@using MvcReportViewer
+@model PMGSY.Areas.AccountReports.Models.ReportFormModel
+
+@{ PMGSY.Models.Report.ReportFilter objParam = new PMGSY.Models.Report.ReportFilter();}
+
+    @Html.MvcReportViewer("/PMGSYCitizen/Acc_Income_And_Expenditure_Report",
+     new
+     {
+         PINTAdminNDCode = Model.AdminNdCode,
+         PINTAccMonth = Model.Month,
+         PINTAccYear = Model.Year,
+         PCHARfundType = Model.FundType,
+         PINTOPLvlID = Model.LevelId,
+         PINTIsAllDpiu = Model.isAllDPIU,
+         NodalAgency = Model.NodalAgencyName,
+         PIU = Model.PIUName,
+         Year = Model.YearName,
+         FormName = Model.FormName,
+         ReportHeading = Model.ReportHeading,
+         Paragraph = Model.Paragraph
+     },
+     new { Height = 600, Width = 1190, style = "border:none;" })

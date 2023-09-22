@@ -1,0 +1,183 @@
+﻿@model PMGSY.Models.MPMLAProposal.MPRoadProposalInclusionViewModel
+
+<script src="~/Scripts/custom/Generic.js"></script>
+<script src="~/Scripts/MPMLAProposal/AddEditMPProposalInclusionDetails.js"></script>
+<style>
+
+.wrapword{
+white-space: -moz-pre-wrap !important;  /* Mozilla, since 1999 */
+white-space: -pre-wrap;      /* Opera 4-6 */
+white-space: -o-pre-wrap;    /* Opera 7 */
+white-space: pre-wrap;       /* css-3 */
+word-wrap: break-word;       /* Internet Explorer 5.5+ */
+word-break: break-all;
+white-space: normal;
+}
+</style>
+
+@{    
+    <form id="frmMPProposalInclusion">
+        <div style="margin-left: 100px">
+            @Html.ValidationSummary(true)
+            @Html.HiddenFor(model => model.EncryptedCode)
+            @Html.AntiForgeryToken()
+        </div>
+        <center>
+            <div id="divError" class="ui-state-error ui-corner-all" style="text-align: left; display: none; width: 100%">
+              <span class="ui-icon ui-icon-alert" style="float: left;"></span>
+              <span></span>
+             </div>
+
+            <div style="height:auto; width: 100%; text-align:left; padding-top: 0.6em;" class="ui-state-default ui-corner-all" > 
+            <table style="table-layout:fixed;width:100%;">
+                <tr>
+                    <td class="wrapword" style="width:20%">@Html.DisplayNameFor(model => model.display_Constituency)&nbsp; @Html.DisplayFor(model => model.display_Constituency) </td>
+                    <td class="wrapword" style="width:80%">@Html.DisplayNameFor(model => model.IMS_ROAD_DETAILS)&nbsp; @Html.DisplayFor(model => model.IMS_ROAD_DETAILS)</td>
+                    @Html.HiddenFor(model=>model.display_Constituency)
+                    @Html.HiddenFor(model=>model.IMS_ROAD_DETAILS)
+                </tr>
+            </table> 
+            </div>
+             <table id="Table1"  cellspacing="0" cellpadding="3" class="rowstyle" style="margin-top:0px; border-bottom:none; text-align:left; border:ridge 0.1em #ccc; width:100%; padding-top:5px; padding-left:5px; padding-right:5px; padding-bottom:5px;">
+                <tr style="text-align:left;">
+                 </tr>
+                    <tr style="text-align:left;">
+                        <td class="editor-label" style="width:25%">@Html.LabelFor(model => model.IMS_INCLUDED_IN_CN)<label style="color:red">*</label></td>
+                      
+                        <td class="editor-label" style="width:20%" @*colspan="4"*@>                           
+                            @Html.RadioButtonFor(model => model.IMS_INCLUDED_IN_CN, "Y", new { @id = "radioDrrpYes", @title = "Yes", @tabindex = 1 })
+                            @Html.Label("Yes")
+                            @Html.RadioButtonFor(model => model.IMS_INCLUDED_IN_CN, "N", new { @id = "radioDrrpNo", @title = "No", @tabindex = 2, @checked = "checked" })
+                            @Html.Label("No")
+                            @Html.ValidationMessageFor(model => model.IMS_INCLUDED_IN_CN)
+                            @Html.HiddenFor(model => model.IMS_INCLUDED_IN_CN)
+                        </td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                    </tr>
+                 
+                 
+                     <tr style="text-align:left; display:none" id="trDrrpYes">
+                         @*<td class="editor-label" style="width:16%"></td>*@
+                        <td class="TdDrrpYes" style="width:25%;display:none;">
+                            @Html.LabelFor(model => model.DRRP_BLOCK)<label style="color:red">*</label>
+                        </td>
+                        <td class="TdDrrpYes" style="width:20%;display:none;">
+                                @Html.DropDownListFor(model => model.DRRP_BLOCK, Model.Blocks as IEnumerable<SelectListItem>, new { @title = "Select Block", @tabindex = 3 })
+                                @Html.ValidationMessageFor(model => model.DRRP_BLOCK)
+                        </td>
+                        <td class="TdDrrpYes" style="width:10%;display:none;">
+                                @Html.LabelFor(model => model.PLAN_CN_ROAD_CODE)<label style="color:red">*</label>
+                        </td>
+                        <td id="tdDrrpRoadNamesDdl" class="TdDrrpYes" style="width:20%;display:none;" @*colspan="4"*@>                    
+                                @Html.DropDownListFor(model => model.PLAN_CN_ROAD_CODE, Model.DrrpRoadNames as IEnumerable<SelectListItem>, new { @id = "ddlDrrpRoadNames", @title = "Select the road name", @tabindex = 4 ,@class="PLAN_CN_ROAD_CODE"})
+                                @Html.ValidationMessageFor(model => model.PLAN_CN_ROAD_CODE)
+                                @Html.HiddenFor(model => model.PLAN_CN_ROAD_CODE)
+                        </td>
+
+                         <td></td>      
+                         <td></td>    
+                                        
+                     </tr>
+
+                 <tr id="drrpHideShow">
+                     <td colspan="6"></td>
+                 </tr>
+                 <tr id="trDrrpNo">
+                     <td class="tdDrrpNo" style="width:25%;">
+                                @Html.LabelFor(model => model.IMS_REASON_ID_1)<label style="color:red">*</label>
+                      </td>
+                      <td id="tdReasonDdl" class="tdDrrpNo" style="width:20%"@* colspan="8"*@>                    
+                                @Html.DropDownListFor(model => model.IMS_REASON_ID_1, Model.Reasons as IEnumerable<SelectListItem>, new { @title = "Select the reason", @tabindex = 5,@class="IMS_REASON_ID_1" })
+                                @Html.ValidationMessageFor(model => model.IMS_REASON_ID_1, null, new { @id="spnMpCoreNetworkRoadReason"})
+                      </td>
+                     <td></td>
+                     <td></td>
+                     <td></td>
+                     <td></td>
+                 </tr>
+
+                   <tr style="text-align:left;">
+                        <td class="editor-label"style="width:20%">@Html.LabelFor(model => model.IMS_INCLUDED_IN_PROPOSAL)<label style="color:red">*</label></td>
+                        <td class="editor-label" style="width:20%" >                           
+                            @Html.RadioButtonFor(model => model.IMS_INCLUDED_IN_PROPOSAL, "Y", new { @id = "radioImsYes", @title = "Yes", @tabindex = 6 })
+                            @Html.Label("Yes")
+                            @Html.RadioButtonFor(model => model.IMS_INCLUDED_IN_PROPOSAL, "N", new { @id = "radioImsNo", @title = "No", @tabindex = 7, @checked = "checked" })
+                            @Html.Label("No")
+                            @Html.ValidationMessageFor(model => model.IMS_INCLUDED_IN_PROPOSAL)
+                            @Html.HiddenFor(model => model.IMS_INCLUDED_IN_PROPOSAL)
+                        </td>
+                         <td></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>   
+                    </tr>
+                
+
+                   <tr style="text-align:left; display:none" id="trImsYes">
+                       @*<td class="editor-label" style="width:16%"></td>*@
+                        <td class="tdImsYes" style="width:25%">
+                            @Html.LabelFor(model => model.IMS_BLOCK)<label style="color:red">*</label>
+                        </td>
+                       
+                        <td class="tdImsYes" style="width:20%">
+                                @Html.DropDownListFor(model => model.IMS_BLOCK, Model.Blocks as IEnumerable<SelectListItem>, new { @title = "Select Block", @tabindex = 8 })
+                                @Html.ValidationMessageFor(model => model.IMS_BLOCK)
+                        </td>
+
+                       <td class="tdImsYes" style="width:10%">
+                            @Html.LabelFor(model => model.inclusion_year)<label style="color:red">*</label>
+                        </td>
+                       
+                        <td class="tdImsYes" style="width:10%">
+                                @Html.DropDownListFor(model => model.inclusion_year,Model.Years as IEnumerable<SelectListItem>, new { @title = "Select Year", @tabindex = 9 })
+                        </td>
+
+                        <td class="tdImsYes" style="width:10%">
+                                @Html.LabelFor(model => model.IMS_PR_ROAD_CODE)<label style="color:red">*</label>
+                        </td>
+                       
+                        <td class="tdImsYes" style="width:10%">                    
+                                @Html.DropDownListFor(model => model.IMS_PR_ROAD_CODE, Model.ImsRoadNames as IEnumerable<SelectListItem>, new { @id = "ddlImsRoadNames", @title = "Select the road name", @tabindex = 10 ,@class="IMS_PR_ROAD_CODE"})
+                                @Html.ValidationMessageFor(model => model.IMS_PR_ROAD_CODE)
+                                @Html.HiddenFor(model => model.IMS_PR_ROAD_CODE)
+                        </td>
+
+                       
+                   </tr>
+
+                  
+                 <tr id="ImsHideShow">
+                     <td colspan="6"></td>
+                 </tr>
+                   <tr style="text-align:left;" id="trImsNo">
+                    <td class="tdImsNo" style="width:25%">
+                                @Html.LabelFor(model => model.IMS_REASON_ID_2)<label style="color:red">*</label>
+                        </td>
+                       
+                        <td id="tdImsReasonDdl" class="tdImsNo" style="width:20%" @*colspan="6"*@>                    
+                                @Html.DropDownListFor(model => model.IMS_REASON_ID_2, Model.Reasons  as IEnumerable<SelectListItem>, new { @title = "Select the reason", @tabindex = 11,@class="IMS_REASON_ID_2" })
+                                @Html.ValidationMessageFor(model => model.IMS_REASON_ID_2, null, new { @id="spnMpIMSRoadReason"})
+                        </td>
+                       <td></td>
+                       <td></td>
+                       <td></td>
+                       <td></td>
+                   </tr>
+
+
+                  <tr style="text-align:left;">   
+                        <td colspan="6" align="right">
+                                <center>
+                                    <input type="button" value="Save" class="jqueryButton" id="btnSaveMPProposal" name="btnSaveMPProposal" title="Save" tabindex="12"/>
+                                    <input type="Reset" value="Reset" class="jqueryButton" id="btnResetMPRoadProposalInclusion" name="btnResetMPRoadProposalInclusion"  title="Reset" tabindex="13"/>
+                                </center>
+                        </td>
+                    </tr>
+            </table>
+     </center>
+    </form>
+}
+

@@ -1,0 +1,70 @@
+﻿@*
+    * Project Id    :
+    * Project Name  :   OMMAS II
+    * Name          :   Form2.cshtml
+    * Description   :   Renders Form2 State Level details in Report
+    * Author        :   Shyam Yadav
+    * Creation Date :   05/Sep/2013    
+*@
+@model PMGSY.Models.FormReports.FormReportsViewModel
+
+<script src="~/Scripts/FormReports/Form2.js"></script>
+<script src="~/Scripts/custom/Generic.js"></script>
+<form id="frmForm2Report">
+    @Html.Hidden("hdnLevelId", PMGSY.Extensions.PMGSYSession.Current.LevelId.ToString())
+
+    <div style="width: 99%">
+        <table class="ui-state-default ui-corner-all" style="width: 100%;">
+            <tr>
+                <td style="width: 2%;"></td>
+                <td style="text-align: left; width: 1%;">
+                    @Html.Label("Constituency Type")                  
+                </td>
+                <td style="width: 15%;">
+                    @Html.DropDownListFor(model => model.MAST_CONSTITUENCY_TYPE, new SelectList(Model.CONSTITUENCY_TYPES, "Value", "Text"), new { @id = "ddMAST_CONSTITUENCY_TYPE_Form2",@title="Constituency Type",@tabindex = 1 })
+
+                </td>
+            </tr>
+        </table>
+    </div>
+        <br />
+    @Html.HiddenFor(model => model.STATE_NAME)
+    @Html.HiddenFor(model => model.CONST_NAME)
+
+    @if (PMGSY.Extensions.PMGSYSession.Current.LevelId == 6)     //Mord
+    {
+        @Html.HiddenFor(model => model.MAST_STATE_CODE)
+         
+
+        <table id="tbForm2StateLevelReport"></table>
+        <div id="dvForm2StateLevelReportPager"></div>
+ 
+        <br />
+        <table id="tbForm2DistrictLevelReport"></table>
+        <div id="dvForm2DistrictLevelReportPager"></div>
+
+        <br />
+        <table id="tbForm2ConstituencyLevelReport"></table>
+        <div id="dvForm2ConstituencyLevelReportPager"></div>
+    }
+    else if (PMGSY.Extensions.PMGSYSession.Current.LevelId == 4)     //State
+    {
+        @Html.HiddenFor(model => model.MAST_STATE_CODE)
+        <table id="tbForm2DistrictLevelReport"></table>
+        <div id="dvForm2DistrictLevelReportPager"></div>
+
+        <br />
+        <table id="tbForm2ConstituencyLevelReport"></table>
+        <div id="dvForm2ConstituencyLevelReportPager"></div>
+    }
+    else if (PMGSY.Extensions.PMGSYSession.Current.LevelId == 5)     //District
+    {
+        @Html.HiddenFor(model => model.MAST_STATE_CODE)
+        @Html.HiddenFor(model => model.MAST_CONSTITUENCY_CODE)
+
+        <table id="tbForm2ConstituencyLevelReport"></table>
+        <div id="dvForm2ConstituencyLevelReportPager"></div>
+    }
+
+
+</form>

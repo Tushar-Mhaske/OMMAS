@@ -1,0 +1,413 @@
+﻿@model PMGSY.Models.AccountDashboard.AccountDashboardModel
+@using PMGSY.Extensions
+@{
+    Layout = null;
+}
+
+
+<html>
+
+<head>
+
+    <meta name="viewport" content="width=device-width" />
+    <meta http-equiv="Cache-Control" content="no-cache" />
+    <meta http-equiv="Pragma" content="no-cache" />
+    <meta http-equiv="Expires" content="0" />
+    <title>Account Dash Board</title>
+
+    <style>
+        .button {
+            background-color: #EDEDED;
+            padding: 2px 4px;
+            font: 13px sans-serif;
+            text-decoration: none;
+            border: 1px solid #000;
+            border-color: #aaa #7d7c7c #7d7c7c #aaa;
+            color: #003E74;
+        }
+
+        .corner {
+            border-width: 1px;
+            border: 1px solid #bbb;
+            border-radius: 4px;
+            padding: 3px 3px 3px 3px;
+            width: 100%;
+            /*background:#e7f0f7;*/
+        }
+
+        body {
+            font: Lucida Grande,Lucida Sans Unicode,Verdana,Arial,Helvetica,sans-serif;
+        }
+
+        /*#btnMinMaxWestCenter, #btnMinMaxWest,#btnMinMaxCenter, */
+        #dvOhterDetails {
+            background-color: aliceblue;
+            margin-top: -08px;
+            margin-left: -10px;
+            margin-right: -10px;
+            border-bottom: 1px solid #CCC;
+        }
+
+        #dvCenter, #dvWestSouth, #dvWestCenter, #dvCenterSouth {
+            border-top-right-radius: 1em;
+            border-top-left-radius: 1em;
+            border-bottom-right-radius: 1em;
+            border-bottom-left-radius: 1em;
+        }
+
+
+
+        #southCenter {
+            border-radius: 1em;
+            background-color: aliceblue;
+            display: block !important;
+            top: 96% !important;
+        }
+
+        #dvLayoutNorth {
+            height: 66px !important;
+            border: 1px solid #BBB;
+            overflow: hidden;
+        }
+
+        /*#dvLayoutWest {
+            top: 6px !important;
+        }*/
+
+        #dvWestSouth {
+            margin-top: -10px !important;
+            left: 05px !important;
+            /*width:94% !important;*/
+        }
+
+        #dvWestCenter {
+            left: 05px !important;
+            width: 94% !important;
+            /*height:40% !important;*/
+        }
+        /*#dvWestSouth {        
+            height:52% !important;                
+        }*/
+        #dvCenter, #dvCenterSouth {
+            margin-top: -10px !important;
+            left: 0px !important;
+            width: 96% !important;
+            /*top:5px !important;*/
+        }
+
+        /*#dvCenter {
+            height:52% !important;        
+        }*/
+        /*#dvCenterSouth {
+            height:40% !important;        
+        }*/
+        /*.ui-jqgrid .ui-jqgrid-view {
+           font-size: 2px;
+        }*/
+        /*.ui-jqgrid .ui-jqgrid-view{font-size:0.5em}*/
+
+        .ui-jqgrid-htable {
+            font-size: 1em;
+        }
+
+        .ui-pg-table {
+            font-size: 1em;
+        }
+        /*.ui-jqgrid tr.jqgrow td {font-size:0.8em}*/
+        .ui-row-ltr {
+            font-size: 0.7em;
+        }
+
+        .ui-jqgrid .ui-jqgrid-bdiv {
+            overflow-x: hidden !important;
+        }
+        /*.ui-jqgrid {font-size:0.11em !important}*/
+    </style>
+    <link href="~/Content/layout-default-latest.css" rel="stylesheet" />
+
+    <link href="~/Content/jquery-ui.css" rel="stylesheet" />
+
+    <link href="~/Content/themes/Redmond/jquery-ui-1.9.2.custom.css" rel="stylesheet" />
+
+    @*<link href="~/Content/themes/Humanity/jquery-ui-1.9.2.custom.css" rel="stylesheet" />*@
+    <link href="~/Content/jquery.qtip.css" rel="stylesheet" />
+    @*<link href="~/Content/ui.jqgrid.css" rel="stylesheet" />          *@
+    <link href="~/Content/ui.jqgrid.css" rel="stylesheet" />
+
+
+    <script src="~/Scripts/jquery-1.9.1.min.js"></script>
+    <script src="~/Scripts/jquery-ui.js"></script>
+    @*<script src="~/Scripts/custom/Generic.js"></script>*@
+    @*   <script src="~/Scripts/jquery.layout-latest.js"></script>*@
+
+    <script src="~/Scripts/jquery.layout-1.3.0.rc30.80.js"></script>
+    <script src="~/Scripts/jquery-ui-latest.js"></script>
+    <script src="~/Scripts/HighChart/highcharts_v4.0.4.js"></script>
+    <script src="~/Scripts/HighChart/highcharts-3d.js"></script>
+    <script src="~/Scripts/HighChart/exporting.js"></script>
+
+    <script src="~/Scripts/i18n/jquery.jqGrid.src.js"></script>
+    <script src="~/Scripts/i18n/grid.locale-en.js"></script>
+
+    @*    
+    <script src="~/Scripts/jquery.ui.core.js"></script>
+    <script src="~/Scripts/jquery.ui.mouse.js"></script>
+    <script src="~/Scripts/jquery.ui.widget.js"></script>
+    <script src="~/Scripts/jquery.ui.draggable.js"></script>
+    <script src="~/Scripts/jquery.ui.tabs.js"></script>*@
+
+    <script src="~/Scripts/jquery.validate.min.js"></script>
+    <script src="~/Scripts/jquery.validate.unobtrusive.min.js"></script>
+    @*<script src="~/Scripts/jquery.blockUI.min.js" type="text/javascript"></script>*@
+    <script src="~/Scripts/jquery.qtip.js"></script>
+
+    <script src="~/scripts/accountdashboard/AccountDashboardLayout.js"></script>
+
+    @Scripts.Render("~/bundles/jqueryBlockUI")
+</head>
+
+<body>
+    <div class="ui-layout-north" id="dvLayoutNorth">
+        <div class="ui-corner-all" style="border: solid #CCC 1px; margin-top: -7px; height: 40px; margin-bottom: 2px">
+            <table style="width: 100%;">
+                <tr>
+                    <td>
+                        <div id="UserLogin" style="cursor: default; color: #7D0000; float: right; padding: 2px 2px 3px 2px; margin-left: 50%; border: none; position: absolute;">
+                            <table>
+                                <tr>
+                                    <td><span>
+                                        <img src="~/Content/images/User-yellow-icon.png" /></span></td>
+                                    <td style="font-size: 12px; color: #7D0000;">
+                                        @if (PMGSYSession.Current.UserName != null)
+                                        {
+                                            @Html.Hidden("hdnRoleHomePage", PMGSYSession.Current.HomePageURL.ToString())
+                                            <span style="border-radius: 8px; padding-bottom: 5px;">&nbsp;&nbsp;Welcome <b>@PMGSYSession.Current.UserName</b></span>
+                                        }
+                                        @if (PMGSYSession.Current.RoleName != null)
+                                        {
+                                            <span style="padding-bottom: 5px;">( @PMGSYSession.Current.RoleName ) </span>
+                                        }
+
+                                        @if (PMGSYSession.Current.ModuleName != null)
+                                        {
+                                            <span style="padding-bottom: 2px;">|&nbsp; Module -&nbsp;</span><span id="spnModuleName" style="padding-bottom: 2px; border-radius: 8px;">@PMGSYSession.Current.ModuleName </span>
+                                        }
+                                    </td>
+                                </tr>
+                            </table>
+                        </div>
+                        <img src="~/Content/images/Header-e-gov-6.png" style="width: 100%; height: 35px; border: 0; margin-top: 0px" />
+
+                        <div id="userProfile" class="" style="width: 350px; float: none; display: none;">
+                            <div style="border-top: ridge 0.1em #000000; background-color: #ffffff; margin: 0 0 -15px -10px; padding-top: 5px; padding-bottom: 2px; width: 300px; height: 45px;">
+                                <input type="button" value="Log Off" style="color: #464646; width: 80px; height: 25px; background-color: transparent; border: ridge 0.1em #7a7a7a; margin: 2px 2px 2px 10px;" onclick="window.location.href = '/login/logout'" />
+                                <input type="button" value="Change Password" style="color: #464646; width: 120px; height: 25px; background-color: transparent; border: ridge 0.1em #7a7a7a; margin: 2px 2px 2px 25px;" onclick="window.location.href = '/login/ChangePassword'" />
+                            </div>
+                        </div>
+
+                    </td>
+                </tr>
+                <tr>
+                </tr>
+            </table>
+
+        </div>
+
+        @if (PMGSY.Extensions.PMGSYSession.Current.LevelId != 5)
+        {
+            <div id="dvStateFilter">
+                <form id="frmAccountDashboard">
+                    @Html.Hidden("LevelId", PMGSY.Extensions.PMGSYSession.Current.LevelId)
+                    <center>
+            <table class="corner" style="padding:0px">
+                <tr>
+                    <td style="width:05%"></td>
+                    <td style="width:4%">@Html.LabelFor(model => model.AgencyCode, new { @style = "font-size:13px" }) : </td>
+                    <td style="width:10%">@Html.DropDownListFor(model => model.AgencyCode, Model.lstState, new { @id = "ddlStates", @title = "Select State", @Style = "width:250px" })</td>
+                    <td style="width:4%">@Html.LabelFor(model => model.DPIU, new { @style = "font-size:13px" }) : </td>
+                    <td style="width:10%">@Html.DropDownListFor(model => model.DPIU, Model.lstDPIU, new { @id = "ddlDPIU", @title = "Select DPIU", @Style = "width:200px" })</td>                     
+                    <td style="width:6%">@Html.LabelFor(model => model.FundType, new { @style = "font-size:13px" }): </td>
+                    <td style="width:10%">
+                        @Html.DropDownListFor(model => model.FundType, Model.lstFundType, new { @id = "ddlFundType", @title = "Select Fund Type", @Style = "width:160px" })
+                        @*@Html.ValidationMessageFor(m => m.FundType)*@
+                    </td> 
+                   @* <td style="width:4%">@Html.LabelFor(model => model.Month, new { @style = "font-size:13px" }): </td>
+                    <td style="width:10%">
+                        @Html.DropDownListFor(model => model.Month, Model.lstMonth, new { @id = "ddlMonth", @title = "Select Month", @Style = "width:150px" })
+                        @Html.ValidationMessageFor(m => m.Month)
+                    </td> 
+                    <td style="width:3%">@Html.LabelFor(model => model.Year, new { @style = "font-size:13px" }): </td>
+                    <td style="width:10%">
+                        @Html.DropDownListFor(model => model.Year, Model.lstYear, new { @id = "ddlYear", @title = "Select Year", @Style = "width:150px" })
+                        @Html.ValidationMessageFor(m => m.Year)
+                    </td> *@
+                    <td style="width:15%">
+                        <input type="button" name="View Details" id="btnView" value="View Details" class="jqueryButton ui-button ui-state-default ui-corner-all" style="height:23px;text-align:center;padding-top:2px"/>
+                    </td>
+                </tr>
+            </table>
+            </center>
+                </form>
+            </div>
+        }
+        else
+        {
+            <div id="dvStateFilter">
+                <form id="frmAccountDashboard">
+                    @Html.Hidden("LevelId", PMGSY.Extensions.PMGSYSession.Current.LevelId)
+                    <center>
+            <table class="corner">
+                <tr>
+                    <td style="width:10%"></td>
+                    <td style="width:2%">@Html.LabelFor(model => model.FundType, new { @style = "font-size:13px" }): </td>
+                    <td style="width:10%">@Html.DropDownListFor(model => model.FundType, Model.lstFundType, new { @id = "ddlFundType", @title = "Select Fund Type", @Style = "width:150px" })
+                        @Html.ValidationMessageFor(m => m.FundType)
+                    </td>                 
+                    <td style="width:15%">
+                        <input type="button" name="View Details" id="btnView" value="View Details" class="jqueryButton ui-button ui-state-default ui-corner-all"/>
+                    </td>
+                </tr>
+            </table>
+            </center>
+                </form>
+            </div>
+        }
+
+        @*</div>*@
+
+
+    </div>
+    <div class="ui-layout-center" id="mainDivCenter" style="border: none;">
+        <div class="ui-layout-center" style="border: none; margin-top: -10px;">
+            <div class="ui-layout-center" id="dvCenter" style="width: 94%; height: 95%; overflow: hidden;">
+                <div id="btnMinMaxCenter" style="float: right; width: 09%">
+                    <table style="margin-top: -15px">
+                        <tr>
+                            <td style="width: 1%">
+                                <span id="spnShowDedVsRemittanceChart" class="ui-icon ui-icon-image" title="Show Chart" style="margin-top: 0px; display: none"></span>
+                                <span id="spnShowDedVsRemittanceGrid" class="ui-icon ui-icon-calculator" title="Show Grid" style="margin-top: 0px"></span>
+                            </td>
+                            <td style="width: 1%">
+                                <span id="spnReloadDedVsRemittanceChart" class="ui-icon ui-icon-refresh" title="Reload" style="float: left; margin-right: 2px"></span>
+                            </td>
+                            <td>
+                                <span id="btnMaxCenter" onclick="MaximizeCenter();">
+                                    <img src="~/Content/images/expand_blue.png" style="height: 15px; width: 15px; margin-left: -5px; margin-top: 08px" />
+                                </span>
+                            </td>
+                            <td>
+                                <span id="btnMinCenter" onclick="MinimizeCenter();" style="display: none">
+                                    <img src="~/Content/images/collapse_blue.png" style="height: 15px; width: 15px; margin-left: 20px; margin-top: 10px" />
+                                </span>
+                            </td>
+                        </tr>
+                    </table>
+                </div>
+                <div id="dvDeductionVsRemittenceColumnChart" style="width: 100%; height: 100%; float: left;"></div>
+                <div id="dvDeductionVsRemittenceGrid" style="margin-top: 2%; display: none">
+                    <table id="tblDeductionVsRemittence"></table>
+                    <div id="divFDeductionVsRemittencePager"></div>
+                </div>
+            </div>
+            <div class="ui-layout-south" id="dvCenterSouth" style="width: 95%; height: 95%; overflow: hidden">
+                <div style="float: right; width: 3%;">
+                    <table style="margin-top: -10px">
+                        <tr>
+                            <td>
+                                <span id='spnRefreshAccountSummary' class='ui-icon ui-icon-refresh' title='Reload' style='float: left' onclick='ReloadAccountSummary();'></span>
+                            </td>
+                        </tr>
+                    </table>
+                </div>
+                <div id="dvOtherDetailsGrid" style="width: 97%; height: 97%; text-align: left; margin-top: 7px; margin-left: 0px">
+                    @Html.Hidden("currentFinYear", (System.DateTime.Now.Year))
+                    <table id="tblOtherDetails"></table>
+                    <div id="divOtherDetailsPager"></div>
+                </div>
+            </div>
+        </div>
+
+        <div id="dvLayoutWest" class="ui-layout-west" style="border: none; margin-top: -10px;">
+
+            <div class="ui-layout-center" id="dvWestCenter" style="overflow: hidden; position: relative; z-index: 1; margin-bottom: 5px;">
+
+                <div id="btnMinMaxWestCenter" style="text-align: left; z-index: 2; width: 13%; float: right">
+                    <table style="margin-top: -10px; float: left">
+                        <tr>
+                            <td style="width: 1%">
+                                <span id="dvHideShowDataLabels" class="ui-icon ui-icon-comment" title="Show Labels" style="float: left"></span>
+                            </td>
+                            <td style="width: 1%">
+                                <span id="spnShowExpenditureDetailsChart" class="ui-icon ui-icon-image" title="Show Chart" style="margin-top: 0px; display: none"></span>
+                                <span id="spnShowExpenditureDetailsGrid" class="ui-icon ui-icon-calculator" title="Show Grid" style="margin-top: 0px"></span>
+                            </td>
+                            <td style="width: 1%">
+                                <span id="spnReloadPieChart" class="ui-icon ui-icon-refresh" title="Reload" style="float: left"></span>
+                            </td>
+
+                            <td style="width: 1%">
+                                <span id="btnMaxWestSouth" onclick="MaximizeWest();" style="float: left">
+                                    <img src="~/Content/images/expand_blue.png" style="height: 15px; width: 15px; margin-left: 0px; margin-top: 4px" />
+                                </span>
+
+                            </td>
+                            <td style="width: 1%">
+                                <span id="btnMinWestSouth" onclick="MinimizeWest();" style="display: none; float: left">
+                                    <img src="~/Content/images/collapse_blue.png" style="height: 15px; width: 15px; margin-left: 0px; margin-top: 2px" /></span>
+                            </td>
+                        </tr>
+                    </table>
+                </div>
+
+                <div id="dvPieChart" style="width: 100%; height: 95%; float: left"></div>
+                <div id="dvExpenditureDetailsGrid" style="margin-top: 4%; display: none">
+                    <table id="tblExpenditureDetails"></table>
+                    <div id="divExpenditureDetailsPager"></div>
+                </div>
+            </div>
+            <div class="ui-layout-north" id="dvWestSouth" style="width: 95%; height: 95%; overflow: hidden; margin-top: 5px;">
+                <div id="btnMinMaxWest" style="text-align: left; z-index: 2; float: right; width: 10%">
+                    <table style="margin-top: -25px;">
+                        <tr>
+                            <td style="width: 1%">
+                                <span id="spnShowFundReceivedVsExpenditureChart" class="ui-icon ui-icon-image" title="Show Chart" style="margin-top: 12px; display: none"></span>
+                                <span id="spnShowFundReceivedVsExpenditureGrid" class="ui-icon ui-icon-calculator" title="Show Grid" style="margin-top: 12px"></span>
+                            </td>
+                            <td style="width: 1%">
+                                <span id="btnMaxWestCenter" onclick="MaximizeWestSouth();">
+                                    <img src="~/Content/images/expand_blue.png" style="height: 15px; width: 15px; margin-left: 05px; margin-top: 17px" /></span>
+                            </td>
+                            <td style="width: 1%">
+                                <span id="btnMinWestCenter" onclick="MinimizeWestSouth();" style="display: none">
+                                    <img src="~/Content/images/collapse_blue.png" style="height: 15px; width: 15px; margin-left: 22px; margin-top: 20px" /></span>
+                            </td>
+
+                        </tr>
+                    </table>
+                </div>
+                <div id="dvFundReceivedVsExpenditureColumnChart" style="width: 100%; height: 100%; float: left;"></div>
+
+                <div id="dvFundReceivedVsExpenditureGrid" style="margin-top: 2%; display: none">
+                    <table id="tblFundReceivedVsExpenditure"></table>
+                    <div id="divFundReceivedVsExpenditurePager"></div>
+                </div>
+            </div>
+        </div>
+        <div class="ui-layout-south" id="southCenter" style="position: absolute; margin: 0px; display: inline; visibility: visible;">
+            <div class="ui-layout-center" style="margin-top: -6px; text-align: center">
+                @{ string ulrProgrammeFund = "/Home/Index/" + Model.EncryptedProgramme;}
+                @{ string ulrAdminFund = "/Home/Index/" + Model.EncryptedAdminFund;}
+                @{ string ulrMaintenanceFund = "/Home/Index/" + Model.EncryptedMaintenance;}
+
+                <span style="font-size: 12px;">
+                    <b>Click Here to Proceed for - </b>
+                    <a href='@ulrProgrammeFund' id="linkProgrammeFund" style="color:blue">Programme Fund</a> |  
+                        <a href='@ulrAdminFund' id="linkAdminFund" style="color:blue">Admin Fund</a> |
+                        <a href='@ulrMaintenanceFund' id="linkMaintenanceFund" style="color:blue">Maintenance Fund</a>
+                </span>
+            </div>
+        </div>
+    </div>
+</body>
+</html>
+

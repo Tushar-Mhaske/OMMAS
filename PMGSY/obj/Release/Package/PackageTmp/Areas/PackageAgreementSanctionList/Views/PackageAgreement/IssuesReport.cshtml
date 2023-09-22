@@ -1,0 +1,15 @@
+﻿@using MvcReportViewer
+@model PMGSY.Areas.PackageAgreementSanctionList.Models.Issues
+
+
+
+
+@Html.MvcReportViewer("/PMGSYCitizen/MonthlyReviewQualityIssue",
+     new
+     {
+      
+         STATE = Model.Mast_State_Code
+        
+        
+     },
+     new { Height = 600, Width = "100%", style = "border:none;" })

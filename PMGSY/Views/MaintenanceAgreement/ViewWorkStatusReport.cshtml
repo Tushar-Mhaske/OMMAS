@@ -1,0 +1,18 @@
+﻿
+@{
+    ViewBag.Title = "ViewWorkStatusReport";
+}
+
+
+@using MvcReportViewer
+
+@Html.MvcReportViewer("/PMGSYCitizen/Roadstatus",
+ new
+ {
+     StateCode = ViewBag.stateCode,
+     DistrictCode = ViewBag.districtCode,
+     Scheme = ViewBag.Scheme,
+
+ },
+   new { Height = 700, Width = "100%", style = "border:none;" })
+

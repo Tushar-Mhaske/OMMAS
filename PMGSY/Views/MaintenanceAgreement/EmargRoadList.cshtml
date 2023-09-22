@@ -1,0 +1,281 @@
+﻿@*----------------------------------------------------------------------------------------
+
+    * Project Id:
+
+    * Project Name:OMMAS2
+
+    * File Name:
+
+    * Author :
+
+    * Creation Date :
+
+    * Desc : This is main view to disaply completed road as per search paramenters.
+    * ---------------------------------------------------------------------------------------*@
+@model PMGSY.Areas.AccountReports.Models.BalanceSheet
+
+@{
+    ViewBag.Title = "ProposalMaintenanceAgreement";
+}
+
+
+<script src="@Url.Content("~/Scripts/custom/Generic.js")" type="text/javascript"></script>
+<script type="text/javascript" src="@Url.Content("~/Scripts/jquery.ui.accordion.js")"></script>
+@*<script type="text/javascript" src="@Url.Content("~/Scripts/MaintenanceAgreement/EmargRoadList.js")"> </script>*@
+<script src="~/Scripts/MaintenanceAgreement/EmargRoadList.js"></script>
+
+@using PMGSY.Extensions
+
+<center>
+
+
+    @*-------------new added 22-12-2021---------------------*@
+
+    <br />
+
+    <div class="ui-widget-header innerDivHeader" style="margin-bottom: 05px; height: 20px; width: 78%">
+        @*Details*@
+    </div>
+    <div id="loadFilters">
+        @Html.Hidden("LevelIdBalSheet", PMGSYSession.Current.LevelId)
+
+        @if (PMGSYSession.Current.LevelId == 5)
+        {
+            <form id="frmBalanceSheet">
+                <center>
+                    <table class="table-content ui-corner-all" style="width: 78%; border: .1em solid gray">
+                        <tr id="trStateDPIU">
+
+                            <td style="width:3%">
+                                <label id="lblState">State</label>
+                            </td>
+                            <td style="width:15%">
+                                @Html.DropDownListFor(model => model.StateAdminCode, new SelectList(Model.NodalAgencyList, "Value", "Text"), new { @id = "ddlNodalAgency", @title = "Please select Agency", @style = "width:80%;", @disabled = "disabled" })
+                            </td>
+                            <td style="width:3%">
+                                <label id="lblShowDPIU" style="">DPIU</label>
+                            </td>
+                            <td style="width:15%">
+                                @*<label id="lblShowDPIU" style="">DPIU</label>*@
+                                @Html.DropDownListFor(model => model.AdminCode, new SelectList(Model.DPIUList, "Value", "Text"), new { @id = "ddlPIUList", @title = "Please select PIU" })
+                            </td>
+                            <td style="width:3%">
+                                <label id="lblShowMaintType" style="">Maintenance Type</label>
+                            </td>
+                            <td style="width:15%">
+                                @*<label id="lblShowDPIU" style="">DPIU</label>*@
+                                @Html.DropDownListFor(model => model.maintTypeCode, new SelectList(Model.MaintTypeList, "Value", "Text"), new { @id = "ddlMaintTypeList", @title = "Please select Maintenance Type" })
+                            </td>
+                            <td style="">
+                                @*<input class="jqueryButton" style="width:10%" type="button" value="View" id="btnViewBalanceSheetDetails" />*@
+                                <input class="jqueryButton" style="width:10%" type="button" value="View" id="btnViewDLPRoadDetails" />
+                                @*<input disabled="disabled" class="" style="width:10%;" type="button" value="View" id="" />*@
+
+                            </td>
+                        </tr>
+
+                        @*<tr>
+                                <td colspan="10">
+                                    <center>
+                                    <input class="jqueryButton" style="width:5%" type="button" value="View" id="btnViewBalanceSheetDetails" />
+                                    </center>
+                                </td>
+                            </tr>*@
+                    </table>
+                </center>
+            </form>
+        }
+
+        @if (PMGSYSession.Current.LevelId == 6 || PMGSYSession.Current.LevelId == 4)
+        {
+            <form id="frmBalanceSheet">
+                <center>
+                    <table class="table-content ui-corner-all" style="width: 78%; border: .1em solid gray">
+                        @*<tr>
+
+                                <td style="width:06%">
+                                    @Html.RadioButtonFor(model => model.ReportLevel, 'S', new { id = "rdbState" ,@tabindex = 102 ,@title="State",@checked="checked"}) <label  for="rdbState">State</label>
+                                </td>
+                                <td style="width:12%">
+                                    @Html.RadioButtonFor(model => model.ReportLevel, 'O', new { id = "rdbSRRDA", @tabindex = 101 ,@title="SRRDA"}) <label for="rdbSRRDA">SRRDA</label>
+                                </td>
+                              <td style="width:10%">
+                                    @Html.RadioButtonFor(model => model.ReportLevel, 'A', new { id = "rdbAllDPIU" , style="margin-left:0px;",@tabindex = 102 ,@title="All DPIU"}) <label  for="rdbAllDPIU">All DPIU</label>
+                                </td>
+                              <td style="width:05%">
+                                    <span style="margin-lef    t:10%">Duration:<span style="color:red">*</span></span>
+                                </td>
+
+
+                            </tr>
+                        *@
+                        <tr id="trStateDPIU">
+
+                            <td style="width:25%">
+                                <label id="lblState">State</label>
+                                @if (PMGSYSession.Current.LevelId == 6)
+                                {
+                                    @Html.DropDownListFor(model => model.StateAdminCode, new SelectList(Model.NodalAgencyList, "Value", "Text"), new { @id = "ddlNodalAgency", @title = "Please select Agency", @style = "width:70%" })
+                                }
+                                else if (PMGSYSession.Current.LevelId == 4)
+                                {
+                                    @Html.DropDownListFor(model => model.StateAdminCode, new SelectList(Model.NodalAgencyList, "Value", "Text"), new { @id = "ddlNodalAgency", @title = "Please select Agency", @style = "width:70%;", @disabled = "disabled" })
+                                }
+                            </td>
+
+                            @* <td style="width:3%">
+                                    <label id="lblShowDPIU" style="">DPIU</label>
+                                </td>*@
+                            <td style="width:15%">
+                                @*<label id="lblShowDPIU" style="">DPIU</label>*@
+                                <label id="lblShowDPIU" style="">DPIU</label>
+
+                                @Html.DropDownListFor(model => model.AdminCode, new SelectList(Model.DPIUList, "Value", "Text"), new { @id = "ddlPIUList", @title = "Please select PIU" })
+
+                            </td>
+
+                            <td style="width:15%">
+                                @*<label id="lblShowDPIU" style="">DPIU</label>*@
+                                <label id="lblShowMaintType" style="">Maintenance Type</label>
+
+                                @Html.DropDownListFor(model => model.maintTypeCode, new SelectList(Model.MaintTypeList, "Value", "Text"), new { @id = "ddlMaintTypeList", @title = "Please select Maintenance Type" })
+
+                            </td>
+
+                            @*<td>
+                                    <label id="lblShowDPIU" style="margin-right:20px;display:none">DPIU</label>
+                                    @Html.DropDownListFor(model => model.AdminCode, new SelectList(Model.DPIUList,"Value","Text"),new { @style="display:none;width:70%;",@id="ddlPIUList",@title="Please select PIU"})
+                                </td>*@
+
+                            <td style="">
+                                @if (PMGSYSession.Current.LevelId == 4)
+                                {
+                                    <input class="jqueryButton" style="width:10%" type="button" value="View" id="btnViewEmargRoadList" />
+
+                                }
+                                else if (PMGSYSession.Current.LevelId == 6)
+                                {
+                                    <input class="jqueryButton" style="width:10%" type="button" value="View" id="btnViewEmargRoadListMor" />
+                                }
+
+                            </td>
+                        </tr>
+                    </table>
+                </center>
+            </form>
+
+        }
+        @*else
+            {
+                <script type="text/javascript">
+                    LoadCompletedRoads();
+                </script>
+            }*@
+
+
+    </div>
+
+    <br />
+    @*-------------end---------------------*@
+
+
+    <div id="dvAgreement" style="width:98%; margin-top:10px;">
+        <div id="dvSearchProposedRoad">
+            @*<div style="height:20px;border:none; margin-top:5px; margin-bottom:-15px; " class="ui-state-default">
+                  <span style="float:right;margin-right:2Px; margin-top:2px" id="spCollapseIconS" class="ui-icon ui-icon-circle-triangle-n"></span>
+                </div>*@
+
+            <div id="dvSearchParameter" class="ui-state-default" style=" border:none; ">
+                <form id="frmSearchProposedRoad">
+
+                    <table style="width:100%;">
+                        <tr style="display:none;">
+                            <td style="width:8%;">@Html.Label("Block")</td>
+                            <td style="width:15%;">@Html.DropDownList("ddlBlocks", ViewData["BlockList"] as IEnumerable<SelectListItem>, new { @id = "ddlBlocks", @title = "Block", @tabindex = 1 })</td>
+                            <td style="text-align:left;width:10%;">@Html.Label("Financial Year")</td>
+                            <td style="width:15%;">@Html.DropDownList("ddlFinancialYears", ViewData["FinancialYearList"] as IEnumerable<SelectListItem>, new { @id = "ddlFinancialYears", @title = "Financial Year", @tabindex = 2 })</td>
+                            <td style="text-align:left;width:8%;">@Html.Label("Package")</td>
+                            <td style="width:15%;">@Html.DropDownList("ddlPackages", ViewData["PackageList"] as IEnumerable<SelectListItem>, new { @id = "ddlPackages", @title = "Package", @tabindex = 3 })</td>
+                            <td style="text-align:left;width:8%;">@Html.Label("Batch")</td>
+                            <td style="width:15%;">@Html.DropDownList("ddlBatchs", ViewData["BatchList"] as IEnumerable<SelectListItem>, new { @id = "ddlBatchs", @title = "Batch", @tabindex = 4 })</td>
+                        </tr>
+                        <tr style="display:none;">
+                            <td style="text-align:left;width:8%;">@Html.Label("Funding Agency")</td>
+                            <td style="width:15%;">@Html.DropDownList("ddlCollaborations", ViewData["CollaborationList"] as IEnumerable<SelectListItem>, new { @id = "ddlCollaborations", @title = "Collaboration", @tabindex = 5 })</td>
+                            <td style="text-align:left;width:8%;">@Html.Label("New / Upgradation")</td>
+                            <td style="width:15%;">@Html.DropDownList("ddlUpgradations", ViewData["UpgradationList"] as IEnumerable<SelectListItem>, new { @id = "ddlUpgradations", @title = "New / Upgradation", @tabindex = 6 })</td>
+                            <td style="text-align:left"><input type="button" id="btnSearch" name="btnSearch" value="View" class="jqueryButton" title="Search Proposed Roads " tabindex="7" /> </td>
+                        </tr>
+                    </table>
+                </form>
+            </div>
+
+            <div id="emargUpdateForm" style="display:none">
+            </div>
+
+
+        </div>
+
+        <div>
+            <!--<table>
+        <tr>
+
+            <td colspan="5">
+                <label-->
+            @*class="ui-state-default"*@
+            <!--style="border:none"><h3>[ Note: Correct the Maintenance Agreement Details first then proceed to make corrections for Length Completed, Date of Completion, Traffic, Carriage Way Width etc.]  </h3>
+            </td>
+
+        </tr>
+    </table>-->
+            <table>
+                <tr id="noteDLP" hidden="false">
+
+                    <td colspan="5">
+                        <label @*class="ui-state-default"*@ style="border:none"><h3>[ Note: Correct the Maintenance Agreement Details first then proceed to make corrections for Length Completed, Date of Completion, Traffic, Carriage Way Width etc.]  </h3>
+                    </td>
+
+                </tr>
+                <tr id="notePostDLP" hidden="true">
+
+                    <td colspan="5">
+                        <label style="border:none"><h3>[ Note: Correct the Maintenance Agreement Details first then proceed to make corrections for Length Completed, Traffic, Carriage Way Width etc.]  </h3>
+                    </td>
+
+                </tr>
+            </table>
+
+        </div>
+
+        <div id="dvProposedRoadList" style="width:100%; margin-top:25px;">
+            @if (PMGSYSession.Current.LevelId == 5)
+            {
+                <table id="tbProposedRoadList"></table>
+            }
+            @if (PMGSYSession.Current.LevelId == 6)
+            {
+                <table id="tbProposedRoadList2"></table>
+            }
+            @if (PMGSYSession.Current.LevelId == 4)
+            {
+                <table id="tbProposedRoadList3"></table>
+            }
+            @*  <div id="dvProposedRoadListPager"></div>*@
+        </div>
+        <div id="accordion" style="display:none;margin-top:20px;">
+            <h3 style="text-align:left">
+                <a id="" href="#" style=" font-size:.9em;">Add Maintenance Agreement Details</a>
+                <a href="#" style="float: right;">
+                    <img style="border:none" alt="Close" class="ui-icon ui-icon-closethick" id="imgCloseAgreementDetails" />
+                </a>
+            </h3>
+            <div id="dvAddMaintenanceAgreementAgainstRoad" style="display:none"></div>
+        </div>
+
+    </div>
+</center>
+
+@section Scripts {
+    @Scripts.Render("~/bundles/jqueryval")
+
+}

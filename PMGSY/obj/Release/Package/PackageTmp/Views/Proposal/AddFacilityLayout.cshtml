@@ -1,0 +1,301 @@
+﻿@model PMGSY.Models.MasterDataEntry.CreateFacility
+
+
+@*<script src="@Url.Content("~/Scripts/custom/Generic.js")" type="text/javascript" ></script>*@
+<script type="text/javascript" src="@Url.Content("~/Scripts/MasterDataEntry/AddFacilityLayout.js")"> </script>
+
+<div id="dvhdCreateNewPanchayatDetails" class="ui-corner-top ui-widget-header panelheader" style="text-align: left; height: 20px;">
+    <span class="ui-jqgrid-title" style="float: left">&nbsp;Add Facility</span>
+
+    <span id="spCollapseIconCN" class="ui-icon ui-icon-circle-triangle-n" style="float: right"></span>
+</div>
+
+<div id="dvCreateNewPanchayatDetails" class="ui-corner-bottom" style="display: block; border: 1px solid #B5B8C8;">
+    <div id="dvErrorMessage" class="ui-widget ui-state-error ui-corner-all" style="padding: 0.7em .7em; display: none; margin: 5px 5px 5px 5px; text-align: left">
+        <span class="ui-icon ui-icon-alert" style="float: left; margin-right: .3em;"></span>
+        <strong>Alert:</strong> <span id="message"></span>
+    </div>
+    <div style="width: 100%; border: none; margin-top: 2px; margin-bottom: 2px;" class="ui-state-default">
+        <form id="frmCreatePanchayat">
+
+            <center>
+                 @Html.AntiForgeryToken()
+                 @Html.ValidationSummary(true)
+             
+                 @Html.Hidden("DistrictCode", PMGSY.Extensions.PMGSYSession.Current.DistrictCode)
+                 @Html.Hidden("FacilityCodeToEdit", Model.EncryptedFacilityCode)
+                 @Html.HiddenFor(m => m.facilityCode)
+                 @Html.HiddenFor(m => m.FacilityName)
+                 @Html.Hidden("AddressBoxHidden", Model.address)
+                 @Html.Hidden("FacDescHidden", Model.FacilityDescription)
+                 @Html.Hidden("PinCodeHidden", Model.pincode)
+            
+            </center>
+
+            <table style="width: 100%; margin-top: 0px;" class="rowstyle">
+                <tr id="trFirstRow">
+                    <td style="width: 16%; text-align: left">
+                        @Html.LabelFor(model => model.facilityCode)
+                        <label style="color: red;">*</label>
+                    </td>
+
+                    @if (Model.EncryptedFacilityCode == null)
+                    {
+                        <td style="text-align: left">
+
+                            @Html.DropDownListFor(m => m.facilityCode, Model.facilityList, new { @id = "ddlFacility", @title = "Facility Category", @tabindex = 1 })
+                            <br />
+
+                            @Html.ValidationMessageFor(model => model.facilityCode)
+
+                        </td>
+                    }
+                    else
+                    {
+                        <td style="text-align: left; width: 15%">
+
+                            @Html.DropDownListFor(m => m.facilityCode, Model.facilityList, new { @id = "ddlFacilityElse", @title = "Facility Category", @tabindex = 1, @disabled = "disabled" })
+                            <br />
+
+                            @Html.ValidationMessageFor(model => model.facilityCode)
+
+                        </td>
+                    }
+
+
+                    <td style="width: 12%; text-align: left">
+                        @Html.LabelFor(model => model.FacilityName)
+                        <label style="color: red;">*</label>
+                    </td>
+                    @if (Model.EncryptedFacilityCode == null)
+                    { 
+                        <td style="text-align: left">
+                            @Html.DropDownListFor(model => model.FacilityName, Model.facilityNameList, new { @id = "ddlFacilityNameList", @tabindex = 2, @title = "Facility Type" })
+                            <br />
+                            @Html.ValidationMessageFor(model => model.FacilityName)
+                        </td> 
+                    }
+                    else
+                    {
+                        <td style="text-align: left">
+                            @Html.DropDownListFor(model => model.FacilityName, Model.facilityNameList, new { @id = "ddlFacilityNameListElse", @tabindex = 2, @title = "Facility Type", @disabled = "disabled" })
+                            <br />
+                            @Html.ValidationMessageFor(model => model.FacilityName)
+                        </td> 
+                    }
+
+                    <td style="text-align: left; width: 13%">
+                        @Html.LabelFor(model => model.FacilityDescription)
+                        <label style="color: red;">*</label>
+                    </td>
+                    <td style="width: 15%; text-align: left">
+                        @Html.TextBoxFor(model => model.FacilityDescription, new { @style = "width:85%", @id = "tbFacilityDesc", @placeholder = "Enter Facility Name...", @tabindex = 3, @title = "Facility Name" })
+                        <br />
+                        <br />
+                        <span style="color: black;">Facility Name eg. - Govt Veterinary Hospital Siwana</span>
+                        <br />
+                        @Html.ValidationMessageFor(model => model.FacilityDescription)
+
+                    </td>
+
+
+                </tr>
+
+                <tr>
+
+                    <td style="width: 16%; text-align: left">
+                        @Html.LabelFor(model => model.address)
+                        <label style="color: red;">*</label>
+                    </td>
+
+                    <td style="text-align: left">
+                        @Html.TextAreaFor(model => model.address, new { @id = "tbAddress", @maxlength = 50, @title = "Address", @tabindex = 4, placeholder = "Enter Address..." })
+                        <br />
+                        @Html.ValidationMessageFor(model => model.address)
+
+                    </td>
+                    <td style="width: 13%; text-align: left">
+                        @Html.LabelFor(model => model.pincode)
+                        <label style="color: red;">*</label>
+                    </td>
+
+                    <td style="text-align: left">
+                        @Html.TextBoxFor(model => model.pincode, new { @id = "tbPincode", @maxlength = 6, @title = "Pin Code", @tabindex = 5, placeholder = "Enter PIN Code..." })
+                        <br />
+                        @Html.ValidationMessageFor(model => model.pincode)
+                    </td>
+
+                    <td style="text-align: center; width: 13%"></td>
+                    <td style="width: 15%"></td>
+
+                </tr>
+
+                <tr>
+
+                    <td style="width: 16%; text-align: left">
+                        @Html.LabelFor(model => model.MAST_DISTRICT_CODE)
+                        <label style="color: red;">*</label>
+                    </td>
+
+                    <td style="width: 12%; text-align: left">
+
+                        @Html.DropDownListFor(model => model.MAST_DISTRICT_CODE, Model.DistrictList, new { @id = "ddlDistricts", @title = "District", @tabindex = 6, @disabled = true })
+                        <br />
+                        @Html.ValidationMessageFor(model => model.MAST_DISTRICT_CODE)
+                    </td>
+
+                    <td style="width: 13%; text-align: left">
+                        @Html.LabelFor(model => model.MAST_BLOCK_CODE)
+                        <label style="color: red;">*</label>
+                    </td>
+
+                    @if (Model.EncryptedFacilityCode == null)
+                    {
+                        <td style="width: 16%; text-align: left">
+                            @Html.DropDownListFor(model => model.MAST_BLOCK_CODE, new SelectList(Model.BlockList, "Value", "Text", "Block is required"), new { @id = "ddlBlocks", @title = "Block", @tabindex = 7 })
+                            <br />
+                            @Html.ValidationMessageFor(model => model.MAST_BLOCK_CODE)
+
+                        </td>
+                    }
+
+                    else
+                    {
+                        <td style="width: 16%; text-align: left">
+                            @Html.DropDownListFor(model => model.MAST_BLOCK_CODE, new SelectList(Model.BlockList, "Value", "Text", "Block is required"), new { @id = "ddlBlocks", @title = "Block", @tabindex = 7 })
+                            <br />
+                            @Html.ValidationMessageFor(model => model.MAST_BLOCK_CODE)
+
+                        </td>
+                     
+                    }
+
+                    <td style="text-align: left; width: 16%">
+                        @Html.LabelFor(model => model.HabitationCode)
+                        <label style="color: red;">*</label>
+                    </td>
+
+                    @if (Model.EncryptedFacilityCode == null)
+                    {
+
+                        <td style="width: 15%; text-align: left">
+                            @Html.DropDownListFor(m => m.HabitationCode, Model.habitationList, new { @id = "ddlHabitation", @title = "Habitation", @tabindex = 8 })
+                            <br />
+                            @Html.ValidationMessageFor(model => model.HabitationCode)
+                        </td> 
+                    }
+                    else
+                    { <td style="width: 15%; text-align: left">
+                        @Html.DropDownListFor(m => m.HabitationCode, Model.habitationList, new { @id = "ddlHabitation", @title = "Habitation", @tabindex = 8 })
+                        <br />
+                        @Html.ValidationMessageFor(model => model.HabitationCode)
+                        @Html.Hidden("HabitationCode", Model.HabitationCode)
+                    </td>
+                      
+                      
+                    }
+
+
+
+
+
+                </tr>
+
+                <tr>
+                    @if (Model.EncryptedFacilityCode == null)
+                    {
+                        <td colspan="6" style="text-align: center;">
+                            @*<input type="button" id="btnSave" name="btnSave" value="Save" class= "jqueryButton" title="Save Details" tabindex="9"  />*@
+
+                            @*<input type="reset" id="btnReset" name="btnReset" value="Reset" class= "jqueryButton" title="Reset" tabindex="10"  />*@
+
+                        </td>
+                    }
+                    else
+                    {
+                        <td colspan="2" style="text-align: center;"></td>
+                        <td colspan="2" style="text-align: center;">
+                            @*<input type="button" id="btnUpdate" name="btnUpdate" value="Update" class= "jqueryButton" title="Update Details" tabindex="9"  />*@
+
+                            @*<input type="button" id="btnCancel" name="btnCancel" value="Cancel" class= "jqueryButton" title="Cancel" tabindex="10"  />*@
+                        </td>
+                        <td colspan="2"></td>
+                   
+                    }
+
+                </tr>
+
+                <tr>
+                    @if (Model.EncryptedFacilityCode == null)
+                    {
+                        <td colspan="6" style="text-align: center;">
+                            @* <input type="button" id="btnSave" name="btnSave" value="Save" class= "jqueryButton" title="Save Details" tabindex="9"  />
+            
+                               <input type="reset" id="btnReset" name="btnReset" value="Reset" class= "jqueryButton" title="Reset" tabindex="10"  />*@
+
+                        </td>
+                    }
+                    else
+                    {
+                        <td colspan="2" style="text-align: center;"></td>
+                        <td colspan="2" style="text-align: center;">
+                            @* <input type="button" id="btnUpdate" name="btnUpdate" value="Update" class= "jqueryButton" title="Update Details" tabindex="9"  />
+            
+                               <input type="button" id="btnCancel" name="btnCancel" value="Cancel" class= "jqueryButton" title="Cancel" tabindex="10"  />*@
+                        </td>
+                        <td colspan="2"></td>
+                   
+                    }
+
+                </tr>
+
+                <tr>
+                    @if (Model.EncryptedFacilityCode == null)
+                    {
+                        <td colspan="6" style="text-align: center;">
+                            @if (Model.isPMGSY3Finalized)
+                            {
+                                <input type="button" id="btnSave" name="btnSave" value="Save" class="jqueryButton" title="Save Details" tabindex="9" />
+                            }
+                            else
+                            {
+                                <input type="button" id="btnSave" name="btnSave" value="Save" class="jqueryButton" title="Save Details" tabindex="9" style="display: none;" />
+                            }
+                            <input type="reset" id="btnReset" name="btnReset" value="Reset" class="jqueryButton" title="Reset" tabindex="10" />
+                        </td>
+                    }
+                    else
+                    {
+                        <td colspan="2" style="text-align: center;"></td>
+                        <td colspan="2" style="text-align: center;">
+                            <input type="button" id="btnUpdate" name="btnUpdate" value="Update" class="jqueryButton" title="Update Details" tabindex="9" />
+
+                            <input type="button" id="btnCancel" name="btnCancel" value="Cancel" class="jqueryButton" title="Cancel" tabindex="10" />
+                        </td>
+                        <td colspan="2"></td>
+                   
+                    }
+
+                </tr>
+                <tr>
+                </tr>
+
+                <tr>
+                    <td colspan="5">
+                        <label style="border: none">
+                            [ Note: Fields marked with<label style="color: red;"> * </label>
+                            are mandatory.]</label>
+                    </td>
+                    @if (!Model.isPMGSY3Finalized)
+                    {
+                        <br />
+                        <label id="lbFinalized" style="border: none; color: #865a24">Either Block or District has been finalized, you cannot add new facility</label>
+                    }
+                </tr>
+            </table>
+
+        </form>
+    </div>
+</div>
+
+

@@ -1,0 +1,98 @@
+﻿@model PMGSY.Areas.REAT.Models.REATDownloadXMLViewModel
+
+<script src="~/Scripts/custom/Generic.js"></script>
+@*<script src="~/Areas/REAT/Scripts/DownloadXMLLayout.js"></script>*@
+<script src="~/Areas/REAT/Scripts/VendorUpdation.js"></script>
+@*@if (PMGSY.Extensions.PMGSYSession.Current.StateCode == 7)
+{
+    *@
+<div id="dvhdPFMSDownloadXMLLayout" class="ui-corner-top ui-widget-header panelheader" style="text-align: left; height: 20px;">@*margin-left:0px;margin-right:0px;margin-top:0px; *@
+    <span class="ui-jqgrid-title" style="float: left">&nbsp;Beneficiary Updation</span>
+</div>
+<div id="dvPFMSDownloadXMLLayout" class="ui-corner-bottom" style="display: block; border: 1px solid #B5B8C8;">
+    <form id="frmPFMSDownloadXMLLayout">
+        @Html.ValidationSummary(true)
+        @Html.AntiForgeryToken()
+
+        @Html.HiddenFor(model => model.Level)
+
+        <table style="margin-top: 0px; margin-bottom: 0px; width: 100%;" class="rowstyle">
+            <tr>
+                <td style="width: 5%"></td>
+                <td>
+                    @Html.Label("State")<span style="color: red">*</span>
+                </td>
+                <td>
+                    @Html.DropDownListFor(model => model.stateCode, new SelectList(Model.lstState, "Value", "Text"), new { @id = "ddlState", @tabindex = 1 })
+                    <br />
+                    @Html.ValidationMessageFor(model => model.stateCode)
+                </td>
+                @*<td>
+                    @Html.Label("District")<span style="color: red">*</span>
+                </td>
+                <td>
+                    @Html.DropDownListFor(model => model.districtCode, new SelectList(Model.lstDistrict, "Value", "Text"), new { @id = "ddlDistrict", @tabindex = 1 })
+                    <br />
+                    @Html.ValidationMessageFor(model => model.districtCode)
+                </td>*@
+                <td>
+                    @Html.Label("Agency")<span style="color: red">*</span>
+                </td>
+                <td>
+                    @Html.DropDownListFor(model => model.agencyCode, new SelectList(Model.lstAgency, "Value", "Text"), new { @id = "ddlAgency", @tabindex = 2 })
+                    <br />
+                    @Html.ValidationMessageFor(x => x.agencyCode)
+                </td>
+               @* @if (PMGSY.Extensions.PMGSYSession.Current.RoleCode == 17)
+                {
+                    <td style="width: 11%">
+                        @Html.Label("Generate Xml for All Contractors")
+                    </td>
+                    <td>
+                        @Html.CheckBoxFor(model => model.isAllContractors, new { @id = "cbAllContractors", @tabindex = 3 })
+                        <br />
+                        @Html.ValidationMessageFor(x => x.isAllContractors)
+                    </td>
+                }*@
+                <td>
+                    <input type="button" class="jqueryButton" value="Get Beneficiary List" title="Get Beneficiary List" id="btnGetBeneficiaryList" name="btnGetBeneficiaryList" tabindex="3" />
+                </td>
+                <td style="width: 5%"></td>
+            </tr>
+        </table>
+
+        <div style="margin-top: 10px; width: 98%; margin-left: 5px; margin-bottom: 5px;">
+            <table id="tblContractorsList"></table>
+            <div id="dvPagerContractorsList"></div>
+        </div>
+
+        
+            <div id="divContractor" style="width: 100%">
+                @*<table id="tbMonitorsObsList"></table>
+                    <div id="dvMonitorsObsListPager"></div>*@
+            </div>
+
+    </form>
+</div>
+
+<div id="benUpdate" style="display:none" >
+</div>
+
+@*}
+else
+{
+    <table class="rowstyle">
+        <tr>
+            <td style="width: 10%;"></td>
+            <td style="width: 5%;"></td>
+            <td style="width: 25%;">
+                <strong>
+                    <label>Menu not enabled for user : "@PMGSY.Extensions.PMGSYSession.Current.UserName"</label>
+                </strong>
+            </td>
+            <td style="width: 5%;"></td>
+            <td style="width: 25%;"></td>
+            <td style="width: 10%;"></td>
+        </tr>
+    </table>
+}*@

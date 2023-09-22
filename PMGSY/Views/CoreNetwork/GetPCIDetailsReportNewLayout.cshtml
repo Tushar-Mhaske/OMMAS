@@ -1,0 +1,58 @@
+﻿@model PMGSY.Models.CoreNetwork.CUPLPCIReportModel
+
+<script src="~/Scripts/jquery.ui.accordion.js"></script>
+
+<script src="~/Scripts/CoreNetwork/GetPCIDetailsNewReport.js"></script>
+<center>
+    
+ <div id="hdrPCIForm" class="ui-corner-top ui-widget-header panelheader" style="text-align:left;  height:20px;"> @*margin-left:10px;margin-right:10px;margin-top:10px;*@ 
+     <span class="ui-jqgrid-title" style="float:left">&nbsp;CUCPL PMGSY-III (PIU) Report</span>
+     <span  id="spCollapseIconCN" class="ui-icon ui-icon-circle-triangle-n" style="float:right"></span>
+ </div>
+
+    <div style="width: 100%; border:none; margin-top:5px; margin-bottom:10px;" class="ui-state-default">  
+        <form id ="frmPhyProgessWork">
+
+            @Html.Hidden("Statename" , Model.statename)
+            @Html.Hidden("districtname" , Model.Districtname)
+            @Html.Hidden("blockname" , Model.Blockname)
+            @Html.Hidden("StateCode" , Model.StateCode)
+
+        <div id="divFilterForm">
+            <table class="rowstyle" style="width:100%">
+                <tr>
+                    <td style="text-align:right; width:10%">
+                        @Html.Label("State")
+                    </td>
+                    <td style="text-align:left; width:15%">
+                        @Html.DropDownListFor(m => m.StateCode, Model.StateList, new { @title = " Select State", @disabled="disabled" })                        
+                    </td>  
+
+                    <td style="text-align:right; width:10%">
+                        @Html.Label("District")
+                    </td>
+                    <td style="text-align:left; width:15%">
+                        @Html.DropDownListFor(m => m.DistrictCode, Model.DistrictList, new { @title = " Select District" })          
+                    </td>        
+
+                    <td style="text-align:right; width:10%" id="tdlblYear">
+                        @Html.Label("Block")
+                    </td>
+                    <td style="text-align:left; width:15%" id="tdddlYear">
+                        @Html.DropDownListFor(m => m.BlockID, Model.BlockList, new { @title = " Select Block" })          
+                    </td>        
+                                                                
+                    <td style="text-align:left">
+                        <input type="button" id="btnGo" name="btnGo" value="View" class="jqueryButton" />
+                    </td>                    
+                </tr>
+            </table>
+        </div> 
+            </form>   
+    </div>
+   
+
+</center>
+
+<div id="loadReport" class="divLoadReport"></div>
+

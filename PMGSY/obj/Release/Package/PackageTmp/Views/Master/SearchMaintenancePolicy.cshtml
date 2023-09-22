@@ -1,0 +1,40 @@
+﻿@model PMGSY.Models.Master.MaintenancePolicyFilterViewModel
+
+
+<script src="~/Scripts/custom/Generic.js"></script>
+<script src="~/Scripts/Master/SearchMaintenancePolicy.js"></script>
+<form id="frmSearchMaintenancePolicy">
+    <div id="ImsMaintenancePolicyList" style="width: 100%">
+        <div id="dvhdSearch" class="ui-corner-top ui-widget-header panelheader" style="text-align: left; height: 20px;">
+            
+            <span class="ui-jqgrid-title" style="float: left">&nbsp;Search</span>
+            <span id="spCollapseIconS" class="ui-icon ui-icon-circle-triangle-n" style="float: right"></span>
+        </div>
+        <div id="dvSearchParameter" class="ui-corner-bottom" style="display: block; border: 1px solid #B5B8C8;">
+            
+            @Html.Hidden("hdStatCode", PMGSY.Extensions.PMGSYSession.Current.StateCode)
+            <table style="width: 100%" class="rowstyle">
+                <tr>
+                    <td style="width: 2%;"></td>
+                    <td style="text-align: left; width: 8%;">
+                        @Html.LabelFor(model => model.State)</td>
+                    <td style="text-align: left; width: 20%">
+                        @Html.DropDownListFor(model => model.State,  new SelectList(Model.lstStatesSearch, "Value", "Text"), new { @title = "State", @id = "ddlStateSerach", @tabindex = 1 })
+                        @Html.ValidationMessageFor(model => model.State)
+                    </td>
+                    <td style="text-align: left; width: 8%;">
+                        @Html.LabelFor(model => model.Agency)</td>
+                    <td style="text-align: left; width: 20%">
+                        @Html.DropDownListFor(model => model.Agency, new SelectList(Model.lstAgenciesSearch, "Value", "Text"), new { @title = "Agency", @id = "ddlAgencySerach", @tabindex = 1 })
+                        @Html.ValidationMessageFor(model => model.Agency)
+                    </td>                    
+
+                    <td style="text-align: left">
+                        <input type="button" id="btnImsMaintenancePolicySearch" name="btnImsMaintenancePolicySearch" value="Search" class="jqueryButton" title="Search File Upload" />
+                    </td>
+                </tr>
+            </table>
+        </div>
+    </div>
+</form>
+

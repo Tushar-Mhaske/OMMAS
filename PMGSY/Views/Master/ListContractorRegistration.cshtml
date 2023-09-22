@@ -1,0 +1,72 @@
+﻿@using PMGSY.Extensions
+
+@{
+    ViewBag.Title = "ListContractorRegistration";
+}
+
+<script src="~/Scripts/custom/Generic.js"></script>
+
+<script src="~/Scripts/Master/ListContractorRegistration.js"></script>
+<script src="~/Scripts/jquery.ui.accordion.js"></script>
+<script src="~/Scripts/jquery.ui.tabs.js"></script>
+
+
+
+@{
+    string roleName = PMGSYSession.Current.RoleName;
+    int districtCode = PMGSYSession.Current.DistrictCode;
+    int stateCode = PMGSYSession.Current.StateCode;
+    int roleCode = PMGSYSession.Current.RoleCode;      
+}
+<center>
+<div style="width:100%">
+  
+<div id="dvDetailsContractorReg"  style="display:none;">
+
+</div>
+<div id="dvSearchContractorReg" style="width:100%">
+</div>
+<div id="contractorRegList">
+   <table style="width:100%;padding-top:1.5em;">
+        <tr>
+            <td style="text-align: left">
+                @*FC 15JUL2019*@
+                @if (PMGSYSession.Current.RoleCode != 22 && PMGSYSession.Current.RoleCode != 38 && PMGSYSession.Current.RoleCode != 46)
+                {
+                    <div class="ui-state-default ui-corner-all jqueryButton" id="btnCreateNew" title="Add Registration">
+                        <span style="float: left" class="ui-icon ui-icon-circle-plus"></span>
+                        <span style="float: left; margin-right: 5px">Add Registration </span>
+                    </div>
+                }
+                <div class="ui-state-default ui-corner-all jqueryButton" id="btnSearch" title="Search Registration" style="display:none;">
+                    <span style="float: left" class="ui-icon ui-icon-search"></span>
+                    <span style="float: left; margin-right: 5px">Search Registration </span>
+                </div>
+                @Html.Hidden("districtCode",districtCode)
+                @Html.Hidden("stateCode",stateCode)
+                @Html.Hidden("roleCode",roleCode)
+            </td>
+        </tr>
+    </table> 
+    <table id="tblstContractorReg">
+       
+    </table>
+    <div id="pglstContractorReg">
+    </div>
+</div>
+</div>
+<div id="dvlstBankDetails" style="margin-top:20px">
+
+</div>
+<div id="accordionView" style="display:none;width:100%;margin-top:20px" >
+    <h3 style="text-align:left"><a id="" href="#" style=" font-size:.9em;" >Contractor Details</a>
+                <a href="#"  style="float: right;">
+                    <img src="" class="ui-icon ui-icon-closethick" onclick="CloseContractorDetails();" /></a>
+            </h3>
+    <div id="dvlstRegDetails" style="display:none">
+
+    </div>
+</div>
+
+</center>
+

@@ -1,0 +1,202 @@
+﻿@model PMGSY.Areas.AccountReports.Models.PfmsMisPaymentModel
+@using PMGSY.Extensions;
+@{
+    Layout = Request.IsAjaxRequest() ? null : "~/Areas/AccountReports/Views/Account/_Layout.cshtml";
+}
+<style type="text/css">
+    div.CBHeader {
+        padding: 5px;
+        width: 98%;
+        display: inline-block;
+        cursor: default;
+        /*font:12px/14px Arial, Helvetica, sans-serif;*/
+        font-family: Trebuchet MS,Tahoma,Verdana,Arial,sans-serif;
+        color: #000;
+        background-color: #eee;
+        -moz-border-radius: 10px;
+        -webkit-border-radius: 10px;
+        -moz-box-shadow: #999 2px 0px 3px;
+        -webkit-box-shadow: #999 2px 0px 3px;
+    }
+</style>
+
+<link href="~/Content/demo_page.css" rel="stylesheet" />
+<link href="~/Content/demo_table_jui.css" rel="stylesheet" />
+<link href="~/Content/TableTools.css" rel="stylesheet" />
+<link href="~/Content/TableTools_JUI.css" rel="stylesheet" />
+
+
+<script src="~/Scripts/custom/Generic.js"></script>
+<script src="~/Scripts/DataTables/jquery.dataTables.js"></script>
+<script src="~/Scripts/DataTables/ZeroClipboard.js"></script>
+<script src="~/Scripts/DataTables/TableTools.js"></script>
+<script src="~/Scripts/jquery.ui.datepicker.js" type="text/javascript"></script>
+<script type="text/javascript" src="@Url.Content("~/Scripts/jquery.ui.dialog.js")"> </script>
+@*<script src="~/Scripts/AccountsReports/DisplayBillDetails.js"></script>
+<script src="~/Scripts/AccountsReports/ShowBillDetails.js"></script>*@
+<script src="~/Areas/AccountReports/Scripts/MISPaymentGet.js"></script>
+<div class="ui-widget-header innerDivHeader" style="margin-bottom: 1px">PFMS Payment Details<span style="float: right; margin-right: 2Px; margin-top: 2px" id="spnhdBillDetails" class="ui-icon ui-icon-circle-triangle-n"></span></div>
+
+<form id="frmBillDetails">
+    
+    @Html.Hidden("levelId", PMGSYSession.Current.LevelId)
+    @Html.Hidden("AdminNdCode", PMGSYSession.Current.AdminNdCode)
+    @Html.Hidden("isRedirection", Model.isRedirected)
+
+    <div id="dvDetails">
+       <div id="loadFilters" class="CBHeader ui-corner-all">
+            <table class="table-content ui-default-all" style=width: 99%;  id="tblViewDetails">
+                <tr>
+                    <td style="width:5%"></td>
+                       @if (PMGSYSession.Current.LevelId == 4 || PMGSYSession.Current.LevelId == 6 || PMGSYSession.Current.LevelId == 5)
+                       {
+
+                           if (PMGSYSession.Current.LevelId == 6)
+                           {   
+                                <td style="text-align:right;width:8%">@Html.RadioButtonFor(model => model.SRRDA_DPIU, "S", new { @id = "rdoSRRDA", @title = "SRRDA", @checked = "checked" }) 
+                                </td> 
+                                <td style="width:15%"> @Html.LabelFor(model => model.SRRDA):@Html.DropDownListFor(model => model.SRRDA, ViewBag.SRRDA as IEnumerable<SelectListItem>, new { @id = "ddlSRRDA", @title = "SRRDA" }) </td>           
+                           }
+                           if (PMGSYSession.Current.LevelId == 4)
+                           {
+                                <td style="text-align:right;width:8%">@Html.RadioButtonFor(model => model.SRRDA_DPIU, "S", new { @id = "rdoSRRDA", @title = "SRRDA", @checked = "checked" })  </td> 
+                                <td style="width:15%"> @Html.LabelFor(model => model.SRRDA):@Html.DropDownListFor(model => model.SRRDA, ViewBag.SRRDA as IEnumerable<SelectListItem>, new { @id = "ddlSRRDA", @title = "SRRDA", @disabled = "disabled" })</td>
+                           }
+                           
+                           @*<td style="width:15%"></td>*@
+                
+                           if (PMGSYSession.Current.LevelId == 5)//restriction for SRRDA & District
+                           {
+                            
+                            <td style="text-align:right;width:8%"> 
+                                </td> 
+                            <td style="width:15%">@Html.LabelFor(model => model.SRRDA):
+                                @Html.DropDownListFor(model => model.SRRDA, ViewBag.SRRDA as IEnumerable<SelectListItem>, new { @id = "ddlSRRDA", @title = "SRRDA", @disabled = "disabled" })
+                            </td> 
+              
+                           }
+
+
+
+                           if (PMGSYSession.Current.LevelId == 4 || PMGSYSession.Current.LevelId == 6)
+                           { 
+                           
+                            <td style="width:8%;text-align:right">@Html.RadioButtonFor(model => model.SRRDA_DPIU, "D", new { @id = "rdoDPIU", @title = "DPIU" })  @Html.LabelFor(model => model.DPIU):</td>
+                            <td style="width:15%">@Html.DropDownListFor(model => model.DPIU, ViewBag.DPIU as IEnumerable<SelectListItem>, new { @id = "ddlDPIU", @title = "DPIU" })
+                            <br />
+                             @Html.ValidationMessageFor(m => m.DPIU)
+                        </td>
+                           }
+                           else
+                           {
+                             <td style="width:15%">
+                                 @Html.LabelFor(model => model.DPIU):
+                                 @Html.DropDownListFor(model => model.DPIU, ViewBag.DPIU as IEnumerable<SelectListItem>, new { @id = "ddlDPIU", @title = "DPIU", @disabled = "disabled" })
+
+                             </td>
+                          
+                           }
+                       }
+                       
+                             
+                            <td style="width: 8%">
+                                @Html.RadioButtonFor(m => m.rType, "M", new { id = "rdoMonthly", @checked = "checked", @title = "Monthly", @tabindex = "4" })
+                                @Html.Label("Monthly")
+                            </td>
+                 
+                            <td style="width: 8%">
+                                @Html.RadioButtonFor(m => m.rType, "P", new { id = "rdoPeriodic", @title = "Periodic", @tabindex = "6" })
+                                @Html.Label("Periodic")
+                            </td>
+                    </tr>
+                <tr>
+                     <td style="width:5%"></td>
+                         <td  style="width: 8%; text-align:right">
+                         
+                        </td>
+                     <td style="width:15%" class="lablMonth">
+                        @* @Html.DropDownListFor(m => m.Month, new SelectList(Model.MonthList, "Value", "Text"), new { @title = "Month", @tabindex = "7" })*@
+                            <br />
+                          @*  @Html.ValidationMessageFor(m => m.Month)*@
+                         </td>
+                
+                        <td  style="width: 8%; text-align: right">
+                          @*  @Html.Label("Year")*@
+                      
+                        </td>
+                    @if (PMGSYSession.Current.LevelId != 5)
+                    {
+                     <td style="width:15%" class="lblYear">
+                         @*@Html.DropDownListFor(m => m.Year, ViewData["Year"] as IEnumerable<SelectListItem>, new {@title="Year",@tabindex="8"})*@
+                           @* @Html.DropDownListFor(m => m.Year, new SelectList(Model.YearList, "Value", "Text"), new { @title = "Year", @tabindex = "8" })*@
+                         <br />
+                           @* @Html.ValidationMessageFor(m => m.Year)*@
+                         </td>
+                    }
+                    
+
+                         <td class="lablMonth" style="width:1%;text-align:left">
+                             @Html.Label("Month")
+                            <label style="color: red">*</label></td>
+                        
+                    
+                         <td  style="width: 8%; text-align:right" class="lablMonth">
+                              @Html.DropDownListFor(m => m.Month, new SelectList(Model.MonthList, "Value", "Text"), new { @title = "Month", @tabindex = "7" })
+                                <br />
+                              @Html.ValidationMessageFor(m => m.Month)   
+                        </td>
+                    
+                     <td style="width:10%;text-align:center" class="lblYear">
+                         @Html.Label("Year")
+                            <label style="color: red">*</label>
+                     </td>
+
+
+                      <td  style="width: 8%; text-align: right" class="lblYear">
+                                 @Html.DropDownListFor(m => m.Year, new SelectList(Model.YearList, "Value", "Text"), new { @title = "Year", @tabindex = "8" })
+                            <br />
+                                @Html.ValidationMessageFor(m => m.Year)
+                     </td>
+                    
+                     <td style="width:15%" >
+                         
+                     </td>
+
+
+                        <td class="tdlblStDate" style= "display: none ; text-align :right">
+                            @Html.Label("Start Date")
+                        
+                        </td>
+                     <td style="width:15%; display: none ;" class="tdlblStDate">
+                            @Html.TextBoxFor(m => m.StartDate, new { maxlength = 10, @title = "Start Date", @placeholder = "dd/mm/yyyy...", @tabindex = "9" })
+                            <br />
+                            @Html.ValidationMessageFor(m => m.StartDate)
+                     </td>
+                         <td class="tdlblEndDate" style="display: none; text-align :right">
+                            @Html.Label("End Date")
+                            
+                        </td>
+                     <td style="width:15%; display: none ;" class="tdlblEndDate">  
+                            @Html.TextBoxFor(m => m.EndDate, new { maxlength = 10, @title = "End Date", @placeholder = "dd/mm/yyyy...", @tabindex = "10" })
+                            <br />
+                            @Html.ValidationMessageFor(m => m.EndDate)
+                         </td>
+                    </tr>
+                <tr>
+                        <td colspan="8">
+                            <center>
+                               <input type="button" value="View Details" class="jqueryButton" id="btnViewDetails" name="btnCreate" title="Click here to view details" tabindex="11" />
+                       </center>
+                        </td>
+                    </tr>
+            </table>
+        </div>
+    </div>
+</form>
+
+<div id="dvBillDetails" style="width: 100%;">
+</div>
+<div id="dvTransactionDetails">
+</div>
+
+

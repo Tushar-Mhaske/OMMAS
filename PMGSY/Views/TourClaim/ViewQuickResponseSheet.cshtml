@@ -1,0 +1,21 @@
+﻿@using MvcReportViewer
+
+@model PMGSY.Areas.QMSSRSReports.Models.ResponseSheet
+
+@{
+    ViewBag.Title = "ViewQuickResponseSheet";
+}
+
+@Html.MvcReportViewer("/PMGSYCitizen/Quick_ResponseSheet_NQM",
+ new
+ {
+     QMTYPE = "I",
+     QMCODE = Model.Monitor,
+     InspYear = Model.FromYear,
+     InspMonth = Model.FromMonth,
+     PMGSY = Model.SchemeCode,
+     STATE = Model.State,
+     DISTRICT = Model.District
+
+ },
+   new { Height = 600, Width = "100%", style = "border:none;" })

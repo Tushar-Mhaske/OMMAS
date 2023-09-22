@@ -1,0 +1,183 @@
+﻿@model PMGSY.Models.ExistingRoads.CBRViewModel
+
+<script src="~/Scripts/custom/Generic.js"></script>
+<script src="~/Scripts/ExistingRoads/CBRValue.js"></script>
+
+<center>  
+    <div id="divCBRDetails" style="width: 100%;">
+
+    <form id="frmCBRValue">
+
+    @Html.HiddenFor(model => model.EncryptedCBRCode)
+    @Html.HiddenFor(model => model.MAST_ER_ROAD_CODE)
+    @Html.HiddenFor(model => model.Operation)
+    @Html.HiddenFor(model => model.RoadLength)
+    @Html.HiddenFor(model => model.MAST_SEGMENT_NO)
+ 
+    @Html.HiddenFor(model => model.RoadLength, new { @id="TotalRoadLength"})
+    @Html.Hidden("AvailableRoadLength")
+
+    @Html.HiddenFor(model => model.MAST_STR_CHAIN)
+    @Html.HiddenFor(model => model.MAST_END_CHAIN)
+
+     @Html.HiddenFor(model => model.TotalAvailableRoadLength)
+     @Html.HiddenFor(model => model.Segment_Length)
+      
+    @Html.HiddenFor(model => model.EndChainage)
+        
+        <div id="divError" class="ui-state-error ui-corner-all" style="text-align: left; display: none; width: 89%">
+                <span class="ui-icon ui-icon-alert" style="float: left;"></span>                   
+                <span></span>
+         </div>
+             
+        <div style="height:20px; width: 89%; text-align:left; padding-top: 0.6em;" class="ui-state-default ui-corner-all" > 
+                   &nbsp; 
+                   <strong> @Html.LabelFor(model=>model.RoadID) :</strong> @Html.DisplayFor(model => model.RoadID)&nbsp; &nbsp; &nbsp;  &nbsp; &nbsp;  &nbsp; &nbsp; 
+                 <strong> @Html.LabelFor(model=> model.RoadName) :</strong> @Html.DisplayFor(model => model.RoadName)                
+        </div> 
+        
+        <div id="tbl" style="width:100%"> 
+                   <div id="divCBR" style="width:100%">    
+                         <table id="tbCBR" style="width:100%; clear:inherit">
+
+                        </table>
+                        <div id="dvCBRPager"></div>
+                    </div>            
+            </div>
+
+        <br />
+        
+         <div style="height:20px; width: 90%; text-align:left; padding-top: 0.6em;" class="ui-state-default ui-corner-all" > 
+                   &nbsp; <strong> Note :</strong>  Fields marked with * are mandatory.
+         </div>
+        <table id="Table1"  cellspacing="0" cellpadding="3" class="rowstyle" style="margin-top:0px; text-align:left; border:ridge 0.1em #ccc; width:90%; padding-top:5px; padding-left:5px; padding-right:5px; padding-bottom:5px;">
+
+        <tr>
+
+            <td style=" width:15%">
+                @Html.LabelFor(model => model.MAST_STR_CHAIN)
+            </td>
+            <td style="table-layout:fixed;width:5%">             
+
+               @* @Html.TextBoxFor(model => model.MAST_STR_CHAIN, new { style="width:80px;" , @maxlength=8,@readonly="readonly"})*@
+
+                @if(Model.Operation=="A")
+                {
+               <strong><span id="spnStartChainnage" style="text-align:right"></span> </strong> 
+                }else{
+                  @*@Html.DisplayFor(model => model.MAST_STR_CHAIN)*@
+                    @Model.MAST_STR_CHAIN
+                }
+
+
+            </td>
+
+             @*@Html.TextBoxFor(model => model.MAST_END_CHAIN ,new { style="width:80px;",@title="Enter End Chainnage",@tabindex=2,@maxlength="7", @readonly="readonly"})*@
+                        
+
+            <td style="width:15%">
+                @Html.LabelFor(model => model.MAST_END_CHAIN)<span style="color:red">*</span>
+            </td>
+            <td style="width:15%">
+                    @if(Model.Operation=="A")
+                    {          
+                      <span id="spMASTendChainShow">
+                          @Html.TextBoxFor(model => model.MAST_END_CHAIN,new { style="width:110px;",@title="Enter End Chainnage",@tabindex=2,@maxlength="8", @id="mastEndChain",@Value="",@placeholder="Enter End Chainnage"})
+                      </span>
+                        
+                    }else{  
+                        <span id="spMASTendChainHide">
+                        @*@Html.DisplayFor(model => model.MAST_END_CHAIN)*@ 
+                            @Model.MAST_END_CHAIN                  
+                      </span>
+                    }
+            </td>
+
+            <td style="width:15%">           
+                @Html.LabelFor(model => model.Segment_Length)
+            </td>
+            <td>
+                
+              @* @Html.TextBoxFor(model => model.Segment_Length, new { @readonly="readonly" , style="width:80px;"})*@
+                @if(Model.Operation=="A")
+                    { 
+                
+               <strong><span id="spnSegment_Length" style="text-align:right"></span> </strong> 
+                }else{
+                    
+                  @*@Html.DisplayFor(model => model.Segment_Length)*@
+                    @Model.Segment_Length   
+                }
+
+            </td>
+
+            <td style="width:10%">
+                @Html.LabelFor(model => model.MAST_CBR_VALUE)<span style="color:red">*</span>
+            </td>
+            <td  style="width:15%">
+                @if(Model.Operation=="A")
+                {
+                @Html.TextBoxFor(model => model.MAST_CBR_VALUE ,new { style="width:82px;",@title="Enter CBR Value",@tabindex=2,@maxlength="2",@Value="",@placeholder="Enter CBR Value"})
+                }
+                else
+                {
+                @Html.TextBoxFor(model => model.MAST_CBR_VALUE ,new { style="width:82px;",@title="Enter CBR Value",@tabindex=2,@maxlength="2",@placeholder="Enter CBR Value"})
+                }
+
+            </td>
+        </tr>
+        <tr>
+            <td colspan="2" style="table-layout: fixed;word-wrap:break-word;">
+                @Html.ValidationMessageFor(model => model.MAST_STR_CHAIN)
+            </td>
+            <td colspan="4" style="table-layout: fixed;word-wrap:break-word;">
+                @Html.ValidationMessageFor(model => model.MAST_END_CHAIN, "", new { id="endChainnage"})
+            </td> 
+            @*<td colspan="2" style="table-layout: fixed;word-wrap:break-word;width:25%"></td>*@
+            <td colspan="2" style="text-align:right;table-layout: fixed;word-wrap:break-word;">
+                @Html.ValidationMessageFor(model => model.MAST_CBR_VALUE)
+            </td>
+        </tr>
+
+        <tr>
+            <td colspan="3">
+              <strong>  Total Length of Road: @*@Html.DisplayFor(model => model.RoadLength)*@ @Model.RoadLength Kms.</strong> 
+            </td>
+            <td colspan="3">
+                  @Html.LabelFor(m=>m.EnteredSegmentLength)  
+                  <span class="spanEnteredSegLength">
+                    @*@Html.DisplayFor(model => model.EnteredSegmentLength,  new { @id="lblEnteredSegLength"})*@
+                      @Model.EnteredSegmentLength
+                    @Html.HiddenFor(model => model.EnteredSegmentLength)
+                 </span> Kms.
+            </td>
+            <td colspan="4">
+                @*Total Available Road Length: <strong>@Html.DisplayFor(model => model.TotalAvailableRoadLength) Kms.</strong> *@
+               
+              <strong>  @Html.LabelFor(model=>model.TotalAvailableRoadLength): <span id="spnTotalAvailableRoadLength"></span> Kms.</strong> 
+            </td>
+        </tr>   
+               
+        <tr id="rowAdd">
+            <td colspan="8" style="text-align:center">
+                <input type="button" id="btnSave" name="btnSave" value="Save" class="jqueryButton" title="Save CBR Details" tabindex="3"/>
+                
+                 <input type="reset" value="Reset" class="jqueryButton" id="btnReset" name="btnReset"  title="Reset" tabindex="5"/>
+
+            </td>            
+        </tr>
+
+        <tr id="rowUpdate" style="display:none">
+            <td colspan="8" style="text-align:center">
+                <input type="button" id="btnUpdate" name="btnUpdate" value="Update" class="jqueryButton" title="Update CBR Details" tabindex="4"/>
+                 <input type="button" value="Cancel" class="jqueryButton" id="btnCancel" name="btnCancel"  title="Cancel" tabindex="5"/>
+            </td>            
+        </tr>
+        </table>
+
+                 
+    </form>
+    </div>
+</center>
+
+

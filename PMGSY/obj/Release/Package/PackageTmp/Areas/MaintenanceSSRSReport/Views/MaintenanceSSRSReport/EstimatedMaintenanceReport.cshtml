@@ -1,0 +1,50 @@
+﻿@using MvcReportViewer
+@model PMGSY.Areas.MaintenanceSSRSReport.Models.EstimatedMaintenanceModel
+
+
+@if (Model.RoadWise == false)
+{
+    @Html.MvcReportViewer("/PMGSYCitizen/State_Estimated_Maintenance_Cost",
+     new
+     {
+         Level = Model.LevelCode,
+         State = Model.Mast_State_Code,
+         District = Model.Mast_District_Code,
+         Block = Model.Mast_Block_Code,
+         Year = @Model.PhaseYear,
+         Batch = @Model.Batch,
+         Collaboration = @Model.FundingAgency,
+         PMGSY = PMGSY.Extensions.PMGSYSession.Current.PMGSYScheme,
+         LocationName = Model.StateName,
+         DistrictName = Model.DistName,
+         BlockName = Model.BlockName,
+         LocalizationValue = "en",
+         BatchName = Model.BatchName,
+         CollaborationName = Model.FundingAgencyName,
+         Status = "%"
+     },
+     new { Height = 600, Width = "100%", style = "border:none;" })
+}
+else
+{
+    @Html.MvcReportViewer("/PMGSYCitizen/Estimated_Maintenance_Block_Report",
+     new
+     {
+         Level = Model.LevelCode,
+         State = Model.Mast_State_Code,
+         District = Model.Mast_District_Code,
+         Block = Model.Mast_Block_Code,
+         Year = @Model.PhaseYear,
+         Batch = @Model.Batch,
+         Collaboration = @Model.FundingAgency,
+         PMGSY = PMGSY.Extensions.PMGSYSession.Current.PMGSYScheme,
+         LocationName = Model.StateName,
+         DistrictName = Model.DistName,
+         BlockName = Model.BlockName,
+         LocalizationValue = "en",
+         BatchName = Model.BatchName,
+         CollaborationName = Model.FundingAgencyName,
+         Status = "%"
+     },
+     new { Height = 600, Width = "100%", style = "border:none;" })
+}

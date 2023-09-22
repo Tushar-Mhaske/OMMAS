@@ -1,0 +1,367 @@
+﻿html 
+{
+    height:96%;
+}
+
+#watermark {
+  color: #d0d0d0;
+  font-size: 100pt;
+  -webkit-transform: rotate(-45deg);
+  -moz-transform: rotate(-45deg);
+  position: absolute;
+  width: 90%;
+
+  margin: 0;
+  z-index: -1;
+  left:100px;
+  top:150px;
+}
+
+
+body {
+        
+    background-color: #fff transparent;
+    color: #333;
+    font-size: .75em;
+    font-family: Trebuchet MS,Tahoma,Verdana,Arial,sans-serif;
+    margin: 0 auto;
+    padding: 0;
+    max-width: 95%;
+    height:100%;  
+} 
+
+h3{
+       font-family: Trebuchet MS,Tahoma,Verdana,Arial,sans-serif;
+}
+ 
+#accordion .ui-accordion-content {
+    font-size: .9em;
+    font-family: Trebuchet MS,Tahoma,Verdana,Arial,sans-serif;
+    border: 1px solid #f6bd05;
+}
+
+.verticalLine {
+    vertical-align:middle;
+    position: absolute;
+    border-right: 2px solid #c8ba8a;
+    height:18px;
+}
+
+.verticalSeparator {
+    vertical-align:middle;
+    position: absolute;
+    border-right: 1px solid #7D0000;
+    margin-top:2px;
+    height:12px;
+}
+
+.verticalSeparatorLogin {
+    vertical-align:middle;
+    position: absolute;
+    border-right: 2px solid #c8ba8a;
+    height:32px;
+}
+
+#header {
+    background-image:url('/Content/images/Header-e-gov-6.png');
+    width:inherit;
+    height:inherit;
+    background-size: 100% 100%;
+    font-weight:bold;
+}
+
+#footer {
+    border-radius:5px;
+    height:25px;
+    font-weight:bold;
+    border: 1px outset #feddba;
+    -moz-border-radius:8px; /* Old Firefox */
+    background-image: url(data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciPjxyYWRpYWxHcmFkaWVudCBpZD0iZyI+PHN0b3Agb2Zmc2V0PSIwLjQ1NDU0NSIgc3RvcC1jb2xvcj0iI2ZlZGRiYSIvPjxzdG9wIG9mZnNldD0iMSIgc3RvcC1jb2xvcj0iI2ZjZmFmMyIvPjwvcmFkaWFsR3JhZGllbnQ+PHJlY3QgeD0iMCUiIHk9IjAlIiB3aWR0aD0iMTAwJSIgaGVpZ2h0PSIxMDAlIiBmaWxsPSIjZmNmYWYzIiAvPjxyZWN0IHg9Ii0xMTAlIiB5PSItMTEwJSIgd2lkdGg9IjIyMCUiIGhlaWdodD0iMjIwJSIgZmlsbD0idXJsKCNnKSIgLz48L3N2Zz4=);
+    background-image: -webkit-gradient(radial, 0% 0%, 0, 0% 0%, 1016, color-stop(45.4545%, #feddba), color-stop(100%, #fcfaf3));
+    background-image: -webkit-radial-gradient(left top, farthest-side, #feddba 50%, #fcfaf3 110%);
+    background-image: -moz-radial-gradient(left top, farthest-side, #feddba 50%, #fcfaf3 110%);
+    background-image: -ms-radial-gradient(left top, farthest-side, #feddba 50%, #fcfaf3 110%);
+    background-image: -o-radial-gradient(left top, farthest-side, #feddba 50%, #fcfaf3 110%);
+    background-image: radial-gradient(farthest-side at left top, #feddba 50%, #fcfaf3 110%);
+}
+
+
+#footerLogin {
+    border-radius:5px;
+    height:40px;
+    font-weight:bold;
+    border: 1px outset #feddba;
+    -moz-border-radius:8px; /* Old Firefox */
+    background-image: url(data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciPjxyYWRpYWxHcmFkaWVudCBpZD0iZyI+PHN0b3Agb2Zmc2V0PSIwLjQ1NDU0NSIgc3RvcC1jb2xvcj0iI2ZlZGRiYSIvPjxzdG9wIG9mZnNldD0iMSIgc3RvcC1jb2xvcj0iI2ZjZmFmMyIvPjwvcmFkaWFsR3JhZGllbnQ+PHJlY3QgeD0iMCUiIHk9IjAlIiB3aWR0aD0iMTAwJSIgaGVpZ2h0PSIxMDAlIiBmaWxsPSIjZmNmYWYzIiAvPjxyZWN0IHg9Ii0xMTAlIiB5PSItMTEwJSIgd2lkdGg9IjIyMCUiIGhlaWdodD0iMjIwJSIgZmlsbD0idXJsKCNnKSIgLz48L3N2Zz4=);
+    background-image: -webkit-gradient(radial, 0% 0%, 0, 0% 0%, 1016, color-stop(45.4545%, #feddba), color-stop(100%, #fcfaf3));
+    background-image: -webkit-radial-gradient(left top, farthest-side, #feddba 50%, #fcfaf3 110%);
+    background-image: -moz-radial-gradient(left top, farthest-side, #feddba 50%, #fcfaf3 110%);
+    background-image: -ms-radial-gradient(left top, farthest-side, #feddba 50%, #fcfaf3 110%);
+    background-image: -o-radial-gradient(left top, farthest-side, #feddba 50%, #fcfaf3 110%);
+    background-image: radial-gradient(farthest-side at left top, #feddba 50%, #fcfaf3 110%);
+}
+
+#mainDiv
+{
+/*border:1px solid ;*/
+height:80%;
+overflow:auto;
+border-radius:3px;
+-moz-border-radius:3px; /* Old Firefox */
+margin-top:-4em;
+
+}
+
+#mainDivReports
+{
+height:87%;
+overflow:auto;
+border-radius:3px;
+-moz-border-radius:3px; /* Old Firefox */
+margin-top:-4em;
+margin-left:10px;
+}
+
+.innerDivHeader
+{
+   border-radius:4px;
+height:15px;
+-moz-border-radius:4px; 
+
+margin-left:0.2em   ;
+margin-right:0.2em ;  
+}
+
+.message-info {
+    border: 1px solid;
+    clear: both;
+    padding: 10px 20px;
+}
+
+.message-error {
+    clear: both;
+    color: #e80c4d;
+    font-size: 0.7em;
+    font-weight: bold;
+    margin: 20px 0 10px 0;
+}
+
+.message-success {
+    color: #7ac0da;
+    font-size: 1.3em;
+    font-weight: bold;
+    margin: 20px 0 10px 0;
+}
+
+.error {
+    color: #e80c4d;
+}
+
+/* styles for validation helpers */
+.field-validation-error {
+    color: #e80c4d;
+    font-weight: bold;
+}
+
+.field-validation-valid {
+    display: none;
+}
+
+input.input-validation-error {
+    border: 1px solid #e80c4d;
+}
+
+select.input-validation-error {
+    border: 1px solid #e80c4d;
+}
+
+input[type="checkbox"].input-validation-error {
+    border: 0 none;
+}
+
+.validation-summary-errors {
+    /*color: #e80c4d;*/
+    color: #ff0000;
+    font-weight: bold;
+    font-size:1em;
+}
+
+.validation-summary-valid {
+    display: none;
+}
+
+.pmgsy-textbox {
+    font-family: Trebuchet MS,Tahoma,Verdana,Arial,sans-serif; font-size: 11px; width: 148px; height:18px; border:  1pt solid gray; vertical-align: middle;
+}
+
+select {
+     font-family: Trebuchet MS,Tahoma,Verdana,Arial,sans-serif; font-size: 11px; width: 150px; height:22px; border:  1pt solid gray; vertical-align: middle;   
+}
+
+textarea {
+    font-family: Trebuchet MS,Tahoma,Verdana,Arial,sans-serif; font-size: 11px; width: 150px; height:50px; border:  1pt solid gray; vertical-align: middle;
+}
+
+
+hr {
+     display: block; height: 1px;
+    border: 0; border-top: 1px solid #ccc;
+    margin: 5px 0; padding: 0;
+}
+
+.horizontal-rule-white {
+     display: block; height: 1px;
+    border: 0; border-top: 1px solid #FFF;
+    margin: 5px 0; padding: 0;
+}
+
+th.ui-th-column div{
+    white-space:normal !important;
+    height:auto !important;
+    padding:2px;
+}
+
+/*added by koustubh nakate on 10-05-2013 */
+.ui-jqgrid-view span {
+    cursor:pointer;
+}
+.ui-widget-header span {
+    cursor:pointer;
+}
+
+.clsMasterDataEntry table tr td {
+    text-align:left; 
+}
+
+
+#accordion table tr td {
+    text-align:left; 
+}
+
+/*end added by koustubh nakate on 10-05-2013 */
+
+.logoff {
+	-moz-box-shadow:inset 0px 1px 0px 0px #ffffff;
+	-webkit-box-shadow:inset 0px 1px 0px 0px #ffffff;
+	box-shadow:inset 0px 1px 0px 0px #ffffff;
+	background:-webkit-gradient( linear, left top, left bottom, color-stop(0.05, #ededed), color-stop(1, #bdbcbb) );
+	background:-moz-linear-gradient( center top, #ededed 5%, #ccc 100% );
+	filter:progid:DXImageTransform.Microsoft.gradient(startColorstr='#ededed', endColorstr='#bdbcbb');
+	background-color:#ededed;
+	-moz-border-radius:5px;
+	-webkit-border-radius:5px;
+	border-radius:5px;
+	border:2px solid #dcdcdc;
+	display:inline-block;
+	/*color:#0099CC;*/ 
+	font-family: Trebuchet MS,Tahoma,Verdana,Arial,sans-serif;
+	font-size:11px;
+	font-weight:bold;
+	padding:2px 19px;
+	text-decoration:none;
+	text-shadow:1px 1px 0px #ffffff;
+    height:25px;
+}
+
+.logoff:hover {
+	background:-webkit-gradient( linear, left top, left bottom, color-stop(0.05, #bdbcbb), color-stop(1, #ededed) );
+	background:-moz-linear-gradient( center top, #bdbcbb 5%, #ededed 100% );
+	filter:progid:DXImageTransform.Microsoft.gradient(startColorstr='#bdbcbb', endColorstr='#ededed');
+	background-color:#bdbcbb;
+}
+
+.logoff:active {
+	position:relative;
+	top:1px;
+}
+
+
+/* for Column Text Wrap  */
+ .ui-jqgrid tr.jqgrow td {
+ white-space: normal !important;
+ height:auto;
+ vertical-align:text-top;
+ padding-top:2px;
+}
+
+
+ .class-user-logout {
+    /*background-image: url("../../../Content/images/userborder.png");*/
+    /*border:1px solid ;*/
+    border-radius:8px;
+    height:15px;
+    background:#f9f8d8;
+    -moz-border-radius:8px; /* Old Firefox */
+}
+
+ .modal{
+    display: none;
+    height:16px;
+    padding: 0.2em;
+    border: 1px solid #cfd5d5;
+    border-radius: 3px;
+    position: absolute;
+    z-index:999;
+    text-align:left;
+    color:#003E74;
+    padding:2px 20px 2px 5px;
+}
+    span.close {    
+    display: none;
+    position: absolute;
+    right: 0.2em;
+    width: 1em;
+    height: 1em;
+    text-align: center;
+    line-height: 1.5em;
+    background-color: #fff;
+    cursor: pointer;
+    z-index:1000;
+    color:#812020;
+    font-weight:bold;
+}
+
+
+/**Data table scrollable css */
+
+.dataTable {
+    width: 100%;
+    border:1px solid #CCC;
+}
+
+.dataTable table {
+    width: 100%;
+    table-layout: fixed;
+    border-spacing: 0;
+}
+
+.dataTable table tr td {
+    padding:1px 2px;
+    /*border: 1px solid #deedf8;*/
+    border-right:1px solid #CCC;
+    border-bottom:1px solid #CCC;
+    word-wrap: break-word;
+}
+
+            
+.dataTable table.head tr td {
+    background: #F0F2F2;
+}
+
+.innerTable {
+    /*height: 100px;*/
+    overflow-y: auto;
+    overflow-x: auto;
+    width:99.5%;
+}
+
+.dataTable th {
+    /*background-color: #F0F2F2;*/
+    padding:1px 2px;
+    text-align:center;
+    border-right:1px solid #CCC;
+    border-bottom:1px solid #CCC;
+    word-wrap: break-word;
+}
+
+/* Data Table CSS Ends Here */

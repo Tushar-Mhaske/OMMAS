@@ -1,0 +1,25 @@
+﻿@using MvcReportViewer
+
+
+@model PMGSY.Areas.QMSSRSReports.Models.QMFilterViewModel
+
+
+@Html.MvcReportViewer("/PMGSYCitizen/QMUploadDay",
+     new
+     {
+        LEVEL=0,
+	    QMTYPE=Model.QM_TYPE_CODE,
+	    STATE=Model.MAST_STATE_CODE,
+	    DISTRICT=Model.MAST_DISTRICT_CODE,
+	    FMONTH=Model.FROM_MONTH,
+	    FYEAR=Model.FROM_YEAR,
+	    TMONTH=Model.TO_MONTH,
+	    TYEAR=Model.TO_YEAR,
+	    QMCODE=Model.ADMIN_QM_CODE,
+	    ROLE=Model.RoleID
+     },
+     new { Height = 600, Width = "100%", style = "border:none;" })
+
+
+
+

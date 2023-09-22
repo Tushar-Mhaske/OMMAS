@@ -1,0 +1,107 @@
+﻿@model PMGSY.Models.ARRR.ScheduleRatesViewModel
+
+<script src="~/Scripts/custom/Generic.js"></script>
+
+<script src="~/Scripts/ARRR/LoadScheduleItemsLayout.js"></script>
+@*<div id="dvhdScheduleItems" class="ui-corner-top ui-widget-header panelheader" style="text-align: left; height: 20px;">
+    Schedule Rates<span style="float: right; margin-right: 2Px; margin-top: 2px" id="idFilterDivI" class="ui-icon ui-icon-circle-triangle-n"></span>*@
+
+<form id="frmLoadScheduleItems">
+    @Html.AntiForgeryToken()
+    @Html.ValidationSummary(true)
+
+    @Html.HiddenFor(m => m.ItemCode)
+    @Html.HiddenFor(m => m.ItemTypeCode)
+    <div id="dvLoadScheduleItems" style="width: 100%; border: none; margin-bottom: 10px;">
+        <table class="rowstyle" style="width: 100%; margin-bottom: 5px; border: 1px solid #B5B8C8;">
+            <tr>
+                <td style="width: 10%"></td>
+                <td style="width: 5%;">
+                    <label>Chapter</label>
+                </td>
+                <td style="width: 30%">
+                    @Html.DisplayFor(m => m.chapterName)
+                </td>
+                @*<td style="width: 5%;">
+                    <label>Item</label>
+                </td>
+                <td colspan="3">
+                    @Html.DisplayFor(m => m.itemName)
+                </td>*@
+                <td style="width: 5%;">
+                    @Html.Label("Item")<label style="color: red;"> *</label>
+                </td>
+                <td colspan="3">
+                    @Html.DropDownListFor(model => model.Item, new SelectList(Model.ItemList, "Value", "Text"), new { @title = "Chapter", @id = "ddlItem", @style = "width:300px;", @tabindex = 6 })
+                    <br />
+                    @Html.ValidationMessageFor(m => m.Item)
+                </td>
+            </tr>
+            <tr>
+                <td style="width: 10%"></td>
+                <td style="width: 10%;">
+                    @Html.Label("Major Items")<label style="color: red;"> *</label>
+                </td>
+                <td style="width: 30%">
+                    @Html.DropDownListFor(model => model.MajorItem, new SelectList(Model.MajorItemList, "Value", "Text"), new { @title = "Major Item", @id = "ddlMajorItem", @style = "width:300px;", @tabindex = 1 })
+                    <br />
+                    @Html.ValidationMessageFor(m => m.MajorItem)
+                </td>
+                <td style="width: 10%;">
+                    @Html.Label("Minor Items")<label style="color: red;"> *</label>
+                </td>
+                <td style="width: 30%">
+                    @Html.DropDownListFor(model => model.MinorItem, new SelectList(Model.MinorItemList, "Value", "Text"), new { @title = "Minor Item", @id = "ddlMinorItem", @style = "width:300px;", @tabindex = 2 })
+                    <br />
+                    @Html.ValidationMessageFor(m => m.MinorItem)
+                </td>
+                <td colspan="2"></td>
+            </tr>
+            @* <tr>
+                <td style="width: 10%"></td>
+                <td style="width: 10%;">
+                    @Html.Label("Minor Items")<label style="color: red;"> *</label>
+                </td>
+                <td style="width: 30%">
+                    @Html.DropDownListFor(model => model.MinorItem, new SelectList(Model.MinorItemList, "Value", "Text"), new { @title = "Minor Item", @id = "ddlMinorItem", @style = "width:300px;", @tabindex = 2 })
+                    <br />
+                    @Html.ValidationMessageFor(m => m.MinorItem)
+                </td>
+                <td colspan="4"></td>
+            </tr>*@
+        </table>
+    </div>
+</form>
+
+<div id="dvLoadScheduleMMDetails" style="width: 99.3%; margin-top: 5px;">
+    <div id="dvTabs" style="width: 100%; display: none;">
+        <ul>
+            <li><a href="#tbLabour">Labour</a></li>
+            <li><a href="#tbMachinery">Machinery</a></li>
+            <li><a href="#tbMaterial">Material</a></li>
+            <li><a href="#tbOther">Other</a></li>
+            <li><a href="#tbOutput">Output</a></li>
+        </ul>
+        <div id="tbLabour" style="display: none;"></div>
+        <div id="tbMachinery" style="display: none;"></div>
+        <div id="tbMaterial" style="display: none;"></div>
+        <div id="tbOther" style="display: none; width: 99%;"></div>
+        <div id="tbOutput" style="display: none; width: 99%;"></div>
+    </div>
+</div>
+<div id="dvLoadScheduleLMMItemsList" style="margin-top: 10px; width:98%;">
+    <table id="tblLoadScheduleLMMItemsList">
+    </table>
+    <div id="dvLoadScheduleLMMItemspager">
+    </div>
+</div>
+
+<div id="dvLoadScheduleTaxItemsList" style="margin-top: 10px;">
+    <table id="tblLoadScheduleTaxItemsList">
+    </table>
+    <div id="dvLoadScheduleTaxItemspager">
+    </div>
+</div>
+
+@*</div>*@
+

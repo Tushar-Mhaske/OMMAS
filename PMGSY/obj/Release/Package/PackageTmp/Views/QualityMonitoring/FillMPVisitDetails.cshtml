@@ -1,0 +1,163 @@
+﻿@*
+    * Project Id    :
+    * Project Name  :   OMMAS II
+    * Name          :   FillMPVisitDetails.cshtml
+    * Description   :   Render View for MP Visit Details
+    * Author        :   Shyam Yadav
+    * Creation Date :   08/Apr/2015
+*@
+
+<script src="@Url.Content("~/Scripts/custom/Generic.js")" type="text/javascript" ></script>
+<script src="~/Scripts/jquery.ui.datepicker.js"></script>
+<script src="~/Scripts/QualityMonitoring/FillMPVisitDetails.js"></script>
+<script src="~/Scripts/QualityMonitoring/ListMPVisitDetails.js"></script>
+
+@model PMGSY.Models.QualityMonitoring.FillMPVisitModel
+@{ Layout = null; }
+
+
+<div style="width: 100%; border:none;">      
+        <div id="divfillMPVisitForm">
+            <center>
+                <form id="fillMPVisitForm"> 
+                     @Html.HiddenFor(model => model.PrRoadCode)    
+                     @Html.HiddenFor(model=>model.EncryptedVisitCode)
+                    @Html.Hidden("CurrentDate",System.DateTime.Now)
+                    <table class="rowstyle" style="margin-top:10px; margin-bottom:5px; width:100%">
+                     <tr>
+                            <td style="width:10%;padding-left:25px;">
+                               <b>@Html.LabelFor(model => model.BlockName) :</b>
+                               @Html.DisplayFor(model => model.BlockName)
+
+                            </td>
+                            <td style="width:10%">
+                              <b> @Html.LabelFor(model => model.PackageName) :</b>
+                               @Html.DisplayFor(model => model.PackageName)
+                            </td> 
+                            <td style="width:10%;padding-left:25px;">
+                                <b> @Html.LabelFor(model => model.SanctionYear) :</b>
+                               @Html.DisplayFor(model => model.SanctionYear)
+                            </td>
+                            <td style="width:20%">
+                                     <b>@Html.LabelFor(model => model.RoadName) :</b>
+                               @Html.DisplayFor(model => model.RoadName)
+                            </td>
+                        </tr>
+
+                        <tr>
+                            <td style="width:5%;padding-left:25px;">
+                            </td>
+                            <td style="width:10%"></td>
+                            <td style="width:6%;padding-left:25px;"></td>
+                            <td style="width:10%"></td>  
+                        </tr>
+                         <tr>
+                            <td style="width:5%;padding-left:25px;">
+                            </td>
+                            <td style="width:10%"></td>
+                            <td style="width:6%;padding-left:25px;"></td>
+                            <td style="width:10%"></td>  
+                        </tr>
+                        <tr>
+                            <td style="width:5%;padding-left:25px;">
+                                @Html.LabelFor(model => model.MPHouse)<label style="color: red;"> *</label>
+                            </td>
+                            <td style="width:10%">
+                               
+                      
+
+                                 @Html.RadioButtonFor(model=>model.MPHouse,"L",new {@title="Loksabha", @checked="checked"})
+                               @Html.Label("Loksabha")
+
+                                @Html.RadioButtonFor(model=>model.MPHouse,"R",new{@title="Rajyasabha",@style="margin-left:25px"})
+                                @Html.Label("Rajyasabha")
+
+                            </td> 
+                            <td style="width:6%;padding-left:25px;">
+                                @Html.LabelFor(model => model.MPName)<label style="color: red;"> *</label>
+                            </td>
+                            <td style="width:10%">
+                                @Html.TextBoxFor(model => model.MPName) 
+                                @Html.ValidationMessageFor(model=>model.MPName)
+                            </td>
+                        </tr>
+                        <tr>
+                            <td style="width:5%;padding-left:25px;">
+                               
+                                 @Html.LabelFor(model => model.ConstituencyCode)<label style="color: red;"> *</label>
+                            </td>
+                            <td style="width:10%">
+                                  @Html.DropDownListFor(model => model.ConstituencyCode, new SelectList(Model.ConstituencyList, "Value", "Text"))
+                          @Html.ValidationMessageFor(model => model.ConstituencyCode)
+                            </td>
+                            <td style="width:5%;padding-left:25px;">
+                                @Html.LabelFor(model => model.PIUName)<label style="color: red;"> *</label>
+                            </td>
+                            <td style="width:10%">
+                        
+
+                                @if (PMGSY.Extensions.PMGSYSession.Current.RoleCode == 2 || PMGSY.Extensions.PMGSYSession.Current.RoleCode == 37 || PMGSY.Extensions.PMGSYSession.Current.RoleCode == 36)
+                                {
+                            @Html.DropDownListFor(model => model.PIUNameCode, new SelectList(Model.PIUNameList, "Value", "Text"))
+                          @Html.ValidationMessageFor(model => model.PIUNameCode)
+                                        
+                                }
+                          else if (PMGSY.Extensions.PMGSYSession.Current.RoleCode == 22 || PMGSY.Extensions.PMGSYSession.Current.RoleCode == 38)
+                                {
+                                    @Html.HiddenFor(model => model.PIUNameCode)
+                                    @Html.DisplayFor(model => model.PIUName)
+                                }
+
+@*                               @Html.TextBoxFor(model => model.PIUName) 
+                                @Html.ValidationMessageFor(model=>model.PIUName)*@
+                            </td>
+                        </tr>
+                        <tr>
+                            <td style="width:5%;padding-left:25px;">
+                                @Html.LabelFor(model => model.DateOfVisit)<label style="color: red;"> *</label>
+                               
+                   
+                            </td>
+          <td style="width:10%">
+         @Html.TextBoxFor(model=>model.DateOfVisit,new{maxlength=10,@title="Date of Visit",@placeholder="dd/mm/yyyy",@readonly="readonly"})
+         @Html.ValidationMessageFor(model=>model.DateOfVisit)
+                            </td> 
+                            <td style="width:6%;padding-left:25px;">
+                                @Html.LabelFor(model => model.Remarks)
+                            </td>
+                            <td style="width:10%">
+                                @Html.TextAreaFor(model => model.Remarks) 
+                                @Html.ValidationMessageFor(model=>model.Remarks)
+                            </td>
+                        </tr>
+
+                        <tr>
+                            
+                            <td colspan="4" style="text-align:center;">
+                                 @if (Model.Operation == "A")
+                             {
+                               <input type="button" class="jqueryButton" value="Save" id="btnSave" name ="btnSave"/>
+                                <input type="button" class="jqueryButton" value="Reset" id="btnReset" name ="btnReset"/>
+                             }
+                                else
+                                {
+                                  <input type="button" class="jqueryButton" value="Update" id="btnUpdate" name ="btnUpdate"/>
+                                <input type="button" class="jqueryButton" value="Cancel" id="btnCancel" name ="btnCancel"/>
+                                 
+                                 }
+                            </td>
+
+                        </tr> 
+                        
+                        <tr>
+                            <td colspan="4" style="text-align:left;">
+               <label style="border:none">[ Note: Fields marked with<label style="color: red;"> * </label>are mandatory.]</label>
+                            </td>
+                        </tr>   
+                    </table>
+                </form>  
+            </center>
+    </div>
+</div>
+
+

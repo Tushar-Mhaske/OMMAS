@@ -1,0 +1,69 @@
+﻿@using PMGSY.Models
+@using PMGSY.Models.Report
+@using PMGSY.Extensions
+@model PMGSY.Models.AccountsReports.FinalBillPaymentModel
+
+<style type="text/css">
+
+div.CBHeader{
+			padding:5px;
+            width:98%;
+			display:inline-block;
+			cursor:default;
+            font-family: Trebuchet MS,Tahoma,Verdana,Arial,sans-serif;
+			color:#000;
+			background-color:#eee;
+			-moz-border-radius:10px;
+			-webkit-border-radius:10px;
+			-moz-box-shadow:#999 2px 0px 3px;
+			-webkit-box-shadow:#999 2px 0px 3px;
+		}
+</style>
+<script src="~/Scripts/custom/Generic.js"></script>
+<script src="~/Scripts/AccountsReports/FinalBillPaymentSearch.js"></script>
+
+    <div id="dvhdrAbstractBankAuthDetails" class="ui-widget-header innerDivHeader" style="margin-bottom: 05px; height: 20px">
+        Final Bill Payment
+        @*<span style="float: right; margin-right: 2Px; margin-top: 2px" id="spnAbstractBankAuthDetails" class="ui-icon ui-icon-circle-triangle-n"></span>*@
+    </div>
+
+<form id="frmFinalBillPaymentDetails" >
+    @Html.ValidationSummary(true)    
+
+    @Html.HiddenFor(m=>m.DisplayStateName)
+    @Html.HiddenFor(m=>m.DisplayAgencyName)
+    @Html.HiddenFor(m=>m.DisplayFundingAgencyName)
+    @Html.Hidden("LevelID",PMGSYSession.Current.LevelId)
+
+<center>
+
+<div class="CBHeader ui-corner-all" id="dvFinalBillPaymentSearch" style="width:99%">
+
+<table class="ui-state-default ui-corner-all" style="border:0.1em solid gray; width:100%; margin-top:1px" id="tblFilter">
+        <tr>
+            <td style="width:2%"></td>
+            <td style="width:2%;text-align:left">@Html.LabelFor(model=>model.StateCode): <label style="color:red;"> *</label></td>
+            <td style="width:02%;text-align:left; font-weight:bold;">
+                @Html.DropDownListFor(model=>model.StateCode,Model.lstStates,new{id="ddlState",@title="State",tabindex="1"})
+                @Html.ValidationMessageFor(model=>model.StateCode)
+            </td>
+            <td style="width:02%;text-align:left">@Html.LabelFor(m=>m.Agency): <label style="color:red;"> *</label></td>
+            <td style="width:05%;text-align:left; font-weight:bold;">
+                @Html.DropDownListFor(model=>model.Agency,Model.lstAgency,new{id="ddlAgency",@title="Agency",tabindex="2"})
+                @Html.ValidationMessageFor(model=>model.Agency)
+            </td>            
+            <td style="width:05%;text-align:left">@Html.LabelFor(m=>m.FundingAgency):</td>
+            <td style="width:05%;text-align:left;">
+                @Html.DropDownListFor(m => m.FundingAgency, Model.lstFundingAgency, new { id="ddlFundingAgency",@title="Funding Agency"})
+                @Html.ValidationMessageFor(model=>model.FundingAgency)
+            </td>
+            <td style="width:5%;text-align:center"><input type="button" id="btnView" value="View Details" class="jqueryButton" title="Click here to view details"></td>        
+        </tr>
+</table>
+</div>
+
+</center>
+</form>
+
+<div id="dvFinalBIllPaymentDetails">
+</div>

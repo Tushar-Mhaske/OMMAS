@@ -1,0 +1,23 @@
+﻿<script src="~/Scripts/QualityMonitoring/TourPaymentDetail.js"></script>
+<style type="text/css">
+    td {
+        text-align: left;
+    }
+</style>
+
+<center>
+ @Html.Hidden("hdIMS_INVOICE_CODE", ViewData["IMS_INVOICE_CODE"])
+     @Html.Hidden("hdEncryptedIMS_Invoice_Code", ViewData["EncryptedIMS_Invoice_Code"])
+    <div id="divTourPayementAdd"> </div>
+    <div style="margin-top:10px">
+                <div id="divTourPaymentList">                
+                    <table id="tbTourPaymentList"></table>
+                    <div id="dvTourPaymentListPager"></div>
+                </div>
+        </div>
+ 
+</center>
+
+
+
+

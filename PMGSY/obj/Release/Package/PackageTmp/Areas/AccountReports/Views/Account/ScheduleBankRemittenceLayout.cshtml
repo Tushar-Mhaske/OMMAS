@@ -1,0 +1,109 @@
+﻿
+@model PMGSY.Areas.AccountReports.Models.ScheduleModel
+@using PMGSY.Extensions
+@{
+    ViewBag.Title = "Schedule of Bank Remittances Reconciliation Statement";
+   
+}
+@{
+    Layout = Request.IsAjaxRequest() ? null : "~/Areas/AccountReports/Views/Account/_Layout.cshtml";
+}
+<style type="text/css">
+
+div.CBHeader{
+			padding:5px;
+            width:98%;
+			display:inline-block;
+			cursor:default;
+			/*font:12px/14px Arial, Helvetica, sans-serif;*/
+            font-family: Trebuchet MS,Tahoma,Verdana,Arial,sans-serif;
+			color:#000;
+			background-color:#eee;
+			-moz-border-radius:10px;
+			-webkit-border-radius:10px;
+			-moz-box-shadow:#999 2px 0px 3px;
+			-webkit-box-shadow:#999 2px 0px 3px;
+		}
+</style>
+
+<script src="~/Scripts/custom/Generic.js"></script>
+@*<script src="~/Scripts/Report/Account/ScheduleBankRemittance.js"></script>*@
+<script src="~/Areas/AccountReports/Scripts/ScheduleBankRemittanceLayout.js"></script>
+
+<form id="frmScheduleUtilization" >
+     @Html.HiddenFor(m=>m.LevelId)
+    @if (Model.LevelId == 5)
+    {
+        @Html.Hidden("AdminNdCode",PMGSYSession.Current.AdminNdCode)
+    }
+ <div  class="ui-widget-header innerDivHeader" style="margin-bottom:5px;height:20px;width:99.3%">&nbsp;&nbsp;@ViewBag.ScheduleName</div> 
+   
+    <div id="filterContainer">
+        @Html.Action("AccountFilter")
+    </div>
+  @*<br />
+    <table class="ui-state-default ui-corner-all" style="border:0.1em solid gray; width:100%; margin-top:1px;display:none" id="tblHeading" align="center">
+        <tr>
+            <td style="text-align: right; font-weight: bold;width: 25%;color:green" colspan="8">
+                <label id="lblHeaderFormNumber">&nbsp;</label>
+            </td>
+        </tr>
+        <tr>
+            <td style="text-align: center; font-weight: bold;width: 25%;color:green" colspan="8">
+                <label id="lblHeaderFundType">&nbsp;</label>
+            </td>
+        </tr>
+        <tr>
+            <td style="text-align: center; font-weight: bold;width: 25%;color:green"colspan="8">
+
+                <label id="lblReportHeader">&nbsp;</label>
+            </td>
+        </tr>
+        <tr>
+            <td style="text-align: center; font-weight: bold;width: 25%;color:green"colspan="8">
+                <label id="lblReportReference">&nbsp;</label>
+            </td>
+        </tr>
+        <tr >
+            <td></td>
+        </tr>
+     
+
+        <tr>
+            <td style="text-align: left; font-weight: bold; width: 10%"></td>
+            <td style="text-align: left; font-weight: bold; width: 22%"><span style="color:green"> Nodal Agency:</span>
+                @if(Model.LevelId!=5)
+                {  
+                    <label id="lblAgency"></label>
+                }
+                else
+                {
+                    <label>@ViewBag.PiuName</label>
+                }
+            </td>
+
+            <td style="text-align: left; font-weight: bold; width: 22%"><span style="color:green"> DPIU:</span>
+               @if(Model.LevelId!=5)
+               {
+                    <label id="lblDPIU"></label>
+               }
+               else
+               {
+                   <label>@PMGSYSession.Current.DepartmentName</label>
+               }
+            </td>
+            <td id="tdlblYear" style="text-align: left; font-weight: bold; width: 22%;"><span style="color:green">Year:</span>
+                <label id="lblYear"></label>
+            </td>
+            <td id="tdlblMonthYear"  style="text-align: left; font-weight: bold; width: 22%;"><span style="color:green">Month-Year:</span>
+                <label id="lblMonthYear"></label>
+            </td>
+        </tr>
+    </table>
+    *@
+   
+     <div id="dvScheduleRemittance" style="margin-top:5px;width:100%;">
+        <table id="tbScheduleRemittanceList"></table>
+        <div id="dvpagerScheduleRemittance" ></div>            
+    </div>
+</form>

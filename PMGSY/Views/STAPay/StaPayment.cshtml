@@ -1,0 +1,50 @@
+﻿<script src="~/Scripts/jquery.ui.accordion.js"></script>
+<script src="~/Scripts/custom/Generic.js"></script>
+<script src="~/Scripts/StaPay/StaPayment.js"></script>
+@model PMGSY.Models.STAPayment.STAPaymentViewModel
+
+<center>
+<form id="staDetails">
+@{
+   PMGSY.Common.CommonFunctions objCommonFunction = new PMGSY.Common.CommonFunctions();
+}
+<div>
+    <a href="#" onclick="PreviewSTAPaymentList()"> <img src="~/Content/images/PDF.png" style="text-align:right;width:20px;height:20px;margin-left:1130px"/></a>
+</div>
+<div class="ui-corner-all ui-state-highlight" style="border: solid 1px black;width:98%; text-align: left">
+    <table style="width: 100%">
+        <tr>
+            @Html.HiddenFor(model => model.TOTAL_HON_AMOUNT_IN_RUPEES)
+            @Html.HiddenFor(model => model.TOT_HON_OF_SCRUTINY)
+            <td style="text-align: right; font-weight: bold;width:6%;">@Html.LabelFor(model => model.SANCTION_AMOUNT)</td>
+            <td style="text-align: left;width:10%;font-weight: bold"> &nbsp;&nbsp;<label id="lblScrAmount">  @objCommonFunction._IndianFormatAmount(Model.TOTAL_SCRUTNIZED_AMOUNT==null?"0":Model.TOTAL_SCRUTNIZED_AMOUNT.ToString())</label></td>
+
+            <td style="text-align: right; font-weight: bold;width:9%;">@Html.LabelFor(model => model.TOT_HON_OF_SCRUTINY)</td>
+            <td style="text-align: left;width:10%;font-weight: bold">&nbsp;&nbsp;<label id="lblScrHon">@objCommonFunction._IndianFormatAmount(Math.Round(Model.TOT_HON_OF_SCRUTINY,2)==null?"0":Math.Round(Model.TOT_HON_OF_SCRUTINY,2).ToString())</label></td>
+
+            <td style="text-align: right; font-weight: bold; width:9%">@Html.LabelFor(model => model.TOT_HON_MIN)</td>
+            <td style="text-align: left;width:15%;font-weight: bold">&nbsp;&nbsp;@objCommonFunction._IndianFormatAmount(Model.TOT_HON_OF_SCRUTINY==null?"0":Model.TOT_HON_MIN.ToString()) @Html.HiddenFor(model => model.TOT_HON_MIN)</td>
+        </tr>
+    </table>
+</div>
+
+<div style="margin-top: 10px;width:98%;margin-right:5px;">
+    <table id="tbStaPaymentList"></table>
+    <div id="dvStaPaymentPager"></div>
+</div>
+<div style="margin-top: 10px;width:98%;margin-right:5px;">
+    <table id="tbStaInvoiceList"></table>
+    <div id="dvStaInvoicePager"></div>
+</div>
+
+
+ <div id="accordion" style="display:none;width:100%;margin-top:10px;">            
+    <h3 style="text-align:left"><a id="" href="#" style=" font-size:.9em;" >Add Invoice Details</a>
+        <a href="#"  style="float: right;">
+            <img style="border:none"  class="ui-icon ui-icon-closethick" onclick="CloseDetails();" /></a>
+    </h3>
+    <div id="divAddStaInvoice" style="display:none;">
+    </div>                     
+</div>
+</form> 
+</center>

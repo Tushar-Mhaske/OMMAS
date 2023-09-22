@@ -1,0 +1,214 @@
+﻿@model PMGSY.Models.MaintainanceInspection.MaintenanceProgressViewModel
+
+<script src="~/Scripts/jquery.ui.datepicker.js"></script>
+<script src="~/Scripts/custom/Generic.js"></script>
+<script src="~/Scripts/MainatinanceInspection/AddFinancialProgress.js"></script>
+
+
+<div id="divAddFinancialProgress" style="margin-top: 0px">
+    <form id="frmAddFinancialProgress">
+        <center>
+@Html.HiddenFor(model => model.ProposalCode)
+@Html.HiddenFor(model => model.EncyptedProgressCode)
+@Html.HiddenFor(model => model.CompleteStatus)
+@Html.HiddenFor(model => model.PreviousMonth)
+@Html.HiddenFor(model => model.PreviousYear)
+@Html.HiddenFor(model => model.TotalPayment)
+@Html.HiddenFor(model => model.TotalValueofwork)
+@Html.HiddenFor(model => model.AgreementTotal)
+@Html.HiddenFor(model => model.LastMonthValue)
+@Html.HiddenFor(model => model.LastPaymentValue)
+@Html.HiddenFor(model => model.PaymentLastMonth)
+@Html.HiddenFor(model => model.ValueOfWorkLastMonth)
+@Html.HiddenFor(model => model.Operation)
+@Html.HiddenFor(model => model.AgreementYear)
+@Html.HiddenFor(model => model.AgreementMonth)
+@Html.HiddenFor(model => model.AgreementCost)
+@Html.HiddenFor(model => model.AgreementDate)
+@Html.HiddenFor(model => model.IsFinalPaymentBefore)
+@Html.HiddenFor(model => model.ProposalContractCode)
+
+
+@if (Model.Operation == "E")
+{
+    @Html.HiddenFor(model => model.ProposalContractCode) 
+}
+<div style="margin-left: 100px">
+    @Html.ValidationSummary(true)             
+</div>            
+<div id="divError" class="ui-state-error ui-corner-all" style="text-align: left; display: none; width: 100%">
+        <span class="ui-icon ui-icon-alert" style="float: left;"></span>                   
+        <span></span>
+</div>
+<div style="height:20px; width: 100%; text-align:left; padding-top: 0.4em;" class="ui-state-default ui-corner-all" > 
+            &nbsp;<strong> Note :</strong>  Fields marked with * are mandatory.
+    <a href="#"  style="float: right;">
+                    <img style="margin-right:5px" alt="Close" src="" class="ui-icon ui-icon-closethick" id="imgCloseProgressDetails" /></a>
+</div>
+
+<table id="tbAddFinancialDetails"  cellpadding="3px" class="rowstyle" style="margin-top:0px; text-align:left; border:ridge 0.1em #ccc; width:100%; padding-top:5px 5px 5px 5px;">
+    <tr>
+        <td colspan="2"></td>
+        <td colspan="2" style="text-align:center; vertical-align:middle;"><b>Maintenance Type : </b> @Html.RadioButtonFor(m => m.maintenanceType, "R", new { @id = "rdbTypeR" })
+                            @Html.Label("Routine")
+                            @Html.RadioButtonFor(m => m.maintenanceType, "P", new { @id = "rdbTypeP" })
+                            @Html.Label("Periodic")
+                            @Html.ValidationMessageFor(m => m.maintenanceType)</td>
+        <td colspan="2"></td>
+    </tr>
+    <tr>
+        <td style="width:5%">
+        </td>
+        <td style="width:10%">
+            @Html.LabelFor(model => model.ProgramMonth)<label style="color:red">*</label>
+        </td>
+        <td style="width:20%">
+            @if (Model.Operation != "E")
+            {
+                @Html.DropDownListFor(model => model.ProgramMonth, ViewData["Month"] as IEnumerable<SelectListItem>, new { @id = "ddlMonth", @title = "Select Month", @tabindex = 1 })
+                @Html.ValidationMessageFor(model => model.ProgramMonth)
+            }
+            else
+            {
+                @Html.DropDownListFor(model => model.ProgramMonth, ViewData["Month"] as IEnumerable<SelectListItem>, new { @id = "ddlMonth", @title = "Select Month", @tabindex = 1, @disabled = "disabled" })
+                @Html.ValidationMessageFor(model => model.ProgramMonth)
+                @Html.HiddenFor(model => model.ProgramMonth)
+            }
+        </td>
+        <td style="width:10%">
+            @Html.LabelFor(model => model.ProgramYear)<label style="color:red">*</label>
+        </td>
+        <td style="width:20%">
+            @if (Model.Operation != "E")
+            {
+                @Html.DropDownListFor(model => model.ProgramYear, ViewData["Year"] as IEnumerable<SelectListItem>, new { @title = "Select Year", @id = "ddlYear", @tabindex = 2 })
+                @Html.ValidationMessageFor(model => model.ProgramYear)
+            }
+            else
+            {
+                @Html.DropDownListFor(model => model.ProgramYear, ViewData["Year"] as IEnumerable<SelectListItem>, new { @title = "Select Year", @id = "ddlYear", @tabindex = 2, @disabled = "disabled" })
+                @Html.ValidationMessageFor(model => model.ProgramYear)
+                @Html.HiddenFor(model => model.ProgramYear)
+            }
+        </td>
+    </tr>
+    <tr>
+        <td></td>
+        <td>
+            @Html.LabelFor(model => model.ValueOfWorkLastMonth)
+        </td>
+        <td>
+            @if (Model.ValueOfWorkLastMonth == null)
+            {
+                <label id="lblValueofWorkLastMonth">0.0</label>
+            }
+            else
+            {
+                <label id="lblValueofWorkLastMonth">@Model.ValueOfWorkLastMonth</label>
+            }
+        </td>
+        <td>
+            @Html.LabelFor(model => model.ValueOfWorkThisMonth)<label style="color:red">*</label>
+        </td>
+        <td>
+            @Html.TextBoxFor(model => model.ValueOfWorkThisMonth, new { @title = "Enter Value of work done in this month", @placeholder = "Enter Value Of Work...", @tabindex = 3, @maxlength = 11 })
+            @Html.ValidationMessageFor(model => model.ValueOfWorkThisMonth)
+        </td>
+    </tr>
+    <tr>
+        <td></td>
+        <td>
+            <label>Total Value of Work</label>
+        </td>
+        <td colspan="3">
+            <label id="totalValue">@Model.TotalValueofwork</label>
+        </td>
+        
+    </tr>
+    <tr>
+        <td></td>
+        <td>
+            @Html.LabelFor(model => model.PaymentLastMonth)
+        </td>
+        <td>
+            @if (Model.PaymentLastMonth == null)
+            {
+                <label id="lblPaymentLastMonth">0.0</label>
+            }
+            else
+            {
+                <label id="lblPaymentLastMonth">@Model.PaymentLastMonth</label>
+            }
+        </td>
+        <td>
+            @Html.LabelFor(model => model.PaymentThisMonth)<label style="color:red">*</label>
+        </td>
+        <td>
+            @Html.TextBoxFor(model => model.PaymentThisMonth, new { @title = "Enter Payment in this month", @placeholder = "Enter Value of payment...", @tabindex = 4, @maxlength = 11 })
+            @Html.ValidationMessageFor(model => model.PaymentThisMonth)
+        </td>
+    </tr>
+    <tr>
+        <td></td>
+        <td><label>Total Value of Payment</label></td>
+        <td colspan="3"><label id="totalPayment">@Model.TotalPayment</label></td>
+    </tr>
+    <tr>
+        <td></td>
+        <td>@Html.LabelFor(model => model.FinalPaymentFlag)<label style="color:red">*</label></td>
+        <td>
+            @if (Model.Operation == "A" && Model.IsFinalPaymentBefore != "Y")
+            {
+            <label>Yes</label>
+            @Html.RadioButtonFor(model => model.FinalPaymentFlag, "Y", new { @id = "radioYes" })
+            <label>No</label>
+            @Html.RadioButtonFor(model => model.FinalPaymentFlag, "N", new { @id = "radioNo", @checked = "checked" })
+            }
+            else if (Model.Operation == "E" && Model.IsFinalPaymentBefore != "Y")
+            {
+            <label>Yes</label>
+            @Html.RadioButtonFor(model => model.FinalPaymentFlag, "Y", new { @id = "radioYes" })
+            <label>No</label>
+            @Html.RadioButtonFor(model => model.FinalPaymentFlag, "N", new { @id = "radioNo" })
+            }
+            else
+            {
+                <label>Yes</label>
+                @Html.RadioButtonFor(model => model.FinalPaymentFlag, "Y", new { @id = "radioYes", @checked = "checked" })
+            }
+        </td>
+        <td>@Html.LabelFor(model => model.FinalPaymentDate, new { @id = "lblPaymentDate" })<label id="lblRequired" style="color:red">*</label></td>
+        <td id="regdatePicker">
+            @Html.TextBoxFor(model => model.FinalPaymentDate, new { @id = "datePayment", @title = "Enter Final Payment Date", @placeholder = "Enter Payment Date...", tabindex = 5 })
+            @Html.ValidationMessageFor(model => model.FinalPaymentDate, "", new { @id = "msgDateValidation" })
+        </td>
+    </tr>
+    <tr>
+        <td colspan="5">
+            @if (Model.Operation == "A")
+            {
+            <center>
+            <table>
+                <td>
+                    <input type="button" value="Save" name="btnAddFinancialDetails" id="btnAddFinancialDetails" class="jqueryButton" tabindex="7"/>
+                    <input type="reset" value="Reset" name="btnResetFinancialDetails" id="btnResetFinancialDetails" class="jqueryButton" tabindex="8"/>
+                </td>
+            </table>
+            </center>
+            }
+            else
+            {
+            <center>
+            <table>
+                <td>
+                <input type="button" value="Update" name="btnUpdateFinancialDetails" id="btnUpdateFinancialDetails" class="jqueryButton" tabindex="7"/>
+                <input type="button" value="Cancel" name="btnCancelFinancialDetails" id="btnCancelFinancialDetails" class="jqueryButton" tabindex="8"/>
+                </td>
+            </table>
+            </center>
+            }
+        </td>
+    </tr>
+</center>
+    </form>
+</div>

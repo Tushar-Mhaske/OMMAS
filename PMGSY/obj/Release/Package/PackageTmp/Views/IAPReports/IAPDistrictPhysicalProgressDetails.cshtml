@@ -1,0 +1,61 @@
+﻿@model PMGSY.Models.IAPReports.IAPReportsViewModel
+<script type="text/javascript" src="~/Scripts/IAPReports/IAPDistrictPhysicalDetails.js"></script>
+<script type="text/javascript" src="@Url.Content("~/Scripts/jquery.ui.dialog.js")"> </script>
+<script src="~/Scripts/custom/Generic.js"></script>
+
+<form id="frmIAPReportP">
+@Html.HiddenFor(model => model.MAST_STATE_CODE)
+    @Html.AntiForgeryToken()
+    <center>@Html.ValidationSummary(true)
+          
+    </center>
+    <div style="width: 98%">
+        <table class="ui-state-default ui-corner-all" style="width: 100%;">
+
+
+            <tr>
+                <td style="width: 6%;"></td>
+                <td style="text-align: left; width: 5%;">
+                    @Html.LabelFor(model => model.MAST_STATE_CODE)
+                    @*  <label style="color: red;"> *</label>*@
+                </td>
+                <td style="width: 15%;">
+                    @Html.DropDownListFor(model => model.MAST_STATE_CODE, Model.States, new { @id = "ddlStateP", @title = "State", @tabindex = 1 })
+                </td>
+
+                <td style="text-align: left; width: 10%;">
+                    @Html.LabelFor(model => model.MONTH)
+                    <label style="color: red;">*</label>
+                </td>
+
+
+                <td style="width: 15%;">
+                    @Html.DropDownListFor(model => model.MONTH, Model.MONTHS_LIST, new { @id = "ddlMonthP", @title = " Month", @tabindex = 2 })
+                    @Html.ValidationMessageFor(model => model.MONTH)
+                </td>
+
+                <td style="width: 10%;">
+                    @Html.LabelFor(model => model.YEAR)
+                    <label style="color: red;">*</label>
+                </td>
+
+                <td style="width: 15%;">
+                    @Html.DropDownListFor(model => model.YEAR, Model.YEARS_LIST, new { @id = "ddlYearP", @title = " Year", @tabindex = 3 })
+                    @Html.ValidationMessageFor(model => model.YEAR)
+                </td>
+
+                <td style="text-align: center; width: 20%; margin-left: 5px;">
+                    <input type="button" id="btnGoP" value="View" class="jqueryButton" title="View Details" tabindex="4" />
+                </td>
+            </tr>
+
+        </table>
+    </div>
+
+    <div id="divIAPDetailsP" style="width: 98%; margin-top: 20px;">
+        <table id="tbIAPReportP"></table>
+        <div id="dvIAPReportPagerP"></div>
+    </div>
+
+
+</form>

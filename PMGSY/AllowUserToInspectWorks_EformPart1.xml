@@ -1,0 +1,106 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+
+<eFormdatainfo>
+  
+
+  <!--<User>
+    <MAST_STATE_CODE>0</MAST_STATE_CODE>                                  --><!--Allow to perticular district PIU. keep state code=0--><!--
+    <MAST_DISTRICT_CODE>56</MAST_DISTRICT_CODE>								 --><!--enter district code--><!--
+    <schMonth>6</schMonth>
+	<ToschMonth>9</ToschMonth>
+	<schYear>2022</schYear>
+    <ToMonth>10</ToMonth>
+    <ToYear>2022</ToYear>
+    <ToDate>16</ToDate>
+  </User>-->
+
+	<!--<User>
+		<MAST_STATE_CODE>4</MAST_STATE_CODE>                         --><!--Allow to perticular State's all district PIU--><!--
+		<MAST_DISTRICT_CODE>0</MAST_DISTRICT_CODE>              --><!--keep district code=0--><!--
+		<schMonth>6</schMonth>
+		<ToschMonth>10</ToschMonth>
+		<schYear>2022</schYear>
+		<ToMonth>10</ToMonth>
+		<ToYear>2022</ToYear>
+		<ToDate>17</ToDate>
+	</User>-->
+
+
+	<User>
+    <MAST_STATE_CODE>0</MAST_STATE_CODE>                                  
+    <MAST_DISTRICT_CODE>22</MAST_DISTRICT_CODE>								 
+    <schMonth>9</schMonth>
+	<ToschMonth>9</ToschMonth>
+	<schYear>2022</schYear>
+    <ToMonth>10</ToMonth>
+    <ToYear>2022</ToYear>
+    <ToDate>31</ToDate>
+  </User>
+
+
+
+	<User>
+		<MAST_STATE_CODE>0</MAST_STATE_CODE>
+		<MAST_DISTRICT_CODE>637</MAST_DISTRICT_CODE>
+		<schMonth>9</schMonth>
+		<ToschMonth>9</ToschMonth>
+		<schYear>2022</schYear>
+		<ToMonth>10</ToMonth>
+		<ToYear>2022</ToYear>
+		<ToDate>31</ToDate>
+	</User>
+
+
+
+	<User>
+		<MAST_STATE_CODE>17</MAST_STATE_CODE>                         
+		<MAST_DISTRICT_CODE>0</MAST_DISTRICT_CODE>              
+		<schMonth>9</schMonth>
+		<ToschMonth>10</ToschMonth>
+		<schYear>2022</schYear>
+		<ToMonth>11</ToMonth>
+		<ToYear>2022</ToYear>
+		<ToDate>7</ToDate>
+	</User>
+
+
+
+
+	<User>
+		<MAST_STATE_CODE>0</MAST_STATE_CODE>
+		<MAST_DISTRICT_CODE>58</MAST_DISTRICT_CODE>
+		<schMonth>12</schMonth>
+		<ToschMonth>12</ToschMonth>
+		<schYear>2022</schYear>
+		<ToMonth>02</ToMonth>
+		<ToYear>2023</ToYear>
+		<ToDate>14</ToDate>
+	</User>
+
+	<User>
+		<MAST_STATE_CODE>0</MAST_STATE_CODE>
+		<MAST_DISTRICT_CODE>342</MAST_DISTRICT_CODE>
+		<schMonth>12</schMonth>
+		<ToschMonth>12</ToschMonth>
+		<schYear>2022</schYear>
+		<ToMonth>02</ToMonth>
+		<ToYear>2023</ToYear>
+		<ToDate>21</ToDate>
+	</User>
+	<User>
+		<MAST_STATE_CODE>0</MAST_STATE_CODE>
+		<MAST_DISTRICT_CODE>56</MAST_DISTRICT_CODE>
+		<schMonth>01</schMonth>
+		<ToschMonth>01</ToschMonth>
+		<schYear>2023</schYear>
+		<ToMonth>07</ToMonth>
+		<ToYear>2023</ToYear>
+		<ToDate>21</ToDate>
+	</User>
+	
+
+
+
+</eFormdatainfo>
+
+

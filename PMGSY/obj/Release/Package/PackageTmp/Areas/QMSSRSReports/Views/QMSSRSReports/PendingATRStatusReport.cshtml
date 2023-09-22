@@ -1,0 +1,14 @@
+﻿@using MvcReportViewer
+
+@model PMGSY.Areas.QMSSRSReports.Models.QMRegradeGradingAbstractViewModel1
+@Html.MvcReportViewer("/PMGSYCitizen/QM_ATR_Pending_Status",
+     new
+     {
+         LEVEL=1,
+         state=Model.State,
+         fromyear=Model.fromYear,
+         frommonth=Model.fromMonth,
+         toyear=Model.toYear,
+         tomonth=Model.toMonth
+     },
+     new { Height =  600, Width = "100%", style = "border:none;" })

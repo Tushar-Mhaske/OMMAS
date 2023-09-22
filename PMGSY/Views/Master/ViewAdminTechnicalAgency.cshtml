@@ -1,0 +1,205 @@
+﻿@model PMGSY.Models.Master.AdminTechnicalAgencyViewModel
+<script src="~/Scripts/custom/Generic.js"></script>
+<script src="~/Scripts/Master/AddAdminTechnicalAgency.js"></script>
+
+<div id="dvhdCreateNewDetails" class="ui-corner-top ui-widget-header panelheader" style="text-align: left; height: 20px;">
+    <span class="ui-jqgrid-title" style="float: left">&nbsp;Technical Agency Details</span>
+    <span id="spCollapseIconCN" class="ui-icon ui-icon-circle-triangle-n" style="float: right"></span>
+</div>
+
+<div id="dvCreateNewDetails" style="display: block; border: 1px solid #B5B8C8;">
+
+    <div id="dvErrorMessage" class="ui-widget ui-state-error ui-corner-all" style="padding: 0.7em .7em; display: none; margin: 5px 5px 5px 5px; text-align: left">
+        <span class="ui-icon ui-icon-alert" style="float: left; margin-right: .3em;"></span>
+        <strong>Alert:</strong> <span id="message"></span>
+    </div>
+    <form id="frm">
+        @Html.AntiForgeryToken()
+        <center>@Html.ValidationSummary(true)</center>
+        <table style="width: 100%; margin-top: 10px;" class="rowstyle">
+            <tr style="display: none">
+                <td colspan="3">
+                    @Html.HiddenFor(model => model.EncryptedTACode)
+                </td>
+            </tr>
+
+            <tr>
+                <td style="width: 8%"></td>
+                <td style="width: 15%">
+                    @Html.LabelFor(model => model.ADMIN_TA_TYPE)
+                    @Html.ValidationMessageFor(model => model.ADMIN_TA_TYPE)
+                </td>
+
+                <td style="width: 30%">
+                   
+
+                    @if (Model.ADMIN_TA_TYPE == "S")
+                    {
+                        <label>STA</label> 
+                    }
+                    else 
+                    {
+                        <label>PTA</label> 
+                    }
+                </td>
+                <td style="width: 17%">
+                    @Html.LabelFor(model => model.ADMIN_TA_NAME)
+                </td>
+                <td>
+                
+                    @Html.DisplayFor(model=>model.ADMIN_TA_NAME)
+                </td>
+            </tr>
+
+            <tr>
+                <td></td>
+                <td>
+                    @Html.LabelFor(model => model.ADMIN_TA_CONTACT_NAME)
+                </td>
+
+                <td>
+                  
+                      @Html.DisplayFor(model=>model.ADMIN_TA_CONTACT_NAME)
+                </td>
+                <td>
+                    @Html.LabelFor(model => model.ADMIN_TA_CONTACT_DESG)
+                </td>
+                <td>
+                  
+                      @Html.DisplayFor(model=>model.ADMIN_DESIGNATION_NAME)
+
+                </td>
+            </tr>
+
+            <tr>
+                <td></td>
+                <td>
+                    @Html.LabelFor(model => model.MAST_STATE_CODE)
+                </td>
+                <td>
+                   
+                       @Html.DisplayFor(model=>model.ADMIN_STATE_NAME)
+                </td>
+                <td>
+                    @Html.LabelFor(model => model.MAST_DISTRICT_CODE)
+                </td>
+                <td>
+                  
+                     @Html.DisplayFor(model=>model.ADMIN_DISTRICT_NAME)
+                </td>
+            </tr>
+
+            <tr>
+                <td></td>
+                <td>
+                    @Html.LabelFor(model => model.ADMIN_TA_ADDRESS1)
+                </td>
+                <td>
+                  
+                    @Html.DisplayFor(model=>model.ADMIN_TA_ADDRESS1)
+                </td>
+                <td>
+                    @Html.LabelFor(model => model.ADMIN_TA_PIN)
+                </td>
+                <td>
+                   
+
+                     @Html.DisplayFor(model=>model.ADMIN_TA_PIN)
+                </td>
+            </tr>
+
+            <tr>
+                <td></td>
+                <td></td>
+                <td>
+                
+                       @Html.DisplayFor(model=>model.ADMIN_TA_ADDRESS2)
+                </td>
+                <td></td>
+                <td></td>
+            </tr>
+
+            <tr>
+                <td></td>
+                <td>
+                    @Html.LabelFor(model => model.ADMIN_TA_STD1)
+                </td>
+                <td>
+                
+                     @Html.DisplayFor(model=>model.ADMIN_TA_STD1)<label>-</label> @Html.DisplayFor(model=>model.ADMIN_TA_PHONE1)
+                </td>
+                <td>
+                    @Html.LabelFor(model => model.ADMIN_TA_STD2)
+                </td>
+                <td>
+                   
+
+                     @Html.DisplayFor(model=>model.ADMIN_TA_STD2)<label>-</label> @Html.DisplayFor(model=>model.ADMIN_TA_PHONE2)
+
+                </td>
+            </tr>
+
+            <tr>
+                <td></td>
+                <td>
+                    @Html.LabelFor(model => model.ADMIN_TA_MOBILE_NO)
+                </td>
+                <td>
+                  
+                      @Html.DisplayFor(model=>model.ADMIN_TA_MOBILE_NO)
+                </td>
+                <td>
+                    @Html.LabelFor(model => model.ADMIN_TA_FAX)
+                </td>
+                <td>
+                  
+                     @Html.DisplayFor(model=>model.ADMIN_TA_STD_FAX)<label>-</label> @Html.DisplayFor(model=>model.ADMIN_TA_FAX)
+
+                </td>
+            </tr>
+
+            <tr>
+                <td></td>
+                <td>
+                    @Html.LabelFor(model => model.ADMIN_TA_WEBISTE)
+                </td>
+                <td>
+                 
+                       @Html.DisplayFor(model=>model.ADMIN_TA_WEBISTE)
+                </td>
+                <td>
+                    @Html.LabelFor(model => model.ADMIN_TA_EMAIL)
+                </td>
+                <td>
+                
+                       @Html.DisplayFor(model=>model.ADMIN_TA_EMAIL)
+
+                </td>
+
+            </tr>
+            <tr>
+                <td></td>
+                <td>
+                    @Html.LabelFor(model => model.ADMIN_TA_REMARKS)
+                </td>
+                <td>
+           
+                       @Html.DisplayFor(model=>model.ADMIN_TA_REMARKS)
+
+
+                </td>
+                <td>@Html.LabelFor(model => model.ADMIN_TA_SERVICE_TAX)</td>
+                <td> @Html.DisplayFor(model=>model.ADMIN_TA_SERVICE_TAX)</td>
+            </tr>
+            <tr>
+                <td colspan="5" style="text-align: center">
+                 <input type="button" id="btnCancel" name="btnCancel" value="Back" class="jqueryButton" title="Back" tabindex="20" />
+
+                </td>
+            </tr>
+            
+        </table>
+    </form>
+</div>
+
+

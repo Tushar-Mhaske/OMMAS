@@ -1,0 +1,30 @@
+﻿@{
+    ViewBag.Title = "ViewExecutionDetails";
+}
+
+
+<script src="~/Scripts/custom/Generic.js"></script>
+<script src="~/Scripts/jquery.ui.accordion.js"></script>
+<script src="~/Scripts/Execution/ViewExecutionDetails.js"></script>
+
+
+@Html.Hidden("ProposalCode",ViewBag.ProposalCode as String)
+@Html.Hidden("RoadType",ViewBag.ProposalType as String)
+<center>
+<div>
+    <div id="dvPhysicalRoadDetails">
+        <table id="tbListRoadDetails"></table>
+        <div id="pgRoadDetails"></div>
+    </div>
+    <br />
+    <div id="dvPhysicalLSBDetails">
+        <table id="tbListLSBDetails"></table>
+        <div id="pgLSBDetails"></div>
+    </div>
+    <br />
+    <div id="dvFinancialDetails">
+        <table id="tbListFinancialDetails"></table>
+        <div id="pgFinancialDetails"></div>
+    </div>
+</div>
+</center>

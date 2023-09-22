@@ -1,0 +1,32 @@
+﻿
+@* * Project Name:OMMAS-II
+
+ * File Name: ScheduleOfRoadsMFReport.cshtml
+
+ * Author : Abhishek Kamble
+
+ * Creation Date : 15 Jan ‎2015
+
+ * Desc : This file is used to show ssrs report.*@
+
+@using MvcReportViewer
+@model PMGSY.Areas.AccountReports.Models.ScheduleOfRoadMFModel
+
+<div id="dvRoadDetailsReport" style="width: 95%; ">
+    @Html.MvcReportViewer("/PMGSYCitizen/ScheduleOfRoadsMF",
+         new
+         {
+             AdminNDCode = Model.Piu,             
+             Month = Model.Month,
+             Year = Model.Year,  
+             FundType = Model.FundType,  
+             LvlID = Model.LevelId,                                     
+             HeadID = Model.HeadCode,             
+             ParentNdCode = Model.ParentNdCode,                          
+             HeadName=Model.HeadName,
+             ReportName=Model.ReportName,
+             ReportParagraphName=Model.ReportParagraphName,
+             ReportFormNo=Model.ReportFormNo             
+         },
+         new { Height = 600, Width = 1200, style = "border:none;" })
+</div>

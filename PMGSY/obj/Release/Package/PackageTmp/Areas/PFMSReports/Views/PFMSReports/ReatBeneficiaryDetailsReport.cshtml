@@ -1,0 +1,14 @@
+﻿@using MvcReportViewer
+
+@model PMGSY.Areas.PFMSReports.Models.BeneficiaryDetailsViewModel
+
+@Html.MvcReportViewer("/PMGSYCitizen/REAT_Beneficiary_Details_Report",
+     new
+     {
+         State = Model.StateCode,
+         District = 0,//Model.DistrictCode,
+         StateName = Model.StateName,
+         DistrictName = "All Districts"//Model.DistrictName
+        // AgencyCode=Model.AgencyCode
+     },
+       new { Height = 675, Width = "100%", style = "border:none;" })

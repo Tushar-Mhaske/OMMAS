@@ -1,0 +1,24 @@
+﻿@*
+    * Project Id    :
+    * Project Name  :   OMMAS II
+    * Name          :   AddProgressRemarks.cshtml
+    * Description   :   This View Adds the File Details to Road Proposal Execution
+    * Author        :   Vikram Nandanwar        
+    * Creation Date :   27/July/2013    
+*@
+
+@model PMGSY.Models.Execution.FileUploadViewModel
+<script src="~/Scripts/Execution/FileUpload.js"></script>
+<div>   
+    @*<input type="radio" name ="UploadType" value="P" id="rdoVideo"/> <strong> Videos</strong>*@
+    <input type="radio" name="UploadType" value="I" id="rdoImage" /><strong>Images </strong>        
+</div>
+        @Html.HiddenFor(model => model.IMS_PR_ROAD_CODE)
+@Html.HiddenFor(model => model.Urlparameter)
+<div id="divImageUpload" style="display:none; width:100%">
+
+</div>
+
+<div id="divVideoUpload" style="display:none; width :100%">
+
+</div>

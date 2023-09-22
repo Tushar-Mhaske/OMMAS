@@ -1,0 +1,177 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+ <PANValidationExclusion>
+	 <!--OD=Other Details , P=PAN-->
+  <Exclusion>
+    <StateCode>20</StateCode>
+    <DateFrom>07/10/2022</DateFrom>
+    <DateTo>22/10/2022</DateTo>
+	<ModRequest>OD</ModRequest>
+  </Exclusion>
+
+ <Exclusion>
+    <StateCode>03</StateCode>
+    <DateFrom>10/01/2022</DateFrom>
+    <DateTo>16/01/2022</DateTo>
+	<ModRequest>P</ModRequest>
+  </Exclusion>
+
+ <Exclusion>
+	 <StateCode>29</StateCode>
+	 <DateFrom>10/06/2022</DateFrom>
+	 <DateTo>25/06/2022</DateTo>
+	 <ModRequest>P</ModRequest>
+ </Exclusion>
+	 
+ <Exclusion>
+	 <StateCode>2</StateCode>
+	 <DateFrom>28/09/2022</DateFrom>
+	 <DateTo>05/10/2022</DateTo>
+	 <ModRequest>P</ModRequest>
+ </Exclusion>
+ <Exclusion>
+	<StateCode>16</StateCode>
+	<DateFrom>16/11/2022</DateFrom>
+	<DateTo>24/11/2022</DateTo>
+	<ModRequest>OD</ModRequest>
+</Exclusion>
+<Exclusion>
+  <StateCode>31</StateCode>
+  <DateFrom>18/11/2022</DateFrom>
+  <DateTo>26/11/2022</DateTo>
+  <ModRequest>P</ModRequest>
+</Exclusion>
+<Exclusion>
+	<StateCode>36</StateCode>
+	<DateFrom>03/01/2023</DateFrom>
+	<DateTo>10/01/2023</DateTo>
+	<ModRequest>OD</ModRequest>
+</Exclusion>
+
+<!--Changes by Ajinkya-->
+   <Exclusion>
+     <StateCode>28</StateCode>
+     <DateFrom>03/03/2023</DateFrom>
+     <DateTo>10/03/2023</DateTo>
+     <ModRequest>OD</ModRequest>
+   </Exclusion>
+	 
+	 <!--Changes by Ajinkya-->
+	 <Exclusion>
+		 <StateCode>20</StateCode>
+		 <DateFrom>20/03/2023</DateFrom>
+		 <DateTo>27/03/2023</DateTo>
+		 <ModRequest>OD</ModRequest>
+	 </Exclusion>
+
+	 <!--Changes by Ajinkya-->
+	 <Exclusion>
+		 <StateCode>7</StateCode>
+		 <DateFrom>29/03/2023</DateFrom>
+		 <DateTo>05/04/2023</DateTo>
+		 <ModRequest>OD</ModRequest>
+	 </Exclusion>
+
+	 <!--Changes by Ajinkya-->
+	 <Exclusion>
+		 <StateCode>29</StateCode>
+		 <DateFrom>26/06/2023</DateFrom>
+		 <DateTo>03/07/2023</DateTo>
+		 <ModRequest>P</ModRequest>
+	 </Exclusion>
+	 
+	 
+   <Exclusion>
+     <StateCode>36</StateCode>
+     <DateFrom>03/07/2023</DateFrom>
+     <DateTo>10/07/2023</DateTo>
+     <ModRequest>OD</ModRequest>
+   </Exclusion>
+
+	 <Exclusion>
+		 <StateCode>7</StateCode>
+		 <DateFrom>10/07/2023</DateFrom>
+		 <DateTo>17/07/2023</DateTo>
+		 <ModRequest>OD</ModRequest>
+	 </Exclusion>
+	 
+	 	 <Exclusion>
+		 <StateCode>33</StateCode>
+		 <DateFrom>14/07/2023</DateFrom>
+		 <DateTo>21/07/2023</DateTo>
+		 <ModRequest>OD</ModRequest>
+	    </Exclusion>
+
+	 <Exclusion>
+		 <StateCode>17</StateCode>
+		 <DateFrom>18/07/2023</DateFrom>
+		 <DateTo>25/07/2023</DateTo>
+		 <ModRequest>OD</ModRequest>
+	 </Exclusion>
+
+
+	 <Exclusion>
+		 <StateCode>16</StateCode>
+		 <DateFrom>20/07/2023</DateFrom>
+		 <DateTo>28/07/2023</DateTo>
+		 <ModRequest>OD</ModRequest>
+	 </Exclusion>
+
+
+	 <Exclusion>
+		 <StateCode>14</StateCode>
+		 <DateFrom>20/07/2023</DateFrom>
+		 <DateTo>28/07/2023</DateTo>
+		 <ModRequest>OD</ModRequest>
+	 </Exclusion>
+
+
+	 <Exclusion>
+		 <StateCode>33</StateCode>
+		 <DateFrom>25/07/2023</DateFrom>
+		 <DateTo>31/07/2023</DateTo>
+		 <ModRequest>OD</ModRequest>
+	 </Exclusion>
+
+
+	 <Exclusion>
+		 <StateCode>3</StateCode>
+		 <DateFrom>01/08/2023</DateFrom>
+		 <DateTo>07/08/2023</DateTo>
+		 <ModRequest>OD</ModRequest>
+	 </Exclusion>
+
+	 <Exclusion>
+		 <StateCode>20</StateCode>
+		 <DateFrom>03/08/2023</DateFrom>
+		 <DateTo>10/08/2023</DateTo>
+		 <ModRequest>OD</ModRequest>
+	 </Exclusion>
+
+
+	 <Exclusion>
+		 <StateCode>36</StateCode>
+		 <DateFrom>07/08/2023</DateFrom>
+		 <DateTo>14/08/2023</DateTo>
+		 <ModRequest>OD</ModRequest>
+	 </Exclusion>
+
+
+	 <Exclusion>
+		 <StateCode>26</StateCode>
+		 <DateFrom>07/08/2023</DateFrom>
+		 <DateTo>14/08/2023</DateTo>
+		 <ModRequest>OD</ModRequest>
+	 </Exclusion>
+
+
+
+	 <Exclusion>
+		 <StateCode>28</StateCode>
+		 <DateFrom>23/08/2023</DateFrom>
+		 <DateTo>31/08/2023</DateTo>
+		 <ModRequest>OD</ModRequest>
+	 </Exclusion>
+
+
+
+ </PANValidationExclusion>

@@ -1,0 +1,154 @@
+﻿@model PMGSY.Areas.RCTRC.Models.RCTRCStateUserMapping
+
+@{
+    ViewBag.Title = "RCTRCStateUserMapping";
+}
+
+<script src="~/Scripts/custom/Generic.js" type="text/javascript"></script>
+
+<script src="~/Scripts/jquery.ui.datepicker.js"></script>
+
+
+<script src="~/Areas/RCTRC/Scripts/RCTRCStateUserMapping.js"></script>
+<div id="dvhdAddNewCdWorksDetails" class="ui-corner-top ui-widget-header panelheader" style="text-align: left; height: 20px;">
+    <span class="ui-jqgrid-title" style="float: left">&nbsp;TNA State - User Mapping Details</span>
+    <span id="spCollapseIconCN" class="ui-icon ui-icon-circle-triangle-n" style="float: right"></span>
+</div>
+
+<div id="dvAddNewCdWorksDetails" style="display: block; border: 1px solid #B5B8C8; text-align: left">
+    <div id="dvErrorMessage" class="ui-widget ui-state-error ui-corner-all" style="padding: 0.7em .7em; display: none; margin: 5px 5px 5px 5px;">
+        <span class="ui-icon ui-icon-alert" style="float: left; margin-right: .3em;"></span>
+        <strong>Alert:</strong> <span id="message"></span>
+    </div>
+
+    <form id="frmAddCdWorks">
+        @Html.AntiForgeryToken()
+        <center>@Html.ValidationSummary(true)</center>
+        <table class="rowstyle" style="width: 100%; margin-top: 10px">
+            <tr style="display: none">
+                <td>@Html.HiddenFor(m => m.EncryptedRCTRCCode)</td>
+            </tr>
+
+
+
+            <tr>
+                <td style="width: 30%;"></td>
+                <td style="text-align: left; width: 15%; color: forestgreen">
+                    <h3>@Html.Label("Select Username, State then click on Save Button.")</h3>
+
+                </td>
+                <td></td>
+
+            </tr>
+            <tr>
+                <td style="width: 30%;"></td>
+                <td style="text-align: left; width: 15%;">
+
+
+                    <h4>@Html.Label("Username")</h4>
+                </td>
+                <td>
+                    @Html.DropDownListFor(model => model.UserID, new SelectList(Model.UserList, "Value", "Text"), new { @title = "UserID", @id = "UserDetails", @tabindex = 1, @style = "width:150px" })
+                    @Html.ValidationMessageFor(m => m.UserID)
+                </td>
+
+            </tr>
+                     <tr>
+                <td style="width: 30%;"></td>
+                <td style="text-align: left; width: 15%;">
+
+
+                    <h4>@Html.Label("State")</h4> 
+                    
+                </td>
+                <td>
+                    
+                </td>
+
+            </tr>
+
+
+            @{ int i = 0; }
+            @while (i < Model.StateList.Count)
+            {
+
+
+                <tr>
+                    <td style="width: 30%;"> </td>
+                    <td style="text-align: left; width: 15%;">
+
+                        @Model.StateList[i].Text
+                        @*  <label style="color: red;">*</label>*@
+                    </td>
+                    <td>
+                        @Html.CheckBoxFor(model => model.isStatus, new { @title = "", Name = "item" + Model.StateList[i].Value, @id = "item" + Model.StateList[i].Value, @tabindex = 2 })
+
+                        @* @Html.DropDownListFor(model => model.StateCode, new SelectList(Model.StateList, "Value", "Text"), new { @title = "State", @tabindex = 1, @id = "StateList_StateListRoadDetails", @style = "width:150px" })
+                    @Html.ValidationMessageFor(m => m.StateCode)*@
+
+                    </td>
+                </tr>
+                i++;
+            }
+
+
+
+
+            <tr>
+                <td></td>
+                <td></td>
+                <td>
+
+                    <input type="button" id="btnSave" name="btnSave" value="Save" class="jqueryButton" title="Save Details" tabindex="3" />
+                    <input type="reset" id="btnReset" name="btnReset" value="Reset" class="jqueryButton" title="Reset" tabindex="4" />
+
+                </td>
+            </tr>
+            <tr>
+                <td colspan="4">
+                  @*  <label style="border: none">
+                        [ Note: Fields marked with<label style="color: red;"> * </label>
+                        are mandatory.]</label>*@
+
+                </td>
+            </tr>
+        </table>
+
+    </form>
+</div>
+
+
+<div id="tabs-1" style="text-align: left; flex-align: center">
+    <div id="divCdWorks" style="text-align: left; width: 100%">
+        <table id="tbCDWorksList" style="width: 95%; flex-align: center"></table>
+        <div id="pagerCDWorksList" tabindex="15"></div>
+    </div>
+</div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

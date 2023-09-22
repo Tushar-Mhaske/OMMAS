@@ -1,0 +1,77 @@
+﻿@using MvcReportViewer
+@model PMGSY.Areas.AccountReports.Models.AccountBillViewModel
+
+@{ PMGSY.Models.Report.ReportFilter objParam = new PMGSY.Models.Report.ReportFilter();}
+
+@if (Model.FundType == "A")
+{
+    @Html.MvcReportViewer("/PMGSYCitizen/Acc_Bill_Details_Report_Admin",
+     new
+     {
+         PrmFundType = Model.FundType,
+         PrmAdminNdCode = Model.AdminNdCode,
+         PrmMonth = Model.Month,
+         PrmYear = Model.Year,
+         prmStartDt = Model.StartDate,
+         prmEndDt = Model.EndDate,
+         Prmbtype = Model.BillType,
+         Prmrtype = Model.rType,
+         PrmallPIU = Model.isAllPiu,
+         NodalAgency = Model.NodalAgency,
+         DPIU = Model.DPIUName,
+         BillType = Model.BilltypeName,
+         Selection = Model.Selection,
+         Year = Model.YearName,
+         StateName = Model.StateName
+
+     },
+     new { Height = 600, Width = "100%", style = "border:none; overflow-x: hidden; overflow-y: hidden" })
+}
+else if (Model.FundType == "P")
+{
+    @Html.MvcReportViewer("/PMGSYCitizen/Acc_Bill_Details_Report_Programme",
+     new
+     {
+         PrmFundType = Model.FundType,
+         PrmAdminNdCode = Model.AdminNdCode,
+         PrmMonth = Model.Month,
+         PrmYear = Model.Year,
+         prmStartDt = Model.StartDate,
+         prmEndDt = Model.EndDate,
+         Prmbtype = Model.BillType,
+         Prmrtype = Model.rType,
+         PrmallPIU = Model.isAllPiu,
+         NodalAgency = Model.NodalAgency,
+         DPIU = Model.DPIUName,
+         BillType = Model.BilltypeName,
+         Selection = Model.Selection,
+         Year = Model.YearName,
+         StateName = Model.StateName
+
+     },
+     new { Height = 600, Width = "100%", style = "border:none; overflow-x: hidden; overflow-y: hidden" })
+}
+else
+{
+    @Html.MvcReportViewer("/PMGSYCitizen/Acc_Bill_Details_Report_Maintenance",
+     new
+     {
+         PrmFundType = Model.FundType,
+         PrmAdminNdCode = Model.AdminNdCode,
+         PrmMonth = Model.Month,
+         PrmYear = Model.Year,
+         prmStartDt = Model.StartDate,
+         prmEndDt = Model.EndDate,
+         Prmbtype = Model.BillType,
+         Prmrtype = Model.rType,
+         PrmallPIU = Model.isAllPiu,
+         NodalAgency = Model.NodalAgency,
+         DPIU = Model.DPIUName,
+         BillType = Model.BilltypeName,
+         Selection = Model.Selection,
+         Year = Model.YearName,
+         StateName = Model.StateName
+
+     },
+     new { Height = 600, Width = "100%", style = "border:none; overflow-x: hidden; overflow-y: hidden" })
+}

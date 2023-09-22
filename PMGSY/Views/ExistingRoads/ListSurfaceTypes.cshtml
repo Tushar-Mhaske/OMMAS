@@ -1,0 +1,25 @@
+﻿@model PMGSY.Models.ExistingRoads.FilterViewModel
+
+@{
+    ViewBag.Title = "ListSurfaceTypes";
+}
+
+
+<script src="~/Scripts/custom/Generic.js"></script>
+<script src="~/Scripts/ExistingRoads/ListSurfaceTypes.js"></script>
+
+<div style="height:20px; width: 92%; text-align:left; padding-top: 0.6em;" class="ui-state-default ui-corner-all" > 
+                   &nbsp; 
+                   <strong> Road No.:</strong> @ViewBag.RoadNo&nbsp;  &nbsp;  &nbsp;  &nbsp;  &nbsp;  &nbsp;  &nbsp; 
+                 <strong> Road Name:</strong> @ViewBag.RoadName                
+</div>
+@Html.HiddenFor(model=>model.EncryptedRoadCode)
+@Html.HiddenFor(model=>model.ExistingRoadCode)
+
+<div id="divSurfaceTypes" style="width:90%;">
+    <table id="tbSurfaceType" ></table>
+    <div id="dvSurfaceTypePager"></div>
+</div>
+<div id="divAddSurface" style="margin-top:20px">
+
+</div>

@@ -1,0 +1,100 @@
+﻿@model PMGSY.Areas.LocationSSRSReports.Models.ForthNightelyReportViewModel
+
+@if (Layout == null)
+{
+    Layout = Request.IsAjaxRequest() ? null : "~/Areas/AccountReports/Views/Account/_Layout.cshtml";
+}
+
+<script src="~/Areas/LocationSSRSReports/Scripts/ForthNightelyReportLayout.js"></script>
+<script src="~/Scripts/custom/Generic.js"></script>
+
+<div id="dvhdForthNightelyLayout" class="ui-corner-top ui-widget-header panelheader" style="text-align: left; height: 20px;">
+    <span class="ui-jqgrid-title" style="float: left">Forth Nightely Report</span>
+    <span id="spCollapseIconCN" class="ui-icon ui-icon-circle-triangle-n" style="float: right"></span>
+</div>
+<div id="dvForthNightelyLayout" class="ui-corner-bottom" style="display: block; border: 1px solid #B5B8C8;">
+    <form id="frmForthNightelyLayout">
+        @Html.AntiForgeryToken()
+        @Html.ValidationSummary(true)
+
+        @Html.HiddenFor(model => model.StateName)
+
+        <table class="rowstyle" style="width: 100%;">
+            <tr>
+                <td style="width: 2%;"></td>
+                <td style="text-align: left; width: 7%;">
+                    @Html.Label("From Month")
+                </td>
+                <td style="width: 15%;">
+                    @Html.DropDownListFor(model => model.FromMonth, new SelectList(Model.FromMonthList, "Value", "Text"), new { @id = "ddlFromMonth", @title = "From Month", @tabindex = 1 })
+                    <br />
+                    @Html.ValidationMessageFor(m => m.FromMonth)
+                </td>
+                <td style="text-align: left; width: 5%;">
+                    @Html.Label("From Year")
+                </td>
+                <td style="width: 15%;">
+                    @Html.DropDownListFor(model => model.FromYear, new SelectList(Model.FromYearList, "Value", "Text"), new { @id = "ddlFromYear", @title = "From Year", @tabindex = 2 })
+                    <br />
+                    @Html.ValidationMessageFor(m => m.FromYear)
+                </td>
+
+                <td style="text-align: left; width: 7%;">
+                    @Html.Label("To Month")
+                </td>
+                <td style="width: 15%;">
+                    @Html.DropDownListFor(model => model.ToMonth, new SelectList(Model.ToMonthList, "Value", "Text"), new { @id = "ddlToMonth", @title = "To Month", @tabindex = 3 })
+                    <br />
+                    @Html.ValidationMessageFor(m => m.ToMonth)
+                </td>
+                <td style="text-align: left; width: 5%;">
+                    @Html.Label("To Year")
+                </td>
+                <td style="width: 15%;">
+                    @Html.DropDownListFor(model => model.ToYear, new SelectList(Model.ToYearList, "Value", "Text"), new { @id = "ddlToYear", @title = "To Year", @tabindex = 4 })
+                    <br />
+                    @Html.ValidationMessageFor(m => m.ToYear)
+                </td>
+                @*<td style="text-align: center; width: 20%; margin-left: 5px;">
+                    <input type="button" id="btnView" value="View" class="jqueryButton" title="View Details" tabindex="3" />
+                </td>*@
+                <td style="width: 2%;"></td>
+            </tr>
+            <tr>
+                <td style="width: 2%;"></td>
+                <td style="text-align: left; width: 7%;">
+                    @Html.Label("Stream")
+                </td>
+                <td style="width: 15%;">
+                    @Html.DropDownListFor(model => model.Stream, new SelectList(Model.StreamList, "Value", "Text"), new { @id = "ddlStream", @title = "Stream", @tabindex = 5 })
+                    <br />
+                    @Html.ValidationMessageFor(m => m.Stream)
+                </td>
+                <td style="text-align: left; width: 5%;">
+                    @Html.Label("Scheme")
+                </td>
+                <td style="width: 15%;">
+                    @Html.DropDownListFor(model => model.pmgsyScheme, new SelectList(Model.pmgsySchemeList, "Value", "Text"), new { @id = "ddlPmgsyScheme", @title = "Pmgsy Scheme", @tabindex = 6 })
+                    <br />
+                    @Html.ValidationMessageFor(m => m.pmgsyScheme)
+                </td>
+
+                <td style="text-align: left; width: 7%;">
+                    <input type="button" id="btnView" value="View" class="jqueryButton" title="View Details" tabindex="3" />
+                </td>
+                <td style="width: 15%;"></td>
+                <td style="text-align: left; width: 5%;"></td>
+                <td style="width: 15%;"></td>
+                @*<td style="text-align: center; width: 20%; margin-left: 5px;">
+                    
+                </td>*@
+                <td style="width: 2%;"></td>
+            </tr>
+        </table>
+    </form>
+</div>
+
+<div id="dvForthNightelyReport">
+</div>
+
+

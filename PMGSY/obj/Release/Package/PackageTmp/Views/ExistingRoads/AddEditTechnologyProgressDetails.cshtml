@@ -1,0 +1,138 @@
+﻿@*
+    * Project Id    :
+    * Project Name  :   OMMAS II
+    * Name          :   AddPhysicalRoadProgress.cshtml
+    * Description   :   This View Adds the Physical Road Progress Details to Road Proposal Execution
+    * Author        :   Vikram Nandanwar        
+    * Creation Date :   25/June/2013    
+*@
+
+@model PMGSY.Models.Execution.TechnologyDetailsViewModel
+
+<script src="~/Scripts/custom/Generic.js"></script>
+<script src="~/Scripts/jquery.ui.datepicker.js"></script>
+@*<script src="~/Scripts/jquery.ui.accordion.js"></script>*@
+<script src="~/Scripts/Execution/AddEditTechnologyProgressDetails.js"></script>
+
+<div id="divAddEditTechnologyProgressDetails" style="margin-top: 20px">
+    <form id="frmEditTechnologyProgressDetails">
+        <center>
+
+<div style="margin-left: 100px">
+    @Html.ValidationSummary(true)   
+    @Html.HiddenFor(model => model.IMS_PR_ROAD_CODE)
+    @Html.HiddenFor(model => model.EncryptedRoadCode)
+    @Html.HiddenFor(model => model.Operation)
+    @Html.HiddenFor(model => model.flg)
+    @Html.HiddenFor(model => model.startChainage)
+    @Html.HiddenFor(model => model.endChainage)
+
+    @Html.HiddenFor(model => model.previousMonth)
+    @Html.HiddenFor(model => model.previousYear)
+    @Html.HiddenFor(model => model.previousDate)
+    @Html.HiddenFor(model => model.previousCompletedLength)
+    @Html.HiddenFor(model => model.previousStatus)
+    @Html.HiddenFor(model => model.sanctionLength)
+    @Html.HiddenFor(model => model.techMonthlyCode)
+    @Html.HiddenFor(model => model.agreementDate)
+</div>            
+<div id="divError" class="ui-state-error ui-corner-all" style="text-align: left; display: none; width: 99%;">
+        <span class="ui-icon ui-icon-alert" style="float: left;"></span>                   
+        <span></span>
+</div>
+<div style="height:20px; width: 99%; text-align:left; padding-top: 0.4em;" class="ui-state-default ui-corner-all" > 
+            &nbsp;<strong> Note :</strong>  Fields marked with * are mandatory.
+    <a href="#"  style="float: right;">
+                    <img style="margin-right:5px" alt="Close" src="" class="ui-icon ui-icon-closethick" id="imgCloseProgressDetails" /></a>
+</div>
+<table id="tbAddEditTechnologyProgressDetails"  cellpadding="3px" class="rowstyle" style="margin-top:0px; text-align:left; border:ridge 0.1em #ccc; width:99%; padding-top:5px 5px 5px 5px;">
+    <tr>
+        <td style="width:5%">
+        </td>
+        <td style="width:10%">
+            @Html.LabelFor(model => model.Year)<label style="color:red">*</label>
+        </td>
+        <td style="width:20%">
+            
+                @Html.DropDownListFor(m => m.Year, new SelectList(Model.YearList, "Value", "Text"), new { @id = "ddlYear", @tabindex = 1, })
+                @Html.ValidationMessageFor(model => model.Year)
+            
+        </td>
+        <td style="width:10%">
+            @Html.LabelFor(model => model.Month)<label style="color:red">*</label>
+        </td>
+        <td style="width:20%">
+                 @Html.DropDownListFor(m => m.Month, new SelectList(Model.MonthList, "Value", "Text"), new { @id = "ddlMonth", @tabindex = 2, })
+                 @Html.ValidationMessageFor(model => model.Month)
+            
+        </td>
+        
+    </tr>
+    <tr>
+        <td></td>
+        <td>
+            @Html.LabelFor(model => model.Status)<label style="color:red">*</label>
+        </td>
+        <td>
+                 @Html.DropDownListFor(m => m.Status, new SelectList(Model.StatusList, "Value", "Text"), new { @id = "ddlStatus", @tabindex = 3, })
+                 @Html.ValidationMessageFor(model => model.Status)
+        </td>
+        <td>
+            @Html.LabelFor(model => model.Date)<label style="color:red">*</label>
+        </td>
+        <td>
+            @Html.TextBoxFor(model => model.Date, new { @title = "Enter Date", @maxlength = 10, @tabindex = 4, @placeholder = "Enter Date..." })
+            @Html.ValidationMessageFor(model => model.Date)
+        </td>
+    </tr>
+
+    <tr>
+        <td></td>
+        <td>
+            @Html.LabelFor(model => model.completedLength)<label style="color:red">*</label>
+        </td>
+        <td>
+            @Html.TextBoxFor(model => model.completedLength, new { @id="txtCompletedLength", @title = "Enter Completed Length", @maxlength = 11, @tabindex = 5 })     
+            <br />     
+            @Html.ValidationMessageFor(model => model.completedLength)
+            <label id="lblErrMsg" style="display: none; color: #E80C4D; font-weight: bold; font-size: 13"></label>
+        </td>
+        <td>
+            
+        </td>
+        <td>
+            
+        </td>
+    </tr>
+
+    <tr>
+        <td colspan="5">
+            @if (Model.Operation == "A")
+            {
+            <center>
+            <table>
+                <td>
+                    <input type="button" value="Save" name="btnAddTechnologyDetails" id="btnAddTechnologyDetails" class="jqueryButton" tabindex="13" />
+                    <input type="reset" value="Reset" name="btnResetTechnologyDetails" id="btnResetTechnologyDetails" class="jqueryButton" tabindex="14"/>
+                </td>
+            </table>
+            </center>
+            }
+            else
+            {
+            <center>
+            <table>
+                <td>
+                <input type="button" value="Update" name="btnUpdateTechnologyDetails" id="btnUpdateTechnologyDetails" class="jqueryButton" tabindex="13" />
+                <input type="button" value="Cancel" name="btnCancelTechnologyDetails" id="btnCancelTechnologyDetails" class="jqueryButton" tabindex="14" />
+                </td>
+            </table>
+            </center>
+            }
+        </td>
+    </tr>
+</table>
+</center>
+    </form>
+</div>
+<br />

@@ -1,0 +1,24 @@
+﻿@using MvcReportViewer
+@model PMGSY.Areas.AccountReports.Models.CashPaymentViewModel
+
+@Html.MvcReportViewer("/PMGSYCitizen/REATFundReceipt",
+     new
+     {
+         StateNdCode = Model.AdminNdCode,
+         PiuCode = 0,
+         Duration = Model.rType,
+         Month = Model.Month,
+         Year = Model.Year,
+         StartDate = Model.StartDate,
+         EndDate = Model.EndDate,
+        // NodalAgency = Model.NodalAgency,
+         //DPIU = Model.DPIUName,
+         StateName = Model.SRRDAStateName
+         //Selection = Model.Selection,
+         //Level = Model.levelId,
+         //YearName = Model.YearName
+         
+     },
+     new { Height = 600, Width = "100%", style = "border:none;" })
+
+

@@ -1,0 +1,190 @@
+﻿@model PMGSY.Models.CoreNetwork.PCIIndexViewModel
+
+@*<script src="~/Scripts/custom/Generic.js"></script>*@
+<script src="~/Scripts/jquery.ui.datepicker.js"></script>
+<script src="~/Scripts/CoreNetwork/AddPciForCNRoads.js"></script>
+<style type="text/css">
+    td {
+        text-align: left;
+    }
+</style>
+<center> 
+    <div id="divPciForCNRoad">    
+        <form id="frmPciForCNRoad">
+            
+            <div id="divError" class="ui-state-error ui-corner-all" style="text-align: left; display: none; width: 98%">
+                <span></span>
+                <span></span>
+            </div>
+            @Html.AntiForgeryToken()
+            @Html.HiddenFor(model => model.ENC_PLAN_CN_ROAD_CODE)
+            @Html.HiddenFor(model => model.ER_ROAD_CODE)
+            @Html.HiddenFor(model => model.EncERCodePlanCode)
+            @Html.HiddenFor(model => model.isfinalizedEntry)
+            
+            <table class="rowstyle" id="tblPciForCNRoad" style="border:ridge 0.1em #ccc; padding:5px 5px 5px 5px;width:90%;">
+            
+            <tr>
+                <td style="font-weight: bold; ">
+                    @Html.LabelFor(model => model.RoadName)                   
+                </td>
+                <td colspan="3">
+                    @Html.DisplayFor(model => model.RoadName)
+                </td>
+      
+                <td style="font-weight:bold;">
+                    @Html.LabelFor(model => model.RoadLength)
+                </td>
+                <td>
+                    @Html.DisplayFor(model => model.RoadLength) KM
+                    @Html.HiddenFor(model => model.RoadLength)
+                </td>                
+                <td style="font-weight:bold;">
+                    @Html.Label("DRRP Road Name")
+                </td>
+                <td>
+                    @Html.DisplayFor(model => model.erRoadName)
+                    @Html.HiddenFor(model => model.erRoadName)
+                </td>        
+            </tr>
+            <tr>
+                <td style="font-weight:bold;">
+                    @Html.LabelFor(model => model.MANE_PCI_YEAR)
+                </td>
+                <td colspan="3">
+                    @Html.DropDownListFor(model => model.MANE_PCI_YEAR, new SelectList(Model.YEARS, "Value", "Text"))    
+                    @Html.ValidationMessageFor(model => model.MANE_PCI_YEAR)
+                    <span style="color:red">*</span>
+                </td>
+                <td style="font-weight:bold;">
+                    @Html.LabelFor(model => model.MANE_PCI_DATE)                   
+                    <span style="color:red">*</span>
+                </td>
+                <td colspan="3">
+                    @Html.TextBoxFor(model => model.MANE_PCI_DATE, new { @id = "MANE_PCI_DATE", @title = "Select Date from DatePicker", @readonly = "readonly", @placeholder = "Select Date from DatePicker" }) 
+                    @Html.ValidationMessageFor(model => model.MANE_PCI_DATE)
+                </td>     
+            </tr>
+              
+            <tr>
+
+                <td style="font-weight:bold;  width:12.5%">
+                    @Html.LabelFor(model => model.MANE_STR_CHAIN)<span style="color:red">*</span>
+                </td>
+                <td style="table-layout:fixed; width:12.5%">
+                    @Html.TextBoxFor(model => model.MANE_STR_CHAIN, new { style = "width:80px;", @maxlength = 7, @readonly = "readonly" })
+                </td>
+
+                <td style="font-weight:bold; width:12.5%">
+                    @Html.LabelFor(model => model.MANE_END_CHAIN)<span style="color:red">*</span>
+                </td>
+                <td style=" width:12.5%">
+                    @Html.TextBoxFor(model => model.MANE_END_CHAIN, new { style = "width:80px;" })
+                    <br />
+                    <span id="spnEndChainageValErrorMsg" style="color:red">The difference between end chainage and start chainage should be less than or equal to 1.</span>
+                </td>
+
+                <td style="font-weight:bold; width:12.5%">           
+                    @Html.LabelFor(model => model.MANE_PCIINDEX)<span style="color:red">*</span>
+                </td>
+                <td style="font-weight:bold; width:12.5%">
+                    @Html.TextBoxFor(model => model.MANE_PCIINDEX, new { style = "width:80px;", @maxlength = 1 })
+                </td>
+
+                <td style="font-weight:bold; width:12.5%">
+                    @Html.LabelFor(model => model.MANE_SURFACE_TYPE)<span style="color:red">*</span>
+                </td>
+                <td style=" width:12.5%">
+                    @Html.DropDownListFor(model => model.MANE_SURFACE_TYPE, new SelectList(Model.SURFACES, "Value", "Text"))            
+                </td>
+
+            </tr>
+
+            <tr>
+                <td colspan="2" style="width:25%">@Html.ValidationMessageFor(model => model.MANE_STR_CHAIN)</td>
+                <td colspan="2" style="width:25%">@Html.ValidationMessageFor(model => model.MANE_END_CHAIN)</td>
+                <td colspan="2" style="width:25%">@Html.ValidationMessageFor(model => model.MANE_PCIINDEX)</td>
+                <td colspan="2" style="width:25%">@Html.ValidationMessageFor(model => model.MANE_SURFACE_TYPE)</td>
+            </tr>  
+             
+
+
+                 @if (!Model.isBlockFinalizedForPCI)
+            {
+
+                <tr id="rowAdd" style="display:none;">
+                    <td colspan="8" style="text-align:center">
+                        <input type="button" id="btnSave" name="btnSave" value="Save" class="jqueryButton" />
+                        <input type="reset" id="btnReset" name="btnReset" value="Reset" class="jqueryButton" />
+                    </td>            
+                </tr>
+           
+               <tr id="rowAddMsg" style="display:none;">
+                    <td colspan="8" style="text-align:center">
+                        <span style="color:red">Road has been finalized, So no more PCI Entries can be done.</span>
+                    </td>            
+                </tr>
+          
+                 <tr id="rowAddLen" style="display:none;">
+                    <td colspan="8" style="text-align:center">
+                        <span style="color:red">PCI Entry for total length has been done.</span>
+                    </td>            
+                </tr>
+             }
+             else
+             {
+                  <tr id="rowAddblock">
+                    <td colspan="8" style="text-align:center">
+                        <span style="color:red">PCI entry is not allowed for any year as the overall Block is finalized under PCI.</span>
+                    </td>            
+                </tr>
+                 
+            }
+            
+                
+                             
+        @*    @if (!(Model.isfinalizedEntry || Model.isLengthComplete))
+            {
+                <tr id="rowAdd">
+                    <td colspan="8" style="text-align:center">
+                        <input type="button" id="btnSave" name="btnSave" value="Save" class="jqueryButton" />
+                        <input type="reset" id="btnReset" name="btnReset" value="Reset" class="jqueryButton" />
+                    </td>            
+                </tr>
+            }
+            else if (Model.isfinalizedEntry)
+            {
+               <tr id="rowAddMsg">
+                    <td colspan="8" style="text-align:center">
+                        <span style="color:red">Road has been finalized, So no more PCI Entries can be done.</span>
+                    </td>            
+                </tr>
+            }
+            else
+            {
+                 <tr id="rowAddLen">
+                    <td colspan="8" style="text-align:center">
+                        <span style="color:red">PCI Entry for total length has been done.</span>
+                    </td>            
+                </tr>
+            }*@
+                
+            <tr id="rowUpdate" style="display:none">
+                <td colspan="8" style="text-align:center">
+                    <input type="button" id="btnUpdate" name="btnUpdate" value="Update" class="jqueryButton" />
+                </td>            
+            </tr>
+            </table>
+
+            <div style="margin-top:10px">
+                <div id="divListPCI">                
+                    <table id="tbPciForCNRoad"></table>
+                    <div id="dvPciForCNRoadPager"></div>
+                </div>
+            </div>
+
+
+        </form>
+    </div> 
+</center>
+

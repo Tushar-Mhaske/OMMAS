@@ -1,0 +1,209 @@
+﻿@model PMGSY.Models.BuildingProposal.BuildingProposalViewModel
+
+@*
+    * Project Id    :
+    * Project Name  :   OMMAS II
+    * Name          :   Details.cshtml
+    * Description   :   This View displays Details of Road Proposal
+    * Author        :   Shivkumar Deshmukh   
+    * Modified By   :   Shyam Yadav     
+    * Creation Date :   08/April/2013    
+*@
+
+
+
+<script src="~/Scripts/jquery.ui.accordion.js"></script>
+<script src="~/Scripts/custom/Generic.js"></script>
+<script src="~/Scripts/BuildingProposal/BuildingDetails.js"></script>
+@*<script src="~/Scripts/Execution/ViewExecutionProgressDetails.js"></script>*@
+<style type="text/css">
+    #preview {
+        border: 1px solid #ccc;
+        position: absolute;
+        background: #333;
+        padding: 5px;
+        display: none;
+        color: #fff;
+    }
+
+    td {
+        height: 20px;
+        text-align: left;
+    }
+
+    body {
+        text-align: left;
+    }
+</style>
+
+
+
+<div id="tabs">
+    <ul>
+        <li><a href="#tabs-1">Proposal</a></li>
+        <li><a href="#tabs-2" onclick="LoadMordSanctionForm();">MoRD</a></li>
+
+      
+
+    </ul>
+
+    <div id="tabs-1">
+       
+        <div style="height: 20px; width: 100%; text-align: left; padding-top: 0.6em;" class="ui-state-default ui-corner-all">
+            &nbsp; <strong>Note :</strong>  All Amounts are in Lakhs.
+        </div>
+        @Html.HiddenFor(model => model.IMS_PR_ROAD_CODE)
+        @Html.HiddenFor(model => model.IMS_LOCK_STATUS)
+        @Html.Hidden("hdnRoleCode", PMGSY.Extensions.PMGSYSession.Current.RoleCode)
+
+        <table class="rowstyle" id="tblProposal" style="text-align: left; border: ridge 0.1em #ccc; width: 100%; padding: 5px 5px 5px 5px;">
+           <tr>
+                <td colspan="4" class="ui-widget-header">Building Proposal Details</td>
+            </tr>
+           
+            <tr>
+                <td style="width:25%; text-align: left">
+                    @Html.LabelFor(model => model.StateName)
+                </td>
+                <td style="width:25%; text-align: left">
+                    @Html.DisplayFor(model => model.StateName)
+                </td>
+
+                <td style="width:25%; text-align: left">
+                    @Html.LabelFor(model => model.DistrictName)
+                </td>
+                <td style="width:25%; text-align: left">
+                    @Html.DisplayFor(model => model.DistrictName)
+                </td>
+            </tr>
+
+            <tr>
+                <td style="text-align: left">
+                    @Html.LabelFor(model => model.MAST_BLOCK_CODE)
+                </td>
+                <td style="text-align: left">
+                    @Html.DisplayFor(model => model.MAST_BLOCK_NAME)
+                </td>
+
+                <td style="text-align: left">
+                    @Html.LabelFor(model => model.IMS_PACKAGE_ID)
+                </td>
+                <td style="text-align: left">
+                    @Html.DisplayFor(model => model.IMS_PACKAGE_ID)
+                </td>
+            </tr>
+            <tr>
+                <td style="text-align: left">
+                    @Html.LabelFor(model => model.IMS_BATCH)
+                </td>
+                <td style="text-align: left">
+                    Batch @Html.DisplayFor(model => model.IMS_BATCH)
+                </td>
+
+                <td style="text-align: left">
+                    @Html.LabelFor(model => model.IMS_COLLABORATION)
+                </td>
+                <td style="text-align: left" >
+                    @Html.DisplayFor(model => model.MAST_FUNDING_AGENCY_NAME)
+                </td>
+            </tr>
+
+
+            <tr>
+                <td style="text-align: left;">
+                    @Html.LabelFor(model => model.IMS_YEAR)
+                </td>
+                <td style="text-align: left;" colspan="3">
+                    @Html.DisplayFor(model => model.IMS_YEAR) - @Convert.ToInt32(Model.IMS_YEAR + 1)
+                </td>
+                
+            </tr>
+            <tr>
+                <td style="text-align: left">
+                    @Html.LabelFor(model => model.IMS_ROAD_NAME)
+                </td>
+                <td style="text-align: left">
+                    @Html.DisplayFor(model => model.IMS_ROAD_NAME)
+                </td>
+
+                <td style="text-align: left">
+                    @Html.LabelFor(model => model.IMS_PAV_EST_COST)
+                </td>
+                <td style="text-align: left">
+                    @Html.DisplayFor(model => model.IMS_PAV_EST_COST)
+                </td>
+            </tr>
+          
+
+            <tr>
+                <td colspan="4" class="ui-widget-header">Maintenance Cost</td>
+            </tr>
+            <tr>
+                <td>
+                    @Html.LabelFor(model => model.IMS_SANCTIONED_MAN_AMT1)
+
+                </td>
+                <td>
+                    @Html.DisplayFor(model => model.IMS_SANCTIONED_MAN_AMT1)
+                </td>
+
+                <td>
+                    @Html.LabelFor(model => model.IMS_SANCTIONED_MAN_AMT2)
+                </td>
+                <td>
+                    @Html.DisplayFor(model => model.IMS_SANCTIONED_MAN_AMT2)
+                </td>
+            </tr>
+
+            <tr>
+                <td>
+                    @Html.LabelFor(model => model.IMS_SANCTIONED_MAN_AMT3)
+
+                </td>
+                <td>
+                    @Html.DisplayFor(model => model.IMS_SANCTIONED_MAN_AMT3)
+                </td>
+
+                <td>
+                    @Html.LabelFor(model => model.IMS_SANCTIONED_MAN_AMT4)
+
+                </td>
+                <td>
+                    @Html.DisplayFor(model => model.IMS_SANCTIONED_MAN_AMT4)
+                </td>
+            </tr>
+
+            <tr>
+                <td>
+                    @Html.LabelFor(model => model.IMS_SANCTIONED_MAN_AMT5)
+                </td>
+                <td>
+                    @Html.DisplayFor(model => model.IMS_SANCTIONED_MAN_AMT5)
+                </td>
+            
+                <td>Total Maintenance Cost</td>
+                <td >
+                    @Html.DisplayFor(model => model.TotalMaintenanceCost)
+                </td>
+            </tr>
+
+
+            <tr>
+                <td>
+                    @Html.LabelFor(model => model.IMS_REMARKS)
+                </td>
+                <td colspan="3">
+                    @Html.DisplayFor(model => model.IMS_REMARKS)
+                </td>
+            </tr>
+
+        </table>
+
+    </div>
+    <div id="tabs-2">
+   
+            <div id="divMordSanctionDetails"></div>
+    </div>
+
+
+

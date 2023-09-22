@@ -1,0 +1,49 @@
+﻿@**
+        * Project Id    :
+        * Project Name  :   OMMAS II
+        * Name          :   QM1TierPIU.cshtml
+        * Description   :   View for QM2TierPIU
+        * Author        :   Shyam Yadav 
+        * Creation Date :   09/Sept/2014
+ **@
+
+<!DOCTYPE html>
+@{Layout = null;}
+<html>
+<head>
+
+<script src="~/Scripts/custom/Generic.js"></script>
+<script src="~/Scripts/jquery.ui.tabs.js"></script>
+<script src="~/Scripts/Bootstrap/bootstrap.min.js"></script>
+<script src="~/Scripts/jquery-ui.js"></script>
+<script src="~/Scripts/QualityMonitoring/QM1TierPIU.js"></script>
+ 
+</head>
+<body>
+
+   @Html.Hidden("hdnRoleCodeOnSqcLayout1Tier",PMGSY.Extensions.PMGSYSession.Current.RoleCode.ToString())
+   @Html.Hidden("hdnTierId","1Tier")
+    
+     <div id="tabs-1TierDetailsPIU" style="width: 99%;">
+            <ul>
+                <li><a href="#tabs-1TierDetailsPIU-0" onclick="Show2TierPIULabDetails();return false;">Lab Details</a></li>
+                <div style="width:98%;text-align:right;padding-top:5px;" >1st Tier Quality Monitoring </div>
+            </ul>
+
+            <div id="tabs-1TierDetailsPIU-0">
+                <div id="div1TierPIULabFilters"></div>
+                <div id="div1TierPIULabDetails" style="width:100%;margin-top:15px;">
+                   @{ Html.RenderAction("LabDetail"); }
+                </div>
+            
+                @*<div id="accordion1TierPIULab" style="display:none;width:100%;margin-top:10px;">            
+                    <h3 style="text-align:left"><a id="" href="#" style=" font-size:.9em;" >Lab Details</a>
+                        <a href="#"  style="float: right;">
+                            <img style="border:none" class="ui-icon ui-icon-closethick" onclick="Close1TierPIULabDetails();" /></a>
+                    </h3>
+                    <div id="div1TierPIULabDetails" style="display:none;"></div>                     
+                </div>*@
+            </div>
+   </div>
+</body>  
+</html>

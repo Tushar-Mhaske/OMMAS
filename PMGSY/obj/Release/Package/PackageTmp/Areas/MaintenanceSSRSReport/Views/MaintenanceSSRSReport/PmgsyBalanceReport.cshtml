@@ -1,0 +1,18 @@
+﻿@using MvcReportViewer
+
+@model PMGSY.Areas.MaintenanceSSRSReport.Models.AwardwisePayment
+
+
+
+@Html.MvcReportViewer("/PMGSYCitizen/PMGSY3_Balance_Report",
+     new
+     {   
+         scheme=4,
+         state=0,
+         Month =Model.MonthCode,
+         year=Model.PhaseYear
+          
+         
+     },
+     new { Height = 600, Width = "100%", style = "border:none;" })
+

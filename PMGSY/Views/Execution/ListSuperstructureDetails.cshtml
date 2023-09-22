@@ -1,0 +1,26 @@
+﻿@model PMGSY.Models.Execution.SuperstructureViewModel
+
+@if (Layout == null)
+{
+    Layout = Request.IsAjaxRequest() ? null : "~/Areas/AccountReports/Views/Account/_Layout.cshtml";
+}
+
+<script src="@Url.Content("~/Scripts/custom/Generic.js")" type="text/javascript" ></script>
+<script src="~/Scripts/Execution/ListSuperstructureDetails.js"></script>
+
+<form id="frmListSuperstructure">
+    @Html.ValidationSummary(true)
+    @Html.AntiForgeryToken()
+    @Html.HiddenFor(model => model.EncrProposalCode)
+
+    <div id="divListSuperstructure" style="margin-top: 20px; width: 96%">
+        <table id="tbSuperstructureList">
+        </table>
+        <div id="pagerSuperstructure">
+        </div>
+    </div>
+
+    <div id="dvEditSuperstructure" style="width: 96%; margin-top:20px;"></div>
+</form>
+
+

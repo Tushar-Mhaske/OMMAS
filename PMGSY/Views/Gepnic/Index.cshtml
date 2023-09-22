@@ -1,0 +1,62 @@
+﻿@model PMGSY.Models.Gepnic.GepnicNregaModel
+@{
+    //string resultGepnic = PMGSY.GepnicAndNrega.OMMASGePNICIntegration.PostSanctionDataToGepnic(21, 2013, 1, 0, "P", 1);
+
+    //string resultNrega = PMGSY.GepnicAndNrega.OMMASNregaIntegration.PostSanctionDataToNrega(21, 2013, 1, 0, "P", 1);
+}
+
+<script>
+    $(document).ready(function () {
+        $("#btnPostData").click(function () {
+            $.ajax({
+                url: '/Gepnic/Index',
+                async: false,
+                type: 'POST',
+                data: $("#frmIntegration").serialize(),
+                success: function (response) {
+                    if (response.Success == true) {
+                        alert(response.Status);
+                    }
+                    else {
+                        alert(response.ErrorMessage);
+                    }
+                },
+                error: function (err) {
+                    alert("Error while getting processing your request.");
+                }
+            });
+        });
+    });
+</script>
+<form id="frmIntegration">
+    <table style="margin-top:10px; margin-bottom:5px">
+    <tr>
+        <td>
+            @Html.LabelFor(model => model.IMS_YEAR)
+        </td>
+        <td>                            
+            @Html.DropDownListFor(model => model.IMS_YEAR, new SelectList(Model.Years, "Value", "Text"), new { @id = "ddlImsYear" })
+        </td>
+        <td>
+            @Html.LabelFor(model => model.MAST_STATE_CODE)
+        </td>
+        <td>
+            @Html.DropDownListFor(model => model.MAST_STATE_CODE, new SelectList(Model.STATES, "Value", "Text"), new { @id = "ddlStates" })
+        </td> 
+    </tr>
+    <tr>
+        <td>
+            @Html.LabelFor(model => model.IntegrationType)
+        </td>
+        <td>
+            @Html.DropDownListFor(model => model.IntegrationType, new SelectList(Model.IntegrationTypeList, "Value", "Text"), new { @id = "ddlIntType" })
+        </td>
+        <td>
+
+        </td> 
+        <td>
+            <input type="button" id="btnPostData" value="Submit" />
+        </td>
+    </tr>
+    </table>
+</form>

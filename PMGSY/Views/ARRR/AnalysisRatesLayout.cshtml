@@ -1,0 +1,187 @@
+﻿@*@model PMGSY.Models.ARRR.AnalysisRatesViewModel
+
+<script src="~/Scripts/custom/Generic.js"></script>
+<script src="~/Scripts/jquery.ui.datepicker.js" type="text/javascript"></script>
+<script src="~/Scripts/ARRR/AnalysisRatesLayout.js"></script>
+
+<div id="dvAnalysisRates">
+    <div id="dvhdAnalysisRates" class="ui-corner-top ui-widget-header panelheader" style="text-align: left; height: 20px;">
+        Add/Edit Analysis Rates<span style="float: right; margin-right: 2Px; margin-top: 2px" id="idFilterDiv" class="ui-icon ui-icon-circle-triangle-n"></span>
+    </div>
+    <form id="frmAnalysisRates">
+        @Html.AntiForgeryToken()
+        @Html.ValidationSummary(true)
+        @Html.HiddenFor(m => m.User_Action)
+        @Html.HiddenFor(m => m.ItemCode)
+        @Html.HiddenFor(m => m.stateCode)
+        @Html.HiddenFor(m => m.rateCode)
+        @Html.HiddenFor(m => m.hdnlmmType)
+        @Html.HiddenFor(m => m.analysisCode)
+        @Html.HiddenFor(m => m.Year)
+        <table class="rowstyle" style="width: 100%; margin-bottom: 5px; border: 1px solid #B5B8C8;">
+            <tr>
+                <td style="width: 10%"></td>
+                <td style="width: 5%;">
+                    @Html.Label("Chapter")<label style="color: red;"> *</label>
+                </td>
+                <td colspan="6">
+                    @Html.DropDownListFor(model => model.Chapter, new SelectList(Model.ChapterList, "Value", "Text"), new { @title = "Chapter", @id = "ddlChapter", @style = "width:150px;", @tabindex = 5 })
+                    <br />
+                    @Html.ValidationMessageFor(m => m.Chapter)
+                </td>
+            </tr>
+            <tr>
+                <td style="width: 2%;"></td>
+                <td style="width: 5%;">
+                    @Html.RadioButtonFor(model => model.ItemType, "I", new { @id = "rdbItem", @name = "rdbItem", @checked = "checked", @tabindex = 1 })
+                    <label>Item</label>
+
+                    @Html.ValidationMessageFor(m => m.ItemType)
+                </td>
+                <td style="width: 5%;">
+                    @Html.RadioButtonFor(model => model.ItemType, "M", new { @id = "rdbMajorItem", @name = "rdbMajorItem", @tabindex = 2 })
+                    <label>Major Item</label>
+
+                    @Html.ValidationMessageFor(m => m.ItemType)
+                </td>
+                <td style="width: 5%;">
+                    @Html.RadioButtonFor(model => model.ItemType, "N", new { @id = "rdbMinorItem", @name = "rdbMinorItem", @tabindex = 3 })
+                    <label>Minor Item</label>
+
+                    @Html.ValidationMessageFor(m => m.ItemType)
+                </td>
+                <td style="width: 5%"></td>
+            </tr>
+            <tr>
+                <td style="width: 2%"></td>
+                <td style="width: 5%;">
+                    @Html.Label("Item", new { @class = "item" })<label style="color: red;" class="item"> *</label>
+                </td>
+                <td>
+                    @Html.DropDownListFor(model => model.Item, new SelectList(Model.ItemList, "Value", "Text"), new { @title = "Chapter", @id = "ddlItem", @style = "width:150px;", @tabindex = 6 })
+                    <br />
+                    @Html.ValidationMessageFor(m => m.Item)
+                </td>
+                <td style="width: 5%;">
+                    @Html.Label("Major Item", new { @class = "maj" })<label style="color: red;" class="maj"> *</label>
+                </td>
+                <td style="width: 15%;">
+                    @Html.DropDownListFor(model => model.MajorItem, new SelectList(Model.MajorItemList, "Value", "Text"), new { @title = "Major Item", @class = "maj", @id = "ddlMajorItem", @style = "width:150px;", @tabindex = 7 })
+                    <br />
+                    @Html.ValidationMessageFor(m => m.MajorItem)
+                </td>
+                <td style="width: 5%;">
+                    @Html.Label("Minor Item", new { @class = "min" })<label style="color: red;" class="min"> *</label>
+                </td>
+                <td style="width: 15%;">
+                    @Html.DropDownListFor(model => model.MinorItem, new SelectList(Model.MinorItemList, "Value", "Text"), new { @title = "Minor Item", @class = "min", @id = "ddlMinorItem", @style = "width:150px;", @tabindex = 7 })
+                    <br />
+                    @Html.ValidationMessageFor(m => m.MinorItem)
+                </td>
+            </tr>
+            <tr>
+                <td style="width: 2%;"></td>
+                <td style="width: 5%;">
+                    @Html.RadioButtonFor(model => model.lmmType, "1", new { @id = "rdbLabour", @name = "rdbLabour", @checked = "checked", @tabindex = 1 })
+                    <label>Labour</label>
+                    <br />
+                    @Html.ValidationMessageFor(m => m.lmmType)
+                </td>
+                <td style="width: 5%;">
+                    @Html.RadioButtonFor(model => model.lmmType, "2", new { @id = "rdbMachinery", @name = "rdbMachinery", @tabindex = 2 })
+                    <label>Machinery</label>
+                    <br />
+                    @Html.ValidationMessageFor(m => m.lmmType)
+                </td>
+                <td style="width: 5%;">
+                    @Html.RadioButtonFor(model => model.lmmType, "3", new { @id = "rdbMaterial", @name = "rdbMaterial", @tabindex = 3 })
+                    <label>Material</label>
+                    <br />
+                    @Html.ValidationMessageFor(m => m.lmmType)
+                </td>
+                <td style="width: 5%"></td>
+            </tr>
+            <tr>
+                <td style="width: 2%"></td>
+                <td style="width: 5%;">
+                    @Html.Label("Labour", new { @id = "lbllmmType" })<label style="color: red;"> *</label>
+                </td>
+                <td>
+                    @Html.DropDownListFor(model => model.Labour, new SelectList(Model.lmmTypeList, "Value", "Text"), new { @title = "Labour", @id = "ddlLMM", @style = "width:150px;", @tabindex = 6 })
+                    <br />
+                    @Html.ValidationMessageFor(m => m.Labour)
+                </td>
+                <td style="width: 5%;">
+                </td>
+                <td style="width: 15%;">
+
+                </td>
+                <td style="width: 5%;">
+                </td>
+                <td style="width: 15%;"></td>
+            </tr>
+            <tr>
+                <td style="width: 2%"></td>
+                <td style="width: 5%;">
+                    <label>Quantity</label>
+                    <label style="color: red;">*</label>
+                </td>
+                <td colspan="5">
+                    @Html.TextBoxFor(m => m.quantity, new { @id = "txtQuantity", @maxlength = "9", @style = "width:150px;", @tabindex = 8 })
+                    <br />
+                    @Html.ValidationMessageFor(m => m.quantity)
+                </td>
+            </tr>
+            <tr>
+                <td style="width: 2%"></td>
+                <td style="width: 5%;">
+                    @Html.Label("Rate")<label style="color: red;"> *</label>
+                </td>
+                <td colspan="5">
+                    @Html.TextBoxFor(m => m.Rate, new { @id = "txtRate", @maxlength = "9", @style = "width:150px;", @tabindex = 8, @readonly = true })
+                    <br />
+                    @Html.ValidationMessageFor(m => m.Rate)
+                </td>
+            </tr>
+            <tr>
+                <td style="width: 2%"></td>
+                <td style="width: 5%;">
+                    @Html.Label("Amount")<label style="color: red;"> *</label>
+                </td>
+                <td colspan="5">
+                    @Html.TextBoxFor(m => m.Amount, new { @id = "txtAmount", @maxlength = "9", @style = "width:150px;", @tabindex = 8, @readonly = true })
+                    <br />
+                    @Html.ValidationMessageFor(m => m.Amount)
+
+                </td>
+            </tr>
+            <tr>
+                <td style="width: 2%"></td>
+                <td style="width: 5%;">
+                    @Html.Label("Analysis Date")<label style="color: red;"> *</label>
+                </td>
+                <td colspan="5">
+                    @Html.TextBoxFor(m => m.Date, new { @id = "txtDate", @tabindex = 8 })
+                    <br />
+                    @Html.ValidationMessageFor(m => m.Date)
+                </td>
+            </tr>
+            <tr style="text-align: center;">
+                <td colspan="7">
+                    @if (Model.User_Action == "A")
+                    {
+                        <input type="button" id="btnSave" name="Save" value="Save" class="jqueryButton" title="Save" tabindex="9" />
+                    }
+                    else
+                    {
+                        <input type="button" id="btnUpdate" name="Update" value="Update" class="jqueryButton" title="Save" tabindex="9" />
+                    }
+                    <input type="reset" id="btnReset" name="Reset" value="Reset" class="jqueryButton" title="Reset" tabindex="10" />
+                    <input type="button" id="btnCancel" name="Cancel" value="Cancel" class="jqueryButton" title="Cancel" tabindex="11" />
+
+                </td>
+            </tr>
+        </table>
+    </form>
+</div>
+*@

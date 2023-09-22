@@ -1,0 +1,21 @@
+﻿@using MvcReportViewer
+
+@model PMGSY.Areas.ProposalSSRSReports.Models.PCIAnalysisViewModel
+
+
+    
+    @Html.MvcReportViewer("/PMGSYCitizen/PCI_Proposal_Analysis_Report",
+     new
+     {
+         State = Model.State,
+         District = Model.District,
+         Block = Model.Block,
+         Flag = Model.flag,
+         Type = Model.Route,
+         PMGSY = PMGSY.Extensions.PMGSYSession.Current.PMGSYScheme,
+         StateName = Model.StateName,
+         DistName = Model.DistName,
+         BlockName = Model.BlockName,
+         RouteType = Model.RouteName,
+     },
+       new { Height = 600, Width = "100%", style = "border:none;" })

@@ -1,0 +1,33 @@
+﻿@using MvcReportViewer
+@model PMGSY.Models.CoreNetwork.CUPLPMGSY3ViewModel
+
+
+ @if (@ViewData["IsHabitationUnlocked"].Equals(true))
+{
+     <table>
+        <tr style="background-color:lightyellow;">
+            <td style="width: 5%;"></td>
+            <td style="width: 25%;">
+                <strong>
+                    <label style="color:#865a24;">Habitations are unlocked in this Block for some duration. Hence Report can not be viewed for this Block. Please contact NRIDA</label>
+                </strong>
+            </td>
+            <td style="width: 5%;"></td>
+            <td style="width: 15%;"></td>
+        </tr>
+    </table>
+}
+else
+{
+@Html.MvcReportViewer("/PMGSYCitizen/CUPL_PCI_PMGSY3",
+     new
+     {
+       State = Model.stateCode,
+       District = Model.distCode,
+       Block = Model.blockCode,
+       Statename = Model.stateName,
+       Districtname = Model.districtName,
+       Blockname = Model.blockName
+     },
+     new { Height = 600, Width = "100%", style = "border:none;" })
+}

@@ -1,0 +1,343 @@
+﻿@model PMGSY.Models.QualityMonitoring.QM2TierATRInspdetailsModel
+
+@{
+    ViewBag.Title = "InspectionListAgainstRoadsqmATR";
+}
+
+
+<script>
+    $(".demo").hide();
+    $("#UserLogin").hide();
+    $("#footer").hide();
+
+</script>
+
+<html>
+<head>
+    <title></title>
+    <script src="~/Scripts/jquery-ui.js"></script>
+    <script src="~/Scripts/jquery.ui.tabs.js"></script>
+    <script src="~/Scripts/QualityMonitoring/QualityLayout.js"></script>
+    <script src="~/Scripts/custom/Generic.js"></script>
+    @*<script src="~/Scripts/jquery.ui.accordion.js"></script>*@
+
+    <script src="~/Scripts/Bootstrap/bootstrap.min.js"></script>
+    <script src="~/Scripts/QualityMonitoring/QMAutocomplete.js"></script>
+
+    <style type="text/css">
+        #preview {
+            border: 1px solid #ccc;
+            position: absolute;
+            background: #333;
+            padding: 5px;
+            display: none;
+            color: #fff;
+        }
+
+        #mainDiv {
+            width: 100%;
+        }
+
+        td {
+            height: 20px;
+            text-align: left;
+        }
+
+        body {
+            text-align: left;
+        }
+    </style>
+
+
+
+
+
+
+
+
+
+    <style>
+        /*.fixTableHead {
+                //overflow-y: auto;
+                height: 380px;
+            }*/
+
+        .fixTableHead thead th {
+            position: sticky;
+            top: 0;
+        }
+
+        /*table {
+                border-collapse: collapse;
+                width: 100%;
+            }
+
+            th,
+            td {
+                padding: 8px 15px;
+                border: 2px solid #529432;
+            }
+            */
+        th {
+            background: #fccc6b;
+        }
+    </style>
+</head>
+<body>
+
+
+
+
+
+
+    <br><br>
+    <div style=" background: #fccc6b;font-size:17px" class="ui-accordion-header ui-helper-reset ui-state-default ui-accordion-header-active ui-state-active ui-corner-top"><b>Inspection List Against Road/Bridge :</b></div>
+    <div class="dataTable" style="width:100%;overflow-y:scroll; height:370px;">
+        @{
+            var srNo = 1;
+        }
+        <div class="fixTableHead">
+            <h3 style="color:brown">Note: SQM inspection against ATR is shown in color.</h3> @*Add by Shreyas*@
+
+            <table @*class="head ui-state-active"*@ style="background-color: #f8f8f8;height:50px ">
+                <thead style="border: 1px;">
+                    <tr>
+                        <th style="width:1%;"> Sr. No.</th>
+                        <th style="width:2.5%;"> Monitor Type</th>
+                        <th style="width:4%;"> ATR Verification status </th>
+                        <th style="width: 6%;"> Monitor </th>
+                        <th style="width: 4%;"> State </th>
+                        <th style="width: 4%;"> District </th>
+                        <th style="width:4%;"> Block </th>
+                        <th style="width:10%;"> Road/Bridge Name </th>
+                        <th style="width:4%;"> Package </th>
+                        <th style="width:5%;"> Road/Bridge </th>
+                        <th style="width:3%;"> Scheme </th>
+                        <th style="width:5%;">  Work Status (As inspected) </th>
+                        <th style="width:5%;">   Sanctioned Length(km) / Bridge Length(m) </th>
+                        <th style="width:10%;padding-left:0px;padding-right:0px;">
+                            Chainage Road(Km)/LSB(mtr)
+                            <table style="border-top:1px solid #CCC;vertical-align:bottom;">
+                                <tr>
+                                    <th style="width:30%;border-bottom:none;">From(km)</th>
+                                    <th style="width:30%;border-bottom:none;border-right:none;">To(km)</th>
+                                <tr>
+                            </table>
+                        </th>
+                        <th style="width:6%;"> Inspection Date </th>
+                        <th style="width:5%;"> Overall Grade </th>
+                        <th style="width:4%;">View Report (pdf) </th>
+                        <th style="width:5%;"> View abstract/Images </th>
+                        <th style="width:4%;"> Images Uploaded </th>
+
+
+
+
+
+                    </tr>
+                </thead>
+                <tbody style="border: 1px;">
+                    @if (Model.ERROR != null)
+                    {
+                        <tr>
+                            <td colspan="23" style="color:#FF0000;">
+                                @Model.ERROR
+                            </td>
+                        </tr>
+                    }
+                    else if (Model.INSP_AGAINST_ROAD_LIST != null && Model.INSP_AGAINST_ROAD_LIST.Count > 0)
+                    {
+                        foreach (var obsItem in Model.INSP_AGAINST_ROAD_LIST)
+                        {
+                            if (obsItem.ADMIN_QM_TYPE == "SQM" && obsItem.ATR_VERIFICATION_FINALIZED == "Yes")
+                            {
+                                <tr style="color:blanchedalmond; background-color:cadetblue">
+                                    <td text-align:center;">@srNo</td>
+                                    <td>@obsItem.ADMIN_QM_TYPE</td>
+                                    <td>@obsItem.ATR_VERIFICATION_FINALIZED</td>
+                                    <td>@obsItem.MONITOR_NAME</td>
+                                    <td style="width:4%;">@obsItem.STATE_NAME</td>
+                                    <td>@obsItem.DISTRICT_NAME</td>
+                                    <td>@obsItem.BLOCK_NAME</td>
+                                    <td>@obsItem.IMS_ROAD_NAME</td>
+                                    <td>@obsItem.IMS_PACKAGE_ID</td>
+                                    <td>@obsItem.IMS_PROPOSAL_TYPE</td>
+                                    <td>@obsItem.PMGSY_SCHEME</td>
+                                    <td>@obsItem.IMS_ISCOMPLETED</td>
+                                    <td>@obsItem.IMS_PAV_LENGTH</td>
+
+
+
+
+                                    <td style="width:10%;padding-left:0px;padding-right:0px;">
+                                        <table style="border:none">
+                                            <tr>
+                                                <td style="width:30%;border-bottom:none;">@obsItem.QM_INSPECTED_START_CHAINAGE</td>
+                                                <td style="width:30%;border-bottom:none;border-left:1px;">@obsItem.QM_INSPECTED_END_CHAINAGE</td>
+                                            <tr>
+                                        </table>
+                                    </td>
+
+
+                                    <td>@obsItem.QM_INSPECTION_DATE</td>
+
+                                    <td>@obsItem.OVERALL_GRADE</td>
+                                    <td>@Html.Raw(@obsItem.INSPECTION_REPORT_LINK)</td>
+                                    <td>@Html.Raw(@obsItem.OBS_LINK)</td>
+
+
+                                    <td>@obsItem.NO_OF_PHOTO_UPLOADED</td>
+
+
+                                </tr>
+                            }
+                            else
+                            {
+                                <tr>
+                                    <td text-align:center;">@srNo</td>
+                                    <td>@obsItem.ADMIN_QM_TYPE</td>
+                                    <td>@obsItem.ATR_VERIFICATION_FINALIZED</td>
+                                    <td>@obsItem.MONITOR_NAME</td>
+                                    <td style="width:4%;">@obsItem.STATE_NAME</td>
+                                    <td>@obsItem.DISTRICT_NAME</td>
+                                    <td>@obsItem.BLOCK_NAME</td>
+                                    <td>@obsItem.IMS_ROAD_NAME</td>
+                                    <td>@obsItem.IMS_PACKAGE_ID</td>
+                                    <td>@obsItem.IMS_PROPOSAL_TYPE</td>
+                                    <td>@obsItem.PMGSY_SCHEME</td>
+                                    <td>@obsItem.IMS_ISCOMPLETED</td>
+                                    <td>@obsItem.IMS_PAV_LENGTH</td>
+
+
+
+
+                                    <td style="width:10%;padding-left:0px;padding-right:0px;">
+                                        <table style="border:none">
+                                            <tr>
+                                                <td style="width:30%;border-bottom:none;">@obsItem.QM_INSPECTED_START_CHAINAGE</td>
+                                                <td style="width:30%;border-bottom:none;border-left:1px;">@obsItem.QM_INSPECTED_END_CHAINAGE</td>
+                                            <tr>
+                                        </table>
+                                    </td>
+
+
+                                    <td>@obsItem.QM_INSPECTION_DATE</td>
+
+                                    <td>@obsItem.OVERALL_GRADE</td>
+                                    <td>@Html.Raw(@obsItem.INSPECTION_REPORT_LINK)</td>
+                                    <td>@Html.Raw(@obsItem.OBS_LINK)</td>
+
+
+                                    <td>@obsItem.NO_OF_PHOTO_UPLOADED</td>
+
+
+                                </tr>
+                            }
+
+
+                            srNo++;
+                        }
+                    }
+                    else
+                    {
+                        <tr>
+                            <td colspan="23">
+                                No records found
+                            </td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+        </div>
+
+    </div>
+
+
+
+
+
+
+
+
+
+    <div id="tabs-3TierDetails-3">
+
+        @*<div id="div3TierATRQualityFiltersHtml"></div>
+             <div style="width: 99%; height: 20px; border: none; margin-top: 5px; margin-bottom: -15px;" class="ui-state-default">
+                    <span style="float: left; margin-left: 5px; padding: 2px;">Action Taken Report1</span>
+                    <span style="float: right; margin-right: 2Px; margin-top: 2px" id="spn3TierATRHtml" class="ui-icon ui-icon-circle-triangle-n"></span>
+                </div>
+            <div id="div3TierATRDetailsHtml" style="width: 99%; overflow: auto; height: 350px;display:none"></div>*@
+        <br />
+
+        <div id="accordionATRInspection" style="display: none; width: 100%; margin-top: 10px;">
+            @*Added by Aditi on 25 Jan 2021*@
+            <h3 style="text-align: left">
+                <a id="" href="#" style="font-size: .9em;">Inspection Report List</a>
+                <a href="#" style="float: right;">
+                    <img style="border: none" class="ui-icon ui-icon-closethick" onclick="CloseATRInspection();" />
+                </a>
+            </h3>
+            <div id="divATRInspectionDetails" style="display: none;"></div>
+        </div>
+        <br />
+
+        <div id="accordionATR3TierCqc" style="display: none; width: 100%; margin-top: 10px;">
+            <h3 style="text-align: left">
+                <a id="" href="#" style="font-size: .9em;">ATR Details</a>
+                <a href="#" style="float: right;">
+                    <img style="border: none" class="ui-icon ui-icon-closethick" onclick="CloseATR3TierCqcDetails();" />
+                </a>
+            </h3>
+            <div id="divATR3TierCqcDetails" style="display: none;"></div>
+        </div>
+
+
+
+
+        <div id="accordionATR3TierSqcLab" class="ui-state-default ui-corner-all" style="display:none;width:100%;margin-top:10px;">
+            @* Added by Deendayal*@
+            <h3 class="ui-accordion-header ui-helper-reset ui-state-default ui-accordion-header-active ui-state-active ui-corner-top">
+            </h3>
+            <div id="divATR3TierSqcLabDetails" style="display:none;"></div>
+        </div>
+
+
+        <div id="accordionBulkATRDetails" style="display: none; width: 100%; margin-top: 10px;">
+            <h3 style="text-align: left">
+                <a id="" href="#" style="font-size: .9em;">Regrade ATR</a>
+                <a href="#" style="float: right;">
+                    <img style="border: none" class="ui-icon ui-icon-closethick" onclick="CloseBulkATRDetails();" />
+                </a>
+            </h3>
+            <div id="divBulkATRDetails" style="display: none;"></div>
+        </div>
+
+
+        <div id="accordionInspection_tab3" style="display: none; width: 100%; margin-top: 10px;">
+            <h3 style="text-align: left">
+            </h3>
+            <div id="divInspectionDetails_tab3" style="display: none;"></div>
+        </div>
+
+        @*Added on 12-09-2022 to show list of inspections against road*@
+        <div id="tabs-3TierDetails-1_Road_tab3">
+
+            @*<br />*@
+            <div id="div3TierInspectionList_Road_tab3" style="width:99.2%; margin-top: 15px;margin-right:5px">
+                <table id="tb3TierInspectionList_Road_tab3"></table>
+                <div id="dv3TierInspectionListPager_Road_tab3"></div>
+            </div>
+
+        </div>
+
+    </div>
+
+</body>
+
+
+
+
+
+</html>
+

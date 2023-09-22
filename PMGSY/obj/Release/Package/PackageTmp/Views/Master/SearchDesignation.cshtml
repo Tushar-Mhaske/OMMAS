@@ -1,0 +1,30 @@
+﻿@{
+    ViewBag.Title = "SearchDesignation";
+}
+
+<script src="~/Scripts/custom/Generic.js"></script>
+<script src="~/Scripts/Master/SearchDesignation.js"></script>
+<form id="frmSearchDesig">
+    <div id="desigList">
+        <div id="dvhdSearch" class="ui-corner-top ui-widget-header panelheader" style="text-align: left; height: 20px;">
+            @*margin-left:10px;margin-right:10px;margin-top:10px;*@
+            <span class="ui-jqgrid-title" style="float: left">&nbsp;Search</span>
+            <span id="spCollapseIconS" class="ui-icon ui-icon-circle-triangle-n" style="float: right"></span>
+        </div>
+        <div id="dvSearchParameter" class="ui-corner-bottom" style="display: block; border: 1px solid #B5B8C8;">
+            @*margin-left: 10px; margin-right: 10px; *@
+
+            <table style="width: 100%" class="rowstyle">
+                <tr>
+                    <td style="width: 30%"></td>
+                    <td style="text-align: left; width: 15%;">@Html.Label("Designation Type")</td>
+                    <td style="text-align: left; width: 20%">@Html.DropDownList("Designation", null, "All Designations", new { @title = "Designation Type" })</td>
+                    <td style="text-align: left;">
+                        <input type="button" id="btnDesigSearch" name="btnSearch" value="Search" class="jqueryButton" title="Search Designation Details" tabindex="4" /></td>
+                </tr>
+            </table>
+
+        </div>
+
+    </div>
+</form>

@@ -1,0 +1,413 @@
+﻿@{
+    ViewBag.Title = "ATR2TierSQCDetails";
+}
+
+@*
+    * Project Id    :
+    * Project Name  :   OMMAS II
+    * Name          :   ATRDetails.cshtml
+    * Description   :   Renders ATR data report in HTML Format
+    * Author        :   Shyam Yadav
+    * Creation Date :   15/July/2014
+*@
+
+@model PMGSY.Models.QualityMonitoring.QMATR2TierDetailsModel
+<html>
+<head>
+    <title></title>
+   
+    <script src="~/Scripts/QualityMonitoring/QualityLayout.js"></script>
+ 
+
+    <style>
+        /*.fixTableHead {
+            //overflow-y: auto;
+            height: 380px;
+        }*/
+
+        .fixTableHead thead th {
+            position: sticky;
+            top: 0;
+        }
+
+        /*table {
+            border-collapse: collapse;
+            width: 100%;
+        }
+
+        th,
+        td {
+            padding: 8px 15px;
+            border: 2px solid #529432;
+        }
+        */
+        th {
+            background: #fccc6b;
+        }
+    </style>
+</head>
+@Html.HiddenFor(model => model.SQC_OR_PIU)
+<body>
+
+    <div class="dataTable" style="width:200%;">
+        @{
+            var srNo = 1;
+        }
+
+        <div class="fixTableHead">
+            <table @*class="head ui-state-active"*@>
+                <thead>
+                    <tr>
+                        <th style="width:2%;"> Sr. No.</th>
+                        <th style="width:7%;"> Monitor </th>
+                        @*@if(PMGSY.Extensions.PMGSYSession.Current.RoleCode == 5)  //for SQC No need to display state*@
+                        @if (PMGSY.Extensions.PMGSYSession.Current.RoleCode == 9)
+                        {
+                            <th style="width:4%;"> State </th>
+                        }
+                        else
+                        {
+                            <th style="width:4%;display:none"> </th>
+                        }
+                        <th style="width: 4%;"> District </th>
+                        <th style="width:4%;"> Block </th>
+                        <th style="width:4%;"> Package </th>
+                        <th style="width:4%;"> Sanction Year </th>
+                        <th style="width:10%;"> Road Name </th>
+                        <th style="width:2.8%;"> Type </th>
+
+                        @*Added By Chandra Darshan Agrawal*@
+                        <th style="width:4%;"> Stage </th>
+
+                        <th style="width:10%;padding-left:0px;padding-right:0px;">
+                            Chainage Road(Km)/LSB(mtr)
+                            <table style="border-top:1px solid #CCC;vertical-align:bottom;">
+                                <tr>
+                                    <th style="width:30%;border-bottom:none;">Start</th>
+                                    <th style="width:30%;border-bottom:none;border-right:none;">End</th>
+                                <tr>
+                            </table>
+                        </th>
+                        <th style="width:4%;"> Inspection Date </th>
+                        @*<th style="width:4%;">View Work Inspection Report </th>*@
+                        <th style="width:4%;"> Total Length(Road(km)/LSB(mtr)) </th>
+                        <th style="width:7%;"> Road Status (Current Status)</th>
+                        <th style="width:3%;"> Ground Verification Inspection </th>
+                        <th style="width:3%;"> Scheme </th>
+                        <th style="width:4.2%;"> Overall Grade </th>
+                        <th style="width:2%;"> Lab Details </th>
+                        <th style="width:2%;"> View </th>
+                        <th colspan="9" style="text-align:center;width:50%;border-right:1px;border-left:1px;padding-left:0px;padding-right:0px;">
+                            Action Taken Report (ATR)
+                            <table style="border-top:1px solid #CCC;">
+                                <tr>
+                                    <th style="width:9%;border-bottom:none;">Submitted</th>
+                                    @*@if (PMGSY.Extensions.PMGSYSession.Current.RoleCode == 22 || PMGSY.Extensions.PMGSYSession.Current.RoleCode == 5 || PMGSY.Extensions.PMGSYSession.Current.RoleCode == 54)
+                                        {
+                                            <th style="width:5%;border-bottom:none;">View</th>
+                                        }
+                                        else
+                                        {
+                                            <th style="width:5%;border-bottom:none;">View ATR pdf File</th>
+                                        }*@
+
+                                    @*//----------------- ADDED BY ROHIT BORSE for ATR MARK VERIFICATION*@
+                                    @if (PMGSY.Extensions.PMGSYSession.Current.RoleCode == 8 || PMGSY.Extensions.PMGSYSession.Current.RoleCode == 48 || PMGSY.Extensions.PMGSYSession.Current.RoleCode == 69)
+                                    {
+                                        <th style="width:10%;"> View ATR file & Marked SQM Inspection for ATR Verification </th>
+                                    }
+                                    else
+                                    {
+                                        <th style="width:10%;">Upload ATR file & Mark SQM Inspection for ATR Verification </th>
+                                    }
+                                    <th style="width:12%;border-bottom:none;">Date Of Upload</th>
+                                    <th style="width:60%;border-bottom:none;">
+                                        Regrade
+                                        <table style="border-top:1px solid #CCC;">
+                                            <tr>
+                                                <th style="width:35%;border-bottom:none;">Acceptance</th>
+                                                <th style="width:40%;border-bottom:none;">Remarks</th>
+                                                <th style="width:15%;border-bottom:none;">Date</th>
+                                                @*@if (PMGSY.Extensions.PMGSYSession.Current.RoleCode == 5)  //for SQC No need to display delete*@
+                                                @if (PMGSY.Extensions.PMGSYSession.Current.RoleCode == 8 || PMGSY.Extensions.PMGSYSession.Current.RoleCode == 48 || PMGSY.Extensions.PMGSYSession.Current.RoleCode == 69)
+                                                {
+                                                    <th style="width:10%;border-right:none;border-bottom:none;">Regrade</th>
+                                                }
+                                                else
+                                                {
+                                                    <th style="width:10%;border-right:none;border-bottom:none;display:none"></th>
+
+                                                }
+                                            <tr>
+                                        </table>
+                                    </th>
+                                    @*@if (PMGSY.Extensions.PMGSYSession.Current.RoleCode == 5)  //for SQC No need to display delete*@
+
+                                    @*@if (PMGSY.Extensions.PMGSYSession.Current.RoleCode == 5)  //for SQC No need to display state*@
+                                    @*@if (PMGSY.Extensions.PMGSYSession.Current.RoleCode == 8 || PMGSY.Extensions.PMGSYSession.Current.RoleCode == 48 || PMGSY.Extensions.PMGSYSession.Current.RoleCode == 69)
+                                    {
+                                        <th style="width:6%;"> Update ATR Status </th>
+                                    }*@
+                                    @*else
+                                        {
+                                            <th style="width:6%;text-align:center"> - </th>
+                                        }*@
+                                <tr>
+                            </table>
+                        </th>
+                        <th style="width:3.5%;">Completion Date</th>
+                        <th style="width:3.5%;">Inspection Report</th>
+                        <th style="width:3.5%;">e-Form Report</th>
+                        <th style="width:3.5%;">e-Form Preview</th>
+
+                    </tr>
+                </thead>
+                <tbody>
+                    @if (Model.ERROR != null)
+                    {
+                        <tr>
+                            <td colspan="23" style="color:#FF0000;">
+                                @Model.ERROR
+                            </td>
+                        </tr>
+                    }
+                    else if (Model.OBS_LIST != null && Model.OBS_LIST.Count > 0)
+                    {
+                        foreach (var obsItem in Model.OBS_LIST)
+                        {
+                            <tr>
+                                <td style="text-align:center;width:2%;">@srNo</td>
+                                <td style="width:7%;">@obsItem.MONITOR_NAME</td>
+                                @*@if (PMGSY.Extensions.PMGSYSession.Current.RoleCode == 5)  //for SQC No need to display state*@
+                                @if (PMGSY.Extensions.PMGSYSession.Current.RoleCode == 9)
+                                {
+                                    <td style="width:4%;">@obsItem.STATE_NAME</td>
+                                }
+                                else
+                                {
+                                    <td style="width:4%;display:none"></td>
+                                }
+                                <td style="width:4%;">@obsItem.DISTRICT_NAME</td>
+                                <td style="width:4%;">@obsItem.BLOCK_NAME</td>
+                                <td style="width:4%;">@obsItem.IMS_PACKAGE_ID</td>
+                                <td style="width:4%;">@obsItem.IMS_YEAR</td>
+                                <td style="width:10%;">@Html.Raw(obsItem.IMS_ROAD_NAME)</td>
+                                <td style="width:2.8%;">@obsItem.IMS_PROPOSAL_TYPE</td>
+
+                                @*Added By Chandra Darshan Agrawal*@
+                                <td style="width:4%;">@obsItem.STAGE_PHASE</td>
+
+                                <td style="width:10%;padding-left:0px;padding-right:0px;">
+                                    <table style="border:none">
+                                        <tr>
+                                            <td style="width:50%;border-bottom:none;">@obsItem.QM_INSPECTED_START_CHAINAGE</td>
+                                            <td style="width:50%;border-bottom:none;border-left:1px;">@obsItem.QM_INSPECTED_END_CHAINAGE_BRIDGE</td>
+                                        <tr>
+                                    </table>
+                                </td>
+
+
+                                <td style="width:4%;">@obsItem.QM_INSPECTION_DATE</td>
+                                @*<td>@Html.Raw(obsItem.VIEW_INSPECTION_REPORT_LINK)</td>*@
+                                <td style="width:4%;">@obsItem.WORK_LENGTH</td>
+                                <td style="width:7%;">@obsItem.IMS_ISCOMPLETED</td>
+                                <td style="width:3%;">@obsItem.ADMIN_IS_ENQUIRY</td>
+                                <td style="width:3%;">@obsItem.PMGSY_SCHEME</td>
+                                <td style="width:4.2%;">@obsItem.OVERALL_GRADE</td>
+
+                                @*@if (@obsItem.OVERALL_GRADE == "Unsatisfactory")
+                                    {
+                                        <td style="color:red">@obsItem.OVERALL_GRADE</td>
+                                    }
+                                    else if (@obsItem.OVERALL_GRADE == "Required Improvement")
+                                    {
+                                        <td style="color:orange">@obsItem.OVERALL_GRADE</td>
+                                    }
+                                    else
+                                    {
+                                        <td>@obsItem.OVERALL_GRADE</td>
+                                        }*@
+
+                                <td style="width:2%;">@Html.Raw(obsItem.IMS_ISLABUPLOADED)</td>
+                                @*Added by Deendayal*@
+                                <td style="width:2%;">@Html.Raw(obsItem.SHOW_OBS_LINK)</td>
+
+                                <td colspan="9" style="text-align:center;width:50%;border-right:none;padding-left:0px;padding-right:0px;">
+                                    <table style="border:none;">
+                                        @{ var recordCnt = Model.ATR_LIST.Where(c => c.QM_OBSERVATION_ID == obsItem.QM_OBSERVATION_ID).Count();
+                                            var srCnt = 1;
+                                        }
+                                        @foreach (var atrItem in Model.ATR_LIST.Where(c => c.QM_OBSERVATION_ID == obsItem.QM_OBSERVATION_ID))
+                                        {
+                                            if (recordCnt > 1 && srCnt < recordCnt)
+                                            {
+                                                <tr @*style="border:none;"*@ style="border-bottom:1px;">
+                                                    <td style="width: 9%;text-align:center;@*border-bottom:none;*@">@atrItem.ATR_REGRADE_STATUS</td>   @* Is Submitted *@
+
+                                                    @*<td style="width: 5%;text-align: center; border-left: 1px;">@Html.Raw(atrItem.ATR_UPLOAD_VIEW_LINK)</td>*@
+                                                    @* Upload Link *@
+
+                                                    @*----------------- ADDED BY ROHIT BORSE for ATR MARK VERIFICATION*@
+                                                    <td style="width: 10%;text-align: center; border-left: 1px;"> @Html.Raw(atrItem.VERIFICATION_ATR_CODE) </td>
+
+                                                    <td style="width: 12%;text-align: center; border-left: 1px;">@atrItem.ATR_ENTRY_DATE</td>       @* Upload Date *@
+
+                                                    <td style="width:60%;border:none;">
+
+                                                        <table style="border:none">
+                                                            <tr>
+
+                                                                <td style="width: 35%;text-align: center; border-left: 1px;">@Html.Raw(atrItem.ATR_ACCEPTANCE_LINK)</td>
+                                                                <td style="width: 40%;border-left: 1px;">@atrItem.ATR_REGRADE_REMARKS</td>                    @* Accept, Reject Remarks *@
+                                                                <td style="width: 15%; border-left: 1px; text-align: center; ">@atrItem.ATR_REGRADE_DATE</td>     @* Accept, Reject Date *@
+
+
+                                                                @if (PMGSY.Extensions.PMGSYSession.Current.RoleCode == 8 || PMGSY.Extensions.PMGSYSession.Current.RoleCode == 48 || PMGSY.Extensions.PMGSYSession.Current.RoleCode == 69)
+                                                                {
+                                                                    <td style="width:10%;border-left: 1px; text-align: center;">@Html.Raw(atrItem.ATR_REGRADE_LINK)</td>
+                                                                    @*<td style="width:50px;text-align:center;">@Html.Raw(atrItem.ATR_DELETE_LINK)</td>*@
+                                                                }
+                                                                else
+                                                                {
+                                                                    <td style="width: 10%;text-align: center; border-left: 1px;display:none">-</td>
+                                                                }
+
+                                                            <tr>
+                                                        </table>
+                                                    </td>
+                                                    @*@if (PMGSY.Extensions.PMGSYSession.Current.RoleCode == 8 || PMGSY.Extensions.PMGSYSession.Current.RoleCode == 48 || PMGSY.Extensions.PMGSYSession.Current.RoleCode == 69)
+                                                    {
+                                                        <td style="width: 6%;text-align: center; border-left: 1px;">-</td>
+                                                    }*@
+                                                </tr>
+                                            }
+                                            else
+                                            {
+                                                <tr>
+                                                    <td style="width: 9%; text-align: center;border-bottom:none;">@atrItem.IS_SUBMITTED</td>   @* Is Submitted *@
+                                                    @*<td style="width: 5%; text-align: center; border-left: 1px;border-bottom:none;">@Html.Raw(atrItem.ATR_UPLOAD_VIEW_LINK)</td>*@ @* Upload Link *@
+
+                                                    @*----------------- ADDED BY ROHIT BORSE for ATR MARK VERIFICATION*@
+                                                    <td style="width: 10%;text-align: center; border-left: 1px;"> @Html.Raw(atrItem.VERIFICATION_ATR_CODE) </td>
+
+                                                    <td style="width: 12%; text-align: center; border-left: 1px;border-bottom:none;">@atrItem.ATR_ENTRY_DATE</td>       @* Upload Date *@
+
+                                                    <td style="width:60%;border:none;">
+
+                                                        <table style="border:none">
+                                                            <tr>
+                                                                <td style="width: 35%; text-align: center; border-left: 1px; border-bottom: none;">@Html.Raw(atrItem.ATR_ACCEPTANCE_LINK)</td>
+                                                                <td style="width: 40%; border-left: 1px; border-bottom: none;">@atrItem.ATR_REGRADE_REMARKS</td>                    @* Accept, Reject Remarks *@
+                                                                <td style="width: 15%; border-left: 1px; border-bottom: none; text-align: center; border-bottom: none;">@atrItem.ATR_REGRADE_DATE</td>      @* Accept, Reject Date *@
+
+                                                                @*@if (PMGSY.Extensions.PMGSYSession.Current.RoleCode == 5)  //for SQC No need to display delete*@
+                                                                @if (PMGSY.Extensions.PMGSYSession.Current.RoleCode == 8 || PMGSY.Extensions.PMGSYSession.Current.RoleCode == 48 || PMGSY.Extensions.PMGSYSession.Current.RoleCode == 69)
+                                                                {
+                                                                    <td style="width:10%; border-left: 1px; text-align: center; border-bottom: none;">@Html.Raw(atrItem.ATR_REGRADE_LINK)</td>
+                                                                    @*<td style="width:50px;text-align:center;border-bottom:none;">@Html.Raw(atrItem.ATR_DELETE_LINK)</td>*@
+                                                                }
+                                                                else
+                                                                {
+                                                                    <td style="width: 10%;text-align: center; border-left: 1px;display:none">-</td>
+
+                                                                }
+                                                            <tr>
+
+                                                        </table>
+                                                    </td>
+
+
+                                                    @*@if (Model.OBS_LIST.Count < 10)
+                                                        {
+                                                             <td style="width:12px;"></td>
+                                                        }*@
+
+                                                    @*@if (PMGSY.Extensions.PMGSYSession.Current.RoleCode == 5)  //for SQC No need to display this*@
+                                                    @*@if (PMGSY.Extensions.PMGSYSession.Current.RoleCode == 8 || PMGSY.Extensions.PMGSYSession.Current.RoleCode == 48 || PMGSY.Extensions.PMGSYSession.Current.RoleCode == 69)
+                                                    {
+                                                        <td style="width:6%;border-bottom:none;">
+                                                            @if (obsItem.QM_ATR_STATUS.Equals("A") || obsItem.QM_ATR_STATUS.Equals("R"))
+                                                            {
+                                                                <a href="#" onclick="regrade2TierATRAsUploaded(@obsItem.QM_OBSERVATION_ID);" class='ui-icon ui-icon-trash ui-align-center'>Delete</a>
+                                                            }
+                                                            else
+                                                            {
+                                                                <p style="text-align:center;">-</p>
+                                                            }
+
+                                                        </td>
+                                                    }*@
+                                                    @*else
+                                                        {
+                                                            <td style="width:6%;border-bottom:none;text-align:center">-</td>
+                                                        }*@
+
+                                                </tr>
+                                            }
+                                            srCnt++;
+                                        }
+                                    </table>
+                                </td>
+
+                                <td style="width:3.5%;border-left:1px;text-align:center;">@obsItem.EXEC_COMPLETION_DATE</td>
+                                <td style="width:3.5%;border-left:1px;">
+                                    @Html.Raw(obsItem.VIEW_INSPECTION_REPORT_LINK)
+                                </td>
+                                <td style="width:3.5%;border-left:1px;">
+                                    @Html.Raw(@obsItem.EFORM_PDF_VIEW)
+                                </td>
+                                <td style="width:3.5%;border-left:1px;">
+                                    @Html.Raw(@obsItem.EFORM_PDF_PREVIEW)
+                                </td>
+
+                            </tr>
+
+                            srNo++;
+                        }
+                    }
+                    else
+                    {
+                        <tr>
+                            <td colspan="23">
+                                No records found
+                            </td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+        </div>
+
+    </div>
+
+
+    @* ----------------- ADDED BY ROHIT BORSE for ATR MARK VERIFICATION *@
+    @*Below Code commented on 30-01-2023*@
+    <!--<br />
+    <div id="dvVerificationATR_Grid" style="display:none">
+        <p style="background-color: #fccd6f;">
+            <span class="ui-icon ui-icon-circle-close ui-align-center" style="float: right; background-color: #fffdfd;" onClick='closeMarkATRDiv();'></span>
+            <br />
+        </p>
+        <table id="tblVerificationATR_Grid" style="width:80%; height:auto">
+        </table>
+        <div id="divPagerVerificationATR_Grid" style="margin-bottom: 20px;">
+        </div>
+    </div>-->
+    @*Added on 12-09-2022 to show list of inspections against road*@
+    <!--<div id="tabs-3TierDetails-1_Road_tab3">-->
+    @*<br />*@
+    <!--<div id="div3TierInspectionList_Road_tab3" style="width:99.2%; margin-top: 15px;margin-right:5px">
+
+            <p style="background-color: #fccd6f;">
+                <span class="ui-icon ui-icon-circle-close ui-align-center" style="float: right; background-color: #fffdfd;" onClick='closeInsplistDiv();'></span>
+                <br />
+            </p>
+            <table id="tb3TierInspectionList_Road_tab3"></table>
+            <div id="dv3TierInspectionListPager_Road_tab3"></div>
+        </div>
+
+    </div>-->
+
+</body>
+</html>
+

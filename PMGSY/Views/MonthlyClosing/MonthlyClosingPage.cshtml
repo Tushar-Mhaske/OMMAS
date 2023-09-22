@@ -1,0 +1,314 @@
+﻿@model PMGSY.Models.MonthlyClosing.MonthlyClosingModel
+
+
+
+<!DOCTYPE html>
+
+<html>
+<head>
+    <meta name="viewport" content="width=device-width" />
+    <title>Monthly Closing </title>
+   <script src="~/Scripts/jquery.ui.datepicker.js"></script>
+    <script src="~/Scripts/custom/Generic.js"></script>
+   <script src="~/Scripts/MonthlyClosing/MonthlyClosing.js"></script>
+    <style type="text/css" media="screen">
+        th.ui-th-column div {
+            white-space: normal !important;
+            height: auto !important;
+            padding: 2px;
+        }
+
+        .ui-jqgrid .ui-jqgrid-resize {
+            height: 100% !important;
+        }
+
+        .ui-jqgrid-bdiv
+        {
+        overflow-x : hidden !important;
+        }
+    </style>
+   
+</head>
+<body>
+    <div>
+       <br />
+    <div class="ui-widget-header innerDivHeader">
+       Monthly Closing
+    </div>
+
+    
+    <div id="divError" style="margin-left: 10px; margin-right: 15px;margin-top:5px; display: none" class="ui-state-error ui-corner-all">
+        <span class="ui-icon ui-icon-alert " style="float: left"></span>
+        <span id="errorSpan"></span>
+    </div>
+        <form id="monthlyClosingForm">
+        
+            <div id="MonthlyClosedDiveDiv" style="float:right">
+            <table>
+                <tbody>
+                    <tr id="TrMonthlyClosing" style="display:none">
+                        <td style="text-align:center">
+                            <div style="text-align: right; width: 100%;" id="1">
+                                <label style="color:red" ><b>
+                              Month Closed upto
+                            -
+                         
+                            <label id="lblMonth">
+                                
+                            </label>
+                           
+                            <label id="lblYear">
+                          
+                                 </label>
+                        </b></label>
+                            </div>
+                        </td>
+                    </tr>
+                    <tr id="AccountNotClosedTr">
+                           <td style="text-align:center">
+                            <div style="text-align: right; width: 100%;" id="2">
+                                <label style="color:red" > <b>  Account is not yet Closed  </b>   </label>  
+                                         
+                            </div>
+                                </td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+
+            <div id="AccountStatusDiv" style="float:left">
+            <table>
+                <tbody>
+                    <tr id="TrAccountStatus" style="display:none">
+                        <td style="text-align:center">
+                            <div style="text-align: right; width: 100%;">
+                                <label style="color:red" ><b>
+                             Account Started From
+                            -
+                         
+                            <label id="lblAccMonth">
+                                
+                            </label>
+                           
+                            <label id="lblAccYear">
+                          
+                                 </label>
+                        </b></label>
+                            </div>
+                        </td>
+                    </tr>
+                    <tr id="accountMonthYearTr">
+                           <td style="text-align:center">
+                            <div style="text-align: right; width: 100%;">
+                                <label style="color:red" > <b>  No Data Entry </b>   </label>  
+                                         
+                            </div>
+                                </td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+
+        @Html.Hidden("CURRENT_YEAR")
+        @Html.Hidden("CURRENT_MONTH")
+        @Html.Hidden("levelId")
+        <table id="tblMonthYearOptions" class="ui-state-default ui-corner-all" style="clear:both; width: 100%; border: .1em solid gray;margin-top:10px">
+
+           <tr>
+               @if(PMGSY.Extensions.PMGSYSession.Current.LevelId==4)
+               {
+               <td style="width:38%;">
+  <div id="dvOwnDPIU" >
+                            @Html.RadioButtonFor(m=>m.OwnDPIUFlag,"O",new {@id="rdOwn",@checked="checked",@tabindex="1" })
+                            <label for="rdOwn">Own</label>
+                            @Html.RadioButtonFor(m => m.OwnDPIUFlag, "D", new { @id="rdDPIU",@tabindex="1"})
+                            <label for="rdDPIU">Lower</label>                            
+                            @Html.DropDownListFor(model => model.DPIU_CODE, new SelectList(Model.DPIU_LIST, "Value", "Text"), new { Title = "DPIU", tabindex = "3", @id="ddlDPIU",@style="margin-left:5%;display:none"})
+
+                        </div>
+
+               </td>
+                   <td style="text-align:right">
+                       <table>
+                           <tr>
+                               <td>
+                                    @Html.RadioButtonFor(model => model.CLOSE_MONTH_TYPE, "S", new { @id = "rdSingle", @checked = "checked" ,@tabindex="4"})
+                        <label for="rdSingle"> Close Single Month </label>
+                               </td>
+                               <td style="display:none;">
+                                    @Html.RadioButtonFor(model => model.CLOSE_MONTH_TYPE, "A", new { @id = "rdMultiple" ,@tabindex="5"})
+                              
+                            <label for="rdMultiple">Close Multiple Months</label>
+                               </td>
+                           </tr>
+
+                       </table>                      
+                   </td>
+               }else{               
+                  <td style="text-align:right"  >
+                                         
+                      
+                          
+                         @*<div id="divCredit" style="margin-left:5%;margin-right:10px">*@
+                          <div id="divCredit" style="margin-right:50%">
+                                @Html.RadioButtonFor(model => model.CLOSE_MONTH_TYPE, "S", new { @id = "rdSingle", @checked = "checked" ,@tabindex="6"})
+                        <label for="rdSingle"> Close Single Month </label>
+                        </div>
+                       
+                            
+
+                   </td>
+               <td >
+                    <div id="divdebit"style="text-align:left; margin-left:20px">
+                          
+                                @Html.RadioButtonFor(model => model.CLOSE_MONTH_TYPE, "A", new { @id = "rdMultiple",@tabindex="7", @style="display:none;" })
+                              
+                            <label for="rdMultiple" style="display:none;">Close Multiple Months</label>
+                        </div>
+
+               </td>
+               }
+               </tr>
+              
+               <tr id="singleMonthTr" style="display:none">
+              
+                     <td colspan="2">
+
+                 <div class="TdMulti" style="float:left;margin-left:1%;margin-right:5px">
+                    From
+                </div>
+                   
+                   <div id="divFromMonth" style="float:left; margin-left:1%;margin-right:5px">Month <label style="color:red">*</label>
+
+                </div>
+                <div style="float:left";text-align: center; width: 15%">
+                  
+                    @Html.DropDownListFor(model => model.FROM_MONTH, new SelectList(Model.FROM_MONTH_LIST, "Value", "Text"), new { Title = "Month", tabindex = "8", @class = "dropdown" })
+                   <br />  @Html.ValidationMessageFor(model => model.FROM_MONTH)
+                </div>
+                <div style="float:left;margin-left:5%;margin-right:5px ">Year <label style="color:red">*</label>
+                </div>
+                <div style="float:left";text-align: center; width: 15%">
+                   
+                    @Html.DropDownListFor(model => model.FROM_YEAR, new SelectList(Model.FROM_YEAR_LIST, "Value", "Text"), new { Title = " Year", tabindex = "9", @class = "dropdown" })
+                  <br />   @Html.ValidationMessageFor(model => model.FROM_YEAR)
+                </div>
+                
+                 <div style="float:left;margin-left:5%;margin-right:5px" class="TdMulti">
+                   TO
+                </div>
+                    <div class="TdMulti" style="text-align: center;float:left; width: 10%">Month <label style="color:red">*</label>
+
+                </div>
+                <div class="TdMulti" style="text-align: center;float:left">
+                  
+                    @Html.DropDownListFor(model => model.TO_MONTH, new SelectList(Model.TO_MONTH_LIST, "Value", "Text"), new { Title = "Month", tabindex = "10", @class = "dropdown" })
+                   <br /> 
+                     @Html.ValidationMessageFor(model => model.TO_MONTH) 
+                </div>
+                     
+                    <div class="TdMulti" style="margin-left:5%;margin-right:5px; float:left">Year <label style="color:red">*</label>
+                </div>
+               
+                    <div class="TdMulti" style="text-align: center;float:left">
+                   
+                    @Html.DropDownListFor(model => model.TO_YEAR, new SelectList(Model.TO_YEAR_LIST, "Value", "Text"), new { Title = " Year", tabindex = "11", @class = "dropdown" })
+                  <br />  
+                          @Html.ValidationMessageFor(model => model.TO_YEAR) 
+                </div>
+                       
+              </td>
+                </tr>
+              
+
+            <tr id="" style="display:none">
+              
+                     <td colspan="2">
+
+                 <div class="TdMulti" style="float:left;margin-left:1%;margin-right:5px">
+                    From
+                </div>
+                   
+                   <div id="divFromMonth" style="float:left; margin-left:1%;margin-right:5px">Month <label style="color:red">*</label>
+
+                </div>
+                <div style="float:left; width:15%">
+                  
+                    @Html.DropDownListFor(model => model.FROM_MONTH, new SelectList(Model.FROM_MONTH_LIST, "Value", "Text"), new { Title = "Month", tabindex = "12", @class = "dropdown" })
+                   <br />  @Html.ValidationMessageFor(model => model.FROM_MONTH)
+                </div>
+                <div style="float:left;margin-left:1%;margin-right:5px ">Year <label style="color:red">*</label>
+                </div>
+                <div style="float:left;width:15%">
+                   
+                    @Html.DropDownListFor(model => model.FROM_YEAR, new SelectList(Model.FROM_YEAR_LIST, "Value", "Text"), new { Title = " Year", tabindex = "13", @class = "dropdown" })
+                  <br />   @Html.ValidationMessageFor(model => model.FROM_YEAR)
+                </div>
+                
+                 <div style="float:left;margin-right:5px" class="TdMulti">
+                   TO
+                </div>
+                    <div class="TdMulti" style="text-align: center;float:left; width: 5%">Month <label style="color:red">*</label>
+
+                </div>
+                <div class="TdMulti" style="text-align: center;float:left;">
+                  
+                    @Html.DropDownListFor(model => model.TO_MONTH, new SelectList(Model.TO_MONTH_LIST, "Value", "Text"), new { Title = "Month", tabindex = "14", @class = "dropdown" })
+                   <br /> 
+                    <div style=""> @Html.ValidationMessageFor(model => model.TO_MONTH) </div>
+                </div>
+                     
+                    <div class="TdMulti" style="margin-right:5px; float:left">Year <label style="color:red">*</label>
+                </div>
+               
+                    <div class="TdMulti" style="text-align: center;float:left;width:1%">
+                   
+                    @Html.DropDownListFor(model => model.TO_YEAR, new SelectList(Model.TO_YEAR_LIST, "Value", "Text"), new { Title = " Year", tabindex = "15", @class = "dropdown" })
+                  <br />  
+                          @Html.ValidationMessageFor(model => model.TO_YEAR) 
+                </div>
+                       
+              </td>
+                </tr>
+            
+
+        </table>
+       
+        
+        </form>
+                
+         <br /> 
+
+        <table style="width:100%;margin-top:5px" class="ui-state-default ui-corner-all">
+             <tr>
+
+                <td style="text-align: center;">
+                    <input type="button" class="jqueryButton"
+                        name="btnSubmitDetails" id="btnSubmitDetails" title="Click To close the month" value='Submit' tabindex="16" />
+                </td>
+                         
+                </tr>
+        </table>
+        <center>
+          <div id="gridDiv" style="width: 100%">
+
+            <table id="DpiuList"></table>
+            <div id="Piupager"></div>
+        </div>
+        </center>
+     
+        
+           
+
+    </div>
+
+
+    <div id="dvShowPIUChequeAckStatus">
+    </div>
+
+
+
+</body>
+</html>
+
+

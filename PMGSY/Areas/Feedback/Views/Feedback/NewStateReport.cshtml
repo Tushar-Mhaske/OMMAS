@@ -1,0 +1,14 @@
+﻿@using MvcReportViewer
+
+@model PMGSY.Areas.QMSSRSReports.Models.QualityReportsViewModel
+
+    @Html.MvcReportViewer("/PMGSYCitizen/StateBriefDetailsNew",
+     new
+     {   Level=1,
+         STATE = Model.State,
+         DISTRICT=0,
+         PMGSY=0
+         
+        // StateName=Model.StateName        
+     },
+       new { Height = 600, Width = "100%", style = "border:none;" })

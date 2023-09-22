@@ -1,0 +1,288 @@
+﻿@*
+    * Project Id    :
+    * Project Name  :   OMMAS II
+    * Name          :   LSBDisplayOthDetails.cshtml
+    * Description   :   This View is for Displaying LSB Other Details
+    * Author        :   Shyam Yadav
+    * Modified By   :   Shivkumar Deshmukh        
+    * Creation Date :   20-05-2013
+*@
+
+@model PMGSY.Models.Proposal.LSBOthDetailsModel
+<script src="~/Scripts/custom/Generic.js"></script>
+<div style="height:20px; width: 100%; text-align:left; padding-top: 0.6em;" class="ui-state-default ui-corner-all" > 
+                   &nbsp; <strong> Note :</strong>  All Amounts are in Lakhs and All Lengths in mtrs.
+</div>
+<div id="divOthDetails" style="text-align:left">
+   <table class="rowstyle" cellpadding="3px"  style="text-align:left; border:ridge 0.1em #ccc; width:100%; padding:5px 5px 5px 5px;">
+             
+            @* ///////////   Type of Bridge Details   /////////////////////// *@
+            <tr style="text-align:left">
+                <td colspan="4"  class="ui-widget-header">
+                    <strong>
+                        Type of Bridge Details
+                    </strong>
+                </td>
+             </tr>
+            <tr>                        
+                <td style="width:20%;font-weight:bold;">                                   
+                    @Html.LabelFor(model => model.IMS_ROAD_TYPE_LEVEL)
+                </td>
+                <td  style="width:30%">
+                   @Html.DisplayFor(model => model.IMS_ROAD_TYPE_LEVEL)
+                </td> 
+                 <td style="width:20%;font-weight:bold;">
+                    @Html.LabelFor(model => model.IMS_HIGHEST_FLOOD_LEVEL)
+                </td>
+                <td style="width:30%">
+                    @Html.DisplayFor(model => model.IMS_HIGHEST_FLOOD_LEVEL)
+                </td>    
+                
+            </tr>
+            
+            <tr>  
+                <td style="width:20%;font-weight:bold;">                                   
+                    @Html.LabelFor(model => model.IMS_ORDINARY_FLOOD_LEVEL)
+                </td>
+                <td style="width:30%">
+                   @Html.DisplayFor(model => model.IMS_ORDINARY_FLOOD_LEVEL)
+                </td>
+                <td style="width:20%;font-weight:bold;">
+                   @Html.LabelFor(model => model.IMS_AVERAGE_GROUND_LEVEL)
+                </td>
+                <td style="width:30%">
+                    @Html.DisplayFor(model => model.IMS_AVERAGE_GROUND_LEVEL)
+                </td>                           
+             </tr>
+            
+            <tr>                        
+                <td style="width:20%;font-weight:bold;">                                   
+                    @Html.LabelFor(model => model.IMS_NALA_BED_LEVEL)
+                </td>
+                <td style="width:30%">
+                   @Html.DisplayFor(model => model.IMS_NALA_BED_LEVEL)
+                </td>  
+                <td style="width:20%;font-weight:bold;">
+                    @Html.LabelFor(model => model.IMS_FOUNDATION_LEVEL)
+                </td>
+                <td style="width:30%">
+                    @Html.DisplayFor(model => model.IMS_FOUNDATION_LEVEL)
+                </td>
+            </tr>
+            
+            <tr>                        
+                <td style="width:20%;font-weight:bold;">                                   
+                    @Html.LabelFor(model => model.IMS_HGT_BIRDGE_NBL)
+                </td>
+                <td style="width:30%">
+                   @Html.DisplayFor(model => model.IMS_HGT_BIRDGE_NBL, new { @readOnly = "true" })
+                </td>     
+                <td style="width:20%;font-weight:bold;">
+                    @Html.LabelFor(model => model.IMS_HGT_BRIDGE_FL)
+                </td>
+                <td style="width:30%">
+                    @Html.DisplayFor(model => model.IMS_HGT_BRIDGE_FL, new { @readOnly = "true" })
+                </td>
+            </tr>
+            
+            @* ///////////   Type of Bridge Details Ends  /////////////////////// *@
+           
+
+             @* ///////////   Type of Proposed Bridge   /////////////////////// *@
+
+            <tr style="text-align:left">
+                <td colspan="4"  class="ui-widget-header">
+                    <strong>
+                        Type of Proposed Bridge
+                    </strong>
+                </td>
+             </tr>
+            <tr>
+                <td colspan="4">
+                        <ul>
+                        @if(Model.IMS_BRG_SUBMERSIBLE)
+                        {
+                            <li>
+                            <span><strong>
+                                @Html.LabelFor(model => model.IMS_BRG_SUBMERSIBLE) 
+                            </strong></span>
+                            </li>
+                        }
+                        @if(Model.IMS_BRG_BOX_CULVERT)
+                        {
+                            <li>
+                            <span><strong>
+                                @Html.LabelFor(model => model.IMS_BRG_BOX_CULVERT)
+                            </strong></span>
+                            </li>
+                        }
+                        @if(Model.IMS_BRG_RCC_ABUMENT)
+                        {
+                            <li>
+                            <span><strong>
+                                @Html.LabelFor(model => model.IMS_BRG_RCC_ABUMENT)
+                            </strong></span>
+                            </li>
+                        }
+                        @if (Model.IMS_BRG_HLB)
+                        {
+                            <li>
+                            <span><strong>
+                                @Html.LabelFor(model => model.IMS_BRG_HLB)
+                            </strong></span>
+                            </li>
+                        }
+                        </ul>
+                </td>
+                
+            </tr>
+
+            <tr>                        
+                <td style="padding-top:10px;width:20%;font-weight:bold;">
+                    @Html.LabelFor(model => model.IMS_SC_FD_CODE)
+                </td>
+                <td style="width:30%">                            
+                    @Html.DisplayFor(model => model.FOUNDATION_TYPE_TEXT)
+                </td>        
+                <td style="padding-top:10px;width:20%;font-weight:bold;">
+                    @Html.LabelFor(model => model.IMS_BEARING_CAPACITY)
+                </td>
+                <td style="width:30%">
+                    @Html.DisplayFor(model => model.IMS_BEARING_CAPACITY)
+                </td>
+            </tr>
+                        
+            @* ///////////   Type of Proposed Bridge Ends  /////////////////////// *@
+
+
+             @* ///////////   Arrangement of Spans  /////////////////////// *@
+
+
+            <tr  style="text-align:left">
+                <td colspan="4" class="ui-widget-header">
+                    <strong>
+                        Arrangement of Spans
+                    </strong>
+                </td>
+             </tr>
+             <tr> 
+                <td style="text-align:left;font-weight:bold;">                                   
+                   @Html.LabelFor(model => model.IMS_ARG_TOT_SPANS)
+                </td>
+                 <td style="text-align:left">                                   
+                   @Html.DisplayFor(model => model.IMS_ARG_TOT_SPANS)
+                </td>
+                <td style="font-weight:bold;">                        
+                   @Html.LabelFor(model => model.IMS_NO_OF_VENTS)
+                </td> 
+                 <td>                        
+                   @Html.DisplayFor(model => model.IMS_NO_OF_VENTS)
+                </td>      
+                
+            </tr>
+            <tr>  
+                <td style="font-weight:bold;">                        
+                    @Html.LabelFor(model => model.IMS_SPAN_VENT)
+                </td>
+                <td colspan="3">                        
+                    @Html.DisplayFor(model => model.IMS_SPAN_VENT)
+                </td>
+            </tr>
+             
+            <tr>                        
+                <td style="width:20%;font-weight:bold;">                                   
+                     @Html.LabelFor(model => model.IMS_SCOUR_DEPTH)
+                </td>
+                <td style="width:30%">
+                    @Html.DisplayFor(model => model.SCOUR_DEPTH_TEXT)
+                </td>     
+                <td style="width:20%;font-weight:bold;">
+                    @Html.LabelFor(model => model.IMS_WIDTH_OF_BRIDGE)
+                </td>
+                <td style="width:30%">
+                    @Html.DisplayFor(model => model.IMS_WIDTH_OF_BRIDGE)
+                </td>
+            </tr>
+             
+
+            @* ///////////   Arrangement of Spans Ends  /////////////////////// *@
+
+
+
+            @* ///////////   Cost Details /////////////////////// *@
+
+            <tr  style="text-align:left">
+                <td colspan="4"  class="ui-widget-header">
+                    <strong>
+                        Estimated Cost Details
+                    </strong>
+                </td>
+             </tr>
+             <tr>                        
+                <td style="font-weight:bold; text-align:left">                                   
+                   <strong>Item</strong>
+                </td>
+                <td style="font-weight:bold;">                        
+                   <strong>Total Cost</strong>
+                </td>     
+                <td style="font-weight:bold;" colspan="2">                        
+                   <strong> Cost Per Km.</strong>
+                </td>
+            </tr>
+            <tr>                        
+                <td style="font-weight:bold;">                                   
+                    @Html.LabelFor(model => model.IMS_APPROACH_COST)
+                </td>
+                <td>
+                   @Html.DisplayFor(model => model.IMS_APPROACH_COST)
+                </td>     
+                <td colspan="2">
+                    @Html.DisplayFor(model => model.IMS_APPROACH_PER_MTR)
+                </td>
+            </tr>
+            
+            <tr>                        
+                <td style="font-weight:bold;">                                   
+                    @Html.LabelFor(model => model.IMS_BRGD_STRUCTURE_COST)
+                </td>
+                <td>
+                   @Html.DisplayFor(model => model.IMS_BRGD_STRUCTURE_COST)
+                </td>     
+                <td colspan="2">
+                    @Html.DisplayFor(model => model.IMS_BRGD_STRUCTURE_PER_MTR)
+                </td>
+            </tr>
+            
+            <tr>                        
+                <td style="font-weight:bold;">                                   
+                    @Html.LabelFor(model => model.IMS_STRUCTURE_COST)
+                </td>
+                <td>
+                   @Html.DisplayFor(model => model.IMS_STRUCTURE_COST)
+                </td>     
+                <td colspan="2">
+                    @Html.DisplayFor(model => model.IMS_STRUCTURE_PER_MTR)
+                </td>
+            </tr>
+            
+            <tr>                        
+                <td style="font-weight:bold;">                                   
+                    @Html.LabelFor(model => model.IMS_BRGD_OTHER_COST)
+                </td>
+                <td>
+                   @Html.DisplayFor(model => model.IMS_BRGD_OTHER_COST)
+                </td>     
+                <td colspan="2">
+                    @Html.DisplayFor(model => model.IMS_BRGD_OTHER_PER_MTR)
+                </td>
+            </tr>
+            
+            <tr>
+                <td style="font-weight:bold;">@Html.LabelFor(model => model.TotalEstimatedCost)</td>
+                <td>@Html.DisplayFor(model => model.TotalEstimatedCost, new { @readOnly = "true"})</td>
+                <td colspan="2"></td>
+            </tr>
+             @* ///////////   Cost Details Ends /////////////////////// *@
+
+        </table>
+</div>

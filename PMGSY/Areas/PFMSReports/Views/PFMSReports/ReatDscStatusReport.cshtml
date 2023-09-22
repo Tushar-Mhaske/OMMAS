@@ -1,0 +1,37 @@
+﻿@using MvcReportViewer
+
+@model PMGSY.Areas.PFMSReports.Models.ReatDscStatus
+
+@if(Model.DistrictCode!=0)
+{
+@Html.MvcReportViewer("/PMGSYCitizen/REATDSCStatus",
+
+
+
+     new
+     {
+         State = Model.StateCode,
+         District = Model.DistrictCode,
+         StateName = Model.StateName,
+         DistrictName = Model.DistrictName
+        
+     },
+       new { Height = 675, Width = "100%", style = "border:none;" })
+    
+}
+else
+{
+@Html.MvcReportViewer("/PMGSYCitizen/REATDSCStatus",
+
+
+     new
+     {
+         State = Model.StateCode,
+         District = Model.DistrictCode,
+         StateName = Model.StateName,
+         DistrictName = "All Districts"
+        
+     },
+       new { Height = 675, Width = "100%", style = "border:none;" })
+
+}

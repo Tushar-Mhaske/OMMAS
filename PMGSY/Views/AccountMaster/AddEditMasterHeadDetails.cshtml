@@ -1,0 +1,167 @@
+﻿@model PMGSY.Models.AccountMaster.MasterHeadViewModel
+
+<script src="~/Scripts/AccountMaster/MasterHead.js"></script>
+
+<div id="divError" style="text-align: left; margin-left: 10px; margin-right: 15px; margin-top: 5px; margin-bottom: 5px; display: none" class="ui-state-error ui-corner-all">
+    <span class="ui-icon ui-icon-alert " style="float: left"></span>
+    <span id="errorSpan"></span>
+</div>
+
+<form id="AccountMasterHeadForm">
+    @Html.ValidationSummary(true)
+    @Html.HiddenFor(m => m.EncryptedHeadID)
+    <table id="tblOptions" class="table-content ui-corner-all" style="width: 98%; border: .1em solid gray; margin-top: 5px">
+        <tr>
+            <td colspan="8">
+                @if (Model.IsParentHead)
+                {
+                    @Html.RadioButtonFor(m => m.ParentSubHead, "P", new { @id = "rdoParentHead", @tabindex = "1", @title = "Parent Head", @checked = "checked" }) @Html.Label("Parent")
+                    @Html.RadioButtonFor(m => m.ParentSubHead, "S", new { @id = "rdoSubHead", @tabindex = "1", @title = "Sub Head" }) @Html.Label("Sub Head")
+                }
+                else
+                {
+                    @Html.RadioButtonFor(m => m.ParentSubHead, "P", new { @id = "rdoParentHead", @tabindex = "1", @title = "Parent Head" }) @Html.Label("Parent")
+                    @Html.RadioButtonFor(m => m.ParentSubHead, "S", new { @id = "rdoSubHead", @tabindex = "1", @title = "Sub Head", @checked = "checked" }) @Html.Label("Sub Head")
+                }
+                @Html.ValidationMessageFor(model => model.ParentSubHead)
+            </td>
+        </tr>
+
+        @if (Model.IsParentHead)
+        {
+            <tr class="trParentHead">
+                <td style="text-align: left; width: 05%"></td>
+                <td style="text-align: left; width: 10%">@Html.LabelFor(m => m.FUND_TYPE) :
+                <label style="color: red">*</label></td>
+                <td style="text-align: left; width: 15%">
+                    @Html.DropDownListFor(model => model.FUND_TYPE, Model.PopulateFundType, new { Title = "Fund Type", tabindex = "2", @id = "ddlFundType" })
+                    @Html.ValidationMessageFor(model => model.FUND_TYPE)
+                </td>
+                <td style="text-align: left;">@Html.LabelFor(m => m.HEAD_CODE) :
+                <label style="color: red">*</label></td>
+                <td style="text-align: left;">
+                    @if (Model.EncryptedHeadID == null)
+                    { 
+                        @Html.TextBoxFor(m => m.HEAD_CODE, new { @title = "Head Code", @tabindex = "3", @maxlength = "6" })                    
+                    }
+                    else
+                    {
+                        @Html.TextBoxFor(m => m.HEAD_CODE, new { @title = "Head Code", @tabindex = "3", @maxlength = "6", @readonly = "readonly" })                     
+                    }
+                    @Html.ValidationMessageFor(model => model.HEAD_CODE)
+                </td>
+
+                <td style="text-align: left;">@Html.LabelFor(m => m.HEAD_NAME) :
+                <label style="color: red">*</label></td>
+                <td style="text-align: left;">
+                    @Html.TextAreaFor(m => m.HEAD_NAME, new { @title = "Head Name", @tabindex = "4", @maxlength = "255", @style = "height: 29px; width: 225px;" })
+                    @Html.ValidationMessageFor(model => model.HEAD_NAME)
+                </td>
+                @Html.Hidden("IS_OPERATIONAL", true)
+            </tr>
+        }
+        else
+        {
+            <tr class="trSubHead">
+                <td style="text-align: left; width: 10%">@Html.LabelFor(m => m.FUND_TYPE) :
+                <label style="color: red">*</label></td>
+                <td style="text-align: left; width: 10%">
+                    @Html.DropDownListFor(model => model.FUND_TYPE, Model.PopulateFundType, new { Title = "Fund Type", tabindex = "5", @id = "ddlFundType" })
+                    @Html.ValidationMessageFor(model => model.FUND_TYPE)
+                </td>
+
+                <td style="text-align: left; width: 10%">@Html.LabelFor(m => m.PARENT_HEAD_ID) :
+                <label style="color: red">*</label></td>
+                <td style="text-align: left; width: 10%">
+                    @if (Model.EncryptedHeadID == null)
+                    {
+                        @Html.DropDownListFor(model => model.PARENT_HEAD_ID, Model.PopulateParentHead, new { Title = "Parent Head", tabindex = "6", @id = "ddlParentHead" })
+                    }
+                    else
+                    {
+                        @Html.DropDownListFor(model => model.PARENT_HEAD_ID, Model.PopulateParentHead, new { Title = "Parent Head", tabindex = "6", @id = "ddlParentHead", @disabled = "disabled" })
+                    }
+                    @Html.ValidationMessageFor(model => model.PARENT_HEAD_ID)
+                </td>
+
+                <td style="text-align: left; width: 10%">@Html.LabelFor(m => m.OP_LVL_ID) :
+                <label style="color: red">*</label></td>
+                <td style="text-align: left; width: 10%">
+                    @Html.DropDownListFor(model => model.OP_LVL_ID, Model.PopulateOperationalLevel, new { Title = "Level", tabindex = "7", @id = "ddlLevel" })
+                    @Html.ValidationMessageFor(model => model.OP_LVL_ID)
+                </td>
+
+                <td style="text-align: left; width: 10%">@Html.LabelFor(m => m.HEAD_CATEGORY_ID) : </td>
+                <td style="text-align: left; width: 15%">
+                    @Html.DropDownListFor(model => model.HEAD_CATEGORY_ID, Model.PopulateHeadCategory, new { Title = "Head Category", tabindex = "8", @id = "ddlHeadCategory" })
+                    @Html.ValidationMessageFor(model => model.HEAD_CATEGORY_ID)
+                </td>
+            </tr>
+            <tr class="trSubHead">
+                <td style="text-align: left;">@Html.LabelFor(m => m.HEAD_CODE) :
+                <label style="color: red">*</label></td>
+                <td style="text-align: left;">
+                    @if (Model.EncryptedHeadID == null)
+                    { 
+                        @Html.TextBoxFor(m => m.HEAD_CODE, new { @title = "Head Code", @tabindex = "9", @maxlength = "6" })                    
+                    }
+                    else
+                    {
+                        @Html.TextBoxFor(m => m.HEAD_CODE, new { @title = "Head Code", @tabindex = "9", @maxlength = "6", @readonly = "readonly" })                     
+                    }
+                    @Html.ValidationMessageFor(model => model.HEAD_CODE)
+                </td>
+
+                <td style="text-align: left;">@Html.LabelFor(m => m.HEAD_NAME) :
+                <label style="color: red">*</label></td>
+                <td style="text-align: left;">
+                    @Html.TextAreaFor(m => m.HEAD_NAME, new { @title = "Head Name", @tabindex = "10", @maxlength = "255", @style = "height: 29px; width: 225px;" })
+                    @Html.ValidationMessageFor(model => model.HEAD_NAME)
+                </td>
+
+                <td style="text-align: left;">@Html.LabelFor(m => m.CREDIT_DEBIT) :
+                <label style="color: red">*</label></td>
+                <td style="text-align: left;">
+                    @Html.RadioButtonFor(m => m.CREDIT_DEBIT, "C", new { @id = "rdoCredit", @tabindex = "11", @title = "Credit" }) @Html.Label("Credit")
+                    @Html.RadioButtonFor(m => m.CREDIT_DEBIT, "D", new { @id = "rdoDebit", @tabindex = "11", @title = "Debit" }) @Html.Label("Debit")
+                    @Html.ValidationMessageFor(model => model.CREDIT_DEBIT)
+                </td>
+
+                <td style="text-align: left;">@Html.LabelFor(m => m.IS_OPERATIONAL) :
+                <label style="color: red">*</label></td>
+                <td style="text-align: left;">
+
+                    @if (Model.EncryptedHeadID == null)
+                    {
+                        @Html.RadioButtonFor(m => m.IS_OPERATIONAL, false, new { @id = "rdoOperationalNo", @tabindex = "12", @title = "No", @disabled = "disabled" })@Html.Label("No")
+                        @Html.RadioButtonFor(m => m.IS_OPERATIONAL, true, new { @checked = true, @id = "rdoOperationalYes", @tabindex = "12", @title = "Yes" })                     @Html.Label("Yes")
+                    }
+                    else
+                    {
+                        @Html.RadioButtonFor(m => m.IS_OPERATIONAL, false, new { @id = "rdoOperationalNo", @tabindex = "12", @title = "No" })@Html.Label("No")      
+                        @Html.RadioButtonFor(m => m.IS_OPERATIONAL, true, new { @id = "rdoOperationalYes", @tabindex = "12", @title = "Yes" })                     @Html.Label("Yes")
+                    }
+
+
+                    @Html.ValidationMessageFor(model => model.IS_OPERATIONAL)
+                </td>
+            </tr>
+        }
+        <tr>
+            <th colspan="8" style="text-align: center">
+                @if (Model.EncryptedHeadID == null)
+                {
+                    <input type="button" id="btnSave" value="Save" class="jqueryButton ui-button ui-widget ui-state-default ui-corner-all ui-button-text-only Add" title="Save" tabindex="13" />
+                    <input type="reset" class="jqueryButton ui-button ui-widget ui-state-default ui-corner-all ui-button-text-only Add" name="btnReset" id="btnReset" title="Click here to reset" value='Reset' tabindex="14" />
+                }
+                else
+                {
+                    <input type="button" id="btnUpdate" value="Update" class="jqueryButton ui-button ui-widget ui-state-default ui-corner-all ui-button-text-only Update" title="Update" tabindex="13" />
+                    <input type="button" id="btnCancel" value="Cancel" class="jqueryButton ui-button ui-widget ui-state-default ui-corner-all ui-button-text-only Update" title="Cancel" tabindex="14"/>
+                }
+            </th>
+        </tr>
+    </table>
+
+</form>
+

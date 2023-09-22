@@ -1,0 +1,216 @@
+﻿@**
+           * Project Id    :
+           * Project Name  :   OMMAS II
+           * Name          :   ATRUpload.cshtml
+           * Description   :   Upload ATR Details
+           * Author        :   Shyam Yadav
+           * Creation Date :   10/Jun/2013
+    **@
+@model PMGSY.Models.QualityMonitoring.FileUploadViewModel
+
+<link href="~/Content/Bootstrap/bootstrap.css" rel="stylesheet" />
+<link href="~/Content/Bootstrap/bootstrap-responsive.css" rel="stylesheet" />
+<link href="~/Content/jquery.fileupload-ui.css" rel="stylesheet" />
+
+<script src="~/Scripts/FileUpload/tmpl.js"></script>
+<script src="~/Scripts/FileUpload/load-image.js"></script>
+<script src="~/Scripts/FileUpload/canvas-to-blob.js"></script>
+<script src="~/Scripts/FileUpload/jquery.iframe-transport.js"></script>
+<script src="~/Scripts/FileUpload/jquery.fileupload.js"></script>
+<script src="~/Scripts/FileUpload/jquery.fileupload-fp.js"></script>
+<script src="~/Scripts/FileUpload/jquery.fileupload-ui.js"></script>
+
+<script src="~/Scripts/knockout-2.1.0.debug.js"></script>
+<script src="~/Scripts/knockout-2.1.0.js"></script>
+<script src="~/Scripts/QualityMonitoring/ATRFileUpload.js"></script>
+
+
+<ul style="text-align:left">
+    <li>
+        Only One PDF File Allowed, Maximum Size 15 MB.
+    </li>
+</ul>
+
+<div id="divSuccess" class="ui-state-default ui-corner-all" style="text-align: left; display: none; height:25px">
+    <span class="" style="float: left; height:25px; margin-top:5px; margin-left:5px;">
+        File Uploaded Successfully.
+    </span>
+    <span></span>
+</div>
+<br />
+@*<form id="fileupload" action="@Url.Action("PdfFileUpload")" method="POST" enctype="multipart/form-data">*@
+<form id="fileupload">
+    @Html.HiddenFor(model => model.ADMIN_SCHEDULE_CODE)
+    @Html.HiddenFor(model => model.IMS_PR_ROAD_CODE)
+    @Html.HiddenFor(model => model.QM_OBSERVATION_ID)
+    @Html.HiddenFor(model => model.NumberofPdfs)
+    @Html.Hidden("roleId", PMGSY.Extensions.PMGSYSession.Current.RoleCode)
+    @* Below  field Added on 12-01-2022*@
+    @Html.HiddenFor(model => model.QM_INSPECTION_DATE)
+
+    @Html.HiddenFor(model => model.QM_ATR_ID)
+    <!-- The fileupload-buttonbar contains buttons to add/delete files and start/cancel the upload -->
+    <center>
+        @* @if(Model.NumberofPdfs == 0)
+            {
+        *@
+        @if (ViewBag.ShowAddATRFileButton == false)
+        {
+
+
+            <div class="row fileupload-buttonbar">
+                <div style="text-align:left" class="span5">
+                    <table>
+                        <tr>
+                            <td style="text-align:left">
+                                <!-- The fileinput-button span is used to style the file input field as button -->
+                                @*<span class="btn btn-success fileinput-button">
+                                        <i class="icon-plus icon-white"></i>
+                                        <span>Add Pdf File</span>
+                                        <input id="ATRFile" type="file" name="files[]" multiple>
+                                    </span>*@
+                                <label for="ATRFile1" class="btn btn-success ATRFile1">Add Pdf File</label>
+                                <input accept=".pdf" style="visibility:hidden;" id="ATRFile1" class="ATRFile1" type="file" name="files[]" multiple>
+                            </td>
+                        </tr>
+                    </table>
+
+                </div>
+
+
+                @*<div id="divGlobalProgress" class="span4 fileupload-progress fade">
+                        <div class="progress progress-success progress-striped active" role="progressbar" aria-valuemin="0" aria-valuemax="100">
+                            <div class="bar" style="width:0%;"></div>
+                        </div>
+                        <div class="progress-extended" style="font-weight:bold; text-align:center">&nbsp;</div>
+                    </div>*@
+
+            </div>
+        }
+        else
+        {
+            <div class="row fileupload-buttonbar" style="display:none">
+                <div style="text-align:left" class="span5">
+                    <table>
+                        <tr>
+                            <td style="text-align:left">
+                                <!-- The fileinput-button span is used to style the file input field as button -->
+                                @*<span class="btn btn-success fileinput-button">
+                                        <i class="icon-plus icon-white"></i>
+                                        <span>Add Pdf File</span>
+                                        <input id="ATRFile" type="file" name="files[]" multiple>
+                                    </span>*@
+                                <label for="ATRFile1" class="btn btn-success ATRFile1">Add Pdf File</label>
+                                <input accept=".pdf" style="visibility:hidden;" id="ATRFile1" class="ATRFile1" type="file" name="files[]" multiple>
+                            </td>
+                        </tr>
+                    </table>
+
+                </div>
+
+
+                @*<div id="divGlobalProgress" class="span4 fileupload-progress fade">
+                        <div class="progress progress-success progress-striped active" role="progressbar" aria-valuemin="0" aria-valuemax="100">
+                            <div class="bar" style="width:0%;"></div>
+                        </div>
+                        <div class="progress-extended" style="font-weight:bold; text-align:center">&nbsp;</div>
+                    </div>*@
+
+            </div>
+        }
+
+        @*}*@
+    </center>
+    <br>
+    @*<table id="tblPresentation" role="presentation" class="table table-striped"><tbody class="files" data-toggle="modal-gallery" data-target="#modal-gallery"></tbody></table>*@
+</form>
+
+@*<script id="template-upload" type="text/x-tmpl">
+    <tr>
+    <td></td>
+    <td>Name</td>
+    <td>Size</td>
+    <td></td>
+    <td></td>
+    <td></td>
+    </tr>
+
+    {% for (var i=0, file; file=o.files[i]; i++) { %}
+    <tr class="template-upload fade">
+        <td class="preview"><span class="fade"></span></td>
+        <td class="name"><span>{%=file.name%}</span></td>
+        <td class="size"><span>{%=o.formatFileSize(file.size)%}</span></td>
+        {% if (file.error) { %}
+            <td class="error" colspan="2"><span class="label label-important"></span> {%=file.error%}</td>
+        {% } else if (o.files.valid && !i) { %}
+            <td>
+                <div class="progress progress-success progress-striped active" role="progressbar" aria-valuemin="0" aria-valuemax="100" aria-valuenow="0"><div class="bar" style="width:0%;"></div></div>
+            </td>
+                   @Html.HiddenFor(model => model.QM_OBSERVATION_ID)
+                   @Html.HiddenFor(model => model.ADMIN_SCHEDULE_CODE)
+                   @Html.HiddenFor( model => model.IMS_PR_ROAD_CODE)
+            </td>
+            </td>
+            <td class="start">{% if (!o.options.autoUpload) { %}
+                <button class="btn btn-primary">
+                    <i class="icon-upload icon-white"></i>
+                    <span>Upload</span>
+                </button>
+            {% } %}</td>
+        {% } else { %}
+            <td colspan="2"></td>
+        {% } %}
+        <td class="cancel">{% if (!i) { %}
+            <button class="btn btn-warning">
+                <i class="icon-ban-circle icon-white"></i>
+                <span>Cancel</span>
+            </button>
+        {% } %}</td>
+    </tr>
+    {% } %}
+    </script>
+
+
+    <script id="template-download" type="text/x-tmpl">
+        {% for (var i=0, file; file=o.files[i]; i++) { %}
+            <tr class="template-download fade">
+                {% if (file.error) { %}
+                    <td></td>
+                    <td class="name"><span>{%=file.name%}</span></td>
+                    <td class="size"><span>{%=o.formatFileSize(file.size)%}</span></td>
+                    <td class="error" colspan="2"><span class="label label-important">File Uploading Failed.Please try again.</span></td>
+                    <td class="delete">
+                    <button class="btn btn-danger" data-type="{%=file.delete_type%}" data-url="{%=file.delete_url%}"{% if (file.delete_with_credentials) { %} data-xhr-fields='{"withCredentials":true}'{% } %}>
+                        <i class="icon-trash icon-white"></i>
+                        <span>Delete</span>
+                    </button>
+                </td>
+                {% } %}
+            </tr>
+        {% } %}
+    </script>*@
+@if (ViewBag.HideATRFileList == false)
+{
+    <div id="dvPDFFiles" style="margin-top:20px; width:100%">
+        <table id="tbPDFFilesList"></table>
+        <div id="dvPDFFilesListPager"></div>
+    </div>
+}
+else if (ViewBag.HideATRFileList == true)
+{
+    <div id="dvPDFFiles" style="margin-top:20px; width:100%;display:none">
+        <table id="tbPDFFilesList"></table>
+        <div id="dvPDFFilesListPager"></div>
+    </div>
+}
+
+@*Below Code is Added on 30-01-2023*@
+<br />
+<br />
+<div id="dvVerificationATR_Grid">
+
+    <table id="tblVerificationATR_Grid" style="width:80%; height:auto">
+    </table>
+    <div id="divPagerVerificationATR_Grid" style="margin-bottom: 20px;">
+    </div>
+</div>

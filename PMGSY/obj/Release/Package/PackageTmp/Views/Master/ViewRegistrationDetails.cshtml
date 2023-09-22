@@ -1,0 +1,124 @@
+﻿@model PMGSY.Models.Master.MasterContractorRegistrationViewModel
+@{
+    ViewBag.Title = "ViewRegistrationDetails";
+}
+
+<script src="~/Scripts/custom/Generic.js"></script>
+<script src="~/Scripts/jquery.ui.accordion.js"></script>
+<script src="~/Scripts/Master/ViewRegistrationDetails.js"></script>
+
+<div style="height: 20px; width: 100%; text-align: left; padding-top: 0.6em;" class="ui-state-default ui-corner-all">
+    &nbsp;&nbsp;Contractor Name : @Model.ContractorName
+
+</div>
+<div id="tabs">
+
+    <ul>
+        <li><a href="#tabs-1">Contractor Details</a></li>
+        <li><a href="#tabs-2">Contractor Registration Details</a></li>
+        <li><a href="#tabs-3">Contractor Bank Details</a></li>
+        <li><a href="#tabs-4" onclick="LoadRegistrationAgreementDetailGrid()">Agreement Details </a></li>
+        <li><a href="#tabs-5" onclick="LoadRegistrationMaintenanceDetailGrid()">Maintenance Details</a></li>
+        @*<li><a href="#tabs-6" onclick="LoadRegistrationPaymentDetailGrid()">Payment Details</a></li>*@
+    </ul>
+
+
+    <div id="tabs-1">
+    </div>
+    <div id="tabs-2">
+        @Html.HiddenFor(model => model.MAST_CON_ID)
+        @Html.HiddenFor(model => model.MAST_REG_CODE)
+        @Html.HiddenFor(model => model.EncryptedRegCode)
+        @Html.HiddenFor(model => model.EncryptedContractor)
+        @Html.HiddenFor(model => model.EncryptedContractorCode)
+        @*<table class="rowstyle ui-corner-all" id="tblProposal" style="border:black solid 1px; width:100%" cellpadding="3px">*@
+        @* <table id="Table1"  cellspacing="0" cellpadding="5px" class="rowstyle" style="margin-top:10px; text-align:left; border:ridge 0.1em #ccc; width:100%; padding-top:5px 5px 5px 5px;">
+    <tr>
+       @Html.HiddenFor(model=>model.MAST_CON_ID)
+        @Html.HiddenFor(model=>model.MAST_REG_CODE)
+        @Html.HiddenFor(model=>model.EncryptedRegCode)
+        @Html.HiddenFor(model=>model.EncryptedContractor)
+    </tr>
+    <tr>
+        <td>
+            @Html.Label("Contractor/Supplier Name")
+        </td>
+        <td>
+            @Html.DisplayFor(model=>model.ContractorName)
+        </td>
+        <td>
+            @Html.Label("Class Type")
+        </td>
+        <td>
+            @Html.DisplayFor(model=>model.ContractorClassType)
+        </td>
+    </tr>
+    <tr>
+        <td>
+            @Html.LabelFor(model=>model.MAST_CON_VALID_FROM)
+        </td>
+        <td>
+            @Html.DisplayFor(model=>model.MAST_CON_VALID_FROM)
+        </td>
+        <td>
+            @Html.LabelFor(model=>model.MAST_CON_VALID_TO)
+        </td>
+        <td>
+            @Html.DisplayFor(model=>model.MAST_CON_VALID_TO)
+        </td>
+    </tr>
+    <tr>
+        <td>
+            @Html.LabelFor(model=>model.MAST_CON_REG_NO)
+        </td>
+        <td>
+            @Html.DisplayFor(model=>model.MAST_CON_REG_NO)
+        </td>
+        <td>
+            @Html.LabelFor(model=>model.MAST_REG_OFFICE)
+        </td>
+        <td>
+            @Html.DisplayFor(model=>model.MAST_REG_OFFICE)
+        </td>
+    </tr>
+</table>*@
+        <table id="tblContrRegDetailsListView">
+        </table>
+        <div id="dvPagerContrRegDetailsView">
+        </div>
+
+    </div>
+    <div id="tabs-3">
+        <table id="tblBankDetailsListView">
+        </table>
+        <div id="dvPagerBankDetailsView">
+        </div>
+    </div>
+
+    <div id="tabs-4">
+        <div id="divRegistrationAgreementDetail" style="width: 100%; margin-top: 2px;">
+            <table id="tbRegistrationAgreementDetailReport"></table>
+            <div id="dvRegistrationAgreementDetailReportPager"></div>
+        </div>
+    </div>
+    @* End of Contractor Agreement Detail *@
+
+    @* Start of Contractor Maintenance Detail tab *@
+    <div id="tabs-5">
+        <div id="divRegistrationMaintenanceDetail" style="width: 100%; margin-top: 2px;">
+            <table id="tbRegistrationMaintenanceDetailReport"></table>
+            <div id="dvRegistrationMaintenanceDetailReportPager"></div>
+        </div>
+    </div>
+    @* End of Contractor Agreement Detail *@
+
+    @* Start of Contractor Payment Detail tab *@
+    @*<div id="tabs-6">
+        <div id="divRegistrationPaymentDetail" style="width: 100%; margin-top: 2px;">
+            <table id="tbRegistrationPaymentDetailReport"></table>
+            <div id="dvRegistrationPaymentDetailReportPager"></div>
+        </div>
+    </div>*@
+
+    @* End of Contractor Payment Detail *@
+</div>

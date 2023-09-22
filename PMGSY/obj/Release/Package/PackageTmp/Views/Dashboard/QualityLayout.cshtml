@@ -1,0 +1,160 @@
+﻿@*
+    * Project Id    :
+    * Project Name  :   OMMAS II
+    * Name          :   QualityLayout.cshtml
+    * Description   :   Renders Layout for Quality Details
+    * Author        :   Shyam Yadav
+    * Creation Date :   11/Oct/2013    
+*@
+@{Layout = null;}
+@model PMGSY.Models.Dashboard.WBankDashboardLayoutViewModel
+
+<script src="~/Scripts/Dashboard/QualityLayout.js"></script>
+
+<form id="frmDashboardQuality">
+    @Html.HiddenFor(model => model.MAST_STATE_CODE_QUALITY)
+    @Html.HiddenFor(model => model.MAST_DISTRICT_CODE_QUALITY)
+    @Html.Hidden("hdnQualityLevelId", PMGSY.Extensions.PMGSYSession.Current.LevelId.ToString())
+    @Html.Hidden("hdnQualityStateCode", PMGSY.Extensions.PMGSYSession.Current.StateCode.ToString())
+    @if (PMGSY.Extensions.PMGSYSession.Current.StateCode != 0)
+    {
+       @Html.Hidden("hdnQualityStateName", PMGSY.Extensions.PMGSYSession.Current.StateName.ToString())
+    }
+    @Html.Hidden("hdnQualityDistrictCode", PMGSY.Extensions.PMGSYSession.Current.DistrictCode.ToString())
+    @if (PMGSY.Extensions.PMGSYSession.Current.DistrictCode != 0)
+    {
+        @Html.Hidden("hdnQualityDistrictName", PMGSY.Extensions.PMGSYSession.Current.DistrictName.ToString())
+    }
+
+
+@* Mord or NRRDA or National  *@
+@if(PMGSY.Extensions.PMGSYSession.Current.LevelId == 6 || PMGSY.Extensions.PMGSYSession.Current.LevelId == 2 || PMGSY.Extensions.PMGSYSession.Current.LevelId == 3)
+{
+        <div id="divQualityDeatilsTab" style="width:99%;height:100%; border:none; background-color:#FFF;margin-top:-5px;margin-left:-25px;">
+            <ul>
+                <li><a href="#divQualityDeatilsTab-1">State</a></li>
+                <li><a href="#divQualityDeatilsTab-2">District</a></li>
+            </ul>
+
+            <div id="divQualityDeatilsTab-1" style="width: 97%;height:100%;background-color:#FFF;margin-left:0px;">
+                    <div>
+                        <div id="divQualitySecion1" style="width: 50%;margin-left:-15px;float:left;" >
+                            <table id="tbStatewiseInspectionDetailsList"></table>
+                            <div id="dvStatewiseInspectionDetailsListPager"></div>
+                        </div>
+
+                        <div id="divQualitySecion2" style="width: 50%;margin-left:1px;float:right;">
+                            <table id="tbMonitorwiseCompAndProgressGradeList"></table>
+                            <div id="dvMonitorwiseCompAndProgressGradeListPager"></div>
+                        </div>
+                    </div>
+            
+                    <div style="overflow: auto; margin-left: -15px; margin-top: 10px; margin-bottom: 5px; height: 98%; width: 50.5%; float: left" class="ui-corner-all">
+                        <div id="" class="ui-corner-all" style="display: block; border: 1px solid #B5B8C8; height:100%">
+                            <div id="divQualityPieChart" style="width: 95%; height:250px; padding:0px 10px 0px 0px;" >
+                           
+                            </div>
+                        </div>
+                    </div>
+
+
+                    <div style="overflow: auto; margin-left: -5px; margin-top: 10px; margin-bottom: 5px; height: 98%; width: 50%; float: right" class="ui-corner-all">
+                        <div id="" class="ui-corner-all" style="display: block; border: 1px solid #B5B8C8; height:100%">
+                            <div id="divQualityLineChart" style="width: 95%; height:250px; padding:0px 10px 0px 0px;" >
+                           
+                            </div>
+                        </div>
+                    </div>
+
+                    <div style="overflow: auto; margin-left: -23px; margin-top: 10px; margin-bottom: 5px; height: 98%; width: 101%;" class="ui-corner-all">
+                        <div id="divQualityColumnChartParent" class="ui-corner-all" style="display: block; border: 1px solid #B5B8C8; height:100%; display:none;" >
+                            <div id="divQualityColumnChart" style="width: 95%; height:280px; padding:10px 10px 0px 0px;" >
+                           
+                            </div>
+                        </div>
+                    </div>
+
+            
+            </div>
+
+            <div id="divQualityDeatilsTab-2" style="width: 97%;height:100%;background-color:#FFF;margin-left:0px;">
+                    <div>
+                        <div style="width: 50%;margin-left:-15px;float:left;" >
+                            <table id="tbDistrictwiseInspectionDetailsList"></table>
+                            <div id="dvDistrictwiseInspectionDetailsListPager"></div>
+                            </div>
+
+                        <div style="width: 50%;margin-left:1px;float:right;">
+                            <table id="tbMonitorsStatewiseCompAndProgressGradeList"></table>
+                            <div id="dvMonitorsStatewiseCompAndProgressGradeListPager"></div>
+                        </div>
+                    </div>
+            
+                    <div style="overflow: auto; margin-left: -15px; margin-top: 10px; margin-bottom: 5px; height: 98%; width: 50.5%; float: left" class="ui-corner-all">
+                        <div id="" class="ui-corner-all" style="display: block; border: 1px solid #B5B8C8; height:100%">
+                            <div id="divQualityStatePieChart" style="width: 95%; height:250px; padding:10px 10px 0px 0px;" >
+                           
+                            </div>
+                        </div>
+                    </div>
+
+
+                    <div style="overflow: auto; margin-left: -5px; margin-top: 10px; margin-bottom: 5px; height: 98%; width: 50%; float: right" class="ui-corner-all">
+                        <div id="" class="ui-corner-all" style="display: block; border: 1px solid #B5B8C8; height:100%">
+                            <div id="divQualityStateLineChart" style="width: 95%; height:250px; padding:10px 10px 0px 0px;" >
+                           
+                            </div>
+                        </div>
+                    </div>
+
+                    <div style="overflow: auto; margin-left: -23px; margin-top: 10px; margin-bottom: 5px; height: 98%; width: 101%;" class="ui-corner-all">
+                        <div id="divQualityStateColumnChartParent" class="ui-corner-all" style="display: block; border: 1px solid #B5B8C8; height:100%; display:none;">
+                            <div id="divQualityStateColumnChart" style="width: 95%; height:280px; padding:10px 10px 0px 0px;" >
+                           
+                            </div>
+                        </div>
+                    </div>
+            </div>
+        </div>
+}
+else if (PMGSY.Extensions.PMGSYSession.Current.LevelId == 4) //State
+{
+            <div>
+                <div style="width: 50%;margin-left:-15px;float:left;" >
+                    <table id="tbDistrictwiseInspectionDetailsList"></table>
+                    <div id="dvDistrictwiseInspectionDetailsListPager"></div>
+                    </div>
+
+                <div style="width: 50%;margin-left:1px;float:right;">
+                    <table id="tbMonitorsStatewiseCompAndProgressGradeList"></table>
+                    <div id="dvMonitorsStatewiseCompAndProgressGradeListPager"></div>
+                </div>
+            </div>
+            
+            <div style="overflow: auto; margin-left: -15px; margin-top: 10px; margin-bottom: 5px; height: 98%; width: 50.5%; float: left" class="ui-corner-all">
+                <div id="" class="ui-corner-all" style="display: block; border: 1px solid #B5B8C8; height:100%">
+                    <div id="divQualityStatePieChart" style="width: 95%; height:250px; padding:10px 10px 0px 0px;" >
+                           
+                    </div>
+                </div>
+            </div>
+
+
+            <div style="overflow: auto; margin-left: -5px; margin-top: 10px; margin-bottom: 5px; height: 98%; width: 50%; float: right" class="ui-corner-all">
+                <div id="" class="ui-corner-all" style="display: block; border: 1px solid #B5B8C8; height:100%">
+                    <div id="divQualityStateLineChart" style="width: 95%; height:250px; padding:10px 10px 0px 0px;" >
+                           
+                    </div>
+                </div>
+            </div>
+
+            <div style="overflow: auto; margin-left: -23px; margin-top: 10px; margin-bottom: 5px; height: 98%; width: 101%; float:left;" class="ui-corner-all">
+                <div id="divQualityStateColumnChartParent" class="ui-corner-all" style="display: block; border: 1px solid #B5B8C8; height:100%; display:none;">
+                    <div id="divQualityStateColumnChart" style="width: 95%; height:280px; padding:10px 10px 0px 0px;" >
+                           
+                    </div>
+                </div>
+            </div>
+}
+   
+</form>

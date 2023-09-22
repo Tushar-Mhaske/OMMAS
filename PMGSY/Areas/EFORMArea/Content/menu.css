@@ -1,0 +1,51 @@
+﻿/*
+ * jQuery UI Menubar @VERSION
+ *
+ * Copyright 2011, AUTHORS.txt (http://jqueryui.com/about)
+ * Dual licensed under the MIT or GPL Version 2 licenses.
+ * http://jquery.org/license
+ */
+/*.ui-menubar { list-style: none; margin: 0; padding-left: 0; }
+
+.ui-menubar-item { float: left; }
+
+.ui-menubar .ui-button { float: left; font-weight: normal; border-top-width: 0 !important; border-bottom-width: 0 !important; margin: 0; outline: none; }
+.ui-menubar .ui-menubar-link { border-right: 1px dashed transparent; border-left: 1px dashed transparent; }
+
+.ui-menubar .ui-menu { width: 200px; position: absolute; z-index: 9999; font-weight: normal; }
+
+
+#bar1, #bar2 {
+    margin: 0 0 4em;
+} */
+
+
+.ui-menubar { list-style: none; margin: 0; padding-left: 0;  
+               border-radius:4px;
+                              -moz-border-radius:4px;}
+
+.ui-menubar-item { float: left;font-weight:normal }
+
+.ui-menubar .ui-button { float: left; font-weight: normal; 
+                         border-top-width: 0 !important;
+                          border-bottom-width: 0 !important;
+                           margin: 0; outline: none; 
+                             border-radius:4px;
+                              -moz-border-radius:4px;
+                               margin: 0 0.05em 0 0.05em
+                           }
+.ui-menubar .ui-menubar-link  
+{
+                               border-right: 1px dashed transparent; 
+                               border-left: 1px dashed transparent; 
+                               border-radius:4px;
+                              -moz-border-radius:4px;
+                             
+ }
+
+.ui-menubar .ui-menu { width: 200px; position: absolute; z-index: 9999 }
+
+
+#bar1, #bar2 {
+    margin: 0 0 3em;
+}

@@ -1,0 +1,137 @@
+﻿@*
+    * Project Id    :
+    * Project Name  :   OMMAS II
+    * Name          :   PhysicalLayout.cshtml
+    * Description   :   Renders Layout for Technical Details
+    * Author        :   Shyam Yadav
+    * Creation Date :   10/Oct/2013    
+*@
+@*@{Layout = null;}*@
+@model PMGSY.Models.Dashboard.WBankDashboardLayoutViewModel
+
+<script src="~/Scripts/Dashboard/drilldown.js"></script>
+<script src="~/Scripts/HighChart/exporting.js"></script>
+<script src="~/Scripts/jquery.validate.min.js"></script>
+<script src="~/Scripts/jquery.validate.unobtrusive.min.js"></script>
+
+<script src="~/Scripts/Dashboard/PhysicalLayout.js"></script>
+
+
+<form id="frmPhysicalLayout">
+    @Html.HiddenFor(model => model.MAST_STATE_CODE_PHYSICAL)
+    @Html.HiddenFor(model => model.MAST_DISTRICT_CODE_PHYSICAL)
+    @Html.Hidden("hdnLevelId", PMGSY.Extensions.PMGSYSession.Current.LevelId.ToString())
+    @Html.Hidden("hdnStateCode", PMGSY.Extensions.PMGSYSession.Current.StateCode.ToString())
+    @if (PMGSY.Extensions.PMGSYSession.Current.StateCode != 0)
+    {
+        @Html.Hidden("hdnStateName", PMGSY.Extensions.PMGSYSession.Current.StateName.ToString())
+    }
+    @Html.Hidden("hdnDistrictCode", PMGSY.Extensions.PMGSYSession.Current.DistrictCode.ToString())
+    @if (PMGSY.Extensions.PMGSYSession.Current.DistrictCode != 0)
+    {
+        @Html.Hidden("hdnDistrictName", PMGSY.Extensions.PMGSYSession.Current.DistrictName.ToString())
+    }
+
+    <div id="divPhysicalSecion1Tab" style="width: 99%; height: 100%; margin-left: -25px;">
+        @if (PMGSY.Extensions.PMGSYSession.Current.LevelId == 6)     //Mord
+    {
+            <div style="width: 99%; margin-left: -15px;">
+                <table id="tbTechnicalDetailsStateList"></table>
+                <div id="dvTechnicalDetailsStateListPager"></div>
+            </div>
+            <div style="width: 100%; margin-top: 5px; margin-left: -15px;">
+                <table id="tbTechnicalDetailsDistrictList"></table>
+                <div id="dvTechnicalDetailsDistrictListPager"></div>
+            </div>
+            <div style="width: 100%; margin-top: 5px; margin-left: -15px;">
+                <table id="tbTechnicalDetailsBlockList"></table>
+                <div id="dvTechnicalDetailsBlockListPager"></div>
+            </div>
+    }
+    else if (PMGSY.Extensions.PMGSYSession.Current.LevelId == 4)     //State
+    { 
+            <div style="width: 100%; margin-top: 5px; margin-left: -15px;">
+                <table id="tbTechnicalDetailsDistrictList"></table>
+                <div id="dvTechnicalDetailsDistrictListPager"></div>
+            </div>
+            <div style="width: 100%; margin-top: 5px; margin-left: -15px;">
+                <table id="tbTechnicalDetailsBlockList"></table>
+                <div id="dvTechnicalDetailsBlockListPager"></div>
+            </div>
+    }
+    else if (PMGSY.Extensions.PMGSYSession.Current.LevelId == 5)     //District
+    { 
+            <div style="width: 100%; margin-top: 5px; margin-left: -15px;">
+                <table id="tbTechnicalDetailsBlockList"></table>
+                <div id="dvTechnicalDetailsBlockListPager"></div>
+            </div>
+    }
+    </div>
+
+
+    <div id="divPhysicalSecion2Tab" style="width: 99%; background-color: #FFF; margin-top: 0px; margin-left: -25px;">
+        <ul>
+            @*Added By Abhishek kamble 12Mar2015  *@
+            <li><a href="#divPhysicalSection2Tab-4" onclick="loadWorkLengthExpYearWiseChartDetails();">Year Wise</a></li>
+            <li><a href="#divPhysicalSection2Tab-5" onclick="loadWorkLengthExpStateWiseChartDetails();">State Wise</a></li>
+            @*<li><a href="#divPhysicalSecion2Tab-1">Works</a></li>
+        <li><a href="#divPhysicalSecion2Tab-2" onclick="loadLengthChartDetails();">Length</a></li>
+        <li><a href="#divPhysicalSecion2Tab-3" onclick="loadCostChartDetails();">Expenditure</a></li>*@
+            <div id="divChartLabel" style="float: right; width: 20%; text-align: right; margin: 0px 30px 3px -15px; font-size: 12px; color: #7D0000; background-color: #FFF;">
+                @if (PMGSY.Extensions.PMGSYSession.Current.LevelId == 6)     //Mord
+            {
+                    <b>All States </b>
+            }
+            else if (PMGSY.Extensions.PMGSYSession.Current.LevelId == 4)     //State
+            {
+                    <b>@PMGSY.Extensions.PMGSYSession.Current.StateName.ToString() </b>
+            }
+            else if (PMGSY.Extensions.PMGSYSession.Current.LevelId == 5)     //District
+            {
+                    <b>@PMGSY.Extensions.PMGSYSession.Current.DistrictName.ToString() </b>
+            }
+
+            </div>
+        </ul>
+        @*Added By Abhishek kamble 12Mar2015  *@
+        <div id="divPhysicalSection2Tab-4" style="width: 97%; height: 100%; background-color: #FFF; margin-left: 0px;">
+
+            <div id="dvWorkLengthExpYearWiseGridContainer" style="width: 99%; margin-left: 15px;">
+                <table id="tblWorkLengthExpYearWiseGrid"></table>
+                <div id="dvWorkLengthExpYearWiseGridPager"></div>
+            </div>
+
+            <div id="divWorkLengthExpYearWiseChartContainer" style="width: 1100px; height: 300px;"></div>
+
+        </div>
+        <div id="divPhysicalSection2Tab-5" style="width: 97%; height: 100%; background-color: #FFF; margin-left: 0px;">
+            <div id="dvWorkLengthExpStateWiseGridContainer" style="width: 99%; margin-left: 15px;">
+                <table id="tblWorkLengthExpStateWiseGrid"></table>
+                <div id="dvWorkLengthExpStateWiseGridPager"></div>
+            </div>
+            <div id="divWorkLengthExpStateWiseChartContainer" style="width: 1100px; height: 300px;"></div>
+        </div>
+           
+        @*   <div id="divPhysicalSecion2Tab-1" style="width: 97%;height:100%;background-color:#FFF;margin-left:0px;">
+            <div id="divWorksChartContainer" style="width:1100px;height:300px;"></div>
+    </div>
+
+
+    <div id="divPhysicalSecion2Tab-2" style="width: 97%;height:100%;background-color:#FFF;margin-left:0px;">
+           <div style="width:1100px;height:20px;text-align:right;margin-left:-25px;">
+               @Html.RadioButtonFor(model => model.PROPOSAL_TYPE, "P", new { @id = "rdoRoad" }) Road
+               @Html.RadioButtonFor(model => model.PROPOSAL_TYPE, "L", new { @id = "rdoBridge" }) LSB
+           </div>
+           <div id="divLengthChartContainer" style="width:1100px;height:280px;"></div>
+    </div>
+
+
+    <div id="divPhysicalSecion2Tab-3" style="width: 97%;height:100%;background-color:#FFF;margin-left:0px;">
+          <div id="divCostChartContainer" style="width:1100px;height:300px;"></div>
+    </div>*@
+     <span style="color: #7D0000; margin-left:-680px">Note : All Works are in numbers, amounts are in Crore & lengths are in Km. </span>
+
+    </div>
+
+</form>
+

@@ -1,0 +1,76 @@
+﻿@model PMGSY.Models.Report.ImprestSettlementViewModel
+
+@{
+    ViewBag.Title = "GetImprestHeaderInfo";
+}
+
+<div>
+    <div id="rptHeaderDesc" class="CBHeader ui-state-default ui-corner-all" style="margin-top:20px">
+    <table class="ui-state-default ui-corner-all" style="border: 0.1em solid gray; width: 100%; margin-top: 1px" id="rptMAAnnex">
+        <tr>
+            <td colspan="6" style="color: green;text-align:right">@Html.DisplayFor(model=>model.ReportFormNumber)</td>
+        </tr>
+        <tr>
+            <td colspan="6" style="color: green;text-align:center">@Html.DisplayFor(model=>model.FundTypeName)</td>
+        </tr>
+        <tr>
+            <td colspan="6" style="color: green;text-align:center">@Html.DisplayFor(model=>model.ReportName)</td>
+        </tr>
+        <tr>
+            <td colspan="6" style="color: green;text-align:center">@Html.DisplayFor(model=>model.ReportParagraphName)</td>
+        </tr>
+        <tr>
+            <td colspan="6"><br /></td>
+        </tr>
+        <tr>
+            <td style="color:green;font-weight:bold;width:20%">@Html.Label("Report Type : ") </td>
+            <td style="font-weight:bold;width:30%">
+                @if (Model.ReportLevel == "S")
+                {
+                    <label>SRRDA</label> 
+                }
+                else
+                {
+                    <label>DPIU</label> 
+                }
+            </td>
+            <td style="color:green;font-weight:bold;width:20%;">@Html.Label("Financial Year : ") </td>
+            <td style="font-weight:bold;width:10%;">@Html.DisplayFor(model=>model.FinancialYear) - @(Model.FinancialYear + 1)</td>
+        </tr>
+        <tr>
+            <td style="color:green; font-weight:bold">
+                
+                @if((Model.ReportLevel == "D"))
+                {
+                    @Html.Label("State - Name Of DPIU") @Html.Label(" :")
+                }
+                else
+                {
+                    @Html.Label("State - ") @Html.LabelFor(m=>m.StateName) @Html.Label(" :")
+                }
+            </td>    
+            <td style="font-weight:bold">
+                @if((Model.ReportLevel == "D"))
+                {
+                    <label>@Model.StateName-@Model.DPIUName</label>
+                }
+                else
+                {
+                    <label>@Model.StateName-@Model.NodalAgency</label>
+                }
+            </td>    
+            <td style="font-weight:bold">
+                 @if (Model.ReportLevel == "D")
+                 {
+                    @Html.Label("Name of DPIU : ", new { @style="color:green"})
+                 }
+            </td>
+            <td style="font-weight:bold">
+                <label>@Model.DPIUName</label>
+            </td>
+            <td></td>
+            <td></td>
+        </tr>
+    </table>
+</div>
+</div>

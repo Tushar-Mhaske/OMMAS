@@ -1,0 +1,93 @@
+﻿@model PMGSY.Models.Report.ImprestSettlementViewModel
+@using PMGSY.Extensions;
+
+
+@{
+    ViewBag.Title = "ImprestSettlementDetails";
+}
+
+<script src="~/Scripts/custom/Generic.js"></script>
+<script src="~/Scripts/Report/ImprestSettlementDetail.js"></script>
+
+<div id="dvHeader" class="ui-widget-header innerDivHeader" style="margin-bottom: 05px; margin-top:5px;height: 20px;">
+         <label style="margin-left:5px">Imprest Register</label> 
+        <span style="float: right; margin-right: 2Px; margin-top: 2px" id="spnImprestSettlement" class="ui-icon ui-icon-circle-triangle-n"></span>
+</div>
+<center>
+<div>
+    <form id="frmImprestSettlement">
+         @Html.AntiForgeryToken()
+        @Html.HiddenFor(model=>model.LevelId)
+        <div class="CBHeader ui-state-default ui-corner-all" style ="background:none;" id="dvFilterForm">
+            <div id="divError" class="ui-state-error ui-corner-all" style="text-align: left; display: none; width: 100%">
+                <span class="ui-icon ui-icon-alert" style="float: left;"></span>                   
+                <span></span>
+            </div>
+        </div>
+        <table id="tblImprestSettlement" class="ui-state-default ui-corner-all" style="border:0.1em solid gray; background:none; width:100%; margin-top:1px">
+            <tr>
+                @if(PMGSYSession.Current.LevelId != 5)
+                {
+                    <td style="width:10%"></td>
+                    <td style="width:20%">@Html.LabelFor(model=>model.ReportLevel):</td>
+                    <td style ="width:20%">
+                        @Html.RadioButtonFor(model => model.ReportLevel, "S", new {@id="rdbSrrda",@title="SRRDA",@checked="checked" })
+                        @Html.Label("SRRDA")
+                    </td>
+                    <td style="width:10%">
+                        @Html.RadioButtonFor(model => model.ReportLevel, "D", new {@id="rdbDpiu",@title="DPIU" })
+                        @Html.Label("DPIU")
+                    </td>
+                    <td></td>
+                    <td></td>
+                }
+            </tr>
+            @if(PMGSYSession.Current.LevelId != 5)
+            {
+             <tr class="trSrrdaDpiu">
+                <td style="width:10%"></td>
+                <td style="width:20%;">@Html.LabelFor(model=>model.SrrdaAdminCode):</td>
+                <td>
+                    @if(PMGSYSession.Current.LevelId == 4)
+                    {
+                        @Html.DropDownListFor(model => model.SrrdaAdminCode, new SelectList(Model.lstSrrda,"Value","Text"), new {@id="ddlSrrda",@title="Select Nodal Agency",@disabled="disabled" })
+                        @Html.ValidationMessageFor(model=>model.SrrdaAdminCode)
+                    }
+                    else
+                    {
+                        @Html.DropDownListFor(model => model.SrrdaAdminCode, new SelectList(Model.lstSrrda,"Value","Text"), new {@id="ddlSrrda",@title="Select Nodal Agency" })
+                        @Html.ValidationMessageFor(model=>model.SrrdaAdminCode)
+                    }
+                </td>
+                <td class="tdDpiu" style="width:10%;">@Html.LabelFor(model=>model.DpiuAdminCode):</td>
+                <td class="tdDpiu">
+                    @Html.DropDownListFor(model => model.DpiuAdminCode, Model.lstDpiu, new {@id="ddlDpiu",@title="Select DPIU" })
+                    @Html.ValidationMessageFor(model=>model.DpiuAdminCode)
+                </td>
+                 <td></td>
+            </tr>
+            }
+            <tr>
+                <td style="width:10%"></td>
+                <td style="width:20%;">@Html.LabelFor(model=>model.FinancialYear):</td>
+                <td colspan="4">
+                    @Html.DropDownListFor(model => model.FinancialYear, Model.lstFinancialYears, new {@id="ddlFinancialYear",@title="Financial Years" })
+                    @Html.ValidationMessageFor(model=>model.FinancialYear)
+                </td>
+            </tr>
+            <tr>
+                <td colspan="6">
+                    <center><input type="button" value="View Details" id="btnView" class="jqueryButton" title="View Imprest Settlement Details" style="text-align:center"/></center>
+                </td>
+            </tr>
+        </table>
+    </form>
+</div>
+<div id="dvHeaderInfo" style="display:none">
+    
+</div>
+<div style="margin-top:20px">
+    <table id="tblListImprests"></table>
+    <div id="dvlstImprests"></div>
+</div>
+</center>

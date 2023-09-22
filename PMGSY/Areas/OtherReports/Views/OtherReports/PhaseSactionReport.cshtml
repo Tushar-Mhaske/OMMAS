@@ -1,0 +1,18 @@
+﻿ @using MvcReportViewer
+<style>
+    .ui-widget-content {
+    background-color:white;
+    }
+</style>
+@model PMGSY.Areas.OtherReports.Models.PhaseSanctionModel
+
+@Html.MvcReportViewer("/PMGSYCitizen/NSP_Phase_Sanctioned_Report", new
+     {
+         State = Model.StateCode,
+         Year = Model.Year,
+         Batch = Model.Batch,
+         PMGSY = Model.PMGSY
+     },
+new { Height = 600, Width = "100%", style = "border:0.75px;" })
+
+

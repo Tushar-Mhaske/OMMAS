@@ -1,0 +1,427 @@
+﻿@model PMGSY.Models.CoreNetwork.CoreNetworkViewModel
+
+<script src="~/Scripts/custom/Generic.js"></script>
+<script src="~/Scripts/CoreNetwork/AddEditRCPLWE.js"></script>
+
+
+<form id="frmAddRCPLWE">
+    <div style="margin-left: 100px">
+        @Html.ValidationSummary(true)
+        @Html.AntiForgeryToken()
+    </div>
+    <div id="divError" class="ui-state-error ui-corner-all" style="text-align: left; display: none; width: 100%">
+        <span class="ui-icon ui-icon-alert" style="float: left;"></span>
+        <span></span>
+    </div>
+    <center>
+    <div style="height:20px; width: 100%; text-align:left; padding-top: 0.6em;" class="ui-state-default ui-corner-all" > 
+         &nbsp;&nbsp; &nbsp; &nbsp;<strong>Block:</strong>@Model.BLOCK_NAME
+         &nbsp;( <strong> Note :</strong>  Fields marked with * are mandatory.)
+    </div>
+        <table id="Table1"  cellspacing="0" cellpadding="3px" class="rowstyle" style="margin-top:10px; text-align:left; border:ridge 0.1em #ccc; width:100%; padding-top:5px 5px 5px 5px;">
+        <tr></tr>
+        <tr>
+            <td style="width:8%;">
+                @Html.HiddenFor(model => model.EncryptedRoadCode)
+                @Html.HiddenFor(model => model.MAST_DISTRICT_CODE)
+                @Html.HiddenFor(model => model.MAST_STATE_CODE)
+                @Html.HiddenFor(model => model.MAST_BLOCK_CODE)
+                @Html.HiddenFor(model => model.PLAN_CN_ROAD_CODE)
+                @Html.HiddenFor(model => model.ExistStartChainage)
+                @Html.HiddenFor(model => model.ExistEndChainage)
+                @if (Model.EncryptedRoadCode != null)
+                {
+                    @Html.HiddenFor(model => model.LockUnlockFlag, new { @id = "unlockFlag" })
+                    @Html.HiddenFor(model => model.RD_FROM)   
+                    @Html.HiddenFor(model => model.RD_TO)   
+                    @Html.HiddenFor(model => model.FROM_TYPE)
+                    @Html.HiddenFor(model => model.TO_TYPE)
+                    @Html.HiddenFor(model => model.NUM_FROM)
+                    @Html.HiddenFor(model => model.NUM_TO)
+                    @Html.HiddenFor(model => model.PLAN_RD_FROM_CHAINAGE)
+                    @Html.HiddenFor(model => model.PLAN_RD_TO_CHAINAGE)
+                    @Html.HiddenFor(model => model.BLOCK_NAME)
+                    @Html.HiddenFor(model => model.ROAD_CODE)
+                    @*@Html.HiddenFor(model => model.PLAN_RD_NAME)*@
+                }
+           </td>
+           <td  style="text-align:left;width:15%;">
+                    @Html.Label("Category")<label style="color:red"> *</label>
+            </td>
+                    <td  style="width:32%;">
+                        @if (Model.EncryptedRoadCode == null)
+                        {
+                            @Html.DropDownList("Category", ViewData["Category"] as IEnumerable<SelectListItem>, new { @id = "ddlRoadCategory", @title = "Select Road Category", @tabindex = 1 })
+                            <label id="msgValidationCategory"></label>
+                        }
+                        else
+                        {
+                            <label>@ViewBag.RoadCategory</label>
+                            
+                        }
+                    </td>
+                    <td style="width:18%">
+                        @Html.Label("DRRP Road Code")
+                    </td>
+                    <td>
+                        @if (Model.EncryptedRoadCode == null)
+                        {
+                            <label id="lblRoadCode"></label>
+                        }
+                        else
+                        {
+                            <label>@Model.ROAD_CODE</label>
+                            @Html.HiddenFor(model => model.MAST_ER_ROAD_CODE)
+                        }
+                    </td>
+              </tr>
+            
+              <tr>
+                  <td></td>
+                  <td>
+                      @Html.LabelFor(model => model.MAST_ER_ROAD_CODE)<label style="color:red"> *</label>
+                  </td>
+                  <td colspan="4">
+                      @if (Model.EncryptedRoadCode == null)
+                      {
+                          @Html.DropDownListFor(model => model.MAST_ER_ROAD_CODE, Model.RoadCode, new { @id = "ddlRoadCode", @title = "Select Road Name", @placeholder = "Select Road Name...", @tabindex = 2 })
+                          @Html.ValidationMessageFor(model => model.MAST_ER_ROAD_CODE)
+                      }
+                      else
+                      {
+                          @*<label>@Model.PLAN_RD_NAME</label>*@
+                          @Html.TextBoxFor(model => model.PLAN_RD_NAME, new { @id = "txtRoadName", @title = "Enter Road Name", @tabindex = 8, @maxlength = 200 })
+                      }
+                  </td>
+              </tr>
+            @*  Commented for RCPLWE insert default values 
+            <tr>
+                  <td></td>
+                  <td>
+                      @Html.LabelFor(model => model.PLAN_RD_ROUTE)<label style="color:red"> *</label>
+                  </td>
+                  <td>
+                      @if (Model.EncryptedRoadCode == null)
+                      {
+                          @Html.DropDownListFor(model => model.PLAN_RD_ROUTE, Model.RouteType, new { @id = "ddlRoadRoute", @title = "Select Route Type", @tabindex = 3 })
+                          @Html.ValidationMessageFor(model => model.PLAN_RD_ROUTE)
+                      }
+                      else
+                      {
+                          @Html.DropDownListFor(model => model.PLAN_RD_ROUTE, Model.RouteType, new { @id = "ddlRoadRoute", @title = "Select Route Type", @tabindex = 3 })
+                          @Html.ValidationMessageFor(model => model.PLAN_RD_ROUTE)
+                      }
+                  </td>
+                  <td>
+                      @Html.LabelFor(model => model.PLAN_CN_ROAD_NUMBER)<label style="color:red">*</label>
+                  </td>
+                  <td>
+                      @if (Model.EncryptedRoadCode == null)
+                      {
+                          @Html.DropDownListFor(model => model.PLAN_CN_ROAD_NUMBER, ViewData["RoadNumber"] as IEnumerable<SelectListItem>, new { @id = "ddlRoadNumber", @title = "Select Road Number", @tabindex = 4 })
+                          @Html.ValidationMessageFor(model => model.PLAN_CN_ROAD_NUMBER)
+                      }
+                      else
+                      {
+                          @Html.DropDownListFor(model => model.PLAN_CN_ROAD_NUMBER, ViewData["RoadNumber"] as IEnumerable<SelectListItem>, new { @id = "ddlRoadNumber", @title = "Select Road Number", @tabindex = 4 })
+                          @Html.ValidationMessageFor(model => model.PLAN_CN_ROAD_NUMBER)
+                          //@Html.DisplayFor(model => model.PLAN_CN_ROAD_NUMBER)
+                          //@Html.HiddenFor(model => model.PLAN_CN_ROAD_NUMBER)
+                      }
+                  </td>
+              </tr>
+            *@
+              <tr>
+                  <td></td>
+                  <td>
+                      @Html.LabelFor(model => model.PLAN_RD_LENG)<label style="color:red">*</label>
+                  </td>
+                  <td>
+                      @if (Model.EncryptedRoadCode == null)
+                      {
+                          @Html.RadioButtonFor(model => model.PLAN_RD_LENG, "P", new { @id = "radioRoadLengthPartly", @tabindex = 5 })
+                          <label><b>Partly</b></label>
+                          @Html.RadioButtonFor(model => model.PLAN_RD_LENG, "F", new { @id = "radioRoadLengthFully", @checked = "checked", @tabindex = 6 })
+                          <label><b>Fully</b></label>
+                      }
+                      else
+                      {
+                          @Html.RadioButtonFor(model => model.PLAN_RD_LENG, "P", new { @id = "radioRoadLengthPartly", @tabindex = 5 })
+                          <label><b>Partly</b></label>
+                          @Html.RadioButtonFor(model => model.PLAN_RD_LENG, "F", new { @id = "radioRoadLengthFully", @tabindex = 6 })
+                          <label><b>Fully</b></label>
+                      }
+                  </td>
+                  <td>
+                      @Html.LabelFor(model => model.PLAN_RD_LENGTH)<label style="color:red">*</label>
+                  </td>
+                  <td>
+                      <span id="txtRoadLength" style="text-align:left"> </span>
+                     @Html.HiddenFor(model => model.PLAN_RD_LENGTH)
+                  </td>
+              </tr>
+              <tr id="rowChainage">
+                  <td></td>
+                  <td>
+                      Existing Start Chainage(in Km)
+                  </td>
+                  <td>
+                      <label id="lblStartChainage"></label>
+                  </td>
+                  <td>
+                      Existing End Chainage(in Km)
+                  </td>
+                  <td>
+                      <label id="lblEndChainage"></label>
+                  </td>
+              </tr>
+              <tr>
+                  <td></td>
+                  <td>
+                      @Html.LabelFor(model => model.PLAN_RD_FROM_CHAINAGE)<label style="color:red">*</label>
+                  </td>
+                  <td>
+                      @Html.TextBoxFor(model => model.PLAN_RD_FROM_CHAINAGE, new { @id = "txtRoadFromChainage", @title = "Enter Start Chainage", @placeholder = "Enter Start Chainage...", @readonly = true, @tabindex = 8, @maxlength = 8 })
+                      @Html.HiddenFor(model => model.PLAN_RD_FROM_CHAINAGE)
+                      @Html.ValidationMessageFor(model => model.PLAN_RD_FROM_CHAINAGE, "", new { @id = "validFromChainage" })
+                  </td>
+                  <td>
+                      @Html.LabelFor(model => model.PLAN_RD_TO_CHAINAGE)<label style="color:red">*</label>
+                  </td>
+                  <td>
+                      @Html.TextBoxFor(model => model.PLAN_RD_TO_CHAINAGE, new { @id = "txtRoadToChainage", @title = "Enter End Chainage", @placeholder = "Enter End Chainage...", @readonly = true, @tabindex = 9, @maxlength = 8 })
+                      @Html.HiddenFor(model => model.PLAN_RD_TO_CHAINAGE)
+                      @Html.ValidationMessageFor(model => model.PLAN_RD_TO_CHAINAGE, "", new { @id = "validToChainage" })
+                  </td>
+              </tr>
+
+           @* @if (PMGSY.Extensions.PMGSYSession.Current.PMGSYScheme == 2)
+            {
+              *@<tr>
+                  <td></td>
+                  <td>@Html.Label("Total Length of RCPLWE Road")<label style="color:red">*</label></td>
+                  <td colspan="3">
+                      @Html.TextBoxFor(model => model.TotalLengthOfCandidate, new { @id = "txtTotalCandidate", @title = "Enter Total Length of Candidate Road", @placeholder = "Enter Total Length of Road...", @tabindex = 9, @maxlength = 11 })
+                      @Html.ValidationMessageFor(model => model.TotalLengthOfCandidate)
+                  </td>
+              </tr>
+            @*}*@
+
+              <tr>
+                  <td></td>
+                  <td>
+                      @Html.LabelFor(model => model.PLAN_RD_FROM_TYPE)<label style="color:red">*</label>
+                  </td>
+                  <td>
+                      @if (Model.EncryptedRoadCode == null)
+                      {
+                          @Html.DropDownListFor(model => model.PLAN_RD_FROM_TYPE, ViewData["RoadFrom"] as IEnumerable<SelectListItem>, new { @id = "ddlRoadFrom", @title = "Select Road From", @tabindex = 10 })
+                          @Html.ValidationMessageFor(model => model.PLAN_RD_FROM_TYPE)
+                      }
+                      else
+                      {
+                          if (Model.PLAN_RD_ROUTE == "T")
+                          {
+                              @Html.DropDownListFor(model => model.PLAN_RD_FROM_TYPE, ViewData["RoadNumThroughFrom"] as IEnumerable<SelectListItem>, new { @id = "ddlRoadFrom", @title = "Select Road From", @tabindex = 11 })
+                              @Html.ValidationMessageFor(model => model.PLAN_RD_FROM_TYPE)
+                          }
+                          else
+                          {
+                              @Html.DropDownListFor(model => model.PLAN_RD_FROM_TYPE, ViewData["RoadFrom"] as IEnumerable<SelectListItem>, new { @id = "ddlRoadFrom", @title = "Select Road From", @tabindex = 10 })
+                                @Html.ValidationMessageFor(model => model.PLAN_RD_FROM_TYPE)
+                          }
+                      }
+                  </td>
+                  <td id="lblRoadNumFrom">
+                      @Html.LabelFor(model => model.PLAN_RD_NUM_FROM, new { @id = "lblStartAt" })<label style="color:red" id="lblStartRequired">*</label>
+                  </td>
+                  <td id="colFromHabitation" style="display:none">
+                      @Html.LabelFor(model => model.PLAN_RD_FROM_HAB)<label style="color:red">*</label>
+                  </td>
+                  <td id="lblBlock" style="display:none">
+                      <span id="opBlock"><label>Block Boundry</label><label style="color:red">*</label></span>
+                  </td>
+                  <td id="lblMasterDistrict" style="display:none">
+                      <label>Master District Road</label><label style="color:red">*</label>
+                  </td>
+                  <td id="lblLink" style="display:none">
+                      <label>Link Route</label><label style="color:red">*</label>
+                  </td>
+                  <td id="lblNational" style="display:none">
+                      <label>National Highway</label><label style="color:red">*</label>
+                  </td>
+                  <td id="lblRuralRoad" style="display:none">
+                      <label>Rural Road(Other District Roads)</label><label style="color:red">*</label>
+                  </td>
+                  <td id="lblRuralRoadTrack" style="display:none">
+                      <label>Rural Road (Track)</label><label style="color:red">*</label>
+                  </td>
+                  <td id="lblRuralRoadVillage" style="display:none">
+                      <label>Rural Road(Village Roads)</label><label style="color:red">*</label>
+                  </td>
+                  <td id="lblState" style="display:none">
+                      <label>State Highway</label><label style="color:red">*</label>
+                  </td>
+                  <td id="lblThroughRoute" style="display:none">
+                      <label>Through Route</label><label style="color:red">*</label>
+                  </td>
+                  <td id="lblOthers" style="display:none">
+                      <label>Others</label><label style="color:red">*</label>
+                  </td>
+                  <td id="listRoadNumFrom">
+                      @Html.DropDownListFor(model => model.PLAN_RD_NUM_FROM, ViewData["RoadNumFrom"] as IEnumerable<SelectListItem>, new { @id = "ddlRoadNumFrom", @title = "Select where the road starts from", @disabled = "disabled", @tabindex = 11 })
+                      @Html.ValidationMessageFor(model => model.PLAN_RD_NUM_FROM, "", new { @id = "ddlRoadFromMessage" })
+                  </td>
+                  <td id="colListFromHabitation" style="display:none">
+                      @Html.DropDownListFor(model => model.PLAN_RD_FROM_HAB, ViewData["HabitationFrom"] as IEnumerable<SelectListItem>, new { @id = "ddlFromHabitation", @title = "Select where the road starts from", @tabindex = 11, @disabled = "disabled" })
+                      @Html.ValidationMessageFor(model => model.PLAN_RD_FROM_HAB)
+                  </td>
+                  
+              </tr>
+            <tr style="display:none">
+
+            </tr>
+            <tr id="rowBlock" style="display:none">
+                <td></td>
+                <td>
+                    <label>Previous Block Name</label><label style="color:red">*</label>
+                </td>
+                <td>
+                    @Html.DropDownListFor(model => model.PLAN_RD_BLOCK_FROM_CODE, ViewData["PreviousBlock"] as IEnumerable<SelectListItem>, new { @id = "ddlPreviousBlock", @title = "Select Previous Block", @tabindex = 12, @disabled = "disabled" })
+                    @Html.ValidationMessageFor(model => model.PLAN_RD_BLOCK_FROM_CODE)
+                </td>
+                <td>
+                    <label>Road No. For Previous Block</label><label style="color:red">*</label>
+                </td>
+                <td>
+                    @Html.DropDownListFor(model => model.PLAN_RD_NUM_FROM, ViewData["PreviousBlockRoadNo"] as IEnumerable<SelectListItem>, new { @id = "ddlPreRoadCode", @title = "Select Road Number in Previous Block", @tabindex = 13, @disabled = "disabled" })
+                    @Html.ValidationMessageFor(model => model.PLAN_RD_NUM_FROM)
+                </td>
+            </tr>
+              <tr>
+                  <td></td>
+                  <td>
+                      @Html.LabelFor(model => model.PLAN_RD_TO_TYPE)<label style="color:red">*</label>
+                  </td>
+                  <td>
+                      @if (Model.EncryptedRoadCode == null)
+                      {
+                          @Html.DropDownListFor(model => model.PLAN_RD_TO_TYPE, ViewData["RoadTo"] as IEnumerable<SelectListItem>, new { @id = "ddlRoadTo", @title = "Select Road To", @tabindex = 14 })
+                          @Html.ValidationMessageFor(model => model.PLAN_RD_TO_TYPE)
+                      }
+                      else
+                      {
+                          if (Model.PLAN_RD_ROUTE == "T")
+                          {
+                              @Html.DropDownListFor(model => model.PLAN_RD_TO_TYPE, ViewData["RoadNumThroughTo"] as IEnumerable<SelectListItem>, new { @id = "ddlRoadTo", @title = "Select Road To", @tabindex = 11 })
+                              @Html.ValidationMessageFor(model => model.PLAN_RD_TO_TYPE)
+                          }
+                          else
+                          {
+                              @Html.DropDownListFor(model => model.PLAN_RD_TO_TYPE, ViewData["RoadTo"] as IEnumerable<SelectListItem>, new { @id = "ddlRoadTo", @title = "Select Road To", @tabindex = 14 })
+                              @Html.ValidationMessageFor(model => model.PLAN_RD_TO_TYPE)
+                          }
+                      }
+                  </td>
+                  <td id="lblRoadNumTo">
+                      @Html.LabelFor(model => model.PLAN_RD_NUM_TO, new { @id = "lblEndAt" })<label style="color:red" id="lblEndRequired">*</label>
+                  </td>
+                   <td id="colToHabitation" style="display:none">
+                      @Html.LabelFor(model => model.PLAN_RD_TO_HAB)<label style="color:red">*</label>
+                  </td>
+                  <td id="lblBlockTo" style="display:none">
+                      <span id="opBlockTo"><label>Block Boundry</label><label style="color:red">*</label></span>
+                  </td>
+                   <td id="lblMasterDistrictTo" style="display:none">
+                      <label>Master District Road</label><label style="color:red">*</label>
+                  </td>
+                  <td id="lblLinkTo" style="display:none">
+                      <label>Link Route</label><label style="color:red">*</label>
+                  </td>
+                  <td id="lblNationalTo" style="display:none">
+                      <label>National Highway</label><label style="color:red">*</label>
+                  </td>
+                  <td id="lblRuralRoadTo" style="display:none">
+                      <label>Rural Road(Other District Roads)</label><label style="color:red">*</label>
+                  </td>
+                  <td id="lblRuralRoadTrackTo" style="display:none">
+                      <label>Rural Road (Track)</label><label style="color:red">*</label>
+                  </td>
+                  <td id="lblRuralRoadVillageTo" style="display:none">
+                      <label>Rural Road(Village Roads)</label><label style="color:red">*</label>
+                  </td>
+                  <td id="lblStateTo" style="display:none">
+                      <label>State Highway</label><label style="color:red">*</label>
+                  </td>
+                  <td id="lblThroughRouteTo" style="display:none">
+                      <label>Through Route</label><label style="color:red">*</label>
+                  </td>
+                  <td id="lblOthersTo" style="display:none">
+                      <label>Others</label><label style="color:red">*</label>
+                  </td>
+                  <td id="listRoadNumTo">
+                      @Html.DropDownListFor(model => model.PLAN_RD_NUM_TO, ViewData["RoadNumTo"] as IEnumerable<SelectListItem>, new { @id = "ddlRoadNumTo", @title = "Select where the road ends at", @disabled = "disabled", @tabindex = 15 })
+                      @Html.ValidationMessageFor(model => model.PLAN_RD_NUM_TO, "", new { @id = "ddlRoadToMessage" })
+                  </td>
+                  <td id="colListToHabitation" style="display:none">
+                      @Html.DropDownListFor(model => model.PLAN_RD_TO_HAB, ViewData["HabitationTo"] as IEnumerable<SelectListItem>, new { @id = "ddlToHabitation", @title = "Select where the road ends at", @tabindex = 15, @disabled = "disabled" })
+                      @Html.ValidationMessageFor(model => model.PLAN_RD_TO_HAB)
+                  </td>
+              </tr>
+            <tr id="rowBlockTo" style="display:none">
+                <td></td>
+                <td>
+                    <label>Next Block Name</label><label style="color:red">*</label>
+                </td>
+                <td>
+                    @Html.DropDownListFor(model => model.PLAN_RD_BLOCK_TO_CODE, ViewData["NextBlock"] as IEnumerable<SelectListItem>, new { @id = "ddlNextBlock", @title = "Select Next Block", @tabindex = 16, @disabled = "disabled" })
+                    @Html.ValidationMessageFor(model => model.PLAN_RD_BLOCK_TO_CODE)
+                </td>
+                <td>
+                    <label>Road No. For Next Block</label><label style="color:red">*</label>
+                </td>
+                <td>
+                    @Html.DropDownListFor(model => model.PLAN_RD_NUM_TO, ViewData["NextBlockRoadNo"] as IEnumerable<SelectListItem>, new { @id = "ddlNextRoadCode", @title = "Select Road Number in Next Block", @tabindex = 16, @disabled = "disabled" })
+                    @Html.ValidationMessageFor(model => model.PLAN_RD_NUM_TO)
+                </td>
+            </tr>
+            <tr></tr>
+              <tr>
+                <td></td>
+                <td></td>
+                  @if (PMGSY.Extensions.PMGSYSession.Current.PMGSYScheme == 3)
+                  {
+                      if (Model.EncryptedRoadCode == null)
+                      {   
+                           <td  style="text-align:right;">
+                        <input type="button" id="btnSave" name="btnSave" value="Save" class= "jqueryButton" title="Save RCPLWE Details" tabindex="17"  /> 
+                        <input type="reset" id="btnReset" name="btnReset" value="Reset" class= "jqueryButton" title="Reset" tabindex="18"  /></td> 
+                      }
+                      else
+                      {
+                           <td  style="text-align:right;">
+                         <input type="button" id="btnUpdate" name="btnUpdate" value="Update" class= "jqueryButton" title="Update RCPLWE Details" tabindex="17"  /> 
+                         <input type="button" id="btnCancel" name="btnCancel" value="Cancel" class= "jqueryButton" title="Cancel" tabindex="18"  /></td> 
+                      }
+                  }
+                  else if (PMGSY.Extensions.PMGSYSession.Current.PMGSYScheme == 2)
+                  {
+                      if (Model.EncryptedRoadCode == null)
+                      {   
+                           <td  style="text-align:right;">
+                        <input type="button" id="btnSave" name="btnSave" value="Save" class= "jqueryButton" title="Save Candidate Road Details" tabindex="17"  /> 
+                        <input type="reset" id="btnReset" name="btnReset" value="Reset" class= "jqueryButton" title="Reset" tabindex="18"  /></td> 
+                      }
+                      else
+                      {
+                           <td  style="text-align:right;">
+                         <input type="button" id="btnUpdate" name="btnUpdate" value="Update" class= "jqueryButton" title="Update Candidate Road Details" tabindex="17"  /> 
+                         <input type="button" id="btnCancel" name="btnCancel" value="Cancel" class= "jqueryButton" title="Cancel" tabindex="18"  /></td> 
+                      }
+                  }
+                  <td></td>
+                  <td></td>
+            </tr>
+        </table>
+        </center>
+</form>

@@ -1,0 +1,428 @@
+﻿@using MVCHtmlHelper.Helpers;
+@using PMGSY.Extensions;
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta http-equiv="Cache-Control" content="no-cache" />
+    <meta http-equiv="Pragma" content="no-cache" />
+    <meta http-equiv="Expires" content="0" />
+
+    <meta charset="utf-8" />
+    <title>PMGSY</title>
+    <link href="~/favicon.ico" rel="shortcut icon" type="image/x-icon" />
+
+    <link href="~/Content/Materialize/FloatingButton.css" rel="stylesheet" />
+
+    <meta name="viewport" content="width=device-width" />
+    @Styles.Render("~/Content/css")
+    @RenderSection("styles", required: false)
+    @Scripts.Render("~/bundles/jquery")
+    @Scripts.Render("~/bundles/menubar")
+    @* @Scripts.Render("~/bundles/jqgrid")*@
+    @Scripts.Render("~/bundles/plugins")
+    @* @Scripts.Render("~/bundles/jqueryval")*@
+    @Scripts.Render("~/bundles/jqueryBlockUI")
+
+    <!--Added by Avinash on 03_08_2018 For Grid of Capture Location -->
+    <script src="~/Content/CaptureLocation/js/jquery.dataTables.js"></script>
+    <link href="~/Content/CaptureLocation/css/datatables.responsive.css" rel="stylesheet" />
+    <link href="~/Content/CaptureLocation/css/dataTables.fixedColumns.css" rel="stylesheet" />
+    <script src="~/Content/CaptureLocation/js/datatables.responsive.js"></script>
+
+
+    <script src="~/Scripts/jquery.validate.js"></script>
+    <script src="~/Scripts/jquery.validate.unobtrusive.min.js"></script>
+    @*        <script src="~/Scripts/i18n/grid.locale-en.min.js"></script>
+        <script src="~/Scripts/i18n/jquery.jqGrid.src.min.js"></script>*@
+    <script src="~/Scripts/i18n/grid.locale-en.min.js"></script>
+    <script src="~/Scripts/i18n/jquery.jqGrid.src.js"></script>
+    @*<script src="~/Scripts/HighChart/highcharts.js"></script>*@
+   @* <script src="~/Scripts/HighChart/highcharts_v4.0.4.js"></script>*@
+
+    @*Added By Avinash For MIS DashBoard..*@
+    <script src="~/Scripts/HighChart/exporting.js"></script>
+
+    <script src="~/Scripts/Layout.js" type="text/javascript"></script>
+
+    <style>
+        .qtip {
+            max-width: none !important;
+        }
+    </style>
+</head>
+
+<body id="mainbody">
+    @Html.Hidden("PMGSY2StateCode", PMGSYSession.Current.StateCode)
+    <div id="header" class="ui-corner-all" style="border: solid #CCC 1px; margin-top: 5px; height: 5%;">
+        <div id="UserLogin" style="cursor: pointer; font-size: 10.5px; color: #7D0000; float: right; padding: 2px 2px 3px 2px; margin-bottom: 1px; margin-right: 14%; border: none; border-radius: 8px;">
+            <table>
+                <tr>
+                    <td>
+                        <span>
+                            <img src="~/Content/images/User-yellow-icon.png" />
+                        </span>
+                    </td>
+                    <td>
+                        @if (PMGSYSession.Current.UserName != null)
+                        {
+                            @Html.Hidden("hdnRoleHomePage", PMGSYSession.Current.HomePageURL.ToString())
+                            <span style="border-radius: 8px; padding-bottom: 5px;">&nbsp;&nbsp;Welcome <b>@PMGSYSession.Current.UserName</b></span>
+                        }
+
+                        @if (PMGSYSession.Current.RoleName != null && PMGSYSession.Current.RoleName != "Contractor")
+                        {
+                            <span style="padding-bottom: 5px;">( @PMGSYSession.Current.RoleName ) </span>
+                        }
+
+                        @if (PMGSYSession.Current.ModuleName != null)
+                        {
+                            <span style="padding-bottom: 5px;">&nbsp;<b class="verticalSeparator"></b>&nbsp;&nbsp;</span><span id="spnModuleName" style="padding-bottom: 2px; border-radius: 8px;">@PMGSYSession.Current.ModuleName</span>
+                        }
+                        &nbsp;<b class="verticalSeparator"></b>&nbsp;
+                        <span><b>Data Entry</b></span>
+                        @if (PMGSYSession.Current.PMGSYScheme != null)
+                        {
+                            <b class="verticalSeparator"></b>
+                            if (PMGSYSession.Current.PMGSYScheme == 3)
+                            {
+                                <span id="spnScheme" style="padding-bottom: 5px;">&nbsp;&nbsp;<b>RCPLWE</b> </span>
+                            }
+                            else if (PMGSYSession.Current.PMGSYScheme == 5)   // Added by Shreyas
+                            {
+                                <span id="spnScheme" style="padding-bottom: 5px;">&nbsp;&nbsp;<b>Vibrant Village Program</b> </span>
+                            }
+                            else
+                            {@*PMGSY3*@
+                            <span id="spnScheme" style="padding-bottom: 5px;">&nbsp;&nbsp;<b>PMGSY-</b>@(PMGSYSession.Current.PMGSYScheme == 4 ? 3 : PMGSYSession.Current.PMGSYScheme)  </span>
+                        }
+                    }
+
+                    </td>
+                </tr>
+            </table>
+        </div>
+
+    </div>
+
+    <div id="userProfile" class="" style="float: none; display: none;">
+
+        <div style="padding: 2px 2px 2px 2px; width: 100%;">
+            <table style="width: 102%; padding-left: -10px;">
+                <tr>
+                    <td>
+                        <div style="padding-bottom: 5px; float: left;">
+                            @{
+                                var height = "40px";
+                                if (PMGSYSession.Current.RoleCode == 65 || PMGSYSession.Current.RoleCode == 25 || PMGSYSession.Current.RoleCode == 3 || PMGSYSession.Current.RoleCode == 22 || PMGSYSession.Current.RoleCode == 2 || PMGSYSession.Current.RoleCode == 7 || PMGSYSession.Current.RoleCode == 8 || PMGSYSession.Current.RoleCode == 36 || PMGSYSession.Current.RoleCode == 71)///Changes for RCPLWE for MORD and STA and PIU and SRRDA and Mord View
+                                {
+                                    height = "40px";
+                                    @*<fieldset class="ui-corner-all" style="border: ridge 0.1em #CCC; color: #464646; padding: 2px 2px 2px 2px; width: 270px; height: 40px;">*@
+                                }
+                                else
+                                {
+                                    @*<fieldset class="ui-corner-all" style="border: ridge 0.1em #CCC; color: #464646; padding: 2px 2px 2px 2px; width: 270px; height: 25px;">*@
+                                }
+                                <fieldset class="ui-corner-all" style="border: ridge 0.1em #CCC; color: #464646; padding: 2px 2px 2px 2px; width: 300px; height: @height;">
+
+                                    @if (PMGSYSession.Current.PMGSYScheme != null)
+                                    {
+                                        if (PMGSYSession.Current.PMGSYScheme == 1)
+                                        {
+                                            <input type="radio" id="rdoScheme1" name="rdoScheme" checked="checked" /><label style="font-size: 10.5px; color: #464646;">PMGSY-1</label>
+                                            <span id="spnPMGSY2">
+                                                <input type="radio" id="rdoScheme2" name="rdoScheme" /><label style="font-size: 10.5px; color: #464646;">PMGSY-2</label>
+                                            </span>
+                                            if (PMGSYSession.Current.RoleCode == 65 || PMGSYSession.Current.RoleCode == 25 || PMGSYSession.Current.RoleCode == 3 || PMGSYSession.Current.RoleCode == 22 || PMGSYSession.Current.RoleCode == 2 || PMGSYSession.Current.RoleCode == 7 || PMGSYSession.Current.RoleCode == 8 || PMGSYSession.Current.RoleCode == 36 || PMGSYSession.Current.RoleCode == 71 || PMGSYSession.Current.RoleCode == 15)///Changes for RCPLWE for MORD and STA and PIU and SRRDA and Mord View
+                                            {
+                                                <input type="radio" id="rdoScheme3" name="rdoScheme" /><label style="font-size: 10.5px; color: #464646;">RCPLWE</label>
+                                            }
+                                            <input type="radio" id="rdoScheme4" name="rdoScheme" /><label style="font-size: 10.5px; color: #464646;">PMGSY-3</label>
+                                            <input type="radio" id="rdoScheme5" name="rdoScheme" /><label style="font-size: 10.5px; color: #464646;">Vibrant Village Program</label>
+                                        }
+                                        else if (PMGSYSession.Current.PMGSYScheme == 2)
+                                        {
+                                            <input type="radio" id="rdoScheme1" name="rdoScheme" /><label style="font-size: 10.5px; color: #464646;">PMGSY-1</label>
+                                            <span id="spnPMGSY2">
+                                                <input type="radio" id="rdoScheme2" name="rdoScheme" checked="checked" /><label style="font-size: 10.5px; color: #464646;">PMGSY-2</label>
+                                            </span>
+                                            if (PMGSYSession.Current.RoleCode == 65 || PMGSYSession.Current.RoleCode == 25 || PMGSYSession.Current.RoleCode == 3 || PMGSYSession.Current.RoleCode == 22 || PMGSYSession.Current.RoleCode == 2 || PMGSYSession.Current.RoleCode == 7 || PMGSYSession.Current.RoleCode == 8 || PMGSYSession.Current.RoleCode == 36 || PMGSYSession.Current.RoleCode == 71 || PMGSYSession.Current.RoleCode == 15)///Changes for RCPLWE for MORD and STA and PIU and SRRDA and Mord View
+                                            {
+                                                <input type="radio" id="rdoScheme3" name="rdoScheme" /><label style="font-size: 10.5px; color: #464646;">RCPLWE</label>
+                                            }
+                                            <input type="radio" id="rdoScheme4" name="rdoScheme" /><label style="font-size: 10.5px; color: #464646;">PMGSY-3</label>
+                                            <input type="radio" id="rdoScheme5" name="rdoScheme" /><label style="font-size: 10.5px; color: #464646;">Vibrant Village Program</label>
+                                        }
+                                        else if (PMGSYSession.Current.PMGSYScheme == 3)
+                                        {
+                                            if (PMGSYSession.Current.RoleCode == 65 || PMGSYSession.Current.RoleCode == 25 || PMGSYSession.Current.RoleCode == 3 || PMGSYSession.Current.RoleCode == 22 || PMGSYSession.Current.RoleCode == 2 || PMGSYSession.Current.RoleCode == 7 || PMGSYSession.Current.RoleCode == 8 || PMGSYSession.Current.RoleCode == 36 || PMGSYSession.Current.RoleCode == 71 || PMGSYSession.Current.RoleCode == 15)///Changes for RCPLWE for MORD and STA and PIU and SRRDA and Mord View
+                                            {
+                                                <input type="radio" id="rdoScheme1" name="rdoScheme" /><label style="font-size: 10.5px; color: #464646;">PMGSY-1</label>
+                                                <span id="spnPMGSY2">
+                                                    <input type="radio" id="rdoScheme2" name="rdoScheme" /><label style="font-size: 10.5px; color: #464646;">PMGSY-2</label>
+                                                </span>
+                                            }
+                                            <input type="radio" id="rdoScheme3" name="rdoScheme" checked="checked" /><label style="font-size: 10.5px; color: #464646;">RCPLWE</label>
+                                            <input type="radio" id="rdoScheme4" name="rdoScheme" /><label style="font-size: 10.5px; color: #464646;">PMGSY-3</label>
+                                            <input type="radio" id="rdoScheme5" name="rdoScheme" /><label style="font-size: 10.5px; color: #464646;">Vibrant Village Program</label>
+                                        }
+                                        else if (PMGSYSession.Current.PMGSYScheme == 4)
+                                        {
+                                            if (PMGSYSession.Current.RoleCode == 65 || PMGSYSession.Current.RoleCode == 25 || PMGSYSession.Current.RoleCode == 3 || PMGSYSession.Current.RoleCode == 22 || PMGSYSession.Current.RoleCode == 2 || PMGSYSession.Current.RoleCode == 7 || PMGSYSession.Current.RoleCode == 8 || PMGSYSession.Current.RoleCode == 36 || PMGSYSession.Current.RoleCode == 71 || PMGSYSession.Current.RoleCode == 15)///Changes for RCPLWE for MORD and STA and PIU and SRRDA and Mord View
+                                            {
+                                                <input type="radio" id="rdoScheme1" name="rdoScheme" /><label style="font-size: 10.5px; color: #464646;">PMGSY-1</label>
+                                                <span id="spnPMGSY2">
+                                                    <input type="radio" id="rdoScheme2" name="rdoScheme" /><label style="font-size: 10.5px; color: #464646;">PMGSY-2</label>
+                                                </span>
+                                            }
+                                            <input type="radio" id="rdoScheme3" name="rdoScheme" /><label style="font-size: 10.5px; color: #464646;">RCPLWE</label>
+                                            <input type="radio" id="rdoScheme4" name="rdoScheme" checked="checked" /><label style="font-size: 10.5px; color: #464646;">PMGSY-3</label>
+                                            <input type="radio" id="rdoScheme5" name="rdoScheme" /><label style="font-size: 10.5px; color: #464646;">Vibrant Village Program</label>
+                                        }
+                                        else if (PMGSYSession.Current.PMGSYScheme == 5)
+                                        {
+                                            if (PMGSYSession.Current.RoleCode == 65 || PMGSYSession.Current.RoleCode == 25 || PMGSYSession.Current.RoleCode == 3 || PMGSYSession.Current.RoleCode == 22 || PMGSYSession.Current.RoleCode == 2 || PMGSYSession.Current.RoleCode == 7 || PMGSYSession.Current.RoleCode == 8 || PMGSYSession.Current.RoleCode == 36 || PMGSYSession.Current.RoleCode == 71 || PMGSYSession.Current.RoleCode == 15)///Changes for RCPLWE for MORD and STA and PIU and SRRDA and Mord View
+                                            {
+                                                <input type="radio" id="rdoScheme1" name="rdoScheme" /><label style="font-size: 10.5px; color: #464646;">PMGSY-1</label>
+                                                <span id="spnPMGSY2">
+                                                    <input type="radio" id="rdoScheme2" name="rdoScheme" /><label style="font-size: 10.5px; color: #464646;">PMGSY-2</label>
+                                                </span>
+                                            }
+                                            <input type="radio" id="rdoScheme3" name="rdoScheme" /><label style="font-size: 10.5px; color: #464646;">RCPLWE</label>
+
+                                            <input type="radio" id="rdoScheme4" name="rdoScheme" checked="checked" /><label style="font-size: 10.5px; color: #464646;">PMGSY-3</label>
+                                            <input type="radio" id="rdoScheme5" name="rdoScheme" checked="checked" /><label style="font-size: 10.5px; color: #464646;">Vibrant Village Program</label>
+                                        }
+                                    }
+                                    else
+                                    {
+                                        <input type="radio" id="rdoScheme1" name="rdoScheme" /><label style="font-size: 10.5px; color: #464646;">PMGSY-1</label>
+                                        <span id="spnPMGSY2">
+                                            <input type="radio" id="rdoScheme2" name="rdoScheme" /><label style="font-size: 10.5px; color: #464646;">PMGSY-2</label>
+                                        </span>
+                                        @*<input type="radio" id="rdoScheme3" name="rdoScheme" /><label style="font-size: 10.5px; color: #464646;">PMGSY-3</label>*@
+                                        <input type="radio" id="rdoScheme4" name="rdoScheme" /><label style="font-size: 10.5px; color: #464646;">PMGSY-3</label>
+                                    }
+                                    &nbsp;<a href="/ReportsLayout/ReportsLayout" title="Switch to reports" style="text-decoration: none; color: #464646; font-size: 10.5px;">&nbsp;|&nbsp;Reports  &nbsp;</a>
+                                    @*<br />*@
+                                    &nbsp; &nbsp; | <a href="/Home/Index" title="Switch to data entry" style="text-decoration: none; color: #464646; font-size: 10.5px;">Data Entry </a>
+                                </fieldset>
+                            }
+                        </div>
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        @if (PMGSYSession.Current.RoleCode != 74)
+                        {
+
+                            Html.RenderAction("ValidateRoles", "Login", new { id = @PMGSYSession.Current.UserName });
+                        }
+                    </td>
+                </tr>
+                @if (PMGSYSession.Current.RoleCode == 21 || PMGSYSession.Current.RoleCode == 46 || PMGSYSession.Current.RoleCode == 10 || PMGSYSession.Current.RoleCode == 25)    //Accountant || Finance || Bank || mord technical
+                {
+                    <tr>
+                        <td>
+                            <div>
+                                <select id="ddlFundChange" class="role-combobox ">
+                                    @*input-validation-error*@
+                                <option value="P">Programme Fund</option>
+                                <option value="A">Administrative Fund</option>
+                                <option value="M">Maintenance Fund</option>
+                            </select>
+
+                            @if (PMGSYSession.Current.RoleCode == 25) //mord technical user to set fund type by default as Programme Fund.
+                            {
+                                if (PMGSYSession.Current.FundType == null)
+                                {
+                                    PMGSYSession.Current.FundType = "P";
+                                    <input type="hidden" id="fundType" value="P" />
+                                }
+                                else
+                                {
+                                    <input type="hidden" id="fundType" value="@PMGSYSession.Current.FundType" />
+                                }
+                            }
+                            else
+                            {
+                                <input type="hidden" id="fundType" value="@PMGSYSession.Current.FundType" />
+                            }
+
+
+                        </div>
+                    </td>
+                </tr>
+            }
+                <tr>
+                    <td>
+                        <div id="switcher" style="padding-bottom: 10px; padding-top: 5px;"></div>
+                    </td>
+                </tr>
+
+            </table>
+        </div>
+        <div style="border-top: ridge 0.1em #000000; background-color: #e8e8e2; margin: 0 0 -15px -10px; padding-top: 5px; padding-bottom: 2px; width: 300px; height: 45px;">
+            <input type="button" value="Log Off" style="font-size: 11px; color: #464646; width: 80px; height: 25px; background-color: transparent; border: ridge 0.1em #807e7e; margin: 2px 2px 2px 18px;" onclick="window.location.href = '/login/logout'" />
+            <input type="button" value="Change Password" style="font-size: 11px; color: #464646; width: 120px; height: 25px; background-color: transparent; border: ridge 0.1em #807e7e; margin: 2px 2px 2px 25px;" onclick="window.location.href = '/login/ChangePassword'" />
+        </div>
+    </div>
+    @if (PMGSY.Extensions.PMGSYSession.Current.RoleCode == 6 || PMGSY.Extensions.PMGSYSession.Current.RoleCode == 7)
+    {
+        @*<h3 style="color: #8b1f06; " text-align:center; target="_blank" rel="noopener noreferrer">New QMS APK (3.0.4) is being relesed. Those who are on inspection can continue with existing APK (3.0.3), others can download and can start with new QMS APK (3.0.4) </h3>*@
+        <marquee style="color: #f39c12; " text-align:center; target="_blank" rel="noopener noreferrer"><h3>New QMS APK (3.0.5) is being released. Those who are on inspection can continue with existing APK (3.0.3), others can download and can start with new QMS APK (3.0.5) </h3></marquee>
+    }
+    else
+    {
+        <br />
+    }
+
+    <div class="demo" style="margin-top: 0px;">
+
+        @{ if (PMGSYSession.Current.UserId != 0)
+            {
+                @Html.Raw(Html.Menu())
+            }}
+        @if (PMGSY.Extensions.PMGSYSession.Current.RoleCode == 2 || PMGSY.Extensions.PMGSYSession.Current.RoleCode == 22 || PMGSY.Extensions.PMGSYSession.Current.RoleCode == 54 || PMGSY.Extensions.PMGSYSession.Current.RoleCode == 55 || PMGSYSession.Current.RoleCode == 71)
+        {
+            <div id="animate">
+                <table>
+                    <tr>
+                        <td>
+                            <img id="bgnmessage" style="height: 100px; width: 30px; cursor: pointer" src="~/Content/img/7.png" />
+                        </td>
+
+                        <td>
+                            <div id="notice" style="display: none">
+                                <!--Bank Guarantee expiring soon.Click here for details -->
+                                1.<a href="/Agreement/ListAgrExprired" style="color: #8F0032; text-decoration: none; font: 28px" title="">&nbsp;Bank Guarantee expiring soon.&nbsp;Click here for details</a>
+                            </div>
+                        </td>
+
+                    </tr>
+                </table>
+            </div>
+        }
+    </div>
+
+    <br />
+
+
+
+    @Html.Hidden("fundType", PMGSYSession.Current.FundType)
+
+
+
+
+    <div id="mainDiv">
+        @RenderBody()
+    </div>
+
+
+    <strong>
+        <hr class="ui-corner-all" style="background-color: #feddba; border: none; height: 3px; width: 100%;" />
+    </strong>
+    <footer id="footer" style="margin-top: -4px;" class="ui-corner-all">
+        <div class="content-wrapper" style="vertical-align: middle;">
+            <table style="font-size: 10.5px; width: 100%; color: #2e2d2d; vertical-align: middle;">
+                <tr>
+                    <td style="width: 45.5%; text-align: left;">
+                        <table style="margin-top: -5px;">
+                            <tr>
+                                <td>
+                                    @if (PMGSYSession.Current.StateName != null)
+                                    {
+                                        <span><b>&nbsp;&nbsp;State :  @PMGSYSession.Current.StateName</b></span>
+                                    }
+                                    @if (PMGSYSession.Current.DistrictName != null)
+                                    {
+                                        <span><b>|&nbsp;District :  @PMGSYSession.Current.DistrictName</b></span>
+                                    }
+                                    @if (PMGSYSession.Current.DepartmentName != null)
+                                    {
+                                        <span><b>|&nbsp;Department : @PMGSYSession.Current.DepartmentName</b></span>
+                                    }
+                                    @if (!string.IsNullOrEmpty(PMGSYSession.Current.FundType))
+                                    {
+                                        <span>
+                                            <b>
+                                                |&nbsp;Fund Type :
+                                                @if (PMGSYSession.Current.FundType.Equals("P"))
+                                                {
+                                                    <label>Programme Fund</label>
+                                                }
+                                                else if (PMGSYSession.Current.FundType.Equals("A"))
+                                                {
+                                                    <label>Administrative Fund</label>
+                                                }
+                                                else if (PMGSYSession.Current.FundType.Equals("M"))
+                                                {
+                                                    <label>Maintenance Fund</label>
+                                                }
+                                            </b>
+                                        </span>
+                                    }
+                                    @if (PMGSY.Extensions.PMGSYSession.Current.RoleCode == 22 || PMGSY.Extensions.PMGSYSession.Current.RoleCode == 54)
+                                    {
+                                        <span>
+                                            <a style="text-decoration: none; font-size: 14px; margin-left: 45px;" href="https://online.omms.nic.in/GeoPMGSY.apk" target="_blank">|&nbsp; GEO PMGSY App</a>
+                                        </span>
+                                    }
+
+                                    @if (PMGSY.Extensions.PMGSYSession.Current.RoleCode == 5 || PMGSY.Extensions.PMGSYSession.Current.RoleCode == 6 || PMGSY.Extensions.PMGSYSession.Current.RoleCode == 7 || PMGSY.Extensions.PMGSYSession.Current.RoleCode == 8 || PMGSY.Extensions.PMGSYSession.Current.RoleCode == 9)
+                                    {
+                                        <span>
+                                            <a style="text-decoration: none; font-size: 14px; margin-left: 45px;" href="https://omms.nic.in/qms/apk/qms.apk" target="_blank">|&nbsp; MABQMS</a>
+                                        </span>
+                                    }
+
+                                </td>
+                            </tr>
+                        </table>
+                    </td>
+                    <td class="verticalLine"></td>
+                    <td rowspan="2" style="width: 4%;">
+                        <span style="text-align: center;">
+                            <center><b style="color:#7D0000;">@(System.Configuration.ConfigurationManager.AppSettings["Server"])</b></center>
+                        </span>
+                    </td>
+                    <td class="verticalLine"></td>
+                    <td rowspan="2" style="width: 20%;">
+                        <span style="text-align: center;">
+                            <center><b style="color:#7D0000;">Email - ommashelp2018@gmail.com</b>&nbsp; | &nbsp;<b style="color:#7D0000;">Phone - 020-25503201</b></center>
+                        </span>
+                    </td>
+                    <td class="verticalLine"></td>
+                    <td rowspan="2" style="width: 5%;">
+                        <span style="text-align: center;">
+                            <center> <a style="text-decoration:none;font-size:14px;" href="/Home/PdfViewer">User Manual</a> </center>
+                        </span>
+                    </td>
+
+                    <td class="verticalLine"></td>
+                    <td rowspan="2" style="width: 8%;">
+                        <span style="text-align: center;">
+                            <center> <a style="text-decoration:none;font-size:14px;" href="/Eform/GetDownloadedUserManual">Eform User manual</a> </center>
+                        </span>
+                    </td>
+
+                    <td class="verticalLine"></td>
+                    <td rowspan="2" style="width: 5%;">
+                        <span style="text-align: center;">
+                            <center> <a style="text-decoration:none;font-size:14px;" href="/Eform/GetDownloadedPPT">Eform PPT</a> </center>
+                        </span>
+                    </td>
+
+                    <td class="verticalLine"></td>
+                    <td rowspan="2" style="width: 17.5%; padding-left: 10px; text-align: left; padding-right: 10px; vertical-align: top;">
+
+                        <span>&copy; 2014 NRRDA. All rights reserved.</span>
+                    </td>
+                </tr>
+            </table>
+        </div>
+    </footer>
+
+
+    @RenderSection("scripts", required: false)
+</body>
+</html>

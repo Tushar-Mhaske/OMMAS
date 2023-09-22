@@ -1,0 +1,55 @@
+﻿@{
+    ViewBag.Title = "PhysicalProgressWorkReport";
+}
+
+@using MvcReportViewer
+@model PMGSY.Areas.ProgressReport.Models.PhysicalProgressWorkModel
+
+
+
+@if (Model.RoadWise == false)
+{
+    @Html.MvcReportViewer("/PMGSYCitizen/UspPropPhysicalProgressofWorks_Govt",
+     new
+     {
+         Level = Model.LevelCode,
+         State = Model.Mast_State_Code,
+         District = Model.Mast_District_Code,
+         Block = Model.Mast_Block_Code,
+         Year = @Model.Year,
+         Batch = @Model.Batch,
+         Collaboration = @Model.FundingAgency,
+         PMGSY = PMGSY.Extensions.PMGSYSession.Current.PMGSYScheme,
+         LocationName = Model.StateName,
+         DistrictName = Model.DistName,
+         BlockName = Model.BlockName,
+         LocalizationValue = Model.localizedValue,
+         BatchName = Model.BatchName,
+         CollaborationName = Model.CollaborationName
+     },
+     new { Height = 600, Width = "100%", style = "border:none;" })
+}
+else
+{
+    @Html.MvcReportViewer("/PMGSYCitizen/UspPropPhysicalProgressofWorksSubreport_Govt",
+     new
+     {
+         Level = Model.LevelCode,
+         State = Model.Mast_State_Code,
+         District = Model.Mast_District_Code,
+         Block = Model.Mast_Block_Code,
+         Year = @Model.Year,
+         Batch = @Model.Batch,
+         Collaboration = @Model.FundingAgency,
+         PMGSY = PMGSY.Extensions.PMGSYSession.Current.PMGSYScheme,
+         LocationName = Model.StateName,
+         DistrictName = Model.DistName,
+         BlockName = Model.BlockName,
+         LocalizationValue = Model.localizedValue,
+         BatchName = Model.BatchName,
+         CollaborationName = Model.CollaborationName
+     },
+     new { Height = 600, Width = "100%", style = "border:none;" })
+}
+
+

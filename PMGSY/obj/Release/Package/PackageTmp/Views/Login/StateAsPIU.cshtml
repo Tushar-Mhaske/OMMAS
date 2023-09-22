@@ -1,0 +1,65 @@
+﻿@model PMGSY.Models.Login.StateAsPIUModel
+
+<link href="~/Content/Login/Login.css" rel="stylesheet" />
+<script src="~/Scripts/jquery.ui.dialog.js"></script>
+<script>
+    $(document).ready(function () {
+
+        $("#dialog-form").dialog({
+            closeOnEscape: false,
+            open: function (event, ui) { $(".ui-dialog-titlebar-close").hide(); },
+            height: 'auto',
+            width: 300,
+            modal: true
+        });
+
+        $("#btnCancelLogin").click(function () {
+            $("#dialog-form").dialog("close");
+        });
+
+        $("#btnGoLogin").click(function () {
+            alert($("#ADMIN_ND_CODE").val());
+            if ($("#ADMIN_ND_CODE").val() == 0)
+            {
+                alert("Please select Department");
+                return;
+            }
+        });
+        
+    });
+</script>
+
+<div id="dialog-form" title="Select Department">
+@using (Html.BeginForm())
+{
+         @Html.AntiForgeryToken()
+         @Html.ValidationSummary(true)
+        <div>
+            <table>
+                <tr>
+                    <td style="margin-left:40px;">
+                        &nbsp;@Html.LabelFor(model => model.USER_NAME) : 
+                        @Html.DisplayFor(model => model.USER_NAME, new { @id = "username"})
+                    </td> 
+                    <td></td>
+                </tr>
+                <tr>
+                    <td  style="margin-left:40px;">
+                         @Html.DropDownListFor(model => model.ADMIN_ND_CODE, new SelectList(Model.DEPARTMENT_LIST, "Value", "Text"), new { @class="role-combobox" })
+                         @Html.ValidationMessageFor(model => model.ADMIN_ND_CODE)
+                    </td> 
+                    <td style="text-align:left;" id="btnFieldSet"> &nbsp;&nbsp;
+                        <input type="submit" id="btnGoLogin" class="" title="Click to log in" value="Go">
+                        @*<input type="button" id="btnCancelLogin" class="" title="Click to cancel" value="Cancel">*@
+                    </td>
+                </tr>
+                <tr>
+                
+                </tr>
+            </table>
+        </div>
+
+ }
+</div>
+
+

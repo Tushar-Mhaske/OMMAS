@@ -1,0 +1,19 @@
+﻿@using MvcReportViewer
+
+@model PMGSY.Areas.MaintenanceSSRSReport.Models.AwardwisePayment
+
+
+
+@Html.MvcReportViewer("/PMGSYCitizen/newStateMatrixReport",
+     new
+     {   
+        
+         STATE=0,
+         Month =Model.MonthCode,
+         Year=Model.PhaseYear,
+         
+          
+         
+     },
+     new { Height = 600, Width = "100%", style = "border:none;" })
+

@@ -1,0 +1,74 @@
+﻿@*
+    * Project Id    :
+    * Project Name  :   OMMAS II
+    * Name          :   QMGradingAndATRDetails.cshtml
+    * Description   :   Renders Abstract Grading & ATR Details for Monitors.
+    * Author        :   Shyam Yadav
+    * Creation Date :   03/December/2013    
+*@
+
+@model PMGSY.Models.QualityMonitoring.QMReportsViewModel
+
+
+<script src="~/Scripts/QualityMonitoring/QMGradingAndATRDetails.js"></script>
+
+ @Html.Hidden("hdnRole",PMGSY.Extensions.PMGSYSession.Current.RoleCode.ToString())
+<form id="frmGradingAndATRReport">
+    
+    <div id="divGradingAndATRReport" class="ui-state-default ui-corner-all" style="text-align: center; width: 100%">
+            <table id="tblGradingAndATRReport" style="margin-top:0px; text-align:center; border:ridge 0.1em #ccc; width:100%; padding:5px 5px 5px 5px;">
+                    <tr>
+                       <td style="width:15%;font-weight:bold;" >
+                            @Html.LabelFor(model => model.FROM_MONTH)
+                        </td>
+                        <td style="width:10%" >                            
+                            @Html.DropDownListFor(model => model.FROM_MONTH, new SelectList(Model.FROM_MONTH_LIST, "value", "text"), new { @id = "ddlFromMonthGradingAndATR"})
+                        </td>
+                        <td style="width:15%;font-weight:bold;">
+                            @Html.LabelFor(model => model.FROM_YEAR)
+                        </td>
+                        <td style="width:10%" >                            
+                            @Html.DropDownListFor(model => model.FROM_YEAR, new SelectList(Model.FROM_YEAR_LIST, "value", "text"), new { @id = "ddlFromYearGradingAndATR"})
+                        </td>
+                        <td rowspan="2" style="text-align:left;">
+                             <input type="button" id="btnViewGradingAndATRDetails" value="View Details" class="jquerybutton"  style="margin-left:20px;"/>
+                        </td>
+                    </tr>
+                    <tr>
+                         <td style="width:15%;font-weight:bold;">
+                            @Html.LabelFor(model => model.TO_MONTH)
+                        </td>
+                        <td style="width:10%">                            
+                            @Html.DropDownListFor(model => model.TO_MONTH, new SelectList(Model.TO_MONTH_LIST, "value", "text"), new { @id = "ddlToMonthGradingAndATR"})
+                        </td>
+                        <td style="width:15%;font-weight:bold;">
+                            @Html.LabelFor(model => model.TO_YEAR)
+                        </td>
+                        <td style="width:10%">
+                            @Html.DropDownListFor(model => model.TO_YEAR, new SelectList(Model.TO_YEAR_LIST, "value", "text"), new { @id = "ddlToYearGradingAndATR"})
+                        </td>
+                    </tr>
+                    
+            </table>
+    </div>
+
+    <div style="width:100%;">
+        <ul>
+            <li>
+                &nbsp;<b>ATR : </b> Action Taken Report &nbsp;<b>S : </b> Satisfactory &nbsp;&nbsp;&nbsp;&nbsp; <b>SRI : </b> Satisfactory Required Improvement &nbsp;&nbsp;&nbsp;&nbsp; <b>U : </b>Unsatisfactory
+            </li>
+            <li>
+                &nbsp;<b>R-S : </b>Satisfactory after Regraded &nbsp;&nbsp;&nbsp;&nbsp;<b> R-SRI : </b> SRI after Regraded &nbsp;&nbsp;&nbsp;&nbsp; <b>R-U : </b> Unsatisfactory after Regraded
+            </li>
+        </ul>	
+     </div>
+    <br />
+
+    <table id="tbGradingAndATRNQMReport"></table>
+    <div id="dvGradingAndATRNQMReportPager"></div>
+    
+    <br />
+    
+    <table id="tbGradingAndATRSQMReport"></table>
+    <div id="dvGradingAndATRSQMReportPager"></div>
+ </form>

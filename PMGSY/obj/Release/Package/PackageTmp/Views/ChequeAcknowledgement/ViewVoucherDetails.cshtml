@@ -1,0 +1,47 @@
+﻿@model PMGSY.Models.ChequeAcknowledgement.CheckAckSelectionModel
+
+<script type="text/javascript" src="~/Scripts/jquery.ui.datepicker.js"></script>
+<script src="~/Scripts/jquery.ui.dialog.js"></script>
+<script src="~/Scripts/custom/Generic.js"></script>
+<script src="~/Scripts/ChequeAcknowledgement/ViewVoucherDetails.js"></script>
+
+<div id="divVoucherView" >
+<div class="ui-widget-header innerDivHeader" style="margin-bottom:10px">
+    Acknowledged Voucher Screen
+</div>
+    <table>
+        <tr>
+            <td>
+            <div class="ui-state-default ui-corner-all jqueryButton" id="btnAddVoucher" title="Click here to Add Voucher" style="margin-top:05px;margin-left:10px">
+                    <span style="float: left" class="ui-icon ui-icon-circle-plus"></span>
+                    <span style="float: left; margin-right: 10px">Add Voucher</span>
+            </div>
+            </td>
+        </tr>
+    </table>
+
+     
+
+<center>
+<form id="frmViewDetails">
+<table class="ui-state-default ui-corner-all" style="border:0.1em solid gray; width:98%" id="tblViewDetails">
+        <tr>
+            <td style="text-align:right; font-weight:bold; width:15%">DPIU:<label style="color:red;"> *</label></td>
+            <td style="width:15%">@Html.DropDownListFor(m=>m.DPIU,ViewBag.ddlDPIU as IEnumerable<SelectListItem>,new{@title="DPIU"})&nbsp;@Html.ValidationMessageFor(model => model.DPIU)</td>
+            <td style="text-align:right; font-weight:bold; width:15%">Month:<label style="color:red;"> *</label></td>
+            <td style="width:15%">@Html.DropDownListFor(m => m.BILL_MONTH, ViewBag.ddlMonth as IEnumerable<SelectListItem>, new {@title="Voucher Month" })&nbsp;@Html.ValidationMessageFor(model => model.BILL_MONTH)</td>
+            <td style="text-align:right; font-weight:bold; width:15%">Year:<label style="color:red;"> *</label></td>
+            <td style="width:15%">@Html.DropDownListFor(m => m.BILL_YEAR, ViewBag.ddlYear as IEnumerable<SelectListItem>, new {@title="Voucher Year"})&nbsp;@Html.ValidationMessageFor(model => model.BILL_YEAR)</td>
+            <td style="width:10%"><input type="button" id="btnView" value="View Details" title="View Details" class="jqueryButton"></td>        
+        </tr>
+</table>
+</form> 
+<br/>
+<div style="width:98%">
+    <table id="tbListVouchers"></table>
+     <div id="dvpagerListVouchers"></div>
+</div>
+<div id="dialog-message" title="Error"></div>
+</center>
+</div>
+    

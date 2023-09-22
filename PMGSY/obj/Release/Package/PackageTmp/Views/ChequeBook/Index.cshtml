@@ -1,0 +1,94 @@
+﻿@*@using PMGSY.Models.ChequeBook*@
+@model PMGSY.Models.ChequeBook.ChequeBookViewModel
+
+@{
+    ViewBag.Title = "Index";
+}
+
+<script src="~/Scripts/custom/Generic.js"></script>
+<script src="~/Scripts/ChequeBook/ListChequeBook.js"></script>
+<br />
+
+<div class="ui-widget-header innerDivHeader">
+    Cheque Book
+</div>
+<br />
+
+<div style="text-align: left; width: 98%">
+    <table>
+        <tr>
+            <td>
+                <div id="AddChequeBook" style="margin-left: 10px;" class="ui-state-default ui-corner-all jqueryButton">
+                    <span style="float: left" class="ui-icon ui-icon-circle-plus"></span>
+                    <span style="float: left; margin-right: 5px">Add New Cheque Book</span>
+                </div>
+            </td>
+            <td>
+                <div id="searchChequeBook" style="margin-left: 5px;" class="ui-state-default ui-corner-all jqueryButton">
+                    <span style="float: left" class="ui-icon ui-icon-circle-zoomin"></span>
+                    <span style="float: left; margin-right: 5px">Search Cheque Book</span>
+                </div>
+            </td>
+        </tr>
+    </table>
+</div>
+
+<center>
+<div id="loadPage" style="width:98%; margin-bottom:5px"></div> 
+
+<table class="ui-state-default ui-corner-all" style="border:0.1em solid gray; display:none; width:98%; margin-bottom:5px" id="tblSearch">
+<tr>
+    <td class="ui-widget ui-corner-bottom"  style="text-align:left; border-bottom:0.1em solid gray" colspan="2">
+            <span class="ui-icon ui-icon-info" style="float: left;"></span>
+            <span style="float: left; font-weight:bold">Search Criteria</span>
+            <span class="ui-icon ui-icon-circle-close" style="float: right;" id="iconClose"></span>
+    </td>
+</tr>
+       @if (PMGSY.Extensions.PMGSYSession.Current.LevelId == 4 && PMGSY.Extensions.PMGSYSession.Current.FundType == "A")
+                  { 
+                <tr>     
+                    <td style="text-align:center" colspan="2">                       
+                        @Html.RadioButtonFor(m => m.IsSRRDADpiu, "D", new { @id="rdoSearchDPIU",@title="DPIU",@Checked="checked",@tabindex = "1"}) @Html.Label("DPIU")
+                         @Html.RadioButtonFor(m => m.IsSRRDADpiu, "S", new { @id="rdoSearchSRRDA",@title="SRRDA",@tabindex = "1"}) @Html.Label("SRRDA")
+                    </td>
+                </tr>
+                  }
+    @if (PMGSY.Extensions.PMGSYSession.Current.LevelId == 4)
+    {
+<tr id="trSearchDPIU">
+    <td style="text-align:right; font-weight:bold; width:45%">@Html.LabelFor(m => m.ADMIN_ND_CODE):</td>
+    <td style="width:55%">  @Html.DropDownListFor(m => m.ADMIN_ND_CODE, Model.PopulateDPIU, new { @id = "ddlSearchDPIU", @title = "DPIU", @tabindex = "2" })</td>
+</tr>
+    }
+
+<tr>
+    <td style="text-align:right; font-weight:bold; width:45%">Month:</td>
+    <td style="width:55%">@Html.DropDownList("ddlMonth", null, new { @title = "Month",@tabindex = "3" })</td>
+</tr>
+<tr>  
+    <td style="text-align:right; font-weight:bold">Year:</td>
+    <td>@Html.DropDownList("ddlYear", null, new { @title = "Year",@tabindex = "4" })</td>
+</tr>
+<tr>  
+    <td style="text-align:right; font-weight:bold">Cheque Number:</td>
+    <td>@Html.TextBox("txtChequeNo", null, new { @title = "Cheque Number",@tabindex = "5" })</td>
+</tr>
+<tr>
+    <td></td>
+    <td><input type="button" id="btnSearch" value="Search" class="jqueryButton" title="Click here to search details" tabindex="6"> &nbsp;
+        <input type="button" id="btnSearchCancel" value="Cancel" class="jqueryButton" title="Click here to cancel" tabindex="7">
+    </td>
+</tr>
+</table>        
+
+<div id="divChequeBookError" class="ui-state-error ui-corner-all" style="text-align: left; display: none; width: 98%">
+                <span class="ui-icon ui-icon-alert" style="float: left;"></span>
+                <span></span>
+</div>       
+<div id="divChequeBookList" style="width:98%">
+<table id="tblChequeBookList"></table>
+<div id="divChequeBookListPager"></div>
+</div>
+        
+</center>
+

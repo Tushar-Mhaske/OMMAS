@@ -1,0 +1,313 @@
+﻿
+
+@*----------------------------------------------------------------------------------------
+
+ * Project Id:
+
+ * Project Name:OMMAS2
+
+ * File Name: TEOAddDetailsForTOB.cshtml
+
+ * Author : Koustubh Nakate
+
+ * Creation Date :28/Aug/2013
+
+ * Desc :This is partial view which consist add TEO details view 
+ * ---------------------------------------------------------------------------------------*@
+
+@model PMGSY.Models.TransferEntryOrder.TeoDetailsModelForTOB
+
+<script type="text/javascript">var billId = '@ViewBag.BILL_ID'; var transId = '@ViewBag.TransId';
+</script>
+<script type="text/javascript" src="@Url.Content("~/Scripts/custom/Generic.js")"> </script>
+<script type="text/javascript" src="@Url.Content("~/Scripts/TransferEntryOrder/TEOAddDetailsForTOBC.js")"> </script>
+<script type="text/javascript" src="@Url.Content("~/Scripts/TransferEntryOrder/TEOAddDetailsForTOBD.js")"> </script>
+
+
+<script>
+
+    var _parentTxnCode = '@ViewBag.ParentTxnId';
+    var _parentTxnIdArray = [164, 165, 1194, 1195 ,1664 ,1665];
+
+    var isStateWiseBalanceTransfer=false;
+
+    $.each(_parentTxnIdArray, function (index,value) {
+        
+        if(parseInt(_parentTxnCode)==parseInt(value))
+        {
+            isStateWiseBalanceTransfer = true;            
+        }        
+    });
+
+    //alert(_parentTxnCode);
+    //alert(isStateWiseBalanceTransfer);
+    
+    var _stateCodeD;
+</script>
+
+<form id="@("frmTEOAddDetailsForTOB")">
+    @Html.ValidationSummary(true)
+    @Html.AntiForgeryToken()
+    @* Added By Abhishek kamble for State Balance transfer *@
+    @{
+        int[] parentTxnId = { 164, 165, 1194, 1195, 1664, 1665};
+        int parentID = ViewBag.ParentTxnId;                  
+    }    
+    @Html.Hidden("_ParentTxnID", parentID)
+
+            <div class="ui-widget-header ui-corner-top" style="margin-left:0; margin-right:0;width:100%">
+                
+                <table style="width:100%">
+                    <tr>
+                        <td style="width:30%">Credit Details </td>
+                        <td style="width:20%"></td>
+                        <td style="width:60%">Debit Details </td>
+                    </tr>
+                </table>
+
+               @* <span id="DivCreditTEO" style="float:right" class="ui-icon ui-icon-circle-close"></span>*@
+            </div>
+            <div class="ui-state-default ui-corner-bottom">
+                 <div id="divTEODetailsErrorForTOB" class="ui-state-error ui-corner-all" style="text-align: left; display: none; width: 100%">
+                            <span class="ui-icon ui-icon-alert" style="float: left;"></span>
+                            <span></span>
+                            </div>
+                <table width="100%">
+                    <tr>
+                        <td style="width: 50%; vertical-align:top;">
+                            <table class="table-content" style="width: 100%; ">
+                                @*  Added By Abhishek kamble to populate State drop down   1 Oct 2014 *@
+
+                                @if (parentTxnId.Contains(parentID))
+                                {
+                                <tr>
+                                    <td style="width: 30%">@Html.LabelFor(m => m.MAST_STATE_CODE_C)<label style="color: red;"> *</label></td>
+                                   @if ( ViewBag.ParentTxnId == 1664 ||  ViewBag.ParentTxnId == 1665  )
+                                   {
+                                     <td style="width: 70%">@Html.DropDownListFor(m => m.MAST_STATE_CODE_C, ViewBag.ddlState as IEnumerable<SelectListItem>, new { @id = "ddlStateC", @style = "width:200px", @title = "State" })
+                                        @Html.ValidationMessageFor(m => m.MAST_STATE_CODE_C)
+                                          </td>
+                                       }
+                                    else
+                                    {
+                                       <td style="width: 70%">@Html.DropDownListFor(m => m.MAST_STATE_CODE_C, ViewBag.ddlState as IEnumerable<SelectListItem>, new { @id = "ddlStateC", @style = "width:200px", @title = "State", @disabled="disabled" })
+                                        @Html.ValidationMessageFor(m => m.MAST_STATE_CODE_C)
+                                          </td>
+                                   }
+
+                                   
+                                </tr>
+                                }
+                                <tr id="trddlDistrictC" style="display: none">
+                                    <td style="width: 30%">@Html.LabelFor(m => m.MAST_DISTRICT_CODE_C)<label style="color: red;"> *</label></td>
+                                    <td style="width: 70%">@Html.DropDownListFor(m => m.MAST_DISTRICT_CODE_C, ViewBag.ddlDistrictC as IEnumerable<SelectListItem>, new { @id = "ddlDistrictC", @style = "width:200px", @title = "District" })
+                                        @Html.ValidationMessageFor(m => m.MAST_DISTRICT_CODE_C)
+
+                                    </td>
+                                </tr>
+                                
+                                <tr id="trddlDPIUC" style="display: none">
+                                    <td style="width: 30%">@Html.LabelFor(m => m.ADMIN_ND_CODE_C)<label style="color: red;"> *</label></td>
+                                    <td>@Html.DropDownListFor(m => m.ADMIN_ND_CODE_C, ViewBag.ddlDPIU as IEnumerable<SelectListItem>, new { @id = "ddlDPIUC", @title = "PIU", @style = "width:200px" })@Html.ValidationMessageFor(m => m.ADMIN_ND_CODE_C)</td>
+                                </tr>
+                                <tr id="trddlContractorC" style="display: none">
+                                    <td style="width: 30%">@Html.LabelFor(m => m.MAST_CON_ID_C)<label style="color: red;"> *</label></td>
+                                    <td>@Html.DropDownListFor(m => m.MAST_CON_ID_C, ViewBag.ddlContractor as IEnumerable<SelectListItem>, new { @id = "ddlContractorC", @title = "Company", @style = "width:200px" })@Html.ValidationMessageFor(m => m.MAST_CON_ID_C)</td>
+                                </tr>
+                                <tr id="trConSupNameC" style="display: none">
+                                    <td style="width: 30%">@Html.Label("Contractor/Supplier Name")</td>
+                                    <td>@Html.Label("Contractor Name", new { @id = "ConSupNameC" })</td>
+                                </tr>
+                                <tr id="trddlAgreementC" style="display: none">
+                                    <td style="width: 30%">@Html.LabelFor(m => m.IMS_AGREEMENT_CODE_C)<label style="color: red;"> *</label></td>
+                                    <td>@Html.DropDownListFor(m => m.IMS_AGREEMENT_CODE_C, ViewBag.ddlAgreement as IEnumerable<SelectListItem>, new { @id = "ddlAgreementC",@title = "Agreement", @style = "width:200px" })@Html.ValidationMessageFor(m => m.IMS_AGREEMENT_CODE_C)</td>
+                                </tr>
+                                <tr id="trddlSancYearC" style="display: none">
+                                    <td style="width: 30%">@Html.LabelFor(m => m.SANC_YEAR_C)<label style="color: red;"> *</label></td>
+                                    <td>@Html.DropDownListFor(m => m.SANC_YEAR_C, ViewBag.ddlSancYear as IEnumerable<SelectListItem>, new { @id = "ddlSancYearC",@title = "Sanctioned Year", @style = "width:200px" })@Html.ValidationMessageFor(m => m.SANC_YEAR_C)</td>
+                                </tr>
+                                <tr id="trddlPackageC" style="display: none">
+                                    <td style="width: 30%">@Html.LabelFor(m => m.IMS_PACKAGE_ID_C)<label style="color: red;"> *</label></td>
+                                    <td>@Html.DropDownListFor(m => m.IMS_PACKAGE_ID_C, ViewBag.ddlPackage as IEnumerable<SelectListItem>, new { @id = "ddlPackageC", @title = "Package",@style = "width:200px" })@Html.ValidationMessageFor(m => m.IMS_PACKAGE_ID_C)</td>
+                                </tr>
+                                <tr id="trddlRoadC" style="display: none">
+                                    <td style="width: 30%">@Html.LabelFor(m => m.IMS_PR_ROAD_CODE_C)<label style="color: red;"> *</label></td>
+                                    <td>@Html.DropDownListFor(m => m.IMS_PR_ROAD_CODE_C, ViewBag.ddlRoad as IEnumerable<SelectListItem>, new { @id = "ddlRoadC",@title = "Road", @style = "width:200px" })@Html.ValidationMessageFor(m => m.IMS_PR_ROAD_CODE_C)</td>
+                                </tr>
+                                <tr id="trddlHeadC" style="display: none">
+                                    <td style="width: 30%">@Html.LabelFor(m => m.HEAD_ID_C)<label style="color: red;"> *</label></td>
+                                    <td>@Html.DropDownListFor(m => m.HEAD_ID_C, ViewBag.ddlHead_C as IEnumerable<SelectListItem>, new { @id = "ddlHeadC", @title = "Head",@style = "width:300px" })@Html.ValidationMessageFor(m => m.HEAD_ID_C)</td>
+                                </tr>
+                                <tr id="trddlHeadContractorC" style="display: none">
+                                    <td style="width: 30%">@Html.LabelFor(m => m.MAST_CON_ID_TRANS_C)<label style="color: red;"> *</label></td>
+                                    <td>@Html.DropDownListFor(m => m.MAST_CON_ID_TRANS_C, ViewBag.ddlHeadContractor as IEnumerable<SelectListItem>, new { @id = "ddlHeadContractorC",@title = "Company", @style = "width:200px" })@Html.ValidationMessageFor(m => m.MAST_CON_ID_TRANS_C)</td>
+                                </tr>
+                                <tr id="trHeadConSupNameC" style="display: none">
+                                    <td style="width: 30%">@Html.Label("Contractor/Supplier Name")</td>
+                                    <td>@Html.Label("Contractor Name", new { @id = "HeadConSupNameC" })</td>
+                                </tr>
+                                <tr id="trddlHeadAgreementC" style="display: none">
+                                    <td style="width: 30%">@Html.LabelFor(m => m.IMS_AGREEMENT_CODE_C)<label style="color: red;"> *</label></td>
+                                    <td>@Html.DropDownListFor(m => m.IMS_AGREEMENT_CODE_C, ViewBag.ddlHeadAgreement as IEnumerable<SelectListItem>, new { @id = "ddlHeadAgreementC",@title = "Agreement", @style = "width:200px" })@Html.ValidationMessageFor(m => m.IMS_AGREEMENT_CODE_C)</td>
+                                </tr>
+                                <tr id="trddlHeadSancYearC" style="display: none">
+                                    <td style="width: 30%">@Html.LabelFor(m => m.SANC_YEAR_C)<label style="color: red;"> *</label></td>
+                                    <td>@Html.DropDownListFor(m => m.SANC_YEAR_C, ViewBag.ddlHeadSancYear as IEnumerable<SelectListItem>, new { @id = "ddlHeadSancYearC",@title = "Sanctioned Year", @style = "width:200px" })@Html.ValidationMessageFor(m => m.SANC_YEAR_C)</td>
+                                </tr>
+                                <tr id="trddlHeadPackageC" style="display: none">
+                                    <td style="width: 30%">@Html.LabelFor(m => m.IMS_PACKAGE_ID_C)<label style="color: red;"> *</label></td>
+                                    <td>@Html.DropDownListFor(m => m.IMS_PACKAGE_ID_C, ViewBag.ddlHeadPackage as IEnumerable<SelectListItem>, new { @id = "ddlHeadPackageC",@title = "Package", @style = "width:200px" })@Html.ValidationMessageFor(m => m.IMS_PACKAGE_ID_C)</td>
+                                </tr>
+                                <tr id="trddlHeadRoadC" style="display: none">
+                                    <td style="width: 30%">@Html.LabelFor(m => m.IMS_PR_ROAD_CODE_C)<label style="color: red;"> *</label></td>
+                                    <td>@Html.DropDownListFor(m => m.IMS_PR_ROAD_CODE_C, ViewBag.ddlHeadRoad as IEnumerable<SelectListItem>, new { @id = "ddlHeadRoadC",@title = "Road", @style = "width:200px" })@Html.ValidationMessageFor(m => m.IMS_PR_ROAD_CODE_C)</td>
+                                </tr>
+                                <tr id="trHeadIsFinalPayC" style="display: none">
+                                    <td style="width: 30%">@Html.LabelFor(m => m.FINAL_PAYMENT_C)<label style="color: red;"> *</label></td>
+                                    <td>@Html.CheckBoxFor(m => m.FINAL_PAYMENT_C, new { @id = "HeadIsFinalPayC", @disabled = "disabled" })@Html.ValidationMessageFor(m => m.FINAL_PAYMENT_C)</td>
+                                </tr>
+                                <tr>
+                                    <td style="width: 30%">@Html.LabelFor(model => model.AMOUNT_C)<label style="color: red;"> *</label></td>
+                                    <td style="width: 70%">@Html.TextBoxFor(model => model.AMOUNT_C, new { @placeholder = "Max 11.2 decimal Allowed...",@title = "Amount", @id = "AMOUNTC" }) @Html.ValidationMessageFor(model => model.AMOUNT_C)</td>
+                                </tr>
+                                <tr>
+                                    <td style="width: 30%">@Html.LabelFor(model => model.NARRATION_C)<label style="color: red;"> *</label></td>
+                                    <td>@Html.TextAreaFor(model => model.NARRATION_C, new { @id = "NARRATIONC", @placeholder = "Alphanumeric,Space,dash, slash and dot Allowed...",@title = "Narration", @style = "width:200px", @maxlength=255   }) @Html.ValidationMessageFor(model => model.NARRATION_C) </td>
+                                </tr>
+                                
+                            </table>
+                        </td>
+                        <td style="width: 50%; vertical-align:top; ">
+                            <table class="table-content" style="width: 100%; ">
+                                @*  Added By Abhishek kamble to populate State drop down   1 Oct 2014 *@
+                                   @if (parentTxnId.Contains(parentID))
+                                {
+                                <tr>
+                                    <td style="width: 30%">@Html.LabelFor(m => m.MAST_STATE_CODE_D)<label style="color: red;"> *</label></td>
+                                    <td style="width: 70%">@Html.DropDownListFor(m => m.MAST_STATE_CODE_D, ViewBag.ddlState as IEnumerable<SelectListItem>, new { @id = "ddlStateD", @style = "width:200px", @title = "State" })
+                                        @Html.ValidationMessageFor(m => m.MAST_STATE_CODE_D)
+                                    </td>
+                                </tr>
+                                   }
+
+                                <tr id="trddlDistrictD" style="display: none">
+                                    <td style="width: 30%">@Html.LabelFor(m => m.MAST_DISTRICT_CODE_D)<label style="color: red;"> *</label></td>
+                                    <td style="width: 70%">@Html.DropDownListFor(m => m.MAST_DISTRICT_CODE_D, ViewBag.ddlDistrictD as IEnumerable<SelectListItem>, new { @id = "ddlDistrictD",@title = "District", @style = "width:200px" })
+                                        @Html.ValidationMessageFor(m => m.MAST_DISTRICT_CODE_D)
+
+                                    </td>
+                                </tr>
+                                <tr id="trddlDPIUD" style="display: none">
+                                    <td style="width: 30%">@Html.LabelFor(m => m.ADMIN_ND_CODE_D)<label style="color: red;"> *</label></td>
+                                    <td>@Html.DropDownListFor(m => m.ADMIN_ND_CODE_D, ViewBag.ddlDPIU_D as IEnumerable<SelectListItem>, new { @id = "ddlDPIUD",@title = "PIU", @style = "width:200px" })@Html.ValidationMessageFor(m => m.ADMIN_ND_CODE_D)</td>
+                                </tr>
+                                <tr id="trddlContractorD" style="display: none">
+                                    <td style="width: 30%">@Html.LabelFor(m => m.MAST_CON_ID_D)<label style="color: red;"> *</label></td>
+                                    <td>@Html.DropDownListFor(m => m.MAST_CON_ID_D, ViewBag.ddlContractor as IEnumerable<SelectListItem>, new { @id = "ddlContractorD",@title = "Company", @style = "width:200px" })@Html.ValidationMessageFor(m => m.MAST_CON_ID_D)</td>
+                                </tr>
+                                <tr id="trConSupNameD" style="display: none">
+                                    <td style="width: 30%">@Html.Label("Contractor/Supplier Name")</td>
+                                    <td>@Html.Label("Contractor Name", new { @id = "ConSupNameD" })</td>
+                                </tr>
+                                <tr id="trddlAgreementD" style="display: none">
+                                    <td style="width: 30%">@Html.LabelFor(m => m.IMS_AGREEMENT_CODE_D)<label style="color: red;"> *</label></td>
+                                    <td>@Html.DropDownListFor(m => m.IMS_AGREEMENT_CODE_D, ViewBag.ddlAgreement as IEnumerable<SelectListItem>, new { @id = "ddlAgreementD",@title = "Agreement", @style = "width:200px" })@Html.ValidationMessageFor(m => m.IMS_AGREEMENT_CODE_D)</td>
+                                </tr>
+                                <tr id="trddlSancYearD" style="display: none">
+                                    <td style="width: 30%">@Html.LabelFor(m => m.SANC_YEAR_D)<label style="color: red;"> *</label></td>
+                                    <td>@Html.DropDownListFor(m => m.SANC_YEAR_D, ViewBag.ddlSancYear as IEnumerable<SelectListItem>, new { @id = "ddlSancYearD", @title = "Sanctioned Year", @style = "width:200px" })@Html.ValidationMessageFor(m => m.SANC_YEAR_D)</td>
+                                </tr>
+                                <tr id="trddlPackageD" style="display: none">
+                                    <td style="width: 30%">@Html.LabelFor(m => m.IMS_PACKAGE_ID_D)<label style="color: red;"> *</label></td>
+                                    <td>@Html.DropDownListFor(m => m.IMS_PACKAGE_ID_D, ViewBag.ddlPackage as IEnumerable<SelectListItem>, new { @id = "ddlPackageD",@title = "Package", @style = "width:200px" })@Html.ValidationMessageFor(m => m.IMS_PACKAGE_ID_D)</td>
+                                </tr>
+                                <tr id="trddlRoadD" style="display: none">
+                                    <td style="width: 30%">@Html.LabelFor(m => m.IMS_PR_ROAD_CODE_D)<label style="color: red;"> *</label></td>
+                                    <td>@Html.DropDownListFor(m => m.IMS_PR_ROAD_CODE_D, ViewBag.ddlRoad as IEnumerable<SelectListItem>, new { @id = "ddlRoadD",@title = "Road", @style = "width:200px" })@Html.ValidationMessageFor(m => m.IMS_PR_ROAD_CODE_D)</td>
+                                </tr>
+                                <tr id="trddlHeadD" style="display: none">
+                                    <td style="width: 30%">@Html.LabelFor(m => m.HEAD_ID_D)<label style="color: red;"> *</label></td>
+                                    <td>@Html.DropDownListFor(m => m.HEAD_ID_D, ViewBag.ddlHead_D as IEnumerable<SelectListItem>, new { @id = "ddlHeadD",@title = "Head", @style = "width:300px" })@Html.ValidationMessageFor(m => m.HEAD_ID_D)</td>
+                                </tr>
+                                <tr id="trddlHeadContractorD" style="display: none">
+                                    <td style="width: 30%">@Html.LabelFor(m => m.MAST_CON_ID_TRANS_D)<label style="color: red;"> *</label></td>
+                                    <td>@Html.DropDownListFor(m => m.MAST_CON_ID_TRANS_D, ViewBag.ddlHeadContractor as IEnumerable<SelectListItem>, new { @id = "ddlHeadContractorD",@title = "Company", @style = "width:200px" })@Html.ValidationMessageFor(m => m.MAST_CON_ID_TRANS_D)</td>
+                                </tr>
+                                <tr id="trHeadConSupNameD" style="display: none">
+                                    <td style="width: 30%">@Html.Label("Contractor/Supplier Name")</td>
+                                    <td>@Html.Label("Contractor Name", new { @id = "HeadConSupNameD" })</td>
+                                </tr>
+                                <tr id="trddlHeadAgreementD" style="display: none">
+                                    <td style="width: 30%">@Html.LabelFor(m => m.IMS_AGREEMENT_CODE_D)<label style="color: red;"> *</label></td>
+                                    <td>@Html.DropDownListFor(m => m.IMS_AGREEMENT_CODE_D, ViewBag.ddlHeadAgreement as IEnumerable<SelectListItem>, new { @id = "ddlHeadAgreementD",@title = "Agreement", @style = "width:200px" })@Html.ValidationMessageFor(m => m.IMS_AGREEMENT_CODE_D)</td>
+                                </tr>
+                                <tr id="trddlHeadSancYearD" style="display: none">
+                                    <td style="width: 30%">@Html.LabelFor(m => m.SANC_YEAR_D)<label style="color: red;"> *</label></td>
+                                    <td>@Html.DropDownListFor(m => m.SANC_YEAR_D, ViewBag.ddlHeadSancYear as IEnumerable<SelectListItem>, new { @id = "ddlHeadSancYearD",@title = "Sanctioned Year", @style = "width:200px" })@Html.ValidationMessageFor(m => m.SANC_YEAR_D)</td>
+                                </tr>
+                                <tr id="trddlHeadPackageD" style="display: none">
+                                    <td style="width: 30%">@Html.LabelFor(m => m.IMS_PACKAGE_ID_D)<label style="color: red;"> *</label></td>
+                                    <td>@Html.DropDownListFor(m => m.IMS_PACKAGE_ID_D, ViewBag.ddlHeadPackage as IEnumerable<SelectListItem>, new { @id = "ddlHeadPackageD", @title = "Package", @style = "width:200px" })@Html.ValidationMessageFor(m => m.IMS_PACKAGE_ID_D)</td>
+                                </tr>
+                                <tr id="trddlHeadRoadD" style="display: none">
+                                    <td style="width: 30%">@Html.LabelFor(m => m.IMS_PR_ROAD_CODE_D)<label style="color: red;"> *</label></td>
+                                    <td>@Html.DropDownListFor(m => m.IMS_PR_ROAD_CODE_D, ViewBag.ddlHeadRoad as IEnumerable<SelectListItem>, new { @id = "ddlHeadRoadD",@title = "Road", @style = "width:200px" })@Html.ValidationMessageFor(m => m.IMS_PR_ROAD_CODE_D)</td>
+                                </tr>
+                                <tr id="trHeadIsFinalPayD" style="display: none">
+                                    <td style="width: 30%">@Html.LabelFor(m => m.FINAL_PAYMENT_D)<label style="color: red;"> *</label></td>
+                                    <td>@Html.CheckBoxFor(m => m.FINAL_PAYMENT_D, new { @id = "HeadIsFinalPayD",  @disabled = "disabled" })@Html.ValidationMessageFor(m => m.FINAL_PAYMENT_D)</td>
+                                </tr>
+                                <tr>
+                                    <td style="width: 30%">@Html.LabelFor(model => model.AMOUNT_D)<label style="color: red;"> *</label></td>
+                                    <td style="width: 70%">@Html.TextBoxFor(model => model.AMOUNT_D, new { @placeholder = "Max 11.2 decimal Allowed...", @id = "AMOUNTD" ,@title = "Amount", @readonly="readonly"}) @Html.ValidationMessageFor(model => model.AMOUNT_D)</td>
+                                </tr>
+                                <tr>
+                                    <td style="width: 30%">@Html.LabelFor(model => model.NARRATION_D)<label style="color: red;"> *</label></td>
+                                    <td>@Html.TextAreaFor(model => model.NARRATION_D, new { @id = "NARRATIOND", @placeholder = "Alphanumeric,Space,dash, slash and dot Allowed...", @title = "Narration",@style = "width:200px",@maxlength=255  }) @Html.ValidationMessageFor(model => model.NARRATION_D) </td>
+                                </tr>
+
+                            </table>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td style="text-align: right;">
+                            @if (ViewBag.TransId == null)
+                            {
+                                <input type="button" value="Save" class="jqueryButton" id="btnSaveTEOCreditDebitDetails" title="Save TEO Details" />
+                                }
+                            else
+                            {
+                                <input type="button" value="Update" class="jqueryButton" id="btnEditTEOCreditDebitDetails"  title="Update TEO Details" />
+                                 }
+                        </td>
+                        <td style="text-align: left">
+
+                            @if (ViewBag.TransId == null)
+                            {
+                                <input type="reset" value="Reset" id="btnResetCD" class="jqueryButton"  title="Reset"/>
+                                }
+                            else
+                            {
+                                <input type="button" value="Cancel" id="btnCancelTEOCreditDebitDetails" class="jqueryButton" title="Cancel" />
+                                 }
+
+                        </td>
+
+                    </tr>
+                    <tr id="trNote">
+                        <td colspan="2">
+                             <label style="border:none;" >[ Note: From District, To District, From PIU and To PIU are compulsory. ]</label>
+                        </td>
+
+                    </tr>
+                </table>
+            
+
+                
+            </div>
+    @Html.Hidden("parentTxnId", @ViewBag.ParentTxnId as string)
+</form>
+@section Scripts {
+    @Scripts.Render("~/bundles/jqueryval")
+}
+

@@ -1,0 +1,19 @@
+﻿
+@using MvcReportViewer
+@model PMGSY.Areas.AccountReports.Models.FPPModel
+
+<div id="dvLoadReport" style="width: 95%;">
+    @Html.MvcReportViewer("/PMGSYCitizen/FPPDetails",
+         new
+         {
+          PINTAgencyCode=Model.Agency,
+          PINTStateCode=Model.StateCode,
+          PINTFACode=(Model.FundingAgencyCode==-1?0:Model.FundingAgencyCode),
+          PintIMSYear=Model.Year,
+          FPPPreiod=Model.PeriodCode,
+          level=(Model.StateCode==0?1:2)
+         },
+         new { Height = 600, Width = 1200, style = "border:none;" })
+</div>
+
+

@@ -1,0 +1,23 @@
+﻿@using MvcReportViewer
+
+@model PMGSY.Areas.QMSSRSReports.Models.CCBTViewModel
+@Html.MvcReportViewer("/PMGSYCitizen/CCBTReport",
+     new
+     {
+         Level = Model.LevelCode,
+         State = Model.Mast_State_Code,
+         District = Model.Mast_District_Code,
+         Block = Model.Mast_Block_Code,
+         Year = @Model.Year,
+         Batch = @Model.Batch,
+         Collaboration = @Model.FundingAgency,
+         PMGSY = PMGSY.Extensions.PMGSYSession.Current.PMGSYScheme,
+         Status = Model.Status,
+         StateName = Model.StateName,
+         DistrictName = Model.DistName,
+         BlockName = Model.BlockName,
+         BatchName = Model.BatchName,
+         CollaborationName = Model.CollaborationName,
+         StatusName = Model.StatusName
+     },
+     new { Height = 600, Width = "100%", style = "border:none;" })

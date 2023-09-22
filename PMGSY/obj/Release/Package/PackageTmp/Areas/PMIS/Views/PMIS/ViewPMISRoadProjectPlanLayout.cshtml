@@ -1,0 +1,210 @@
+﻿@model IEnumerable<PMGSY.Areas.PMIS.Models.AddPlanPMISViewModel>
+
+<script src="~/Scripts/custom/Generic.js"></script>
+<script src="~/Scripts/jquery.ui.datepicker.js" type="text/javascript"></script>
+<script src="~/Scripts/jquery.ui.css" type="text/javascript"></script>
+@*<script src="~/Areas/PMIS/Scripts/ListPMISRoad.js"></script>*@
+
+@{
+    ViewBag.Title = "ViewPMISRoadProjectPlanLayout";
+}
+
+      <form id="frmViewProjectPlan">
+
+            <table class="rowstyle ui-corner-all" id="tblAddProjectPlan"  style="width:100%; border:solid black 1px;"  >
+                <tr style="height:20px;text-align:left">
+                    <td style =""width: 10%">
+                   <b> ROAD PLAN VERSIONS :  </b>
+                        </td>
+                     <td style="width:10%"> 
+                         <b>
+                            @foreach (var item in ViewBag.RoadPlanVersions)
+                            { 
+                                @*<a href ="#" onclick ="ViewPartialProjectPlan('@ViewBag.RoadName.ToString()', '@item.ToString()');">@item >> </a>*@
+                                <span style="cursor:pointer" onclick ="ViewPartialProjectPlan('@ViewBag.RoadName.ToString()', '@item.ToString()');">@item >> </span>
+                            }  
+                             </b>                               
+                        </td>
+                    <td colspan ="4"></td>
+                    <td></td>
+                    <td></td>
+                </tr>
+                 <tr  style="height:20px;text-align:left" >
+                    
+                     <td style="width:5%;">Road Name : 
+                     </td>
+                         <td style="width:20%">
+                            <strong>
+                                  @ViewBag.RoadName                     
+                            </strong>
+                        </td>
+                     <td style="width:10%;">Sanction Year : </td>
+                         <td style="width:15%">
+                            <strong>
+                                @ViewBag.SanctionedYear
+                            </strong>
+                        </td>
+                     <td style="width:10%;">Sanctioned Length : </td>
+                         <td style="width:15%">
+                            <strong>
+                                @ViewBag.SanctionedLength
+                            </strong>
+                        </td>
+                      <td style="width:15%">Selected Road Plan Version :</td>
+                        <td style="width:10%"> 
+                          @ViewBag.CurrentRoadPlaneVersion                                
+                        </td>
+                     </tr>
+
+                <tr  style="height:20px;text-align:left" >
+                      
+                        <td style="width:7%;">Package No: </td>
+                         <td style="width:20%">
+                            <strong>
+                                @ViewBag.PackageNo
+                            </strong>
+                        </td>
+                        <td style="width:5%;">District : </td>
+                         <td style="width:15%">
+                            <strong>
+                                @PMGSY.Extensions.PMGSYSession.Current.DistrictName                               
+                            </strong>
+                        </td>
+                    
+                      <td style="width:5%">Agreement Value (Rs. Lakhs):</td>
+                        <td style="width:15%"> 
+                            <strong>
+                                @ViewBag.AgreementValue
+                            </strong>
+                        </td>
+                    <td></td>
+                    <td></td>
+                   @* <td style="width:15%"> Road Plan Versions :</td>
+                        <td style="width:10%"> 
+                            @foreach (var item in ViewBag.RoadPlanVersions)
+                            { 
+                                <span style="cursor:pointer" onclick ="ViewPartialProjectPlan('@ViewBag.RoadName.ToString()', '@item.ToString()');">@item</span>
+                            }                                 
+                        </td>*@
+                     </tr>
+
+                <tr  style="height:20px;text-align:left" >
+                      
+                        <td style="width:7%;">State Share(Rs. Lakhs) : </td>
+                         <td style="width:20%">
+                            <strong>
+                                @ViewBag.StateShare
+                            </strong>
+                        </td>
+                        <td style="width:5%;">MoRD Share(Rs. Lakhs) : </td>
+                         <td style="width:15%">
+                            <strong>
+                                @ViewBag.MordShare                            
+                            </strong>
+                        </td>
+                    
+                      <td style="width:5%">Total Sanctioned Cost(Rs. Lakhs):</td>
+                        <td style="width:15%"> 
+                            <strong>
+                                @ViewBag.TotalSanctionedCost
+                            </strong>
+                        </td>
+                    <td></td>
+                    <td></td>
+                 
+                     </tr>
+                 <tr style="text-align:left;height:25px">
+                    <td colspan = "8" class="ui-widget-header" style="width:10%">
+                         <strong>View Plan Details </strong>
+                    </td>
+                </tr>
+                 <tr>
+                    <td colspan ="3" style="text-align:left;font-size:1em;width: 7%;color:forestgreen;">
+                      <span><strong>[Note : All quantities are in Km/m/No. and agreement cost is in Lakhs]</strong></span>
+                         </td>   
+                </tr>
+                  <tr  style="text-align:left;height:20px">
+                        <td   class="ui-jqgrid-sortable" style=" width:10%;text-align:center;">
+                            <strong>Activity</strong>
+                        </td>
+                         <td class="ui-jqgrid-sortable" style=" width:10%;text-align:center;">
+                            <strong>Unit</strong>
+                        </td>
+                         <td  class="ui-jqgrid-sortable" style=" width:10%;text-align:center;">
+                            <strong>Quantity</strong>
+                        </td>
+                         <td  class="ui-jqgrid-sortable" style="width:10%;text-align:center;">
+                            <strong>Agreement Cost(Rs. Lakhs)</strong>
+                        </td>
+                         <td  class="ui-jqgrid-sortable" style="width:10%;text-align:center;">
+                            <strong>Planned Start</strong>
+                        </td>
+                         <td  class="ui-jqgrid-sortable" style="width:12%;text-align:center;">
+                            <strong>Planned Duration(Days)</strong>
+                        </td>
+                         <td  class="ui-jqgrid-sortable" style="width:12%;text-align:center;">
+                            <strong>Planned Completion</strong>
+                        </td>
+                        <td  class="ui-jqgrid-sortable" style="width:12%;text-align:center;">
+                           
+                        </td>
+                    </tr>
+                @foreach(var item in Model){
+                               <tr >  
+                                    <td style ="text-align:left">  
+                                          @item.ACTIVITY_DESC
+                                    </td>
+                                    <td style ="text-align:center">
+                                        @item.ACTIVITY_UNIT                
+                                    </td>
+                               
+                                    <td style ="text-align:center">
+                                       @item.QUANTITY 
+                                    </td>
+                               
+                                     <td style ="text-align:center">
+                                        @item.AGREEMENT_COST 
+                                    </td>
+                               
+                                    <td style ="text-align:center">
+                                         @item.View_Planned_Start_Date 
+                                    </td>
+                                
+                                
+                                     <td style ="text-align:center">
+                                          @item.PLANNED_DURATION
+                                     </td>
+                                
+                               
+                                     <td style ="text-align:center">
+                                        @item.View_Planned_Completion_Date                            
+                                    </td> 
+                                    <td style ="text-align:center">
+                                    </td>  
+                                         
+                        </tr>
+                }
+
+                  <tr style="text-align:left;height:20px">
+                    <td  class="ui-jqgrid-sortable" style=" width:10%;text-align:center">
+                            <strong>TOTAL</strong>
+                    </td>
+                    <td></td>
+                    <td></td>
+                    <td style ="text-align:center">
+                        @Html.TextBox("Total Cost",ViewBag.TotalAgreementCost as Decimal?, new { @id = "txtTotalAgreementCost",@title = "Total Cost",@readonly = "true" , @placeholder = "AutoCal", @width = "50px", @align = "center"})   
+                    </td>
+                    <td style ="text-align:center">
+                        @Html.TextBox("Total Start Date", ViewBag.TotalPlannedStartDate as DateTime?, "{0:d}",new { @id = "txtTotalPlannedStartDate", @readonly = "true" , @placeholder = "AutoCal" , @width = "50px", @align = "center"})   
+                    </td>
+                    <td style ="text-align:center">
+                        @Html.TextBox("Total Duration", ViewBag.TotalPlannedDuration as Int32?, new { @id = "txtTotalPlannedDuration", @title = "Total Duration",@readonly = "true" , @placeholder = "AutoCal" , @width = "50px", @align = "center" })   
+                    </td>
+                    <td style ="text-align:center">
+                        @Html.TextBox("Total Completion Date", ViewBag.TotalPlannedCompletion as DateTime?, "{0:d}",new { @id = "txtTotalPlannedCompletion", @readonly = "true" , @placeholder = "AutoCal" , @width = "50px", @align = "center" })   
+                    </td>
+                </tr>
+                 
+            </table>  
+      </form>     
+        

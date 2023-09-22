@@ -1,0 +1,61 @@
+﻿@model PMGSY.Models.Authorization.ReceiptDetailsModel
+
+@*<script src="~/Scripts/jquery.ui.datepicker.js"></script>*@
+<script type="text/javascript" src="@Url.Content("~/Scripts/custom/Generic.js")"> </script>
+<script type="text/javascript" src="@Url.Content("~/Scripts/Authorization/AddReceipt.js")"> </script>
+
+<form id="frmAddReceipt">
+    @Html.ValidationSummary(true)
+    @Html.AntiForgeryToken()
+
+<table class="table-content" style= "width:100%;" cellspacing="1px" id="tblReceiptMaster">
+    <tr>
+        <td colspan="2">
+            <div class="ui-jqgrid-titlebar ui-widget-header ui-corner-top ui-helper-clearfix">
+            <span class="ui-icon ui-icon-circle-plus" style="float: left"></span>
+            <span class="ui-jqgrid-title" style="float: left; font-weight: bold; height:20px">Add Receipt Details</span>
+            </div>
+        </td>
+    </tr>
+    
+    <tr>
+        <td colspan="2">
+            <div id="divReceiptMasterError" class="ui-state-error ui-corner-all" style="text-align: left; display: none; width: 100%">
+                <span class="ui-icon ui-icon-alert" style="float: left;"></span>
+                <span></span>
+            </div>
+        </td>
+    </tr>
+  
+    <tr>
+        <td>@Html.LabelFor(model => model.BILL_DATE)<label style="color: red;"> *</label></td>
+        <td>@Html.TextBoxFor(model => model.BILL_DATE, new { @value=DateTime.Today, @placeholder="dd/MM/yyyy format"})</td>
+    </tr>
+    <tr>
+        <td></td>
+        <td>@Html.ValidationMessageFor(model => model.BILL_DATE)</td>
+    </tr>
+     <tr>
+        <td style="width: 50%">@Html.LabelFor(model => model.BILL_NO)<label style="color: red;"> *</label></td>
+        <td style="width: 50%">@Html.TextBoxFor(model => model.BILL_NO, new { @placeholder="Max 50 characters Allowed..."})</td>
+    </tr>
+    <tr>
+        <td>@Html.HiddenFor(m=>m.RHDN_AUTH_ID)</td>
+        <td>@Html.ValidationMessageFor(model => model.BILL_NO)</td>
+    </tr>
+
+    @{
+    if(Model.BILL_NO == null)
+    {
+    <tr>
+        <td style="text-align: right"><input type="button" value="Save" class="jqueryButton" id="btnSaveReceipt" /></td>
+        <td><input type="reset" value="Reset" id="btnResetReceipt" class="jqueryButton" /></td>       
+    </tr>
+    }
+    }
+</table>
+    </form>
+
+@section Scripts {
+    @Scripts.Render("~/bundles/jqueryval")
+}

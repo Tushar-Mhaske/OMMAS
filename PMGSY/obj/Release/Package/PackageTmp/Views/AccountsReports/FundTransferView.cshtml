@@ -1,0 +1,127 @@
+﻿@using PMGSY.Models
+@using PMGSY.Models.Report
+@model PMGSY.Models.AccountsReports.FundTransferViewModel
+@using PMGSY.Extensions
+
+
+<style type="text/css">
+
+div.CBHeader{
+			padding:5px;
+            width:98%;
+			display:inline-block;
+			cursor:default;
+			/*font:12px/14px Arial, Helvetica, sans-serif;*/
+            font-family: Trebuchet MS,Tahoma,Verdana,Arial,sans-serif;
+			color:#000;
+			background-color:#eee;
+			-moz-border-radius:10px;
+			-webkit-border-radius:10px;
+			-moz-box-shadow:#999 2px 0px 3px;
+			-webkit-box-shadow:#999 2px 0px 3px;
+		}
+</style>
+<link href="~/Content/demo_page.css" rel="stylesheet" />
+<link href="~/Content/demo_table_jui.css" rel="stylesheet" />
+<link href="~/Content/TableTools.css" rel="stylesheet" />
+<link href="~/Content/TableTools_JUI.css" rel="stylesheet" />
+
+<script src="~/Scripts/custom/Generic.js"></script>
+<script src="~/Scripts/DataTables/jquery.dataTables.js"></script>
+<script src="~/Scripts/DataTables/ZeroClipboard.js"></script>
+<script src="~/Scripts/DataTables/TableTools.js"></script>
+<script src="~/Scripts/AccountsReports/FundTransferSearch.js"></script>
+<br/>
+<div  class="ui-widget-header innerDivHeader" style="margin-bottom:5px;height:20px;width:99%">Register Of Fund Transfer To PIU</div>
+<form id="frmFundTransfer" >
+    @Html.ValidationSummary(true)
+   @Html.Hidden("LevelId",PMGSYSession.Current.LevelId)
+
+    @Html.HiddenFor(model=>model.DPIUName)
+    @Html.HiddenFor(model=>model.HeadName)
+    @Html.HiddenFor(model=>model.MonthName)
+    @Html.HiddenFor(model=>model.StateName)
+    @Html.HiddenFor(model=>model.YearName)
+    @Html.Hidden("SelectedYear",ViewBag.SelectedYear as String)
+    @Html.Hidden("SelectedMonth",ViewBag.SelectedMonth as String)
+
+
+
+<center>
+   
+ <div id="dvError" class="ui-state-error ui-corner-all" style="text-align: left; display: none; width: 99%;height: 30px">
+                <span class="ui-icon ui-icon-alert" style="float: left;"></span>
+                <span></span>
+            </div>
+<div class="CBHeader ui-corner-all" id="dvFundTransfer">
+    @Html.Hidden("LevelID",PMGSYSession.Current.LevelId)
+<table class="ui-state-default ui-corner-all" style="border: 0.1em solid gray; width: 100%; margin-top: 1px" id="tblFilter">
+
+    <tr>
+        <td style="width:5%"></td>
+        <td style="width:30%">
+        @Html.Label("Month") <label style="color:red">*</label>
+        @Html.DropDownListFor(m => m.Month,  ViewBag.Month as IEnumerable<SelectListItem>, new {id="ddlMonth",@title="Month"})  
+        @Html.ValidationMessageFor(m=>m.Month)
+        </td>
+        <td style="width:30%" >
+        @Html.Label("Year")<label style="color:red">*</label>
+        @Html.DropDownListFor(m => m.Year,  ViewBag.Year as IEnumerable<SelectListItem>, new {id="ddlYear",@title="Year"})
+        @Html.ValidationMessageFor(m=>m.Year)
+        </td>
+        <td style="width:35%">
+        @Html.Label("Head")<label style="color:red">*</label>
+        @Html.DropDownListFor(m => m.HeadCode,  ViewBag.FundSelection as IEnumerable<SelectListItem>, new {id="ddlFund",style="width:200px",@title="Head"})          
+        @Html.ValidationMessageFor(m=>m.HeadCode)
+        </td>        
+    </tr>
+   @* <tr>
+        <td></td>
+        <td >&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;@Html.ValidationMessageFor(m=>m.Month)</td>
+        <td>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;@Html.ValidationMessageFor(m=>m.Year)</td>
+        <td>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;@Html.ValidationMessageFor(m=>m.HeadCode)</td>
+    </tr>*@
+    <tr id="trDPIUSelect">
+        <td></td>
+       <td>DPIU Selection</td>
+        <td>
+            @if(PMGSYSession.Current.LevelId==4)
+            {
+                @Html.Label("State")<label style="color:red">*</label> @Html.DropDownListFor(m => m.StateCode,  ViewBag.SRRDA as IEnumerable<SelectListItem>, new {id="ddlSRRDA",disabled="disabled",@title="State"})     
+                
+            }
+            else
+            {
+              @Html.Label("State")<label style="color:red">*</label> @Html.DropDownListFor(m => m.StateCode,  ViewBag.SRRDA as IEnumerable<SelectListItem>, new {id="ddlSRRDA",@title="State"})     
+            }
+            @Html.ValidationMessageFor(m=>m.StateCode)
+        </td>
+        <td>
+           @Html.Label("DPIU") 
+           @Html.DropDownListFor(m => m.DPIUCode,   ViewBag.DPIU as IEnumerable<SelectListItem>, new {id="ddlDPIU",style="width:200px",@title="DPIU"})    
+           @Html.ValidationMessageFor(m=>m.DPIUCode)
+        </td>
+        <td></td>
+
+    </tr>
+    @*<tr>
+        <td></td>
+        <td></td>
+        <td></td>
+        <td>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;@Html.ValidationMessageFor(m=>m.DPIUCode)</td>
+    </tr>*@
+    <tr>
+        <td colspan="5" style="text-align:center">
+            <input type="button" id="btnViewDetails" value="View Details" class="jqueryButton" title="Click here to view details" />
+        </td>
+    </tr>
+
+
+    </table>
+    </div>
+    </center>
+    <div id="FundTransferDetails">
+
+    </div>  
+
+    </form>

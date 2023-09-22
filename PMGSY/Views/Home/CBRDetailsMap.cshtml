@@ -1,0 +1,55 @@
+﻿<!------- URL To Convert Shape file into GeoJson === http://ogre.adc4gis.com/ ------->
+
+<html>
+    <head>
+        <title>OMMAS</title>
+        <link href="~/Content/Highmaps.css" rel="stylesheet" />
+       @* <script src="~/Scripts/jquery-1.9.1.min.js"></script>*@
+
+        <!-- ---- Native Scripts -->
+        @*<script src="~/Scripts/Maps/highcharts.js"></script>*@
+        <script src="~/Scripts/Maps/map.js"></script>
+        <script src="~/Scripts/Maps/data.js"></script>
+        <script src="~/Scripts/Maps/drilldown.js"></script>
+
+        <script src="~/Scripts/Maps/Highmaps/in-all.js"></script>
+        <script src="~/Scripts/Home/CBRDetailsMap.js"></script>
+    </head>
+    <body>
+        <div style="width:100%;">
+            <div style="width:65%;float:left;">
+                <div id="container"></div>
+            </div>
+            <div id="divDetailChart" style="width:34%;float:right;display:none;">
+                <div id="tblContainer" style="padding:7px;width:395px;">
+                       <div style="width:395px;text-align:center;">
+                           <span id="spnLabelChart" style="font-weight:600;"></span>
+                       </div>
+                       <div class="dataTable">
+                        <table class="head">
+                            <tr>
+                                <th rowspan="2">Sr No</th>
+                                <th rowspan="2">Subgrade CBR</th>
+                                <th colspan="2">New Connectivity</th>
+                                <th colspan="2">Upgradation</th>
+                             </tr>
+                             <tr>
+                                 <th>No. Of Roads</th>
+                                 <th>%</th>
+                                 <th>No. Of Roads</th>
+                                 <th>%</th>
+                             </tr>
+                        </table>
+                        <div class="innerTable" style="height:auto;">
+                            <table id="tblCBR" style="width:100%;">
+                            </table>
+                        </div>
+                      </div>
+                 </div><!-- //tblContainer -->
+                <div id="colChartContainerOuter" style="margin-top:10px;background-color:#FFF;padding:2px;">
+                    <div id="colChartContainer" class="chart"></div>
+                </div>
+            </div>
+        </div>
+    </body>
+</html>

@@ -1,0 +1,19 @@
+﻿@using MvcReportViewer
+
+@model PMGSY.Areas.OtherReports.Models.PhaseProfileModel
+<style>
+    .ui-widget-content {
+    background-color:white;
+    }
+</style>
+     @Html.MvcReportViewer("/PMGSYCitizen/DPIU_Phase_profile",
+     new
+     {
+       State=Model.StateCode,
+       Agency=Model.AgencyCode,
+       Collaboration=Model.Collaboration,
+       PMGSY=PMGSY.Extensions.PMGSYSession.Current.PMGSYScheme
+     },
+     new { Height = 600, Width = "100%", style = "border:0.75px;" })
+
+ 

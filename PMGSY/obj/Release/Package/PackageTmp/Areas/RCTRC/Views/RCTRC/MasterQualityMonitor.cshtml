@@ -1,0 +1,105 @@
+﻿@using PMGSY.Extensions
+
+<style type="text/css">
+    #preview {
+        border: 1px solid #ccc;
+        position: absolute;
+        background: #333;
+        padding: 5px;
+        display: none;
+        color: #fff;
+    }
+
+    .ui-jqgrid tr.jqgrow td {
+        vertical-align: top !important;
+    }
+</style>
+
+<script src="~/Scripts/custom/Generic.js"></script>
+<script src="~/Scripts/jquery.ui.accordion.js"></script>
+<script src="~/Scripts/Bootstrap/bootstrap.min.js"></script>
+<script src="~/Areas/RCTRC/Scripts/Master_ListQualityMonitor.js"></script>
+@{
+    string roleName = PMGSYSession.Current.RoleName;
+    int stateCode = PMGSYSession.Current.StateCode;
+    int roleCode = PMGSYSession.Current.RoleCode;    
+    
+}
+@Html.Hidden("HiddenstateCode", stateCode)
+@Html.Hidden("roleCode", roleCode)
+
+<center>
+     <div style="width:100%;">
+<div id="dvQualityMonitorDetails" style="display:none;">
+ </div>
+
+     
+<div id="dvSearchQualityMonitor" >  
+</div>    
+<div id="dvQualityMonitorList" >   
+    <br />
+  <table style="width:100%; padding-top:1.5em;">
+    <tr>  
+      <td>
+          @if (PMGSYSession.Current.RoleCode != 5)
+          {
+          <div class="ui-state-default ui-corner-all jqueryButton" id="btnCreateNew" title="Add TNA Official Details">
+             <span style="float:left" class="ui-icon ui-icon-circle-plus"></span>
+              <span style="float:left; margin-right:5px">Add TNA Official Details</span>
+         </div>
+          }
+         <div class="ui-state-default ui-corner-all jqueryButton" id="btnSearchView" title="Search TNA Official Details" style="display:none;">
+                <span style="float:left" class="ui-icon ui-icon-search"></span>
+               <span style="float:left; margin-right:5px">Search TNA Official's Details</span>
+        </div>
+        @*  <div class="ui-state-default ui-corner-all jqueryButton" id="btnBlockedView" title="View Blacklisted Quality Monitor" style="margin-left:1% ;display:none">
+              <span style="float:left" class="ui-icon ui-icon-circle-zoomout"></span>
+              <span style="float:left; margin-right:5px">View Blacklisted Quality Monitor</span>
+        </div>*@
+       </td>
+   </tr>
+ 
+    </table>
+     <div style="text-align:left;color:red" >
+    @*    Note*: Record will display in red color for the monitors who's age is greater than 70 or birth date was not entered.*@
+        </div>
+
+       
+      <div  id="divQualityMonitor" style="margin-bottom:30px;">
+        
+          <table id="tblQualityMonitorListDetails"> </table>
+        <div id="divPagerQualityMonitorDetails" style="margin-bottom:20px;">
+        </div>
+          
+       </div> 
+       <div id="divBlockedQualityMonitor" style="margin-top:30px;">
+          <table id="tblBlockedQualityMonitorListDetails" > </table>
+          <div id="divPagerBlockedQualityMonitorDetails">
+      </div> 
+    </div>
+
+</div>
+<br />
+
+        @* <div id="fileUpload">
+         <div id="dvhdFileUpload" class="ui-corner-top ui-widget-header panelheader" style="text-align: left; height: 20px; display:none">
+              <span class="ui-jqgrid-title" style="float: left">&nbsp;File Upload</span>
+              <span id="spCollapseIconQM" class="ui-icon ui-icon-circle-close" style="float: right"></span>
+        </div>   
+
+         <div id="divQualityMonitorForm" style="display: none; border: 1px solid #B5B8C8;">
+         </div>
+        </div>    *@
+
+        
+            <div id="dvhdFileUpload" style="display:none;width:100%;margin-top:10px;">            
+                <h3 style="text-align:left"><a id="" href="#" style=" font-size:.9em;" >.</a>
+                    <a href="#"  style="float: right;">
+                        <img style="border:none" src="" class="ui-icon ui-icon-closethick" onclick="closeFileUpload();" /></a>
+                </h3>
+                <div id="divQualityMonitorForm" style="display:none;"></div>                     
+            </div>
+       
+
+ </div>
+</center>

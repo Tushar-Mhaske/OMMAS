@@ -1,0 +1,98 @@
+﻿@model PMGSY.Areas.WorkAwardedArea.Models.WorkAwardedModel
+
+<script src="~/Areas/WorkAwardedArea/Scripts/TendAgrDetailsReport.js"></script>
+
+<div id="loadFilters">
+    <form id="frmTendAgrDtls">
+        @Html.ValidationSummary(true)
+
+        @Html.HiddenFor(model => model.Mast_State_Code)
+        @Html.HiddenFor(model => model.Mast_District_Code)
+        @Html.HiddenFor(model => model.Mast_Block_Code)
+        @Html.HiddenFor(model => model.StateName)
+        @Html.HiddenFor(model => model.DistName)
+        @Html.HiddenFor(model => model.BlockName)
+        @Html.HiddenFor(model => model.LevelCode)
+       @* @Html.HiddenFor(model => model.localizedValue)*@
+
+        @Html.HiddenFor(model => model.YearName)
+        @Html.HiddenFor(model => model.CollaborationName)
+
+   
+        <table style="width: 100%;">
+            <tr>
+                <td style="width: 5%;"></td>
+                <td style="text-align: left; width: 3%; vertical-align: top">
+                    @Html.LabelFor(model => model.StateCode)
+                </td>
+
+                <td style="width: 15%; vertical-align: top">
+                    @if (Model.Mast_State_Code == 0)
+                    {
+                        @Html.DropDownListFor(model => model.StateCode, new SelectList(Model.StateList, "Value", "Text"), new { @title = "State", @tabindex = 1, @id = "StateList_CompletedRoadDetails", @style = "width:150px" })
+                        <br />
+                        @Html.ValidationMessageFor(m => m.StateCode)
+                    }
+                    else
+                    {
+                        @Html.DisplayFor(model => model.StateName) 
+                        @Html.Hidden("StateCode", Model.Mast_State_Code)                            
+                    }
+                </td>
+                <td style="text-align: left; width: 4%; vertical-align: top">
+                    @Html.LabelFor(model => model.DistrictCode)
+                </td>
+                <td style="width: 15%; vertical-align: top">
+                    @if (Model.Mast_District_Code == 0)
+                    {
+                        @Html.DropDownListFor(model => model.DistrictCode, new SelectList(Model.DistrictList, "Value", "Text"), new { @title = "District", @id = "DistrictList_CompletedRoadDetails", @tabindex = 2, @style = "width:150px" })
+                        <br />
+                        @Html.ValidationMessageFor(m => m.DistrictCode)
+
+                    }
+                    else
+                    {
+                        @Html.DisplayFor(model => model.DistName)
+                        @Html.Hidden("DistrictCode", Model.Mast_District_Code)     
+                              
+                    }
+                </td>
+                <td style="width: 7%; vertical-align: top">
+                
+                    @Html.LabelFor(model => model.Collab)
+                </td>
+                <td style="width: 15%; vertical-align: top">
+                    @Html.DropDownListFor(model => model.Collab, new SelectList(Model.CollabList, "Value", "Text"), new { @title ="Collaboration", @id = "ddlCollabTendAgrDetails", @style = "width:150px" })
+                    <br />
+                    @Html.ValidationMessageFor(m => m.Collab)
+                </td>
+
+                <td style="width: 3%; vertical-align: top">
+                    @Html.LabelFor(model => model.Year)
+                </td>
+                <td style="width: 15%; vertical-align: top">
+                    @Html.DropDownListFor(model => model.Year, new SelectList(Model.YearList, "Value", "Text"), new { @title ="Year" , @id = "ddlYearTendAgrDetails", @style = "width:150px" })
+                    <br />
+                    @Html.ValidationMessageFor(m => m.Year)
+
+                     
+                </td>
+
+                <td style="width: 5%; text-align: center; vertical-align: top">
+                    <input type="button" class="button" value="View" id="btnViewTendAgrDetailsReport" title="View" />
+                </td>
+                <td style="width: 5%;"></td>
+            </tr>
+            <tr>
+                 <td style="width: 5%;"></td>
+                <td colspan="10">                   
+                    @Html.LabelFor(model => model.RoadWise)
+                       @Html.CheckBoxFor(model => model.RoadWise, new { @title ="Check this to view Road Wise Details", @id = "RoadWiseCheck_PhyProgressWorkDetails", @tabindex = 5})
+                   
+                </td>                     
+                
+            </tr>
+        </table>
+    </form>
+</div>
+<div id="loadReport" class="divLoadReport"></div>

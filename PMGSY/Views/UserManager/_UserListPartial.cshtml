@@ -1,0 +1,28 @@
+﻿<!DOCTYPE html>
+
+
+<html>
+<head>
+    <script src="~/Scripts/custom/Generic.js"></script>
+    <script src="~/Scripts/UserManager/UserManager.js"></script>
+</head>
+<body>
+    
+ @*new change done by Vikram on 09 Jan 2014*@
+@Html.Hidden("UserId",PMGSY.Extensions.PMGSYSession.Current.UserId)
+
+    <div style="text-align:left;margin-left:15px;margin-bottom:5px;">
+        <input type="button" value="Create User" class="jqueryButton" id="btnCreateUser"/>
+    </div>
+    <div id="tblUserListParent" style="width:100%">
+    <table id="tblUserList"  style="width:100%">
+    </table>
+    <div id="divUserListPager"></div>
+    </div>
+    <div id="divEditUserList" style="display:none;"></div>
+ 
+</body>
+</html>
+
+
+ 

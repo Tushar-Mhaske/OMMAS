@@ -1,0 +1,157 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+
+<eFormdatainfo>
+  
+
+  <User>
+	  <UserId>8341</UserId>
+	  <QM_TYPE>I</QM_TYPE>             <!--QM_TYPE:I For NQM and S For SQM-->
+	  <MAST_STATE_CODE>0</MAST_STATE_CODE>       <!--state code>0 for all SQM perticular state  else keep 0-->
+	  <schMonth>9</schMonth>
+	  <ToschMonth>9</ToschMonth>
+	  <schYear>2022</schYear>
+	  <ToMonth>10</ToMonth>
+	  <ToYear>2022</ToYear>
+	  <ToDate>22</ToDate>
+  </User>
+
+	<!--<User>
+		<UserId>0</UserId>
+		<QM_TYPE>S</QM_TYPE>--><!--QM_TYPE:I For NQM and S For SQM--><!--
+		<MAST_STATE_CODE>3</MAST_STATE_CODE>	--><!--state code>0 for perticular state all SQM else keep 0--><!--
+		<schMonth>1</schMonth>
+		<ToschMonth>10</ToschMonth>
+		<schYear>2022</schYear>
+		<ToMonth>10</ToMonth>
+		<ToYear>2022</ToYear>
+		<ToDate>22</ToDate>
+	</User>-->
+
+
+	<User>
+		<UserId>8528</UserId>
+		<QM_TYPE>S</QM_TYPE>
+		<MAST_STATE_CODE>0</MAST_STATE_CODE>
+		<schMonth>9</schMonth>
+		<ToschMonth>9</ToschMonth>
+		<schYear>2022</schYear>
+		<ToMonth>10</ToMonth>
+		<ToYear>2022</ToYear>
+		<ToDate>31</ToDate>
+	</User>
+
+	<User>
+		<UserId>0</UserId>
+		<QM_TYPE>S</QM_TYPE> 	
+		<MAST_STATE_CODE>17</MAST_STATE_CODE>	
+		<schMonth>9</schMonth>
+		<ToschMonth>10</ToschMonth>
+		<schYear>2022</schYear>
+		<ToMonth>11</ToMonth>
+		<ToYear>2022</ToYear>
+		<ToDate>7</ToDate>
+	</User>
+
+	<User>
+		<UserId>7067</UserId>
+		<QM_TYPE>S</QM_TYPE>
+		<MAST_STATE_CODE>0</MAST_STATE_CODE>
+		<schMonth>12</schMonth>
+		<ToschMonth>12</ToschMonth>
+		<schYear>2022</schYear>
+		<ToMonth>01</ToMonth>
+		<ToYear>2023</ToYear>
+		<ToDate>23</ToDate>
+	</User>
+
+
+	<User>
+		<UserId>5687</UserId>
+		<QM_TYPE>I</QM_TYPE>	
+		<MAST_STATE_CODE>0</MAST_STATE_CODE>		
+		<schMonth>12</schMonth>
+		<ToschMonth>12</ToschMonth>
+		<schYear>2022</schYear>
+		<ToMonth>02</ToMonth>
+		<ToYear>2023</ToYear>
+		<ToDate>21</ToDate>
+	</User>
+
+	<User>
+		<UserId>7971</UserId>
+		<QM_TYPE>I</QM_TYPE>
+		<MAST_STATE_CODE>0</MAST_STATE_CODE>
+		<schMonth>2</schMonth>
+		<ToschMonth>2</ToschMonth>
+		<schYear>2023</schYear>
+		<ToMonth>04</ToMonth>
+		<ToYear>2023</ToYear>
+		<ToDate>04</ToDate>
+	</User>
+	<User>
+		<UserId>7918</UserId>
+		<QM_TYPE>I</QM_TYPE>
+		<MAST_STATE_CODE>0</MAST_STATE_CODE>
+		<schMonth>1</schMonth>
+		<ToschMonth>1</ToschMonth>
+		<schYear>2023</schYear>
+		<ToMonth>07</ToMonth>
+		<ToYear>2023</ToYear>
+		<ToDate>21</ToDate>
+	</User>
+	<!--
+	<User>
+		<UserId>7918</UserId>
+		<QM_TYPE>I</QM_TYPE>
+		<MAST_STATE_CODE>0</MAST_STATE_CODE>
+		<schMonth>7</schMonth>
+		<ToschMonth>7</ToschMonth>
+		<schYear>2023</schYear>
+		<ToMonth>08</ToMonth>
+		<ToYear>2023</ToYear>
+		<ToDate>21</ToDate>
+	</User>
+	-->
+
+
+	<User>
+		<UserId>7971</UserId>
+		<QM_TYPE>I</QM_TYPE>
+		<MAST_STATE_CODE>0</MAST_STATE_CODE>
+		<schMonth>6</schMonth>
+		<ToschMonth>6</ToschMonth>
+		<schYear>2023</schYear>
+		<ToMonth>08</ToMonth>
+		<ToYear>2023</ToYear>
+		<ToDate>25</ToDate>
+	</User>
+
+
+	<User>
+		<UserId>9234</UserId>
+		<QM_TYPE>I</QM_TYPE>
+		<MAST_STATE_CODE>0</MAST_STATE_CODE>
+		<schMonth>4</schMonth>
+		<ToschMonth>4</ToschMonth>
+		<schYear>2023</schYear>
+		<ToMonth>09</ToMonth>
+		<ToYear>2023</ToYear>
+		<ToDate>03</ToDate>
+	</User>
+
+	<User>
+		<UserId>7735</UserId>
+		<QM_TYPE>S</QM_TYPE>
+		<MAST_STATE_CODE>0</MAST_STATE_CODE>
+		<schMonth>8</schMonth>
+		<ToschMonth>8</ToschMonth>
+		<schYear>2023</schYear>
+		<ToMonth>09</ToMonth>
+		<ToYear>2023</ToYear>
+		<ToDate>25</ToDate>
+	</User>
+ 
+
+</eFormdatainfo>
+
+

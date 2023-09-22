@@ -1,0 +1,11 @@
+﻿@using MvcReportViewer
+
+@model PMGSY.Areas.QMSSRSReports.Models.QMRegradeGradingAbstractViewModel
+@Html.MvcReportViewer("/PMGSYCitizen/QM_Regraded_Grading_Abstract_Report",
+     new
+     {
+         Agency = Model.agency,
+         Collaboration = Model.collaboration,
+         QMType = Model.qmType
+     },
+     new { Height = 675, Width = "100%", style = "border:none;" })

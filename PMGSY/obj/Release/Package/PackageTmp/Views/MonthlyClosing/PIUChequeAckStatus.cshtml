@@ -1,0 +1,114 @@
+﻿@model PMGSY.Models.MonthlyClosing.ListPIUNames
+
+<!DOCTYPE html>
+
+<html>
+<head>
+    <meta name="viewport" content="width=device-width" />
+    <title>PIU's Cheque Acknowledgement Details </title>
+    <script src="~/Scripts/jquery.ui.datepicker.js"></script>
+    <script src="~/Scripts/custom/Generic.js"></script>
+
+    @* Data table csss start *@
+    <link href="~/Content/demo_page.css" rel="stylesheet" />
+    <link href="~/Content/demo_table_jui.css" rel="stylesheet" />
+    <link href="~/Content/TableTools.css" rel="stylesheet" />
+    <link href="~/Content/TableTools_JUI.css" rel="stylesheet" />
+    <script src="~/Scripts/DataTables/jquery.dataTables.js"></script>
+    <script src="~/Scripts/DataTables/ZeroClipboard.js"></script>
+    <script src="~/Scripts/DataTables/TableTools.js"></script>
+
+    <script type="text/javascript">
+
+        $(document).ready(function () {
+            $('#tblShowPIUChqAckDetails').dataTable({
+                "bJQueryUI": true,
+                "bFilter": false,
+                "bSort": false,
+                "bHeader": true,
+                "sScrollY": "320px",
+                "bPaginate": false,
+                "bScrollInfinite": true,
+                "bScrollCollapse": true,
+                "sDom": '<"H"Tfr>t<"F"ip>',
+                "oTableTools": {
+                    "aButtons": []
+                },
+
+                "fnRowCallback": function (nRow, aData, iDisplayIndex) {
+                    if ($("#TotalRecord").val() > 0) {
+                        $("td:first", nRow).html(iDisplayIndex + 1);
+                        return nRow;
+                    }
+                }
+            });
+
+            $("#spnCloseChqAckPIUDetails").click(function () {
+
+                $("#dvShowPIUChequeAckStatus").html('');
+            });
+
+        });
+    </script>
+
+
+    @* Data table css end *@
+
+    <style type="text/css" media="screen">
+        th.ui-th-column div {
+            white-space: normal !important;
+            height: auto !important;
+            padding: 2px;
+        }
+
+        .ui-jqgrid .ui-jqgrid-resize {
+            height: 100% !important;
+        }
+
+        .ui-jqgrid-bdiv {
+            overflow-x: hidden !important;
+        }
+    </style>
+
+</head>
+<body>
+    <div>
+        <br />
+        <div class="ui-widget-header innerDivHeader" style="height: 10%">
+           Following PIU's Cheque Acknowledgement is not done hence Month can not be closed.
+        <span style="float: right; margin-right: 2Px; margin-top: 2px" id="spnCloseChqAckPIUDetails" class="ui-icon ui-icon-circle-close"></span>
+        </div>
+        <br />
+        <div>
+            <table id="tblShowPIUChqAckDetails">
+
+                <thead>
+                    <tr>
+                        <th style="font-weight: bold">Sr. No.</th>
+                        <th style="font-weight: bold">Name of DPIU</th>
+                        <th style="font-weight: bold">Month - Year</th>                        
+                    </tr>
+                </thead>
+
+                <tbody>
+                    @{                                
+                        int srNo = 0;
+                        foreach (var item in Model.USP_ACC_VERIFY_PIUS_CHEQUEACK_Model)
+                        {
+                            { srNo = srNo + 1; }
+                        <tr>
+                            <td style="text-align: center">@srNo</td>
+                            <td>@item.ADMIN_ND_NAME </td>
+                            <td>@item.MONTH_YEAR</td>                            
+                        </tr>
+                        }   
+                    }
+                </tbody>
+            </table>
+        </div>
+    </div>
+</body>
+</html>
+
+
+

@@ -1,0 +1,17 @@
+﻿@{
+    ViewBag.Title = "ViewQCRManagementReport";
+}
+
+@using MvcReportViewer
+
+@Html.MvcReportViewer("/PMGSYCitizen/QCR_MANAGEMENT_REPORT",
+ new
+ {
+    STATE = @ViewBag.stateCode,
+    DISTRICT = @ViewBag.districtCode,
+    YEAR = @ViewBag.year,
+    SCHEME = @ViewBag.scheme
+ },
+   new { Height = 600, Width = "100%", style = "border:none;" })
+
+

@@ -1,0 +1,112 @@
+﻿@using PMGSY.Extensions.MvcJqGrid
+@using System.Collections.Generic
+
+<h2>Grid</h2>
+@{
+    ViewBag.Title = "Grid Page";
+    //IEnumerable<Column> col
+    // IEnumerable<Column> columnList = new List<Column>();
+
+    Column col1 = new Column("CustomerId");
+    col1.SetHidden(true);
+    col1.SetWidth(100);
+    col1.SetKey(true);
+
+    Column col2 = new Column("FirstName");
+    col2.SetLabel("First Name ");
+    col2.SetWidth(50);
+    col2.SetAlign(Align.Center);
+
+    Column col3 = new Column("LastName");
+    col3.SetLabel("Last Name ");
+    col3.SetWidth(50);
+    col3.SetAlign(Align.Center);
+
+    Column col4 = new Column("CompanyName");
+    col4.SetLabel("Company Name");
+    col4.SetAlign(Align.Center);
+    col4.SetWidth(50);
+    col4.SetSearchType(Searchtype.Select);
+    col4.SetSearchTerms((string[])ViewData["ComapnyName"]);
+
+
+    Column col5 = new Column("EmailAddress");
+    col5.SetLabel("Email Address");
+    col5.SetAlign(Align.Center);
+    col5.SetWidth(50);
+
+    Column col6 = new Column("Phone");
+    col6.SetLabel("Phone Number");
+    col6.SetAlign(Align.Center);
+    col6.SetWidth(30);
+
+
+    Column col7 = new Column("ModifiedDate");
+    col7.SetLabel("Modified Date");
+    col7.SetAlign(Align.Center);
+    col7.SetWidth(30);
+    //Column col8 = new Column("edit");
+
+
+    IEnumerable<Column> columnList = new List<Column> { 
+                          col1,
+                          col2,
+                          col3,
+                          col4,
+                          col5,
+                          col6,
+                          col7            
+                      };
+    
+}
+
+
+@(  
+ Html.Grid("Customer")
+    .SetCaption("Customer Grid")        
+    .AddColumns(columnList)         
+    
+    .AddColumn(new Column("Edit")                        
+        .AddClass("ui-align-right")
+        .SetFormatter(Formatters.Showlink, "baseLinkUrl:'home/edituser'")
+        .SetWidth(10)
+        .SetSortable(false)
+        .SetSearch(false)
+    )
+    
+    .AddColumn(new Column("Delete")
+        .SetFormatter(Formatters.Showlink, "baseLinkUrl:'home/DeleteUser'")
+        .SetWidth(10)
+        .SetSortable(false)
+        .SetSearch(false)
+    )
+
+    .SetUrl(Url.Action("GetCustomers"))
+    .SetDataType(DataType.Json)
+    .SetWidth(1000)
+    .SetRowNum(10)
+    .SetRowNumbers(true)
+    .SetRowList(new[] { 10, 15, 20, 50 })
+    .SetViewRecords(true)
+    .SetPager("pager")
+    .SetPgInput(false)
+    .SetEmptyRecords("No record Found")
+    .SetShowAllSortIcons(false)
+    .SetShrinkToFit(true)
+    .SetAutoEncode(true)
+    //.SetAutoWidth(true)
+    .SetSearchToggleButton(true)
+    .SetSearchClearButton(true)
+    .SetPgButtons(true)
+    .SetAltRows(true)
+    .SetFooterRow(true)
+    .SetHeaderTitles(true)
+    .SetLoadText("Loading the Grid Please Wait...")
+    .SetToolbar(true)
+    .SetSearchOnEnter(false)
+    .SetGrouping(true, "CompanyName")
+    .SetLoadUi(PMGSY.Extensions.MvcJqGrid.LoadUi.Block)
+    .SetPostData("GetCustomers")
+    .OnLoadError("alert('xhr :'  +  xhr + '  status: ' + status + '  error :' + error)")
+    .OnSelectRow("alert('Key = '  +  $('#Customer').jqGrid ('getGridParam', 'selrow'));")
+)

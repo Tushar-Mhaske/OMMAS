@@ -1,0 +1,86 @@
+﻿@model PMGSY.Models.CoreNetwork.HabitationDetailsViewModelPMGSY3
+
+
+@{
+    ViewBag.Title = "ListHabitations";
+}
+
+
+<script src="~/Scripts/custom/Generic.js" type="text/javascript"></script>
+<script src="~/Scripts/jquery.ui.accordion.js" type="text/javascript"></script>
+<script src="~/Scripts/jquery.ui.tabs.js" type="text/javascript"></script>
+<script src="~/Scripts/CoreNetwork/ListHabitationsPMGSY3.js" type="text/javascript"></script>
+<center>
+
+<div id="divError" class="ui-state-error ui-corner-all" style="text-align: left; display: none; width: 89%">
+                <span class="ui-icon ui-icon-alert" style="float: left;"></span>                   
+                <span id="spnErr">No Habitations are available for mapping.</span>
+</div>   
+
+<div style="height:20px; width:89%; text-align:left; padding-top: 0.6em;" class="ui-state-default ui-corner-all" > 
+    &nbsp; <strong> Road Name:</strong>  <label id="lblRoadName"></label>
+    &nbsp;&nbsp; &nbsp;&nbsp;&nbsp;&nbsp;<strong> Road Number:</strong>  <label>@ViewBag.RoadNumber</label>
+</div>
+
+<div id="filterForm" style="width:98%">
+   <form id="frmListHabitations">
+       @Html.AntiForgeryToken()
+       @Html.HiddenFor(model => model.EncryptedRoadCode)
+       @Html.HiddenFor(model => model.EncryptedHabCodes)
+       @Html.HiddenFor(model => model.UnlockFlag)
+       @Html.Hidden("PMGSYScheme", PMGSY.Extensions.PMGSYSession.Current.PMGSYScheme)
+<br />
+
+    <div id="mapHabitation" style=" width:100%">
+           <table>
+               <tr>
+                   <td colspan="2" style="text-align:center;">
+                       <span>
+                        <img src="~/Content/Help%20Mapping%20Habitations.PNG" />
+                    </span>
+                   </td>
+               </tr>
+               <tr>
+                    <td>
+                        @*<center>Road - @Html.DropDownList("Roads", ViewBag.Roads as List<SelectListItem>, new { @id = "ddlRoadsToMap" })</center>*@
+                        <center>Road - @Html.DropDownListFor(model => model.roadCode, new SelectList(Model.lstRoads, "Value", "Text"), new { @id = "ddlRoadsToMap" })</center>
+                        <br />
+                            <center  style="display:none;">Habitation Direct - 
+                            @Html.RadioButtonFor(m => m.habDirect, "Y", new { @id = "rdbHabDirectY" })
+                            @Html.Label("Yes")
+                            @Html.RadioButtonFor(m => m.habDirect, "N", new { @id = "rdbHabDirectN" })
+                            @Html.Label("No")
+                            @Html.ValidationMessageFor(m => m.habDirect)
+                                </center>
+                        <br />
+                        <table id="mapHabitationCandidateList" >
+                       </table>
+                       <div id="mapHabitationCandidatePager">
+                       </div>
+                   </td>
+                   <td >
+                        <div id="dvListMappedHabitations">
+                        <table id="tblScheme2Habitations"></table>
+                        <div id="pgScheme2Habitations"></div>
+                    </div> 
+                   </td>
+               </tr>
+           </table>
+       </div>
+    
+       <br />
+       <div style="text-align:left;margin-left:20%">
+       <table>
+           <tr>
+                <td style="text-align:left">
+                       <input type="button" id="btnSaveHabitation" name="btnSave" value="Map Habitations" class= "jqueryButton" title="Map Habitation Details" />
+                   </td>
+               <td>
+                   <input type="button" id="btnMapCancel" name="Cancel" value="Cancel" class= "jqueryButton" title="Cancel" />
+               </td>
+               </tr>
+       </table>
+    </div>
+</form>
+</div>
+</center>

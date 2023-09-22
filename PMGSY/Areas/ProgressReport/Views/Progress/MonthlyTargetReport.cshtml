@@ -1,0 +1,26 @@
+﻿@using MvcReportViewer
+
+@model PMGSY.Areas.ProgressReport.Models.MPRTargetModel
+
+@*@{ PMGSY.Common.FetchCookieData fetchCookieData = new PMGSY.Common.FetchCookieData(); }*@
+
+@Html.MvcReportViewer("/PMGSYCitizen/Monthly_Target_Achievement_Report",
+     new
+     {
+      
+         Level = 1,
+         State = Model.StateCode,
+         District = Model.DistrictCode,
+         Block = Model.BlockCode,
+         Month = Model.Month,
+         Year = Model.Year,
+         Collaboration=Model.CollabCode,
+         PMGSY = PMGSY.Extensions.PMGSYSession.Current.PMGSYScheme,
+         StateName = Model.StateName,
+         DistName = Model.DistName,
+         BlockName = Model.BlockName,
+         CollabName = Model.CollabName
+     },
+     new { Height = 600, Width = "100%", style = "border:none;" })
+
+

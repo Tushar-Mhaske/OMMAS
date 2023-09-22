@@ -1,0 +1,15 @@
+﻿@using MvcReportViewer
+
+@model PMGSY.Areas.PFMSReports.Models.PfmsPaymentsViewModel
+
+@Html.MvcReportViewer("/PMGSYCitizen/Pfms_Payments_Report",
+     new
+     {
+         AdminNdCode = PMGSY.Extensions.PMGSYSession.Current.AdminNdCode,
+         Level = PMGSY.Extensions.PMGSYSession.Current.LevelId,
+         Month = Model.Month,
+         Year = Model.Year,
+         AdminNdName = Model.AdminName
+     },
+     new { Height = 675, Width = "100%", style = "border:none;" })
+

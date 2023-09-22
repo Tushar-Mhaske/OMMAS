@@ -1,0 +1,42 @@
+﻿@using MvcReportViewer
+
+@model PMGSY.Areas.AnalysisSSRSReport.Models.RodsUpgradeMaintModel
+
+
+@if (Model.RoadWise == false)
+{
+    <div id="UpgradeMaint" style="width: 100%; height: 590px; overflow-x: hidden; overflow-y: hidden;">
+
+        @Html.MvcReportViewer("/PMGSYCitizen/UpgradeMaint",
+     new
+     {
+         Level = Convert.ToString(Model.LevelCode),
+         State = Model.Mast_State_Code,
+         District = Model.Mast_District_Code,
+         Block = Model.Mast_Block_Code,
+         PMGSY = PMGSY.Extensions.PMGSYSession.Current.PMGSYScheme,
+         StateName = Model.StateName,
+         DistName = Model.DistName,
+         BlockName = Model.BlockName
+     },
+     new { Height = 600, Width = 1215, style = "border:none;" })
+    </div>
+}
+else
+{
+    <div id="UpgradeMaintLevel4" style="width: 100%; height: 590px; overflow-x: hidden; overflow-y: hidden;">
+        @Html.MvcReportViewer("/PMGSYCitizen/UpgradeMaintLevel4",
+     new
+     {
+         Level = Convert.ToString(Model.LevelCode),
+         State = Model.Mast_State_Code,
+         District = Model.Mast_District_Code,
+         Block = Model.Mast_Block_Code,
+         PMGSY = PMGSY.Extensions.PMGSYSession.Current.PMGSYScheme,
+         StateName = Model.StateName,
+         DistName = Model.DistName,
+         BlockName = Model.BlockName
+     },
+     new { Height = 600, Width = 1215, style = "border:none;" })
+    </div>
+}

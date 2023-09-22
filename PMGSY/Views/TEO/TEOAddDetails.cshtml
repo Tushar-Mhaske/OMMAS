@@ -1,0 +1,146 @@
+﻿@model PMGSY.Models.TransferEntryOrder.TeoDetailsModel
+<script type="text/javascript">var billId = '@ViewBag.BILL_ID'; var transId = '@ViewBag.TransId'; var transIdC = '@ViewBag.TransIdC'; var transIdD = '@ViewBag.TransIdD';
+    var _fundType = '@PMGSY.Extensions.PMGSYSession.Current.FundType';var parentTxnId = '@ViewBag.parentTxnId';
+</script>
+<script type="text/javascript" src="@Url.Content("~/Scripts/custom/Generic.js")"> </script>
+@*<script type="text/javascript" src="@Url.Content("~/Scripts/TransferEntryOrder/TEOAddDetailsC.js")"> </script>*@
+<script type="text/javascript" src="@Url.Content("~/Scripts/TransferEntryOrder/TEOAddDetails"+@ViewBag.CreditDebit+".js")"> </script>
+
+@{
+
+    //added by Koustubh Nakate on 30/09/2013 
+    if (Model.IMS_PR_ROAD_CODE != 0 && Model.IMS_PR_ROAD_CODE != null && (Model.IMS_PR_ROAD_CODE_Head == 0 || Model.IMS_PR_ROAD_CODE_Head == null))
+    {
+        Model.IMS_PR_ROAD_CODE_Head = Model.IMS_PR_ROAD_CODE;
+    }
+    
+}
+
+
+<form id="@("frmTEOAddDetails"+ViewBag.CreditDebit)">
+    @Html.ValidationSummary(true)
+    @Html.AntiForgeryToken()
+
+            <div class="ui-widget-header ui-corner-top" style="margin-left:0; margin-right:0">@ViewBag.TEODetailTitle
+               @* <span id="DivCreditTEO" style="float:right" class="ui-icon ui-icon-circle-close"></span>*@
+            </div>
+            <div class="ui-state-default ui-corner-bottom">
+              <table class="table-content" style= "width:100%;" cellspacing="2px" id="tblReceiptMaster">
+                   <tr>
+                        <td colspan="2">
+                            <div id="@("divTEODetailsError"+ViewBag.CreditDebit)" class="ui-state-error ui-corner-all" style="text-align: left; display: none; width: 100%">
+                            <span class="ui-icon ui-icon-alert" style="float: left;"></span>
+                            <span></span>
+                            </div>
+                        </td>
+                  </tr>
+                  <tr id="@("trddlDistrict"+@ViewBag.CreditDebit)" style="display:none">
+                      <td style="width:30%">@Html.LabelFor(m=>m.MAST_DISTRICT_CODE)<label style="color: red;"> *</label></td>
+                      <td style="width:70%">@Html.DropDownListFor(m=>m.MAST_DISTRICT_CODE, ViewBag.ddlDistrict as IEnumerable<SelectListItem>, new { @id = "ddlDistrict"+@ViewBag.CreditDebit,@title = "District" , @style="width:200px" })@Html.ValidationMessageFor(m=>m.MAST_DISTRICT_CODE)</td>
+                  </tr>
+                  <tr id="@("trddlDPIU"+@ViewBag.CreditDebit)" style="display:none">
+                      <td style="width:30%">@Html.LabelFor(m=>m.ADMIN_ND_CODE)<label style="color: red;"> *</label></td>
+                      <td>@Html.DropDownListFor(m=>m.ADMIN_ND_CODE, ViewBag.ddlDPIU as IEnumerable<SelectListItem>, new { @id = "ddlDPIU"+@ViewBag.CreditDebit,@title = "PIU" , @style="width:200px" })@Html.ValidationMessageFor(m=>m.ADMIN_ND_CODE)</td>
+                  </tr>
+                  <tr id="@("trddlContractor"+@ViewBag.CreditDebit)" style="display:none">
+                      <td style="width:30%">@Html.LabelFor(m=>m.MAST_CON_ID)<label style="color: red;"> *</label></td>
+                      <td>@Html.DropDownListFor(m=>m.MAST_CON_ID, ViewBag.ddlContractor as IEnumerable<SelectListItem>, new { @id = "ddlContractor"+@ViewBag.CreditDebit, @style="width:200px",@title = "Contractor" })@Html.ValidationMessageFor(m=>m.MAST_CON_ID)</td>
+                  </tr>
+                  <tr id="@("trConSupName"+@ViewBag.CreditDebit)" style="display:none">
+                      <td style="width:30%">@Html.Label("Contractor/Supplier Name")</td>
+                      <td>@Html.Label("Contractor Name", new { @id="ConSupName"+@ViewBag.CreditDebit})</td>
+                  </tr>
+                  <tr id="@("trddlAgreement"+@ViewBag.CreditDebit)" style="display:none">
+                      <td style="width:30%">@Html.LabelFor(m=>m.IMS_AGREEMENT_CODE)<label style="color: red;"> *</label></td>
+                      <td>@Html.DropDownListFor(m=>m.IMS_AGREEMENT_CODE, ViewBag.ddlAgreement as IEnumerable<SelectListItem>, new { @id = "ddlAgreement"+@ViewBag.CreditDebit, @style="width:200px",@title = "Agreement" })@Html.ValidationMessageFor(m=>m.IMS_AGREEMENT_CODE)</td>
+                  </tr>
+                  <tr id="@("trddlSancYear"+@ViewBag.CreditDebit)" style="display:none">
+                      <td style="width:30%">@Html.LabelFor(m=>m.SANC_YEAR)<label style="color: red;"> *</label></td>
+                      <td>@Html.DropDownListFor(m=>m.SANC_YEAR, ViewBag.ddlSancYear as IEnumerable<SelectListItem>, new { @id = "ddlSancYear"+@ViewBag.CreditDebit, @style="width:200px",@title = "Sanctioned Year" })@Html.ValidationMessageFor(m=>m.SANC_YEAR)</td>
+                  </tr>
+                  <tr id="@("trddlPackage"+@ViewBag.CreditDebit)" style="display:none">
+                      <td style="width:30%">@Html.LabelFor(m=>m.IMS_PACKAGE_ID)<label style="color: red;"> *</label></td>
+                      <td>@Html.DropDownListFor(m=>m.IMS_PACKAGE_ID, ViewBag.ddlPackage as IEnumerable<SelectListItem>, new { @id = "ddlPackage"+@ViewBag.CreditDebit, @style="width:200px",@title = "Package" })@Html.ValidationMessageFor(m=>m.IMS_PACKAGE_ID)</td>
+                  </tr>
+                  <tr id="@("trddlRoad"+@ViewBag.CreditDebit)" style="display:none">
+                      <td style="width:30%">@Html.LabelFor(m=>m.IMS_PR_ROAD_CODE)<label style="color: red;"> *</label></td>
+                      <td>@Html.DropDownListFor(m=>m.IMS_PR_ROAD_CODE, ViewBag.ddlRoad as IEnumerable<SelectListItem>, new { @id = "ddlRoad"+@ViewBag.CreditDebit, @style="width:200px",@title = "Road" })@Html.ValidationMessageFor(m=>m.IMS_PR_ROAD_CODE)</td>
+                  </tr>
+                 @* <tr id="@("trIsFinalPay"+@ViewBag.CreditDebit)" style="display:none">
+                      <td style="width:30%">@Html.LabelFor(m=>m.IMS_PR_ROAD_CODE)<label style="color: red;"> *</label></td>
+                      <td>@Html.CheckBoxFor(m => m.FINAL_PAYMENT, new { @id = "chkIsFinPay"+@ViewBag.CreditDebit })@Html.ValidationMessageFor(m=>m.FINAL_PAYMENT)</td>
+                  </tr>*@
+                  <tr id="@("trddlHead"+@ViewBag.CreditDebit)" style="display:none">
+                      <td style="width:30%">@Html.LabelFor(m=>m.HEAD_ID)<label style="color: red;"> *</label></td>
+                      <td>@Html.DropDownListFor(m=>m.HEAD_ID, ViewBag.ddlHead as IEnumerable<SelectListItem>, new { @id = "ddlHead"+@ViewBag.CreditDebit, @style="width:300px",@title = "Head" })@Html.ValidationMessageFor(m=>m.HEAD_ID)</td>
+                  </tr>
+                  <tr id="@("trddlHeadContractor"+@ViewBag.CreditDebit)" style="display:none">
+                      <td style="width:30%">@Html.LabelFor(m=>m.MAST_CON_ID_TRANS)<label style="color: red;"> *</label></td>
+                      <td>@Html.DropDownListFor(m=>m.MAST_CON_ID_TRANS, ViewBag.ddlHeadContractor as IEnumerable<SelectListItem>, new { @id = "ddlHeadContractor"+@ViewBag.CreditDebit, @style="width:200px",@title = "Contractor" })@Html.ValidationMessageFor(m=>m.MAST_CON_ID)</td>
+                  </tr>
+                  <tr id="@("trHeadConSupName"+@ViewBag.CreditDebit)" style="display:none">
+                      <td style="width:30%">@Html.Label("Contractor/Supplier Name")</td>
+                      <td>@Html.Label("Contractor Name", new { @id="HeadConSupName"+@ViewBag.CreditDebit})</td>
+                  </tr>
+                  <tr id="@("trddlHeadAgreement"+@ViewBag.CreditDebit)" style="display:none">
+                      <td style="width:30%">@Html.LabelFor(m=>m.IMS_AGREEMENT_CODE)<label style="color: red;"> *</label></td>
+                      <td>@Html.DropDownListFor(m=>m.IMS_AGREEMENT_CODE, ViewBag.ddlHeadAgreement as IEnumerable<SelectListItem>, new { @id = "ddlHeadAgreement"+@ViewBag.CreditDebit, @style="width:200px",@title = "Agreement" })@Html.ValidationMessageFor(m=>m.IMS_AGREEMENT_CODE)</td>
+                  </tr>
+                  <tr id="@("trddlHeadSancYear"+@ViewBag.CreditDebit)" style="display:none">
+                      <td style="width:30%">@Html.LabelFor(m=>m.SANC_YEAR)<label style="color: red;"> *</label></td>
+                      <td>@Html.DropDownListFor(m=>m.SANC_YEAR, ViewBag.ddlHeadSancYear as IEnumerable<SelectListItem>, new { @id = "ddlHeadSancYear"+@ViewBag.CreditDebit, @style="width:200px",@title = "Sanctioned Year" })@Html.ValidationMessageFor(m=>m.SANC_YEAR)</td>
+                  </tr>
+                  <tr id="@("trddlHeadPackage"+@ViewBag.CreditDebit)" style="display:none">
+                      <td style="width:30%">@Html.LabelFor(m=>m.IMS_PACKAGE_ID)<label style="color: red;"> *</label></td>
+                      <td>@Html.DropDownListFor(m=>m.IMS_PACKAGE_ID, ViewBag.ddlHeadPackage as IEnumerable<SelectListItem>, new { @id = "ddlHeadPackage"+@ViewBag.CreditDebit, @style="width:200px",@title = "Package" })@Html.ValidationMessageFor(m=>m.IMS_PACKAGE_ID)</td>
+                  </tr>
+                  <tr id="@("trddlHeadRoad"+@ViewBag.CreditDebit)" style="display:none">
+                      <td style="width:30%">@Html.LabelFor(m=>m.IMS_PR_ROAD_CODE)<label style="color: red;"> *</label></td>
+                      <td>@Html.DropDownListFor(m=>m.IMS_PR_ROAD_CODE_Head, ViewBag.ddlHeadRoad as IEnumerable<SelectListItem>, new { @id = "ddlHeadRoad"+@ViewBag.CreditDebit, @style="width:200px",@title = "Road" })@Html.ValidationMessageFor(m=>m.IMS_PR_ROAD_CODE)</td>
+                  </tr>
+                  <tr id="@("trHeadIsFinalPay"+@ViewBag.CreditDebit)" style="display:none">
+                      <td style="width:30%">@Html.LabelFor(m=>m.FINAL_PAYMENT)<label style="color: red;"> *</label></td>
+                      <td>@Html.CheckBoxFor(m => m.FINAL_PAYMENT, new { @id = "HeadIsFinalPay"+@ViewBag.CreditDebit,   @disabled = "disabled" })@Html.ValidationMessageFor(m=>m.FINAL_PAYMENT)</td>
+                  </tr>
+                  <tr>        
+                        <td style="width:30%">@Html.LabelFor(model => model.AMOUNT)<label style="color: red;"> *</label></td>
+                        <td style="width:70%">@Html.TextBoxFor(model => model.AMOUNT, new{@placeholder="Max 11.2 decimal Allowed...", @id="AMOUNT"+@ViewBag.CreditDebit ,@title = "Amount"} ) @Html.ValidationMessageFor(model => model.AMOUNT)</td>
+                  </tr>
+                  <tr>
+                        <td style="width:30%">@Html.LabelFor(model => model.NARRATION)<label style="color: red;"> *</label></td>
+                        <td>@Html.TextAreaFor(model => model.NARRATION, new{@placeholder="Alphanumeric,Space,dash, slash and dot Allowed...",@style="width:200px",@title = "Narration", @maxlength=255 }) @Html.ValidationMessageFor(model => model.NARRATION) </td>
+                   </tr>
+                  <tr>
+                      <td style="width:30%"></td>
+                      <td>
+                           @{
+                               if (ViewBag.TransId == null)
+                                {
+                                <input type="button" value="Save" class="jqueryButton" id="@ViewBag.SaveTEODetails" title="Save TEO Details" />
+                                }
+                                 else
+                                 {
+                                <input type="button" value="Update" class="jqueryButton" id="@ViewBag.EditTEODetails"  title="Update TEO Details" />
+                                }
+                            } 
+                      &nbsp;  
+                            @{
+                
+                                if (ViewBag.TransId == null)
+                                {
+                                <input type="reset" value="Reset" id= "@("btnReset" + @ViewBag.CreditDebit )" class="jqueryButton " title="Reset" />
+                                }
+                                 else
+                                 {
+                                <input type="button" value="Cancel" id="@ViewBag.CancelTEODetails" class="jqueryButton" title="Cancel"/>
+                                }
+                            }
+                     </td>
+                  </tr>
+                </table>
+            </div>
+</form>
+@section Scripts {
+    @Scripts.Render("~/bundles/jqueryval")
+}
+

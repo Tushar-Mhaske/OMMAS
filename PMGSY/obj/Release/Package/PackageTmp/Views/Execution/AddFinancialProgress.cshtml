@@ -1,0 +1,222 @@
+﻿@*
+    * Project Id    :
+    * Project Name  :   OMMAS II
+    * Name          :   AddExecutingOfficerDetails.cshtml
+    * Description   :   This View Adds the Financial Progress Details to Road Proposal Execution
+    * Author        :   Vikram Nandanwar        
+    * Creation Date :   25/June/2013    
+*@
+
+@model PMGSY.Models.Execution.ExecutionProgressViewModel
+
+@{
+    ViewBag.Title = "AddFinancialProgress";
+}
+
+<script src="~/Scripts/jquery.ui.datepicker.js"></script>
+<script src="~/Scripts/custom/Generic.js"></script>
+<script src="~/Scripts/Execution/AddFinancialProgress.js"></script>
+
+
+<div id="divAddFinancialProgress" style="margin-top:0px">
+<form id="frmAddFinancialProgress">
+<center>
+@Html.HiddenFor(model=>model.IMS_PR_ROAD_CODE)
+@Html.HiddenFor(model=>model.EncyptedProgressCode)
+
+@Html.HiddenFor(model=>model.CompleteStatus)
+@Html.HiddenFor(model=>model.PreviousMonth)
+@Html.HiddenFor(model=>model.PreviousYear)
+@Html.HiddenFor(model=>model.TotalPayment)
+@Html.HiddenFor(model=>model.TotalValueofwork)
+@Html.HiddenFor(model=>model.AgreementTotal)
+@Html.HiddenFor(model=>model.LastMonthValue)
+@Html.HiddenFor(model=>model.LastPaymentValue)
+@Html.HiddenFor(model=>model.EXEC_PAYMENT_LASTMONTH)
+@Html.HiddenFor(model=>model.EXEC_VALUEOFWORK_LASTMONTH)
+@Html.HiddenFor(model=>model.Sanction_Cost)
+@Html.HiddenFor(model=>model.Operation)
+@Html.HiddenFor(model=>model.AgreementYear)
+@Html.HiddenFor(model=>model.AgreementMonth)
+@Html.HiddenFor(model=>model.AgreementCost)
+@Html.HiddenFor(model=>model.AgreementDate)
+@Html.HiddenFor(model=>model.IsFinalPaymentBefore)
+
+<div style="margin-left: 100px">
+    @Html.ValidationSummary(true)             
+</div>            
+<div id="divError" class="ui-state-error ui-corner-all" style="text-align: left; display: none; width: 99%">
+        <span class="ui-icon ui-icon-alert" style="float: left;"></span>                   
+        <span></span>
+</div>
+<div style="height:20px; width: 99%; text-align:left; padding-top: 0.4em;" class="ui-state-default ui-corner-all" > 
+            &nbsp;<strong> Note :</strong>  Fields marked with * are mandatory.
+    <a href="#"  style="float: right;">
+                    <img style="margin-right:5px" alt="Close" src="" class="ui-icon ui-icon-closethick" id="imgCloseProgressDetails" /></a>
+</div>
+
+<table id="tbAddFinancialDetails"  cellpadding="3px" class="rowstyle" style="margin-top:0px; text-align:left; border:ridge 0.1em #ccc; width:99%; padding-top:5px 5px 5px 5px;">
+    <tr>
+        <td style="width:5%">
+        </td>
+        <td style="width:10%">
+            @Html.LabelFor(model=>model.EXEC_PROG_MONTH)<label style="color:red">*</label>
+        </td>
+        <td style="width:20%">
+            @if(Model.Operation != "E")
+            {
+                @Html.DropDownListFor(model => model.EXEC_PROG_MONTH, ViewData["Month"] as IEnumerable<SelectListItem>, new { @id="ddlMonth",@title="Select Month",@tabindex = 1})
+                @Html.ValidationMessageFor(model=>model.EXEC_PROG_MONTH)
+            }
+            else
+            {
+                @Html.DropDownListFor(model => model.EXEC_PROG_MONTH, ViewData["Month"] as IEnumerable<SelectListItem>, new { @id="ddlMonth",@title="Select Month",@tabindex = 1,@disabled = "disabled"})
+                @Html.ValidationMessageFor(model=>model.EXEC_PROG_MONTH)
+                @Html.HiddenFor(model=>model.EXEC_PROG_MONTH)
+            }
+        </td>
+        <td style="width:10%">
+            @Html.LabelFor(model=>model.EXEC_PROG_YEAR)<label style="color:red">*</label>
+        </td>
+        <td style="width:20%">
+            @if(Model.Operation != "E")
+            {
+                @Html.DropDownListFor(model=>model.EXEC_PROG_YEAR,ViewData["Year"] as IEnumerable<SelectListItem>,new {@title="Select Year",@id="ddlYear",@tabindex = 2})
+                @Html.ValidationMessageFor(model=>model.EXEC_PROG_YEAR)
+            }
+            else
+            {
+                @Html.DropDownListFor(model=>model.EXEC_PROG_YEAR,ViewData["Year"] as IEnumerable<SelectListItem>,new {@title="Select Year",@id="ddlYear",@tabindex = 2,@disabled = "disabled"})
+                @Html.ValidationMessageFor(model=>model.EXEC_PROG_YEAR)
+                @Html.HiddenFor(model=>model.EXEC_PROG_YEAR)
+            }
+        </td>
+    </tr>
+    <tr>
+        <td></td>
+        <td>
+            @Html.LabelFor(model=>model.EXEC_VALUEOFWORK_LASTMONTH)
+        </td>
+        <td>
+            @if(Model.EXEC_VALUEOFWORK_LASTMONTH == null)
+            {
+                <label id="lblValueOfWorkLastMonth">0.0</label>
+            }
+            else
+            {
+                <label id="lblValueOfWorkLastMonth">@Model.EXEC_VALUEOFWORK_LASTMONTH</label>
+            }
+        </td>
+        <td>
+            @Html.LabelFor(model=>model.EXEC_VALUEOFWORK_THISMONTH)<label style="color:red">*</label>
+        </td>
+        <td>
+            @Html.TextBoxFor(model => model.EXEC_VALUEOFWORK_THISMONTH, new {@title="Enter Value of work done in this month",@placeholder="Enter Value Of Work...",@tabindex=3 ,@maxlength=11})
+            @Html.ValidationMessageFor(model=>model.EXEC_VALUEOFWORK_THISMONTH)
+        </td>
+    </tr>
+    <tr>
+        <td></td>
+        <td>
+            <label>Total Value of Work</label>
+        </td>
+        <td colspan="3">
+            <label id="totalValue">@Model.TotalValueofwork</label>
+        </td>
+        
+    </tr>
+    <tr>
+        <td></td>
+        <td>
+            @Html.LabelFor(model=>model.EXEC_PAYMENT_LASTMONTH)
+        </td>
+        <td>
+            @if (Model.EXEC_PAYMENT_LASTMONTH == null)
+            {
+                <label id="lblPaymentLastMonth">0.0</label>
+            }
+            else
+            {
+                <label id="lblPaymentLastMonth">@Model.EXEC_PAYMENT_LASTMONTH</label>
+            }
+        </td>
+        <td>
+            @Html.LabelFor(model=>model.EXEC_PAYMENT_THISMONTH)<label style="color:red">*</label>
+        </td>
+        <td>
+            @Html.TextBoxFor(model => model.EXEC_PAYMENT_THISMONTH, new {@title="Enter Payment in this month",@placeholder="Enter Value of payment...",@tabindex=4,@maxlength=11 })
+            @Html.ValidationMessageFor(model=>model.EXEC_PAYMENT_THISMONTH)
+        </td>
+    </tr>
+    <tr>
+        <td></td>
+        <td>
+            <label>Total Value of Payment</label>
+        </td>
+        <td colspan="3">
+            <label id="totalPayment">@Model.TotalPayment</label>
+        </td>
+    </tr>
+    <tr>
+        <td></td>
+        <td>
+            @Html.LabelFor(model=>model.EXEC_FINAL_PAYMENT_FLAG)<label style="color:red">*</label>
+        </td>
+        <td>
+            @if(Model.Operation == "A" && Model.IsFinalPaymentBefore != "Y")
+            {
+                <label>Yes</label>
+                @Html.RadioButtonFor(model => model.EXEC_FINAL_PAYMENT_FLAG, "Y", new { @id="radioYes"})
+                <label>No</label>
+                @Html.RadioButtonFor(model => model.EXEC_FINAL_PAYMENT_FLAG, "N", new { @id="radioNo",@checked="checked"})
+            }
+            else if(Model.IsFinalPaymentBefore == "Y")
+            {
+                <label>Yes</label>
+                @Html.RadioButtonFor(model => model.EXEC_FINAL_PAYMENT_FLAG, "Y", new { @id="radioYes",@checked="checked"})
+            }
+            else
+            {
+                <label>Yes</label>
+                @Html.RadioButtonFor(model => model.EXEC_FINAL_PAYMENT_FLAG, "Y", new { @id="radioYes"})
+                <label>No</label>
+                @Html.RadioButtonFor(model => model.EXEC_FINAL_PAYMENT_FLAG, "N", new { @id="radioNo"})
+            }
+        </td>
+        <td>
+            @Html.LabelFor(model => model.EXEC_FINAL_PAYMENT_DATE, new {@id="lblPaymentDate" })<label id="lblRequired" style="color:red">*</label>
+        </td>
+        <td id="regdatePicker">
+            @Html.TextBoxFor(model => model.EXEC_FINAL_PAYMENT_DATE, new {@id="datePayment",@title="Enter Final Payment Date",@placeholder="Enter Payment Date...",tabindex=5})
+            @Html.ValidationMessageFor(model => model.EXEC_FINAL_PAYMENT_DATE, "",new {@id="msgDateValidation" })
+        </td>
+    </tr>
+    <tr>
+        <td colspan="5">
+            @if(Model.Operation == "A")
+            {
+            <center>
+            <table>
+                <td>
+                    <input type="button" value="Save" name="btnAddFinancialDetails" id="btnAddFinancialDetails" class="jqueryButton" tabindex="7"/>
+                    <input type="reset" value="Reset" name="btnResetFinancialDetails" id="btnResetFinancialDetails" class="jqueryButton" tabindex="8"/>
+                </td>
+            </table>
+            </center>
+            }
+            else
+            {
+            <center>
+            <table>
+                <td>
+                <input type="button" value="Update" name="btnUpdateFinancialDetails" id="btnUpdateFinancialDetails" class="jqueryButton" tabindex="7"/>
+                <input type="button" value="Cancel" name="btnCancelFinancialDetails" id="btnCancelFinancialDetails" class="jqueryButton" tabindex="8"/>
+                </td>
+            </table>
+            </center>
+            }
+        </td>
+    </tr>
+</center>
+</form>
+</div>

@@ -1,0 +1,93 @@
+﻿@model PMGSY.Models.Master.MasterUnitsTypeViewModel
+
+<script src="~/Scripts/Master/Master_CreateUnits.js"></script>
+<script src="~/Scripts/custom/Generic.js"></script>
+
+<div id="dvhdCreateNewUnitDetails" class="ui-corner-top ui-widget-header panelheader" style="text-align: left; height: 20px;">
+    <span class="ui-jqgrid-title" style="float: left">&nbsp;Unit Details</span>
+
+    <span id="spCollapseIconCN" class="ui-icon ui-icon-circle-close" style="float: right"></span>
+</div>
+
+<div id="dvCreateNewUnitDetails" style="display: block; border: 1px solid #B5B8C8;">
+
+    <div id="dvErrorMessage" class="ui-widget ui-state-error ui-corner-all" style="padding: 0.7em .7em; display: none; margin: 5px 5px 5px 5px; text-align: left">
+        <span class="ui-icon ui-icon-alert" style="float: left; margin-right: .3em;"></span>
+        <strong>Alert:</strong> <span id="message"></span>
+    </div>
+
+    <form id="frmUnit">
+        @Html.AntiForgeryToken()
+        <center>@Html.ValidationSummary(true)</center>
+
+        <table style="width: 100%; margin-top: 10px;" class="rowstyle">
+
+            <tr style="display: none">
+                <td colspan="3">
+                    @Html.HiddenFor(model => model.EncryptedUnitCode)
+                </td>
+            </tr>
+
+            <tr>
+                <td style="width: 30%;"></td>
+                <td style="text-align: left; width: 15%;">
+                    @Html.LabelFor(model => model.MAST_UNIT_NAME)
+                    <label style="color: red;">*</label>
+                </td>
+                <td>
+                    @Html.TextBoxFor(model => model.MAST_UNIT_NAME, new { maxlength = 30, @title = "Unit Name", @tabindex = 1, placeholder = "Enter Unit Name..." })
+                    @Html.ValidationMessageFor(model => model.MAST_UNIT_NAME)
+                </td>
+            </tr>
+
+
+            <tr>
+                <td style="width: 30%;"></td>
+                <td style="text-align: left; width: 15%;">
+                    @Html.LabelFor(model => model.MAST_UNIT_SHORT_NAME)
+                    <label style="color: red;">*</label>
+                </td>
+                <td>
+                    @Html.TextBoxFor(model => model.MAST_UNIT_SHORT_NAME, new { maxlength = 20, @title = "Unit Short Name", @tabindex = 2, placeholder = "Enter Unit Short Name..." })
+                    @Html.ValidationMessageFor(model => model.MAST_UNIT_SHORT_NAME)
+                </td>
+            </tr>
+
+            <tr>
+                <td style="width: 30%;"></td>
+                <td style="text-align: left; width: 15%;">
+                    @Html.LabelFor(model => model.MAST_UNIT_DIMENSION)
+                </td>
+                <td>
+                    @Html.TextBoxFor(model => model.MAST_UNIT_DIMENSION, new { maxlength = 2, @title = "Unit Dimension", @tabindex = 3, placeholder = "Enter Unit Dimension..." })
+                    @Html.ValidationMessageFor(model => model.MAST_UNIT_DIMENSION)
+                </td>
+            </tr>
+
+            <tr>
+                <td></td>
+                <td></td>
+                <td>
+                    @if (Model.EncryptedUnitCode == null)
+                    {
+                        <input type="button" id="btnSave" name="btnSave" value="Save" class="jqueryButton" title="Save Unit Details" tabindex="5" /> 
+                        <input type="reset" id="btnReset" name="btnReset" value="Reset" class="jqueryButton" title="Reset" tabindex="6" />
+                    }
+                    else
+                    {
+                        <input type="button" id="btnUpdate" name="btnUpdate" value="Update" class="jqueryButton" title="Update Unit Details" tabindex="5" /> 
+                        <input type="button" id="btnCancel" name="btnCancel" value="Cancel" class="jqueryButton" title="Cancel" tabindex="6" />
+                    }
+
+                </td>
+            </tr>
+            <tr>
+                <td colspan="5">
+                    <label style="border:none">[ Note: Fields marked with<label style="color: red;"> * </label>are mandatory.]</label>
+                </td>
+
+            </tr>
+        </table>
+    </form>
+
+</div>

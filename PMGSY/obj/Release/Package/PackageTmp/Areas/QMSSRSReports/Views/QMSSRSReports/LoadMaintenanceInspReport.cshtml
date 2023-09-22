@@ -1,0 +1,20 @@
+﻿@using MvcReportViewer
+
+@model PMGSY.Areas.QMSSRSReports.Models.MaintenanceInspModel
+
+    @Html.MvcReportViewer("/PMGSYCitizen/Inspection_Five_Year_Physical_Completion",
+     new
+     {
+         state = Model.StateCode,
+         district = Model.DistrictCode,
+         grade = Model.Grade,
+         fromyear = Model.FromYear,
+         frommonth = Model.FromMonth,
+         tomonth = Model.ToMonth,
+         toyear = Model.ToYear,
+         qmType = Model.MonitorType,
+         StateName =  Model.StateName,
+         DistrictName = Model.DistrictName
+         
+     },
+       new { Height = 600, Width = "100%", style = "border:none;" })

@@ -1,0 +1,522 @@
+﻿@model PMGSY.Models.IMS_SANCTIONED_PROJECTS
+
+@{
+    ViewBag.Title = "Delete";
+}
+
+<h2>Delete</h2>
+
+<h3>Are you sure you want to delete this?</h3>
+<fieldset>
+    <legend>IMS_SANCTIONED_PROJECTS</legend>
+
+    <div class="display-label">
+         @Html.DisplayNameFor(model => model.IMS_LSB_BRIDGE_DETAIL.IMS_SC_FD_TYPE)
+    </div>
+    <div class="display-field">
+        @Html.DisplayFor(model => model.IMS_LSB_BRIDGE_DETAIL.IMS_SC_FD_TYPE)
+    </div>
+
+    <div class="display-label">
+         @Html.DisplayNameFor(model => model.IMS_YEAR)
+    </div>
+    <div class="display-field">
+        @Html.DisplayFor(model => model.IMS_YEAR)
+    </div>
+
+    <div class="display-label">
+         @Html.DisplayNameFor(model => model.IMS_PACKAGE_ID)
+    </div>
+    <div class="display-field">
+        @Html.DisplayFor(model => model.IMS_PACKAGE_ID)
+    </div>
+
+    <div class="display-label">
+         @Html.DisplayNameFor(model => model.IMS_ROAD_ID)
+    </div>
+    <div class="display-field">
+        @Html.DisplayFor(model => model.IMS_ROAD_ID)
+    </div>
+
+    <div class="display-label">
+         @Html.DisplayNameFor(model => model.MASTER_STATE.MAST_STATE_NAME)
+    </div>
+    <div class="display-field">
+        @Html.DisplayFor(model => model.MASTER_STATE.MAST_STATE_NAME)
+    </div>
+
+    <div class="display-label">
+         @Html.DisplayNameFor(model => model.MASTER_DISTRICT.MAST_DISTRICT_NAME)
+    </div>
+    <div class="display-field">
+        @Html.DisplayFor(model => model.MASTER_DISTRICT.MAST_DISTRICT_NAME)
+    </div>
+
+    <div class="display-label">
+         @Html.DisplayNameFor(model => model.MASTER_BLOCK.MAST_BLOCK_NAME)
+    </div>
+    <div class="display-field">
+        @Html.DisplayFor(model => model.MASTER_BLOCK.MAST_BLOCK_NAME)
+    </div>
+
+    <div class="display-label">
+         @Html.DisplayNameFor(model => model.MASTER_AGENCY.MAST_AGENCY_NAME)
+    </div>
+    <div class="display-field">
+        @Html.DisplayFor(model => model.MASTER_AGENCY.MAST_AGENCY_NAME)
+    </div>
+
+    <div class="display-label">
+         @Html.DisplayNameFor(model => model.PLAN_ROAD.PLAN_CN_ROAD_NUMBER)
+    </div>
+    <div class="display-field">
+        @Html.DisplayFor(model => model.PLAN_ROAD.PLAN_CN_ROAD_NUMBER)
+    </div>
+
+    <div class="display-label">
+         @Html.DisplayNameFor(model => model.IMS_ROAD_NAME)
+    </div>
+    <div class="display-field">
+        @Html.DisplayFor(model => model.IMS_ROAD_NAME)
+    </div>
+
+    <div class="display-label">
+         @Html.DisplayNameFor(model => model.IMS_ROAD_FROM)
+    </div>
+    <div class="display-field">
+        @Html.DisplayFor(model => model.IMS_ROAD_FROM)
+    </div>
+
+    <div class="display-label">
+         @Html.DisplayNameFor(model => model.IMS_ROAD_TO)
+    </div>
+    <div class="display-field">
+        @Html.DisplayFor(model => model.IMS_ROAD_TO)
+    </div>
+
+    <div class="display-label">
+         @Html.DisplayNameFor(model => model.IMS_UPGRADE_CONNECT)
+    </div>
+    <div class="display-field">
+        @Html.DisplayFor(model => model.IMS_UPGRADE_CONNECT)
+    </div>
+
+    <div class="display-label">
+         @Html.DisplayNameFor(model => model.MASTER_SURFACE.MAST_SURFACE_NAME)
+    </div>
+    <div class="display-field">
+        @Html.DisplayFor(model => model.MASTER_SURFACE.MAST_SURFACE_NAME)
+    </div>
+
+    <div class="display-label">
+         @Html.DisplayNameFor(model => model.MASTER_STREAMS.MAST_STREAM_NAME)
+    </div>
+    <div class="display-field">
+        @Html.DisplayFor(model => model.MASTER_STREAMS.MAST_STREAM_NAME)
+    </div>
+
+    <div class="display-label">
+         @Html.DisplayNameFor(model => model.IMS_PAV_LENGTH)
+    </div>
+    <div class="display-field">
+        @Html.DisplayFor(model => model.IMS_PAV_LENGTH)
+    </div>
+
+    <div class="display-label">
+         @Html.DisplayNameFor(model => model.IMS_PAV_EST_COST)
+    </div>
+    <div class="display-field">
+        @Html.DisplayFor(model => model.IMS_PAV_EST_COST)
+    </div>
+
+    <div class="display-label">
+         @Html.DisplayNameFor(model => model.IMS_NO_OF_CDWORKS)
+    </div>
+    <div class="display-field">
+        @Html.DisplayFor(model => model.IMS_NO_OF_CDWORKS)
+    </div>
+
+    <div class="display-label">
+         @Html.DisplayNameFor(model => model.IMS_CD_WORKS_EST_COST)
+    </div>
+    <div class="display-field">
+        @Html.DisplayFor(model => model.IMS_CD_WORKS_EST_COST)
+    </div>
+
+    <div class="display-label">
+         @Html.DisplayNameFor(model => model.IMS_PROTECTION_WORKS)
+    </div>
+    <div class="display-field">
+        @Html.DisplayFor(model => model.IMS_PROTECTION_WORKS)
+    </div>
+
+    <div class="display-label">
+         @Html.DisplayNameFor(model => model.IMS_OTHER_WORK_COST)
+    </div>
+    <div class="display-field">
+        @Html.DisplayFor(model => model.IMS_OTHER_WORK_COST)
+    </div>
+
+    <div class="display-label">
+         @Html.DisplayNameFor(model => model.IMS_STATE_SHARE)
+    </div>
+    <div class="display-field">
+        @Html.DisplayFor(model => model.IMS_STATE_SHARE)
+    </div>
+
+    <div class="display-label">
+         @Html.DisplayNameFor(model => model.MASTER_MP_CONSTITUENCY.MAST_MP_CONST_NAME)
+    </div>
+    <div class="display-field">
+        @Html.DisplayFor(model => model.MASTER_MP_CONSTITUENCY.MAST_MP_CONST_NAME)
+    </div>
+
+    <div class="display-label">
+         @Html.DisplayNameFor(model => model.MASTER_MLA_CONSTITUENCY.MAST_MLA_CONST_NAME)
+    </div>
+    <div class="display-field">
+        @Html.DisplayFor(model => model.MASTER_MLA_CONSTITUENCY.MAST_MLA_CONST_NAME)
+    </div>
+
+    <div class="display-label">
+         @Html.DisplayNameFor(model => model.IMS_ZP_RESO_OBTAINED)
+    </div>
+    <div class="display-field">
+        @Html.DisplayFor(model => model.IMS_ZP_RESO_OBTAINED)
+    </div>
+
+    <div class="display-label">
+         @Html.DisplayNameFor(model => model.IMS_PROPOSED_SURFACE)
+    </div>
+    <div class="display-field">
+        @Html.DisplayFor(model => model.IMS_PROPOSED_SURFACE)
+    </div>
+
+    <div class="display-label">
+         @Html.DisplayNameFor(model => model.IMS_CARRIAGED_WIDTH)
+    </div>
+    <div class="display-field">
+        @Html.DisplayFor(model => model.IMS_CARRIAGED_WIDTH)
+    </div>
+
+    <div class="display-label">
+         @Html.DisplayNameFor(model => model.MASTER_TRAFFIC_TYPE.MAST_TRAFFIC_NAME)
+    </div>
+    <div class="display-field">
+        @Html.DisplayFor(model => model.MASTER_TRAFFIC_TYPE.MAST_TRAFFIC_NAME)
+    </div>
+
+    <div class="display-label">
+         @Html.DisplayNameFor(model => model.IMS_IS_STAGED)
+    </div>
+    <div class="display-field">
+        @Html.DisplayFor(model => model.IMS_IS_STAGED)
+    </div>
+
+    <div class="display-label">
+         @Html.DisplayNameFor(model => model.IMS_STAGE_PHASE)
+    </div>
+    <div class="display-field">
+        @Html.DisplayFor(model => model.IMS_STAGE_PHASE)
+    </div>
+
+    <div class="display-label">
+         @Html.DisplayNameFor(model => model.IMS_STAGED_YEAR)
+    </div>
+    <div class="display-field">
+        @Html.DisplayFor(model => model.IMS_STAGED_YEAR)
+    </div>
+
+    <div class="display-label">
+         @Html.DisplayNameFor(model => model.IMS_STAGED_PACKAGE_ID)
+    </div>
+    <div class="display-field">
+        @Html.DisplayFor(model => model.IMS_STAGED_PACKAGE_ID)
+    </div>
+
+    <div class="display-label">
+         @Html.DisplayNameFor(model => model.IMS_STAGED_ROAD_ID)
+    </div>
+    <div class="display-field">
+        @Html.DisplayFor(model => model.IMS_STAGED_ROAD_ID)
+    </div>
+
+    <div class="display-label">
+         @Html.DisplayNameFor(model => model.IMS_NO_OF_BRIDGEWRKS)
+    </div>
+    <div class="display-field">
+        @Html.DisplayFor(model => model.IMS_NO_OF_BRIDGEWRKS)
+    </div>
+
+    <div class="display-label">
+         @Html.DisplayNameFor(model => model.IMS_BRIDGE_NAME)
+    </div>
+    <div class="display-field">
+        @Html.DisplayFor(model => model.IMS_BRIDGE_NAME)
+    </div>
+
+    <div class="display-label">
+         @Html.DisplayNameFor(model => model.IMS_BRIDGE_LENGTH)
+    </div>
+    <div class="display-field">
+        @Html.DisplayFor(model => model.IMS_BRIDGE_LENGTH)
+    </div>
+
+    <div class="display-label">
+         @Html.DisplayNameFor(model => model.IMS_BRIDGE_WORKS_EST_COST)
+    </div>
+    <div class="display-field">
+        @Html.DisplayFor(model => model.IMS_BRIDGE_WORKS_EST_COST)
+    </div>
+
+    <div class="display-label">
+         @Html.DisplayNameFor(model => model.IMS_BRIDGE_EST_COST_STATE)
+    </div>
+    <div class="display-field">
+        @Html.DisplayFor(model => model.IMS_BRIDGE_EST_COST_STATE)
+    </div>
+
+    <div class="display-label">
+         @Html.DisplayNameFor(model => model.IMS_ISBENEFITTED_HABS)
+    </div>
+    <div class="display-field">
+        @Html.DisplayFor(model => model.IMS_ISBENEFITTED_HABS)
+    </div>
+
+    <div class="display-label">
+         @Html.DisplayNameFor(model => model.MASTER_REASON.MAST_REASON_NAME)
+    </div>
+    <div class="display-field">
+        @Html.DisplayFor(model => model.MASTER_REASON.MAST_REASON_NAME)
+    </div>
+
+    <div class="display-label">
+         @Html.DisplayNameFor(model => model.IMS_MAINTENANCE_YEAR1)
+    </div>
+    <div class="display-field">
+        @Html.DisplayFor(model => model.IMS_MAINTENANCE_YEAR1)
+    </div>
+
+    <div class="display-label">
+         @Html.DisplayNameFor(model => model.IMS_MAINTENANCE_YEAR2)
+    </div>
+    <div class="display-field">
+        @Html.DisplayFor(model => model.IMS_MAINTENANCE_YEAR2)
+    </div>
+
+    <div class="display-label">
+         @Html.DisplayNameFor(model => model.IMS_MAINTENANCE_YEAR3)
+    </div>
+    <div class="display-field">
+        @Html.DisplayFor(model => model.IMS_MAINTENANCE_YEAR3)
+    </div>
+
+    <div class="display-label">
+         @Html.DisplayNameFor(model => model.IMS_MAINTENANCE_YEAR4)
+    </div>
+    <div class="display-field">
+        @Html.DisplayFor(model => model.IMS_MAINTENANCE_YEAR4)
+    </div>
+
+    <div class="display-label">
+         @Html.DisplayNameFor(model => model.IMS_MAINTENANCE_YEAR5)
+    </div>
+    <div class="display-field">
+        @Html.DisplayFor(model => model.IMS_MAINTENANCE_YEAR5)
+    </div>
+
+    <div class="display-label">
+         @Html.DisplayNameFor(model => model.IMS_DPR_STATUS)
+    </div>
+    <div class="display-field">
+        @Html.DisplayFor(model => model.IMS_DPR_STATUS)
+    </div>
+
+    <div class="display-label">
+         @Html.DisplayNameFor(model => model.IMS_REMARKS)
+    </div>
+    <div class="display-field">
+        @Html.DisplayFor(model => model.IMS_REMARKS)
+    </div>
+
+    <div class="display-label">
+         @Html.DisplayNameFor(model => model.IMS_CC_LENGTH)
+    </div>
+    <div class="display-field">
+        @Html.DisplayFor(model => model.IMS_CC_LENGTH)
+    </div>
+
+    <div class="display-label">
+         @Html.DisplayNameFor(model => model.IMS_BT_LENGTH)
+    </div>
+    <div class="display-field">
+        @Html.DisplayFor(model => model.IMS_BT_LENGTH)
+    </div>
+
+    <div class="display-label">
+         @Html.DisplayNameFor(model => model.STA_SANCTIONED)
+    </div>
+    <div class="display-field">
+        @Html.DisplayFor(model => model.STA_SANCTIONED)
+    </div>
+
+    <div class="display-label">
+         @Html.DisplayNameFor(model => model.STA_SANCTIONED_BY)
+    </div>
+    <div class="display-field">
+        @Html.DisplayFor(model => model.STA_SANCTIONED_BY)
+    </div>
+
+    <div class="display-label">
+         @Html.DisplayNameFor(model => model.STA_SANCTIONED_DATE)
+    </div>
+    <div class="display-field">
+        @Html.DisplayFor(model => model.STA_SANCTIONED_DATE)
+    </div>
+
+    <div class="display-label">
+         @Html.DisplayNameFor(model => model.MS_STA_REMARKS)
+    </div>
+    <div class="display-field">
+        @Html.DisplayFor(model => model.MS_STA_REMARKS)
+    </div>
+
+    <div class="display-label">
+         @Html.DisplayNameFor(model => model.IMS_SANCTIONED)
+    </div>
+    <div class="display-field">
+        @Html.DisplayFor(model => model.IMS_SANCTIONED)
+    </div>
+
+    <div class="display-label">
+         @Html.DisplayNameFor(model => model.MASTER_REASON1.MAST_REASON_NAME)
+    </div>
+    <div class="display-field">
+        @Html.DisplayFor(model => model.MASTER_REASON1.MAST_REASON_NAME)
+    </div>
+
+    <div class="display-label">
+         @Html.DisplayNameFor(model => model.IMS_CLEARANCE_DATE)
+    </div>
+    <div class="display-field">
+        @Html.DisplayFor(model => model.IMS_CLEARANCE_DATE)
+    </div>
+
+    <div class="display-label">
+         @Html.DisplayNameFor(model => model.IMS_SANCTIONED_BY)
+    </div>
+    <div class="display-field">
+        @Html.DisplayFor(model => model.IMS_SANCTIONED_BY)
+    </div>
+
+    <div class="display-label">
+         @Html.DisplayNameFor(model => model.IMS_SANCTIONED_DATE)
+    </div>
+    <div class="display-field">
+        @Html.DisplayFor(model => model.IMS_SANCTIONED_DATE)
+    </div>
+
+    <div class="display-label">
+         @Html.DisplayNameFor(model => model.IMS_SANCTIONED_AMOUNT)
+    </div>
+    <div class="display-field">
+        @Html.DisplayFor(model => model.IMS_SANCTIONED_AMOUNT)
+    </div>
+
+    <div class="display-label">
+         @Html.DisplayNameFor(model => model.IMS_PROG_REMARKS)
+    </div>
+    <div class="display-field">
+        @Html.DisplayFor(model => model.IMS_PROG_REMARKS)
+    </div>
+
+    <div class="display-label">
+         @Html.DisplayNameFor(model => model.IMS_OLD_PACKAGE_ID)
+    </div>
+    <div class="display-field">
+        @Html.DisplayFor(model => model.IMS_OLD_PACKAGE_ID)
+    </div>
+
+    <div class="display-label">
+         @Html.DisplayNameFor(model => model.IMS_OLD_ROAD_ID)
+    </div>
+    <div class="display-field">
+        @Html.DisplayFor(model => model.IMS_OLD_ROAD_ID)
+    </div>
+
+    <div class="display-label">
+         @Html.DisplayNameFor(model => model.IMS_VALUEOFWORK_DONE)
+    </div>
+    <div class="display-field">
+        @Html.DisplayFor(model => model.IMS_VALUEOFWORK_DONE)
+    </div>
+
+    <div class="display-label">
+         @Html.DisplayNameFor(model => model.IMS_PAYMENT_MADE)
+    </div>
+    <div class="display-field">
+        @Html.DisplayFor(model => model.IMS_PAYMENT_MADE)
+    </div>
+
+    <div class="display-label">
+         @Html.DisplayNameFor(model => model.IMS_FINAL_PAYMENT_FLAG)
+    </div>
+    <div class="display-field">
+        @Html.DisplayFor(model => model.IMS_FINAL_PAYMENT_FLAG)
+    </div>
+
+    <div class="display-label">
+         @Html.DisplayNameFor(model => model.IMS_FINAL_PAYMENT_DATE)
+    </div>
+    <div class="display-field">
+        @Html.DisplayFor(model => model.IMS_FINAL_PAYMENT_DATE)
+    </div>
+
+    <div class="display-label">
+         @Html.DisplayNameFor(model => model.IMS_ENTRY_DATE_FINANCIAL)
+    </div>
+    <div class="display-field">
+        @Html.DisplayFor(model => model.IMS_ENTRY_DATE_FINANCIAL)
+    </div>
+
+    <div class="display-label">
+         @Html.DisplayNameFor(model => model.IMS_ENTRY_DATE_PHYSICAL)
+    </div>
+    <div class="display-field">
+        @Html.DisplayFor(model => model.IMS_ENTRY_DATE_PHYSICAL)
+    </div>
+
+    <div class="display-label">
+         @Html.DisplayNameFor(model => model.IMS_ISCOMPLETED)
+    </div>
+    <div class="display-field">
+        @Html.DisplayFor(model => model.IMS_ISCOMPLETED)
+    </div>
+
+    <div class="display-label">
+         @Html.DisplayNameFor(model => model.IMS_LOCK_STATUS)
+    </div>
+    <div class="display-field">
+        @Html.DisplayFor(model => model.IMS_LOCK_STATUS)
+    </div>
+
+    <div class="display-label">
+         @Html.DisplayNameFor(model => model.IMS_FREEZE_STATUS)
+    </div>
+    <div class="display-field">
+        @Html.DisplayFor(model => model.IMS_FREEZE_STATUS)
+    </div>
+
+    <div class="display-label">
+         @Html.DisplayNameFor(model => model.IMS_PROPOSAL_TYPE)
+    </div>
+    <div class="display-field">
+        @Html.DisplayFor(model => model.IMS_PROPOSAL_TYPE)
+    </div>
+</fieldset>
+@using (Html.BeginForm()) {
+    <p>
+        <input type="submit" value="Delete" /> |
+        @Html.ActionLink("Back to List", "Index")
+    </p>
+}

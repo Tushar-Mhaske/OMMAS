@@ -1,0 +1,103 @@
+﻿@model PMGSY.Areas.AccountReports.Models.FPPModel
+@{ 
+    Layout = Request.IsAjaxRequest() ? null : "~/Areas/AccountReports/Views/Account/_Layout.cshtml";
+}
+
+<script src="~/Scripts/custom/Generic.js"></script>
+@*<script src="~/Areas/AccountReports/Scripts/FundReceivedReport.js"></script>*@
+
+@*<script src="~/Areas/AccountReports/Scripts/FinacialProgressofWork.js"></script>*@
+<script src="~/Areas/AccountReports/Scripts/FPPFDetails.js"></script>
+
+<div id="loadFilters">
+    @Html.HiddenFor(m => m.levelId)
+    <form id="frmStateAccountMonitoringDetails">
+
+        <div class="ui-widget-header innerDivHeader" style="margin-bottom: 0px; margin-top: 0px; height: 20px;">
+            <label style="margin-left: 5px">FPP Details</label>
+            <span style="float: right; margin-right: 2Px; margin-top: 2px" id="spnFundReceived" class="ui-icon ui-icon-circle-triangle-n"></span>
+        </div>
+
+        <div id="dvError" class="ui-state-error ui-corner-all" style="text-align: left; display: none; width: 99%;">
+            <span class="ui-icon ui-icon-alert" style="float: left;"></span>
+            <span></span>
+        </div>
+
+
+        <div id="dvFilterForm">
+            <table class="table-content ui-corner-all" style="border: 0.1em solid gray; width: 100%; margin-top: 1px" id="tblFilter" align="center">
+            
+               <tr>
+                      <td style="text-align: left; font-weight: bold; width: 600px">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                            @Html.Label("State :")&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                            
+                            @Html.DropDownListFor(m => m.StateCode, Model.lstStates, new { @title = "State", @id="ddlStateStateAccountMonitoring" })
+                            @Html.ValidationMessageFor(m => m.StateCode)
+                      </td>
+                        <td>&nbsp;</td>
+                    </tr>
+            
+                <tr>
+                   
+                    <td style="text-align: left; font-weight: bold; width: 800px">
+                        <span id="spanMonth" style="width: 400px">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                             @Html.Label("Agency:")&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                             <label style="color: red;">*</label>
+                            @Html.DropDownListFor(m => m.Agency, Model.lstAgency, new { @title = "Agency" , @id="ddlAgencyStateAccountMonitoring" })
+                            @Html.ValidationMessageFor(m => m.Agency)
+                        </span>
+
+                        <span id="spanYear" style="display: inline-block; width: 400px">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                    @Html.Label("Select Year:")
+                           <label style="color: red;">*</label>
+                           @Html.DropDownListFor(m => m.Year, Model.ListYear, new { @title = "Year", @id="Year" })
+                            @Html.ValidationMessageFor(m => m.Year)
+                        </span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;               
+                    </td>
+                    <td>
+              
+
+
+                    </td>
+                </tr>
+
+                   <tr>
+                   
+                    <td style="text-align: left; font-weight: bold; width: 800px">
+                        <span id="spanMonth" style="width: 400px">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                             @Html.Label("Funding Agency:")
+                             <label style="color: red;">*</label>
+                            @Html.DropDownListFor(m => m.FundingAgencyCode, Model.lstFundingAgency, new { @title = "Funding Agency" , @id="FundingAgency" })
+                            @Html.ValidationMessageFor(m => m.FundingAgencyCode)
+                        </span>
+
+                        <span id="spanYear" style="display: inline-block; width: 400px">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                    @Html.Label("Periodic  Value:")
+                           <label style="color: red;">*</label>
+                           @Html.DropDownListFor(m => m.PeriodCode, Model.lstPeriod, new { @title = "Periodic Value" })
+                            @Html.ValidationMessageFor(m => m.PeriodCode)
+                        </span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;              
+                    </td>
+                    <td>
+                        <td id="tdOtherBthViewDetails" style="text-align: center;" colspan="3">
+                        <input type="button" id="btnView" value="View Details" class="jqueryButton" title="View Details"></td>
+
+
+                    </td>
+                </tr>
+
+
+              @*  <tr>
+                    <td id="tdOtherBthViewDetails" style="text-align: center;" colspan="3">
+                        <input type="button" id="btnView" value="View Details" class="jqueryButton" title="View Details"></td>
+                </tr>*@
+
+            </table>
+        </div>
+
+    </form>
+</div>
+
+@* Display SSRS report *@
+<div id="dvLoadReport" style="width: 100%;">
+</div>

@@ -1,0 +1,25 @@
+﻿@using MvcReportViewer
+
+@model PMGSY.Areas.MaintenanceSSRSReport.Models.NewRenewaldetails
+
+
+
+@Html.MvcReportViewer("/PMGSYCitizen/Renewal_Review_Report",
+     new
+     {   YEAR=Convert.ToInt32(Model.PhaseYear),
+         
+          STATE=Convert.ToInt32(Model.StateCode),
+          PMGSY=Convert.ToInt32(Model.schemeCode),
+        
+        LEVEL=0,
+        DISTRICT=0
+        // BLOCK=0,
+         
+         //STATENAME=Model.StateName,
+        // Month =Model.MonthCode,
+         //YEAR=Model.PhaseYear
+          
+         
+     },
+     new { Height = 600, Width = "100%", style = "border:none;" })
+

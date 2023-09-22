@@ -1,0 +1,143 @@
+﻿
+@{
+    Layout = "~/Views/Shared/_ExternalLinkLayout.cshtml";
+    
+}
+<link href="~/Areas/QMSSRSReports/Content/w3.css" rel="stylesheet" />
+
+<div class="ui-corner-top ui-widget ui-widget-header panelheader" style="text-align:left;height:25px">
+     <span class="ui-jqgrid-title">&#160;&#160;MP Visit Images</span>
+</div>
+<div id="imageslider" class="ui-corner-bottom"  style="display: block; border: 1px solid #B5B8C8;height:95%">
+       <div class="wrapper" style="width:70%;margin-left:10%;height:100%">
+        <div id="slider" style="height:100%;margin-top:10px;">
+
+            @{
+                List<String> lstImages = (List<String>)ViewData["ImageList"];
+                //if (lstImages[0].Split('$')[1].Equals("N"))
+                //{
+                //    lstImages.Add("279-2.jpg$N");
+                //} 
+                
+                for (int i = 0; i < lstImages.Count; i++)
+                {  
+                    if(lstImages[i].Split('$')[1].Equals("Y")){
+
+                        //String path = Path.Combine(System.Configuration.ConfigurationManager.AppSettings["MPVISIT_PDF_FILE_UPLOAD_VIRTUAL_DIR_PATH"], lstImages[i].Split('$')[0]);
+                        String path = System.Configuration.ConfigurationManager.AppSettings["MPVISIT_PDF_FILE_UPLOAD_VIRTUAL_DIR_PATH"] + "/" + lstImages[i].Split('$')[0];
+                        
+                           //String pdfBase64 = Convert.ToBase64String(File.ReadAllBytes(path));
+                        
+                         @*<iframe style="width:100%;height:80%"  src="data:application/pdf;base64,@pdfBase64"></iframe>*@
+                       <iframe style="width:100%;height:80%"  src="@Url.Content(path.Trim())"></iframe>
+                      
+                
+                    }
+                    else
+                    {
+
+                        String path = Path.Combine(System.Configuration.ConfigurationManager.AppSettings["MPVISIT_IMAGE_FILE_UPLOAD_VIRTUAL_DIR_PATH"], lstImages[i].Split('$')[0]);
+                        
+                      <div class="w3-content w3-display-container">
+                      @*<img class="mySlides" id="@(i+1)"  src="~/Content/images/@lstImages[i].Split('$')[0]" style="width:100%">*@
+                     <img class="mySlides" id="@(i + 1)"  src="@Url.Content(path.Trim())" style="width:100%">
+                     </div>
+                    }
+
+                }
+                if (lstImages[0].Split('$')[1].Equals("N"))
+                {   
+                    @*<div id="nav" style="margin-left:10%;margin-top:10px;">
+                        <a href="#left" class="left">previous</a>
+                        <a href="#right" class="right">next</a>
+                     </div>*@
+                
+                      <button style="margin-left:17%" class="w3-button w3-black w3-display-left" onclick="plusDivs(-1)">&#10094;</button>
+                      <button style="margin-right:29%" class="w3-button w3-black w3-display-right" onclick="plusDivs(1)">&#10095;</button>
+                }
+             }
+           
+        </div>
+    </div>
+    
+</div>
+<script>
+
+    var slideIndex = 1;
+    showDivs(slideIndex);
+
+    function plusDivs(n) {
+        showDivs(slideIndex += n);
+    }
+
+    function showDivs(n) {
+        var i;
+        var x = document.getElementsByClassName("mySlides");
+        if (n > x.length) { slideIndex = 1 }
+        if (n < 1) { slideIndex = x.length }
+        for (i = 0; i < x.length; i++) {
+            x[i].style.display = "none";
+        }
+        x[slideIndex - 1].style.display = "block";
+    }
+
+    //var count = $("#slider > img").length
+    //var slider = 1
+    //var speed = 5000;
+    //var fadeSpeed = 300;
+    //var loop;
+    //$(document).ready(function () {
+     
+    //    // start()
+    //    $("img").hide();
+    //    $("#1").fadeIn(fadeSpeed);
+    //    $('.right').click(right)
+    //    $('.left').click(left)
+    //    $('#slider').hover(stop, start)
+    //});
+    //    function start() {
+    //        loop = setInterval(next, speed)
+    //    }
+    //    function stop() {
+    //        clearInterval(loop)
+    //    }
+    //    function right() {
+    //        stop()
+    //        next()
+    //        start()
+    //        return false
+    //    }
+
+    //    function left() {
+    //        stop()
+    //        prev()
+    //        start()
+    //        return false
+    //    }
+
+    //    function prev() {
+    //        slider--
+    //        if (slider < 1) {
+    //            slider = count
+    //        }
+
+    //        $("#slider > img").fadeOut(fadeSpeed)
+    //        $("#" + slider).fadeIn(fadeSpeed)
+    //    }
+
+    //    function next() {
+    //        slider++
+    //        if (slider > count) {
+    //            slider = 1
+    //        }
+
+    //        $("#slider > img").fadeOut(fadeSpeed)
+    //        $("#" + slider).fadeIn(fadeSpeed)
+    //    }
+  
+</script>
+<style>
+    html, body {
+    margin-left:17px;
+    }
+</style>

@@ -1,0 +1,19 @@
+﻿@using MvcReportViewer
+
+@model PMGSY.Areas.ECBriefReport.Models.ECBriefReportViewModel
+
+
+    
+    @Html.MvcReportViewer("/PMGSYCitizen/PMGSYAch",
+     new
+     {
+         Level = Model.LevelCode,
+         State = Model.StateCode,
+         District = Model.DistrictCode,
+         Block = Model.BlockCode,               
+         LocationName = Model.StateName,
+         DistrictName = Model.DistName,
+         BlockName = Model.BlockName,
+         Scheme = 1
+     },
+       new { Height = 600, Width = "100%", style = "border:none;" })

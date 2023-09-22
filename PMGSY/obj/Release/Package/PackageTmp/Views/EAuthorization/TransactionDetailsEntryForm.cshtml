@@ -1,0 +1,467 @@
+﻿@model PMGSY.Models.EAuthorization.EAuthorizationRequestDetailsModel
+@{
+    ViewBag.Title = "TransactionDetailsEntryForm";
+}
+@{
+    Layout = null;
+}
+
+<!DOCTYPE html>
+
+<html>
+<head>
+    <meta name="viewport" content="width=device-width" />
+     <script> var DeductionRequired = '@ViewBag.DeductionScreenRequired';
+         var Bill_ID = '@ViewBag.Bill_ID';
+
+         @* var urlparamsForTransEdit = '@ViewBag.urlparams';
+         var Bill_finalized = '@ViewBag.BillFinalized';
+         var paymentRequired = '@ViewBag.PaymentScreenRequired';*@
+     </script> 
+    <script src="~/Scripts/custom/Generic.js"></script>
+    <script src="~/Scripts/EAuthorization/TransactionDetailsEntryForm.js"></script>
+</head>
+<body>
+ @Html.Hidden("fundType", PMGSY.Extensions.PMGSYSession.Current.FundType)
+    <table id="trShowHideLinkTable">
+        <tr id="trnsShowtable">
+            <td style="width:auto;display: none">
+               <span id="HideShowTransForm">
+                 <span id="iconSpan2" class="ui-icon ui-icon-circle-triangle-n" style="float: left"></span>
+                <span ><b>show/hide transaction form   
+                </b></span>
+                   </span>
+            </td>
+            <td>&nbsp;&nbsp;&nbsp;
+            </td>
+
+        </tr>
+    </table>
+    @Html.Hidden("Bill_ID")
+     @Html.HiddenFor(model => model.CONTRACTOR_ID)
+    
+
+     @{
+         int iTabIndex = 4;
+    }
+
+
+
+    
+     <form id="PaymentTransactionForm">
+         @Html.AntiForgeryToken()
+         @Html.ValidationSummary(true)
+
+         @Html.HiddenFor(model => model.TXN_NO)
+         
+        
+      @{string style = ViewBag.DeductionScreenRequired == true ? "float: left;vertical-align:top; clear:both; width: 49%; border: solid gray 1px;margin-bottom:5px" : "float: left; width: 98%; border: solid gray 1px;margin-bottom:5px;vertical-align:top; ";
+              }
+            
+                 <div id="PaymentDiv" style="@style" class="ui-corner-all">
+               
+                    <div class="ui-widget-header ui-corner-all">
+                        <span>Add Payment Details</span>
+                    </div>
+                
+                    <table id="PaymentTable" class="rowstyle ui-corner-all" style="width:100%"; cellspacing="1px" >
+                       
+                        <tr>
+                        <td colspan="2">
+                            <div id="divDetailsError" class="ui-state-error ui-corner-all" style="text-align: left; display: none; width: 100%">
+                            <span class="ui-icon ui-icon-alert" style="float: left;"></span>
+                            <span></span>
+                            </div>
+                        </td>
+                        </tr>
+                      
+
+                    <tr id="HeadDescTr" style="display:none">
+                     <td id="descPayTd" colspan="2">
+
+                     </td>
+
+                    </tr>
+                    
+                    @if (Model.IsForUpdate)
+                    {
+                        
+                        @Html.HiddenFor(model => model.IMS_AGREEMENT_CODE_C)
+                        @Html.HiddenFor(model => model.IMS_SANCTION_PACKAGE)
+                        @Html.HiddenFor(model => model.MAST_CON_ID_C)
+                        <tr class="conAgreement">
+                        
+
+                        <td style="width:25%;">
+                            @Html.LabelFor(model => model.MAST_CON_ID_C)<label style="color:red">*</label>
+                        </td>
+                        <td style="width:45%;">
+                          
+                             @Html.DropDownListFor(model => model.MAST_CON_ID_C, new SelectList(Model.MAST_CON_ID_C1, "Value", "Text", "Company name is required"), new { Title = "Company name", tabindex = "1", @class = "dropdown", @style = "width:100%", @disabled = "disabled" })
+                               <br />
+                            @Html.ValidationMessageFor(model => model.MAST_CON_ID_C, null, new { @id = "spnErrConName" })
+
+                        </td>
+                        
+
+
+
+                        
+                                <td style="width:7%">
+                                     @Html.LabelFor(model => model.PAYEE_NAME) <label style="color:red">*</label>
+
+                                </td>
+
+                                <td style="text-align: left; width: 25%">
+                                    @Html.TextBoxFor(model => model.PAYEE_NAME, new { Title = "Payee Name", tabindex = "2", @class = "dropdown", @style = "width:50%", @readonly = "readonly" })
+                                  <br />
+                                        @Html.ValidationMessageFor(model => model.PAYEE_NAME, null, new { @id = "spnErrPayeeName" })
+
+                                </td>
+
+                                </tr>
+
+
+
+
+                                  <tr class="conAgreement" >
+                            
+                                <td>
+                                    @Html.LabelFor(model => model.IMS_AGREEMENT_CODE_C)<label style="color:red">*</label>
+                                </td>
+                                <td>
+                          
+                                      @Html.DropDownListFor(model => model.IMS_AGREEMENT_CODE_C, new SelectList(Model.AGREEMENT_C, "Value", "Text", "Agreement is required"), new { Title = "Contractor Agreement", tabindex = "3", @class = "dropdown", @style = "width:50%", @disabled = "disabled" })
+                                     <br />
+                                    @Html.ValidationMessageFor(model => model.IMS_AGREEMENT_CODE_C)
+
+                                </td>
+                        </tr>
+
+
+                         <tr class="sanctionPackage">
+                            <td>
+                            @Html.LabelFor(model => model.IMS_SANCTION_PACKAGE)<label style="color:red">*</label>
+                        </td>
+                        <td>
+                             @Html.DropDownListFor(model => model.IMS_SANCTION_PACKAGE, new SelectList(Model.IMS_SANCTION_PACKAGE_List, "Value", "Text"), new { Title = "Sactioned Package", tabindex = "4", @class = "dropdown", @style = "width:50%", @disabled = "disabled" })
+                           <br />
+                              @Html.ValidationMessageFor(model => model.IMS_SANCTION_PACKAGE)
+                        </td>
+                        <td></td><td></td>
+
+                        </tr>
+                    
+                    
+                    }
+                    else
+                    {
+                        <tr class="conAgreement">
+                        
+
+                            @*@Html.HiddenFor(model=>model.MAST_CON_ID_C)*@
+                        <td style="width:25%;">
+                            @Html.LabelFor(model => model.MAST_CON_ID_C)<label style="color:red">*</label>
+                        </td>
+                        <td style="width:45%;">
+                          
+                             @Html.DropDownListFor(model => model.MAST_CON_ID_C, new SelectList(Model.MAST_CON_ID_C1, "Value", "Text", "Company name is required"), new { Title = "Company name", tabindex = "1", @class = "dropdown", @style = "width:100%" })
+                               <br />
+                            @Html.ValidationMessageFor(model => model.MAST_CON_ID_C, null, new { @id = "spnErrConName" })
+
+                        </td>
+                        
+
+
+
+                        
+                    <td style="width:7%">
+                         @Html.LabelFor(model => model.PAYEE_NAME) <label style="color:red">*</label>
+
+                    </td>
+
+                    <td style="text-align: left; width: 25%">
+                        @Html.TextBoxFor(model => model.PAYEE_NAME, new { Title = "Payee Name", tabindex = "2", @class = "dropdown", @style = "width:50%", @readonly = "readonly" })
+                      <br />
+                            @Html.ValidationMessageFor(model => model.PAYEE_NAME, null, new { @id = "spnErrPayeeName" })
+
+                    </td>
+
+                    </tr>
+
+
+
+
+                        <tr class="conAgreement" id="trAggreement" style="display:none">
+                            
+                            @*@Html.HiddenFor(model=>model.IMS_AGREEMENT_CODE_C)*@
+                                <td>
+                                    @Html.LabelFor(model => model.IMS_AGREEMENT_CODE_C)<label style="color:red">*</label>
+                                </td>
+                                <td>
+                          
+                                      @Html.DropDownListFor(model => model.IMS_AGREEMENT_CODE_C, new SelectList(Model.AGREEMENT_C, "Value", "Text", "Agreement is required"), new { Title = "Contractor Agreement", tabindex = "3", @class = "dropdown", @style = "width:50%" })
+                                     <br />
+                                    @Html.ValidationMessageFor(model => model.IMS_AGREEMENT_CODE_C)
+
+                                </td>
+                        </tr>
+
+
+                         <tr class="sanctionPackage" style="display:none" id="trPackage">
+                             @*@Html.HiddenFor(model=>model.IMS_SANCTION_PACKAGE)*@
+                            <td>
+                            @Html.LabelFor(model => model.IMS_SANCTION_PACKAGE)<label style="color:red">*</label>
+                        </td>
+                        <td>
+                             @Html.DropDownListFor(model => model.IMS_SANCTION_PACKAGE, new SelectList(Model.IMS_SANCTION_PACKAGE_List, "Value", "Text"), new { Title = "Sactioned Package", tabindex = "4", @class = "dropdown", @style = "width:50%" })
+                           <br />
+                              @Html.ValidationMessageFor(model => model.IMS_SANCTION_PACKAGE)
+                        </td>
+                        <td></td><td></td>
+
+                        </tr>
+    
+                    }
+                    
+
+                      
+
+
+                        @if (Model.IsForUpdate)
+                        {
+                        <tr>
+                            
+                             <td>
+                            @Html.LabelFor(model => model.ALREADY_AUTHORISED_AMOUNT)
+                            </td>
+
+                              <td>
+                               @Html.TextBoxFor(model => model.ALREADY_AUTHORISED_AMOUNT, new { Title = "Already Authorised Amount", tabindex = "5", @class = "dropdown", @readonly = "readonly" })
+                           <br />
+                            @Html.ValidationMessageFor(model => model.ALREADY_AUTHORISED_AMOUNT, null, new { @id = "spnAlreadyAuthorisedAmt" })
+
+                           </td>
+                        </tr>
+                            
+                        }
+                        else
+                        {
+                        <tr style="display:none" id="trAlreadyAuthAmount">
+
+                            <td id="tdlblAlreadyAuthorisedAmount">
+                            @Html.LabelFor(model => model.ALREADY_AUTHORISED_AMOUNT)
+                            </td>
+
+                              <td style="display:none" id="txtAlreadyAutAmount">
+                               @Html.TextBoxFor(model => model.ALREADY_AUTHORISED_AMOUNT, new { Title = "Already Authorised Amount", tabindex = "5", @class = "dropdown" })
+                           <br />
+                            @Html.ValidationMessageFor(model => model.ALREADY_AUTHORISED_AMOUNT, null, new { @id = "spnAlreadyAuthorisedAmt" })
+
+                           </td>
+
+                             <td style="display:none" id="lnkAlreadyAutAmount">
+                            @*@Html.ActionLink("Add Authorization Details", "", "", null, new {id = "lnkAddAuthDetails" })*@
+                                 <a href="#" tabindex = "5" id = "lnkAddAuthDetails">Add Authorization Details</a>
+                            </td>
+
+
+                            <td></td><td></td>
+                        </tr>
+                        }
+
+
+
+                        @if (Model.IsForUpdate)
+                        {
+                             <tr>
+
+                            <td>
+                            @Html.LabelFor(model => model.AGREEMENT_AMOUNT, new { Title = "Agreement Amount", @class = "dropdown" })
+                            </td>
+
+                               
+                              <td>
+                               @*<label id="lblAgreementAmount"></label>*@
+                                @Html.DisplayFor(model => model.AGREEMENT_AMOUNT, new { Title = "Agreement Amount", tabindex = "6", @class = "dropdown" })
+
+                             
+                            </td>
+
+                              <td></td><td></td>
+
+                        </tr>
+
+
+
+                         <tr>
+
+                            <td>
+                            @Html.LabelFor(model => model.EXPENDITURE_AMOUNT, new { Title = "Expenditure Amount", @class = "dropdown" })
+                            </td>
+
+                              <td>
+                               @*<label id="lblExpenditureAmount"></label>*@
+                                  @Html.DisplayFor(model => model.EXPENDITURE_AMOUNT, new { Title = "Expenditure Amount", tabindex = "7", @class = "dropdown" })
+                             
+                            </td>
+                             <td></td><td></td>
+
+                        </tr>
+                            
+                        }
+                        else
+                        {
+
+                          <tr style="display:none" id="trAgreementAmount">
+
+                            <td>
+                            @Html.LabelFor(model => model.AGREEMENT_AMOUNT, new { Title = "Agreement Amount", tabindex = "6", @class = "dropdown" })
+                            </td>
+
+                            @Html.HiddenFor(model => model.AGREEMENT_AMOUNT)
+
+                              <td>
+                               <label id="lblAgreementAmount"></label>
+                                @*@Html.DisplayFor(model => model.AGREEMENT_AMOUNT, new { Title = "Agreement Amount", tabindex = "7", @class = "dropdown",@id="lblAgreementAmount"})*@
+
+                             
+                            </td>
+
+                              <td></td><td></td>
+
+                        </tr>
+
+
+
+                         <tr style="display:none" id="trExpenditureAmount">
+
+                            <td>
+                            @Html.LabelFor(model => model.EXPENDITURE_AMOUNT, new { Title = "Expenditure Amount", tabindex = "7", @class = "dropdown" })
+                            </td>
+
+                             @Html.HiddenFor(model => model.EXPENDITURE_AMOUNT)
+                              <td>
+                               <label id="lblExpenditureAmount"></label>
+                                  @*@Html.DisplayFor(model => model.EXPENDITURE_AMOUNT, new { Title = "Expenditure Amount", tabindex = "7", @class = "dropdown",@id="lblExpenditureAmount" })*@
+                             
+                            </td>
+                             <td></td><td></td>
+
+                        </tr>
+                        }
+
+
+
+
+                     
+
+
+                        <tr>
+                        <td>
+                            @Html.LabelFor(model => model.AMOUNT_Q)<label style="color:red">*</label>
+                        </td>
+                        <td>
+                            @Html.TextBoxFor(model => model.AMOUNT_Q, new { @title = "Cheque Amount", placeholder = "Enter Request amount",tabindex = "8"})
+                          <br />
+                              @Html.ValidationMessageFor(model => model.AMOUNT_Q)
+                        </td>
+                            <td></td><td></td>
+                    </tr>
+
+
+                        @*style="display: none"*@
+
+                        @if (Model.IsForUpdate)
+                        {
+
+                        }
+                        else
+                        {
+                         <tr id="trContractorBankDetails" >
+                        <td>
+
+                            @Html.Label("Account Number : ")
+                            <span id="spnBankAccNumber" style="margin-left: 0px">-</span>
+                        </td>
+                        <td>
+                            @Html.Label("Bank Name : ")
+                            <span id="spnBankName" style="margin-left: 0px">-</span>
+
+                        </td>
+                        <td>
+                            @Html.Label("IFSC Code : ", new { @style = "margin-left:42%" })
+                        </td>
+
+                         <td>
+                             <span id="spnIFSCCode" style="margin-left: 7px">-</span>
+                        </td>
+
+                        <td></td>
+                        </tr>
+                        }
+
+
+
+                        
+
+
+                  
+
+                
+                    @*<tr class="final" >
+                        <td>
+                            @Html.LabelFor(model => model.FINAL_PAYMENT)
+                        </td>
+                        <td>
+                            @Html.DropDownListFor(model => model.FINAL_PAYMENT, new SelectList(Model.final_pay, "Value", "Text"), new { Title = "Is Final Payment", @class = "dropdown", tabindex = "9" })
+                            <br />
+                             @Html.ValidationMessageFor(model => model.FINAL_PAYMENT)
+                        </td>
+                        <td></td>
+                        <td></td>
+                    </tr>*@
+                    
+                    
+                    @{
+                        string style1 = ViewBag.BillFinalized == "Y" ? "display:none" : "";
+                      }  
+                    
+                        <tr>
+                            <td></td>
+                        <td colspan="2" style="text-align: center">
+                            
+                            @if (Model.IsForUpdate)
+                            {
+                                 <input type="button" class="jqueryButton" name="btnPaymentUpdate" id="btnPaymentUpdate" title="Click here to update details" value='Update' tabindex = "9"/>
+                            }
+                            else
+                            {
+                                <input type="button" class="jqueryButton" name="btnPaymentSubmit" id="btnPaymentSubmit" title="Click here to save details" value='Save' style="@style1" tabindex = "9"/>
+                                <input type="Reset" class="jqueryButton" name="btnPaymentReset" id="btnPaymentReset" title="Click here to reset form" value='Reset' style="@style1" tabindex = "10" />
+                            }
+                             <input type="button" class="jqueryButton"
+                                name="btnPaymentCancel" id="btnCancel" title="Click here to cancel" value='Cancel' tabindex = "6" />
+                        </td>
+                            <td></td>
+
+                    </tr>   
+                     
+                </table>
+                
+            </div>
+        </form>      
+
+
+    
+    <div id="dialogAddAuthorizationDetails">
+    <div id="divAddAuthorizationDetails">
+    </div>
+</div>
+        
+     
+    
+
+        
+</body>
+</html>

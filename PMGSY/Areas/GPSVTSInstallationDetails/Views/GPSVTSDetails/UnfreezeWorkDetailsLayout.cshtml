@@ -1,0 +1,120 @@
+﻿@model PMGSY.Areas.GPSVTSInstallationDetails.Models.UnfreezeWorkDetailsModel
+@{
+    Layout = null;
+}
+
+<script src="~/Scripts/custom/Generic.js"></script>
+<script src="~/Scripts/jquery.ui.datepicker.js"></script>
+<script src="~/Scripts/jquery.ui.accordion.js"></script>
+<script src="~/Scripts/jquery.ui.tabs.js"></script>
+<script src="~/Scripts/Bootstrap/bootstrap.min.js"></script>
+<script src="~/Scripts/Bootstrap/bootstrap.min.js"></script>
+<link href="~/Content/Bootstrap/bootstrap.min.css" rel="stylesheet" />
+@*<script src="~/Scripts/jquery.validate.unobtrusive.js"></script>*@
+<script src="~/Areas/GPSVTSInstallationDetails/Scripts/UnfreezeWorkDetailsLayout.js"></script>
+
+
+<center>
+    @{
+
+
+        <div id="dvhdCreateNewReportDetails" class="ui-corner-top ui-widget-header panelheader" style="text-align: left; height: 20px; width: 100%;">
+            <span class="ui-jqgrid-title" style="float: left">&nbsp;GPS VTS Report</span>
+
+        </div>
+        <div style="width: 100%; border:none; margin-top:-15px; margin-bottom:10px;" class="ui-state-default">
+            <div id="divFilterForm">
+                <form id="FilterForm">
+                    <center>
+                        <table style="margin-top:10px; margin-bottom:5px">
+                            <tr>
+
+                                <td style="text-align:left;width:5%">
+
+                                <td style="text-align: left; width: 5%">
+                                    @Html.LabelFor(model => model.StateCode)<label style="color: red;"> *</label>
+                                </td>
+                                <td style="text-align: left; width: 15%">
+                                    @Html.DropDownListFor(model => model.StateCode, new SelectList(Model.StateList, "Value", "Text"), new { @id = "ddlState", @title = "State", @style = "width:200px;", @tabindex = 1 })
+                                    <br />
+                                    @Html.ValidationMessageFor(m => m.StateCode)
+                                </td>
+                                <td style="text-align: left; width: 5%">
+                                    @Html.LabelFor(model => model.DistrictCode)<label style="color: red;"> *</label>
+                                </td>
+                                <td style="text-align: left; width: 15%">
+                                    @Html.DropDownListFor(model => model.DistrictCode, new SelectList(Model.DistrictList, "Value", "Text"), new { @id = "ddlDistrict", @title = "District", @style = "width:200px;", @tabindex = 2 })
+                                    <br />
+                                    @Html.ValidationMessageFor(m => m.DistrictCode)
+                                </td>
+                                <td style="text-align: left; width: 5%">
+                                    @Html.LabelFor(model => model.BlockCode)
+                                </td>
+                                <td style="text-align: left; width: 15%">
+                                    @Html.DropDownListFor(model => model.BlockCode, new SelectList(Model.BlockList, "Value", "Text", Model.ProposalType), new { @id = "ddlBlock", @title = "Block", @style = "width:200px;", @tabindex = 3 })
+                                    <br />
+                                    @Html.ValidationMessageFor(m => m.BlockCode)
+                                </td>
+
+                            </tr>
+
+                            <tr>
+                                <td style="text-align:left;width:5%">
+
+                                <td style="text-align: left; width: 7%">
+                                    @Html.LabelFor(model => model.Sanction_Year)
+                                </td>
+                                <td style="text-align: left; width: 15%">
+                                    @Html.DropDownListFor(model => model.Sanction_Year, new SelectList(Model.Sanction_Year_List, "Value", "Text"), new { @id = "ddlYear", @title = "Year", @style = "width:150px;", @tabindex = 4 })
+                                    <br />
+                                    @Html.ValidationMessageFor(m => m.Sanction_Year)
+                                </td>
+
+                                <td style="text-align: left; width: 5%">
+                                    @Html.LabelFor(model => model.Batch)
+                                </td>
+                                <td style="text-align: left; width: 15%">
+                                    @Html.DropDownListFor(model => model.Batch, new SelectList(Model.BatchList, "Value", "Text"), new { @id = "ddlBatch", @title = "Batch", @style = "width:150px;", @tabindex = 5 })
+                                    <br />
+                                    @Html.ValidationMessageFor(m => m.Batch)
+                                </td>
+
+                                <td style="text-align: left; width: 5%">
+                                    @Html.LabelFor(model => model.ProposalType)
+                                </td>
+                                <td style="text-align: left; width: 15%">
+                                    @Html.DropDownListFor(model => model.ProposalType, new SelectList(Model.ProposalTypeList, "Value", "Text"), new { @id = "ddlProposalType", @title = "Work Type", @style = "width:150px;", @tabindex = 5 })
+                                    <br />
+                                    @Html.ValidationMessageFor(m => m.ProposalType)
+                                </td>
+                            </tr>
+                            <tr>
+
+                                <td style="text-align:left;width:5%">
+                                <td style="text-align: left; width: 5%">
+                                    @Html.LabelFor(model => model.WorkStatus)
+                                </td>
+                                <td style="text-align: left; width: 15%">
+                                    @Html.DropDownListFor(model => model.WorkStatus, new SelectList(Model.WorkStatusList, "Value", "Text"), new { @id = "ddlWorkStatus", @title = "Work Status", @style = "width:150px;", @tabindex = 5 })
+                                    <br />
+                                    @Html.ValidationMessageFor(m => m.WorkStatus)
+                                </td>
+                            </tr>
+                            <tr>
+                                <td colspan="7" style="text-align:center;">
+                                    <input type="button" style="border: 2px solid #989898;" class="jqueryButton" value="List Roads" title="Click here to view existing Road list" id="btnRoadList" name="btnLRoadList" />
+                                </td>
+                            </tr>
+
+                        </table>
+                    </center>
+                </form>
+            </div>
+        </div>
+
+        <div id="dvGPSVTSRoadList" style="margin-top:20px; width:80%">
+            <table id="tbGPSVTSRoadList"></table>
+            <div id="dvGPSVTSRoadListPager"></div>
+        </div>
+    }
+</center>

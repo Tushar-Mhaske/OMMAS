@@ -1,0 +1,10 @@
+﻿
+@using MvcReportViewer
+
+@Html.MvcReportViewer("/PMGSYCitizen/TOUR_CLAIM_SUMMARY_REPORT",
+ new
+ {
+     TOUR_CLAIM_ID = @ViewBag.TOUR_CLAIM_ID
+ },
+   new { Height = 600, Width = "100%", style = "border:none;" })
+

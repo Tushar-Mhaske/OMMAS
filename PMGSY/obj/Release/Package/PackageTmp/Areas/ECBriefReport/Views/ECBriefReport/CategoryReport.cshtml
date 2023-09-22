@@ -1,0 +1,18 @@
+﻿@using MvcReportViewer
+
+
+@model PMGSY.Areas.ECBriefReport.Models.Category
+
+
+    
+    @Html.MvcReportViewer("/PMGSYCitizen/Gradation",
+     new
+     {
+         STATE=0,
+         Month=Model.Batch,
+         Year = Model.Year,
+         Collaboration = Model.Collaboration
+      
+        
+     },
+       new { Height = 600, Width = "100%", style = "border:none;" })

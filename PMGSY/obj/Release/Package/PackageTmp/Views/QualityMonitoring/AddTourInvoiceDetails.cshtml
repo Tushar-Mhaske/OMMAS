@@ -1,0 +1,147 @@
+﻿<script src="~/Scripts/custom/Generic.js"></script>
+@*<script src="~/Scripts/StaPay/GenerateBill.js"></script>*@
+<script src="~/Scripts/QualityMonitoring/AddTourInvoiceDetails.js"></script>
+@model PMGSY.Models.QualityMonitoring.QMTourGenerateInvoice
+
+
+
+<form id="frmTourInvoice">
+    <div id="divError" class="ui-state-error ui-corner-all" style="text-align: left; display: none; width: 99%; margin-bottom: 10px; margin-top: 10px">
+        <span class="ui-icon ui-icon-alert" style="float: left;"></span>
+        <span></span>
+    </div>
+
+    @Html.HiddenFor(model => model.ADMIN_SCHEDULE_CODE)
+    @Html.HiddenFor(model => model.TOUR_EXPENDITURE)
+    @Html.HiddenFor(model => model.MAST_TDS)
+
+    @*@Html.HiddenFor(model=> model.IMS_YEAR)
+    @Html.HiddenFor(model => model.IMS_BATCH)
+    @Html.HiddenFor(model => model.IMS_STREAM)
+    @Html.HiddenFor(model => model.IMS_PROPOSAL_TYPE)
+    
+    @Html.HiddenFor(model => model.STA_SANCTIONED_BY)
+    @Html.HiddenFor(model => model.SAS_ABBREVATION)
+    @Html.HiddenFor(model => model.PMGSY_SCHEME)*@
+    <table class="rowstyle" style="border: ridge 0.1em #ccc; width: 90%; padding: 5px 5px 5px 5px">
+        <tr>
+            <td style="font-weight: bold">
+                @*@Html.LabelFor(model=> model.TOUR_EXPENDITURE)*@
+                @Html.Label("NQM Claimed Amount")
+            </td>
+            <td>
+                @Html.DisplayFor(model => model.TOUR_EXPENDITURE)
+            </td>
+
+            <td style="font-weight: bold">
+                @Html.LabelFor(model => model.INVOICE_FILE_NO)
+            </td>
+            <td>
+                @Html.TextBoxFor(model => model.INVOICE_FILE_NO, new { @id = "txtInvoiceFileNo", @maxlength = 50 })
+                <br />
+                @Html.ValidationMessageFor(model => model.INVOICE_FILE_NO)
+            </td>
+        </tr>
+
+        <tr>
+            <td style="font-weight: bold">
+                @Html.LabelFor(model => model.TRAVEL_CLAIM_ALLOWANCE)
+            </td>
+            <td>
+                @Html.TextBoxFor(model => model.TRAVEL_CLAIM_ALLOWANCE, new { @id = "txtTravelClaim", @maxlength = 21 })
+                <br />
+                @Html.ValidationMessageFor(m=>m.TRAVEL_CLAIM_ALLOWANCE)
+            </td>
+
+            <td style="font-weight: bold">
+                @Html.LabelFor(model => model.REPORTING_ALLOWANCE)<span style="color: red">*</span>
+            </td>
+            <td>
+                @Html.TextBoxFor(model => model.REPORTING_ALLOWANCE, new { id = "txtReportingAllowance", @maxlength = 21 })
+                <br />
+                @Html.ValidationMessageFor(model => model.REPORTING_ALLOWANCE)
+            </td>
+        </tr>
+
+        <tr>
+            <td style="font-weight: bold">
+                @Html.LabelFor(model => model.MILLAGE_ALLOWANCE)<span style="color: red">*</span>
+            </td>
+            <td>
+                @Html.TextBoxFor(model => model.MILLAGE_ALLOWANCE, new { @id = "txtMileageAllowance", @maxlength = 21 })
+                <br />
+                @Html.ValidationMessageFor(model => model.MILLAGE_ALLOWANCE)
+            </td>
+            <td style="font-weight: bold">
+                @Html.LabelFor(model => model.HOLDING_CHARGE_ALLOWANCE)
+            </td>
+            <td style="font-weight: bold">
+                @Html.TextBoxFor(model => model.HOLDING_CHARGE_ALLOWANCE, new { @id = "txtHoldingChargeAllowance", @maxlength = 21 })
+                <br />
+                @Html.ValidationMessageFor(model => model.HOLDING_CHARGE_ALLOWANCE)
+            </td>
+        </tr>
+
+        <tr>
+            <td style="font-weight: bold">
+                @Html.LabelFor(model => model.DEARNESS_ALLOWANCE)
+            </td>
+            <td style="font-weight: bold">
+                @Html.TextBoxFor(model => model.DEARNESS_ALLOWANCE, new { @id = "txtDearnessAllowance", @maxlength = 21 })
+                <br />
+                @Html.ValidationMessageFor(model => model.DEARNESS_ALLOWANCE)
+            </td>
+            <td style="font-weight: bold">
+                @Html.LabelFor(model => model.HONORARIUM_ALLOWANCE)
+            </td>
+            <td>
+                @Html.TextBoxFor(model => model.HONORARIUM_ALLOWANCE, new { @id = "txtHonorariumAllowance", @maxlength = 21 })
+                <br />
+                @Html.ValidationMessageFor(model => model.HONORARIUM_ALLOWANCE)
+            </td>
+        </tr>
+        <tr>
+            <td style="font-weight: bold">
+                @Html.LabelFor(model => model.OTHER_ALLOWANCE)
+            </td>
+            <td>
+                @Html.TextBoxFor(model => model.OTHER_ALLOWANCE, new { @id = "txtOtherAllowance", @maxlength = 21 })
+                <br />
+                @Html.ValidationMessageFor(model => model.OTHER_ALLOWANCE)
+            </td>
+            <td style="font-weight: bold">
+                @*@Html.LabelFor(model => model.DEDUCTION)*@
+                <label>@Model.Per_Tds.ToString() % of Honororium Allowance</label>
+            </td>
+            <td>
+                @Html.TextBoxFor(model => model.DEDUCTION, new { @id = "txtDeduction", @maxlength = 21, @readonly = true })
+                <br />
+                @Html.ValidationMessageFor(model => model.DEDUCTION)
+                @*HiddenFor added by rohit 8Apr2015*@
+            </td>
+        </tr>
+        <tr>
+            <td style="font-weight: bold">
+                @Html.LabelFor(model => model.OTHER_DEDUCTION)
+            </td>
+            <td>
+                @Html.TextBoxFor(model => model.OTHER_DEDUCTION, new { @id = "txtOtherDeduction", @maxlength = 21 })
+                <br />
+                @Html.ValidationMessageFor(model => model.OTHER_DEDUCTION)
+            </td>
+            <td style="font-weight: bold">
+                @Html.LabelFor(model => model.NET_PAYABLE)
+            </td>
+            <td>
+                @Html.TextBoxFor(model => model.NET_PAYABLE, new { @id = "txtNetPayable", @maxlength = 21, @readonly = true })
+                <br />
+                @Html.ValidationMessageFor(model => model.NET_PAYABLE)
+            </td>
+        </tr>
+        <tr id="trSaveDetails">
+            <td colspan="4" style="text-align: center">
+                <input type="button" name="btnSave" id="btnSave" value="Generate Bill" class="jqueryButton" />
+            </td>
+        </tr>
+    </table>
+</form>

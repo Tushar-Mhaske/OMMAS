@@ -1,0 +1,56 @@
+﻿
+
+<div id="dvContractorInspectionReportHeader" class="ui-corner-top ui-widget-header panelheader" style="text-align: left; height: 20px;">
+    <span class="ui-jqgrid-title" style="float: left">&nbsp;Month Wise NQM Schedule</span>
+</div>
+<div id="dvContractorInspectionReportFilter" class="ui-corner-bottom" style="display: block;">
+    <form id="frmdvContractorInspectionReportFilter">
+        @Html.AntiForgeryToken()
+        <table id="tblGradingAndATRReport" class="rowstyle" style="margin-top: 0px; text-align: center; border: ridge 0.1em #ccc; width: 100%;">
+            <tr>
+                <td style="width:30%;text-align:left;">
+                    &nbsp;
+                </td>
+                <td style="width: 10%;text-align:right; font-weight: bold;">
+                    @Html.Label("Select Year:")
+                </td>
+                <td style="width: 10%;text-align:left;">
+                    @Html.DropDownList("List",new SelectList(ViewBag.YEARS_LIST, "Value", "Text"), new { @id = "ddlSYear", @title = "Sanction Year", @tabindex = 1})
+                    
+                </td>
+               
+                <td style="width:10%;text-align:left;">
+                    <input type="button" class="jqueryButton" value="View" id="btnViewReport"/>
+                </td>
+                <td style="width:30%;text-align:left;">
+                    &nbsp;
+                </td>   
+            </tr>
+           
+          
+
+        </table>
+    </form>
+</div>
+<div id="dvdvContractorInspectionReport"></div>
+
+<script type="text/javascript">
+
+    $(document).ready(function () {
+        $("#btnViewReport").click(function () {
+            var syear = $("#ddlSYear").val();
+           
+            if (syear == 0)
+                alert("Select Year");
+            else {
+                //alert(syear + " : " + status);
+                $("#dvdvContractorInspectionReport").load("/QMSSRSReports/QMSSRSReports/NQMScheduleMonthReport", { syear: syear }, function (response) {
+                  //  alert("Loaded");
+                });
+            }
+        });
+    });
+
+</script>
+
+

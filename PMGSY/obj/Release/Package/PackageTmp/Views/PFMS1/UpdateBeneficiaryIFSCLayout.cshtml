@@ -1,0 +1,40 @@
+﻿@model PMGSY.Models.PFMS.UpdateBeneficiaryIFSCViewModel
+
+<script src="~/Scripts/custom/Generic.js"></script>
+<script src="~/Scripts/PFMS/UpdateBeneficiaryIFSCLayout.js"></script>
+
+<div id="dvhdUpdateBeneficiaryIFSCLayout" class="ui-corner-top ui-widget-header panelheader" style="text-align: left; height: 20px;">
+    <span class="ui-jqgrid-title" style="float: left">&nbsp;Update Beneficiary for PFMS</span>
+</div>
+<div id="dvUpdateBeneficiaryIFSCLayout" class="ui-corner-bottom" style="display: block; border: 1px solid #B5B8C8;">
+    <form id="frmUpdateBeneficiaryIFSCLayout">
+        @Html.ValidationSummary(true)
+        @Html.AntiForgeryToken()
+
+        <table style="margin-top: 0px; margin-bottom: 0px; width: 100%;" class="rowstyle">
+            <tr>
+                <td style="width: 5%"></td>
+                <td>
+                    @Html.Label("Pan Number")<span style="color: red">*</span>
+                </td>
+                <td>
+                    @Html.TextBoxFor(model => model.contractorPAN , new {@id = "txtPanNumber" , @maxlength = 10 ,@tabindex = "1" , @placeholder = "Enter PAN Number"})
+                    <br />
+                    @Html.ValidationMessageFor(model => model.contractorPAN)
+                </td>
+                
+                <td>
+                    <input type="button" class="jqueryButton" value="Get beneficiary List" title="Get beneficiary List" id="btnGetBeneficiaryList" name="btnGetBeneficiaryList" tabindex="3" />
+                </td>
+                <td style="width: 5%"></td>
+            </tr>
+        </table>
+
+        <div style="margin-top: 10px; width: 95%; margin-left: 5px; margin-bottom: 5px;">
+            <table id="tblContractorsList"></table>
+            <div id="dvPagerContractorsList"></div>
+        </div>
+    </form>
+</div>
+
+

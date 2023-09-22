@@ -1,0 +1,794 @@
+﻿@*
+    * Project Id    :
+    * Project Name  :   OMMAS II
+    * Name          :   UnlockedProposal.cshtml
+    * Description   :   This View displays Details of Unlocked Road Proposal
+    * Author        :   Shivkumar Deshmukh        
+    * Creation Date :   12/July/2013
+*@
+
+@model PMGSY.Models.Proposal.UnlockProposalViewModel
+
+<script src="~/Scripts/Proposal/UnlockProposal.js"></script>
+<script src="~/Scripts/custom/Generic.js"></script>
+
+<style type="text/css">
+    td {
+        height: 20px;
+        text-align: left;
+    }
+
+    body {
+        text-align: left;
+    }
+</style>
+
+<html>
+<body>
+    <form id="frmUnlockedProposal">
+
+        <div style="margin-left: 100px">
+            @Html.ValidationSummary(true)
+            @Html.Hidden("hdnISSTAGED", Model.hdnISSTAGED)
+        </div>
+
+        <div id="divError" class="ui-state-error ui-corner-all" style="text-align: left; display: none; width: 100%">
+            <span></span>
+            <span></span>
+        </div>
+
+        <div style="height: 20px; width: 100%; text-align: left; padding-top: 0.6em;" class="ui-state-default ui-corner-all">
+            &nbsp; <strong>Note :</strong>  All Amounts are in Lakhs and All Lengths in Kms.
+        </div>
+        @Html.HiddenFor(model => model.IMS_PR_ROAD_CODE)
+        @Html.HiddenFor(model => model.IMS_STAGE_PHASE, new { @id = "hdnStagePhase" })
+        @Html.HiddenFor(model => model.hdn_IMS_STAGE_PHASE)
+        @Html.HiddenFor(model => model.IMS_SHARE_PERCENT)
+        @Html.Hidden("hdnOperation", ((string)ViewBag.Operation))
+        @Html.Hidden("hdnRoleCode", PMGSY.Extensions.PMGSYSession.Current.RoleCode)
+        @Html.HiddenFor(model => model.IMS_YEAR)
+        @Html.HiddenFor(model => model.isPaymentDone)
+        @Html.HiddenFor(model => model.DUP_IMS_PAV_LENGTH)
+        @Html.HiddenFor(model => model.PLAN_CN_ROAD_CODE)
+        <table class="rowstyle" id="tblProposal" style="text-align: left; border: ridge 0.1em #ccc; width: 100%; padding: 5px 5px 5px 5px;">
+            <tr>
+                <td style="width: 15%; height: 25px; text-align: left">Name of State  </td>
+                <td style="width: 25%; text-align: left">
+                    <strong>@Model.StateName</strong>
+                </td>
+                <td style="width: 15%; text-align: left; height: 25px;">District</td>
+                <td style="width: 25%; text-align: left;"><strong>@Model.DistrictName</strong></td>
+            </tr>
+
+            @*<tr class="ui-widget-header">
+                    <td style="text-align: left;">Construction Type</td>
+                    @{
+                        if (Model.IMS_UPGRADE_CONNECT == "N")
+                        {
+                        <td colspan="3">New Proposal</td>
+                        }
+                        else
+                        {
+                        <td colspan="3">Upgradation Proposal</td>
+                        }
+                    }
+                </tr>
+                @{
+                    if (Model.IMS_UPGRADE_CONNECT == "U")
+                    {
+                    <tr id="ExistingSurface" style="text-align: left">
+                        <td>
+                            @Html.LabelFor(model => model.MAST_EXISTING_SURFACE_CODE)
+                        </td>
+                        <td style="text-align: left">
+                            @Html.DisplayFor(model => model.MAST_EXISTING_SURFACE_NAME)
+                        </td>
+                        <td colspan="2"></td>
+                    </tr>
+                    }
+                }*@
+            <tr class="ui-widget-header" style="height: 20px; text-align: left">
+                <td>
+                    <strong>Construction Type
+                    </strong>
+                </td>
+                <td>
+                    @if (PMGSY.Extensions.PMGSYSession.Current.PMGSYScheme == 1)
+                    {
+                        @Html.RadioButtonFor(model => model.IMS_UPGRADE_CONNECT, "N", new { @id = "rdoNew" }) <label>New</label>
+                    }
+
+                    @Html.RadioButtonFor(model => model.IMS_UPGRADE_CONNECT, "U", new { @id = "rdoUpgrade" })
+                    <label>Upgradation Construction</label>
+                </td>
+                <td colspan="3" style="text-align: left"></td>
+
+            </tr>
+
+            <tr id="trNewConnectivity">
+                <td>
+                    @Html.RadioButtonFor(model => model.IMS_IS_STAGED, "C", new { @id = "rdoComplete" }) Complete
+                </td>
+                @if (Model.stateType.ToUpper() == "N" || Model.stateType.ToUpper() == "H" || Model.stateType == "X" || Model.DistrictType == "Y") //new condition added by Vikram for providing the stage details to the IAP_DISTRICT
+                {
+                    <td style="text-align: left">
+                        @Html.RadioButtonFor(model => model.IMS_IS_STAGED, "S", new { @id = "rdoStaged" }) Staged Construction
+                                @Html.ValidationMessageFor(model => model.IMS_IS_STAGED)
+                    </td>
+                }
+                else
+                {
+                    <td style="text-align: left"></td>
+                }
+
+                <td class="tdStages">
+                    @Html.RadioButtonFor(model => model.IMS_STAGE_PHASE, "1", new { @id = "rdoStageI" }) Stage I
+                </td>
+
+                <td style="text-align: left" class="tdStages">
+                    @Html.RadioButtonFor(model => model.IMS_STAGE_PHASE, "2", new { @id = "rdoStageII" }) Stage II
+                </td>
+            </tr>
+
+            <tr id="ExistingSurface" style="text-align: left;">
+                <td>
+                    @Html.LabelFor(model => model.MAST_EXISTING_SURFACE_CODE, new { @id = "lbl_MAST_EXISTING_SURFACE_CODE" })
+                    <span style="color: red">*</span>
+                </td>
+                <td>
+                    @Html.DropDownListFor(model => model.MAST_EXISTING_SURFACE_CODE, new SelectList(Model.EXISTING_SURFACE, "Value", "Text"), "Select Surface Type")
+                    @Html.ValidationMessageFor(model => model.MAST_EXISTING_SURFACE_CODE)
+                </td>
+                <td colspan="2"></td>
+            </tr>
+            <tr>
+                <td style="text-align: left;">
+                    @Html.LabelFor(model => model.IMS_YEAR)
+                </td>
+                <td style="text-align: left;">
+                    @Html.DisplayFor(model => model.IMS_YEAR) - @Convert.ToInt32(Model.IMS_YEAR + 1)
+                </td>
+                <td style="text-align: left;">
+                    @Html.LabelFor(model => model.IMS_BATCH)
+                    @*<span style="color:red">*</span>*@
+                </td>
+                <td style="text-align: left;">Batch @Html.DisplayFor(model => model.IMS_BATCH)
+                    @* @Html.DropDownListFor(model => model.IMS_BATCH, new SelectList(Model.BATCHS, "Value", "Text"), new { disabled = "disabled" })
+                        @Html.ValidationMessageFor(model => model.IMS_BATCH)*@
+                </td>
+            </tr>
+            <tr>
+                <td style="text-align: left">
+                    @Html.LabelFor(model => model.MAST_BLOCK_CODE)
+                </td>
+                <td style="text-align: left">
+                    @Html.DisplayFor(model => model.MAST_BLOCK_NAME)
+                </td>
+
+                <td>
+                    @Html.LabelFor(model => model.IMS_COLLABORATION)
+                    <span style="color: red">*</span>
+                </td>
+                <td colspan="3">
+                    @Html.DropDownListFor(model => model.IMS_COLLABORATION, new SelectList(Model.COLLABORATIONS, "Value", "Text"))
+                    @Html.ValidationMessageFor(model => model.IMS_COLLABORATION)
+                </td>
+            </tr>
+            <tr class="ui-widget-header">
+                @Html.DisplayFor(model => model.IMS_EXISTING_PACKAGE)
+                @Html.HiddenFor(model => model.IMS_EXISTING_PACKAGE)
+            </tr>
+            <tr id="trPackageText">
+                <td>
+                    @Html.LabelFor(model => model.IMS_PACKAGE_ID)
+                </td>
+                <td>
+                    @Html.DisplayFor(model => model.IMS_PACKAGE_ID)
+                    @Html.HiddenFor(model => model.IMS_PACKAGE_ID)
+                </td>
+                <td>
+                    @Html.LabelFor(model => model.MAST_STREAM_NAME)
+                    <span style="color: red">*</span>
+                </td>
+                <td>
+                    @if (Model.isPaymentDone)
+                    {
+                        @Html.DisplayFor(model => model.MAST_STREAM_NAME)    
+                    }
+                    else
+                    {
+                        @Html.DropDownListFor(model => model.IMS_STREAMS, new SelectList(Model.STREAMS, "Value", "Text"))
+                        @Html.ValidationMessageFor(model => model.IMS_STREAMS)
+                    }
+                </td>
+            </tr>
+
+            <tr id="trComplete">
+                <td>Proposal Type 
+                </td>
+                <td colspan="3">
+                    @{
+                        if (Model.IMS_IS_STAGED.ToUpper() == "S")
+                        {
+                        <text> Staged :   </text>
+                            if (Model.IMS_STAGE_PHASE == "S1")
+                            {
+                        <text>Stage 1 </text>
+                            }
+                            else
+                            {
+                        <text>Stage 2 </text>
+                            }
+                        }
+                        else
+                        {
+                        <text> Complete </text>
+                        }
+                                        
+                    }
+                </td>
+            </tr>
+
+            @{
+                //if (Model.IMS_STAGE_PHASE == "S2")
+                {
+                <tr id="trStageII">
+                    <td>Staged Year
+                    </td>
+                    <td>
+                    @*@Html.DisplayFor(model => model.IMS_STAGED_YEAR)*@
+                    @Html.DropDownListFor(model => model.Stage_2_Year, new SelectList(ViewBag.lstYear, "Value", "Text"))
+                    @Html.ValidationMessageFor(model => model.Stage_2_Year, "Select Stage 2 Year")
+                    <td>Staged Package ID 
+                    </td>
+                    <td>
+                        @*@Html.DisplayFor(model => model.IMS_STAGED_PACKAGE_ID)*@
+                        @*@Html.DropDownListFor(model => model.Stage_2_Package_ID, new SelectList(Model.PACKAGES, "Value", "Text"), "Select Stage 2 Package")*@
+                        @Html.DropDownListFor(model => model.Stage_2_Package_ID, new SelectList(Model.PACKAGES, "Value", "Text"))
+                        @*@Html.ValidationMessageFor(model => model.Stage_2_Package_ID, "Please Select Stage 2 Package")*@
+                        @Html.ValidationMessageFor(model => model.Stage_2_Package_ID)
+                    </td>
+                </tr>
+@*<tr id="trStageRoadII">
+                        <td>Staged Proposal
+                        </td>
+                        <td>
+                        @Html.DropDownListFor(model => model.IMS_STAGED_ROAD_ID, new SelectList(Model.STAGE1_PROPOSAL_ROADS, "Value", "Text"), new { @style="width:340px"})
+                        </td>
+                    </tr>*@
+                }
+            }
+
+
+            <tr>
+                <td>
+                    @Html.LabelFor(model => model.PLAN_CN_ROAD_CODE)
+                </td>
+                <td colspan="3">
+                    <strong>@Html.DisplayFor(model => model.PLAN_RD_NAME)</strong>
+                </td>
+                @*<td colspan="3">
+                        @if(Model.IMS_IS_STAGED == "S" && Model.IMS_STAGE_PHASE == "S2")
+                        {
+                            @Html.DropDownListFor(model => model.PLAN_CN_ROAD_CODE, new SelectList(Model.CN_ROADS, "Value", "Text"), new { @style = "width: 340px" , @disabled = "disabled"})
+                            @Html.ValidationMessageFor(model=>model.PLAN_CN_ROAD_CODE)
+                        }
+                        else
+                        {
+                            @Html.DropDownListFor(model => model.PLAN_CN_ROAD_CODE, new SelectList(Model.CN_ROADS, "Value", "Text"), new { @style = "width: 340px"})
+                            @Html.ValidationMessageFor(model=>model.PLAN_CN_ROAD_CODE)
+                        }
+                    </td>*@
+            </tr>
+
+            @{
+                if (Model.IMS_UPGRADE_CONNECT == "U")
+                {
+                    if (Model.IMS_ISBENEFITTED_HABS == "Y")
+                    {
+                <tr>
+                    <td>
+                        @Html.LabelFor(model => model.IMS_ISBENEFITTED_HABS)
+                    </td>
+                    <td colspan="3">Yes
+                    </td>
+                </tr>    
+                    }
+                    else
+                    {
+                <tr>
+                    <td>
+                        @Html.LabelFor(model => model.IMS_ISBENEFITTED_HABS)
+                    </td>
+                    <td>No
+                    </td>
+                    <td>
+                        @Html.LabelFor(model => model.IMS_HABS_REASON)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(model => model.HABS_REASON_TEXT)
+                    </td>
+                </tr>    
+                    }
+                }                                    
+            }
+            <tr>
+                <td>
+                    @*@Html.LabelFor(model => model.IMS_PARTIAL_LEN)*@
+                    @Html.LabelFor(model => model.IMS_PARTIAL_LEN)
+                    <span style="color: red">*</span>
+                </td>
+                <td colspan="3">
+                    @*@Html.DisplayFor(model => model.IMS_PARTIAL_LEN)*@
+                    @Html.RadioButtonFor(model => model.IMS_PARTIAL_LEN, "F", new { @id = "rdoFullLength" }) <b style="font-size: large">Full/Excess Length upto 50%</b>
+
+                    @Html.RadioButtonFor(model => model.IMS_PARTIAL_LEN, "P", new { @id = "rdoPartialLength" }) <b style="font-size: large">Partial</b>
+                </td>
+            </tr>
+
+            @*<tr id="trProposalLength" style="text-align:left;" >
+                        <td>
+                            @Html.LabelFor(model => model.IMS_PARTIAL_LEN)
+                            <span style="color:red">*</span>
+                        </td>
+                        <td colspan="3">
+                            @Html.RadioButtonFor(model => model.IMS_PARTIAL_LEN, "F", new { @id = "rdoFullLength" }) Full
+                
+                            @Html.RadioButtonFor(model => model.IMS_PARTIAL_LEN, "P", new { @id = "rdoPartialLength" }) Partial
+                        </td>
+                </tr>*@
+
+            <tr>
+                <td>
+                    @Html.LabelFor(model => model.IMS_ROAD_FROM)
+                    <span style="color: red">*</span>
+                </td>
+                <td>
+                    @Html.TextBoxFor(model => model.IMS_ROAD_FROM, new { @maxlength = 50, @placeholder = "Enter Road From" })
+                    @Html.ValidationMessageFor(model => model.IMS_ROAD_FROM)
+                </td>
+                <td>
+                    @Html.LabelFor(model => model.IMS_ROAD_TO)
+                    <span style="color: red">*</span>
+                </td>
+                <td>
+                    @Html.TextBoxFor(model => model.IMS_ROAD_TO, new { @maxlength = 50, @placeholder = "Enter Road To" })
+                    @Html.ValidationMessageFor(model => model.IMS_ROAD_TO)
+                </td>
+            </tr>
+
+            <tr>
+                <td>
+                    @Html.LabelFor(model => model.IMS_ROAD_NAME)
+                </td>
+                <td colspan="3">
+                    @Html.DisplayFor(model => model.IMS_ROAD_NAME)
+                </td>
+            </tr>
+
+            <tr id="trTEchnicalDetails" class="ui-widget-header">
+                <td colspan="4">Technical Details </td>
+            </tr>
+
+            @* <tr>
+                    <td>
+                        @Html.LabelFor(model => model.IMS_CC_LENGTH)
+                    </td>
+                    <td>
+                        @if (Model.IMS_CC_LENGTH.HasValue)
+                        {
+                            @Model.IMS_CC_LENGTH
+                        }
+                        else
+                        {
+                            <span>NA</span> 
+                        }
+                    </td>
+                    <td>
+                        @Html.LabelFor(model => model.IMS_BT_LENGTH)
+                    </td>
+                    <td>
+                        @if (Model.IMS_BT_LENGTH.HasValue)
+                        {
+                            @Model.IMS_BT_LENGTH
+                        }
+                        else
+                        {
+                            <span>NA</span> 
+                        }
+                    </td>
+                </tr>*@
+            <tr>
+                <td>
+                    @Html.LabelFor(model => model.IMS_CC_LENGTH)
+                </td>
+                <td>
+                    @Html.TextBoxFor(model => model.IMS_CC_LENGTH, new { @maxlength = "10", @placeholder = "Enter CC Length(in Kms.)" })
+                    @Html.ValidationMessageFor(model => model.IMS_CC_LENGTH)
+                </td>
+                <td>
+                    @Html.LabelFor(model => model.IMS_BT_LENGTH)
+                </td>
+                <td>
+                    @Html.TextBoxFor(model => model.IMS_BT_LENGTH, new { @maxlength = "10", @placeholder = "Enter BT Length(in Kms.)" })
+                    @Html.ValidationMessageFor(model => model.IMS_BT_LENGTH)
+                </td>
+            </tr>
+            <tr>
+                <td>
+                    @Html.LabelFor(model => model.IMS_PAV_LENGTH)
+                    <span style="color: red">*</span>
+                </td>
+                <td>
+                    @Html.TextBoxFor(model => model.IMS_PAV_LENGTH, new { @maxlength = "8", @placeholder = "Calculated Automatically" })
+                </td>
+                @*<td>
+                        @Html.LabelFor(model => model.IMS_PAV_LENGTH)
+                        <span style="color:red">*</span>
+                    </td>
+                    <td>
+                        @Html.TextBoxFor(model => model.IMS_PAV_LENGTH, new {  @maxlength = "8", @placeholder = "Pavement Length" })
+                    </td>*@
+
+                <td>
+                    @Html.LabelFor(model => model.IMS_SANCTIONED_PAV_AMT)
+                    <span style="color: red">*</span>
+                </td>
+                <td>
+                    @Html.TextBoxFor(model => model.IMS_SANCTIONED_PAV_AMT, new { @class = "TC", @maxlength = "10" })
+                    @Html.ValidationMessageFor(model => model.IMS_SANCTIONED_PAV_AMT)
+                </td>
+            </tr>
+            @if (Model.PMGSYScheme == 2)
+            {
+                        
+                <tr style="text-align: left;">
+                    <td colspan="3">
+                        @Html.LabelFor(model => model.IMS_IS_HIGHER_SPECIFICATION)
+                        <span style="color: red">*</span>
+                    </td>
+                    <td colspan="1">
+                        @Html.RadioButtonFor(model => model.IMS_IS_HIGHER_SPECIFICATION, "Y", new { @id = "rdoHigherSpecificationYes", @name = "rdoHigherSpecification" })
+                        <label>Yes</label>
+                        @Html.RadioButtonFor(model => model.IMS_IS_HIGHER_SPECIFICATION, "N", new { @id = "rdoHigherSpecificationNo", @name = "rdoHigherSpecification" })
+                        <label>No</label>
+                    </td>
+                </tr>
+                        
+                <tr id="trHigherSpecCost" style="display: none; text-align: left;">
+                    <td>
+                        @Html.LabelFor(model => model.IMS_HIGHER_SPECIFICATION_COST)
+                    </td>
+                    <td>
+                        @Html.TextBoxFor(model => model.IMS_HIGHER_SPECIFICATION_COST, new { @maxlength = "10" })
+                        @Html.ValidationMessageFor(model => model.IMS_HIGHER_SPECIFICATION_COST)
+                    </td>
+                    <td></td>
+                    <td></td>
+                </tr>
+                if (Model.IMS_YEAR < 2015)
+                {
+                <tr style="text-align: left;">
+                    <td colspan="3">
+                        @Html.LabelFor(model => model.IMS_SHARE_PERCENT)
+                        <span style="color: red">*</span>
+                    </td>
+                    <td colspan="1">
+                        @* No(i.e. 1) - 75/25       and     Yes(i.e. 2) - 90/10 *@
+                        @Html.RadioButtonFor(model => model.IMS_SHARE_PERCENT, 1, new { @id = "rdoSharePercentYes", @name = "rdoSharePercent" })
+                        <label>Yes</label>
+                        @Html.RadioButtonFor(model => model.IMS_SHARE_PERCENT, 2, new { @id = "rdoSharePercentNo", @name = "rdoSharePercent" })
+                        <label>No</label>
+
+                    </td>
+                </tr>
+                }
+
+            }
+            <tr style="text-align: left;">
+                <td>
+                    @Html.LabelFor(model => model.IMS_SHARE_PERCENT_2015)
+                    <span style="color: red">*</span>
+                </td>
+                <td colspan="3">
+                    @Html.RadioButtonFor(model => model.IMS_SHARE_PERCENT_2015, 2, new { @id = "rdoSharePercent2015No", @name = "rdoSharePercent2015", @disabled = "disabled" })
+                    <label>(90% / 10%)</label>
+                    @Html.RadioButtonFor(model => model.IMS_SHARE_PERCENT_2015, 3, new { @id = "rdoSharePercent2015Old", @name = "rdoSharePercent2015", @disabled = "disabled" })
+                    <label>(60% / 40%)</label>
+                    @Html.RadioButtonFor(model => model.IMS_SHARE_PERCENT_2015, 4, new { @id = "rdoSharePercent2015Yes", @name = "rdoSharePercent2015", @disabled = "disabled" })
+                    <label>(100% / 0%)</label>
+                </td>
+            </tr>
+            <tr>
+                <td>
+                    @Html.LabelFor(model => model.IMS_NO_OF_CDWORKS)
+                </td>
+                <td>
+                    @Html.TextBoxFor(model => model.IMS_NO_OF_CDWORKS, new { @maxlength = "4", @placeholder = "Enter No. of CD Works" })
+                    @Html.ValidationMessageFor(model => model.IMS_NO_OF_CDWORKS)
+                    @*@Html.DisplayFor(model => model.IMS_NO_OF_CDWORKS)*@
+                </td>
+
+                <td>
+                    @Html.LabelFor(model => model.IMS_SANCTIONED_CD_AMT)
+                    <span style="color: red">*</span>
+                </td>
+                <td>
+                    @Html.TextBoxFor(model => model.IMS_SANCTIONED_CD_AMT, new { @class = "TC", @maxlength = "10" })
+                    @Html.ValidationMessageFor(model => model.IMS_SANCTIONED_CD_AMT)
+                </td>
+            </tr>
+
+            <tr>
+                <td>
+                    @Html.LabelFor(model => model.IMS_SANCTIONED_PW_AMT)
+                    <span style="color: red">*</span>
+                </td>
+                <td>
+                    @Html.TextBoxFor(model => model.IMS_SANCTIONED_PW_AMT, new { @class = "TC", @maxlength = "10" })
+                    @Html.ValidationMessageFor(model => model.IMS_SANCTIONED_PW_AMT)
+                </td>
+
+                <td>
+                    @Html.LabelFor(model => model.IMS_SANCTIONED_OW_AMT)
+                    <span style="color: red">*</span>
+                </td>
+                <td>
+                    @Html.TextBoxFor(model => model.IMS_SANCTIONED_OW_AMT, new { @class = "TC", @maxlength = "10" })
+                    @Html.ValidationMessageFor(model => model.IMS_SANCTIONED_OW_AMT)
+                </td>
+            </tr>
+            @if (PMGSY.Extensions.PMGSYSession.Current.PMGSYScheme == 2)
+            {
+                <tr style="text-align: left;">
+                    <td>
+                        @Html.LabelFor(model => model.IMS_FURNITURE_COST)
+                    </td>
+                    <td>
+                        @Html.TextBoxFor(model => model.IMS_FURNITURE_COST, new { @class = "TC", @maxlength = "10" })
+                        @Html.ValidationMessageFor(model => model.IMS_FURNITURE_COST)
+                    </td>
+                    <td>
+                        @Html.LabelFor(model => model.TotalCost)
+                    </td>
+                    <td>
+                        @Html.TextBoxFor(model => model.TotalCost, new { @readonly = "true" })
+                    </td>
+                </tr>@*
+                        
+                <tr style="text-align: left;">
+                    <td>
+                        @Html.LabelFor(model => model.IMS_SANCTIONED_RS_AMT)
+                        <label id="lblStateShare">( @(Model.IMS_SHARE_PERCENT == 1 ? "10" : "25") % of Total Cost) </label>
+                    </td>
+                    <td>
+                        @Html.TextBoxFor(model => model.IMS_SANCTIONED_RS_AMT, new { @readonly = "true" })
+                    </td>
+                    <td>
+                        @Html.LabelFor(model => model.IMS_SANCTIONED_AMOUNT)
+                        <label id="lblMordShare">(@(Model.IMS_SHARE_PERCENT == 1 ? "90" : "75")% of Total Cost) </label>
+                    </td>
+                    <td>
+                        @Html.TextBoxFor(model => model.IMS_SANCTIONED_AMOUNT, new { @readonly = "true" })
+                    </td>
+                </tr>*@
+                          
+            }
+            else
+            {
+                <tr>
+                    <td>
+                        @Html.LabelFor(model => model.IMS_SANCTIONED_RS_AMT)
+                        <span style="color: red">*</span>
+                    </td>
+                    <td colspan="3">
+                        @Html.TextBoxFor(model => model.IMS_SANCTIONED_RS_AMT, new { @maxlength = "10" })
+                        @Html.ValidationMessageFor(model => model.IMS_SANCTIONED_RS_AMT)
+                    </td>
+                </tr>
+            }
+            <tr>
+                <td colspan="4" class="ui-widget-header">Fund Sharing Ratio</td>
+            </tr>
+            <tr>
+                <td>
+                    @Html.LabelFor(model => model.IMS_STATE_SHARE_2015)
+                </td>
+                <td>
+                    @Html.TextBoxFor(model => model.IMS_STATE_SHARE_2015, new { @maxlength = "10", @readonly = "readonly" })
+                    @Html.ValidationMessageFor(model => model.IMS_STATE_SHARE_2015)
+                </td>
+                <td>
+                    @Html.LabelFor(model => model.IMS_MORD_SHARE_2015)
+                </td>
+                <td>
+                    @Html.TextBoxFor(model => model.IMS_MORD_SHARE_2015, new { @maxlength = "10", @readonly = "readonly" })
+                    @Html.ValidationMessageFor(model => model.IMS_MORD_SHARE_2015)
+                </td>
+            </tr>
+            <tr>
+
+                <td>
+                    @Html.LabelFor(model => model.IMS_TOTAL_STATE_SHARE_2015)
+                </td>
+                <td>
+                    @Html.TextBoxFor(model => model.IMS_TOTAL_STATE_SHARE_2015, new { @maxlength = "10", @readonly = "readonly" })
+                    @Html.ValidationMessageFor(model => model.IMS_TOTAL_STATE_SHARE_2015)
+                </td>
+
+            </tr>
+            <tr>
+                <td>
+                    @Html.LabelFor(model => model.IMS_TOTAL_COST_2015)
+                </td>
+                <td colspan="3">
+                    @Html.TextBoxFor(model => model.IMS_TOTAL_COST_2015, new { @maxlength = "10", @readonly = "readonly" })
+                    @Html.ValidationMessageFor(model => model.IMS_TOTAL_COST_2015)
+                </td>
+            </tr>
+            <tr>
+                <td>
+                    @Html.LabelFor(model => model.IMS_ZP_RESO_OBTAINED)
+                </td>
+                <td colspan="3">
+                    @{ 
+                        if (Model.IMS_ZP_RESO_OBTAINED == "Y")
+                        {
+                        <span>Yes</span>
+                        }
+                        else
+                        {
+                        <span>No </span> 
+                        }   
+                    }
+                </td>
+            </tr>
+
+            <tr>
+                <td>
+                    @Html.LabelFor(model => model.MAST_MP_CONST_CODE)
+                </td>
+                <td>
+                    @Html.DropDownList("MAST_MP_CONST_CODE", new SelectList(Model.MP_CONSTITUENCY, "Value", "Text"))
+                    @Html.ValidationMessageFor(model => model.MAST_MP_CONST_CODE)
+                </td>
+
+                <td>
+                    @Html.LabelFor(model => model.MAST_MLA_CONST_CODE)
+                </td>
+                <td>
+                    @Html.DropDownList("MAST_MLA_CONST_CODE", new SelectList(Model.MLA_CONSTITUENCY, "Value", "Text"))
+                    @Html.ValidationMessageFor(model => model.MAST_MLA_CONST_CODE)
+                </td>
+            </tr>
+
+            <tr>
+                <td colspan="4" class="ui-widget-header">Desgined For</td>
+            </tr>
+
+            <tr>
+                <td>
+                    @Html.LabelFor(model => model.IMS_CARRIAGED_WIDTH)
+                </td>
+                <td>
+                    @*@Html.DisplayFor(model => model.Display_Carriaged_Width)*@
+                    @Html.DropDownListFor(model => model.IMS_CARRIAGED_WIDTH, new SelectList(Model.CARRIAGED_WIDTH, "Value", "Text"))
+                    @Html.ValidationMessageFor(model => model.IMS_CARRIAGED_WIDTH)
+                </td>
+
+                <td id="tdTrafficTypeLabel">
+                    @Html.LabelFor(model => model.IMS_TRAFFIC_TYPE)
+                </td>
+                <td id="tdTrafficTypeText">
+                    @Html.DropDownListFor(model => model.IMS_TRAFFIC_TYPE, new SelectList(Model.TRAFFIC_TYPE, "Value", "Text"))
+                    @Html.HiddenFor(model => model.IMS_TRAFFIC_TYPE, new { @id = "hdnTrafficType" })
+                    @Html.ValidationMessageFor(model => model.IMS_TRAFFIC_TYPE)
+                </td>
+            </tr>
+            <tr>
+                <td>
+                    @Html.LabelFor(model => model.IMS_PROPOSED_SURFACE)
+                    <span style="color: red">*</span>
+                </td>
+                <td colspan="3">
+                    @Html.DropDownListFor(model => model.IMS_PROPOSED_SURFACE, new SelectList(Model.PROPOSED_SURFACE, "Value", "Text"))
+                    @Html.ValidationMessageFor(model => model.IMS_PROPOSED_SURFACE)
+                </td>
+            </tr>
+
+            <tr>
+                <td colspan="4" class="ui-widget-header">Maintenance Cost</td>
+            </tr>
+            <tr>
+                <td>
+                    @Html.LabelFor(model => model.IMS_SANCTIONED_MAN_AMT1)
+                    <span style="color: red">*</span>
+                </td>
+                <td>
+                    @Html.TextBoxFor(model => model.IMS_SANCTIONED_MAN_AMT1, new { @class = "TMC", @maxlength = 10 })
+                    @Html.ValidationMessageFor(model => model.IMS_SANCTIONED_MAN_AMT1)
+                </td>
+
+                <td>
+                    @Html.LabelFor(model => model.IMS_SANCTIONED_MAN_AMT2)
+                    <span style="color: red">*</span>
+                </td>
+                <td>
+                    @Html.TextBoxFor(model => model.IMS_SANCTIONED_MAN_AMT2, new { @class = "TMC", @maxlength = 10 })
+                    @Html.ValidationMessageFor(model => model.IMS_SANCTIONED_MAN_AMT2)
+                </td>
+            </tr>
+
+            <tr>
+                <td>
+                    @Html.LabelFor(model => model.IMS_SANCTIONED_MAN_AMT3)
+                    <span style="color: red">*</span>
+                </td>
+                <td>
+                    @Html.TextBoxFor(model => model.IMS_SANCTIONED_MAN_AMT3, new { @class = "TMC", @maxlength = 10 })
+                    @Html.ValidationMessageFor(model => model.IMS_SANCTIONED_MAN_AMT3)
+                </td>
+
+                <td>
+                    @Html.LabelFor(model => model.IMS_SANCTIONED_MAN_AMT4)
+                    <span style="color: red">*</span>
+                </td>
+                <td>
+                    @Html.TextBoxFor(model => model.IMS_SANCTIONED_MAN_AMT4, new { @class = "TMC", @maxlength = 10 })
+                    @Html.ValidationMessageFor(model => model.IMS_SANCTIONED_MAN_AMT4)
+                </td>
+            </tr>
+
+            <tr>
+                <td>
+                    @Html.LabelFor(model => model.IMS_SANCTIONED_MAN_AMT5)
+                    <span style="color: red">*</span>
+                </td>
+                <td>
+                    @Html.TextBoxFor(model => model.IMS_SANCTIONED_MAN_AMT5, new { @class = "TMC", @maxlength = 10 })
+                    @Html.ValidationMessageFor(model => model.IMS_SANCTIONED_MAN_AMT5)
+                </td>
+                @if (PMGSY.Extensions.PMGSYSession.Current.PMGSYScheme == 2 || PMGSY.Extensions.PMGSYSession.Current.PMGSYScheme == 3)
+                {
+                    <td>
+                        @Html.LabelFor(model => model.IMS_RENEWAL_COST)
+                        <span style="color: red">*</span>
+                    </td>
+                    <td>
+                        @Html.TextBoxFor(model => model.IMS_RENEWAL_COST, new { @class = "TMC", @maxlength = 10 })
+                        @Html.ValidationMessageFor(model => model.IMS_RENEWAL_COST)
+                    </td>
+                }
+            </tr>
+            <tr>
+                <td>
+                    @Html.LabelFor(model => model.TotalMaintenanceCost)
+                </td>
+                <td>
+                    @Html.TextBoxFor(model => model.TotalMaintenanceCost, new { @id = "txtTotalMaintenance", @readonly = "true", @value = 0 })
+                    @Html.ValidationMessageFor(model => model.TotalMaintenanceCost)
+                </td>
+            </tr>
+
+            <tr>
+                <td>
+                    @Html.LabelFor(model => model.IMS_REMARKS)
+                </td>
+                <td colspan="3">
+                    @Html.DisplayFor(model => model.IMS_REMARKS)
+                </td>
+            </tr>
+            <tr>
+                <td colspan="2" style="text-align: right">
+                    <input type="button" value="Update" class="jqueryButton" id="btnUpdate" />
+                </td>
+
+                <td colspan="2" style="text-align: left">
+                    <input type="button" class="jqueryButton" value="Cancel" id="btnCancel" name="btnCancel" />
+                </td>
+
+            </tr>
+        </table>
+    </form>
+</body>
+</html>

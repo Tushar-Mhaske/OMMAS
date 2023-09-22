@@ -1,0 +1,101 @@
+﻿@model PMGSY.Models.Execution.ExecutionRoadStatusViewModel
+
+@{
+    ViewBag.Title = "ListPhysicalDetails";
+}
+
+<script src="~/Scripts/custom/Generic.js"></script>
+<script src="~/Scripts/Execution/ListPhysicalDetailsMRD.js"></script>
+<div style="height: auto; width: 99%; text-align: left; padding-top: 0.6em;">@*class="ui-state-default ui-corner-all" > *@
+    <table class="rowstyle ui-corner-all" style="width: 100%; border: solid black 1px;">
+        <tr>
+            <td style="width: 5%"></td>
+            <td style="width: 12%; font-weight: bold">
+                <b>Block</b>
+            </td>
+            <td style="width: 15%">
+                @Model.BlockName
+            </td>
+            <td style="width: 12%; font-weight: bold">
+                <b>Package No.</b>
+            </td>
+            <td style="width: 15%">
+                @Model.Package
+            </td>
+        </tr>
+        <tr>
+            <td></td>
+            <td style="font-weight: bold">
+                <b>Road Name:</b>
+            </td>
+            <td>
+                @Model.RoadName
+            </td>
+            <td style="font-weight: bold">Agreement Date:
+            </td>
+            <td>
+                @Model.AgreementDate
+            </td>
+        </tr>
+        <tr>
+            <td></td>
+            <td style="font-weight: bold">
+                <b>Sanction Cost(Rs. in Lakh):</b>
+            </td>
+            <td>
+                @Model.Sanction_Cost
+            </td>
+            <td style="font-weight: bold">
+                <b>Sanction Length(in Km)</b>
+            </td>
+            <td>
+                @Model.Sanction_length
+            </td>
+        </tr>
+        <tr>
+            <td></td>
+            <td style="font-weight: bold">
+                <b>Agreement Cost(Rs. in Lakh):</b>
+            </td>
+            <td>
+                @Model.AgreementCost
+            </td>
+            <td style="font-weight: bold">
+                <b>Year</b>
+            </td>
+            <td>
+                @Model.SanctionYear
+            </td>
+        </tr>
+        @if (Model.changedLength > 0)
+        {
+            <tr>
+                <td></td>
+                <td style="font-weight: bold">
+                    <b>Approved Length for Execution (in Km):</b>
+                </td>
+                <td>
+                    @Model.changedLength
+                </td>
+                <td style="font-weight: bold"></td>
+                <td></td>
+            </tr>
+        }
+    </table>
+</div>
+@Html.HiddenFor(model => model.IMS_PR_ROAD_CODE, new { @id = "prRoadCode" })
+@Html.HiddenFor(model => model.CompleteStatus, new { @id = "status" })
+<br />
+<div id="divPhysicalDetails" style="width: 99%">
+    <table id="tbPhysicalRoadList">
+    </table>
+    <div id="pagerPhysicalRoadList">
+    </div>
+</div>
+@*<div style="text-align:left">
+    <input type="button" class="jqueryButton" id="btnAddRoadProgress" value="Add Road Progress Details"/>
+</div>*@
+
+<div id="divAddRoadProgress" style="width: 99%">
+</div>
+

@@ -1,0 +1,198 @@
+﻿@using PMGSY.Models
+@using PMGSY.Models.ProposalReports
+@model PMGSY.Models.ProposalReports.MRDProposalBridgeTypeDetailsModel
+@using PMGSY.Extensions
+@using PMGSY.Common
+
+<style type="text/css">
+    div.CBHeader {
+        padding: 5px;
+        width: 98%;
+        display: inline-block;
+        cursor: default;
+        /*font:12px/14px Arial, Helvetica, sans-serif;*/
+        font-family: Trebuchet MS,Tahoma,Verdana,Arial,sans-serif;
+        color: #000;
+        background-color: #eee;
+        -moz-border-radius: 10px;
+        -webkit-border-radius: 10px;
+        -moz-box-shadow: #999 2px 0px 3px;
+        -webkit-box-shadow: #999 2px 0px 3px;
+    }
+</style>
+
+
+<script src="~/Scripts/custom/Generic.js"></script>
+
+<link href="~/Content/demo_page.css" rel="stylesheet" />
+<link href="~/Content/demo_table_jui.css" rel="stylesheet" />
+<link href="~/Content/TableTools.css" rel="stylesheet" />
+<link href="~/Content/TableTools_JUI.css" rel="stylesheet" />
+
+<script src="~/Scripts/DataTables/jquery.dataTables.js"></script>
+<script src="~/Scripts/DataTables/ZeroClipboard.js"></script>
+<script src="~/Scripts/DataTables/TableTools.js"></script>
+<script src="~/Scripts/ProposalReports/MRDProposalBridgeTypeDetails.js"></script>
+
+@{
+    CommonFunctions objCommonFunction = new CommonFunctions();
+}
+
+
+@*<style type="text/css">
+    table.display {
+  margin: 0 auto;
+  width: 100%;
+  clear: both;
+  border-collapse: collapse;
+  table-layout: fixed;        
+  word-wrap:break-word;       
+}
+    </style>*@
+<div class="ui-widget-header innerDivHeader" style="width: 98%; text-align: center; margin-bottom: 5px">Bridge Details</div>
+<table class="ui-state-default ui-corner-all" style="border: 0.1em solid gray; width: 97%; margin-top: 1px" id="tblFilterBridge">
+    <tr>
+
+        <td style="width: 2%"><b>State:</b></td>
+        <td style="width: 5%">@Html.DisplayFor(m => m.StateName)</td>
+        <td style="width: 2%"><b>District:</b></td>
+        <td style="width: 5%">@Html.DisplayFor(m => m.DistrictName)</td>
+        <td style="width: 2%"><b>Block:</b></td>
+        <td style="width: 10%;">@Html.DisplayFor(m => m.BlockName)</td>
+    </tr>
+    <tr>
+
+        <td style="width: 7%"><b>Sanctioned Year:</b></td>
+        <td style="width: 5%">@Html.DisplayFor(m => m.SanctionYear)</td>
+        <td style="width: 2%"><b>Package:</b></td>
+        <td style="width: 5%">@Html.DisplayFor(m => m.Package)</td>
+        <td style="width: 2%"><b>Road Name:</b></td>
+        <td style="width: 10%">@Html.DisplayFor(m => m.RoadName)</td>
+    </tr>
+    <tr>
+        <td style="width: 2%"><b>Road Length (In Kms):</b></td>
+        <td style="width: 5%">@Html.DisplayFor(m => m.RoadLength)</td>
+        <td style="width: 2%"><b>Bridge Length (In Mtrs):</b></td>
+        <td style="width: 5%">@Html.DisplayFor(m => m.BridgeLength)</td>
+        <td style="width: 2%"><b>Bridge Name:</b></td>
+        <td style="width: 15%">@Html.DisplayFor(m => m.BridgeName)</td>
+        
+    </tr>
+</table>
+
+
+<table id="tblBridgeTypeDetails">
+    <thead>
+        <tr class="ui-state-default">
+            @*<th></th>
+                <th></th>
+                <th></th>
+                <th></th>
+                <th></th>
+                <th></th>
+                <th></th>*@
+            <th colspan="19">Type of Bridge Details</th>
+            @*<th></th>
+                <th></th>
+                <th></th>
+                <th></th>
+                <th></th>
+                <th></th>
+                <th></th>
+                <th></th>
+                <th></th>
+                <th></th>
+                <th></th>*@
+        </tr>
+        <tr>
+            <th colspan="8">Critical Levels (In Mtrs)</th>
+            @*<th></th>
+                <th></th>
+                <th></th>
+                <th></th>
+                <th></th>
+                <th></th>
+                <th></th>*@
+            <th colspan="4">Type of Proposed Bridge</th>
+            @*<th></th>
+                <th></th>
+                <th></th>*@
+            <th></th>
+            <th></th>
+            <th colspan="3">Arrangement of Spans</th>
+            @*<th></th>
+                <th></th>*@
+            <th></th>
+            <th></th>
+        </tr>
+        <tr class="ui-state-default" style="vertical-align:top">
+            <th>Road Top Level</th>
+            <th>Average Ground Level</th>
+            <th>Nala Bed Level</th>
+            <th>Highest Flood Level</th>
+            <th>Ordinary Flooad Level</th>
+            <th>Foundation Level</th>
+            <th>Height of Bridge (RTL-NBL)</th>
+
+            <th>Height of Bridge (RTL-FL)</th>
+            <th>Sub</th>
+            <th>Culvert</th>
+            <th>Bridge with RCC</th>
+
+            <th>High Level</th>
+            <th>Type of Foundation</th>
+            <th>Bearing Capacity at Foundation Level</th>
+            <th>Total Span</th>
+
+            <th>No of Vents</th>
+            <th>Clear Span of Vent</th>
+            <th>Scour Depth (In Mtrs)</th>
+            <th>Bridge width (In Mtrs)</th>
+
+        </tr>
+    </thead>
+    <tbody>
+        @if (Model.BridgeDetails.Count > 0)
+        {
+
+            foreach (var itm in Model.BridgeDetails)
+            {
+            <tr>
+                <td style="text-align: right; border: 0.1em solid white;">@itm.IMS_ROAD_TYPE_LEVEL</td>
+                <td style="text-align: right; border: 0.1em solid white;">@itm.IMS_AVERAGE_GROUND_LEVEL</td>
+                <td style="text-align: right; border: 0.1em solid white;">@itm.IMS_NALA_BED_LEVEL</td>
+                <td style="text-align: right; border: 0.1em solid white;">@itm.IMS_HIGHEST_FLOOD_LEVEL</td>
+                <td style="text-align: right; border: 0.1em solid white;">@itm.IMS_ORDINARY_FLOOD_LEVEL</td>
+                <td style="text-align: right; border: 0.1em solid white;">@itm.IMS_FOUNDATION_LEVEL</td>
+                <td style="text-align: right; border: 0.1em solid white;">@itm.IMS_HGT_BIRDGE_NBL</td>
+
+                <td style="text-align: right; border: 0.1em solid white;">@itm.IMS_HGT_BRIDGE_FL</td>
+                <td style="text-align: right; border: 0.1em solid white;">@(itm.IMS_BRG_SUBMERSIBLE.ToString() == "true" ? "Yes" : "No")</td>
+                <td style="text-align: right; border: 0.1em solid white;">@(itm.IMS_BRG_BOX_CULVERT.ToString() == "true" ? "Yes" : "No")</td>
+                <td style="text-align: right; border: 0.1em solid white;">@(itm.IMS_BRG_RCC_ABUMENT.ToString() == "true" ? "Yes" : "No")</td>
+
+                <td style="text-align: right; border: 0.1em solid white;">@(itm.IMS_BRG_HLB.ToString() == "true" ? "Yes" : "No")</td>
+                @*<td>@(itm.IMS_SC_FD_CODE.ToString() == "1" ? "Open" : (itm.IMS_SC_FD_CODE.ToString() == "2" ? "Raft" : (itm.IMS_SC_FD_CODE.ToString() == "3" ? "Well" : (itm.IMS_SC_FD_CODE.ToString() == "4" ? "Pile" : (itm.IMS_SC_FD_CODE.ToString() == "1" ? "Any Other" : "")))))</td>*@
+                <td style="text-align: right; border: 0.1em solid white;">@itm.IMS_SC_FD_CODE</td>
+                <td style="text-align: right; border: 0.1em solid white;">@itm.IMS_BEARING_CAPACITY</td>
+                <td style="text-align: right; border: 0.1em solid white;">@itm.IMS_ARG_TOT_SPANS</td>
+
+                <td style="text-align: right; border: 0.1em solid white;">@itm.IMS_NO_OF_VENTS</td>
+                <td style="text-align: right; border: 0.1em solid white;">@itm.IMS_SPAN_VENT</td>
+                <td style="text-align: right; border: 0.1em solid white;">@(Convert.ToString(itm.IMS_SCOUR_DEPTH).Trim() == "1" ? "Pier" : (Convert.ToString(itm.IMS_SCOUR_DEPTH).Trim() == "2" ? "Abutment" : "Abutment all round scour condition"))</td>
+                <td style="text-align: right; border: 0.1em solid white;">@itm.IMS_WIDTH_OF_BRIDGE</td>
+
+            </tr>
+        
+            }
+        }
+        else
+        {
+            <tr>
+                <td colspan="19" style="text-align: center;">No Data</td>
+            </tr>
+        }
+    </tbody>
+
+</table>
+

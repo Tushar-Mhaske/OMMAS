@@ -1,0 +1,193 @@
+﻿@model PMGSY.Models.Feedback.FBApprovalDetails
+@*@{
+    ViewBag.Title = "FBApprovalDetails";
+}*@
+
+@*<h2>FBApprovalDetails</h2>*@
+<script src="~/Scripts/custom/Generic.js"></script>
+<script src="@Url.Content("~/Scripts/Feedback/FBApprovalDetails.js")"></script>
+@*<script src="~/Scripts/Feedback/FBApprovalDetails.js"></script>*@
+@*<script src="~/Scripts/jquery.ui.accordion.js"></script>
+<script src="~/Scripts/jquery.ui.tabs.js"></script>*@
+
+<div id="dvViewFBMain">
+    <form id="frmFBApproval">
+        @Html.AntiForgeryToken()
+        @Html.ValidationSummary(true)
+        @*
+        <div id="tabs-2">*@
+            <div id="dvErrMessage" class="ui-widget ui-state-error ui-corner-all" style="padding: 0.7em .7em; margin: 5px 5px 5px 5px; display: none">
+                <span class="ui-icon ui-icon-alert" style="float: left; margin-right: .3em;"></span>
+                <strong>Alert:</strong> <span id="message"></span>
+            </div>
+            <table class="rowstyle" id="tblFBDetails" style="text-align: left; border: ridge 0.1em #ccc; width: 100%; padding: 5px 5px 5px 5px;">
+                @Html.HiddenFor(m => m.hdnfeedId, new { @id = "hdnFeedId" })
+                @Html.HiddenFor(m => m.CitizenId, new { @id = "hdnCitizenId" })
+                @Html.Hidden("hdnApproval", Model.Approval)
+                @Html.Hidden("hdnRepstat", Model.Repstat)
+                
+                @if (Model.CitizenId != null
+                && (PMGSY.Extensions.PMGSYSession.Current.RoleCode == 25 || PMGSY.Extensions.PMGSYSession.Current.RoleCode == 5)
+                    //|| (PMGSY.Extensions.PMGSYSession.Current.RoleCode == 8 && Model.IS_PMGSY_ROAD && Model.District > 0)
+                && (Model.Repstat != "F" || (Model.Repstat == "F" && Model.State > 0))
+                )
+                {
+                    <tr>
+                        <td style="width: 5%;"></td>
+                        <td style="width: 15%; text-align: left; height: 25px;">State<span style="color: red;">*</span></td>
+                        <td style="width: 25%; text-align: left;">@Html.DropDownListFor(m => m.State, new SelectList(Model.State_List, "Value", "Text"), new { @id = "ddlState", @title = "State" })</td>
+                        <td style="width: 15%; text-align: left; height: 25px;">District</td>
+                        <td style="width: 25%; text-align: left;">@Html.DropDownListFor(m => m.District, new SelectList(Model.District_List, "Value", "Text"), new { @id = "ddlDistrict", @title = "District" })</td>
+
+                    </tr>
+                }
+                @if (Model.CitizenId != null && PMGSY.Extensions.PMGSYSession.Current.RoleCode == 8)
+                {
+                    @Html.HiddenFor(m => m.State)    
+                    @Html.HiddenFor(m => m.District)    
+                }
+                @if (PMGSY.Extensions.PMGSYSession.Current.RoleCode == 25 || PMGSY.Extensions.PMGSYSession.Current.RoleCode == 5)
+                {
+@*<tr style="display: none;">
+    <td style="width: 15%; height: 25px; text-align: left">Feedback Date </td>
+    <td style="width: 25%; text-align: left">@Html.DisplayFor(m => m.Appr_Date)
+    </td>
+                    </tr>*@
+                }
+                @if (Model.Approval == "Y" && Model.Repstat != "N")
+                {
+                    <tr>
+                        <td style="width: 5%;"></td>
+                        <td style="width: 15%; text-align: left; height: 25px;">Acceptance</td>
+                        <td style="width: 25%; text-align: left;"><strong>@Html.DisplayFor(m => m.ApprovalDisplay)</strong></td>
+                        <td style="width: 15%;"></td>
+                        <td style="width: 25%;"></td>
+                    </tr>
+                }
+
+                @if (Model.Approval == "Y" && Model.Repstat == "N")
+                {
+                    <tr>
+                        <td style="width: 5%;"></td>
+                        @if (PMGSY.Extensions.PMGSYSession.Current.RoleCode == 25 || PMGSY.Extensions.PMGSYSession.Current.RoleCode == 5)
+                        {
+                            <td style="width: 15%; text-align: left; height: 25px;"></td>
+                        }
+                        else
+                        {
+                            <td style="width: 15%; text-align: left; height: 25px;">Acceptance</td>
+                        }
+                        <td style="width: 25%; text-align: left;"><strong>@Html.DisplayFor(m => m.ApprovalDisplay)</strong></td>
+                        <td style="width: 15%;"></td>
+                        <td style="width: 25%;"></td>
+                    </tr>
+                }
+
+                @if (@*Model.Approval == "N" &&*@ Model.Repstat == "N" || Model.Repstat == "O" || Model.Repstat == "F")
+                {
+                    if (Model.ApprovalDisplay != null && Model.Approval == "N")
+                    {
+                    <tr>
+                        <td style="width: 5%;"></td>
+                        <td style="width: 15%; text-align: left; height: 25px;">Not Acceptance</td>
+                        <td style="width: 25%; text-align: left;"><strong>@Html.DisplayFor(m => m.ApprovalDisplay)</strong></td>
+                        <td style="width: 15%;"></td>
+                        <td style="width: 25%;"></td>
+                    </tr>
+                    }
+                    if (
+                        ((PMGSY.Extensions.PMGSYSession.Current.RoleCode == 25 || PMGSY.Extensions.PMGSYSession.Current.RoleCode == 5)
+                          && !(Model.IS_PMGSY_ROAD && Model.District > 0))
+                        || (PMGSY.Extensions.PMGSYSession.Current.RoleCode == 8 && Model.IS_PMGSY_ROAD && Model.District > 0)
+                        )
+                    {
+                        if (Model.Repstat != "F")
+                        {
+                    <tr>
+                        <td style="width: 5%;"></td>
+                        <td style="width: 15%; text-align: left; height: 25px;">Acceptance<span style="color: red;">*</span></td>
+                        <td style="width: 25%; text-align: left;">
+                            @* @Html.CheckBoxFor(m => m.ApprValue, new { @id = "chkbxApprY" })
+                        @Html.HiddenFor(m => m.ApprValue)*@
+
+                            @Html.RadioButtonFor(m => m.Approval, "Y", new { @id = "rdbApprY" })
+                            @Html.Label("Yes")
+                            @Html.RadioButtonFor(m => m.Approval, "N", new { @id = "rdbApprN" })
+                            @Html.Label("No")
+                            @Html.ValidationMessageFor(m => m.Approval)
+
+                        </td>
+                        <td style="width: 15%;"></td>
+                        <td style="width: 25%;"></td>
+                    </tr>
+                        }
+                    <tr id="trComments">
+                        <td style="width: 5%;"></td>
+                        <td style="width: 15%; text-align: left; height: 25px;">Reason for Not Acceptance<span style="color: red;">*</span></td>
+                        <td style="width: 25%; text-align: left;">
+                            @Html.TextAreaFor(m => m.Rep_ApprComments, new { @id = "txtApprFeedReply", @maxlength = "8000", @style = "width:300px;resize:none;" })
+                            <br />
+                            @Html.ValidationMessageFor(m => m.Rep_ApprComments)
+                        </td>
+                        <td style="width: 15%;"></td>
+                        <td style="width: 25%;"></td>
+                    </tr>
+                    <tr>
+                        <td colspan="6" style="text-align: center;">
+                            @*@if (Model.Approval == "Y")
+                        {
+                        <input id="btnSubmitApr" type="button" title="Submit" value="Submit" />
+                            }
+                        else
+                        {*@
+                            @if (Model.Repstat != "F")
+                            {
+                                <input id="btnSubmitApr" type="button" title="Update" value="Update" class="jqueryButton" />
+                            }
+                        </td>
+                    </tr>
+                    }
+                    else
+                    {
+                    <tr>
+                        <td style="width: 5%;"></td>
+                        @if (Model.Approval == "N")
+                        {
+                            <td style="width: 15%; text-align: left; height: 25px;">Not Accepted</td>
+                        }
+                        else
+                        {
+                            <td style="width: 15%; text-align: left; height: 25px;"></td>
+                        }
+                        @if (Model.IS_PMGSY_ROAD && Model.District > 0 && Model.Approval == "N")
+                        {
+                            <td style="width: 25%; text-align: left;"><strong>@Html.Label("Feedback has to be accepted by SQC")</strong></td>
+                        }
+                        else if (Model.Approval == "N" && Model.ApprovalDisplay == null)
+                        {
+                            <td style="width: 25%; text-align: left;"><strong>@Html.Label("This Feedback has to be accepted by MORD")</strong></td>
+                        }
+                        <td style="width: 15%;"></td>
+                        <td style="width: 25%;"></td>
+                    </tr>
+                    }
+                }
+@*<tr class="ui-widget-header">
+    <td style="text-align: left;">Construction Type</td>
+    @{
+                    if (Model.IMS_UPGRADE_CONNECT == "N")
+                    {
+                    <td colspan="3">New Proposal</td>
+    }
+                    else
+                    {
+                    <td colspan="3">Upgradation Proposal</td>
+    }
+                }
+                    </tr>*@
+
+            </table>
+            @*
+        </div>*@
+    </form>
+</div>

@@ -1,0 +1,491 @@
+﻿@*----------------------------------------------------------------------------------------
+
+ * Project Id:
+
+ * Project Name:OMMAS2
+
+ * File Name: ViewAgreementDetails.cshtml
+
+ * Author : Koustubh Nakate
+
+ * Creation Date :09/Aug/2013
+
+ * Desc : This is partial view to view  agreement details.
+ * ---------------------------------------------------------------------------------------*@
+
+@model PMGSY.Models.Agreement.AgreementDetails
+@using PMGSY.Common;
+
+<script src="@Url.Content("~/Scripts/custom/Generic.js")" type="text/javascript" ></script>
+<script type="text/javascript">
+
+    $(document).ready(function () {
+
+        $('#btnClose').click(function () {
+
+            $("#dvViewAgreementMaster").dialog('close');
+        });
+
+
+    });
+
+</script>
+@{
+    Dictionary<string, string> decryptedParameters = null;
+    String[] encryptedParameters = null;
+    string proposalType = string.Empty;
+
+    if (!string.IsNullOrEmpty(Model.EncryptedIMSPRRoadCode))
+    {
+        encryptedParameters = Model.EncryptedIMSPRRoadCode.Split('/');
+
+        if ((encryptedParameters.Length == 3))
+        {
+            decryptedParameters = URLEncrypt.DecryptParameters1(new String[] { encryptedParameters[0], encryptedParameters[1], encryptedParameters[2] });
+
+            proposalType = decryptedParameters["ProposalType"].ToString();
+        }
+
+    }
+    else
+    {
+        proposalType = "P";
+    }
+
+
+                        //if (!string.IsNullOrEmpty(Session["EncryptedAgreementType"].ToString()))    
+                        //{
+                        //    Model.EncryptedAgreementType_Add = Session["EncryptedAgreementType"].ToString();
+                        //    //Session.Remove("EncryptedAgreementType");
+                        //}
+                        //else    
+                        //{
+                        //    Model.EncryptedAgreementType_Add = "C";
+                        //}
+}
+
+
+<form id="frmViewAgreementDetails">
+
+
+    <div>
+
+        <table id="tblNewAgreement" style="width: 100%; border: 1px solid #808080; margin-top: 0px;" class="rowstyle ui-corner-all">
+
+            <tr>
+
+
+                <td>
+                    @Html.LabelFor(model => model.MAST_CON_ID)
+                </td>
+
+                <td colspan="3">
+                    @if (!string.IsNullOrEmpty(ViewBag.ContractorName))
+                    {
+                        @*@Html.Label(@ViewBag.ContractorName as String)*@
+                        <label>@(ViewBag.ContractorName as String)</label>
+                    }
+                    else
+                    {
+                        @Html.Label("NA")
+                    }
+                </td>
+
+            </tr>
+
+            <tr>
+                <td style="text-align: left; width: 20%;">
+                    @Html.LabelFor(model => model.TEND_AGREEMENT_NUMBER)
+                </td>
+
+                <td style="text-align: left; width: 30%;">
+
+                    @if (!string.IsNullOrEmpty(Model.TEND_AGREEMENT_NUMBER))
+                    {
+                        @Model.TEND_AGREEMENT_NUMBER
+                    }
+                    else
+                    {
+                        @Html.Label("NA")
+                    }
+
+                </td>
+
+                <td style="text-align: left; width: 20%;">
+                    @Html.LabelFor(model => model.TEND_DATE_OF_AGREEMENT)
+                </td>
+
+                <td>
+
+                    @if (!string.IsNullOrEmpty(Model.TEND_DATE_OF_AGREEMENT))
+                    {
+                        @Model.TEND_DATE_OF_AGREEMENT
+                    }
+                    else
+                    {
+                        @Html.Label("NA")
+                    }
+
+                </td>
+            </tr>
+
+
+            <tr>
+                <td>
+                    @Html.LabelFor(model => model.TEND_AGREEMENT_START_DATE)
+                </td>
+
+                <td>
+
+                    @if (!string.IsNullOrEmpty(Model.TEND_AGREEMENT_START_DATE))
+                    {
+                        @Model.TEND_AGREEMENT_START_DATE
+                    }
+                    else
+                    {
+                        @Html.Label("NA")
+                    }
+
+
+                </td>
+
+                <td>
+                    @Html.LabelFor(model => model.TEND_AGREEMENT_END_DATE)
+                </td>
+
+                <td>
+
+                    @if (!string.IsNullOrEmpty(Model.TEND_AGREEMENT_END_DATE))
+                    {
+                        @Model.TEND_AGREEMENT_END_DATE
+                    }
+                    else
+                    {
+                        @Html.Label("NA")
+                    }
+
+
+                </td>
+            </tr>
+            @if (PMGSY.Extensions.PMGSYSession.Current.PMGSYScheme == 2)
+            {
+                <tr>
+                    <td>
+                        @Html.LabelFor(model => model.TEND_STATE_SHARE)
+                    </td>
+
+                    <td>
+                        @if (Model.TEND_STATE_SHARE != null)
+                        {
+                            @Model.TEND_STATE_SHARE.Value.ToString("F")
+                        }
+                        else
+                        {
+                            @Html.Label("NA")
+                        }
+                    </td>
+                    <td>
+                        @Html.LabelFor(model => model.TEND_MORD_SHARE)
+                    </td>
+                    <td>
+                        @if (Model.TEND_MORD_SHARE != null)
+                        {
+                            @Model.TEND_MORD_SHARE.Value.ToString("F")
+                        }
+                        else
+                        {
+                            @Html.Label("NA")
+                        }
+
+                    </td>
+
+                </tr>
+                <tr>
+                    <td>
+                        @Html.LabelFor(model => model.TEND_HIGHER_SPEC_AMT)
+                    </td>
+
+                    <td colspan="3">
+                        @if (Model.TEND_HIGHER_SPEC_AMT != null)
+                        {
+                            @Model.TEND_HIGHER_SPEC_AMT.Value.ToString("F")
+                        }
+                        else
+                        {
+                            @Html.Label("NA")
+                        }
+                    </td>
+                </tr>
+            }
+            <tr>
+
+
+
+                <td>
+                    @Html.LabelFor(model => model.TEND_AGREEMENT_AMOUNT)
+                </td>
+
+                <td id="tdAgreementAmount">
+                    @if (Model.TEND_AGREEMENT_AMOUNT != null)
+                    {
+                        @Model.TEND_AGREEMENT_AMOUNT.Value.ToString("F")
+                    }
+                    else
+                    {
+                        @Html.Label("NA")
+                    }
+                </td>
+
+                <td id="lblTenderAmount">
+                    @Html.LabelFor(model => model.TEND_TENDER_AMOUNT)
+                    @* <label style="color: red;">*</label>*@
+                </td>
+                <td id="tdTenderAmount">
+                    @if (Model.TEND_TENDER_AMOUNT != null)
+                    {
+                        @Model.TEND_TENDER_AMOUNT.Value.ToString("F")
+                    }
+                    else
+                    {
+                        @Html.Label("NA")
+                    }
+
+                </td>
+
+            </tr>
+
+
+            <tr>
+
+                <td>
+                    @Html.LabelFor(model => model.TEND_DATE_OF_AWARD_WORK)@* <label style="color:red;"> *</label>*@
+                </td>
+
+                <td>
+
+                    @if (!string.IsNullOrEmpty(Model.TEND_DATE_OF_AWARD_WORK))
+                    {
+                        @Model.TEND_DATE_OF_AWARD_WORK
+                    }
+                    else
+                    {
+                        @Html.Label("NA")
+                    }
+                </td>
+
+                <td>
+                    @Html.LabelFor(model => model.TEND_DATE_OF_WORK_ORDER)@* <label style="color:red;"> *</label>*@
+                </td>
+
+                <td>
+
+                    @if (!string.IsNullOrEmpty(Model.TEND_DATE_OF_WORK_ORDER))
+                    {
+                        @Model.TEND_DATE_OF_WORK_ORDER
+                    }
+                    else
+                    {
+                        @Html.Label("NA")
+                    }
+
+                </td>
+
+
+            </tr>
+
+            <tr>
+                <td>
+                    @Html.LabelFor(model => model.TEND_DATE_OF_COMMENCEMENT)@* <label style="color:red;"> *</label>*@
+                </td>
+
+                <td>
+
+                    @if (!string.IsNullOrEmpty(Model.TEND_DATE_OF_COMMENCEMENT))
+                    {
+                        @Model.TEND_DATE_OF_COMMENCEMENT
+                    }
+                    else
+                    {
+                        @Html.Label("NA")
+                    }
+                </td>
+
+                <td>
+                    @Html.LabelFor(model => model.TEND_DATE_OF_COMPLETION) @*<label style="color:red;"> *</label>*@
+                </td>
+
+                <td>
+                    @if (!string.IsNullOrEmpty(Model.TEND_DATE_OF_COMPLETION))
+                    {
+                        @Model.TEND_DATE_OF_COMPLETION
+                    }
+                    else
+                    {
+                        @Html.Label("NA")
+                    }
+                </td>
+
+
+
+
+
+
+
+            </tr>
+
+
+            @if (proposalType.Equals("P"))
+            {
+                  
+                <tr id="trMainAmountYear1">
+                    <td>
+                        @Html.LabelFor(model => model.TEND_AMOUNT_YEAR1)
+                    </td>
+
+                    <td>
+                        @if (Model.TEND_AMOUNT_YEAR1 != null)
+                        {
+                            @Model.TEND_AMOUNT_YEAR1.Value.ToString("F")
+                        }
+                        else
+                        {
+                            @Html.Label("NA")
+                        }
+                    </td>
+
+                    <td>
+                        @Html.LabelFor(model => model.TEND_AMOUNT_YEAR2)
+                    </td>
+
+                    <td>
+                        @if (Model.TEND_AMOUNT_YEAR2 != null)
+                        {
+                            @Model.TEND_AMOUNT_YEAR2.Value.ToString("F")
+                        }
+                        else
+                        {
+                            @Html.Label("NA")
+                        }
+                    </td>
+                </tr> 
+
+            
+                <tr id="trMainAmountYear2">
+                    <td>
+                        @Html.LabelFor(model => model.TEND_AMOUNT_YEAR3)
+                    </td>
+
+                    <td>
+                        @if (Model.TEND_AMOUNT_YEAR3 != null)
+                        {
+                            @Model.TEND_AMOUNT_YEAR3.Value.ToString("F")
+                        }
+                        else
+                        {
+                            @Html.Label("NA")
+                        }
+                    </td>
+
+
+                    <td>
+                        @Html.LabelFor(model => model.TEND_AMOUNT_YEAR4)
+                    </td>
+
+                    <td>
+                        @if (Model.TEND_AMOUNT_YEAR4 != null)
+                        {
+                            @Model.TEND_AMOUNT_YEAR4.Value.ToString("F")
+                        }
+                        else
+                        {
+                            @Html.Label("NA")
+                        }
+
+                    </td>
+                </tr>       
+            
+                <tr id="trMainAmountYear3">
+                    <td>
+                        @Html.LabelFor(model => model.TEND_AMOUNT_YEAR5)
+                    </td>
+
+                    <td>
+                        @if (Model.TEND_AMOUNT_YEAR5 != null)
+                        {
+                            @Model.TEND_AMOUNT_YEAR5.Value.ToString("F")
+                        }
+                        else
+                        {
+                            @Html.Label("NA")
+                        }
+                    </td>
+                    @if (PMGSY.Extensions.PMGSYSession.Current.PMGSYScheme == 2)
+                    {
+                        <td>
+                            @Html.LabelFor(model => model.TEND_AMOUNT_YEAR6)
+                        </td>
+                
+                        <td>
+                            @if (Model.TEND_AMOUNT_YEAR6 != null)
+                            {
+                                @Model.TEND_AMOUNT_YEAR6.Value.ToString("F")
+                            }
+                            else
+                            {
+                                @Html.Label("NA")
+                            }
+                        </td>
+                    }
+
+
+                </tr>      
+                  
+                     
+
+            }
+
+
+
+            <tr>
+
+
+                <td>
+                    @Html.LabelFor(model => model.TEND_AGREEMENT_REMARKS)
+                </td>
+
+                <td id="tdtxtRemark" colspan="3">
+                    @if (!string.IsNullOrEmpty(Model.TEND_AGREEMENT_REMARKS))
+                    {
+                        @Model.TEND_AGREEMENT_REMARKS
+                    }
+                    else
+                    {
+                        @Html.Label("NA")
+                    }
+                </td>
+
+            </tr>
+
+
+            <tr>
+
+                <td colspan="4" style="text-align: center">
+
+                    <input type="button" id="btnClose" name="btnClose" value="Close" class="jqueryButton" title="Close" tabindex="300" />
+
+                </td>
+
+
+            </tr>
+
+
+
+
+
+        </table>
+
+
+    </div>
+
+
+</form>

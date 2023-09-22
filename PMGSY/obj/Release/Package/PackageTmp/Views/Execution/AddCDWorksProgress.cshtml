@@ -1,0 +1,92 @@
+﻿@*
+    * Project Id    :
+    * Project Name  :   OMMAS II
+    * Name          :   AddCDWorksProgress.cshtml
+    * Description   :   This View Adds the CDWorks Details to Road Proposal Execution
+    * Author        :   Vikram Nandanwar        
+    * Creation Date :   25/June/2013    
+*@
+
+@model PMGSY.Models.Execution.ExecutionCDWorksViewModel
+
+<script src="~/Scripts/custom/Generic.js"></script>
+<script src="~/Scripts/Execution/AddCDWorksProgress.js"></script>
+
+<div id="divAddCDWorks" style="margin-top: 0px">
+<form id="frmAddCDWorks">
+<center>
+@Html.HiddenFor(model => model.IMS_PR_ROAD_CODE)
+@Html.HiddenFor(model => model.EncryptedCdWorksCode)
+@Html.HiddenFor(model => model.Operation)
+@Html.HiddenFor(model => model.EXEC_RCD_STATUS)
+@Html.HiddenFor(model => model.CDWorks_No)
+@Html.HiddenFor(model => model.CDWorks_Cost)
+@Html.HiddenFor(model => model.PreviousCDWorksCount)
+
+<div style="margin-left: 100px">@Html.ValidationSummary(true)</div>            
+
+<div id="divError" class="ui-state-error ui-corner-all" style="text-align: left; display: none; width: 100%">
+    <span class="ui-icon ui-icon-alert" style="float: left;"></span>                   
+    <span></span>
+</div>
+
+<div style="height:20px; width: 100%; text-align:left; padding-top: 0.6em;" class="ui-state-default ui-corner-all" > 
+    &nbsp;<strong> Note :</strong>  Fields marked with * are mandatory.
+    <a href="#"  style="float: right;"><img style="margin-right:5px" alt="Close" class="ui-icon ui-icon-closethick" id="imgCloseProgressDetails" /></a>
+</div>
+<table id="tbAddCDWorksDetails"  cellpadding="3px" class="rowstyle" style="margin-top:0px; text-align:left; border:ridge 0.1em #ccc; width:100%; padding-top:5px 5px 5px 5px;">
+    <tr>
+        <td style="width:5%"></td>
+        <td style="width:10%">@Html.LabelFor(model => model.EXEC_RCD_CHAINAGE)<label style="color:red">*</label></td>
+        <td style="width:20%">
+            @Html.TextBoxFor(model => model.ChainageMajor, new { @placeholder = "in Km...", @title = "Enter Chainage in Km", @maxlength = 4, @style = "width:20%", @tabindex = 1 })
+            @Html.Label("/", new { @style = "height:20px" })
+            @Html.TextBoxFor(model => model.ChainageMinor, new { @placeholder = "in Mtrs...", @title = "Enter Chainage in Mtrs", @maxlength = 4, @style = "width:20%", @tabindex = 2 })
+            @Html.ValidationMessageFor(model => model.ChainageMajor)
+            @Html.ValidationMessageFor(model => model.ChainageMinor)
+        </td>
+        <td style="width:10%">@Html.LabelFor(model => model.MAST_CDWORKS_CODE)<label style="color:red">*</label></td>
+        <td style="width:20%">
+            @if (Model.Operation == "A")
+            {
+                @Html.DropDownListFor(model => model.MAST_CDWORKS_CODE, new SelectList(Model.CD_WORKS, "Value", "Text"), new { @title = "Select CD Works Type", @id = "ddlCDWorks", @tabindex = 3 })
+                @Html.ValidationMessageFor(model => model.MAST_CDWORKS_CODE)
+            }
+            else
+            {
+                @Html.DropDownListFor(model => model.MAST_CDWORKS_CODE, new SelectList(Model.CD_WORKS, "Value", "Text"), new { @title = "Select CD Works Type", @id = "ddlCDWorks", @tabindex = 3, @disabled = "disabled" })
+                @Html.ValidationMessageFor(model => model.MAST_CDWORKS_CODE)
+                @Html.HiddenFor(model => model.MAST_CDWORKS_CODE)
+            }
+        </td>
+    </tr>
+    <tr>
+        <td colspan="5">
+            @if (Model.Operation == "A")
+            {
+            <center>
+            <table>
+                <td>
+                    <input type="button" value="Save" name="btnAddCDWorksDetails" id="btnAddCDWorksDetails" class="jqueryButton" tabindex="4"/>
+                    <input type="reset" value="Reset" name="btnResetCDWorksDetails" id="btnResetCDWorksDetails" class="jqueryButton" tabindex="4"/>
+                </td>
+            </table>
+            </center>
+            }
+            else
+            {
+            <center>
+            <table>
+                <td>
+                <input type="button" value="Update" name="btnUpdateCDWorksDetails" id="btnUpdateCDWorksDetails" class="jqueryButton" tabindex="4"/>
+                <input type="button" value="Cancel" name="btnCancelCDWorksDetails" id="btnCancelCDWorksDetails" class="jqueryButton" tabindex="5"/>
+                </td>
+            </table>
+            </center>
+            }
+        </td>
+    </tr>
+</table>
+</center>
+    </form>
+</div>

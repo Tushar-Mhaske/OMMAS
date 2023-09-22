@@ -1,0 +1,172 @@
+﻿@model PMGSY.Models.QualityMonitoring.AddUploadInspByNRIDADetailsModel
+
+@{
+    ViewBag.Title = "AddInspByNRIDA";
+}
+
+
+<style>
+    /*.ui-datepicker td {
+        border: 1px solid #CCC;
+        padding: 0;
+    }
+
+    .fileremove {
+        float: left;
+    }*/
+</style>
+
+
+
+<script src="~/Scripts/custom/Generic.js"></script>
+<script src="~/Scripts/jquery-ui.js"></script>
+<script src="~/Scripts/QualityMonitoring/InspByNRIDAOfficials.js"></script>
+<script src="~/Scripts/jquery.validate.min.js"></script>
+<script src="~/Scripts/jquery.validate.unobtrusive.min.js"></script>
+
+<center>
+
+
+    @if ((PMGSY.Extensions.PMGSYSession.Current.RoleCode == 2 && Model.ACCEPTED_STATUS == "A") || ((PMGSY.Extensions.PMGSYSession.Current.RoleCode == 25 || PMGSY.Extensions.PMGSYSession.Current.RoleCode == 5 || PMGSY.Extensions.PMGSYSession.Current.RoleCode == 9) && Model.ACCEPTED_STATUS_NRIDA == "Y"))
+    {
+
+    }
+    else
+    {
+        <div id="dvAddInspDetails" class="ui-corner-top ui-widget-header panelheader" style="text-align: center; height: 20px; width: 90%">
+            <span class="ui-jqgrid-title" id="inspOperation" style="float: left">&nbsp;&nbsp;Upload Inspection by NRIDA Details</span>
+            <span id="spCollapseIconCN" class="ui-icon ui-icon-circle-close" style="float: right"></span>
+        </div>
+
+        <div id="dvInspDetails" class="ui-corner-bottom" style="display: block; border: 1px solid #B5B8C8; width: 90%">
+            <form id="formAddInspDetails" enctype="multipart/form-data">
+                @Html.AntiForgeryToken()
+                @Html.HiddenFor(model => model.IMS_PR_ROAD_CODE)
+                @Html.Hidden("roleCode", PMGSY.Extensions.PMGSYSession.Current.RoleCode.ToString())
+                <div style="width: 98%; border:none; margin-top:0px; margin-bottom:10px;" class="ui-state-default">
+
+                    <table style="margin-top:10px; margin-bottom:5px;">
+
+
+
+                        @if (PMGSY.Extensions.PMGSYSession.Current.RoleCode == 25 || PMGSY.Extensions.PMGSYSession.Current.RoleCode == 5 || PMGSY.Extensions.PMGSYSession.Current.RoleCode == 9)
+                        {
+                            <tr>
+                                <td><b>Inspection Official Details : </b></td>
+
+
+                                <td>
+                                    @Html.LabelFor(model => model.FIRST_NAME)<b style="color: red">*</b>
+                                    @Html.TextBoxFor(model => model.FIRST_NAME, new { @id = "fName" })
+                                    @Html.ValidationMessageFor(model => model.FIRST_NAME)
+                                </td>
+
+                                <td style="width: 6%"></td>
+
+                                <td>
+                                    @Html.LabelFor(model => model.MIDDLE_NAME)
+                                    @Html.TextBoxFor(model => model.MIDDLE_NAME, new { @id = "mName" })
+                                    @Html.ValidationMessageFor(model => model.MIDDLE_NAME)
+                                </td>
+
+                                <td style="width: 6%"></td>
+
+                                <td>
+                                    @Html.LabelFor(model => model.LAST_NAME)<b style="color: red">*</b>
+                                    @Html.TextBoxFor(model => model.LAST_NAME, new { @id = "lName" })
+                                    @Html.ValidationMessageFor(model => model.LAST_NAME)
+                                </td>
+
+                                <td style="width: 6%"></td>
+
+                                <td>
+                                    @Html.LabelFor(model => model.DESIGNATION)<b style="color: red">*</b>
+                                    @Html.TextBoxFor(model => model.DESIGNATION, new { @id = "designation" })
+                                    @Html.ValidationMessageFor(model => model.DESIGNATION)
+                                </td>
+                            </tr>
+
+
+                        }
+                        <tr></tr>
+                        <tr>
+                            <td></td>
+
+                            <td>
+                                @Html.LabelFor(model => model.File)<b style="color: red">*</b>
+                                @Html.TextBoxFor(model => model.File, new { @id = "BGFile", type = "file", @tabindex = 1 })
+                                @Html.ValidationMessageFor(model => model.File)
+                            </td>
+
+                            <td style="width: 6%"></td>
+
+                            @if (PMGSY.Extensions.PMGSYSession.Current.RoleCode == 25 || PMGSY.Extensions.PMGSYSession.Current.RoleCode == 5 || PMGSY.Extensions.PMGSYSession.Current.RoleCode == 9)
+                            {
+                                <td>
+                                    @Html.LabelFor(model => model.GRADE)<b style="color: red">*</b>
+                                    @Html.DropDownListFor(model => model.GRADE, new SelectList(Model.GRADE_LIST, "Value", "Text"), new { @id = "grade" })
+                                    @Html.ValidationMessageFor(model => model.GRADE)
+                                </td>
+
+                                <td style="width: 6%"></td>
+
+                                <td>
+                                    @Html.LabelFor(model => model.InspectionDate)<b style="color: red">*</b>
+                                    @Html.TextBoxFor(model => model.InspectionDate, new { style = "margin-bottom:0.6rem;margin-left:0.6", Value = "", @id = "dateOfInsp" }) @*new { @id = "txtUploaddate", @tabindex = 1, Class = "textWidth", @disabled = "disabled", @readonly = "readonly" })*@
+                                    @Html.ValidationMessageFor(model => model.InspectionDate)
+                                </td>
+
+                            }
+
+                            @if (PMGSY.Extensions.PMGSYSession.Current.RoleCode == 2)
+                            {
+                                <td>
+                                    @Html.LabelFor(model => model.UploadedDate)
+                                    @Html.TextBoxFor(model => model.UploadedDate, new { @id = "txtUploaddate", @tabindex = 1, Class = "textWidth", @disabled = "disabled", @readonly = "readonly" })
+                                </td>
+
+                                <td style="width: 6%"></td>
+
+                                <td>
+                                    <input type="button" class="jqueryButton btnAddInspDetails" value="Submit Details" name="btnAddInspDetails" title="Click here to add ATR details" />
+                                </td>
+                            }
+
+                        </tr>
+
+                        <tr>
+                            <td style="padding: 0.5rem" colspan="3" id="note">
+                                <label style="border: none">
+                                    [ Note: File size should not be greater than 4MB.]
+                                </label>
+                            </td>
+                        </tr>
+
+                        <tr></tr>
+
+                        @if (PMGSY.Extensions.PMGSYSession.Current.RoleCode == 25 || PMGSY.Extensions.PMGSYSession.Current.RoleCode == 5 || PMGSY.Extensions.PMGSYSession.Current.RoleCode == 9)
+                        {
+                            <tr>
+                                <td></td>
+                                <td></td>
+                                <td></td>
+                                <td></td>
+                                <td>
+                                    <input type="button" class="jqueryButton btnAddInspDetails" value="Submit Details" name="btnAddInspDetails" title="Click here to add Inspection Report details" />
+                                </td>
+
+                            </tr>
+                        }
+
+                    </table>
+                </div>
+            </form>
+        </div>
+    }
+
+    <div id="divListExecutionPDF" style="margin-top:20px; width:100%">
+        <table id="tbExecutionListPDF"> </table>
+        <div id="pagerExecutionPDF"> </div>
+    </div>
+
+</center>

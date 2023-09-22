@@ -1,0 +1,21 @@
+﻿@using MvcReportViewer
+
+@model PMGSY.Areas.QMSSRSReports.Models.QMFilterViewModel
+
+@Html.MvcReportViewer("/PMGSYCitizen/ATR",
+     new
+     {
+         monitorCode = Model.ADMIN_QM_CODE,
+         fromInspMonth = Model.FROM_MONTH,
+         fromInspYear = Model.FROM_YEAR,
+         toInspMonth = Model.TO_MONTH,
+         toInspYear = Model.TO_YEAR,
+         atrStatus = Model.ATR_STATUS,
+         rdStatus = Model.ROAD_STATUS,
+         stateCode = Model.MAST_STATE_CODE,
+         districtCode = Model.MAST_DISTRICT_CODE,
+         AdminNdCode = 0,
+         Pmgsy = Model.schemeType,
+         flag = Model.imsSanctioned,
+     },
+     new { Height = 600, Width = "100%", style = "border:none;" })

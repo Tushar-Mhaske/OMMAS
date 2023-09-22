@@ -1,0 +1,236 @@
+﻿@model PMGSY.Models.Authorization.AuthorizationRequestMasterModel
+
+
+
+ <script type="text/javascript">
+        var opeartion = '@ViewBag.operationType';
+        var Bill_ID = '@ViewBag.Bill_id';
+        var Bill_finalized = '@ViewBag.BillFinalized';  
+            
+    </script>
+<script src="~/Scripts/custom/Generic.js"></script>
+<script src="~/Scripts/Authorization/AuthorizationMaster.js"></script>
+
+<div class="ui-widget-header innerDivHeader">
+      Authorization Request
+    </div>
+ @* Added By Abhishek Kamlbe 3-jan-2014 *@
+        <table style="margin-left: 10px; margin-right: 15px;width:99%">
+            <tr> 
+                <td style="width:20%">
+                    <div id="AccountStatusDiv" style="float:left">
+                        <table>
+                            <tbody>
+                                <tr id="TrMonthlyClosing" style="display:none">
+                                    <td style="text-align:center">
+                                        <div style="text-align: right; width: 100%;" id="1">
+                                            <label style="color:red" ><b>
+                                          Last Month Closed
+                                        -
+                         
+                                        <label id="lblMonth">
+                                
+                                        </label>
+                           
+                                        <label id="lblYear">
+                          
+                                             </label>
+                                    </b></label>
+                                        </div>
+                                    </td>
+                                </tr>
+                                 <tr id="AccountNotClosedTr">
+                                       <td style="text-align:center">
+                                        <div style="text-align: right; width: 100%;" id="2">
+                                            <label style="color:red" > <b>  Last Month Closed - -  </b>   </label>  
+                                         
+                                        </div>
+                                            </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                     </div>
+                </td>
+            </tr>
+        </table>
+ <div id="divError" style="margin-left: 10px; margin-right: 15px;margin-top:5px;margin-bottom:5px; display: none" class="ui-state-error ui-corner-all">
+        <span class="ui-icon ui-icon-alert " style="float: left"></span>
+        <span id="errorSpan"></span>
+        </div>
+
+    <table style="margin-right: 15px;margin-top:5px">
+        <tbody>
+            <tr>
+                <td>
+
+                    <div style="padding: 0pt 0.7em; cursor: pointer;" class="jqueryButton" id="lblBack">
+
+                        <span class="ui-icon ui-icon-circle-triangle-w" style="float: left; margin-right: 0.3em;"></span><strong>
+                            @HttpContext.GetLocalResourceObject(@"~\Views\Shared\authorizedSignatory", "lblGoBack", System.Globalization.CultureInfo.CurrentUICulture)
+                        </strong>
+                    </div>
+
+                </td>
+               @* <td>
+
+                    <div style="padding: 0pt 0.7em; cursor: pointer;" class="jqueryButton" id="hideMasterDetails">
+
+                        <span class="ui-icon ui-icon-circle-triangle-n" style="float: left; margin-right: 0.3em;"></span><strong>Show Hide Master Details
+                        </strong>
+                    </div>
+
+                </td>*@
+
+                <td>
+
+                    @*modified by Abhishek kamble 28-oct-2013*@
+                   @* <div style="padding: 0pt 0.7em; cursor: pointer;" class="jqueryButton" id="AddNewMasterDetails">
+
+                        <span class="ui-icon ui-icon-circle-plus" style="float: left; margin-right: 0.3em;"></span><strong>Add New Authorization Request
+                        </strong>
+                    </div>*@
+
+                </td>
+
+            </tr>
+        </tbody>
+    </table>
+
+
+<form id="MasterDataEntryForm">
+    @Html.ValidationSummary(true)
+        @Html.Hidden("Hidden_CURRENT_DATE")
+    <table id="tblOptions" class="table-content ui-corner-all" style="width: 98%; border: .1em solid gray;margin-top:5px">
+
+            <tr>
+                <td style="text-align: right; width: 30%">Month <label style="color:red">*</label>
+
+                </td>
+                <td style="text-align: left; width: 20%">
+                    @* @Html.DropDownList("months", ViewData["months"] as SelectList, new { Title = "Month", tabindex = "1", @class = "dropdown" })*@
+                    @Html.DropDownListFor(model => model.AUTH_MONTH, new SelectList(Model.AUTH_MONTH_LIST, "Value", "Text"), new { Title = "Authorization Month", tabindex = "1", @class = "dropdown" })
+                   <br /> @Html.ValidationMessageFor(model => model.AUTH_MONTH, null, new { @id="spnErrMonth"})
+                </td>
+                <td style="text-align: right;width:10%">Year <label style="color:red">*</label>
+                </td>
+                <td style="text-align: left; width: 40%">
+                    @* @Html.DropDownList("year", ViewData["year"] as SelectList, new { Title = "year", tabindex = "2", @class = "dropdown" })*@
+                    @Html.DropDownListFor(model => model.AUTH_YEAR, new SelectList(Model.AUTH_YEAR_LIST, "Value", "Text"), new { Title = "Voucher Year", tabindex = "2", @class = "dropdown" })
+                  <br />  @Html.ValidationMessageFor(model => model.AUTH_YEAR,null, new { @id="spnErrYear"})
+                </td>
+              
+            </tr>
+        </table>
+    
+    <div id="MasterDataEntryDiv">
+           
+            <table id="tblTransaction" class="table-content ui-corner-all" style="width: 98%; border: .1em solid gray;margin-bottom:5px;margin-top:5px">
+
+                <tr>
+                    <td style="text-align: right; width: 30%">
+                        @Html.LabelFor(model => model.TXN_ID)  <label style="color:red">*</label>
+
+                    </td>
+                    <td style="text-align: left; width: 50%">
+
+                        @Html.DropDownListFor(model => model.TXN_ID, new SelectList(Model.TXN_ID_LIST, "Value", "Text"), new { Title = "Transaction Type", tabindex = "1", @class = "dropdown", @style = "width:40%" })
+                      
+                        @Html.ValidationMessageFor(model => model.TXN_ID,null, new { @id="spnErrTransactionType"})
+                    </td>
+                </tr>
+            </table>
+            
+            <table id="formTable" class="ui-corner-all rowstyle" style="width: 98%; border: .1em solid gray" cellspacing="1px">
+
+                          
+                
+                 <tr>
+                    <td style="text-align: left; width: 15%">
+                        @Html.LabelFor(model => model.AUTH_NO)<label style="color:red">*</label>
+                    </td>
+                    <td style="text-align: left; width: 25%">
+                        @Html.TextBoxFor(model => model.AUTH_NO, new { @title="Authorization Number"})
+                         <br />
+                         @Html.ValidationMessageFor(model => model.AUTH_NO)
+
+                    </td>
+
+                    <td style="text-align: left; width: 15%">
+                        @Html.LabelFor(model => model.AUTH_DATE) <label style="color:red">*</label>
+                    </td>
+
+                    <td style="text-align: left; width: 25%">
+                        @Html.TextBoxFor(model => model.AUTH_DATE, new { @style = "width:20%" ,@title="Authorization Date"})
+                       <br />
+                           @Html.ValidationMessageFor(model => model.AUTH_DATE, null, new { @id="spnErrAuthDate"})
+                    </td>
+
+                </tr>
+                
+                <tr>
+
+                    <td style="text-align: left">  @Html.LabelFor(model => model.CHEQUE_AMOUNT) <label style="color:red">*</label>
+                    </td>
+                    <td style="text-align: left; width: 25%">
+                        <div id="DivChequeAmount">
+                            @Html.TextBoxFor(model => model.CHEQUE_AMOUNT, new { @title="Bank Authorization Request Amount"})
+                             <br />
+                             @Html.ValidationMessageFor(model => model.CHEQUE_AMOUNT, null, new { @id="spnErrChequeAmount"})
+
+                        </div>
+                       
+                    </td>
+
+                    <td style="text-align: left">
+                        @Html.LabelFor(model => model.CASH_AMOUNT)<label style="color:red">*</label>
+                    </td>
+                    <td style="text-align: left; width: 25%">
+                        @Html.TextBoxFor(model => model.CASH_AMOUNT, new { @title="Cash Amount"})
+                         <br />
+                         @Html.ValidationMessageFor(model => model.CASH_AMOUNT, null, new { @id="spnErrCashAmount"})
+                    </td>
+                   
+                </tr>
+
+                <tr class="ContracorTr" style="display: none">
+
+                    <td style="text-align: left">@Html.LabelFor(model => model.MAST_CON_ID_C) <label style="color:red">*</label></td>
+                    <td style="text-align: left; width: 25%">
+
+                       
+                        @Html.DropDownListFor(model => model.MAST_CON_ID_C, new SelectList(Model.MAST_CON_ID_C1, "Value", "Text", "Company name is required"), new { Title = "Company name", tabindex = "1", @class = "dropdown", @style = "width:80%" })
+                         <br />
+                        @Html.ValidationMessageFor(model => model.MAST_CON_ID_C, null, new { @id="spnErrConName"})
+
+                    </td>
+
+                    <td style="text-align: left">@Html.LabelFor(model => model.PAYEE_NAME) <label style="color:red">*</label></td>
+                    <td style="text-align: left; width: 25%">
+                        @Html.TextBoxFor(model => model.PAYEE_NAME)
+                      <br />
+                            @Html.ValidationMessageFor(model => model.PAYEE_NAME, null, new { @id="spnErrPayeeName"})</td>
+
+
+
+                </tr>
+                              
+                <tr>
+                    <th colspan="2" style="text-align: right">
+
+
+                        <input type="button" id="btnSubmit" Style="display:none"   value=" @HttpContext.GetLocalResourceObject(@"~\Views\Shared\authorizedSignatory", "lblSave", System.Globalization.CultureInfo.CurrentUICulture)"  class="jqueryButton" title= "@HttpContext.GetLocalResourceObject(@"~\Views\Shared\authorizedSignatory", "lblClickSave", System.Globalization.CultureInfo.CurrentUICulture) "/>
+                        <input type="button" id="btnUpdate" Style="display:none" value=" @HttpContext.GetLocalResourceObject(@"~\Views\Shared\authorizedSignatory", "lblUpdate", System.Globalization.CultureInfo.CurrentUICulture)"  class="jqueryButton" title= "@HttpContext.GetLocalResourceObject(@"~\Views\Shared\authorizedSignatory", "lblClickUpdate", System.Globalization.CultureInfo.CurrentUICulture)" />
+                         <input type="button" id="btnCancel" Style="display:none"  value="Cancel" class="jqueryButton" title= "Cancel"/>
+                       
+
+                    </th>
+                    <th colspan="2" style="text-align: left">
+                        <input type="button" class="jqueryButton"  name="btnReset" id="btnReset" title="Click here to reset" value='Reset' />
+                    </th>
+                </tr>
+
+            </table>
+        </div>
+    
+</form>
+

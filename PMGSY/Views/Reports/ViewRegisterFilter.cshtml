@@ -1,0 +1,269 @@
+﻿@model PMGSY.Models.Report.RegisterViewModel
+
+@{
+    ViewBag.Title = "ViewRegisterFilter";
+}
+@using PMGSY.Extensions
+<script src="~/Scripts/custom/Generic.js"></script>
+<script src="~/Scripts/Report/RegisterHeads.js"></script>
+
+@*
+Following scripts are added for converting jqgrid data to pdf
+
+<script type="text/javascript" src="~/Scripts/JSPdf/jspdf.js"></script>
+<script type="text/javascript" src="~/Scripts/JSPdf/libs/Deflate/adler32cs.js"></script>
+<script type="text/javascript" src="~/Scripts/JSPdf/libs/FileSaver.js/FileSaver.js"></script>
+<script type="text/javascript" src="~/Scripts/JSPdf/libs/Blob.js/BlobBuilder.js"></script>
+<script type="text/javascript" src="~/Scripts/JSPdf/jspdf.plugin.addimage.js"></script>
+<script type="text/javascript" src="~/Scripts/JSPdf/jspdf.plugin.standard_fonts_metrics.js"></script>
+<script type="text/javascript" src="~/Scripts/JSPdf/jspdf.plugin.split_text_to_size.js"></script>
+<script type="text/javascript" src="~/Scripts/JSPdf/jspdf.plugin.from_html.js"></script>
+<script type="text/javascript" src="~/Scripts/JSPdf/basic.js"></script>*@
+
+
+
+
+
+<script type="text/javascript">
+    var levelId = @PMGSY.Extensions.PMGSYSession.Current.LevelId
+</script>
+
+<div id="dvHeader" class="ui-widget-header innerDivHeader" style="margin-bottom: 05px; margin-top:5px;height: 20px;">
+         <label style="margin-left:5px">@Model.ReportTitle</label> 
+        <span style="float: right; margin-right: 2Px; margin-top: 2px" id="spnMonthlyStateSRRDA" class="ui-icon ui-icon-circle-triangle-n"></span>
+</div>
+<center>
+<div>
+<form id="frmRegisterHead">
+   @Html.AntiForgeryToken()
+    <div class="CBHeader ui-state-default ui-corner-all" style ="background:none;" id="dvFilterForm">
+        <div id="divError" class="ui-state-error ui-corner-all" style="text-align: left; display: none; width: 100%">
+        <span class="ui-icon ui-icon-alert" style="float: left;"></span>                   
+        <span></span>
+        </div>
+        <table class="ui-state-default ui-corner-all" style="border:0.1em solid gray; background:none; width:100%; margin-top:1px" id="tblFilter">
+            @Html.HiddenFor(model=>model.HeadCategoryId)
+            @Html.HiddenFor(model=>model.LevelId)
+            @Html.HiddenFor(model=>model.ReportTitle)
+            @Html.HiddenFor(model=>model.MonthName)
+            <tr>
+                <td style="width:10%"></td>
+                <td style="width:10%">@Html.LabelFor(model=>model.HeadId):</td>
+                <td style ="width:20%">
+                    @Html.DropDownListFor(model => model.HeadId, new SelectList(Model.lstHeads, "Value", "Text"), new {@id="ddlHeads",@title="Select Head",@style="width:80%"})
+                    @Html.ValidationMessageFor(model=>model.HeadId)
+                    @Html.HiddenFor(model=>model.HeadId)
+                </td>
+                <td style="width:10%">
+                    @* Modified By Abhishek kamble 4-Apr-2014 To hide Funding Agency Drop down. *@
+                    <span style="display:none">
+                    @Html.LabelFor(model=>model.FundingAgencyCode)<span style="color:red"> *</span>
+                    </span>
+                </td>
+                <td style="width:20%">
+                     @* Modified By Abhishek kamble 4-Apr-2014 To hide Funding Agency Drop down. *@
+                    <span style="display:none">
+                    @Html.DropDownListFor(model => model.FundingAgencyCode, new SelectList(Model.lstFundingAgency, "Value", "Text"), new {@id="ddlAgency",@title="Select Funding Agency" })
+                    @Html.ValidationMessageFor(model=>model.FundingAgencyCode)
+                    @Html.HiddenFor(model=>model.FundingAgencyCode)
+                    </span>
+                </td>
+                <td></td>
+                <td></td>
+            </tr>
+            @if (PMGSY.Extensions.PMGSYSession.Current.LevelId == 4 || PMGSY.Extensions.PMGSYSession.Current.LevelId == 6)
+            {
+            <tr>
+                <td style="width:10%"></td>
+                <td style="width:10%">Report Type:</td>
+                <td style="width:15%">@Html.RadioButtonFor(model => model.ReportType, "D", new { @id="rdbDPIU",@checked="checked"})@Html.HiddenFor(model=>model.ReportType) DPIU</td>
+                <td class="tdsrrdadpiu">Nodal Agency</td>
+                <td class="tdsrrdadpiu">
+                    @if(PMGSY.Extensions.PMGSYSession.Current.LevelId == 4)
+                    {
+                        @Html.DropDownListFor(model=>model.SRRDACode,new SelectList(Model.lstSRRDA,"Value","Text"),new{@id="ddlSRRDAPIU",@disabled="disabled"})
+                        @Html.ValidationMessageFor(model=>model.SRRDACode)
+                        @Html.HiddenFor(model=>model.SRRDACode)
+                    }
+                    else
+                    {
+                        @Html.DropDownListFor(model=>model.SRRDACode,new SelectList(Model.lstSRRDA,"Value","Text"),new{@id="ddlSRRDAPIU"})
+                        @Html.ValidationMessageFor(model=>model.SRRDACode)
+                        @Html.HiddenFor(model=>model.SRRDACode)
+                    }
+                </td>
+                <td class="tdsrrdadpiu">
+                    PIU
+                </td>
+                <td class="tdsrrdadpiu">
+                    @Html.DropDownListFor(model=>model.DPIUCode,new SelectList(Model.lstPIU,"Value","Text"),new{@id="ddlPIU"})
+                    @Html.ValidationMessageFor(model=>model.DPIUCode)
+                    @Html.HiddenFor(model=>model.DPIUCode)
+                </td>
+            </tr>
+                if(PMGSY.Extensions.PMGSYSession.Current.LevelId != 6)
+                {
+            @*<tr>
+                <td></td>
+                <td></td>
+                <td style="width:15%">@Html.RadioButtonFor(model => model.ReportType, "S", new { @id="rdbSRRDA"}) SRRDA</td>
+                <td class="tdsrrda">Nodal Agency</td>
+                <td class="tdsrrda">
+                    @if(PMGSY.Extensions.PMGSYSession.Current.LevelId == 4)
+                    {
+                        @Html.DropDownListFor(model=>model.SRRDACode,new SelectList(Model.lstSRRDA,"Value","Text"),new{@id="ddlSRRDA",@disabled="disabled"})
+                        @Html.ValidationMessageFor(model=>model.SRRDACode)
+                    }
+                    else
+                    {
+                        @Html.DropDownListFor(model=>model.SRRDACode,new SelectList(Model.lstSRRDA,"Value","Text"),new{@id="ddlSRRDA"})
+                        @Html.ValidationMessageFor(model=>model.SRRDACode)
+                    }
+                </td>
+            </tr>*@
+                }
+            }
+            <tr>
+                <td></td>
+                <td>Duration:</td>
+                <td>@Html.RadioButtonFor(model => model.DurationType, "M", new { @id="rdbMonth",@checked="checked"})@*@Html.HiddenFor(model=>model.DurationType)*@Monthly</td>
+                <td class="monthly">
+                    @Html.LabelFor(model=>model.Month)<span style="color:red">*</span>
+                </td>
+                <td class="monthly">
+                    @Html.DropDownListFor(model => model.Month, new SelectList(Model.lstMonths, "Value", "Text"), new { @id="ddlMonths"})
+                    @Html.ValidationMessageFor(model=>model.Month)
+                    @Html.HiddenFor(model=>model.Month)
+                </td>
+                <td class="monthly">
+                    @Html.LabelFor(model=>model.Year)<span style="color:red"> *</span>
+                </td>
+                <td class="monthly">
+                    @Html.DropDownListFor(model => model.Year, new SelectList(Model.lstYears, "Value", "Text"), new { @id="ddlYears"})
+                    @Html.ValidationMessageFor(model=>model.Year)
+                    @Html.HiddenFor(model=>model.Year)
+                </td>
+            </tr>
+            <tr>
+                <td></td>
+                <td></td>
+                <td>@Html.RadioButtonFor(model => model.DurationType, "Y", new { @id="rdbYear"})Yearly</td>
+                <td class="yearly">
+                    Financial Year <span style="color:red"> *</span>
+                    @*@Html.LabelFor(model=>model.Year)*@
+                </td>
+                <td class="yearly">
+                    @Html.DropDownListFor(model => model.FinancialYear, new SelectList(Model.lstFinancialYears, "Value", "Text"), new { @id="ddlFinancialYears"})
+                    @Html.ValidationMessageFor(model=>model.FinancialYear)
+                    @Html.HiddenFor(model=>model.FinancialYear)
+                </td>
+            </tr>
+            <tr>
+                <td colspan="8">
+                    <center><input type="button" value="View Details" id="btnView" class="jqueryButton" title="View Running Account" style="text-align:center"></input></center>
+                </td>
+            </tr>
+        </table>
+    </div>
+    <div id="rptHeaderDesc" class="CBHeader ui-state-default ui-corner-all" style="display:none;margin-top:20px">
+    <table class="ui-state-default ui-corner-all" style="border: 0.1em solid gray; width: 100%; margin-top: 1px" id="rptMAAnnex">
+        <tr>
+            <td colspan="6" style="color: green;text-align:right">@Html.DisplayFor(model=>model.ReportFormNumber)@Html.HiddenFor(model=>model.ReportFormNumber)</td>
+        </tr>
+        <tr>
+            <td colspan="6" style="color: green;text-align:center">@Html.DisplayFor(model=>model.FundTypeName)@Html.HiddenFor(model=>model.FundTypeName)</td>
+        </tr>
+        <tr>
+            <td colspan="6" style="color: green;text-align:center">@Html.DisplayFor(model=>model.ReportName)@Html.HiddenFor(model=>model.ReportName)</td>
+        </tr>
+        <tr>
+            <td colspan="6" style="color: green;text-align:center">@Html.DisplayFor(model=>model.ReportParagraphName)@Html.HiddenFor(model=>model.ReportParagraphName)</td>
+        </tr>
+        <tr>
+            <td colspan="6"><br /></td>
+        </tr>
+        <tr>
+            <td style="color:green;font-weight:bold;width:20%">@Html.Label("Report Type : ") </td>
+            <td style="font-weight:bold;width:30%">
+                @if (Model.SRRDADPIU == null)
+                { 
+                    <label>DPIU </label>
+                }
+                else
+                {
+                    @Html.DisplayFor(model=>model.SRRDADPIU)
+                    @Html.HiddenFor(model=>model.SRRDADPIU)
+                }
+            </td>
+            @if(Model.FinancialYear == 0)
+            {
+            <td style="color:green;font-weight:bold;width:10%">@Html.Label("Month - Year : ") </td>
+            <td style="font-weight:bold;width:10%">@Html.DisplayFor(model=>model.MonthName) - @Html.DisplayFor(model=>model.Year)</td>
+            }
+            else
+            {
+                <td style="color:green;font-weight:bold;width:10%">@Html.Label("Financial Year : ") </td>
+                <td style="font-weight:bold;width:10%">@Html.DisplayFor(model=>model.FinancialYear) - @(Model.FinancialYear + 1)</td>
+            }
+            <td style="color:green;font-weight:bold;width:10%">@Html.Label("Head : ") </td>
+            <td style="font-weight:bold;width:20%">@Html.DisplayFor(model=>model.HeadName)</td>
+        </tr>
+        <tr>
+            <td style="color:green; font-weight:bold">
+                
+                @if(PMGSY.Extensions.PMGSYSession.Current.LevelId==5 || (Model.SRRDADPIU=="DPIU"))
+                {
+                    @Html.Label("State - Name Of DPIU") @Html.Label(" :")
+                }
+                else
+                {
+                    @Html.Label("State - ") @Html.LabelFor(m=>m.NodalAgency) @Html.Label(" :")
+                }
+            </td>    
+            <td style="font-weight:bold">
+                @if (Model.NodalAgency == null)
+                { 
+                    @Html.Label(" - ")
+                }
+                else
+                {
+                    if (PMGSY.Extensions.PMGSYSession.Current.LevelId == 6)
+                    {    
+                        @Html.DisplayFor(model=>model.StateName) @Html.Label(" - ") @Model.NodalAgency                   
+                    }
+                    else 
+                    {                     
+                        @Html.Label(PMGSY.Extensions.PMGSYSession.Current.StateName) @Html.Label(" - ") @Model.NodalAgency
+                    }
+                }
+            </td>    
+            <td>
+                 @if (Model.SRRDADPIU == null && PMGSYSession.Current.LevelId!=5)
+                 {
+                    @Html.Label("Name of DPIU : ", new { @style="color:green"})
+                 }
+            </td>
+            <td>
+                @if (PMGSYSession.Current.LevelId != 5)
+                {
+                  @Html.DisplayFor(model=>model.DPIUName)
+                }
+
+            </td>
+            <td></td>
+            <td></td>
+        </tr>
+    </table>
+</div>
+<div style="margin-top:20px" id="jqData">
+    <table id="tblstRegister"></table>
+    <div id="pagerlstRegister"></div>
+</div>
+@*<div id="editor"></div>
+<div style="text-align:center">
+    <center><input id="btnPDF" type ="button" value ="Create PDF" title ="Create PDf" class="jqueryButton"/></center>
+</div>*@
+</form>
+</div>
+</center>
+

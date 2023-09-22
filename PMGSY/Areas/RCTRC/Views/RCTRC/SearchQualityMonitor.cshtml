@@ -1,0 +1,59 @@
+﻿@using PMGSY.Extensions
+
+<script src="@Url.Content("~/Scripts/custom/Generic.js")" type="text/javascript" ></script>
+
+
+
+@*<script src="~/Scripts/Master/Master_SearchQualityMonitor.js"></script>*@
+
+<script src="~/Areas/RCTRC/Scripts/Master_SearchQualityMonitor.js"></script>
+
+<div id="dvhdSearch" class="ui-corner-top ui-widget-header panelheader" style="text-align: left; height: 20px;">
+    @*margin-left:10px;margin-right:10px;margin-top:10px;*@
+    <span class="ui-jqgrid-title" style="float: left">&nbsp;Search</span>
+
+    <span id="spCollapseIconS" class="ui-icon ui-icon-circle-triangle-n" style="float: right"></span>
+</div>
+<div id="dvSearchParameter" class="ui-corner-bottom" style="display: block; border: 1px solid #B5B8C8;">@*margin-left: 10px; margin-right: 10px;*@
+    @*Added by deendayal on 06/21/2017 to show Empanelled month as well*@
+    <input type="hidden" id="roleCodeId" value="@PMGSYSession.Current.RoleCode" />
+    <form id="frmSearchQualityMonitor">
+        <table style="width: 100%;" class="rowstyle">
+            <tr>
+                <td style="text-align: left; width: 8%; display:none;">
+                    @Html.Label("Type")
+                </td>
+                <td style="width: 20%; display:none;">
+                    @Html.DropDownList("ddlSearchQmTypes", ViewData["QmTypeList"] as IEnumerable<SelectListItem>, new { @id = "ddlSearchQmTypes", @title = "Quality Monitor Type", @tabindex = 1 })
+                </td>
+                <td style="text-align: left; width: 8%;">
+                    @if (PMGSYSession.Current.RoleCode == 8)
+                    {
+                        @Html.Label("State", new { @id = "lblstate" });
+                    }
+                    else
+	                {
+                        @Html.Label("State", new { @id = "lblcadrestate" });    
+	                }
+                </td>
+                <td style="width: 20%;">
+                    @Html.DropDownList("ddlSearchStates", ViewData["StateList"] as IEnumerable<SelectListItem>, new { @id = "ddlSearchStates", @title = "State", @tabindex = 1 })
+
+                </td>
+                <td style="text-align: left; width: 10%;display:none;">
+                    Empanelled
+                </td>
+
+                <td style="width: 20%;display:none;">
+                    @Html.DropDownList("ddlSearchEmpanelled", ViewData["EmpanelledList"] as IEnumerable<SelectListItem>, new { @id = "ddlSearchEmpanelled", @title = "Empanelled", @tabindex = 3 })
+                </td>
+                <td>
+                    <input type="button" id="btnSearch" name="btnSearch" value="Search" class="jqueryButton" title="Search Details" tabindex="5" />
+
+                </td>
+            </tr>
+        </table>
+
+    </form>
+</div>
+

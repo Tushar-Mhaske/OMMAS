@@ -1,0 +1,69 @@
+﻿
+@*
+    * Project Id    :
+    * Project Name  :   OMMAS II
+    * Name          :   QMPhaseProgressInspectionReport.cshtml
+    * Description   :   Sends QM Phase Progress Report Filter Parameters to report server.
+    * Author        :   Deendayal
+    * Creation Date :   29/Aug/2014
+*@
+
+
+@using MvcReportViewer
+@model PMGSY.Models.QualityMonitoring.QMItemwiseGradingDetailsModel
+
+    @if (Model.Grade_Code == 4 || Model.Grade_Code == 1)
+    {
+        
+      if (Model.workType != 'L' && Model.workStatus != 'M')
+       {       
+             @Html.MvcReportViewer("/PMGSYCitizen/QM_ITEMWISE_GRADING_ABSTRACT_ALL",
+             new
+             {               
+                 GRADETYPE = Model.Grade_Code,       
+                 fromMonth = Model.fromMonth,
+                 ToMonth = Model.toMonth,
+                 WorkType = Model.workType,
+                 WorkStatus = Model.workStatus,
+                 ToYear = Model.toYear,
+                 FromYear = Model.fromYear,
+         
+             },
+             new { Height = 600, Width = "100%", style = "border:none;" })
+            }
+    
+         else  
+        {
+            @Html.MvcReportViewer("/PMGSYCitizen/QM_ITEMWISE_ABSTRACT",
+             new
+             {               
+                 GRADETYPE = Model.Grade_Code,       
+                 fromMonth = Model.fromMonth,
+                 ToMonth = Model.toMonth,
+                 WorkType = Model.workType,
+                 WorkStatus = Model.workStatus,
+                 ToYear = Model.toYear,
+                 FromYear = Model.fromYear,
+         
+             },
+             new { Height = 600, Width = "100%", style = "border:none;" })
+        }         
+    }
+    else
+    {
+             @Html.MvcReportViewer("/PMGSYCitizen/QM_ITEMWISE_ABSTRACT",
+             new
+             {               
+                 GRADETYPE = Model.Grade_Code,       
+                 fromMonth = Model.fromMonth,
+                 ToMonth = Model.toMonth,
+                 WorkType = Model.workType,
+                 WorkStatus = Model.workStatus,
+                 ToYear = Model.toYear,
+                 FromYear = Model.fromYear,
+         
+             },
+             new { Height = 600, Width = "100%", style = "border:none;" })
+
+    }
+

@@ -1,0 +1,14 @@
+﻿@using MvcReportViewer
+
+
+
+    @Html.MvcReportViewer("/PMGSYCitizen/QMFinATRPending",
+     new
+     {
+         STATE=@ViewBag.StateCode
+         
+
+     },
+     new { Height = 3500, Width = "100%", style = "border:none;" })
+
+

@@ -1,0 +1,15 @@
+﻿@using MvcReportViewer
+
+@model PMGSY.Areas.QMSSRSReports.Models.QualityReportsViewModel
+
+    @Html.MvcReportViewer("/PMGSYCitizen/newQMComparisonofGradingReport",
+     new
+     {
+         state = Model.State,
+         district = 0,
+         year = Model.Year,
+         month = Model.Month,
+         statename = Model.StateName,
+         districtname = Model.DistName,
+     },
+       new { Height = 600, Width = "100%", style = "border:none;" })

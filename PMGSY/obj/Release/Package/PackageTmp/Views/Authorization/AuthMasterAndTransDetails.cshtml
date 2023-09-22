@@ -1,0 +1,140 @@
+﻿@{
+    Layout = null;
+}
+
+<!DOCTYPE html>
+
+<html>
+<head>
+    <meta name="viewport" content="width=device-width" />
+    <title>AuthMasterAndTransDetails</title>
+     <script>
+        var month = '@ViewBag.month';
+        var year = '@ViewBag.year';
+        var opeartion = '@ViewBag.operationType';
+         var Bill_id = '@ViewBag.Bill_id';
+         var Bill_finalize = '@ViewBag.BillFinalized';  
+    </script>  
+    
+     <script src="~/Scripts/jquery.ui.datepicker.js"></script>
+     <script src="~/Scripts/custom/Generic.js"></script>
+    <script src="~/Scripts/Authorization/AuthMasterandTransDetails.js"></script>
+</head>
+<body>
+    <div>
+        
+            <span id ="HiddenNarrationSpan" style="display:none"><span id="HeadNarrationSpan"></span> paid to M/S <span id="CompanyNameSpan"> </span> against <span id="agreementSpan"></span> For A/R to  <span id="roadSelectedSpan">  </span> 
+            </span>
+
+        <div id ="AuthMasterEntryDiv">
+
+
+        </div>
+       
+       
+
+         <div id="MasterGrid" style="width: 98%; margin-top:5px;">
+            <center>        
+                <table id="AuthorizationList"></table>
+                <div id="MasterAuthpager"></div>
+            </center>
+        </div>
+
+
+         <table id="trShowHideLinkTable">
+        <tr id="trnsShowtable">
+            <td style="width: auto" style="display: none" >
+               <span id="HideShowTransaction">
+                 <span id="iconSpan" class="ui-icon ui-icon-circle-triangle-n" style="float: left"></span>
+                <span ><b>Add transaction details   
+                </b></span>
+                   </span>
+            </td>
+            <td>&nbsp;&nbsp;&nbsp;
+            </td>
+
+        </tr>
+    </table>
+        <div id="TransactionForm" style="display:none">
+
+       
+
+         <div  id="AuthBalance" class="table-content ui-corner-all" style="width: 98%; border: .1em solid gray; margin-bottom: 5px; margin-top: 5px">
+            <table  style="width: 100%" class="rowstyle">
+                <tr>
+                    <td style="text-align: center; width: 20%">
+                        <div class="ui-widget-header ui-corner-all">Description</div>
+                    </td>
+                    <td style="text-align: center; width: 20%">
+                        <div class="ui-widget-header ui-corner-all">Request Amount (In Rs.)</div>
+                    </td>
+                    <td style="text-align: center; width: 20%">
+                        <div class="ui-widget-header ui-corner-all">Cash Amount (In Rs.) </div>
+                    </td>
+                    <td style="text-align: center; width: 20%">
+                        <div class="ui-widget-header ui-corner-all">Deduction Amount (In Rs.) </div>
+                    </td>
+                    <td style="text-align: center; width: 20%">
+                        <div class="ui-widget-header ui-corner-all">Gross Amount (In Rs.)</div>
+                    </td>
+                </tr>
+                <tr>
+                    <td style="text-align: left; width: 20%">Total Amount To Be Entered (In Rs.)</td>
+                    <td id="TotalAmtToEnterChqAmount" style="text-align: right"></td>
+                    <td id="TotalAmtToEnterCachAmount" style="text-align: right"></td>
+                    <td id="TotalAmtToEnterDedAmount" style="text-align: right"></td>
+                    <td id="TotalAmtToEnterGrossAmount" style="text-align: right"></td>
+                </tr>
+                <tr>
+                    <td style="text-align: left; width: 20%">Total Amount Entered (In Rs.)</td>
+                    <td id="TotalAmtEnteredChqAmount" style="text-align: right"></td>
+                    <td id="TotalAmtEnteredCachAmount" style="text-align: right"></td>
+                    <td id="TotalAmtEnteredDedAmount" style="text-align: right"></td>
+                    <td id="TotalAmtEnteredGrossAmount" style="text-align: right"></td>
+                </tr>
+                <tr>
+                    <td style="text-align: left; width: 20%">Diffrence To Be Entered (In Rs.)</td>
+
+                    <td id="DiffChqAmount" style="text-align: right; font-weight: bolder; color: green"></td>
+                    <td id="DiffCachAmount" style="text-align: right; font-weight: bolder; color: green"></td>
+                    <td id="DiffDedAmount" style="text-align: right; font-weight: bolder; color: green"></td>
+                    <td id="DiffGrossAmount" style="text-align: right; font-weight: bolder; color: green"></td>
+                </tr>
+
+
+            </table>
+        </div>
+
+         <div id ="AuthDetailsEntryDiv">
+
+
+        </div>
+
+        <div id="DetailsGrid" style="width:98%; clear:both;">
+            <center>        
+                <table id="PaymentGridDivList"></table>
+                <div id="PaymentGridDivpager"></div>
+            </center>
+        </div>
+
+        <table id="tblFinalize" class="table-content ui-corner-all" style="width: 98%; border: .1em solid gray; display: none; margin-top: 5px; margin-bottom: 5px;">
+            <tr>
+            </tr>
+            <tr>
+
+                <td style="text-align: center">
+
+                    <div style="padding: 0pt 0.7em; cursor: pointer;" class="jqueryButton" id="finalize">
+
+                        <span class="ui-icon ui-icon-locked" style="float: left; margin-right: 0.3em;"></span><strong>Finalize
+                        </strong>
+                    </div>
+                </td>
+            </tr>
+        </table>
+
+             </div>
+
+    </div>
+</body>
+</html>

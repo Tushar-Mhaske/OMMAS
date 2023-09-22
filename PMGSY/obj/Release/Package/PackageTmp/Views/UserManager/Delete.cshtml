@@ -1,0 +1,165 @@
+﻿@model PMGSY.Models.UM_User_Master
+
+@{
+    ViewBag.Title = "Delete";
+}
+
+<h2>Delete</h2>
+
+<h3>Are you sure you want to delete this?</h3>
+<fieldset>
+    <legend>UM_User_Master</legend>
+
+    <div class="display-label">
+         @Html.DisplayNameFor(model => model.UserID)
+    </div>
+    <div class="display-field">
+        @Html.DisplayFor(model => model.UserID)
+    </div>
+
+    <div class="display-label">
+         @Html.DisplayNameFor(model => model.UserName)
+    </div>
+    <div class="display-field">
+        @Html.DisplayFor(model => model.UserName)
+    </div>
+
+    <div class="display-label">
+         @Html.DisplayNameFor(model => model.UM_Level_Master.LevelName)
+    </div>
+    <div class="display-field">
+        @Html.DisplayFor(model => model.UM_Level_Master.LevelName)
+    </div>
+
+    <div class="display-label">
+         @Html.DisplayNameFor(model => model.MASTER_STATE.MAST_STATE_NAME)
+    </div>
+    <div class="display-field">
+        @Html.DisplayFor(model => model.MASTER_STATE.MAST_STATE_NAME)
+    </div>
+
+    <div class="display-label">
+         @Html.DisplayNameFor(model => model.MASTER_DISTRICT.MAST_DISTRICT_NAME)
+    </div>
+    <div class="display-field">
+        @Html.DisplayFor(model => model.MASTER_DISTRICT.MAST_DISTRICT_NAME)
+    </div>
+
+    <div class="display-label">
+         @Html.DisplayNameFor(model => model.Admin_DPIU_Code)
+    </div>
+    <div class="display-field">
+        @Html.DisplayFor(model => model.Admin_DPIU_Code)
+    </div>
+
+    <div class="display-label">
+         @Html.DisplayNameFor(model => model.Password)
+    </div>
+    <div class="display-field">
+        @Html.DisplayFor(model => model.Password)
+    </div>
+
+    <div class="display-label">
+         @Html.DisplayNameFor(model => model.FailedPasswordAttempts)
+    </div>
+    <div class="display-field">
+        @Html.DisplayFor(model => model.FailedPasswordAttempts)
+    </div>
+
+    <div class="display-label">
+         @Html.DisplayNameFor(model => model.FailedPasswordAnswerAttempts)
+    </div>
+    <div class="display-field">
+        @Html.DisplayFor(model => model.FailedPasswordAnswerAttempts)
+    </div>
+
+    <div class="display-label">
+         @Html.DisplayNameFor(model => model.LastPasswordChangedDate)
+    </div>
+    <div class="display-field">
+        @Html.DisplayFor(model => model.LastPasswordChangedDate)
+    </div>
+
+    <div class="display-label">
+         @Html.DisplayNameFor(model => model.LastLoginDate)
+    </div>
+    <div class="display-field">
+        @Html.DisplayFor(model => model.LastLoginDate)
+    </div>
+
+    <div class="display-label">
+         @Html.DisplayNameFor(model => model.PreferedLanguageID)
+    </div>
+    <div class="display-field">
+        @Html.DisplayFor(model => model.PreferedLanguageID)
+    </div>
+
+    <div class="display-label">
+         @Html.DisplayNameFor(model => model.UM_Css_Master.CssName)
+    </div>
+    <div class="display-field">
+        @Html.DisplayFor(model => model.UM_Css_Master.CssName)
+    </div>
+
+    <div class="display-label">
+         @Html.DisplayNameFor(model => model.IsFirstLogin)
+    </div>
+    <div class="display-field">
+        @Html.DisplayFor(model => model.IsFirstLogin)
+    </div>
+
+    <div class="display-label">
+         @Html.DisplayNameFor(model => model.IsLocked)
+    </div>
+    <div class="display-field">
+        @Html.DisplayFor(model => model.IsLocked)
+    </div>
+
+    <div class="display-label">
+         @Html.DisplayNameFor(model => model.IsActive)
+    </div>
+    <div class="display-field">
+        @Html.DisplayFor(model => model.IsActive)
+    </div>
+
+    <div class="display-label">
+         @Html.DisplayNameFor(model => model.ConcurrentLoginCount)
+    </div>
+    <div class="display-field">
+        @Html.DisplayFor(model => model.ConcurrentLoginCount)
+    </div>
+
+    <div class="display-label">
+         @Html.DisplayNameFor(model => model.MaxConcurrentLoginsAllowed)
+    </div>
+    <div class="display-field">
+        @Html.DisplayFor(model => model.MaxConcurrentLoginsAllowed)
+    </div>
+
+    <div class="display-label">
+         @Html.DisplayNameFor(model => model.CreationDate)
+    </div>
+    <div class="display-field">
+        @Html.DisplayFor(model => model.CreationDate)
+    </div>
+
+    <div class="display-label">
+         @Html.DisplayNameFor(model => model.Remarks)
+    </div>
+    <div class="display-field">
+        @Html.DisplayFor(model => model.Remarks)
+    </div>
+
+    <div class="display-label">
+         @Html.DisplayNameFor(model => model.CreatedBy)
+    </div>
+    <div class="display-field">
+        @Html.DisplayFor(model => model.CreatedBy)
+    </div>
+</fieldset>
+@using (Html.BeginForm()) {
+    <p>
+        <input type="submit" value="Delete" /> |
+        @Html.ActionLink("Back to List", "Index")
+    </p>
+}

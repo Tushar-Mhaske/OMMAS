@@ -1,0 +1,125 @@
+﻿@model PMGSY.Models.Agreement.BankGuaranteeModel
+<!-- ----------------------------------------------------------------------------------------
+
+ * Project Id:
+
+ * Project Name:OMMAS2
+
+ * File Name: ExpiredbankGuarantee.cshtml
+
+ * Author : Pradip Patil
+
+ * Creation Date :22/March/2017
+
+ * Desc : This page contains filter for listing asgreement for contractor who are expired in current month
+ * --------------------------------------------------------------------------------------- -->
+
+<script src="~/Scripts/custom/Generic.js"></script>
+@*<script type="text/javascript" src="@Url.Content("~/Scripts/jquery.ui.dialog.js")"> </script>*@
+<script src="~/Scripts/Agreement/ExpiredBankGuarantee.js"></script>
+ <center>
+<div class="ui-state-default" style="width:96%; height:26px;border:none; margin-top:5px; margin-bottom:0px; ">
+     <span id="exCollapseIconS" class="ui-icon ui-icon-circle-triangle-n" style="float:right;margin-right:2Px; margin-top:2px;cursor:pointer"><//span>
+</div>
+    <div class="ui-state-default" style="width: 96%; border:none; margin-top:-15px; margin-bottom:10px;">
+<div id="exfilterForm">
+       
+<form id="frmFilterbankGuaranteeExpired">
+    <div style="margin-left: 100px">
+        @Html.ValidationSummary(true)
+    </div>
+    @Html.AntiForgeryToken()
+    <table id="tb" class=" " cellpadding="3px" style="margin-top: 10px; text-align: left;  width: 100%; padding-top: 5px 5px 5px 5px;">
+        <tr>
+            <td>@Html.LabelFor(model => model.Year)</td>
+            <td>@Html.DropDownListFor(model => model.Year, Model.lstYears, new { @id = "ddYears", @title = "Please select year", @tabindex = 1 })
+                @Html.ValidationMessageFor(model => model.Year)
+            </td>
+            @if(PMGSY.Extensions.PMGSYSession.Current.RoleName=="SRRDA"){
+            <td>@Html.LabelFor(model => model.District)</td>
+            <td>@Html.DropDownListFor(model => model.District, Model.lstDistricts, new { @id = "ddldistricts", @title = "Please select block", @tabindex = 2 })
+                @Html.ValidationMessageFor(model => model.District)
+            </td>
+            }
+
+            <td>@Html.LabelFor(model => model.Block)</td>
+            <td>@Html.DropDownListFor(model => model.Block, Model.lstBlocks, new { @id = "ddBlocks", @title = "Please select block", @tabindex = 2 })
+                @Html.ValidationMessageFor(model => model.Block)
+            </td>
+
+            <td>@Html.LabelFor(model => model.Package)</td>
+            <td>@Html.DropDownListFor(model => model.Package, Model.lstPackages, new { @id = "ddPackages", @title = "Please select package", @tabindex = 3 })
+                @Html.ValidationMessageFor(model => model.Package)
+            </td>
+            <td>@Html.LabelFor(model => model.ProposalType)</td>
+            <td>@Html.DropDownListFor(model => model.ProposalType, Model.lstProposalType, new { @id = "ddProposalType", @title = "Please select proposal type", @tabindex = 4 })
+                @Html.ValidationMessageFor(model => model.ProposalType)
+            </td>
+        </tr>
+        <tr>
+            <td>@Html.LabelFor(model => model.AgreementStatus)</td>
+            <td>@Html.DropDownListFor(model => model.AgreementStatus, Model.lstStatus, new { @id = "ddAgreementStatus", @title = "Please select Agreement Status", @tabindex = 5 })
+                @Html.ValidationMessageFor(model => model.AgreementStatus)
+            </td>
+            <td>
+                @Html.LabelFor(model=>model.ActiveStatus)
+            </td>
+            <td>
+                @Html.DropDownListFor(model => model.ActiveStatus, Model.lstActiveStatus, new { @id = "ddActiveStatus", @tabindex = 5 })
+                @Html.ValidationMessageFor(model => model.ActiveStatus)
+            </td>
+            <td></td>
+            <td></td>
+        </tr>
+        <tr>
+            <td colspan="12">
+                <center>
+                <input type="button" id="btnListExpAgreementsBankGuarantee" name="btnListAgreementsBankGuarantee" value="View Details" class= "jqueryButton" title="List Agreement Details" tabindex="5"  />  
+                </center>
+            </td>
+        </tr>
+    </table>
+</form>
+    </div>
+        </div>
+    </center>
+<center>
+    <div id="dvAgreementListBankGuarantee" style="margin-top:20px;width:98%">
+        <table id="tblstExpAgreementsBankGuarantee"></table>
+
+        <div id="dvlstPagerExpAgreementsBankGuarantee"></div>
+    </div>
+    
+    <div id="dvBankGuaranteeUploads" style="margin-top:20px;width:98%">
+        <table id="tblstBankGuaranteeUploads"></table>
+
+        <div id="dvlstPagerBankGuaranteeUploads"></div>
+    </div>
+</center>
+
+
+    
+@*<a href="#" class="float" id="menu-share" style="bottom:545px;">
+<i class="fa fa-share my-float"></i>
+</a>
+<ul id="icon" style="bottom:300px;">
+<li class="item">
+    <a class="anchor" href="#">
+    <i class="fa fa-facebook my-float"></i>
+    </a>
+
+</li>
+<li class="item">
+    <a class="anchor" href="#">
+    <i class="fa fa-google-plus my-float"></i>
+</a>
+
+</li>
+<li class="item">
+    <a class="anchor"  href="#">
+    <i class="fa fa-twitter my-float"></i>
+    </a>
+
+</li>
+</ul>*@
+

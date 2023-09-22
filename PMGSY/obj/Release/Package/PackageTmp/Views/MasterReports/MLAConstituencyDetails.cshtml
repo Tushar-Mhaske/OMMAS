@@ -1,0 +1,54 @@
+﻿@{
+    ViewBag.Title = "_MLAConstituencyDetails";
+}
+@model PMGSY.Models.MasterReports.MasterReportsModel
+
+@Html.Hidden("hdnLevelId", PMGSY.Extensions.PMGSYSession.Current.LevelId.ToString())
+
+@if (PMGSY.Extensions.PMGSYSession.Current.StateCode != 0)
+{           
+    @Html.Hidden("STATE_NAME", PMGSY.Extensions.PMGSYSession.Current.StateName.ToString())
+}
+
+@if (PMGSY.Extensions.PMGSYSession.Current.DistrictCode != 0)
+{
+    @Html.Hidden("DISTRICT_NAME", PMGSY.Extensions.PMGSYSession.Current.DistrictName.ToString())   
+}
+    
+  
+@Html.HiddenFor(model => model.BLOCK_NAME)
+@Html.HiddenFor(model => model.MAST_STATE_CODE)
+@Html.HiddenFor(model => model.MAST_DISTRICT_CODE)
+<div style="width: 100%">
+    <table class="ui-state-default ui-corner-all" style="width: 100%;">
+        <tr>
+            <td style="width: 2%;"></td>
+            <td style="text-align: left; width: 3%;">
+                @Html.Label("State")
+            </td>
+            <td style="width: 10%;">
+                @Html.DropDownList("StateList_MLAConstituencyDetails", ViewData["STATE"] as IEnumerable<SelectListItem>, new { @title = "State", @tabindex = 1 })
+            </td>
+             <td style="text-align: left; width: 3%;">
+                @Html.Label("Active")
+            </td>
+            <td style="width: 10%;">
+                @Html.DropDownList("ActiveType_MLAConstituencyDetails", ViewData["Active_TYPE"] as IEnumerable<SelectListItem>, new { @title = "Active", @tabindex = 2 })
+            </td>
+            <td style="text-align: center; width: 10%; margin-left: 5px;">
+                <input type="button" id="MLAConstituencyDetailsButton" value="View" class="jqueryButton" title="View Details" tabindex="3" />
+            </td>
+            <td style="width: 30%;"></td>
+        </tr>
+      
+    </table>
+</div>
+<br />
+
+<div id="MLAConstituencyDetails">
+    <table id="MLAConstituencyDetailsTable"></table>
+</div>
+<div id="MLAConstituencyDetailsPager"></div>
+
+<script type="text/javascript" src="~/Scripts/MasterReports/MLAConstituencyDetails.js"></script>
+<script src="~/Scripts/custom/Generic.js"></script>

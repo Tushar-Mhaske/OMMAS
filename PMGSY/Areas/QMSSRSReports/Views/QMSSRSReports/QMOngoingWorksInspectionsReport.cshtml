@@ -1,0 +1,16 @@
+﻿@using MvcReportViewer
+
+@model PMGSY.Areas.QMSSRSReports.Models.QualityReportsViewModel
+
+    @Html.MvcReportViewer("/PMGSYCitizen/QMOngoingWorksInspections",
+     new
+     {
+         level = Model.Level,
+        
+         fromyear = Model.FromYear,
+         frommonth = Model.FromMonth,
+         toyear = Model.ToYear,
+         tomonth = Model.ToMonth,
+        
+     },
+       new { Height = 600, Width = "100%", style = "border:none;" })

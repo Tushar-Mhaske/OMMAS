@@ -1,0 +1,28 @@
+﻿    @model PMGSY.Models.FortyPointCheckList.TenderEquipmentViewModel
+
+    <script type="text/javascript">
+    $.blockUI({ message: '<img src="/Content/images/ajax-loader.gif"/>' });
+
+    $(document).ready(function () {
+        $.unblockUI();
+    });
+    </script>
+
+<script src="@Url.Content("~/Scripts/custom/Generic.js")" type="text/javascript" ></script>    
+<script src="~/Scripts/FortyPointChecklist/ListTenderEquipmentDetails.js"></script>
+
+<br />
+    <center>
+
+        <div style="height:20px; width: 90%; text-align:left; padding-top: 0.6em;" class="ui-state-default ui-corner-all" > 
+                   &nbsp; 
+                   <strong>Check List Point Id:</strong>&nbsp;  &nbsp;@ViewBag.CheckListId &nbsp;  &nbsp;  &nbsp;  &nbsp;  &nbsp;  &nbsp;  &nbsp; 
+                 <strong> Check List Issue:</strong>&nbsp;  &nbsp; @ViewBag.CheckListIssue
+        </div>
+      <div id="dvFrmAddDetails" style="display:none;width:90%"></div>
+        <br /> 
+        <div id="dvTenderEquipmentList">
+            <table id="tableListEquipmentDetails"></table>
+            <div id="dvPagerEquipmentDetails"></div>        
+        </div>
+    </center>

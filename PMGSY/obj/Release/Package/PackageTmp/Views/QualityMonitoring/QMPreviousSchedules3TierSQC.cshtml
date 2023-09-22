@@ -1,0 +1,52 @@
+﻿@*
+    * Project Id    :
+    * Project Name  :   OMMAS II
+    * Name          :   QMPreviousSchedules3TierSQC.cshtml
+    * Description   :   Render View for QMPreviousSchedules3TierSQC.
+    * Author        :   Shyam Yadav
+    * Creation Date :   11/Jun/2013
+*@
+
+
+@model PMGSY.Models.QualityMonitoring.QMPreviousScheduleModel
+
+<script src="~/Scripts/custom/Generic.js"></script>
+<script src="~/Scripts/QualityMonitoring/QMPrevoiusSchedules3TierSQC.js"></script>
+
+<form id="frmQMPrevSchDetails">
+    @Html.Hidden("hdnRoleCodeOn3TierSQC",PMGSY.Extensions.PMGSYSession.Current.RoleCode.ToString())
+    @Html.HiddenFor(model => model.QM_TYPE)
+    <div id="divError" class="ui-state-error ui-corner-all" style="text-align: left; display: none; width: 100%">
+        <span class="ui-icon ui-icon-alert" style="float: left;"></span>
+        <span></span>
+    </div>
+    <div id="divNote" class="ui-state-default ui-corner-top"  style="text-align: left; width: 100%; height:20px; padding-top:3px;">
+       <strong>&nbsp;&nbsp;Note : Please select month & year to view details.</strong>
+    </div>
+    <table class="rowstyle" id="tblPrevSchDetails" style="margin-top: 0px; text-align: left; border: ridge 0.1em #ccc; width: 100%; padding: 5px 5px 5px 5px;">
+        <tr>
+            <td style="width: 10%">@Html.LabelFor(model => model.ADMIN_IM_MONTH)</td>
+            <td style="width: 20%">
+                @Html.DropDownListFor(model => model.ADMIN_IM_MONTH, new SelectList(Model.MONTHS_LIST, "Value", "Text"), new { @id = "prevSchMonthID"})
+            </td>
+            <td style="width: 10%">@Html.LabelFor(model => model.ADMIN_IM_YEAR)</td>
+            <td style="width: 20%">
+                @Html.DropDownListFor(model => model.ADMIN_IM_YEAR, new SelectList(Model.YEARS_LIST, "Value", "Text"), new { @id = "prevSchYearID"})
+            </td>
+            <td style="width: 10%">@Html.LabelFor(model => model.ADMIN_QM_CODE)</td>
+            <td style="width: 20%">
+                @Html.DropDownListFor(model => model.ADMIN_QM_CODE, new SelectList(Model.MONITORS, "Value", "Text"), new { @id = "prevSchMonitorID"})
+            </td>
+            <td style="text-align:center;">
+                <input type="button" class="jqueryButton" value="List Details" id="btnPrevSchDetails" name ="btnPrevSchDetails"/>
+            </td>
+        </tr>
+    </table>
+    <div id="dvPrevScheduleListDetails"> 
+            <table id="tbPrevScheduleList"></table>
+            <div id="dvPrevScheduleListPager"></div>
+     </div>
+    <br />
+    <div id="dvPrevSchDistrictwiseDetails"> </div>
+    
+</form>

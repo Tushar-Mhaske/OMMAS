@@ -1,0 +1,166 @@
+﻿@model PMGSY.Models.NQMTourClaimModels.NQM_TOUR_CLAIM_MASTER_MODEL
+
+@{
+    ViewBag.Title = "ViewSummaryDetailsReportCQC";
+}
+
+<style>
+    #divSummary, #divRemarks {
+        float: left;
+        width: 49.5%;
+        height: 700px;
+        /*border: 0.5px solid grey;*/
+        /*border-radius: 1rem;*/
+        overflow-y: auto;
+    }
+
+    #combineDiv {
+        border: 0.5px solid grey;
+        border-radius: 1rem;
+    }
+</style>
+
+<link href="~/Content/Chosen/chosen.min.css" rel="stylesheet" />
+<script src="~/Scripts/chosen.jquery.min.js"></script>
+<script src="~/Scripts/custom/Generic.js"></script>
+<script src="~/Scripts/jquery-ui.js"></script>
+
+<script src="~/Scripts/QualityMonitoring/QualityLayout.js"></script>
+<script src="~/Scripts/TourClaim/TourDetailsCqc.js"></script>
+
+@Html.HiddenFor(model => model.ADMIN_SCHEDULE_CODE, new { id = "secCode" })
+@Html.HiddenFor(model => model.MONTH_OF_INSPECTION)
+@Html.HiddenFor(model => model.YEAR_OF_INSPECTION)
+@Html.HiddenFor(model => model.finalizeFlag)
+@Html.HiddenFor(model => model.ROUND_SEQUENCE)
+
+
+@if (Model.finalizeFlag == 1 && Model.ROUND_SEQUENCE == 1)
+{
+    @Html.Label("Office Assistant (P-III) : ", new { style = "margin-left:15rem;font-size:1.2rem" }) @*margin-left:35rem;*@
+    @Html.TextAreaFor(model => model.OFFICE_ASSISTANT_P_III, new { @id = "officeAssistant", style = "width:15%;margin-left:1rem;font-size:1rem" })
+    @Html.LabelFor(model => model.REMARK, new { style = "margin-left:3rem;font-size:1.2rem" }) @*margin-left:35rem;*@
+    @Html.TextAreaFor(model => model.REMARK, new { @id = "remarkForward", style = "width:15%;margin-left:1rem;font-size:1rem" })
+    <button style="border-radius:0.5rem; padding:0.5rem; border:1px solid black; margin-left:1rem" onclick="FinalizeTourDetailsCqc($('#secCode').val() + '$' + $('#MONTH_OF_INSPECTION').val() + '$' + $('#YEAR_OF_INSPECTION').val())">Finalize Details</button>
+    <button style="border-radius: 0.5rem; padding: 0.5rem; border: 1px solid black; margin-left: 1rem; width: 5%" onclick="AddTourSanctionAmount($('#secCode').val())">Back</button>
+
+}
+else if (Model.finalizeFlag == 1)
+{
+    @*<center>*@
+    @Html.Label("Office Assistant (P-III) : ", new { style = "margin-left:35rem;font-size:1.2rem" })
+    @Html.TextAreaFor(model => model.OFFICE_ASSISTANT_P_III, new { @id = "officeAssistant", style = "width:15%;margin-left:1rem;font-size:1rem" })
+    <button style="border-radius:0.5rem; padding:0.5rem; border:1px solid black" onclick="FinalizeTourDetailsCqc($('#secCode').val() + '$' + $('#MONTH_OF_INSPECTION').val() + '$' + $('#YEAR_OF_INSPECTION').val())">Finalize Details</button>
+    <button style="border-radius: 0.5rem; padding: 0.5rem; border: 1px solid black; width: 5%" onclick="AddTourSanctionAmount($('#secCode').val())">Back</button>
+    @*</center>*@
+}
+else if (Model.finalizeFlag == 4 && PMGSY.Extensions.PMGSYSession.Current.RoleCode == 9)
+{
+    @Html.Label("Director : ", new { style = "margin-left:15rem;font-size:1.2rem" })
+    @Html.TextAreaFor(model => model.DIRECTOR, new { @id = "director", style = "width:15%;margin-left:1rem;font-size:1rem" })
+    @Html.LabelFor(model => model.REMARK, new { style = "margin-left:3rem;font-size:1.2rem" })
+    @Html.TextAreaFor(model => model.REMARK, new { @id = "remarkApprove", style = "width:15%;margin-left:1rem;font-size:1rem" })
+    <button style="border-radius: 0.5rem; padding: 0.5rem; border: 1px solid black; margin-left: 1rem" onclick="ApproveTourDetailsCqc($('#secCode').val() + '$' + $('#MONTH_OF_INSPECTION').val() + '$' + $('#YEAR_OF_INSPECTION').val())">Approve Details</button>
+    <button style="border-radius: 0.5rem; padding: 0.5rem; border: 1px solid black; margin-left: 1rem; width: 5%" onclick="AddTourSanctionAmount($('#secCode').val())">Back</button>
+
+}
+else
+{
+    <button style="border-radius: 0.5rem; padding: 0.5rem; border: 1px solid black; margin-left: 1rem; width: 5%" onclick="AddTourSanctionAmount($('#secCode').val())">Back</button>
+}
+
+
+@*@using MvcReportViewer
+
+    @Html.MvcReportViewer("/PMGSYCitizen/TOUR_CLAIM_PREVIEW_REPORT_CQC",
+    new
+    {
+        tourId = @ViewBag.tourId
+    },
+
+       new { Height = 600, Width = "100%", style = "border:none;" })*@
+
+<br />
+<br />
+<div id="combineDiv">
+    <div id="divSummary" class="ui-state-default">
+
+        <center><h2><u>Summar Report</u></h2></center>
+
+        @using MvcReportViewer
+
+        @Html.MvcReportViewer("/PMGSYCitizen/TOUR_CLAIM_PREVIEW_REPORT_CQC",
+        new
+        {
+            tourId = @ViewBag.tourId
+        },
+
+           new { Height = 600, Width = "100%", style = "border:none;" })
+    </div>
+
+    <div id="divRemarks" style="margin-left:0.5rem" class="ui-state-default">
+
+        <center><h2><u>Remarks Summary</u></h2></center>
+
+        @if (ViewBag.travelList.Count > 0)
+        {
+            <h2 style="margin-left:0.5rem">Travel Claim</h2>
+
+            <ol>
+                @foreach (var item in ViewBag.travelList)
+                {
+                    <li>@item</li>
+                }
+            </ol>
+        }
+
+        @if (ViewBag.lodgeList.Count > 0)
+        {
+            <h2 style="margin-left:0.5rem">Lodge Details</h2>
+
+            <ol>
+                @foreach (var item in ViewBag.lodgeList)
+                {
+                    <li>@item</li>
+                }
+            </ol>
+        }
+
+        @if (ViewBag.inspList.Count > 0)
+        {
+            <h2 style="margin-left:0.5rem">Inspection of Road</h2>
+
+            <ol>
+                @foreach (var item in ViewBag.inspList)
+                {
+                    <li>@item</li>
+                }
+            </ol>
+        }
+
+        @if (ViewBag.meetingList.Count > 0)
+        {
+            <h2 style="margin-left:0.5rem">Meeting with PIU</h2>
+
+            <ol>
+                @foreach (var item in ViewBag.meetingList)
+                {
+                    <li>@item</li>
+                }
+            </ol>
+        }
+
+        @if (ViewBag.misList.Count > 0)
+        {
+            <h2 style="margin-left:0.5rem">Miscellaneous</h2>
+
+            <ol>
+                @foreach (var item in ViewBag.misList)
+                {
+                    <li>@item</li>
+                }
+            </ol>
+        }
+
+    </div>
+</div>

@@ -1,0 +1,46 @@
+﻿@{
+    ViewBag.Title = "ScheduleFiltersNQM";
+}
+
+@model PMGSY.Models.NQMTourClaimModels.NQM_TOUR_CLAIM_MASTER_MODEL
+
+<head>
+
+    @*<script src="~/Scripts/QualityMonitoring/ScheduleFilters.js"></script>*@
+    <script src="~/Scripts/TourClaim/ViewTourDetails.js"></script>
+    @*<script src="~/Scripts/TourClaim/TourDetails.js"></script>*@
+    <script src="~/Scripts/QualityMonitoring/QualityMonitorsLayout.js"></script>
+
+</head>
+<body>
+
+    <div style="width: 99%; border:none; margin-top:-15px; margin-bottom:10px;" class="ui-state-default">
+        <div id="divScheduleFiltersForm">
+            <center>
+                <form id="scheduleFiltersForm">
+                    <table style="margin-top:10px; margin-bottom:5px; width:50%">
+                        <tr>
+                            <td style="width:10%;padding-left:25px;">
+                                @Html.LabelFor(model => model.FROM_MONTH)
+                            </td>
+                            <td style="width:10%">
+                                @Html.DropDownListFor(model => model.FROM_MONTH, new SelectList(Model.FROM_MONTHS_LIST, "Value", "Text"), new { @id = "ddlNQMScheduleMonth" })
+                            </td>
+                            <td style="width:10%;padding-left:25px;">
+                                @Html.LabelFor(model => model.FROM_YEAR)
+                            </td>
+                            <td style="width:10%;">
+                                @Html.DropDownListFor(model => model.FROM_YEAR, new SelectList(Model.FROM_YEARS_LIST, "Value", "Text"), new { @id = "ddlNQMScheduleYear" })
+                            </td>
+                            <td style="width:10%;">
+                                <input type="button" class="jqueryButton" value="View" id="btnViewNQMSchedule" name="btnViewSchedule" />
+                            </td>
+                        </tr>
+                    </table>
+                </form>
+            </center>
+        </div>
+    </div>
+
+
+</body>

@@ -1,0 +1,12 @@
+﻿@using MvcReportViewer
+
+@model PMGSY.Areas.MaintenanceSSRSReport.Models.MaintenanceIncentiveViewModel
+
+@Html.MvcReportViewer("/PMGSYCitizen/Maintenance_Incentive_Report",
+     new
+     {
+         STATE = Model.StateCode,
+         YEAR = Model.YearCode,
+         StateName = Model.StateName
+     },
+       new { Height = 650, Width = "100%", style = "border:none;" })

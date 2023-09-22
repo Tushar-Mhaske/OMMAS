@@ -1,0 +1,46 @@
+﻿@using MvcReportViewer
+@model PMGSY.Areas.AccountReports.Models.FinancialProgressofWork
+
+@{
+    if (PMGSY.Extensions.PMGSYSession.Current.LevelId==6)
+{
+        <div id="FinancialProgressofWorksAsPerAccounts" style="width:100%;height:590px;overflow-x:hidden;overflow-y:hidden;">
+        @Html.MvcReportViewer("/PMGSYCitizen/FinancialProgressofWorksAsPerAccounts",
+     new 
+     {  
+         PINTSRRDANDCode=Model.Agency,
+         PINTAccMonth=Model.Month,
+         PINTAccYear=Model.Year,
+        // PCHARfundType=PMGSY.Extensions.PMGSYSession.Current.FundType,
+         PCHARfundType="P",
+         PINTLVL=4,
+         StateName=Model.Name
+         },
+         
+     new { Height = 600, Width = 1220, style = "border:none;" })
+     </div>
+}
+
+else 
+  
+{
+        <div id="SRRDAFinancialProgressofWorksAsPerAccounts" style="width:100%;height:590px;overflow-x:hidden;overflow-y:hidden;">
+    @Html.MvcReportViewer("/PMGSYCitizen/SRRDAFinancialProgressofWorksAsPerAccounts",
+     new 
+     {  
+         PINTSRRDANDCode=Model.Agency,
+         PINTAccMonth=Model.Month,
+         PINTAccYear=Model.Year,
+        // PCHARfundType=PMGSY.Extensions.PMGSYSession.Current.FundType,
+         PCHARfundType="P",
+         PINTLVL=4,
+         StateName=PMGSY.Extensions.PMGSYSession.Current.DepartmentName
+         },
+         
+     new { Height = 600, Width = 1220, style = "border:none;" })
+            </div>
+
+    
+ }
+    
+ }

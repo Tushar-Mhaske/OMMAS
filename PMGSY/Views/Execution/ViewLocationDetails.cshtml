@@ -1,0 +1,92 @@
+﻿@model PMGSY.Models.Execution.ProposalDetailsForLocationTracking
+
+@*<script src="~/Areas/Execution/Scripts/TrackingDetails.js"></script>*@
+
+
+<script src="~/Scripts/Execution/DownloadExecDetails.js"></script>
+
+
+
+
+<script src="~/Scripts/Execution/TrackingDetails.js"></script>
+
+<div id="dvSearchParameter" class="ui-corner-bottom" style="display: block; border: 1px solid #B5B8C8;">
+    <form id="frmDownload">
+
+@Html.HiddenFor(model => model.ProposalCode, new { @id="proposalCode"})
+  <div id="divtrackingDetails">
+        <div class="well" style="padding:12px 19px">
+            <div class='row'>
+                <div class='col-md-2' style="font-weight: bold">
+                    Work Name :
+             
+                </div>
+                <div class='col-md-2'>
+                     @Html.DisplayFor(model=>model.ProposalName)
+          
+                </div>
+                <div class='col-md-2' style="font-weight: bold">
+                 Package Number
+                </div>
+                <div class='col-md-2'>
+                     @Html.DisplayFor(model=>model.Package)
+                </div>
+                <div class='col-md-2' style="font-weight: bold">
+
+                </div>
+                <div class='col-md-2'>
+                     
+                </div>
+            </div>
+            <div class='row'>
+                <div class='col-md-2' style="font-weight: bold">
+                    
+                </div>
+                <div class='col-md-2'>
+                   
+                </div>
+         
+            </div>
+          
+        </div>
+    </div>
+ 
+
+        </form>
+        </div>
+<script> </script>
+
+ <div class="col-md-12" style="padding-top:10px; margin-bottom:20px;">
+              <div style="width: 1290px; height: 400px">
+                    <div id="map_canvas" style="width:1290px; height:400px; "></div>
+              </div>
+  </div>
+
+
+<div class="col-md-12" style="padding-top:10px; margin-bottom:20px;">
+              <div style="width: 150px; height: 20px">
+                      <input type="button" id="btnDownload" value="Download Location Details" class="jqueryButton" title="Download Location Details" tabindex="10" />
+                  
+              </div>
+  </div>
+
+
+ <div id="trackingmap" class='row' style="padding: 5px;  border: 1px solid #e4e4e4; width: 100%; margin-left: 1px;">
+            <div id="divTrackingDetais" class="table-responsive col-md-6">
+                <table id="tbltrackingList" class="table table-striped table-bordered table-condensed table-hover" style="width:592px">
+                    <thead>
+                        <tr>
+                            <th style="width: 5%">Sr.No.</th >
+                            <th style="width: 20%; text-align: center">Location</th>
+                            <th id="lat" style="width: 30%; text-align: center">Latitude</th>
+                            <th id="long" style="width: 10%; text-align: center">Longitude</th>
+                        </tr>
+                    </thead>
+                </table>
+            </div>
+ </div>
+
+ <script async defer
+    src="https://maps.googleapis.com/maps/api/js?key=AIzaSyDiZZz17Yi4SdQHVTljjYAzNLq-_84GwRo&sensor=false&callback=initGoogle&language=mr&region=IN">
+</script>
+

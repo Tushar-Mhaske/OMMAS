@@ -1,0 +1,41 @@
+﻿@using MvcReportViewer
+
+@model PMGSY.Areas.MaintenanceSSRSReport.Models.RoadPCIOverdueModel
+
+
+@if (Model.RoadWise == false)
+{
+
+    @Html.MvcReportViewer("/PMGSYCitizen/PCI_Overdue_Roads_Report",
+     new
+     {
+         Level = Model.LevelCode,
+         State = Model.Mast_State_Code,
+         District = Model.Mast_District_Code,
+         Block = Model.Mast_Block_Code,       
+       //  PMGSY = PMGSY.Extensions.PMGSYSession.Current.PMGSYScheme,
+         StateName = Model.StateName,
+         DistrictName = Model.DistName,
+         BlockName = Model.BlockName
+     },
+     new { Height = 600, Width = 1215, style = "border:none;" })
+}
+else
+{
+    @Html.MvcReportViewer("/PMGSYCitizen/PCI_Overdue_Roads_SubReport",
+     new
+     {
+         Level = Model.LevelCode,
+         State = Model.Mast_State_Code,
+         District = Model.Mast_District_Code,
+         Block = Model.Mast_Block_Code,       
+        // PMGSY = PMGSY.Extensions.PMGSYSession.Current.PMGSYScheme,
+         StateName = Model.StateName,
+         DistrictName = Model.DistName,
+         BlockName = Model.BlockName
+     },
+     new { Height = 600, Width = 1215, style = "border:none;" })
+}
+
+
+

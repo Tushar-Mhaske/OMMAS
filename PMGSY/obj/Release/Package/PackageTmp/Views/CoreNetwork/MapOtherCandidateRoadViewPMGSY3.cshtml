@@ -1,0 +1,200 @@
+﻿@model PMGSY.Models.CoreNetwork.CandidateRoadViewModel
+
+@{
+    ViewBag.Title = "MapOtherCandidateRoadView";
+}
+
+<script src="~/Scripts/custom/Generic.js"></script>
+<script src="~/Scripts/jquery.ui.dialog.js"></script>
+<script src="~/Scripts/CoreNetwork/MapOtherCandidateRoadPMGSY3.js"></script>
+<script>
+    $(function () {
+
+
+        $("#divDialogHabitations").dialog({
+            autoOpen: false,
+            // height:550,
+            width: 1000,
+            modal: true,
+            show: {
+                effect: "blind",
+                duration: 1000
+            },
+            hide: {
+                effect: "explode",
+                duration: 1000
+            }
+
+        });
+    });
+
+
+
+
+</script>
+<div id="dvMapDRRP">
+    <form id="frmMapDRRP">
+        <div style="margin-left: 100px">
+            @Html.ValidationSummary(true)
+        </div>
+        <div id="divError" class="ui-state-error ui-corner-all" style="text-align: left; display: none; width: 100%">
+            <span class="ui-icon ui-icon-alert" style="float: left;"></span>
+            <span></span>
+        </div>
+        <center>
+    <div style="height:20px; width: 100%; text-align:left; padding-top: 0.6em;" class="ui-state-default ui-corner-all" > 
+        &nbsp;   <strong> Road Name:</strong> <label id="lblRoadName"></label> @(ViewBag.RoadName as String)<strong>
+        &nbsp;  &nbsp;  &nbsp;  &nbsp;  &nbsp;  &nbsp;  &nbsp; <strong> Candidate Road Total Length:</strong> <label id="lblTotLength">@(ViewBag.TotLength as String)</label><strong> 
+        @*&nbsp;  &nbsp;  &nbsp;  &nbsp;  &nbsp;  &nbsp;  &nbsp; Balance Length:</strong>   @(ViewBag.BalLength as String)*@
+
+        &nbsp;  &nbsp;  &nbsp;  &nbsp;  &nbsp;  &nbsp;  &nbsp;  &nbsp;<strong> &nbsp;&nbsp;&nbsp;&nbsp; Note :</strong>  Fields marked with * are mandatory.
+        @*<a href="#"  style="float: right;">
+            <img style="margin-right:5px" alt="Close" src="" class="ui-icon ui-icon-closethick" id="closeMappingDetails" />
+        </a>*@
+    </div>
+        <table id="tblMapCandidateRoad"  cellspacing="0" cellpadding="3px" class="rowstyle" style="margin-top:0px; text-align:left; border:ridge 0.1em #ccc; width:100%; padding-top:5px 5px 5px 5px;">
+            <tr>
+                <td style="text-align:left;width:8%;">
+                    @Html.HiddenFor(model => model.CNCode)
+                    @Html.HiddenFor(model => model.LockStatus)
+                    @Html.HiddenFor(model => model.ExistStartChainage)
+                    @Html.HiddenFor(model => model.ExistEndChainage)
+                    @Html.AntiForgeryToken()
+                </td>
+                <td  style="text-align:left;width:15%;">@Html.LabelFor(model => model.BlockCode)<label style="color:red">*</label></td>
+                <td  style="width:25%;">
+                    @Html.DropDownListFor(model => model.BlockCode, new SelectList(Model.lstBlocks, "Value", "Text"), new { @id = "ddlBlock", @title = "Please select Block", @tabindex = 1 })
+                    @Html.ValidationMessageFor(model => model.BlockCode)
+                </td>
+                <td style="width:15%">
+                    @Html.LabelFor(model => model.RoadCatCode)<label style="color:red">*</label>
+                </td>
+                <td>
+                    @Html.DropDownListFor(model => model.RoadCatCode, new SelectList(Model.lstRoadCategory, "Value", "Text"), new { @id = "ddlRoadCategories", @title = "Please select Road Category", @tabindex = 2, @style = "width:40%" })
+                    @Html.ValidationMessageFor(model => model.RoadCatCode)
+                </td>
+            </tr>
+            <tr>
+                <td style="text-align:left;width:8%;"></td>
+                <td  style="text-align:left;width:15%;">@Html.LabelFor(model => model.DRRPCode)<label style="color:red">*</label></td>
+                <td  style="width:32%;" colspan="3">
+                    @Html.DropDownListFor(model => model.DRRPCode, new SelectList(Model.lstDRRP, "Value", "Text"), new { @id = "ddlDRRP", @title = "Please select Road Name", @tabindex = 3, @style = "width:50%" })
+                    @Html.ValidationMessageFor(model => model.DRRPCode)
+                </td>
+            </tr>
+            <tr>
+                <td></td>
+                <td>
+                    @Html.LabelFor(model => model.LengthTypeOfRoad)<label style="color:red">*</label>
+                </td>
+                <td>
+                    @Html.RadioButtonFor(model => model.LengthTypeOfRoad, "P", new { @id = "rdbPartly", @title = "Please select length type of Road", @tabindex = 4 })
+                    @Html.Label("Partly")
+                    @Html.RadioButtonFor(model => model.LengthTypeOfRoad, "F", new { @id = "rdbFully", @title = "Please select length type of Road", @tabindex = 5, @checked = true })
+                    @Html.Label("Fully")
+                    @Html.ValidationMessageFor(model => model.LengthTypeOfRoad)
+                </td>
+                <td>
+                    @Html.LabelFor(model => model.LengthOfRoad)<label style="color:red">*</label>
+                </td>
+                <td>
+                    @Html.TextBoxFor(model => model.LengthOfRoad, new { @id = "txtLengthOfRoad", @title = "Length of Road" })
+                    @Html.ValidationMessageFor(model => model.LengthOfRoad)
+                </td>
+            </tr>
+            <tr id="rowChainage">
+                  <td></td>
+                  <td>
+                      Existing Start Chainage(in Km)
+                  </td>
+                  <td>
+                      <label id="lblStartChainage"></label>
+                  </td>
+                  <td>
+                      Existing End Chainage(in Km)
+                  </td>
+                  <td>
+                      <label id="lblEndChainage"></label>
+                  </td>
+              </tr>
+            <tr>
+                <td></td>
+                <td>
+                    @Html.LabelFor(model => model.StartChainage)<label style="color:red">*</label>
+                </td>
+                <td>
+                    @Html.TextBoxFor(model => model.StartChainage, new { @id = "txtStartChainage", @title = "Enter Start Chainage of Road", @placeholder = "Enter Start Chainage...", @tabindex = 6 })
+                    @Html.ValidationMessageFor(model => model.StartChainage)
+                </td>
+                <td>
+                    @Html.LabelFor(model => model.EndChainage)<label style="color:red">*</label>
+                </td>
+                <td>
+                    @Html.TextBoxFor(model => model.EndChainage, new { @id = "txtEndChainage", @title = "Enter End Chainage of Road", @placeholder = "Enter End Chainage...", @tabindex = 7 })
+                    @Html.ValidationMessageFor(model => model.EndChainage)
+                </td>
+            </tr>
+            <tr>
+                <td></td>
+                <td></td>
+                 @if (Model.EncrptedCNCode == null)
+                 {   
+                           <td  style="text-align:right;">
+                   <input type="button" id="btnSaveCandidateRoad" name="btnSave" value="Save" class= "jqueryButton" title="Save Candidate Road Details" tabindex="17"  /> 
+                     <input type="reset" id="btnReset" name="btnReset" value="Reset" class= "jqueryButton" title="Reset" tabindex="18"  /></td> 
+                 }
+                 else
+                 {
+                           <td  style="text-align:right;">
+                         <input type="button" id="btnUpdate" name="btnUpdate" value="Update" class= "jqueryButton" title="Update Candidate Road Details" tabindex="17"  /> 
+                         <input type="button" id="btnCancel" name="btnCancel" value="Cancel" class= "jqueryButton" title="Cancel" tabindex="18"  /></td> 
+                 }
+                <td></td>
+                <td></td>
+            </tr>
+        </table>
+</center>
+    </form>
+</div>
+<div id="dvListMappedRoads" style="margin-top: 20px">
+    <table id="tblListMappedRoads"></table>
+    <div id="pgrListMappedRoads"></div>
+</div>
+<div id="divDialogHabitations">
+    <center>
+        <table id="tblstHabitations"></table>
+        <div id="dvPagerHabitations"></div>
+    </center>
+</div>
+<div id="dvFinalize" style="margin-top: 20px">
+    <table id="tblFinalize" class="table-content ui-corner-all" style="width: 100%; border: .1em solid gray; display: none; margin-top: 0px; margin-bottom: 5px;">
+        <tr>
+        </tr>
+        <tr>
+            <td style="text-align: center">
+
+                <div style="padding: 0pt 0.3em; cursor: pointer;" class="jqueryButton" id="finalize">
+
+                    <span class="ui-icon ui-icon-locked" style="float: left; margin-right: 0.3em;"></span><strong>Finalize
+                    </strong>
+                </div>
+            </td>
+        </tr>
+    </table>
+</div>
+<div id="dvDeFinalize" style="margin-top: 20px">
+    <table id="tblDeFinalize" class="table-content ui-corner-all" style="width: 100%; border: .1em solid gray; display: none; margin-top: 0px; margin-bottom: 5px;">
+        <tr>
+        </tr>
+        <tr>
+            <td style="text-align: center">
+
+                <div style="padding: 0pt 0.3em; cursor: pointer;" class="jqueryButton" id="definalize">
+
+                    <span class="ui-icon ui-icon-locked" style="float: left; margin-right: 0.3em;"></span><strong>Definalize
+                    </strong>
+                </div>
+            </td>
+        </tr>
+    </table>
+</div>

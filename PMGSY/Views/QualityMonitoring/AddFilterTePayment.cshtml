@@ -1,0 +1,43 @@
+﻿@{
+    ViewBag.Title = "AddFilterTePayment";
+}
+
+<script src="~/Scripts/custom/Generic.js"></script>
+<script src="~/Scripts/jquery.ui.accordion.js"></script>
+<script src="~/Scripts/Bootstrap/bootstrap.min.js"></script>
+<script src="~/Scripts/QualityMonitoring/AddFilterTePayment.js"></script>
+
+<br />
+<br />
+
+<div style="width:100%;">
+
+    <div id="divTePaymentList" style="margin-bottom:30px;">
+        <table id="tblTePaymentListDetails"> </table>
+        <div id="divPagerTePaymentDetails" style="margin-bottom:20px;"></div>
+    </div>
+
+    <div id="backButton" style="display:none;">
+        <input type="button" class="jqueryButton" value="Back" id="btnBack" name="btnBack" title="Click here to go Back" />
+        <br /> <br />
+    </div>
+
+    <div id="divAddTePaymentList" style="margin-bottom:30px;">
+        <table id="tblAddTePaymentListDetails"> </table>
+        <div id="divAddPagerTePaymentDetails" style="margin-bottom:20px;"></div>
+    </div>
+
+    @* Added By Hrishikesh For Getting Information of Total Allocated Works in CQC login --Start--17-07-2023*@
+
+    <div id="divGetTotalAllocatedWorksDetails" style="margin-bottom:30px;">
+        <table id="tblGetTotalAllocatedWorksDetails"> </table>
+        <div id="divAddPagerGetTotalAllocatedWorksDetails" style="margin-bottom:20px;"></div>
+    </div>
+
+    @* Added By Hrishikesh For Getting Information of Total Allocated Works in CQC login --End--17-07-2023*@
+
+    <div id="AddPaymentButton" style="display:none;">
+        <input type="button" class="jqueryButton" value="Add Payment" id="btnAddPayment" name="btnAddPayment" title="Click here to Add Payment" onClick='GetDataInArray();return false;' />
+    </div>
+
+</div>

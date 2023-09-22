@@ -1,0 +1,56 @@
+﻿@model PMGSY.Models.Bank.SRRDAPdfKeyViewModel
+@using PMGSY.Extensions
+
+<script type="text/javascript" src="@Url.Content("~/Scripts/custom/Generic.js")"> </script>
+<script src="~/Scripts/Bank/SRRDAPdfOpenKey.js"></script>
+
+<form id="frmGenerateSRRDAPdfKeyDetails">
+    @Html.ValidationSummary(true)
+    <div class="ui-widget-header ui-corner-top" style="margin-left: 0; margin-right: 0; margin-bottom: 0; text-align: left; height: 20px">
+        Generate SRRDA PDF Open Key
+    </div>
+
+    <div id="divBank">
+        <table class="ui-corner-all" style="border: 0.1em solid gray; width: 100%" id="tblOBMaster">
+            <tr>
+                <td colspan="8">
+                    <div id="divSrrdaPdfKeyError" class="ui-state-error ui-corner-all" style="text-align: left; display: none; width: 100%">
+                        <span class="ui-icon ui-icon-alert" style="float: left;"></span>
+                        <span id="spnError"></span>
+                    </div>
+                </td>
+            </tr>
+            <tr>
+                <td style="width: 5%"></td>
+                <td style="width: 7%">
+                    <b>@Html.Label("Department") : </b>
+                    @Html.HiddenFor(model => model.EncryptedMailID)
+                </td>
+                <td style="width: 30%">
+                    @PMGSYSession.Current.DepartmentName
+                </td>
+                <td style="width: 5%">
+                    <b>@Html.LabelFor(model => model.EMAIL_CC) :
+                        <label style="color: red">*</label></b>
+                </td>
+                <td style="width: 15%">
+                    @Html.TextBoxFor(model => model.EMAIL_CC, new { @title = "Enter Email", @placeholder = "Enter Email", @tabindex = 1, @maxlength = 100 })
+                    @Html.ValidationMessageFor(model => model.EMAIL_CC)
+                </td>
+                <td style="width: 10%">
+                    <b>@Html.LabelFor(model => model.PDF_OPEN_KEY) :
+                        <label style="color: red">*</label></b>
+                </td>
+                <td style="width: 15%">
+                    @Html.DisplayFor(model => model.PDF_OPEN_KEY)
+                    @Html.HiddenFor(model => model.PDF_OPEN_KEY)
+                </td>
+                <td>
+                    <input type="button" id="btnSubmitDetails" value="Submit" class="jqueryButton" tabindex="2">
+                </td>
+            </tr>
+
+        </table>
+    </div>
+</form>
+

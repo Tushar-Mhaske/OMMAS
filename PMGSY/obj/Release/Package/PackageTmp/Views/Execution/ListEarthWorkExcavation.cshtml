@@ -1,0 +1,26 @@
+﻿@model PMGSY.Models.Execution.EarthWorkExcavationViewModel
+
+@if (Layout == null)
+{
+    Layout = Request.IsAjaxRequest() ? null : "~/Areas/AccountReports/Views/Account/_Layout.cshtml";
+}
+
+<script src="@Url.Content("~/Scripts/custom/Generic.js")" type="text/javascript" ></script>
+<script src="~/Scripts/Execution/ListEarthWorkExcavation.js"></script>
+
+<form id="frmListEarthworkExcavation">
+    @Html.ValidationSummary(true)
+    @Html.AntiForgeryToken()
+    @Html.HiddenFor(model => model.EncrProposalCode)
+
+    <div id="divListExcavation" style="margin-top: 20px; width: 96%">
+        <table id="tbExcavationList">
+        </table>
+        <div id="pagerExcavation">
+        </div>
+    </div>
+
+    <div id="AdEditEarthwork" style="width: 96%; margin-top:20px;"></div>
+</form>
+
+

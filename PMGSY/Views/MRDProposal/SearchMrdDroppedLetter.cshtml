@@ -1,0 +1,72 @@
+﻿@model PMGSY.Models.Proposal.SearchDroppedViewModel
+
+<script src="~/Scripts/custom/Generic.js"></script>
+<script src="~/Scripts/Proposal/SearchMrdDroppedLetter.js"></script>
+<form id="frmSearchMrdDropLetter">
+    <div id="MrdDropSearchList" style="width: 100%">
+        <div id="dvhdSearch" class="ui-corner-top ui-widget-header panelheader" style="text-align: left; height: 20px;">
+            @*margin-left:10px;margin-right:10px;margin-top:10px;*@
+            <span class="ui-jqgrid-title" style="float: left">&nbsp;Search</span>
+            <span id="spCollapseIconS" class="ui-icon ui-icon-circle-triangle-n" style="float: right"></span>
+        </div>
+        <div id="dvMrdDropSearch" class="ui-corner-bottom" style="display: block; border: 1px solid #B5B8C8;">
+            @*margin-left: 10px; margin-right: 10px;*@
+            @Html.Hidden("hdStatCode", PMGSY.Extensions.PMGSYSession.Current.StateCode)
+            @Html.HiddenFor(m => m.User_Action)
+            <table style="width: 100%" class="rowstyle">
+                <tr>
+                    <td style="width: 1%;"></td>
+                    <td style="text-align: left; width: 5%;">
+                        @Html.LabelFor(model => model.StateCode)</td>
+                    <td style="text-align: left; width: 15%">
+                        @Html.DropDownListFor(model => model.StateCode, new SelectList(Model.StateList, "Value", "Text"), new { @title = "State", @id = "ddlMrdDropState", @tabindex = 1 })
+                        @Html.ValidationMessageFor(model => model.StateCode)
+                    </td>
+                    <td style="text-align: left; width: 15%;">
+                        @Html.LabelFor(model => model.PhaseYear)</td>
+                    <td style="text-align: left; width: 15%">
+                        @Html.DropDownListFor(model => model.PhaseYear, new SelectList(Model.PhaseYearList, "Value", "Text"), new { @title = "Year", @id = "ddlMrdDropPhaseYear", @tabindex = 2 })
+                        @Html.ValidationMessageFor(model => model.PhaseYear)
+                    </td>
+                    <td style="text-align: left; width: 5%;">
+                        @Html.LabelFor(model => model.Batch)</td>
+                    <td style="text-align: left; width: 15%">
+                        @Html.DropDownListFor(model => model.Batch, new SelectList(Model.BatchList, "Value", "Text"), new { @title = "Batch", @id = "ddlMrdDropBatch", @tabindex = 3 })
+                        @Html.ValidationMessageFor(model => model.Batch)
+                    </td>
+                    <td style="text-align: left; width: 5%;">
+                        @Html.LabelFor(model => model.Mast_Agency)</td>
+                    <td style="text-align: left; width: 15%">
+                        @Html.DropDownListFor(model => model.Mast_Agency, new SelectList(Model.Mast_AgencyList, "Value", "Text"), new { @title = "Agency", @id = "ddlMrdDropAgency", @tabindex = 4 })
+                        @Html.ValidationMessageFor(model => model.Mast_Agency)
+                    </td>
+                    <td style="text-align: left; width: 5%;">
+                        @Html.LabelFor(model => model.IMS_COLLABORATION)</td>
+                    <td style="text-align: left; width: 15%">
+                        @Html.DropDownListFor(model => model.IMS_COLLABORATION, new SelectList(Model.COLLABORATIONS_List, "Value", "Text"), new { @title = "Collaboration", @id = "ddlMrdDropCollaboration", @tabindex = 5 })
+                        @Html.ValidationMessageFor(model => model.IMS_COLLABORATION)
+                    </td>
+                    <td style="text-align: left">
+                        <input type="button" id="btnMrdDropSearch" name="Search Dropped" value="Search" class="jqueryButton" title="Search Dropped" tabindex="6" />
+                    </td>
+                </tr>
+            </table>
+        </div>
+        <div id="dvLoadMrdClearanceList" style="margin-top: 10px;width:100% " >
+            <table id="tblMrdClearanceList">
+            </table>
+            <div id="divMrdClearancepager">
+            </div>
+        </div>
+        <div id="accordion" style="display: none; width: 100%; margin-top: 10px;">
+            <h3 style="text-align: left"><a id="" href="#" style="font-size: .9em;">...</a>
+                <a href="#" style="float: right;">
+                    <img alt="" style="border: none" class="ui-icon ui-icon-closethick" onclick="CloseDroppedDetails();" /></a>
+            </h3>
+            <div id="dvLoadDroppedLetters" style="width: 95.9%;"></div>
+            @*<div id="dvLoadSaveDroppedLetters" style="width:100%; margin-top:10px;"></div>*@
+        </div>
+
+    </div>
+</form>
+

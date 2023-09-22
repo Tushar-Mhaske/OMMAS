@@ -1,0 +1,25 @@
+﻿@using MvcReportViewer
+
+@model PMGSY.Areas.LocationSSRSReports.Models.HabitationClusterModel
+    @Html.MvcReportViewer("/PMGSYCitizen/HabitationCluster",
+     new
+     {
+         RptNo="56",
+         State = Model.Mast_State_Code,
+         District = Model.Mast_District_Code,
+         Block = Model.Mast_Block_Code,  
+         Village="0",
+         Panchayat="0",  
+         CensusYear=PMGSY.Extensions.PMGSYSession.Current.PMGSYScheme==1?"2001":"2011",
+         Type1="%", 
+         Type2="%",  
+         Type3="%",  
+         Type4="%",   
+         Type5="%",       
+         Active=Model.Status,
+         StateName = Model.StateName,
+         DistrictName = Model.DistName,
+         BlockName = Model.BlockName
+     },
+     new { Height = 600, Width = "100%", style = "border:none;" })
+

@@ -1,0 +1,73 @@
+﻿@model PMGSY.Models.Master.MasterTestViewModel
+<script src="~/Scripts/custom/Generic.js"></script>
+<script src="~/Scripts/Master/AddTestDetails.js"></script>
+<div id="dvheaderTestDetails" class="ui-corner-top ui-widget-header panelheader" style="text-align: left; height: 20px;">
+    <span class="ui-jqgrid-title" style="float: left">&nbsp;Test Details</span>
+    <span id="iconClose" class="ui-icon ui-icon-circle-close" style="float: right"></span>
+</div>
+<div id="dvAddTestDetails" style="display: block; border: 1px solid #B5B8C8;">
+    <div id="dvErrorMessage" class="ui-widget ui-state-error ui-corner-all" style="padding: 0.7em .7em; display: none; margin: 5px 5px 5px 5px; text-align: left;">
+        <span class="ui-icon ui-icon-alert" style="float: left; margin-right: .3em;"></span>
+        <strong>Alert:</strong> <span id="message"></span>
+    </div>
+<form id="frmTestDetails">
+    @Html.AntiForgeryToken()
+    @Html.HiddenFor(model => model.EncryptedTestCode)            
+
+<center>@Html.ValidationSummary(true)</center>
+<table style="width: 100%; margin-top: 10px;" class="rowstyle">  
+    <tr>
+        <td style="width:10%"></td>
+        <td style="width:05%">@Html.LabelFor(model=>model.MAST_TEST_NAME) <span style="color:red"> *</span></td>
+        <td style="width:15%">
+            @Html.TextBoxFor(model => model.MAST_TEST_NAME, new {@placeholder="Enter Name...",@tabindex=1,@title="Enter Name",@maxlength=25 })
+            @Html.ValidationMessageFor(model=>model.MAST_TEST_NAME)
+        </td>        
+       @* <td style="width:10%">@Html.LabelFor(model=>model.MAST_TEST_STATUS) <span style="color:red"> *</span></td>
+        <td style="width:20%">              
+            @Html.CheckBoxFor(m => m.status, new { @checked=true,@tabindex=2,@title="Active / Inactive"})
+        </td>*@
+        <td style="width:05%">@Html.LabelFor(model=>model.MAST_TEST_DESC) <span style="color:red"> *</span></td>
+        <td style="width:20%">              
+            @Html.TextAreaFor(model => model.MAST_TEST_DESC, new {@placeholder="Enter Description...",@tabindex=3,@title="Enter Description",@maxlength=255 ,@Value=String.Empty })              
+            @Html.ValidationMessageFor(model=>model.MAST_TEST_DESC)
+        </td>
+    </tr>
+  @*  <tr>
+        <td ></td>
+        <td style="width:10%">@Html.LabelFor(model=>model.MAST_TEST_DESC) <span style="color:red"> *</span></td>
+        <td style="width:20%">              
+            @Html.TextAreaFor(model => model.MAST_TEST_DESC, new {@placeholder="Enter Description...",@tabindex=3,@title="Enter Description",@maxlength=255 ,@Value=String.Empty })              
+            @Html.ValidationMessageFor(model=>model.MAST_TEST_DESC)
+        </td>
+        <td ></td>
+        <td ></td>
+    </tr>*@
+
+
+    <tr>
+        <td colspan="5">
+            @if(Model.EncryptedTestCode==null)
+            {
+            <center>
+                    <input type="button" value="Save" name="btnSaveTestDetails" id="btnSaveTestDetails" class="jqueryButton" tabindex="4" title="Save Details"/>
+                    <input type="reset" value="Reset" name="btnResetTestDetails" id="btnResetTestDetails" class="jqueryButton" tabindex="5" title="Reset"/>
+            </center>
+            }
+            else
+            {
+            <center>
+                <input type="button" value="Update" name="btnUpdateTestDetails" id="btnUpdateTestDetails" class="jqueryButton" tabindex="4" title="Update Details"/>
+                <input type="button" value="Cancel" name="btnCancelTestDetails" id="btnCancelTestDetails" class="jqueryButton" tabindex="5" title="Cancel"/>
+            </center>
+            }
+        </td>
+    </tr>
+      <tr>
+            <td colspan="7">
+                   <label style="border:none">[ Note: Fields marked with<label style="color: red;"> * </label>are mandatory.]</label>
+            </td>
+       </tr>
+</table>
+</form>
+</div>

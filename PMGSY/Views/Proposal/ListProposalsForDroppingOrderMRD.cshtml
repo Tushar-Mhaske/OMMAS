@@ -1,0 +1,61 @@
+﻿<script src="~/Scripts/custom/Generic.js"></script>
+<script src="~/Scripts/Proposal/ListProposalsForDroppingOrderMRD.js"></script>
+
+
+<form id="frmListProposalsForDroppingOrderMRD">
+    @Html.ValidationSummary(true)
+    @Html.AntiForgeryToken()
+
+    <div style="width: 99%">
+        <div style="height:25px;border:none; margin-top:5px;" class="ui-corner-top ui-widget-header panelheader" @*class="ui-state-default"*@>
+            <span class="ui-jqgrid-title" style="float: left">&nbsp;Works Requested for Dropping</span>
+            @*<span style="float:right;margin-right:2Px; margin-top:2px" id="idFilterDiv" class="ui-icon ui-icon-circle-triangle-n"></span>  *@
+        </div>
+        <table id="tbProposalsForDroppingMRD" cellpadding="3px" class="rowstyle" style="margin-top: 0px; text-align: left; border: ridge 0.1em #ccc; width: 100%; padding-top: 5px 5px 5px 5px;">
+            <tr>
+                <td style="width: 10%"></td>
+                <td style="width: 5%">
+                    <label tabindex="1">State</label><span style="color: red">*</span>
+                </td>
+                <td style="width: 5%">
+                    @Html.DropDownList("ddlState", ViewBag.StateList as IEnumerable<SelectListItem>, new { @title = "Batch", @tabindex = 2 })
+                </td>
+                <td style="width: 5%">
+                    <input type="button" value="View Details" name="btnDropListProposal" id="btnDropListProposal" class="jqueryButton" title="List Proposal Details" tabindex="3" />
+                </td>
+                <td style="width: 10%"></td>
+            </tr>
+        </table>
+    </div>
+    @* <div id="dvDroppedOrderList" style="margin-top: 20px; width: 98%">
+        <!--tblstSanctionOrder -->
+        <table id="tblstDroppedOrder"></table>
+        <!--dvlstPagerSanctionOrder -->
+        <div id="dvlstPagerDropperOrder"></div>
+    </div>*@
+    <center>
+    
+    <div style="margin-top: 10px; width: 98%; margin-left: 10px;" class="ui-corner-all">
+        <table id="tblProposalsForDroppingMRD"></table>
+        <div id="dvPagerProposalsForDroppingMRD"></div>
+    </div>
+    <!-- Detail drop order [muliple parts of order]-->
+    <div id="dvDetailDroppedOrderList" style="margin-top: 20px; margin-left: 10px; width: 98%">
+        <table id="tblstDetailDroppedOrder"></table>
+        <div id="dvlstDetailPagerDropperOrder"></div>
+    </div>
+    <div style="margin-top: 10px; width: 98%; margin-left: 10px;" class="ui-corner-all">
+        <table id="tblstDropProposal"></table>
+        <div id="dvlstPagerDropProposal"></div>
+    </div>
+    <div id="accordion" style="display: none; width: 92%; margin-top: 20px">
+        <h3 style="text-align: left"><a id="" href="#" style="font-size: .9em;">Drop Order Details</a>
+            <a href="#" style="float: right;">
+                <img class="ui-icon ui-icon-closethick" onclick="CloseDetails();" /></a>
+        </h3>
+        <!--divAddSanctionOrder -->
+        <div id="divAddDropOrder" style="display: none"></div>
+    </div>
+        </center>
+</form>
+

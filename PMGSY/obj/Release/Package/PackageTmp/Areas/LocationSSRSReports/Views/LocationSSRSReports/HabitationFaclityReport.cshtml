@@ -1,0 +1,18 @@
+﻿@using MvcReportViewer
+
+@model PMGSY.Areas.LocationSSRSReports.Models.HabitationFaclityViewModel
+
+@Html.MvcReportViewer("/PMGSYCitizen/USP_MAS_DATA_REPORT_citizen",
+     new
+     {
+         RptNo = 1,
+         State = Model.StateCode,
+         District = Model.DistrictCode,
+         Block =  Model.BlockCode,
+         CensusYear = Model.Year,
+         Active = 'Y'
+         //StateName = Model.StateName,
+         //DistrictName = Model.DistrictName,
+         //AgencyCode=Model.AgencyCode
+     },
+       new { Height = 675, Width = "100%", style = "border:none;" })

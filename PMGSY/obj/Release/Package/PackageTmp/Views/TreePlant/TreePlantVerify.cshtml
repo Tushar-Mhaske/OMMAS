@@ -1,0 +1,88 @@
+﻿@model PMGSY.Model.Maintenance.ManeTreePlantVerifyViewModel
+
+
+<script src="~/Scripts/custom/Generic.js"></script>
+@*<script src="@Url.Content("~/Scripts/Feedback/FBApprovalDetails.js")"></script>*@
+
+<script type="text/javascript">
+    $(document).ready(function () {
+
+        $.validator.unobtrusive.parse($('#frmPlantVerify'));
+
+        $('#btnSubmit').click(function () {
+            //alert($('#frmPlantVerify').valid());
+            if ($('#frmPlantVerify').valid()) {
+                $.ajax({
+                    url: "/TreePlant/TreePlantVerifyAdd/",
+                    cache: false,
+                    type: "POST",
+                    async: false,
+                    data: $("#frmPlantVerify").serialize(),
+                    success: function (data) {
+                        if (data.success) {
+                            alert("Tree Plantation Verified successfully");
+                        }
+                        else {
+                            alert("Tree Plantation not Verified");
+                        }
+                        GetTreePlant($('#roadCode').val());
+                        //TreePlantJson($('#roadCode').val());
+                        $('#btnShowAddForm').hide('slow');
+                        ClosePlantVerify();
+                    },
+                    error: function (xhr, ajaxOptions, thrownError) {
+                        alert('Error occurred while processing your request.');
+                    }
+                });
+            }
+        });
+
+    });
+
+    function ClosePlantVerify() {
+        $('#dvVerify').html('');
+        $('#dvVerify').hide('slow');
+    }
+</script>
+
+<div id="dvViewPlantVerify">
+    <form id="frmPlantVerify">
+        @Html.AntiForgeryToken()
+        @Html.ValidationSummary(true)
+
+        <div id="dvhdSearch" class="ui-corner-top ui-widget-header panelheader" style="text-align: left; height: 20px;">
+            <span class="ui-jqgrid-title" style="float: left">&nbsp;Verify</span>
+
+            <span id="spClosePlantVerify" class="ui-icon ui-icon-closethick" style="float: right;" onclick="ClosePlantVerify();"></span>
+        </div>
+
+        <div id="dvErrMessage" class="ui-widget ui-state-error ui-corner-all" style="padding: 0.7em .7em; margin: 5px 5px 5px 5px; display: none">
+            <span class="ui-icon ui-icon-alert" style="float: left; margin-right: .3em;"></span>
+            <strong>Alert:</strong> <span id="message"></span>
+        </div>
+        <table class="rowstyle" id="tblPlantVerify" style="text-align: left; border: ridge 0.1em #ccc; width: 100%; padding: 5px 5px 5px 5px;">
+            @Html.HiddenFor(m => m.roadCode)
+            @Html.HiddenFor(m => m.observationId)
+
+            <tr>
+                <td style="width: 5%;"></td>
+                <td style="width: 15%; text-align: left; height: 25px;">Verify<span style="color: red;">*</span></td>
+                <td style="width: 25%; text-align: left;">
+                    @Html.RadioButtonFor(m => m.Verify, "Y", new { @id = "rdbVerifyY" })
+                    @Html.Label("Yes")
+                    @Html.RadioButtonFor(m => m.Verify, "N", new { @id = "rdbVerifyN" })
+                    @Html.Label("No")
+                    <br />
+                    @Html.ValidationMessageFor(m => m.Verify)
+                </td>
+                <td style="width: 15%; text-align: left; height: 25px;">Remarks</td>
+                <td style="width: 25%; text-align: left;">@Html.TextAreaFor(m => m.Remarks, new { @id = "txtRemarks", @title = "Remarks", @style = "width:200px; height:50px; resize:none;" })
+                    <br />
+                    @Html.ValidationMessageFor(m => m.Remarks)
+                </td>
+                <td style="width: 15%; text-align: left; height: 25px;">
+                    <input type="button" id="btnSubmit" value="Submit" /></td>
+            </tr>
+        </table>
+    </form>
+</div>

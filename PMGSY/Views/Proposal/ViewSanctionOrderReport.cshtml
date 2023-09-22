@@ -1,0 +1,25 @@
+﻿@using MvcReportViewer
+
+@{
+    Layout = null;
+    }
+
+
+@model PMGSY.Models.Proposal.SanctionOrderFilterModel
+
+
+@*@Html.MvcReportViewer("/PMGSYCitizen/SanctionedProposalList",
+     new {  
+            State = Model.State,District = 0,Block = 0, Year = Model.Year, Batch = Model.Batch,Collaboration = Model.Stream, Status = "%",PMGSY = Model.PMGSYScheme},
+     new { Height = 675, Width = 1220, style = "border:none;" })*@
+
+@*@Html.MvcReportViewer("/SampleLocalizedReport/SanctionedProposalList",
+     new {  
+            State = Model.State,District = 0,Block = 0, Year = Model.Year, Batch = Model.Batch,Collaboration = Model.Stream, Status = "%",PMGSY = Model.PMGSYScheme,StateName=Model.StateName,BatchName=Model.Batch,CollaborationName=Model.CollaborationName,SanctionLetterNo=Model.SanctionOrderNo,SanctionDate=Model.SanctionOrderDate,UserId=PMGSY.Extensions.PMGSYSession.Current.UserId},
+     new { Height = 850, Width = 1250, style = "border:none;" })*@
+
+@*@Html.MvcReportViewer("/Barcodes/Final Version",
+     //new {  
+     //       State = Model.State,District = 0,Block = 0, Year = Model.Year, Batch = Model.Batch,Collaboration = Model.Stream, Status = "%",PMGSY = Model.PMGSYScheme,StateName=Model.StateName,BatchName=Model.Batch,CollaborationName=Model.CollaborationName,SanctionLetterNo=Model.SanctionOrderNo,SanctionDate=Model.SanctionOrderDate},
+     new { Height = 850, Width = 1250, style = "border:none;" })*@
+

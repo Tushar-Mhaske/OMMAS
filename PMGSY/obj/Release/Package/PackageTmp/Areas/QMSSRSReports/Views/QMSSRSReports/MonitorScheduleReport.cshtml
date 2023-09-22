@@ -1,0 +1,15 @@
+﻿@using MvcReportViewer
+
+@model PMGSY.Areas.QMSSRSReports.Models.QualityReportsViewModel
+
+@Html.MvcReportViewer("/PMGSYCitizen/QM_Monitor_Schedule_Report",
+     new
+     {
+         monitor = Model.Monitor,
+         qmType = Model.qmType,
+         stateCode = Model.State,
+         month = Model.Month,
+         year = Model.Year,
+         StateName = Model.StateName
+     },
+       new { Height = 600, Width = "100%", style = "border:none;" })

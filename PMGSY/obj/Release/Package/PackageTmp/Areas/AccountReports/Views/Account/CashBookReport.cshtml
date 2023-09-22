@@ -1,0 +1,53 @@
+﻿@using MvcReportViewer
+@model PMGSY.Areas.AccountReports.Models.CBSingleModel
+
+@* Single Cashbook *@
+@if (Model.CashbookType == "S")
+{
+    <div id="dvSingleCashbookDetailsReport" style="width: 100%; height: 590px; overflow-x: hidden; overflow-y: hidden">
+        @Html.MvcReportViewer("/PMGSYCitizen/SingleCashBook",
+         new
+         {
+             PrmFundType = PMGSY.Extensions.PMGSYSession.Current.FundType,
+             PrmAdminNdCode = Model.ADMIN_ND_CODE,
+             PrmMonth = Model.Month,
+             PrmYear = Model.Year,
+             Prmlvl = Model.LvlId
+         },
+         new { Height = 600, Width = 1220, style = "border:none;" })
+    </div>
+}
+
+@* Cashbook Payment Side*@
+@if (Model.CashbookType == "P")
+{
+    <div id="dvCashbookPaymentSideDetailsReport" style="width: 100%; height: 590px; overflow-x: hidden; overflow-y: hidden">
+        @Html.MvcReportViewer("/PMGSYCitizen/CashBookPaymentSide",
+         new
+         {
+             PrmFundType = PMGSY.Extensions.PMGSYSession.Current.FundType,
+             PrmAdminNdCode = Model.ADMIN_ND_CODE,
+             PrmMonth = Model.Month,
+             PrmYear = Model.Year,
+             Prmlvl = Model.LvlId
+         },
+         new { Height = 600, Width = 1220, style = "border:none;" })
+    </div>
+}
+
+@* Cashbook Receipt Side*@
+@if (Model.CashbookType == "R")
+{
+    <div id="dvCashbookReceiptSideDetailsReport" style="width: 100%; height: 590px; overflow-x: hidden; overflow-y: hidden">
+        @Html.MvcReportViewer("/PMGSYCitizen/CashBookReceiptSide",
+         new
+         {
+             PrmFundType = PMGSY.Extensions.PMGSYSession.Current.FundType,
+             PrmAdminNdCode = Model.ADMIN_ND_CODE,
+             PrmMonth = Model.Month,
+             PrmYear = Model.Year,
+             Prmlvl = Model.LvlId
+         },
+         new { Height = 600, Width = 1220, style = "border:none;" })
+    </div>
+}

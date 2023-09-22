@@ -1,0 +1,17 @@
+﻿@{
+    ViewBag.Title = "FormatEightMaintenanceStatus";
+}
+
+@using MvcReportViewer
+
+@model PMGSY.Areas.ProgressReport.Models.MonthYear
+
+@Html.MvcReportViewer("/PMGSYCitizen/MaintenanceStatus",
+         new
+         {
+             YEAR = 2019,
+             STATE =0,
+             DISTRICT =0,
+             SCHEME =0
+         },
+     new { Height = 800, Width = "100%", style = "border:none;" })

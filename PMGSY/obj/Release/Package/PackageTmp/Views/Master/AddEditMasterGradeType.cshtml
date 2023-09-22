@@ -1,0 +1,80 @@
+﻿@model PMGSY.Models.Master.MasterGradeTypeViewModel
+
+
+<script src="~/Scripts/custom/Generic.js"></script>
+<script src="~/Scripts/Master/Master_CreateGradeType.js"></script>
+
+
+<div id="dvhdCreateNewGradeDetails" class="ui-corner-top ui-widget-header panelheader" style="text-align: left; height: 20px;">
+    <span class="ui-jqgrid-title" style="float: left">&nbsp;Grade Details</span>
+    <span id="spCollapseIconCN" class="ui-icon ui-icon-circle-close" style="float: right"></span>
+</div>
+
+<div id="dvCreateNewGradeDetails" style="display: block; border: 1px solid #B5B8C8;">
+    <div id="dvErrorMessage" class="ui-widget ui-state-error ui-corner-all" style="padding: 0.7em .7em; display: none; margin: 5px 5px 5px 5px; text-align: left">
+        <span class="ui-icon ui-icon-alert" style="float: left; margin-right: .3em;"></span>
+        <strong>Alert:</strong> <span id="message"></span>
+    </div>
+
+    <form id="frmMasterGradeType">
+        @Html.AntiForgeryToken()
+        <center>@Html.ValidationSummary(true)</center>
+        <table style="width: 100%; margin-top: 10px;" class="rowstyle">
+            <tr style="display: none">
+                <td colspan="3">
+                    @Html.HiddenFor(model => model.EncryptedGradeCode)
+                </td>
+            </tr>
+
+            <tr>
+                <td style="width: 30%;"></td>
+                <td style="text-align: left; width: 15%;">
+                    @Html.LabelFor(model => model.MAST_GRADE_NAME)
+                    <label style="color: red;">*</label>
+                </td>
+                <td>
+                    @Html.TextBoxFor(model => model.MAST_GRADE_NAME, new { maxlength = 100, @title = "Grade Name", @tabindex = 1, placeholder = "Enter Grade Name..." })
+                    @Html.ValidationMessageFor(model => model.MAST_GRADE_NAME)
+                </td>
+            </tr>
+
+
+            <tr>
+                <td style="width: 30%;"></td>
+                <td style="text-align: left; width: 15%;">
+                    @Html.LabelFor(model => model.MAST_GRADE_SHORT_NAME)
+                    <label style="color: red;">*</label>
+                </td>
+                <td>
+                    @*@Html.TextBoxFor(model => model.MAST_GRADE_SHORT_NAME, new { maxlength = 5, @title = "Grade Short Name", @tabindex = 2, placeholder = "Allowed Grades - I,S,U,NA " })*@
+                    @Html.DropDownListFor(model => model.MAST_GRADE_SHORT_NAME,Model.PopulateGradeShortNames, new { @title = "Grade Short Name", @tabindex = 2, placeholder = "Allowed Grades - I,S,U,NA " })
+                    @Html.ValidationMessageFor(model => model.MAST_GRADE_SHORT_NAME)
+                </td>
+            </tr>
+
+            <tr>
+                <td></td>
+                <td></td>
+                <td>
+                    @if (Model.EncryptedGradeCode == null)
+                    {
+                        <input type="button" id="btnSave" name="btnSave" value="Save" class="jqueryButton" title="Save Grade Details" tabindex="3" /> 
+                        <input type="reset" id="btnReset" name="btnReset" value="Reset" class="jqueryButton" title="Reset" tabindex="4" />
+                    }
+                    else
+                    {
+                        <input type="button" id="btnUpdate" name="btnUpdate" value="Update" class="jqueryButton" title="Update Grade Details" tabindex="3" /> 
+                        <input type="button" id="btnCancel" name="btnCancel" value="Cancel" class="jqueryButton" title="Cancel" tabindex="4" />
+                    }
+
+                </td>
+            </tr>
+
+            <tr>
+                <td colspan="5">
+                    <label style="border:none">[ Note: Fields marked with<label style="color: red;"> * </label>are mandatory.]</label>
+                </td>
+            </tr>
+        </table>
+    </form>
+</div>

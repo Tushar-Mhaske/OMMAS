@@ -1,0 +1,57 @@
+﻿@model PMGSY.Areas.FeedbackReport.Models.SearchModelForReport
+
+<script src="~/Areas/FeedbackReport/Scripts/FeedbackPendency.js"></script>
+<script type="text/javascript" src="@Url.Content("~/Scripts/jquery.ui.dialog.js")"> </script>
+<script src="~/Scripts/custom/Generic.js"></script>
+
+
+<div id="dvFBPendencyReport" class="ui-corner-top ui-widget-header panelheader" style="text-align: left; height: 20px;">@*margin-left:0px;margin-right:0px;margin-top:0px; *@
+    <span class="ui-jqgrid-title" style="float: left">&nbsp;Feedback Pendency Report</span>
+
+    <span id="spCollapseIconCN" class="ui-icon ui-icon-circle-triangle-n" style="float: right"></span>
+</div>
+<form id="frmFBPendency">
+
+    <div id="dvFeedbackPendencyReportMain" class="ui-corner-bottom" style="width: 99.8%; display: block; border: 1px solid #B5B8C8;">
+        
+         @Html.AntiForgeryToken()
+         @Html.Hidden("hdnLevelId", PMGSY.Extensions.PMGSYSession.Current.LevelId.ToString())
+
+            @if (PMGSY.Extensions.PMGSYSession.Current.StateCode != 0) 
+            {           
+               @Html.Hidden("STATE_NAME", PMGSY.Extensions.PMGSYSession.Current.StateName.ToString())
+               @Html.Hidden("STATE_Code", PMGSY.Extensions.PMGSYSession.Current.StateCode)
+              
+            }   
+        <table class="ui-corner-all" style="width: 100%;">
+            <tr class="ui-state-hover">
+                <td style="width: 2%;"></td>
+                <td style="text-align: left; width: 3%;">
+                    @Html.Label("State : ") &nbsp;
+                </td>
+                <td style="width: 2%;">
+                      @if (PMGSY.Extensions.PMGSYSession.Current.StateCode != 0)
+                      {
+                          @Html.DropDownListFor(model => model.stateId, new List<SelectListItem> { new SelectListItem { Text = PMGSY.Extensions.PMGSYSession.Current.StateName , Value = PMGSY.Extensions.PMGSYSession.Current.StateCode.ToString(),Selected = true} }, new {@id="StateId1", @tabindex = "1" })
+                      }
+                      else
+                      {
+                           @Html.DropDownListFor(model => model.stateId, new SelectList(@ViewBag.StateList, "MAST_STATE_CODE", "MAST_STATE_NAME"), "All States", new {@id="StateId1", @tabindex = "1" }) 
+                      }                          
+                </td>
+                <td style="text-align: left; width: 10%;">
+                    @Html.Label("Feedback Through : ") &nbsp;
+                </td>
+                <td style="width: 20%;">
+                          @Html.DropDownListFor(model => model.fbThrough, new SelectList(Model.fbThroughList, "Value", "Text"), new {@id="ddlFBThrough", @tabindex = "2" })
+                    @Html.ValidationMessageFor(x=>x.fbThrough)
+                </td>
+                <td style="width: 20%;">
+                    <input type="button" value="View" class="jqueryButton" id="btn_fbreport_search" title="View Report" tabindex="2" />
+                </td>
+            </tr>
+        </table>
+    </div>
+</form>
+<div id="FBPendencyReportDiv">
+</div>

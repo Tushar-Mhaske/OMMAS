@@ -1,0 +1,206 @@
+﻿@model PMGSY.Models.Definalization.DefinalizationModel
+
+
+<!DOCTYPE html>
+
+<html>
+<head>
+    <meta name="viewport" content="width=device-width" />
+    <title>Definalize/Delete Voucher</title>
+    <script src="~/Scripts/custom/Generic.js"></script>
+    <script src="~/Scripts/jquery.ui.dialog.js"></script>
+    <script src="~/Scripts/Definalization/Definalization.js"></script>
+     
+    
+ @*    <script>
+        $(function () {
+
+
+            $("#VoucherDetailsDialog").dialog({
+                autoOpen: false,
+               // height:550,
+                width: '90%',
+                modal: true,
+                show: {
+                    effect: "blind",
+                    duration: 1000
+                },
+                hide: {
+                    effect: "explode",
+                    duration: 1000
+                }
+
+            });
+       });
+
+  </script>*@
+     <style type="text/css" media="screen">
+        th.ui-th-column div {
+            white-space: normal !important;
+            height: auto !important;
+            padding: 2px;
+        }
+
+        .ui-jqgrid .ui-jqgrid-resize {
+            height: 100% !important;
+        }
+    </style>
+</head>
+<body>
+    <br />
+   <div class="ui-widget-header innerDivHeader">
+       Definalize / Delete Voucher
+    </div>
+   
+     <div id="divError" style="margin-left: 10px; margin-right: 15px;margin-top:5px;margin-bottom:5px; display: none" class="ui-state-error ui-corner-all">
+        <span class="ui-icon ui-icon-alert " style="float: left"></span>
+        <span id="errorSpan"></span>
+        </div>
+   
+     <form id="selectionForm" style="margin-top:10px">
+
+        @Html.AntiForgeryToken()
+        @Html.ValidationSummary(true)
+    
+          
+         <table id="LedgertblOptions" class="rowstyle-content ui-corner-all" style="width: 98%; border: .1em solid gray">
+             <tr>
+                 @* <td style="text-align:center; width: 10%" >  @Html.LabelFor(model => model.FUND_TYPE) <label style="color:red">*</label></td>
+             <td style="text-align:center" >
+                 @Html.DropDownListFor(model => model.FUND_TYPE, new SelectList(Model.FUND_TYPE_LIST, "Value", "Text"), new { Title = " Fund type", tabindex = "1", @class = "dropdown" })
+               <br />  @Html.ValidationMessageFor(model => model.FUND_TYPE)
+            </td>*@
+
+                 <td style="text-align: center; width: 10%">
+                     Month <label style="color:red">*</label>
+
+                 </td>
+                 <td style="text-align: center; width: 20%">
+
+                     @Html.DropDownListFor(model => model.MONTH, new SelectList(Model.MONTH_LIST, "Value", "Text"), new { Title = " Month", tabindex = "1", @class = "dropdown" })
+                     <br /> @Html.ValidationMessageFor(model => model.MONTH)
+                 </td>
+                 <td style="text-align: center ;width: 10%">
+                     Year <label style="color:red">*</label>
+                 </td>
+                 <td style="text-align: center; width: 20%">
+
+                     @Html.DropDownListFor(model => model.YEAR, new SelectList(Model.YEAR_LIST, "Value", "Text"), new { Title = " Year", tabindex = "2", @class = "dropdown" })
+                     <br /> @Html.ValidationMessageFor(model => model.YEAR)
+                 </td>
+
+
+
+
+
+
+                 <td style="text-align: center; width: 15%">
+                     @Html.LabelFor(model => model.VOUCHER_TYPE)<label style="color:red">*</label>
+
+             </td>
+             <td style="text-align: center; width: 25%">
+
+                 @Html.DropDownListFor(model => model.VOUCHER_TYPE, new SelectList(Model.VOUCHER_TYPE_LIST, "Value", "Text"), new { Title = "Voucher Type", tabindex = "1", @class = "dropdown" })
+                 <br />  @Html.ValidationMessageFor(model => model.VOUCHER_TYPE)
+             </td>
+
+         </tr>
+
+             <tr>
+
+                 <td style="text-align:center" colspan="4">
+
+                     <div id="divCredit" style="float: left;margin-left:05%;margin-right:10px">
+
+                         @Html.RadioButtonFor(model => model.LEVEL, "4", new { @id = "rdSRRDA", @checked = "checked", @title = "SRRDA" })
+                         <label for="rdSRRDA">SRRDA </label>
+                     </div>
+                     @* Acc Mord User *@
+                     @* Role 17 for Admin added by rohit borse on 06-06-2022 *@
+                     @if (PMGSY.Extensions.PMGSYSession.Current.RoleCode == 21 || PMGSY.Extensions.PMGSYSession.Current.RoleCode == 66 || PMGSY.Extensions.PMGSYSession.Current.RoleCode == 17)
+                     {
+                         <div id="divSRRDA" style="float: left;margin-left:02%;margin-right:10px">
+                             @Html.DropDownListFor(model => model.SRRDA_LIST, new SelectList(Model.SRRDA_LIST, "Value", "Text"), new { @id = "ddlSRRDA", @title = "SRRDA" })
+                         </div>
+
+                     }
+
+                     <div id="divdebit" style="float:left;margin-left:20px">
+
+                         @Html.RadioButtonFor(model => model.LEVEL, "5", new { @id = "rdDPIU", @title = "DPIU" })
+
+                         <label for="rdDPIU">DPIU </label>
+                     </div>
+                     <div style="float:left;margin-left:02%">
+                         @Html.DropDownListFor(model => model.DPIU, new SelectList(Model.DPIU_LIST, "Value", "Text"), new { Title = "DPIU", tabindex = "3", @class = "dropdown", @Style = "display:none" })
+                         <br />
+                         @Html.ValidationMessageFor(model => model.DPIU)
+                     </div>
+                 </td>
+
+                 @* added by rohit borse on 06-06-2022 for Admin user*@
+                 @if (PMGSY.Extensions.PMGSYSession.Current.RoleCode == 17)
+                 {
+                     <td colspan="3">
+                         <label for="rdoFundType"> Fund Type  </label>
+
+                         @Html.RadioButtonFor(model => model.fundType, "P", new { @id = "rdoFundProgramme", @name = "Fundtype", @title = "Programme Fund" })
+                         <label for="rdoFundType"> Programme </label>
+                         @Html.ValidationMessageFor(model => model.fundType)
+
+                         @Html.RadioButtonFor(model => model.fundType, "A", new { @id = "rdoFundAdmin", @name = "Fundtype", @title = "Administrative Fund" })
+                         <label for="rdoFundType">Administrative </label>
+                         @Html.ValidationMessageFor(model => model.fundType)
+
+                         @Html.RadioButtonFor(model => model.fundType, "M", new { @id = "rdoFundMaintenance", @name = "Fundtype", @checked = "checked", @title = "Maintenance Fund" })
+                         <label for="rdoFundType"> Maintainance </label>
+                         @Html.ValidationMessageFor(model => model.fundType)
+                     </td>
+                 }
+             </tr>       
+
+             <tr>
+                 <td colspan="4">
+                     <div style="float:right;">
+                         <input type="button" class="jqueryButton" name="btnViewDetails" id="btnViewDetails" title="Click To view details" value='View Details' />
+                     </div>
+                 </td>
+                 <td colspan="4"></tdcolspan="4">
+             </tr>
+
+        
+
+         </table>
+       </form>
+    
+
+
+<div style="width: 98%;margin-top:10px">
+    
+<table id="VoucherList" ></table>
+<div id="Voucherpager"></div>
+ </div>
+
+
+  <div id="VoucherDetailsDialog" title="Transaction Details">
+ <div class="ui-corner-all" style="width: 100%; border: .1em solid gray" cellspacing="1px">
+    
+     <div id="divError1" style="margin-left: 10px; margin-right: 15px; display: none;margin-top:5px;margin-bottom:5px" class="ui-state-error ui-corner-all">
+        <span class="ui-icon ui-icon-alert " style="float: left"></span>
+        <span id="errorSpan1"></span>
+    </div>
+    
+    <center> 
+    <div style="width: 95%;margin-top:10px;margin-bottom:10px">
+    <table id="TransactionList" ></table>
+    <div id="TransactionPager"></div>
+    </div>
+    </center>
+     
+     
+     </div>
+</div>
+
+    
+</body>
+</html>

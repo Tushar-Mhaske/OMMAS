@@ -1,0 +1,25 @@
+﻿@using MvcReportViewer
+
+@model PMGSY.Areas.LocationSSRSReports.Models.LocationMasterReports
+
+
+
+@Html.MvcReportViewer("/PMGSYCitizen/LocationMasterStateReport",
+     new
+     {
+         RptNo = Model.RptNo,
+         State = Model.State,
+         District = Model.District,
+         Block = Model.Block,
+         Village = Model.Village,
+         Panchayat = Model.Panchayat,
+         CensusYear = Model.Year,
+         Active = Model.ActiveFlag,
+         Type1 = Model.Type1,
+         Type2 = Model.Type2,
+         Type3 = Model.Type3,
+         Type4 = Model.Type4,
+         Type5 = Model.Type5,
+         StateName = Model.StateName,
+     },
+       new { Height = 600, Width = "100%", style = "border:none;" })

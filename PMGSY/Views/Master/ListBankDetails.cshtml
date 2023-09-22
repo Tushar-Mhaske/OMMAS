@@ -1,0 +1,43 @@
+﻿@model PMGSY.Models.Master.MasterContractorBankDetails
+
+<script src="~/Scripts/custom/Generic.js" type="text/javascript"></script>
+<script src="~/Scripts/Master/ListContractorBankDetails.js" type="text/javascript"></script>
+
+<center>
+        <div style="width:100%;">
+<div id="dvhdCreateNewBankDetail" class="ui-corner-top ui-widget-header panelheader" style="text-align:left; height:20px;"> 
+     <span class="ui-jqgrid-title" style="float:left">&nbsp;Bank Details </span>
+     
+      <span  id="spCollapseIconCNBD" class="ui-icon ui-icon-circle-triangle-n" style="float:right"></span>
+      </div>
+
+<div id="dvCreateNewBankDetail" class="ui-corner-bottom" style="display: block; border: 1px solid #B5B8C8; ">
+      
+<div id="dvContractorBankDetails" style="display:none;">
+ </div>
+           @Html.HiddenFor(model => model.EncryptedContractorId)
+           @Html.HiddenFor(model => model.MAST_CON_ID)
+           @Html.Hidden("RegStateCode",ViewData["RegStateCode"])
+
+           <br />
+<br />
+<div id="dvContractorBankList" style="width:95%;">    
+    
+    <table id="tblBankDetailsList">
+    </table>
+    <div id="dvPagerBankDetails">
+    </div>
+</div>
+           <br />
+           <div>
+           <input type="button" id="btnAddNewDetails" name="btnSave" value="Add Bank Details" class= "jqueryButton" title="Add new Bank Details" tabindex="5"  /> 
+           <input type="button" id="btnCancelBankDetails" name="btncancel" value="Back" class= "jqueryButton" title="Back" tabindex="5"  /> 
+          
+           </div>
+      <br />    
+           </div>
+      <br />
+           
+
+    </div>
+      </center>

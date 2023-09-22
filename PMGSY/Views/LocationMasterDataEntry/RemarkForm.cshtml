@@ -1,0 +1,88 @@
+﻿@model PMGSY.Models.MasterDataEntry.DeletionRemark
+<style type="text/css">
+    #preview {
+        border: 1px solid #ccc;
+        position: absolute;
+        background: #333;
+        padding: 5px;
+        display: none;
+        color: #fff;
+    }
+
+    .ui-jqgrid tr.jqgrow td {
+        vertical-align: top !important;
+    }
+</style>
+
+@*<script src="~/Scripts/jquery.ui.accordion.js"></script>
+<script src="~/Scripts/Bootstrap/bootstrap.min.js"></script>*@
+<script src="~/Scripts/MasterDataEntry/RemarkForm.js"></script>
+<div style="width: 100%; border: none; margin-top: 2px; margin-bottom: 2px;" class="ui-state-default">
+    <form id="frmRemarkText">
+
+        <center>
+                 @Html.ValidationSummary(true)
+                 @Html.AntiForgeryToken()
+                 @Html.Hidden("DistrictCode", PMGSY.Extensions.PMGSYSession.Current.DistrictCode)
+                 @Html.Hidden("FacID", Model.FacilityID)
+                    @Html.Hidden("HABNAME", Model.HabName)
+                    @Html.Hidden("BLOCKNAME", Model.blockname)
+    </center>
+        <table style="width: 100%; margin-top: 0px;" class="rowstyle">
+            <tr>
+                <td style="width: 9%"></td>
+                <td style="width: 33.3%">
+                    <span style="color: red; font: large">BLOCK NAME : </span>
+                    @Html.DisplayFor(m => m.blockname)
+                </td>
+
+                <td style="width: 33.3%">
+                    <span style="color: red; font: large">HABITATION NAME : </span>
+                    @Html.DisplayFor(m => m.HabName)
+                </td>
+
+                <td style="width: 33.3%">
+                    <span style="color: red; font: large">FACILITY NAME : </span>
+                    @Html.DisplayFor(m => m.facilityname)
+                </td>
+
+            </tr>
+        </table>
+        <br />
+        <br />
+        <table style="width: 100%; margin-top: 0px;" class="rowstyle">
+            <tr>
+                <td style="width: 20%"></td>
+                <td style="width: 16%; text-align: center">
+                    @Html.LabelFor(model => model.Remark)
+                    <label style="color: red;">*</label>
+                </td>
+
+                <td style="text-align: left">
+                    @Html.TextBoxFor(m => m.Remark, new { @id = "txtRemark", @title = "Enter Remark for Photograph Deletion", @tabindex = 1, @style = "width:300px" })
+                    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span>Note: Remark for Photograph deletion is Mandatory         </span>
+                    &nbsp;&nbsp;&nbsp;&nbsp;<span><input type="button" id="btnSubmitRemark" name="btnSubmitRemark" value="Submit" class="jqueryButton" title="Submit" tabindex="9" /></span>
+                    <span><input type="button" id="btnRemarkCancel" name="btnRemarkCancel" value="Cancel" class="jqueryButton" title="Cancel" tabindex="9" /></span>
+                    <br />
+                    @Html.ValidationMessageFor(m => m.Remark)
+                </td>
+
+
+            </tr>
+            <tr>
+                <td style="text-align: center;">
+                    @*<input type="button" id="btnSubmitRemark" name="btnSubmitRemark" value="Submit" class="jqueryButton" title="Submit" tabindex="9" />*@
+                    @*<input type="button" id="btnRemarkCancel" name="btnRemarkCancel" value="Cancel" class="jqueryButton" title="Cancel" tabindex="9" />*@
+                </td>
+            </tr>
+            <tr>
+                <td  style="text-align: center;">
+                    @*<input type="button" id="btnSubmitRemark" name="btnSubmitRemark" value="Submit" class="jqueryButton" title="Submit" tabindex="9" />*@
+                    @*<input type="button" id="btnRemarkCancel" name="btnRemarkCancel" value="Cancel" class="jqueryButton" title="Cancel" tabindex="9" />*@
+                </td>
+            </tr>
+
+        </table>
+
+    </form>
+</div>

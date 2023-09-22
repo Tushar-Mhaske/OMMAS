@@ -1,0 +1,21 @@
+﻿@using MvcReportViewer
+@model PMGSY.Areas.AccountReports.Models.SheduleReportModel
+
+<div id="dvCurrLiabilitiesReport" style="width: 100%; height: 570px; overflow-x: hidden; overflow-y: hidden">
+    @Html.MvcReportViewer("/PMGSYCitizen/CurrLiabilitiesView",
+         new
+         {
+             PINTRptID = Model.ReportID,
+             PINTAdminNDCode = Model.Agency,
+             PINTAccMonth = Model.Month,
+             PINTAccYear = Model.Year,
+             PINTisAllPIU = Model.Piu,
+             PCHARFUNDTYPE = Model.FundType,
+             SrrdaDpiu = Model.SRRDA_DPIU,
+             SrrdaNdCode = Model.SrrdaNdCode,
+             FormNumber=Model.FormNumber,
+             ReportHeading=Model.ReportHeader,
+             Refference=Model.Refference             
+         },
+         new { Height = 600, Width = 1220, style = "border:none;" })
+</div>

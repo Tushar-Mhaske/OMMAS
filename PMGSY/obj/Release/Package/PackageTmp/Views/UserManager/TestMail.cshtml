@@ -1,0 +1,67 @@
+﻿
+
+
+<script>
+    $("#btnSendMail").click(function () {
+
+        if ($("#ToEmail").val() == "") {
+            alert("Please enter To email address.");
+            return false;
+        }
+
+        $.ajax({
+            url: '/UserManager/SendTestMail/',
+            type: 'POST',
+            data: { ToEmail: $("#ToEmail").val(), CcEmail: $("#CcEmail").val() },
+            dataType: 'json',
+            success: function (data) {
+
+                if (data.status) {
+                    alert(data.message);
+                } else {
+                    alert(data.message);
+                    return false;
+                }
+            },
+            error: function (err) {
+                alert("An Error occured while processing your request.");
+                return false;
+            }
+        });
+
+    });
+
+</script>
+<div id="divError1" style="margin: 5px 10px 5px 15px; display: none;" class="ui-state-error ui-corner-all">
+    <span class="ui-icon ui-icon-alert " style="float: left"></span>
+    <span id="errorSpan1"></span>
+</div>
+
+<div id="dvTestMail">
+    <form id="frmRejectResendDetails">
+        <table class="table-content ui-corner-all" style="width: 100%; border: .1em solid gray; margin-top: 10px">
+          
+            <tr>
+                <td style="width: 42%;text-align:right">
+                    @Html.Label("To email") <span style="color: red">*</span>
+                </td>
+                <td style="text-align: left;">
+                    @Html.TextBox("ToEmail",null, new { maxlength = 255, @tabindex = "3", @title = "To email" })                    
+                </td>
+            </tr>   
+            <tr>
+                <td style="width: 42%;text-align:right">
+                    @Html.Label("Cc email") <span style="color: red">*</span>
+                </td>
+                <td style="text-align: left;">
+                    @Html.TextBox("CcEmail", null,new { maxlength = 255, @tabindex = "3", @title = "Cc email" })                    
+                </td>
+            </tr>            
+            <tr>
+                <td colspan="2" style="text-align: center">
+                    <input type="button" class="jqueryButton" name="btnSendMail" id="btnSendMail" title="Click here to Send email" value='Send Email' tabindex="4" />
+                </td>
+            </tr>
+        </table>
+    </form>
+</div>

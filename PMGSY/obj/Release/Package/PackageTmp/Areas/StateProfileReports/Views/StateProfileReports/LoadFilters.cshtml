@@ -1,0 +1,53 @@
+﻿@model PMGSY.Areas.StateProfileReports.Models.SPFilters
+
+<script src="~/Scripts/custom/Generic.js"></script>
+
+
+<script src="~/Areas/StateProfileReports/Scripts/SPFilters.js"></script>
+
+ <form id="frmstateprofile">
+      @Html.ValidationSummary(true)
+  @* @Html.AntiForgeryToken()*@
+     @* @Html.HiddenFor(model => model.StateId)
+      @Html.HiddenFor(model=>model.Agency)*@
+
+<table id="tblDataEntry">
+    <tr>
+        
+        <td style="width: 5%;">
+           @Html.Label("State : ")
+        </td>
+        <td style="width: 15%;">
+            @Html.DropDownListFor(model => model.StateId, new SelectList(Model.StateList, "Value", "Text"), new { @id = "ddlSPState", style = "width:170px;",title="State" })
+        </td>
+     
+     
+        <td style="width: 7%;">
+          @Html.Label("Agency : ")
+        </td>
+        <td style="width: 15%;">
+            @Html.DropDownListFor(model => model.Agency, new SelectList(Model.AgencyList, "Value", "Text"), "All Agencies", new { @id = "ddlSPAgency", style = "width:170px;"})
+            @Html.ValidationMessageFor(model=>model.Agency)
+        </td>
+
+
+          <td style="width: 7%;">
+          @Html.Label("DPIU : ")
+        </td>
+        <td style="width: 15%;">
+            @Html.DropDownListFor(model => model.DPIUCode, new SelectList(Model.DPIUList, "Value", "Text"), new { @id = "ddlDPIU", style = "width:170px;"})
+            @Html.ValidationMessageFor(model=>model.DPIUCode)
+        </td>
+         
+
+
+        <td style="width: 23%; text-align: center;">
+            <input type="button" id="btnViewSPDetails" value="View Details" class="button" />
+        </td>
+    </tr>
+</table>
+      </form>
+
+<div id="divLoadSPDetails" style="width: 99.8%;"></div>
+
+

@@ -1,0 +1,44 @@
+﻿@model PMGSY.Models.Menu.MenuLevelCombinationListDTO
+<html>
+<head>
+    
+    <link href="~/Content/jquery.multiselect.css" rel="stylesheet" />
+    <script src="~/Scripts/jquery.multiselect.min.js"></script>
+    <script type="text/javascript" src="../../Scripts/UserManager/MenuLevelCombination.js"></script>   
+    
+
+    <script type="text/javascript">
+        $(document).ready(function () {
+            
+        var arr = "";
+        if ($("#hidLevelId").val().indexOf("$$") >= 0) {
+            arr = $("#hidLevelId").val().split("$$");
+            
+            $("#LevelMaster").val(arr);
+            $("#LevelMaster").multiselect("refresh");
+            }
+ 
+    });//doc.Ready ends here
+</script>
+</head>    
+<body>
+  
+<form id="frmLevelComb" >
+    @Html.HiddenFor(model => model.MenuId)
+    @Html.HiddenFor(m => m.LevelStr, new { @id = "hidLevelId" })
+    <div id="divError" class="ui-state-error ui-corner-all" style="text-align: left; display: none; width: 100%">
+                <span class="ui-icon ui-icon-alert" style="float: left;"></span>                   
+                <span></span>
+    </div>       
+<table class="class-table-content1 ui-corner-all" width="100%" cellspacing="0" cellpadding="2" class="rowstyle" style="margin-top:10px; text-align:left; border:ridge 0.1em #ccc; width:100%; padding: 5px 5px 5px 5px;"> 
+    <tr>
+        <td style="font-weight:bold;width:10%">Levels<span style="color:red">*</span></td>
+        <td> @Html.ListBox("LevelMaster") &nbsp;<input type="button" id="btnSubmit" style="height: 25px" class="ui-state-default ui-corner-all" value='Map Levels' /></td>
+    </tr>
+    <tr>
+        <td colspan="2"><span id="showRoleError"> @Html.ValidationMessage("showLevelError")</span></td>
+    </tr>
+</table>
+</form>     
+</body>    
+</html>     

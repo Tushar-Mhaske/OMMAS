@@ -1,0 +1,13 @@
+﻿@using MvcReportViewer
+
+@model PMGSY.Areas.QMSSRSReports.Models.QualityReportsViewModel
+
+    @Html.MvcReportViewer("/PMGSYCitizen/QMMonthWise",
+     new
+     {
+         state = Model.State,
+         year = Model.Year,
+         qmtype = Model.qmType, 
+         StateName=Model.StateName        
+     },
+       new { Height = 600, Width = "100%", style = "border:none;" })

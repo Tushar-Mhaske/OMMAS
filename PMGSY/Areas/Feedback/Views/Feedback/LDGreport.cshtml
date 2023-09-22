@@ -1,0 +1,11 @@
+﻿@using MvcReportViewer
+
+@model PMGSY.Areas.Feedback.Models.CategorywiseFeedbackModel
+
+    @Html.MvcReportViewer("/PMGSYCitizen/LGD_DATA_MIS_Report",
+     new
+     {
+         genDATE = Convert.ToDateTime(Model.FROM_DATE)
+         
+     },
+       new { Height = 600, Width = "100%", style = "border:none;" })

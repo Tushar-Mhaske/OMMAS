@@ -1,0 +1,59 @@
+﻿@model PMGSY.Models.RegisterModel
+
+@{
+    ViewBag.Title = "Register";
+}
+
+<hgroup class="title">
+    <h4>@ViewBag.Title</h4>
+   
+</hgroup>
+
+@using (Html.BeginForm()) {
+    @Html.AntiForgeryToken()
+    @Html.ValidationSummary()
+
+    <fieldset>
+        <legend>Create a new account.</legend>
+        <div class="editor-label">
+            <table>
+                    <tr>
+                        <td>
+                                @Html.LabelFor(m => m.UserName, new { @id = "lblUName"}) : 
+                        </td>
+                        <td>
+                               @Html.TextBoxFor(m => m.UserName, new { @id = "txtUName"})
+                        </td> 
+                    </tr>
+                    <tr>
+                            <td>
+                                @Html.LabelFor(m => m.Password, new { @id = "lblPassword"}) : 
+                            </td>
+                        <td>
+                                @Html.PasswordFor(m => m.Password, new { @id = "txtPassword"}) 
+                        </td> 
+                    </tr>
+                    <tr>
+                            <td>
+                                @Html.LabelFor(m => m.ConfirmPassword, new { @id = "lblConfirmPwdr"}) : 
+                            </td>
+                        <td>
+                            @Html.PasswordFor(m => m.ConfirmPassword, new { @id="txtConfirmPwdr"})
+                        </td> 
+                    </tr>
+                    <tr>
+                        <td></td>
+                        <td>
+                            <input type="submit" id="btnSubmit" title="Click to create new user" value="Register"/>
+                        </td>
+                    </tr>
+              </table>
+        </div>
+        
+    </fieldset>
+}
+
+@section Scripts {
+    @System.Web.Optimization.Scripts.Render("~/bundles/jqueryval")
+}
+

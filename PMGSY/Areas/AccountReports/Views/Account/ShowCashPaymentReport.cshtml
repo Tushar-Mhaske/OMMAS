@@ -1,0 +1,28 @@
+﻿@using MvcReportViewer
+@model PMGSY.Areas.AccountReports.Models.CashPaymentViewModel
+
+@Html.MvcReportViewer("/PMGSYCitizen/CashPaymentReport",
+     new
+     {
+          StateNdCode = Model.AdminNdCode,
+         PiuCode = Model.DPIU,
+         Duration = Model.rType,
+         Month = Model.Month,
+         Year = Model.Year,
+         StartDate = Model.StartDate,
+         EndDate = Model.EndDate,
+         // StartDate = " ",
+         //EndDate = " ",
+         NodalAgency = Model.NodalAgency,
+         DPIU = Model.DPIUName,
+         StateName = Model.StateName,
+         Selection = Model.Selection,
+         Level = Model.levelId,
+         YearName = Model.YearName,
+         ModuleType= Model.Module,
+         //ModuleType= "R",
+         FundType=Model.Fundtype
+     },
+     new { Height = 600, Width = "100%", style = "border:none;" })
+
+

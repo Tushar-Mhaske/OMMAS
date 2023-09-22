@@ -1,0 +1,13 @@
+﻿@using MvcReportViewer
+
+    @Html.MvcReportViewer("/PMGSYCitizen/QMMonitorReport",
+     new
+     {
+         QMTYPE= @ViewBag.QMType,
+         STATE=@ViewBag.StateCode,
+         EMPANELLED =@ViewBag.Empanelled
+         
+     },
+     new {  Width = "100%" , Height = "600px" , style = "border:none;overflow:hidden"  })
+
+

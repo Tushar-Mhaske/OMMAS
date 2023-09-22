@@ -1,0 +1,536 @@
+﻿@*
+    * Project Id    :
+    * Project Name  :   OMMAS II
+    * Name          :   MordLSBSanctionProposal.cshtml
+    * Description   :   This View is for MORD to Display Mord Sanctioning Details
+    * Author        :   Shyam Yadav
+    * Modified By   :   Shivkumar Deshmukh        
+    * Creation Date :   20-05-2013
+*@
+
+@model PMGSY.Models.Proposal.MordLSBSanctionViewModel
+<script src="~/Scripts/custom/Generic.js"></script>
+<script src="~/Scripts/jquery.ui.datepicker.js"></script>
+<script src="~/Scripts/Proposal/LSBMordSanctionProposal.js"></script>
+<form id="frmMordLSBSanction">
+    @Html.HiddenFor(model => model.IMS_PR_ROAD_CODE)
+    
+    @* Propsoal has been scrutinized by STA and now available for Sanctioning to MORD *@
+    @if (Model.IMS_SANCTIONED == "N" && PMGSY.Extensions.PMGSYSession.Current.RoleCode == 25)
+    {    
+        <div id="divError" class="ui-state-error ui-corner-all" style="text-align: left; display: none; width: 100%">
+            <span></span>
+            <span></span>
+        </div>        
+                     
+        <div style="height: 20px; width: 100%; text-align: left; padding-top: 0.6em;" class="ui-state-default ui-corner-all">
+            &nbsp; <strong>Note :</strong>  All Amounts are in Lakhs.
+            
+        </div>
+       
+        <table class="rowstyle ui-corner-all" cellpadding="3px" id="tblEditProposal" style="border: ridge 0.1em #ccc; padding: 5px 5px 5px 5px; width: 100%">
+            @if (Model.IMS_SANCTIONED == "U")
+            {
+                <tr>
+                    <td colspan="4" style="text-align: left">
+                        <div class="ui-corner-all ui-state-default" style="height: 20px; padding-top: 5px; padding-left: 5px">
+                            Proposal has been Un-Sanctioned by MORD.
+                        </div>
+                    </td>
+                </tr>
+            }
+            @if (Model.IMS_SANCTIONED == "R")
+            {
+                <tr>
+                    <td colspan="4" style="text-align: left">
+                        <div class="ui-corner-all ui-state-default" style="height: 20px; padding-top: 5px; padding-left: 5px">
+                            Proposal has been Recommended by MoRD for Improvement.
+                        </div>
+                    </td>
+                </tr>
+            }
+            @if (Model.IMS_SANCTIONED == "D")
+            {
+                <tr>
+                    <td colspan="4" style="text-align: left">
+                        <div class="ui-corner-all ui-state-default" style="height: 20px; padding-top: 5px; padding-left: 5px">
+                            Proposal has been Dropped by MORD.
+                        </div>
+                    </td>
+
+                </tr>
+            }
+            @if (Model.IMS_SANCTIONED == "Y")
+            {
+                <tr>
+                    <td colspan="4" style="text-align: left">
+                        <div class="ui-corner-all ui-state-default" style="height: 20px; padding-top: 5px; padding-left: 5px">
+                            Proposal has been Sanctioned by MORD.
+                        </div>
+                    </td>
+
+                </tr>
+            }
+
+
+            <tr style="text-align: left;">
+                <td style="width: 15%; text-align: left; font-weight: bold">
+                    @Html.LabelFor(model => model.IMS_SANCTIONED_BS_AMT)<span style="color: red">*</span>
+                </td>
+                <td style="width: 85%; text-align: left;">
+                    @Html.TextBoxFor(model => model.IMS_SANCTIONED_BS_AMT, new { @class = "TMC" })
+                    @Html.ValidationMessageFor(model => model.IMS_SANCTIONED_BS_AMT)
+                </td>
+            </tr>
+
+            <tr>
+                <td style="width: 15%; text-align: left; font-weight: bold">
+                    @Html.LabelFor(model => model.IMS_SANCTIONED_BW_AMT)<span style="color: red">*</span>
+                </td>
+                <td style="width: 85%; text-align: left;">
+                    @Html.TextBoxFor(model => model.IMS_SANCTIONED_BW_AMT, new { @class = "TMC" })
+                    @Html.ValidationMessageFor(model => model.IMS_SANCTIONED_BW_AMT)
+                </td>
+            </tr>
+
+            <tr style="text-align: left;">
+                <td style="width: 15%; text-align: left; font-weight: bold">
+                    @Html.LabelFor(model => model.TotalEstimatedCost)<span style="color: red">*</span>
+                </td>
+                <td style="width: 85%; text-align: left;">
+                    @Html.TextBoxFor(model => model.TotalEstimatedCost, new { @readonly = "readonly" })
+                    @Html.ValidationMessageFor(model => model.TotalEstimatedCost)
+                </td>
+            </tr>
+            
+            @if (@Model.PMGSYScheme == 2)
+            {
+                if (Model.IMS_IS_HIGHER_SPECIFICATION != null && Model.IMS_IS_HIGHER_SPECIFICATION.Equals("Y"))
+                {
+                    <tr style="text-align: left">
+                        <td>
+                            @Html.LabelFor(model => model.IMS_SANCTIONED_HS_AMT)
+                        </td>
+                        <td>
+                            @Html.TextBoxFor(model => model.IMS_SANCTIONED_HS_AMT, new { @maxlength = "10" })
+                            @Html.ValidationMessageFor(model => model.IMS_SANCTIONED_HS_AMT)
+                        </td>
+                    </tr>
+                }
+            }
+            <tr>
+                <td style="width: 15%; text-align: left; font-weight: bold">
+                    @Html.LabelFor(model => model.IMS_SANCTIONED_BY)<span style="color: red">*</span>
+                </td>
+                <td style="text-align: left; width: 85%">
+                    @Html.TextBoxFor(model => model.IMS_SANCTIONED_BY, new { @maxlength = 50 })
+                    @Html.ValidationMessageFor(model => model.IMS_SANCTIONED_BY)
+                </td>
+            </tr>
+
+            <tr style="text-align: left;">
+                <td style="width: 15%">
+                    @Html.LabelFor(model => model.IMS_SANCTIONED_DATE)<span style="color: red">*</span>
+                </td>
+                <td style="width: 85%; text-align: left;">
+                    @Html.TextBoxFor(model => model.IMS_SANCTIONED_DATE, new { @readonly = "readonly" })
+                    @Html.ValidationMessageFor(model => model.IMS_SANCTIONED_DATE)
+                </td>
+            </tr>
+
+            <tr style="text-align: left; font-weight: bold">
+                <td style="width: 15%">
+                    @Html.LabelFor(model => model.IMS_PROG_REMARKS)
+                </td>
+                <td style="width: 85%; text-align: left;">
+                    @Html.TextAreaFor(model => model.IMS_PROG_REMARKS, new { @style = "width: 330px;", @maxlength = 250 })
+                    @Html.ValidationMessageFor(model => model.IMS_PROG_REMARKS)
+                </td>
+            </tr>
+
+            <tr>
+                <td colspan="2">
+                    <table class="rowstyle ui-corner-all" style="border: ridge 0.1em #808080; padding: 5px 5px 5px 5px; width: 100%; margin-top: 10px">
+                        <tr>
+                            <td>Action<span style="color: red">*</span> </td>                
+                            <td style="text-align: left" colspan="3">
+                                @if(Model.IS_DROPPABLE)
+                                {                                 
+                                    @Html.RadioButtonFor(model => model.IMS_SANCTIONED, "D", new { @id = "rdoDrop" }) <strong>Drop</strong> 
+                                }
+                                @if (Model.IS_SANCTIONABLE)
+                                {
+                                    @Html.RadioButtonFor(model => model.IMS_SANCTIONED, "Y", new { @id = "rdoSanction" }) <strong>Sanction</strong> 
+                                }
+                                @if(Model.IS_UNSANCTIONABLE)                   
+                                {
+                                    @Html.RadioButtonFor(model => model.IMS_SANCTIONED, "U", new { @id = "rdoSanction" })<strong> Un-Sanction</strong>
+                                }
+                                @if(Model.IS_RECONSIDERABLE)
+                                {
+                                    @Html.RadioButtonFor(model => model.IMS_SANCTIONED, "R", new { @id = "rdoReconsider" }) <strong> Recommendation Subject to Improvement</strong>
+                                }  
+                                @Html.ValidationMessageFor(model => model.IMS_SANCTIONED, "Please Select the Action")        
+                            </td>
+                        </tr>
+
+                        <tr id="tdHabReasonLabel" style="display:none">
+                            <td>
+                                @Html.LabelFor(model => model.IMS_REASON)     
+                                <span style="color:red">*</span>              
+                            </td>
+                            <td colspan="3">
+                                @Html.DropDownListFor(model => model.IMS_REASON, new SelectList(Model.REASONS, "Value", "Text"))
+                            </td>
+                        </tr>
+
+                        <tr>
+                            <td style="width: 15%; text-align: left; font-weight: bold"></td>
+                            <td style="text-align: left; width: 85%;">
+                                <input type="button" value="Submit" id="btnUpdateAmount" name="btnUpdateAmount" class="jqueryButton" />
+                            </td>
+                        </tr>
+                    </table>
+                </td>
+            </tr>
+
+        </table>
+    }
+    @*  For STA and DPIU Login , Only Disaply Purpose *@
+    else if (Model.IMS_ISCOMPLETED == "D")
+    {
+        <strong style="text-align: left">Proposal is not Scrutinized by STA, it will be available to MORD once STA Scrutinizes Proposal. </strong>
+    }
+   @* For MORD Only Display Purpose and Taking an Action on it *@
+    else if (PMGSY.Extensions.PMGSYSession.Current.RoleCode == 25)
+    {
+        <div id="divError" class="ui-state-error ui-corner-all" style="text-align: left; display: none; width: 100%">
+            <span></span>
+            <span></span>
+        </div>
+                
+        <table class="rowstyle ui-corner-all" cellpadding="3px" style="border: ridge 0.1em #ccc; padding: 5px 5px 5px 5px; width: 100%;">
+             @if (Model.IMS_SANCTIONED == "U")
+             {
+                <tr>
+                    <td colspan="2" style="text-align: left">
+                        <div class="ui-corner-all ui-state-highlight" style="height: 20px; padding-top: 5px; padding-left: 5px">
+                        <strong>Proposal has been Un-Sanctioned by MORD.</strong>       
+                        </div>
+                    </td>
+                </tr>
+             }
+             @if (Model.IMS_SANCTIONED == "R")
+             {
+                 <tr>
+                       <td colspan="2" style="text-align: left">
+                        <div class="ui-corner-all ui-state-highlight" style="height: 20px; padding-top: 5px; padding-left: 5px">
+                        <strong>Proposal has been Recommended by MoRD for Improvement.</strong>    
+                        </div>
+                    </td>
+                </tr>
+             }
+             @if (Model.IMS_SANCTIONED == "D")
+             {
+                 <tr>
+                     <td colspan="2" style="text-align: left">
+                        <div class="ui-corner-all ui-state-highlight" style="height: 20px; padding-top: 5px; padding-left: 5px">
+                            <strong>Proposal has been Dropped by MORD.</strong> 
+                        </div>
+                    </td>
+
+                </tr>
+             }
+             @if (Model.IMS_SANCTIONED == "Y")
+             {
+                 <tr>
+                     <td colspan="2" style="text-align: left">
+                        <div class="ui-corner-all ui-state-highlight" style="height: 20px; padding-top: 5px; padding-left: 5px">
+                        <strong>Proposal has been Sanctioned by MORD.</strong>    
+                        </div>
+                    </td>
+
+                </tr>
+             }             
+   
+            <tr style="text-align: left;">
+                <td style="width: 15%; text-align: left; font-weight: bold">
+                    @Html.LabelFor(model => model.IMS_SANCTIONED_BS_AMT)
+                </td>
+                <td style="width: 85%; text-align: left;">
+                    @Html.DisplayFor(model => model.IMS_SANCTIONED_BS_AMT)
+                    @Html.HiddenFor(model => model.IMS_SANCTIONED_BS_AMT)
+                </td>
+            </tr>
+
+            <tr>
+                <td style="width: 15%; text-align: left; font-weight: bold">
+                    @Html.LabelFor(model => model.IMS_SANCTIONED_BW_AMT)
+                </td>
+                <td style="width: 85%; text-align: left;">
+                    @Html.DisplayFor(model => model.IMS_SANCTIONED_BW_AMT)
+                    @Html.HiddenFor(model => model.IMS_SANCTIONED_BW_AMT)
+                </td>
+            </tr>
+
+            <tr style="text-align: left;">
+                <td style="width: 15%; text-align: left; font-weight: bold">
+                    @Html.LabelFor(model => model.TotalEstimatedCost)
+                </td>
+                <td style="width: 85%; text-align: left;">
+                    @Html.DisplayFor(model => model.TotalEstimatedCost)
+                    @Html.HiddenFor(model=> model.TotalEstimatedCost)
+                </td>
+            </tr>
+            @if (@Model.PMGSYScheme == 2)
+            {
+                if (Model.IMS_IS_HIGHER_SPECIFICATION != null && Model.IMS_IS_HIGHER_SPECIFICATION.Equals("Y"))
+                {
+                    <tr style="text-align: left">
+                        <td>
+                            @Html.LabelFor(model => model.IMS_SANCTIONED_HS_AMT)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(model => model.IMS_SANCTIONED_HS_AMT)
+                            @Html.HiddenFor(model=> model.IMS_SANCTIONED_HS_AMT)
+                        </td>
+                    </tr>
+                }
+            }
+            <tr>
+                <td style="width: 15%; text-align: left; font-weight: bold">
+                    @Html.LabelFor(model => model.IMS_SANCTIONED_BY)
+                </td>
+                <td style="text-align: left; width: 85%">
+                    @Html.DisplayFor(model => model.IMS_SANCTIONED_BY_TEXT)                    
+                </td>
+            </tr>
+
+            <tr style="text-align: left; font-weight: bold">
+                <td style="width: 15%">
+                    @Html.LabelFor(model => model.IMS_SANCTIONED_DATE)
+                </td>
+                <td style="width: 85%; text-align: left;">
+                    @Html.DisplayFor(model => model.IMS_SANCTIONED_DATE)      
+                                           
+                </td>
+            </tr>
+            
+            <tr style="text-align: left; font-weight: bold">
+                <td style="width: 15%">
+                    @Html.LabelFor(model => model.IMS_PROG_REMARKS)
+                </td>
+                <td style="width: 85%; text-align: left;">
+                    @Html.DisplayFor(model => model.IMS_PROG_REMARKS)              
+                </td>
+            </tr>
+            
+        </table>
+        
+        //Only Mord have rights to changes Action & Submit
+        if (PMGSY.Extensions.PMGSYSession.Current.RoleCode == 25)
+        {
+            <table class="rowstyle ui-corner-all" style="border: ridge 0.1em #808080; padding: 5px 5px 5px 5px; width: 100%; margin-top: 10px">
+            <tr>
+                <td style="width: 15%; font-weight: bold">Action <span style="color: red">*</span> </td>
+                <td style="text-align: left; width: 85%">
+                                    
+                    @if(Model.IS_DROPPABLE)
+                    {                                 
+                        @Html.RadioButtonFor(model => model.IMS_SANCTIONED, "D", new { @id = "rdoDrop" }) <strong>Drop</strong> 
+                    }
+
+                    @if (Model.IS_SANCTIONABLE)
+                    {
+                        @Html.RadioButtonFor(model => model.IMS_SANCTIONED, "Y", new { @id = "rdoSanction" }) <strong>Sanction</strong> 
+                    }
+                    
+                    @if(Model.IS_UNSANCTIONABLE)                   
+                    {
+                        @Html.RadioButtonFor(model => model.IMS_SANCTIONED, "U", new { @id = "rdoSanction" })<strong> Un-Sanction</strong>
+                    }
+
+                    @if(Model.IS_RECONSIDERABLE)
+                    {
+                        @Html.RadioButtonFor(model => model.IMS_SANCTIONED, "R", new { @id = "rdoReconsider" }) <strong> Recommendation Subject to Improvement</strong>
+                    }  
+                    @Html.ValidationMessageFor(model => model.IMS_SANCTIONED, "Please Select the Action")     
+
+                </td>
+            </tr>
+            <tr id="trSanctionDate" style="display:none">
+                <td style="text-align: left" >
+                    @Html.LabelFor(model => model.IMS_SANCTIONED_DATE) <span style="color: red">*</span>
+                </td>
+                <td style="text-align: left" colspan="3">
+                    @Html.TextBoxFor(model => model.IMS_SANCTIONED_DATE)
+                    @Html.ValidationMessageFor(model => model.IMS_SANCTIONED_DATE)
+                </td>
+            </tr>
+            <tr id="tdHabReasonLabel" style="display:none">
+                <td>
+                    @Html.LabelFor(model => model.IMS_REASON)     
+                    <span style="color:red">*</span>              
+                </td>
+                <td colspan="3">
+                    @Html.DropDownListFor(model => model.IMS_REASON, new SelectList(Model.REASONS, "Value", "Text"))
+                </td>
+            </tr>
+            
+            
+            <tr id="trSanctionedBy" style="display:none">
+	            <td style="text-align: left">
+		            @Html.LabelFor(model => model.IMS_SANCTIONED_BY)<span style="color: red">*</span>
+	            </td>
+	            <td style="text-align: left" colspan="3">
+		            @Html.TextBoxFor(model => model.IMS_SANCTIONED_BY, new { @maxlength = 50, @id="txtSanctionBy"  })		            
+                    @Html.ValidationMessageFor(model => model.IMS_SANCTIONED_BY)
+	            </td>                
+            </tr>
+            
+
+            <tr id="trSanctionRemark" style="display:none"> 
+	            <td style="text-align: left">
+		            @Html.LabelFor(model => model.IMS_PROG_REMARKS)
+		            <span style="color: red">*</span>
+	            </td>
+	            <td colspan="3">
+		            @Html.TextAreaFor(model => model.IMS_PROG_REMARKS, new { @style = "width: 330px;", @id="txtRemarks" })
+		            @Html.ValidationMessageFor(model => model.IMS_PROG_REMARKS)
+	            </td>                
+            </tr>
+
+            <tr>
+                <td style="width: 15%; text-align: left; font-weight: bold"></td>
+                <td style="text-align: left; width: 85%;">
+                    <input type="button" value="Submit" id="btnUpdateAmount" name="btnUpdateAmount" class="jqueryButton" />
+                </td>
+            </tr>
+
+        </table>
+        }
+    }
+    @*  For STA, SRRDA and DPIU Login , Only Disaply Purpose *@
+    else if (Model.IMS_SANCTIONED == "Y" && PMGSY.Extensions.PMGSYSession.Current.RoleCode == 22 || PMGSY.Extensions.PMGSYSession.Current.RoleCode == 38 || PMGSY.Extensions.PMGSYSession.Current.RoleCode == 3 || PMGSY.Extensions.PMGSYSession.Current.RoleCode == 2 || PMGSY.Extensions.PMGSYSession.Current.RoleCode == 37 || PMGSY.Extensions.PMGSYSession.Current.RoleCode == 15)
+    {
+         <table class="rowstyle ui-corner-all" cellpadding="3px" style="border: ridge 0.1em #ccc; padding: 5px 5px 5px 5px; width: 100%;">
+             @if (Model.IMS_SANCTIONED == "U")
+             {
+                <tr>
+                    <td colspan="2" style="text-align: left">
+                        <div class="ui-corner-all ui-state-highlight" style="height: 20px; padding-top: 5px; padding-left: 5px">
+                        <strong>Proposal has been Un-Sanctioned by MORD.</strong>       
+                        </div>
+                    </td>
+                </tr>
+             }
+             @if (Model.IMS_SANCTIONED == "R")
+             {
+                 <tr>
+                       <td colspan="2" style="text-align: left">
+                        <div class="ui-corner-all ui-state-highlight" style="height: 20px; padding-top: 5px; padding-left: 5px">
+                        <strong>Proposal has been Recommended by MoRD for Improvement.</strong>    
+                        </div>
+                    </td>
+                </tr>
+             }
+             @if (Model.IMS_SANCTIONED == "D")
+             {
+                 <tr>
+                     <td colspan="2" style="text-align: left">
+                        <div class="ui-corner-all ui-state-highlight" style="height: 20px; padding-top: 5px; padding-left: 5px">
+                            <strong>Proposal has been Dropped by MORD.</strong> 
+                        </div>
+                    </td>
+
+                </tr>
+             }
+             @if (Model.IMS_SANCTIONED == "Y")
+             {
+                 <tr>
+                     <td colspan="2" style="text-align: left">
+                        <div class="ui-corner-all ui-state-highlight" style="height: 20px; padding-top: 5px; padding-left: 5px">
+                        <strong>Proposal has been Sanctioned by MORD.</strong>    
+                        </div>
+                    </td>
+
+                </tr>
+             }             
+   
+            <tr style="text-align: left;">
+                <td style="width: 15%; text-align: left; font-weight: bold">
+                    @Html.LabelFor(model => model.IMS_SANCTIONED_BS_AMT)
+                </td>
+                <td style="width: 85%; text-align: left;">
+                    @Html.DisplayFor(model => model.IMS_SANCTIONED_BS_AMT)
+                    @Html.HiddenFor(model => model.IMS_SANCTIONED_BS_AMT)
+                </td>
+            </tr>
+
+            <tr>
+                <td style="width: 15%; text-align: left; font-weight: bold">
+                    @Html.LabelFor(model => model.IMS_SANCTIONED_BW_AMT)
+                </td>
+                <td style="width: 85%; text-align: left;">
+                    @Html.DisplayFor(model => model.IMS_SANCTIONED_BW_AMT)
+                    @Html.HiddenFor(model => model.IMS_SANCTIONED_BW_AMT)
+                </td>
+            </tr>
+
+            <tr style="text-align: left;">
+                <td style="width: 15%; text-align: left; font-weight: bold">
+                    @Html.LabelFor(model => model.TotalEstimatedCost)
+                </td>
+                <td style="width: 85%; text-align: left;">
+                    @Html.DisplayFor(model => model.TotalEstimatedCost)
+                    @Html.HiddenFor(model=> model.TotalEstimatedCost)
+                </td>
+            </tr>
+            @if (@Model.PMGSYScheme == 2)
+            {
+                if (Model.IMS_IS_HIGHER_SPECIFICATION != null && Model.IMS_IS_HIGHER_SPECIFICATION.Equals("Y"))
+                {
+                    <tr style="text-align: left">
+                        <td>
+                            @Html.LabelFor(model => model.IMS_SANCTIONED_HS_AMT)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(model => model.IMS_SANCTIONED_HS_AMT)
+                            @Html.HiddenFor(model=> model.IMS_SANCTIONED_HS_AMT)
+                        </td>
+                    </tr>
+                }
+            }
+            <tr>
+                <td style="width: 15%; text-align: left; font-weight: bold">
+                    @Html.LabelFor(model => model.IMS_SANCTIONED_BY)
+                </td>
+                <td style="text-align: left; width: 85%">
+                    @Html.DisplayFor(model => model.IMS_SANCTIONED_BY_TEXT)                    
+                </td>
+            </tr>
+
+            <tr style="text-align: left; font-weight: bold">
+                <td style="width: 15%">
+                    @Html.LabelFor(model => model.IMS_SANCTIONED_DATE)
+                </td>
+                <td style="width: 85%; text-align: left;">
+                    @Html.DisplayFor(model => model.IMS_SANCTIONED_DATE)          
+                    
+                </td>
+            </tr>
+            
+            <tr style="text-align: left; font-weight: bold">
+                <td style="width: 15%">
+                    @Html.LabelFor(model => model.IMS_PROG_REMARKS)
+                </td>
+                <td style="width: 85%; text-align: left;">
+                    @Html.DisplayFor(model => model.IMS_PROG_REMARKS)              
+                </td>
+            </tr>
+            
+        </table>
+    }
+</form>
+
+    

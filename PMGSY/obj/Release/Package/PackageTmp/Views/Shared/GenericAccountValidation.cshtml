@@ -1,0 +1,43 @@
+﻿
+@model PMGSY.Models.Common.AccountValidationModel
+<!DOCTYPE html>
+
+<html>
+<head>
+    <meta name="viewport" content="width=device-width" />
+    
+</head>
+<body>
+    
+   
+    
+      <div class="ui-state-default ui-corner-all" style="margin-top:10%;border:.1em solid gray">
+      <span>  <b> You can not proceed because  </b> </span><br />
+       @{
+       if(!Model.BankDetailsEntered)
+      {
+       <span>  <b> Bank details are not entered </b> </span>
+    <br />
+        }
+         if(!Model.ChequeBookDetailsEntered)
+        {    <span>  <b>Cheque Book details are not entered </b> </span>
+             <br />   
+        }if(!Model.OpeningBalanceFinalized)
+        {
+             <span>  <b>Opening Balance entered but not finalized </b> </span>
+        }
+        
+        if(!Model.AuthSign)
+        {
+             <span>  <b>Authorized Signatory Details are not entered.</b> </span>
+        }
+        
+        if(!Model.SrrdaOBEntered)
+        {
+             <span>  <b>SRRDA Opening Balance details are not entered.</b> </span>
+        }
+     }
+        </div>
+    
+</body>
+</html>

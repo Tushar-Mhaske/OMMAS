@@ -1,0 +1,171 @@
+﻿@*
+    * Project Id    :
+    * Project Name  :   OMMAS II
+    * Name          :   QmATROaHtmlList.cshtml
+    * Description   :   Renders ATR data report in HTML Format //This 
+    * Author        :   Shyam Yadav
+    * Creation Date :   15/July/2014
+ //this Model "QMATRDetailsModel" also used in  ATRDetail
+*@
+
+@model PMGSY.Models.QualityMonitoring.QMATRDetailsModel      
+<html>
+
+<body>
+    <div class="dataTable" style="width:160%;">
+        <table class="head ui-state-active" >
+           <tr>
+                <th style="width:30px;"> Sr. No.</th>
+                <th style="width:80px;"> Monitor </th>
+              
+                <th style="width:80px;"> District </th>
+                <th style="width:80px;"> Block </th>
+                <th style="width:80px;"> Package </th>
+                <th style="width:80px;"> Sanction Year </th>
+                <th style="width:150px;"> Road Name </th>
+                <th style="width:50px;"> Type </th>
+                <th style="width:90px;padding-left:0px;padding-right:0px;"> Chainage (Km)
+                    <table  style="border-top:1px solid #CCC;vertical-align:bottom;">
+                        <tr>
+                            <th style="width:42px;border-bottom:none;">Start</th>
+                            <th style="width:42px;border-bottom:none;border-right:none;">End</th>
+                        <tr>
+                    </table>
+                </th>
+                <th style="width:80px;"> Inspection Date </th>
+                <th style="width:80px;"> Road Status </th>
+                <th style="width:60px;"> Enquiry Inspection </th>
+                <th style="width:90px;"> Overall Grade </th>
+                <th style="width:40px;"> View </th>
+                <th colspan="8" style="text-align:center;width:565px;border-right:none;padding-left:0px;padding-right:0px;"> Action Taken Report (ATR) 
+                        <table style="border-top:1px solid #CCC;">
+                           <tr>
+                                <th style="width:60px;border-bottom:none;">Submitted</th>
+                                @if(PMGSY.Extensions.PMGSYSession.Current.RoleCode == 22)  //for SQC No need to display delete
+                                {
+                                    <th style="width:60px;border-bottom:none;">View</th>
+                                }
+                                else
+                                {
+                                    <th style="width:60px;border-bottom:none;">Upload / View</th>
+                                }
+                                
+                                <th style="width:60px;border-bottom:none;">Date Of Upload</th>
+                                <th style="width:245px;border-bottom:none;">Regrade
+                                    <table  style="border-top:1px solid #CCC;">
+                                        <tr>
+                                            <th style="width:65px;border-bottom:none;">Acceptance</th>
+                                            <th style="width:80px;border-bottom:none;">Remarks</th>
+                                            <th style="width:50px;border-bottom:none;">Date</th>
+                                          
+                                        <tr>
+                                    </table>
+                                </th>
+                             
+                            <tr>
+                        </table> 
+                </th>
+               <th style="width:30px;"></th>
+      </tr>
+      </table>
+
+        <div class="innerTable" style="width:99%;height: 250px;">
+         <table style="width:99.5%;">
+            @{
+                var srNo = 1;
+             }
+
+            @if (Model.ERROR != null)
+            {
+                 <tr>
+                    <td colspan="23" style="color:#FF0000;">
+                        @Model.ERROR
+                    </td>
+                </tr>
+            }
+            else if (Model.OBS_LIST != null && Model.OBS_LIST.Count > 0)
+            {
+                    foreach (var obsItem in Model.OBS_LIST)
+                    {
+                        <tr>
+                            <td style="width:30px;text-align:center;">@srNo</td>@*Sr. No.*@
+                            <td style="width:80px;">@obsItem.MONITOR_NAME</td> @*Monitor*@
+                          
+                            <td style="width:82px;">@obsItem.DISTRICT_NAME</td> @*District Name*@
+                            <td style="width:82px;">@obsItem.BLOCK_NAME</td>@*Block Name*@
+                            <td style="width:82px;">@obsItem.IMS_PACKAGE_ID</td> @*Package Id*@
+                            <td style="width:80px;">@obsItem.IMS_YEAR</td> @*Sanction Year*@
+                            <td style="width:154px;">@obsItem.IMS_ROAD_NAME</td>@*Road Name*@
+                            <td style="width:50px;">@obsItem.IMS_PROPOSAL_TYPE</td>@*Type*@
+                            <td style="width:45px;padding-left:0px;padding-right:0px;">@obsItem.QM_INSPECTED_START_CHAINAGE</td> @*start Chnainage*@
+                            <td style="width:49px;padding-left:0px;padding-right:0px;">@obsItem.QM_INSPECTED_END_CHAINAGE</td> @*End Chnainage*@
+                            <td style="width:80px;">@obsItem.QM_INSPECTION_DATE</td> @*Inspection Date*@
+                            <td style="width:80px;">@obsItem.IMS_ISCOMPLETED</td> @*Road Status*@
+                            <td style="width:60px;">@obsItem.ADMIN_IS_ENQUIRY</td> @*Inquyiry Inspection*@
+                            <td style="width:95px;">@obsItem.OVERALL_GRADE</td> @*Overall Grade*@
+                            <td style="width:40px;">@Html.Raw(obsItem.SHOW_OBS_LINK)</td> @*View*@
+                            
+                            <td  style="width:565px;height:100%;padding-left:0px;padding-right:0px;">
+                                <table style="width:100%;height:100%;border-bottom:none;">
+                                    @{ var recordCnt = Model.ATR_LIST.Where(c => c.QM_OBSERVATION_ID == obsItem.QM_OBSERVATION_ID).Count();
+                                       var srCnt = 1;
+                                     }
+                                    @foreach (var atrItem in Model.ATR_LIST.Where(c => c.QM_OBSERVATION_ID == obsItem.QM_OBSERVATION_ID))
+                                    {
+                                        if (recordCnt > 1 && srCnt < recordCnt)
+                                        {
+                                            <tr style="height:100%;">
+                                                <td style="width:53px;text-align:center;">@atrItem.ATR_REGRADE_STATUS</td>   @* Is Submitted *@
+                                                <td style="width:52px;text-align:center;">@Html.Raw(atrItem.ATR_UPLOAD_VIEW_LINK)</td> @* Upload/View Link *@
+                                                <td style="width:54px;text-align:center;">@atrItem.ATR_ENTRY_DATE</td>       @* Upload Date *@
+                                                <td style="width:69px;text-align:center;">@Html.Raw(atrItem.ATR_ACCEPTANCE_LINK)</td>  @* Acceptance *@
+                                                <td style="width:82px;">@atrItem.ATR_REGRADE_REMARKS</td>                    @* Accept, Reject Remarks *@
+                                                <td style="width:50px;text-align:center;">@atrItem.ATR_REGRADE_DATE</td>     @* Accept, Reject Date *@
+                                               
+                                               
+                                            </tr>
+                                        }
+                                        else
+                                        {
+                                            <tr style="height:100%;">
+                                                <td style="width:53px;text-align:center;border-bottom:none;">@atrItem.IS_SUBMITTED</td>   @* Is Submitted *@
+                                                <td style="width:52px;text-align:center;border-bottom:none;">@Html.Raw(atrItem.ATR_UPLOAD_VIEW_LINK)</td> @* Upload/View Link *@
+                                                <td style="width:54px;text-align:center;border-bottom:none;">@atrItem.ATR_ENTRY_DATE</td>       @* Upload Date *@
+                                                <td style="width:69px;text-align:center;border-bottom:none;">@Html.Raw(atrItem.ATR_ACCEPTANCE_LINK)</td>  @* Acceptance *@
+                                                <td style="width:82px;border-bottom:none;">@atrItem.ATR_REGRADE_REMARKS</td>                    @* Accept, Reject Remarks *@
+                                                <td style="width:50px;text-align:center;border-bottom:none;">@atrItem.ATR_REGRADE_DATE</td>      @* Accept, Reject Date *@
+                                                
+                                              
+                                            </tr>
+                                        }
+                                        srCnt++;   
+                                    }
+                                 </table>
+                            </td>
+                            @if(Model.OBS_LIST.Count < 10)
+                            {
+                                <td style="width:15px;"></td>
+                            }
+                        </tr>
+                
+                        srNo++;
+                    }
+            }
+            else
+            {
+                <tr>
+                    <td colspan="23">
+                        No records found
+                    </td>
+                </tr>
+            }
+        </table>
+        </div>
+    </div>
+
+
+     
+
+</body>
+</html>
+

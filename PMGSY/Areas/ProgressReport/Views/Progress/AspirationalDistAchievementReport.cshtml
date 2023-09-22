@@ -1,0 +1,14 @@
+﻿@{
+    ViewBag.Title = "AspirationalDistAchievementReport";
+}
+
+@using MvcReportViewer
+
+@model PMGSY.Areas.ProgressReport.Models.ProgressViewModel
+
+@Html.MvcReportViewer("/PMGSYCitizen/AspirationalDistrictsAchievement",
+         new
+         {
+             Year =  Model.Year,
+         },
+     new { Height = 700, Width = "100%", style = "border:none;" })

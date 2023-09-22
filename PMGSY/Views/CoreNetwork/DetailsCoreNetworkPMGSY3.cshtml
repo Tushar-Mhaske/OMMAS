@@ -1,0 +1,176 @@
+﻿@model PMGSY.Models.CoreNetwork.CoreNetworkViewModel
+
+@{
+    ViewBag.Title = "DetailsCoreNetwork";
+}
+
+<script src="~/Scripts/custom/Generic.js"></script>
+<script src="~/Scripts/jquery.ui.accordion.js"></script>
+<script src="~/Scripts/CoreNetwork/DetailsCoreNetworkPMGSY3.js"></script>
+
+<div style="height: 20px; width: 100%; text-align: left; padding-top: 0.6em;" class="ui-state-default ui-corner-all">
+    &nbsp;&nbsp;Road Number:@Model.PLAN_CN_ROAD_NUMBER
+    &nbsp;&nbsp;&nbsp;&nbsp; <strong>Road Name:</strong>  @Model.PLAN_RD_NAME
+</div>
+
+<div id="tabs">
+
+    <ul>
+        <li><a href="#tabs-1">
+            Candidate Road Details</a></li>
+        <li><a href="#tabs-2">Habitations Mapped Details</a></li>
+        <li style="display:none;"><a href="#tabs-3">Upload Details</a></li>
+        <li style="display:none;"><a href="#tabs-4">Proposal Details</a></li>
+        <li><a href="#tabs-5">Mapped DRRP Details</a></li>
+    </ul>
+
+    <div id="tabs-1" style="text-align: left">
+        <table id="Table1" cellspacing="0" cellpadding="5px" class="rowstyle" style="margin-top: 10px; text-align: left; border: ridge 0.1em #ccc; width: 100%; padding-top: 5px 5px 5px 5px;">
+            <tr>
+                @Html.HiddenFor(model => model.PLAN_CN_ROAD_CODE)
+            </tr>
+            <tr>
+                <td>
+                    @Html.LabelFor(model => model.PLAN_CN_ROAD_NUMBER)
+                </td>
+                <td>
+                    @Html.DisplayFor(model => model.PLAN_CN_ROAD_NUMBER)
+                </td>
+                <td>
+                    @Html.Label("DRRP Road Code")
+                </td>
+                <td>
+                    @Html.DisplayFor(model => model.ROAD_CODE)
+                </td>
+
+            </tr>
+            <tr>
+                <td>
+                    @Html.LabelFor(model => model.PLAN_RD_NAME)
+                </td>
+                <td>
+                    @Html.DisplayFor(model => model.PLAN_RD_NAME)
+                </td>
+                <td>
+                    @Html.LabelFor(model => model.PLAN_RD_LENGTH)
+                </td>
+                <td>
+                    @Html.DisplayFor(model => model.PLAN_RD_LENGTH)
+                </td>
+            </tr>
+            <tr>
+                <td>
+                    @Html.LabelFor(model => model.PLAN_RD_FROM)
+                </td>
+                <td>
+                    @Html.DisplayFor(model => model.PLAN_RD_FROM)
+                </td>
+                <td>
+                    @Html.LabelFor(model => model.PLAN_RD_TO)
+                </td>
+                <td>
+                    @Html.DisplayFor(model => model.PLAN_RD_TO)
+                </td>
+            </tr>
+            <tr>
+                <td>
+                    @Html.LabelFor(model => model.PLAN_RD_FROM_CHAINAGE)
+                </td>
+                <td>
+                    @Html.DisplayFor(model => model.PLAN_RD_FROM_CHAINAGE)
+                </td>
+                <td>
+                    @Html.LabelFor(model => model.PLAN_RD_TO_CHAINAGE)
+                </td>
+                <td>
+                    @Html.DisplayFor(model => model.PLAN_RD_TO_CHAINAGE)
+                </td>
+            </tr>
+            <tr>
+                <td>
+                    @Html.LabelFor(model => model.PLAN_RD_ROUTE)
+                </td>
+                <td>
+                    @if (Model.PLAN_RD_ROUTE == "L")
+                    {
+                        <label>Link Route</label>
+                    }
+                    else if (Model.PLAN_RD_ROUTE == "T")
+                    {
+                        <label>Through Route</label>
+                    }
+                    else if (Model.PLAN_RD_ROUTE == "M")
+                    {
+                        <label>Major Rural Link</label>
+                    }
+
+                </td>
+                <td>
+                    <label>Road Length Covered (with respect to DRRP)</label>
+                </td>
+                <td>
+                    @if (Model.PLAN_RD_LENG == "P")
+                    {
+                        <label>Partial</label>
+                    }
+                    else
+                    {
+                        <label>Full</label>
+                    }
+                </td>
+            </tr>
+            <tr>
+                <td>
+                    @Html.Label("Road Short Code")
+                </td>
+                <td>
+                    @Html.DisplayFor(model => model.RoadShortCode)
+                </td>
+                <td></td>
+                <td></td>
+            </tr>
+            <tr>
+                <td>
+                    @Html.LabelFor(model => model.TotalLengthOfCandidate) (in Km)
+                </td>
+                <td colspan="3">
+                    @Html.DisplayFor(model => model.TotalLengthOfCandidate)
+                </td>
+            </tr>
+        </table>
+    </div>
+    <div id="tabs-2">
+        <div id="divHabitation" style="text-align: left; width: 100%">
+            <table id="habitationDetailsCategory" style="width: 95%"></table>
+            <div id="pagerDetailsHabitation"></div>
+        </div>
+    </div>
+    <div id="tabs-3"  style="display:none;">
+        <div id="uploadFiles" style="text-align: left; width: 100%">
+            <table id="tbPDFFilesList" style="width: 95%"></table>
+            <div id="dvPDFFilesListPager"></div>
+        </div>
+    </div>
+    <div id="tabs-4" style="display:none;">
+        <div id="ProposalDetails" style="text-align: left; width: 100%">
+            <table id="tbProposalList" style="width: 95%"></table>
+            <div id="dvProposalListPager"></div>
+        </div>
+    </div>
+    <div id="tabs-5">
+        <div id="mappedDRRPDetails" style="text-align: left; width: 100%">
+            <table id="tbMappedDRRPList" style="width: 95%"></table>
+            <div id="dvpgrMappedDRRPList"></div>
+        </div>
+    </div>
+</div>
+<div style="text-align: center">
+
+    @if (Model.PLAN_LOCK_STATUS.ToUpper() == "N")
+    {
+        if (PMGSY.Extensions.PMGSYSession.Current.RoleCode == 22)
+        {
+        <input type="button" id="btnFinalize" name="btnFinalize" class="jqueryButton" value="Finalize" style="height: 35px; width: 100px" />
+        }
+    }
+</div>

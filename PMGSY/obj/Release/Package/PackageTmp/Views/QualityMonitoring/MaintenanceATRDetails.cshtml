@@ -1,0 +1,208 @@
+﻿@*
+    * Project Id    :
+    * Project Name  :   OMMAS II
+    * Name          :   MaintenanceATRDetails.cshtml
+    * Description   :   Renders ATR data report in HTML Format
+    * Author        :   Deen Dayal Sharma
+    * Creation Date :   19/Dec/2017
+*@
+
+@model PMGSY.Models.QualityMonitoring.QMATRDetailsModel
+<html>
+
+<body>
+    <div class="dataTable" style="width:200%;">
+        <table class="head ui-state-active" >
+           <tr>
+                <th style="width:30px;"> Sr. No.</th>
+                <th style="width:80px;"> Monitor </th>  
+                @if (PMGSY.Extensions.PMGSYSession.Current.RoleCode == 9 || PMGSY.Extensions.PMGSYSession.Current.RoleCode == 5)  //for SQC No need to display state 
+                {
+                    <th style="width:80px;border-bottom:none;">State</th>
+                }         
+                <th style="width:80px;"> District </th>
+                <th style="width:80px;"> Block </th>
+                <th style="width:80px;"> Package </th>
+                <th style="width:80px;"> Sanction Year </th>
+                <th style="width:150px;"> Road Name </th>
+                <th style="width:50px;"> Type </th>
+                <th style="width:90px;padding-left:0px;padding-right:0px;"> Chainage (Km)
+                    <table  style="border-top:1px solid #CCC;vertical-align:bottom;">
+                        <tr>
+                            <th style="width:42px;border-bottom:none;">Start</th>
+                            <th style="width:42px;border-bottom:none;border-right:none;">End</th>
+                        <tr>
+                    </table>
+                </th>
+                <th style="width:80px;"> Inspection Date </th>
+                <th style="width:80px;"> Road Status </th>
+                <th style="width:60px;"> Enquiry Inspection </th>
+                <th style="width:60px;"> Scheme </th>
+                <th style="width:90px;"> Overall Grade </th>
+                <th style="width:40px;"> View </th>
+                <th colspan="8" style="text-align:center;width:565px;border-right:none;padding-left:0px;padding-right:0px;"> Action Taken Report (ATR) 
+                        <table style="border-top:1px solid #CCC;">
+                           <tr>
+                                <th style="width:60px;border-bottom:none;">Submitted</th>
+                                @if (PMGSY.Extensions.PMGSYSession.Current.RoleCode == 22)  //for piu atr maintenace uploading available else only can view
+                                {
+                                    <th style="width:60px;border-bottom:none;">Upload / View</th>
+                                }
+                                else
+                                {
+                                    <th style="width:60px;border-bottom:none;">View</th>
+                                }
+                                
+                                <th style="width:60px;border-bottom:none;">Date Of Upload</th>
+                                <th style="width:245px;border-bottom:none;">Regrade
+                                    <table  style="border-top:1px solid #CCC;">
+                                        <tr>
+                                            <th style="width:65px;border-bottom:none;">Acceptance</th>
+                                            <th style="width:80px;border-bottom:none;">Remarks</th>
+                                            <th style="width:50px;border-bottom:none;">Date</th>
+                                          
+                                            @if (PMGSY.Extensions.PMGSYSession.Current.RoleCode == 8)
+                                            {
+                                            <th style="width:50px;border-right:none;border-bottom:none;">Regrade</th>
+                                            }
+                                        <tr>
+                                    </table>
+                                </th>
+                             
+                               @if(PMGSY.Extensions.PMGSYSession.Current.RoleCode == 8)
+                               {
+                                    <th style="width:40px;"> Update ATR Status </th>
+                               }
+                              @* @if (PMGSY.Extensions.PMGSYSession.Current.RoleCode == 8)
+                               {
+                                <th style="width:50px;border-right:none;border-bottom:none;">Delete</th>
+                               }*@
+                            <tr>
+                        </table> 
+                </th>
+               <th style="width:30px;"></th>
+                
+      </tr>
+      </table>
+
+        <div class="innerTable" style="height: 250px;">
+         <table style="width:99.5%;">
+            @{
+                var srNo = 1;
+             }
+
+            @if (Model.ERROR != null)
+            {
+                 <tr>
+                    <td colspan="23" style="color:#FF0000;">
+                        @Model.ERROR
+                    </td>
+                </tr>
+            }
+            else if (Model.OBS_LIST != null && Model.OBS_LIST.Count > 0)
+            {
+                foreach (var obsItem in Model.OBS_LIST)
+                {
+                        <tr>
+                            <td style="width:30px;text-align:center;">@srNo</td>
+                            <td style="width:80px;">@obsItem.MONITOR_NAME</td> 
+                             @if (PMGSY.Extensions.PMGSYSession.Current.RoleCode == 9 || PMGSY.Extensions.PMGSYSession.Current.RoleCode == 5)
+                             { 
+                                  <td style="width:82px;">@obsItem.STATE_NAME</td> 
+                             }                          
+                            <td style="width:80px;">@obsItem.DISTRICT_NAME</td>
+                            <td style="width:80px;">@obsItem.BLOCK_NAME</td>
+                            <td style="width:80px;">@obsItem.IMS_PACKAGE_ID</td>
+                            <td style="width:80px;">@obsItem.IMS_YEAR</td>
+                            <td style="width:150px;">@obsItem.IMS_ROAD_NAME</td>
+                            <td style="width:50px;">@obsItem.IMS_PROPOSAL_TYPE</td>
+                            <td style="width:42px;padding-left:0px;padding-right:0px;">@obsItem.QM_INSPECTED_START_CHAINAGE</td>
+                            <td style="width:42px;padding-left:0px;padding-right:0px;">@obsItem.QM_INSPECTED_END_CHAINAGE</td>
+                            <td style="width:80px;">@obsItem.QM_INSPECTION_DATE</td>
+                            <td style="width:80px;">@obsItem.IMS_ISCOMPLETED</td>
+                            <td style="width:60px;">@obsItem.ADMIN_IS_ENQUIRY</td>
+                            <td style="width:60px;">@obsItem.PMGSY_SCHEME</td>
+                            <td style="width:90px;">@obsItem.OVERALL_GRADE</td>
+                            <td style="width:40px;">@Html.Raw(obsItem.SHOW_OBS_LINK)</td>
+                            
+                            <td  style="width:565px;height:100%;padding-left:0px;padding-right:0px;">
+                                <table style="width:100%;height:100%;border-bottom:none;">
+                                    @{ var recordCnt = Model.ATR_LIST.Where(c => c.QM_OBSERVATION_ID == obsItem.QM_OBSERVATION_ID).Count();
+                                       var srCnt = 1;
+                                     }
+                                    @foreach (var atrItem in Model.ATR_LIST.Where(c => c.QM_OBSERVATION_ID == obsItem.QM_OBSERVATION_ID))
+                                    {
+                                        if (recordCnt > 1 && srCnt < recordCnt)
+                                        {
+                                            <tr style="height:100%;">
+                                                <td style="width:60px;text-align:center;">@atrItem.ATR_REGRADE_STATUS</td>   @* Is Submitted *@
+                                                <td style="width:60px;text-align:center;">@Html.Raw(atrItem.ATR_UPLOAD_VIEW_LINK)</td> @* Upload Link *@
+                                                <td style="width:60px;text-align:center;">@atrItem.ATR_ENTRY_DATE</td>       @* Upload Date *@
+                                                <td style="width:60px;text-align:center;">@Html.Raw(atrItem.ATR_ACCEPTANCE_LINK)</td>
+                                                <td style="width:80px;">@atrItem.ATR_REGRADE_REMARKS</td>                    @* Accept, Reject Remarks *@
+                                                <td style="width:50px;text-align:center;">@atrItem.ATR_REGRADE_DATE</td>     @* Accept, Reject Date *@
+                                               
+                                              
+                                                @if(PMGSY.Extensions.PMGSYSession.Current.RoleCode == 8)
+                                                {
+                                                    <td style="width:50px;text-align:center;">@Html.Raw(atrItem.ATR_REGRADE_LINK)</td>
+                                                    @*<td style="width:50px;text-align:center;">@Html.Raw(atrItem.ATR_DELETE_LINK)</td>*@
+                                                }
+                                            </tr>
+                                        }
+                                        else
+                                        {
+                                            <tr style="height:100%;">
+                                                <td style="width:60px;text-align:center;border-bottom:none;">@atrItem.IS_SUBMITTED</td>   @* Is Submitted *@
+                                                <td style="width:60px;text-align:center;border-bottom:none;">@Html.Raw(atrItem.ATR_UPLOAD_VIEW_LINK)</td> @* Upload Link *@
+                                                <td style="width:60px;text-align:center;border-bottom:none;">@atrItem.ATR_ENTRY_DATE</td>       @* Upload Date *@
+                                                <td style="width:60px;text-align:center;border-bottom:none;">@Html.Raw(atrItem.ATR_ACCEPTANCE_LINK)</td>
+                                                <td style="width:80px;border-bottom:none;">@atrItem.ATR_REGRADE_REMARKS</td>                    @* Accept, Reject Remarks *@
+                                                <td style="width:50px;text-align:center;border-bottom:none;">@atrItem.ATR_REGRADE_DATE</td>      @* Accept, Reject Date *@
+                                                
+                                         
+                                                @if(PMGSY.Extensions.PMGSYSession.Current.RoleCode == 8)
+                                                {
+                                                    <td style="width:50px;text-align:center;border-bottom:none;">@Html.Raw(atrItem.ATR_REGRADE_LINK)</td>@*
+                                                    <td style="width:50px;text-align:center;border-bottom:none;">@Html.Raw(atrItem.ATR_DELETE_LINK)</td>*@
+                                                }
+                                                
+                                            </tr>
+                                        }
+                                        srCnt++;
+                                    }
+                                 </table>
+                            </td>
+                           @* @if (Model.OBS_LIST.Count < 10)
+                            {
+                                <td style="width:12px;"></td>
+                            }*@
+                             @if (PMGSY.Extensions.PMGSYSession.Current.RoleCode == 8)
+                            {
+                                <td style="width:40px;"> 
+                                    @if (obsItem.QM_ATR_STATUS.Equals("A") || obsItem.QM_ATR_STATUS.Equals("R"))
+                                    {
+                                        <a href="#" onclick="regradeMaintenanceATRAsUploaded(@obsItem.QM_OBSERVATION_ID);" class='ui-icon ui-icon-trash ui-align-center'>Delete</a>
+                                    }
+
+                                </td>
+                            }
+                            
+                        </tr>
+                
+                            srNo++;
+                }
+            }
+            else
+            {
+                <tr>
+                    <td colspan="23">
+                        No records found
+                    </td>
+                </tr>
+            }
+        </table>
+        </div>
+    </div>
+</body>
+</html>

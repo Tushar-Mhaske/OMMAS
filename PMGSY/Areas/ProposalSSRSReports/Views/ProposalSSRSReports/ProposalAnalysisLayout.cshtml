@@ -1,0 +1,95 @@
+﻿@model PMGSY.Areas.ProposalSSRSReports.Models.ProposalAnalysisViewModel
+
+@if (Layout == null)
+{
+    Layout = Request.IsAjaxRequest() ? null : "~/Areas/AccountReports/Views/Account/_Layout.cshtml";
+}
+
+<script type="text/javascript" src="@Url.Content("~/Scripts/jquery.ui.dialog.js")"> </script>
+<script src="~/Scripts/custom/Generic.js"></script>
+<script src="~/Areas/ProposalSSRSReports/Scripts/ProposalAnalysisLayout.js"></script>
+<script src="~/Scripts/jquery.ui.accordion.js"></script>
+<script src="~/Scripts/jquery.ui.tabs.js"></script>
+
+
+<div id="dvhdProposalAnalysisLayout" class="ui-corner-top ui-widget-header panelheader" style="text-align: left; height: 20px;">
+    <span class="ui-jqgrid-title" style="float: left">&nbsp;Proposal Analysis</span>
+
+    <span id="spCollapseIconCN" class="ui-icon ui-icon-circle-triangle-n" style="float: right"></span>
+</div>
+<div id="dvProposalAnalysisLayout" class="ui-corner-bottom" style="display: block; border: 1px solid #B5B8C8;">
+
+    <form id="frmProposalAnalysisLayout">
+
+        @*@Html.HiddenFor(model => model.State)
+        @Html.HiddenFor(model => model.Scrutiny)
+        @Html.HiddenFor(model => model.Sanctioned)
+        @Html.HiddenFor(model => model.Proposal)*@
+        @Html.HiddenFor(model => model.StateName)
+        @Html.HiddenFor(model => model.ScrutinyName)
+        @Html.HiddenFor(model => model.SanctionName)
+        @Html.HiddenFor(model => model.ProposalType)
+
+        <div style="width: 98%">
+            <table class="rowstyle" style="width: 100%;">
+                <tr>
+                    <td style="width: 6%;"></td>
+                    <td style="text-align: left; width: 5%;">
+                        @Html.Label("State")
+                    </td>
+                    @if (PMGSY.Extensions.PMGSYSession.Current.StateCode > 0)
+                    {
+                        <td style="width: 15%;">
+                            @*@Html.DropDownList("ddState_PropAnalysisDetails", ViewData["STATE"] as IEnumerable<SelectListItem>, new { @title = "State", @tabindex = 1 })*@
+                            @Html.DropDownListFor(model => model.State, new SelectList(Model.StateList, "Value", "Text"), new { @id = "ddState_PropAnalysisDetails", @title = "State", @tabindex = 1, @disabled = "true" })
+                            <br />
+                            @Html.ValidationMessageFor(m => m.State)
+                        </td>
+                    }
+                    else
+                    {
+                        <td style="width: 15%;">
+                            @*@Html.DropDownList("ddState_PropAnalysisDetails", ViewData["STATE"] as IEnumerable<SelectListItem>, new { @title = "State", @tabindex = 1 })*@
+                            @Html.DropDownListFor(model => model.State, new SelectList(Model.StateList, "Value", "Text"), new { @id = "ddState_PropAnalysisDetails", @title = "State", @tabindex = 1 })
+                            <br />
+                            @Html.ValidationMessageFor(m => m.State)
+                        </td>
+                    }
+                    <td style="text-align: left; width: 5%;">
+                        @Html.Label("Scrutiny")
+                    </td>
+                    <td style="width: 15%;">
+                        @*@Html.DropDownList("ddScrutiny_PropAnalysisDetails", ViewData["SCRUTINY"] as IEnumerable<SelectListItem>, new { @title = "Scrutiny", @tabindex = 2 })*@
+                        @Html.DropDownListFor(model => model.Scrutiny, new SelectList(Model.ScrutinyList, "Value", "Text"), new { @id = "ddScrutiny_PropAnalysisDetails", @title = "Scrutiny", @tabindex = 2 })
+                        <br />
+                        @Html.ValidationMessageFor(m => m.Scrutiny)
+                    </td>
+                    <td style="text-align: left; width: 5%;">
+                        @Html.Label("Sanctioned")
+                    </td>
+                    <td style="width: 15%;">
+                        @*@Html.DropDownList("ddSanctioned_PropAnalysisDetails", ViewData["SANCTION"] as IEnumerable<SelectListItem>, new { @title = "Sanctioned", @tabindex = 3 })*@
+                        @Html.DropDownListFor(model => model.Sanctioned, new SelectList(Model.SanctionedList, "Value", "Text"), new { @id = "ddSanctioned_PropAnalysisDetails", @title = "Sanctioned", @tabindex = 3 })
+                        <br />
+                        @Html.ValidationMessageFor(m => m.Sanctioned)
+                    </td>
+                    <td style="text-align: left; width: 5%;">
+                        @Html.Label("Proposal")
+                    </td>
+                    <td style="width: 15%;">
+                        @*@Html.DropDownList("ddProposal_PropAnalysisDetails", ViewData["PROPOSAL"] as IEnumerable<SelectListItem>, new { @title = "Proposal", @tabindex = 4 })*@
+                        @Html.DropDownListFor(model => model.Proposal, new SelectList(Model.ProposalList, "Value", "Text"), new { @id = "ddProposal_PropAnalysisDetails", @title = "Proposal", @tabindex = 4 })
+                        <br />
+                        @Html.ValidationMessageFor(m => m.Proposal)
+                    </td>
+                    <td style="text-align: left; width: 20%; margin-left: 5px;">
+                        <input type="button" id="btnGoPropAnalysis" value="View" class="jqueryButton" title="View Details" tabindex="5" />
+                    </td>
+                </tr>
+
+            </table>
+        </div>
+    </form>
+</div>
+
+<div id="divLoadProposalAnalysisReport"></div>

@@ -1,0 +1,58 @@
+﻿@model PMGSY.Areas.QMSSRSReports.Models.ContractorInspectionViewModel
+
+@if (Layout == null)
+{
+    Layout = Request.IsAjaxRequest() ? null : "~/Areas/AccountReports/Views/Account/_Layout.cshtml";
+}
+
+<script src="@Url.Content("~/Scripts/custom/Generic.js")" type="text/javascript" ></script>
+<script src="~/Areas/QMSSRSReports/Scripts/ContractorInspectionLayout.js"></script>
+
+
+@*@{
+    PMGSY.Common.FetchCookieData fetchCookie = new PMGSY.Common.FetchCookieData();
+    System.Globalization.CultureInfo CultureInfo = null;
+    CultureInfo = new System.Globalization.CultureInfo(fetchCookie.Language.ToString());
+}*@
+
+<div id="dvhdContractorInspectionDetails" class="ui-corner-top ui-widget-header panelheader" style="text-align: left; height: 20px;">@*margin-left:0px;margin-right:0px;margin-top:0px; *@
+    <span class="ui-jqgrid-title" style="float: left">&nbsp;Contractor Inspection Details</span>
+
+    <span id="spCollapseIconCN" class="ui-icon ui-icon-circle-triangle-n" style="float: right"></span>
+</div>
+<div id="dv" class="ui-corner-bottom" style="display: block; border: 1px solid #B5B8C8;">
+    <form id="frmContractorInspectionLayout">
+        @Html.ValidationSummary(true)
+        @*@Html.HiddenFor(model => model.StateName)
+        @Html.HiddenFor(model => model.DistrictName)*@
+        @Html.ValidationSummary(true)
+
+        <table style="width: 100%;" class="rowstyle">
+            <tr>
+                <td style="width: 5%;"></td>
+                <td style="width: 10%;">
+                    @Html.Label("From Year")
+                </td>
+                <td style="width: 25%;">
+                    @Html.DropDownListFor(model => model.fromYear, new SelectList(Model.lstFromYear, "Value", "Text"), new { @id = "ddlFromYear", style = "width:170px;", title = "From Year" })
+                    <br />
+                    @Html.ValidationMessageFor(m => m.fromYear)
+                </td>
+                <td style="width: 10%;">
+                    @Html.Label("To Year")
+                </td>
+                <td style="width: 25%;">
+                    @Html.DropDownListFor(model => model.toYear, new SelectList(Model.lstToYear, "Value", "Text"), new { @id = "ddlToYear", style = "width:170px;", title = "To Year" })
+                    <br />
+                    @Html.ValidationMessageFor(m => m.toYear)
+                </td>
+                <td style="text-align: left;" style="width: 5%;">
+                    <input type="button" id="btnView" value="View" class="jqueryButton" />
+                </td>
+                <td style="width: 5%;"></td>
+            </tr>
+        </table>
+    </form>
+</div>
+
+<div id="divLoadReport"></div>

@@ -1,0 +1,135 @@
+﻿@{
+    ViewBag.Title = "ListCoreNetWorksVVP";
+}
+
+<script src="~/Scripts/custom/Generic.js"></script>
+<script src="~/Scripts/CoreNetwork/ListCoreNetworksVVP.js"></script>
+<script src="~/Scripts/jquery.ui.accordion.js"></script>
+<script src="~/Scripts/jquery.ui.tabs.js"></script>
+
+<center>
+
+    <div style="width:96%; height:20px;border:none; margin-top:5px; margin-bottom:-15px; " class="ui-state-default">
+        <span style="float:right;margin-right:2Px; margin-top:2px" id="idFilterDiv" class="ui-icon ui-icon-circle-triangle-n"></span>
+    </div>
+    <div style="width: 96%; border:none; margin-top:-15px; margin-bottom:10px;" class="ui-state-default">
+
+        <div id="filterForm">
+            <form id="frmSearchCoreNetworks">
+                @Html.Hidden("RoleCode", PMGSY.Extensions.PMGSYSession.Current.RoleCode)
+                @Html.ValidationSummary(true)
+                <table style="margin-top:10px; margin-bottom:5px" ;>
+                    <tr>
+                        @Html.Hidden("Scheme", ViewBag.Scheme as String)
+                    </tr>
+                    <tr>
+                        @if (PMGSY.Extensions.PMGSYSession.Current.RoleCode == 25 || PMGSY.Extensions.PMGSYSession.Current.RoleCode == 53 || PMGSY.Extensions.PMGSYSession.Current.RoleCode == 65)//Changes by SAMMED A. PATIL for mordviewuser
+                        {
+                            <td style="text-align:right;width:10%">
+                                @Html.Label("State")
+                            </td>
+                            <td style="text-align:center;width:20%">
+                                @Html.DropDownList("ddlState", ViewData["States"] as IEnumerable<SelectListItem>, new { @id = "ddlStates", @title = "States", @tabindex = 1 })
+                            </td>
+                            <td style="text-align:right;width:10%">
+                                @Html.Label("District")
+                            </td>
+                            <td style="text-align:center;width:20%">
+                                @Html.DropDownList("ddlDistrict", ViewData["Districts"] as IEnumerable<SelectListItem>, new { @id = "ddlDistricts", @title = "Districts", @tabindex = 2 })
+                            </td>
+                        }
+                        else if (PMGSY.Extensions.PMGSYSession.Current.RoleCode == 2)
+                        {
+                            <td style="text-align:right;width:10%">
+                                @Html.Label("District")
+                            </td>
+                            <td style="text-align:center;width:20%">
+                                @Html.DropDownList("ddlDistrict", ViewData["Districts"] as IEnumerable<SelectListItem>, new { @id = "ddlDistricts", @title = "Districts", @tabindex = 1 })
+                            </td>
+
+                        }
+
+                        <td style="text-align:right;width:10%">
+                            @Html.Label("Block")
+                        </td>
+                        <td style="text-align:center;width:20%">
+                            @Html.DropDownList("ddlBlock", ViewData["Blocks"] as IEnumerable<SelectListItem>, new { @id = "ddlBlocks", @title = "Blocks", @tabindex = 1 })
+                        </td>
+                        <td style="text-align:right;width:10%">
+                            @Html.Label("Category")
+                        </td>
+                        <td style="text-align:center;width:20%">
+                            @Html.DropDownList("ddlCategory", ViewData["Category"] as IEnumerable<SelectListItem>, "--All--", new { @id = "ddlCategory", @title = "Categories", @tabindex = 1 })
+                        </td>
+                        <td style="text-align:right;width:10%">
+                            @Html.Label("Route Type")
+                        </td>
+                        <td style="text-align:center;width:20%">
+                            @Html.DropDownList("ddlRoute", ViewData["Route"] as IEnumerable<SelectListItem>, new { @id = "ddlRoute", @title = "Route", @tabindex = 1 })
+                        </td>
+                    </tr>
+                    <tr>
+                        <td colspan="10">
+                            <center>
+                                <table>
+                                    @if (PMGSY.Extensions.PMGSYSession.Current.PMGSYScheme == 1)
+                                    {
+                                        <td>
+                                            <input type="button" class="jqueryButton" value="List Core Networks" id="btnListNetworks" name="btnListNetworks" title="Click here to list Core Networks" />
+                                        </td>
+                                        if (PMGSY.Extensions.PMGSYSession.Current.RoleCode == 22 || PMGSY.Extensions.PMGSYSession.Current.RoleCode == 25)
+                                        {
+                                            <td>
+                                                <input type="button" value="Add Core Network" class="jqueryButton" title="Click here to add Core Network" id="btnAddCoreNetwork" name="btnAddCoreNetwork" />
+                                            </td>
+                                        }
+                                    }
+                                    @*added by rohit for vibrant village prog on 20-07-2023*@
+                                    else if (PMGSY.Extensions.PMGSYSession.Current.PMGSYScheme == 2 || PMGSY.Extensions.PMGSYSession.Current.PMGSYScheme == 5)
+                                    {
+                                        <td>
+                                            <input type="button" class="jqueryButton" value="List Candidate Roads" id="btnListNetworks" name="btnListNetworks" title="Click here to list Candidate Roads" />
+                                        </td>
+                                        if (PMGSY.Extensions.PMGSYSession.Current.RoleCode == 22 || PMGSY.Extensions.PMGSYSession.Current.RoleCode == 25)
+                                        {
+                                            <td>
+                                                <input type="button" value="Add Candidate Road" class="jqueryButton" title="Click here to add Candidate Roads" id="btnAddCoreNetwork" name="btnAddCoreNetwork" />
+                                            </td>
+                                        }
+                                    }
+                                </table>
+                            </center>
+                        </td>
+                    </tr>
+                </table>
+
+            </form>
+        </div>
+    </div>
+</center>
+<center>
+
+    <div id="divNetworkList" style="margin-top:20px; width:96%">
+
+        <table id="networkCategory">
+        </table>
+
+        <div id="pager">
+
+        </div>
+    </div>
+    <br />
+
+    <div id="accordion" style="display:none;width:96%">
+        <h3 style="text-align:left">
+            <a id="" href="#" style=" font-size:.9em;">@(PMGSY.Extensions.PMGSYSession.Current.PMGSYScheme == 1 ? "Add Core Network Details" : "Add Candidate Road Details")</a>
+            <a href="#" style="float: right;">
+                <img class="ui-icon ui-icon-closethick" onclick="CloseCoreNetworkDetails();" />
+            </a>
+        </h3>
+        <div id="divAddForm" style="display:none">
+
+        </div>
+    </div>
+</center>
+

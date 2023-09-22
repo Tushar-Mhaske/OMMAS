@@ -1,0 +1,22 @@
+﻿
+
+@using MvcReportViewer
+
+
+@model PMGSY.Areas.RoadList.Models.RoadListsModel
+
+<div id="QMPhaseProgressDetails" style="width:100%;height:600px;overflow:hidden">
+@Html.MvcReportViewer("/PMGSYCitizen/MPRoadList",
+     new {  
+         
+         
+         State=Model.StateCode,
+         MPConstituency=Model.MPConstCode,
+         PMGSY=PMGSY.Extensions.PMGSYSession.Current.PMGSYScheme,
+         StateName=Model.StateName,
+         MPConstituencyname=Model.MPConstName
+        
+            
+        },
+        new { Width = "100%" , Height = "600px" , style = "border:none;overflow:hidden" })
+</div>

@@ -1,0 +1,183 @@
+﻿
+
+@using PMGSY.Models
+@using PMGSY.Models.Report
+@model PMGSY.Models.AccountsReports.AbstractFundTransferredViewModel
+@using PMGSY.Extensions
+
+<script src="~/Scripts/custom/Generic.js"></script>
+<script src="~/Scripts/AccountsReports/AbstractFundDetails.js"></script>
+
+
+
+<style type="text/css">
+
+div.CBHeader{
+			padding:5px;
+            width:98%;
+			display:inline-block;
+			cursor:default;
+			/*font:12px/14px Arial, Helvetica, sans-serif;*/
+            font-family: Trebuchet MS,Tahoma,Verdana,Arial,sans-serif;
+			color:#000;
+			background-color:#eee;
+			-moz-border-radius:10px;
+			-webkit-border-radius:10px;
+			-moz-box-shadow:#999 2px 0px 3px;
+			-webkit-box-shadow:#999 2px 0px 3px;
+		}
+</style>
+
+@*<link href="~/Content/demo_page.css" rel="stylesheet" />
+<link href="~/Content/demo_table_jui.css" rel="stylesheet" />
+<link href="~/Content/TableTools.css" rel="stylesheet" />
+<link href="~/Content/TableTools_JUI.css" rel="stylesheet" />
+
+<script src="~/Scripts/custom/Generic.js"></script>
+<script src="~/Scripts/DataTables/jquery.dataTables.js"></script>
+<script src="~/Scripts/DataTables/ZeroClipboard.js"></script>
+<script src="~/Scripts/DataTables/TableTools.js"></script>
+<script src="~/Scripts/AccountsReports/AbstractFundDetails.js"></script>
+
+
+<div class="CBHeader ui-corner-all" >
+
+</div>
+<br />
+
+@if (Model.lstAbstractFund != null)
+{
+    <table id="tblAbstractFund">
+
+        <thead>
+            <tr>
+                <th rowspan="2">Sr. No.</th>
+                <th rowspan="2">Name Of DPIU</th>
+                <th rowspan="2">Ledger Folio</th>
+                <th colspan="12">Outstanding Authrization At The End Of</th>         
+
+            </tr>
+            <tr>
+                <th>April @Model.Year</th>
+                <th>May @Model.Year</th>
+                <th>June @Model.Year</th>
+                <th>July @Model.Year</th>
+                <th>Augest @Model.Year</th>
+                <th>September @Model.Year</th>
+                <th>October @Model.Year</th>
+                <th>November @Model.Year</th>
+                <th>December @Model.Year</th>
+                <th>January  @(Convert.ToInt32(Model.Year) + 1)</th>
+                <th>February @(Convert.ToInt32(Model.Year) + 1)</th>
+                <th>March @(Convert.ToInt32(Model.Year) + 1)</th>
+            </tr>
+        </thead>
+
+        <tbody>
+            @if (Model.lstAbstractFund.Count > 0)
+            {
+                foreach (var item in Model.lstAbstractFund)
+                {
+                   <tr>
+                       <td></td>
+                       <td>@item.ADMIN_ND_NAME</td>
+                       <td></td>
+                       <td>@item.AprAmount</td>
+                       <td>@item.MayAmount</td>
+                       <td>@item.MayAmount</td>
+                       <td>@item.MayAmount</td>
+                       <td>@item.MayAmount</td>
+                       <td>@item.MayAmount</td>
+                       <td>@item.MayAmount</td>
+                       <td>@item.MayAmount</td>
+                       <td>@item.MayAmount</td>
+                       <td>@item.MayAmount</td>
+                       <td>@item.MayAmount</td>
+                       <td>@item.MayAmount</td>
+                   </tr> 
+                }
+            }
+            else
+            {
+                <tr>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                    <td><b>Records To View</b></td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                    <td></td>                    
+                </tr>
+            }
+        </tbody>
+        <tfoot>
+            <tr>
+                <td></td>
+                <td></td>
+                <td><b>Total</b></td>
+                <td>@Model.AprilTotal</td>
+                <td>@Model.MayTotal</td>
+                <td>@Model.JuneTotal</td>
+                <td>@Model.JulyTotal</td>
+                <td>@Model.AugestTotal</td>
+                <td>@Model.SeptemberTotal</td>
+                <td>@Model.OctoberTotal</td>
+                <td>@Model.NovemberTotal</td>
+                <td>@Model.DecemberTotal</td>
+                <td>@Model.JanuaryTotal</td>
+                <td>@Model.FebruaryTotal</td>
+                <td>@Model.MarchTotal</td>
+            </tr>
+        </tfoot>
+
+    </table>
+}*@
+
+@Html.HiddenFor(m=>m.Year)
+@Html.HiddenFor(m=>m.Head)
+@Html.HiddenFor(m=>m.State)
+@Html.HiddenFor(m=>m.DPIU)
+
+@Html.Hidden("FundType",Model.FundName)
+
+
+<div class="CBHeader ui-corner-all" style="width:100%">
+    <table class="ui-state-default ui-corner-all" style="border: 0.1em solid gray; width: 100%; margin-top: 1px" id="tblFilter">
+        <tr>
+            <td colspan="5" style="text-align:right;color:green">
+            @Html.DisplayFor(m=>m.ReportNumber)
+                </td>
+        </tr>
+        <tr><td colspan="5" style="text-align:center;color:green">@Html.DisplayFor(m=>m.FundName)</td> </tr>
+        <tr><td colspan="5" style="text-align:center;color:green">@Html.DisplayFor(m=>m.ReportName)</td></tr>
+        <tr><td colspan="5" style="text-align:center;color:green">@Html.DisplayFor(m=>m.ReportPara)</td></tr>
+        <tr>
+            <td style="width:5%"></td>
+            <td style="width:20%;color:green">@Html.Label("Agency"):</td>
+            <td style="width:40%">@Html.DisplayFor(m=>m.StateName)</td>
+            <td style="width:15%;color:green">@Html.Label("DPIU"):</td>
+            <td style="width:20%">@Html.DisplayFor(m=>m.DPIUName)</td>
+        </tr>
+        <tr>
+            <td style="width:5%"></td>
+            <td style="width:20%;color:green">@Html.Label("Head"):</td>
+            <td style="width:40%">@Html.DisplayFor(m=>m.HeadName)</td>
+            <td style="width:15%;color:green">@Html.Label("Year"):</td>
+            <td style="width:20%">@Html.DisplayFor(m=>m.YearName)</td>
+        </tr>
+    </table>
+
+</div>
+
+<div>
+    <table id="tblAbsFundTransfer"></table>
+    <div id="dvpgrAbsFundTransfer"></div>
+</div>

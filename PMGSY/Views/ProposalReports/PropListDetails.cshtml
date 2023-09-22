@@ -1,0 +1,130 @@
+﻿@{
+    ViewBag.Title = "PropListDetails";
+}
+
+
+@model PMGSY.Models.ProposalReports.ProposalReportsModel
+<script type="text/javascript" src="@Url.Content("~/Scripts/jquery.ui.dialog.js")"> </script>
+<script src="~/Scripts/ProposalReports/PropListDetails.js" type="text/javascript"></script>
+<script src="~/Scripts/custom/Generic.js"></script>
+<form id="frmPropListStateLevelReport">
+    @Html.Hidden("hdnLevelId", PMGSY.Extensions.PMGSYSession.Current.LevelId.ToString())
+
+    @if (PMGSY.Extensions.PMGSYSession.Current.StateCode != 0)
+    {           
+        @Html.Hidden("STATE_NAME", PMGSY.Extensions.PMGSYSession.Current.StateName.ToString())
+    }
+
+    @if (PMGSY.Extensions.PMGSYSession.Current.DistrictCode != 0)
+    {
+        @Html.Hidden("DISTRICT_NAME", PMGSY.Extensions.PMGSYSession.Current.DistrictName.ToString())   
+    }
+
+    @Html.HiddenFor(model => model.BLOCK_NAME)
+     <div style="width: 100%">
+        <table class="ui-state-default ui-corner-all" style="width: 100%;">
+            <tr>
+                <td style="width: 6%;"></td>
+                <td style="text-align: left; width: 5%;">
+                    @Html.Label("Year")
+                </td>
+                <td style="width: 15%;">
+                    @Html.DropDownList("ddYear_PropListDetails", ViewData["YEAR"] as IEnumerable<SelectListItem>, new { @title = "Year",@tabindex = 1 })
+                </td>
+                <td style="text-align: left; width: 5%;">
+                    @Html.Label("Batch")
+                </td>
+                <td style="width: 15%;">
+                    @Html.DropDownList("ddBatch_PropListDetails", ViewData["BATCH"] as IEnumerable<SelectListItem>, new { @title = "Batch",@tabindex = 2 })
+                </td>
+               <td style="text-align: left; width: 10%;">
+                    @Html.Label("Collaboration")
+                </td>
+                <td style="width: 15%;">
+                    @Html.DropDownList("ddAgency_PropListDetails", ViewData["AGENCY"] as IEnumerable<SelectListItem>,new { @title = "Collaboration",@tabindex = 3 })
+                </td>
+                  <td style="text-align: left; width: 5%;">
+                    @Html.Label("Status")
+                </td>
+                <td style="width: 15%;">
+                    @Html.DropDownList("ddStatus_PropListDetails", ViewData["STATUS"] as IEnumerable<SelectListItem>,new { @title = "Status",@tabindex = 4 })
+                </td>
+               <td>
+                    <input type="button" value="View" class="jqueryButton" id="btnPropListDetails" title="View Details" tabindex="5"/>
+                </td>
+            </tr>
+        </table>
+    </div>
+    <br />
+    @if (PMGSY.Extensions.PMGSYSession.Current.LevelId == 6)     //Mord
+    {
+        <div id="PropListStateReport">
+            <table id="PropListStateReportTable"></table>
+        </div>
+        <div id="PropListStateReportPager"></div>
+        <br />
+
+        <div id="PropListDistrictReport">
+            <table id="PropListDistrictReportTable"></table>
+        </div>
+        <div id="PropListDistrictReportPager"></div>
+
+        <br />
+        <div id="PropListBlockReport">
+            <table id="PropListBlockReportTable"></table>
+        </div>
+        <div id="PropListBlockReportPager"></div>
+
+        <br />
+        <div id="PropListFinalReport">
+            <table id="PropListFinalReportTable"></table>
+        </div>
+        <div id="PropListFinalReportPager"></div>
+        
+    }
+
+    else if (PMGSY.Extensions.PMGSYSession.Current.LevelId == 4)     //State
+    {
+        @Html.HiddenFor(model => model.MAST_STATE_CODE)
+        <div id="PropListDistrictReport">
+            <table id="PropListDistrictReportTable"></table>
+        </div>
+        <div id="PropListDistrictReportPager"></div>
+
+        <br />
+        <div id="PropListBlockReport">
+            <table id="PropListBlockReportTable"></table>
+        </div>
+        <div id="PropListBlockReportPager"></div>
+
+        <br />
+        <div id="PropListFinalReport">
+            <table id="PropListFinalReportTable"></table>
+        </div>
+        <div id="PropListFinalReportPager"></div>
+    }
+    else if (PMGSY.Extensions.PMGSYSession.Current.LevelId == 5)     //District
+    {
+        @Html.HiddenFor(model => model.MAST_STATE_CODE)
+        @Html.HiddenFor(model => model.MAST_DISTRICT_CODE)
+        <div id="PropListBlockReport">
+            <table id="PropListBlockReportTable"></table>
+        </div>
+        <div id="PropListBlockReportPager"></div>
+
+        <br />
+        <div id="PropListFinalReport">
+            <table id="PropListFinalReportTable"></table>
+        </div>
+        <div id="PropListFinalReportPager"></div>
+    }
+</form>
+
+
+
+
+
+
+
+
+

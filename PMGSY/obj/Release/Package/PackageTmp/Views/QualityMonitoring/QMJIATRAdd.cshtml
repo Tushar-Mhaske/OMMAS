@@ -1,0 +1,152 @@
+﻿@model PMGSY.Models.QualityMonitoring.QMJIATRModel 
+
+<script src="~/Scripts/jquery.ui.datepicker.js"></script>
+<script src="@Url.Content("~/Scripts/custom/Generic.js")" type="text/javascript" ></script>
+<script type="text/javascript">
+
+    $(document).ready(function () {
+        $.validator.unobtrusive.parse("#frmQMJointInspectionsATR");
+
+        //alert($('#qmATRStatus').val());
+        if ($('#qmATRStatus').val() == "F")
+        {
+            $('#dvJIPartialADDATR').hide('slow');
+        }
+        else
+        {
+            $('#dvJIPartialADDATR').show('slow');
+        }
+
+        ///Code to Save JI Details
+        $('#btnSubmitJI').click(function (event) {
+
+
+            var form_data = new FormData();
+
+            var objQMJIFile = $("input#QMJIFileUpload").prop("files");
+            console.log(objQMJIFile[0]);
+
+            form_data.append("QMJIFileUploadfile", objQMJIFile[0]);
+
+            var data = $("#frmQMJointInspectionsATR").serializeArray();
+            //alert(JSON.stringify(data));
+            for (var i = 0; i < data.length; i++) {
+                form_data.append(data[i].name, data[i].value);
+            }
+            if ($("#frmQMJointInspectionsATR").valid()) {
+                $.ajax({
+                    url: "/QualityMonitoring/QMJIATRAdd",
+                    type: "POST",
+                    data: form_data,//$("#frmQMJointInspections").serialize(),
+                    contentType: false,
+                    processData: false,
+                    success: function (data) {
+                        alert(data.message);
+                        if (data.success == true) {
+
+                            $('#btnResetJI').trigger('click');
+                            //LoadQMATRListForm();
+                            //alert($('#hdjicode').val());
+                            ATRJIInspection($('#hdjicode').val());
+                            $("#tbQMJIList").jqGrid('setGridParam', { datatype: 'json' }).trigger('reloadGrid');
+                        }
+                    }
+                });
+            }
+
+        });
+
+    });
+
+    $('#txtATRStatusDate').datepicker({
+        dateFormat: 'dd/mm/yy',
+        showOn: "button",
+        buttonImage: "/Content/Images/calendar_2.png",
+        showButtonText: 'Choose a start date',
+        buttonImageOnly: true,
+        buttonText: 'Start Date',
+        changeMonth: true,
+        changeYear: true,
+        maxDate: 0,
+        minDate: $('#prevActionTakendDate').val(),
+        onSelect: function (selectedDate) {
+            $(function () {
+                $('#txtATRStatusDate').focus();
+            })
+        }
+    });
+</script>
+<div id="dvJIPartialADDATR">
+    <form id="frmQMJointInspectionsATR">
+
+        @Html.AntiForgeryToken()
+        @Html.ValidationSummary(true)
+        
+        @Html.HiddenFor(model => model.jiCode)
+        @Html.HiddenFor(model => model.qmATRStatus)
+        @Html.HiddenFor(model => model.prevActionTakendDate)
+        
+        <table style="width: 100%;" class="rowstyle">
+            @*<tr class="ui-widget-header">
+                <td style="vertical-align: top; text-align: center;" colspan="4"><strong>Action Taken for Joint Inspection</strong></td>
+            </tr>*@
+             <tr>
+                <td style="width: 3%; vertical-align: top"></td>
+                <td style="width: 10%; vertical-align: top">@*@Html.LabelFor(model=>model.ATRStatus)*@ <label>Follow up Status<span style="color:red">*</span></label></td>
+                <td style="vertical-align: top; width: 10%;">
+                    @Html.RadioButtonFor(model => model.ATRStatus, "P", new { @id = "rdbATRStatusProvision", tabindex = 1 })
+                    @Html.Label("Provisional")
+                    @Html.RadioButtonFor(model => model.ATRStatus, "F", new { @id = "rdbATRStatusFinal", tabindex = 2 })
+                    @Html.Label("Final")
+                     <br />
+                    @Html.ValidationMessageFor(model =>model.ATRStatus)
+                </td>
+                <td style="width: 2%; vertical-align: top"></td>
+            </tr>
+             <tr>
+                <td style="width: 3%; vertical-align: top"></td>
+                <td style="width: 10%; vertical-align: top">@Html.LabelFor(model=>model.ActionTakendDate)<span style="color:red">*</span></td>
+                <td style="vertical-align: top; width: 10%;">
+                    
+                    @Html.TextBoxFor(model => model.ActionTakendDate, new { @id = "txtATRStatusDate", @maxlength = "10", placeholder = "dd/MM/yyyy", tabindex = 3 })
+                    <br />
+                    @Html.ValidationMessageFor(model =>model.ActionTakendDate)
+                </td>
+                <td style="width: 2%; vertical-align: top"></td>
+            </tr>
+            <tr>
+                <td style="width: 3%; vertical-align: top"></td>
+                <td style="width: 10%; vertical-align: top">
+                         @Html.Label("Action Taken Report (pdf) upto 4 MB")<span style="color:red">*</span>
+                </td>
+                <td style="vertical-align: top; width: 10%;" >
+                <input type="file" name="file" id="QMJIFileUpload" tabindex="4" />
+                    <label id="lbQMJIATRFileUpload"></label>
+                    <img id="imgQMJIATRFileUpload" style="display: none; margin-left: 5px; cursor: pointer;" title="Click here to clear file" src="~/Content/images/close-icon.png" />
+                    <br />
+                    @Html.ValidationMessageFor(m => m.ATRFileName)
+                </td>
+                <td style="width: 2%; vertical-align: top"></td>
+            </tr>
+            <tr>
+                <td style="width: 3%; vertical-align: top"></td>
+                <td style="width: 10%; vertical-align: top">
+                    @*<label>Reason for variation in executed length w.r.t sanction length (if so)</label>*@
+                    <label>Remarks</label><span style="color:red">*</span>
+                </td>
+                <td  style="vertical-align: top; width: 10%;">
+                    @Html.TextAreaFor(model => model.remarks, new { @maxlength = "255", @style = "width:300px; resize : none", @title = "Remarks", tabindex = 5 })
+                    <br />
+                    @Html.ValidationMessageFor(m => m.remarks)
+                </td>
+                <td style="width: 2%; vertical-align: top"></td>
+            </tr>
+            <tr>
+                <td colspan="4" style="text-align: center; vertical-align: top">
+                   <input type="button" class="jqueryButton" value="Submit" id="btnSubmitJI" name="btnSubmit" tabindex="6" />
+                   <input type="reset" class="jqueryButton" value="Reset" id="btnResetJI"  tabindex="7" />
+                </td>
+            </tr>
+        </table>
+    </form>
+</div>

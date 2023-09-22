@@ -1,0 +1,24 @@
+﻿@using MvcReportViewer
+@model PMGSY.Areas.QMSSRSReports.Models.QMFilterViewModel
+
+
+
+
+@Html.MvcReportViewer("/PMGSYCitizen/QMInspectionFrequencyMonitor",
+     new
+     {
+        LEVEL=1,
+	    QTYPE=Model.QM_TYPE_CODE,
+	    STATE=Model.MAST_STATE_CODE,
+	    FMONTH=Model.FROM_MONTH,
+	    FYEAR=Model.FROM_YEAR,
+	    TMONTH=Model.TO_MONTH,
+	    TYEAR=Model.TO_YEAR,
+	    QMCODE=Model.ADMIN_QM_CODE
+      
+     },
+     new { Height = 600, Width = "100%", style = "border:none;" })
+
+
+
+

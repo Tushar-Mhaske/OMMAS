@@ -1,0 +1,169 @@
+﻿@model PMGSY.Models.OnlineFundRequest.OnlineFundRequestViewModel
+
+<script src="~/Scripts/custom/Generic.js"></script>
+<script src="@Url.Content("~/Scripts/jquery.ui.datepicker.js")" type="text/javascript" ></script>
+<script src="~/Scripts/OnlineFundProcess/AddUODetails.js"></script>
+
+<form id="frmAddUODetails" style="width:99%">
+    @Html.AntiForgeryToken()
+    <div style="margin-left: 100px">
+        @Html.ValidationSummary(true)
+        @Html.HiddenFor(model=>model.EncRequestId)
+    </div>
+    @*<div style="height: 10px; width: 100%; text-align: left; padding-top: 0.6em; margin-top: 10px" class="ui-state-default ui-corner-all ui-state-header">
+        <a href="#" style="float: right;">
+            <img style="margin-right: 5px;margin-top:-5px" alt="Close" class="ui-icon ui-icon-closethick" id="imgCloseDetails" />
+        </a>
+    </div>*@
+    <table id="tbAddRevisedCostLength" cellpadding="3px" class="rowstyle" style="margin-top: 0px; text-align: left; border: ridge 0.1em #ccc; width: 100%; padding-top: 5px 5px 5px 5px;">
+        <tr>
+            <td style="width: 5%"></td>
+            <td style="width: 10%">
+                @Html.LabelFor(model => model.MAST_STATE_CODE)
+            </td>
+            <td  style="width: 15%">
+                @Html.DisplayFor(model=>model.StateName)
+                @Html.HiddenFor(model => model.MAST_STATE_CODE)
+            </td>
+             <td style="width: 10%">
+                @Html.LabelFor(model => model.ADMIN_ND_CODE)
+            </td>
+            <td style="width: 15%">
+                @Html.DisplayFor(model=>model.AgencyName)
+                @Html.HiddenFor(model => model.ADMIN_ND_CODE)
+            </td>
+        </tr>
+        <tr>
+            <td style="width: 5%"></td>
+            <td style="width: 10%">
+                @Html.LabelFor(model => model.YEAR)
+            </td>
+            <td  style="width: 15%">
+                @Html.DisplayFor(model=>model.YearName)
+                @Html.HiddenFor(model => model.YEAR)
+            </td>
+             <td style="width: 10%">
+                @Html.LabelFor(model => model.BATCH)
+            </td>
+            <td style="width: 15%">
+                @Html.DisplayFor(model=>model.BatchName)
+                @Html.HiddenFor(model => model.BATCH)
+            </td>
+        </tr>
+        <tr>
+            <td style="width: 5%"></td>
+            <td style="width: 10%">
+                @Html.LabelFor(model => model.COLLABORATION)<label style="color: red">*</label>
+            </td>
+           <td style="width: 15%">
+                @Html.DisplayFor(model=>model.CollaborationName)
+                @Html.HiddenFor(model => model.COLLABORATION)
+            </td>
+            <td style="width: 10%">
+                @Html.LabelFor(model => model.PMGSY_SCHEME)<label style="color: red">*</label>
+            </td>
+            <td style="width: 20%">
+                PMGSY - @Html.DisplayFor(model=>model.PMGSY_SCHEME)
+                @Html.HiddenFor(model => model.PMGSY_SCHEME)
+            </td>
+        </tr>
+        <tr>
+            <td></td>
+            <td>
+                @Html.LabelFor(model=>model.AMOUNT)
+            </td>
+            <td>
+                @Html.DisplayFor(model=>model.AMOUNT)
+                @Html.HiddenFor(model=>model.AMOUNT)
+            </td>
+            <td>
+                
+            </td>
+            <td>
+                
+            </td>
+        </tr>
+        <tr>
+            <td></td>
+            <td>
+                @Html.LabelFor(model=>model.RELEASE_UO_NO)
+            </td>
+            @if(string.IsNullOrEmpty(Model.RELEASE_UO_NO))
+            {
+            <td>
+                @Html.TextBoxFor(model => model.RELEASE_UO_NO, new { @title = "Enter Release Number", @placeholder = "Enter Release Number...", @tabindex = 1 })
+                @Html.ValidationMessageFor(model => model.RELEASE_UO_NO)
+            </td>
+            }
+            else
+            {
+                <td>
+                    @Html.DisplayFor(model=>model.RELEASE_UO_NO)
+                </td>
+            }
+            <td>
+                @Html.LabelFor(model=>model.RELEASE_AMOUNT)
+            </td>
+            @if(Model.RELEASE_UO_NO == null || Model.RELEASE_AMOUNT == 0)
+            {
+            <td>
+                @Html.TextBoxFor(model => model.RELEASE_AMOUNT, new { @title = "Enter Release Amount", @placeholder = "Enter Release Amount...", @tabindex = 2 })
+                @Html.ValidationMessageFor(model => model.RELEASE_AMOUNT)
+            </td>
+            }
+            else
+            {
+                <td>
+                    @Html.DisplayFor(model=>model.RELEASE_AMOUNT)    
+                </td>
+                
+            }
+        </tr>
+        <tr>
+            <td></td>
+            <td>
+                @Html.LabelFor(model=>model.SANCTION_AMOUNT)
+            </td>
+            <td>
+                @if(Model.SANCTION_AMOUNT == null || Model.SANCTION_AMOUNT == 0)
+                {
+                    @Html.TextBoxFor(model => model.SANCTION_AMOUNT, new { @title = "Enter Sanction Amount", @placeholder = "Enter Sanction Amount...", @tabindex = 3 })
+                    @Html.ValidationMessageFor(model => model.SANCTION_AMOUNT)
+                }
+                else
+                {
+                    @Html.DisplayFor(model=>model.SANCTION_AMOUNT)
+                }
+            </td>
+            <td>
+                @Html.LabelFor(model=>model.RELEASE_DATE)
+            </td>
+            <td>
+                @if(Model.RELEASE_DATE == null || Model.RELEASE_DATE == "")
+                {
+                    @Html.TextBoxFor(model => model.RELEASE_DATE, new { @title = "Enter Release Date", @placeholder = "Enter Release Date...", @tabindex = 4 })
+                    @Html.ValidationMessageFor(model => model.RELEASE_DATE)
+                }
+                else
+                {
+                    @Html.DisplayFor(model=>model.RELEASE_DATE)
+                }
+            </td>
+        </tr>
+        @if(Model.RELEASE_UO_NO == null || Model.RELEASE_AMOUNT == 0)
+        {
+        <tr>
+            <td colspan="5">
+               <center>
+                    <table>
+                        <td>
+                            <input type="button" value="Save" name="btnAddObservation" id="btnAddObservation" class="jqueryButton" tabindex ="5" />
+                            <input type="reset" value="Reset" name="btnResetObservation" id="btnResetObservation" class="jqueryButton" tabindex="6"/>
+                        </td>
+                    </table>
+                </center>
+            </td>
+        </tr>
+        }
+    </table>
+</form>

@@ -1,0 +1,40 @@
+﻿@using PMGSY.Extensions;
+@model PMGSY.Areas.REAT.Models.FundReceiptModel
+@{
+    ViewBag.Title = "GetFundReceiptLayout";
+}
+<script src="~/Scripts/jquery.ui.datepicker.js" type="text/javascript"></script>
+<script src="~/Scripts/jquery.ui.progressbar.js" type="text/javascript"></script>
+<script type="text/javascript" src="@Url.Content("~/Scripts/custom/Generic.js")"> </script>
+<script  type="text/javascript"  src="@Url.Content("~/Areas/REAT/Scripts/GetFundReceiptLayout.js")"></script>
+
+<br/>
+
+<div class="ui-widget-header innerDivHeader">
+    Fund Receipts
+</div>
+<br/>
+ <div id="divReceiptList" style="margin-left:10px; width:98%">
+     <form id="frmFundReceiptLayout">
+           @Html.ValidationSummary(true)
+            @Html.AntiForgeryToken()
+<centre>
+   <table class="ui-state-default ui-corner-all" style="border:0.1em solid gray; width:100%" id="tblViewDetails">
+        <tr>
+            <td style="width:25%"></td>
+            <td style="text-align:right; font-weight:bold; width:5%">Month:<label style="color:red;"> *</label></td>
+            <td style="width:15%">@Html.DropDownList("ddlMonth", null, new {@title="Month" })</td>
+            <td style="text-align:right; font-weight:bold; width:5%">Year:<label style="color:red;"> *</label></td>
+            <td style="width:15%">@Html.DropDownList("ddlYear", null,  new {@title="Year" })</td>
+            <td style="width:35%";><input  type="button" style="background-color: #fccc6b;" id="btnView" value="Get Details" class="jqueryButton" title="Get Details"></td>        
+        </tr>
+    </table>
+    <br/>
+    <div style="width:100%">
+   <div id="divReceiptDisable"  class="ui-state-error ui-corner-all" style=" text-align: left; height: 20px"></div>    
+    <table id="tblReceiptList"></table>
+    <div id="divReceiptListPager"></div>
+     </div>
+    </centre>
+    </form>
+ </div>

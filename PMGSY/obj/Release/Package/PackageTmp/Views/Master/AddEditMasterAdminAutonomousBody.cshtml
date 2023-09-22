@@ -1,0 +1,97 @@
+﻿@model PMGSY.Models.Master.MasterAdminAutonomousBodyViewModel
+@using PMGSY.Extensions
+
+@section Scripts {
+    @Scripts.Render("~/bundles/jqueryval")
+}
+
+<script src="~/Scripts/custom/Generic.js" type="text/javascript"></script>
+<script src="~/Scripts/Master/Master_CreateAutonomousBody.js" type="text/javascript"></script>
+
+
+@{
+    string roleName = PMGSYSession.Current.RoleName;
+    int stateCode = PMGSYSession.Current.StateCode;
+        
+}
+
+
+<div id="dvhdCreateNewAutonomousBodyDetails" class="ui-corner-top ui-widget-header panelheader" style="text-align: left; height: 20px;">
+    <span class="ui-jqgrid-title" style="float: left">&nbsp;Autonomous Body Details</span>
+    <span id="spCollapseIconCN" class="ui-icon ui-icon-circle-triangle-n" style="float: right"></span>
+</div>
+
+<div id="dvCreateNewAutonomousBodyDetails" style="display: block; border: 1px solid #B5B8C8;">
+    <div id="dvErrorMessage" class="ui-widget ui-state-error ui-corner-all" style="padding: 0.7em .7em; display: none; margin: 5px 5px 5px 5px; text-align: left">
+        <span class="ui-icon ui-icon-alert" style="float: left; margin-right: .3em;"></span>
+        <strong>Alert:</strong> <span id="message"></span>
+    </div>
+
+    <form id="frmAutonomousBody">
+        @Html.AntiForgeryToken()
+        <center>@Html.ValidationSummary(true)</center>
+
+        <table style="width: 100%; margin-top: 10px;" class="rowstyle">
+            <tr style="display: none">
+                <td colspan="3">
+                    @Html.HiddenFor(model => model.EncryptedStateCode)
+                    @Html.Hidden("stateCode",stateCode)
+                </td>
+            </tr>
+
+            <tr>
+                <td style="width: 30%;"></td>
+                <td style="text-align: left; width: 15%;">
+                    @Html.LabelFor(model => model.MAST_STATE_CODE)
+                    <label style="color: red;">*</label>
+                </td>
+                <td>
+                    @if (Model.EncryptedStateCode == null)
+                    {
+                        @Html.DropDownListFor(model => model.MAST_STATE_CODE, Model.lstState, "--Select--", new { @id = "ddlStateNames", @title = "State", @tabindex = 1 })
+                        @Html.ValidationMessageFor(model => model.MAST_STATE_CODE)
+                    }
+                    else
+                    {                    
+                        @Html.DropDownListFor(model => model.MAST_STATE_CODE, Model.States, "--Select--", new { @id = "ddlStateNames", @title = "State", @tabindex = 1, disabled = "disabled" });
+                    }
+                </td>
+            </tr>
+
+            <tr>
+                <td></td>
+                <td>
+                    @Html.LabelFor(model => model.ADMIN_AUTONOMOUS_BODY1)<label style="color: red;"> *</label>
+                </td>
+                <td>
+                    @Html.TextAreaFor(model => model.ADMIN_AUTONOMOUS_BODY1, new { maxlength = 255,@style="width:50%", @title = "Autonomous Body", @tabindex = 2, @placeholder = "Enter Autonomous Body..." })
+                    @Html.ValidationMessageFor(model => model.ADMIN_AUTONOMOUS_BODY1)
+                </td>
+            </tr>
+
+            <tr>
+                <td></td>
+                <td></td>
+                <td>
+                    @if (Model.EncryptedStateCode == null)
+                    {                  
+                        <input type="button" id="btnSave" name="btnSave" value="Save" class="jqueryButton" title="Save Autonomous Body Details" tabindex="3" /> 
+                        <input type="reset" id="btnReset" name="btnReset" value="Reset" class="jqueryButton" title="Reset" tabindex="4" />
+                    }
+                    else
+                    {
+                        <input type="button" id="btnUpdate" name="btnUpdate" value="Update" class="jqueryButton" title="Update Autonomous Body Details" tabindex="3" /> 
+                        <input type="button" id="btnCancel" name="btnCancel" value="Cancel" class="jqueryButton" title="Cancel" tabindex="4" />
+                    }
+
+                </td>
+            </tr>
+            <tr>
+                <td colspan="3">
+                    <label style="border:none">[ Note: Fields marked with<label style="color: red;"> * </label>are mandatory.]</label>
+                </td>
+            </tr>
+        </table>
+    </form>
+
+</div>

@@ -1,0 +1,134 @@
+﻿@model PMGSY.Areas.PMIS.Models.AddChainageViewModel
+
+<script src="~/Scripts/custom/Generic.js"></script>
+<script src="~/Scripts/jquery.ui.datepicker.js" type="text/javascript"></script>
+<script src="~/Scripts/jquery.ui.css" type="text/javascript"></script>
+<script src="~/Scripts/jquery.unobtrusive-ajax.min.js"></script>
+<script src="~/Areas/PMIS/Scripts/Addchainage.js"></script>
+@{
+    ViewBag.Title = "AddChainage";
+}
+
+
+
+@using (Ajax.BeginForm("AddChainage", "PMIS", new { area = "PMIS" }, new
+    AjaxOptions
+    {
+        HttpMethod = "POST",
+        OnSuccess = "OnSuccess",
+        OnFailure = "OnFailure"
+    }))
+{
+    <div style="margin-left: 100px">
+        @Html.ValidationSummary(true)
+        @Html.AntiForgeryToken()
+    </div>
+
+    <div id="divError" class="ui-state-error ui-corner-all" style="text-align: left; display: none; width: 100%">
+        <span></span>
+        <span></span>
+    </div>
+       
+    <table class="rowstyle ui-corner-all" id="tblAddProjectPlan"  style="width:100%; border:solid black 1px;"  >
+        <tr style="text-align:right;height:25px">
+            <td> Entry Date of Chainage<span style="color: red;">*</span> :</td>
+            <td colspan = "8">
+                @Html.TextBoxFor(model => model.Date_of_Chainage_entry, "{0:d}", new { @id = "chainageEntryDate",@title = "ChainageEntryDate",@type = "text", @placeholder = "dd/mm/yyyy", @class = "ECD" ,  @align = "Center" })
+               @* @Html.ValidationMessageFor(model => model.Date_of_Chainage_entry, "Date of Chainage details is required.",new { @class = "text-danger" })*@
+                <span><strong>  [Note : Fields marked with <label style="font-size: 1.5em;color: red;">*</label> are mandatory]</strong></span>
+            </td>
+        </tr>
+        <tr style="text-align:left;height:25px">
+            <td colspan = "9" class="ui-widget-header" style="width:10%">
+                <strong>Activity Completed Chainage Wise : </strong>
+            </td>
+        </tr>
+        <tr style ="font-size:1.1em">
+            <td ><b>Chainage</b></td>
+            <td><b>Earthwork</b></td>
+            <td><b>Subgrade</b></td>
+            <td><b>Granular Sub Base</b></td>
+            <td><b>WBM Grading 2</b></td>
+            <td><b>WBM Grading 3</b></td>
+            <td><b>Wet Mix Macadam</b></td>
+            <td><b>Bituminous Macadam</b></td>
+            <td><b>Surface Course</b></td>
+        </tr>
+        @{ int i = 0; }
+        @while (i < Model.SanctionedLength)
+        {
+            <tr>
+                <td>@i-@(i+1) Km</td>
+                  
+                <td >
+                    @Html.RadioButton("earthworklist[" + @i + "]", "Y", Model.earthworklist[i].Value == "Y", new { @id ="earthworky"+i, @title = "earthwork" }) /   @Html.RadioButton("earthworklist[" + @i + "]", "N", Model.earthworklist[i].Value == "N", new { @id ="earthworkn"+i, @title = "earthwork" })
+                    <br/>
+                    @Html.Label("earthworky"+i, "Yes") / @Html.Label("earthworkn"+i, "No")
+                </td>
+                    
+                <td >
+                    @Html.RadioButton("subgradelist[" + @i + "]", "Y", Model.subgradelist[i].Value == "Y", new { @id ="subgradey"+i, @title = "subgrade" }) /   @Html.RadioButton("subgradelist[" + @i + "]", "N", Model.subgradelist[i].Value == "N", new { @id ="subgraden"+i, @title = "subgrade" })
+                    <br/>
+                    @Html.Label("subgradey"+i, "Yes") / @Html.Label("subgraden"+i, "No")
+                </td>
+
+                <td >
+                    @Html.RadioButton("granularsubbaselist[" + @i + "]", "Y", Model.granularsubbaselist[i].Value == "Y", new { @id ="granularsubbasey"+i, @title = "granularsubbase" }) /   @Html.RadioButton("granularsubbaselist[" + @i + "]", "N", Model.granularsubbaselist[i].Value == "N", new { @id ="granularsubbasen"+i, @title = "granularsubbase" })
+                    <br/>
+                    @Html.Label("granularsubbasey"+i, "Yes") / @Html.Label("granularsubbasen"+i, "No")
+                </td>
+
+                <td >
+                    @Html.RadioButton("wbmgrading2list[" + @i + "]", "Y", Model.wbmgrading2list[i].Value == "Y", new { @id ="wbmgrading2y"+i, @title = "wbmgrading2" }) /   @Html.RadioButton("wbmgrading2list[" + @i + "]", "N", Model.wbmgrading2list[i].Value == "N", new { @id ="wbmgrading2n"+i, @title = "wbmgrading2" })
+                    <br/>
+                    @Html.Label("wbmgrading2y"+i, "Yes") / @Html.Label("wbmgrading2n"+i, "No")
+                </td>
+                 
+                <td >
+                    @Html.RadioButton("wbmgrading3list[" + @i + "]", "Y", Model.wbmgrading3list[i].Value == "Y", new { @id ="wbmgrading3y"+i, @title = "wbmgrading3" }) /   @Html.RadioButton("wbmgrading3list[" + @i + "]", "N", Model.wbmgrading3list[i].Value == "N", new { @id ="wbmgrading3n"+i, @title = "wbmgrading3" })
+                    <br/>
+                    @Html.Label("wbmgrading3y"+i, "Yes") / @Html.Label("wbmgrading3n"+i, "No")
+                </td>
+                 
+                <td >
+                    @Html.RadioButton("wetmixmacadamlist[" + @i + "]", "Y", Model.wetmixmacadamlist[i].Value == "Y", new { @id ="wetmixmacadamy"+i, @title = "wetmixmacadam" }) /   @Html.RadioButton("wetmixmacadamlist[" + @i + "]", "N", Model.wetmixmacadamlist[i].Value == "N", new { @id ="wetmixmacadamn"+i, @title = "wetmixmacadam" })
+                    <br/>
+                    @Html.Label("wetmixmacadamy"+i, "Yes") / @Html.Label("wetmixmacadamn"+i, "No")
+                </td>
+                  
+                <td >
+                    @Html.RadioButton("bituminousmacadamlist[" + @i + "]", "Y", Model.bituminousmacadamlist[i].Value == "Y", new { @id ="bituminousmacadamy"+i, @title = "bituminousmacadam" }) /   @Html.RadioButton("bituminousmacadamlist[" + @i + "]", "N", Model.bituminousmacadamlist[i].Value == "N", new { @id ="bituminousmacadamn"+i, @title = "bituminousmacadam" })
+                    <br/>
+                    @Html.Label("bituminousmacadamy"+i, "Yes") / @Html.Label("bituminousmacadamn"+i, "No")
+                </td>
+                 
+                <td >
+                    @Html.RadioButton("surfacecourselist[" + @i + "]", "Y", Model.surfacecourselist[i].Value == "Y", new { @id ="surfacecoursey"+i, @title = "surfacecourse" }) /   @Html.RadioButton("surfacecourselist[" + @i + "]", "N", Model.surfacecourselist[i].Value == "N", new { @id ="surfacecoursen"+i, @title = "surfacecourse" })
+                    <br/>
+                    @Html.Label("surfacecoursey"+i, "Yes") / @Html.Label("surfacecoursen"+i, "No")
+                </td>
+            </tr>
+            i++;
+        }
+        <tr style="text-align:right;">
+            @* <td style="text-align:left;font-size:1em;width: 5%">
+                      <span><strong>[Note : Fields marked with <label style="font-size: 1.5em;color: red;">*</label> are mandatory]</strong></span>
+             </td>*@
+            <td colspan="5" style="text-align:right">
+                <input type="submit" value="Submit" class="jqueryButton" id="btnSubmit"/>
+            </td>
+            <td colspan="4" style="text-align:left;">
+                <input type="reset" value="Reset" class="jqueryButton" id="btnReset" />
+            </td>     
+        </tr>
+        <tr>
+            <td colspan="7" style="text-align:right">
+                 <span><strong>   [Note : Atleast Chainage for one of the activity has to be entered before Submitting form.]</strong></span>
+    
+            </td>
+        </tr>
+    </table>       
+    @Html.HiddenFor(model => model.SanctionedLength)
+    @Html.HiddenFor(model => model.IMS_PR_ROAD_CODE)
+
+}

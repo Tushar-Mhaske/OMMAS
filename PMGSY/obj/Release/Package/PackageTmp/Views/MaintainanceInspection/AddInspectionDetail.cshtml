@@ -1,0 +1,219 @@
+﻿
+@model PMGSY.Models.MaintainanceInspection.MaintainanceInspectionViewModel
+
+<script src="~/Scripts/jquery.ui.datepicker.js"></script>
+<script src="~/Scripts/custom/Generic.js"></script>
+<script src="~/Scripts/MainatinanceInspection/AddMaintainanceInspection.js"></script>
+<div id="divError" class="ui-state-error ui-corner-all" style="text-align: left; display: none; width: 100%;">
+                <span class="ui-icon ui-icon-alert" style="float: left;"></span> 
+          <strong>Alert:</strong> <span id="message"></span>                  
+                <span></span>
+         </div>
+
+<div id="dvRequiredField"style="height:20px; width: 100%; text-align:left; padding-top: 0.6em;" class="ui-state-default ui-corner-all" > 
+            &nbsp;<strong> Note :</strong>  Fields marked with * are mandatory.
+    <a href="#"  style="float: right;">
+                    <img style="border:none" alt="Close" src="" class="ui-icon ui-icon-closethick" id="imgCloseInspectionDetails" /></a>
+</div>
+<div id="dvRoadDetails" cellspacing="0" cellpadding="3" class="rowstyle" style="margin-top:0px; text-align:left; border:ridge 0.1em #ccc; width:99%; padding-top:5px; padding-left:5px; padding-right:5px; padding-bottom:5px;">
+    <form id="frmInspection">
+    <table width="100%" class="rowstyle">
+       @* @Html.HiddenFor(m=>m.RoadCode)*@
+        @Html.HiddenFor(m=>m.IMS_PR_ROAD_CODE)
+        @Html.HiddenFor(m=>m.IMS_INSPECTION_CODE)
+        @Html.HiddenFor(m=>m.StartDate)
+        @Html.HiddenFor(m=>m.statusFlag)
+        
+       @* @Html.HiddenFor(m=>m.MANE_RECTIFICATION_STATUS)
+        @Html.HiddenFor(m=>m.InspectionDate)*@
+
+        @if(Model.EncryptedPRRoadCode!=null)
+        {
+            @Html.HiddenFor(m=>m.Designation)
+            @Html.HiddenFor(m=>m.MAST_OFFICER_CODE)
+        }
+       @*    @Html.HiddenFor(m=>m.InspectionCode)*@
+            @Html.HiddenFor(mbox=>mbox.MANE_RECTIFICATION_STATUS)
+        <tr>
+            <td style="width:5%"></td>
+
+            <td style="width:8%">
+                @Html.LabelFor(m=>m.Designation)<label style="color:red">*</label>
+            </td>
+            <td style="width:12%">
+             
+                @if(Model.statusFlag=="true")
+                {
+                    @Html.DropDownListFor(m => m.Designation,  ViewData["Designation"] as IEnumerable<SelectListItem>, new {@id="ddlDesignation", @title="Name",@tabindex=1,@disabled="disabled" })
+                    @Html.ValidationMessageFor(m=>m.Designation) 
+                    @Html.HiddenFor(m=>m.Designation)                   
+                }                
+                else
+                {
+                    @Html.DropDownListFor(m => m.Designation,  ViewData["Designation"] as IEnumerable<SelectListItem>, new {@id="ddlDesignation", @title="Name",@tabindex=1 })
+                    @Html.ValidationMessageFor(m=>m.Designation)
+                }
+               
+            </td>
+
+            <td style="width:8%">
+                @Html.LabelFor(m=>m.MAST_OFFICER_CODE)<label style="color:red">*</label>
+            </td>
+            <td style="width:12%">
+               
+                 @if(Model.statusFlag=="true")
+                {
+                    @Html.DropDownListFor(m => m.MAST_OFFICER_CODE,ViewData["AdminName"] as IEnumerable<SelectListItem>, new {@id="ddlNoName",@title="Name",@tabindex=2 ,@disabled="disabled"})
+                    @Html.ValidationMessageFor(m=>m.MAST_OFFICER_CODE)
+                    @Html.HiddenFor(m=>m.MAST_OFFICER_CODE)                   
+               }else{
+                     @Html.DropDownListFor(m => m.MAST_OFFICER_CODE,ViewData["AdminName"] as IEnumerable<SelectListItem>, new {@id="ddlNoName",@title="Name",@tabindex=2 })
+                    @Html.ValidationMessageFor(m=>m.MAST_OFFICER_CODE)
+                 }
+               
+                
+            </td>
+           <td style="width:5%"></td>
+           
+        </tr>
+        <tr>
+            <td></td>
+             <td >
+                @Html.LabelFor(m=>m.MANE_INSP_DATE)<label style="color:red">*</label>
+            </td>
+            <td >
+                  @if(Model.statusFlag=="true")
+                {
+                    @Html.TextBoxFor(m=>m.MANE_INSP_DATE,new {@title="Inspection Date",@tabindex=3,@placeholder="dd/mm/yyyy",@disabled="disabled" })
+                    @Html.ValidationMessageFor(m=>m.MANE_INSP_DATE)
+                      @Html.HiddenFor(m=>m.MANE_INSP_DATE)                   
+                }
+                else
+                {
+                    @Html.TextBoxFor(m=>m.MANE_INSP_DATE,new {@title="Inspection Date",@tabindex=3,@placeholder="dd/mm/yyyy"})
+                    @Html.ValidationMessageFor(m=>m.MANE_INSP_DATE)
+                  }
+            </td>
+            
+            
+              @if(Model.statusFlag=="true")
+                {
+                     <td >
+                        @Html.LabelFor(m=>m.MANE_RECTIFICATION_DATE) <span style="color:red">*</span>
+                    </td>
+                    <td>
+                        @Html.TextBoxFor(m => m.MANE_RECTIFICATION_DATE, new {@title="Rectification Date",tabindex=4,@placeholder="dd/mm/yyyy"  })
+                        @Html.ValidationMessageFor(m=>m.MANE_RECTIFICATION_DATE)
+                    </td>
+                }else{
+                    <td>@Html.LabelFor(m=>m.MANE_REMARKS)</td>
+                    <td>
+                    @if(Model.statusFlag=="true")
+                    {
+                        @Html.TextAreaFor(m => m.MANE_REMARKS, new { @title = "Remark", tabindex = 5, @placeholder = "Remark",@maxlength=255,@disabled="disabled"})
+                        @Html.ValidationMessageFor(m=>m.MANE_REMARKS)
+                        @Html.HiddenFor(m=>m.MANE_REMARKS)
+                    }
+                    else
+                    {
+                        @Html.TextAreaFor(m => m.MANE_REMARKS, new { @title = "Remark", tabindex = 5, @placeholder = "Remark",@maxlength=255})
+                        @Html.ValidationMessageFor(m=>m.MANE_REMARKS)
+                        
+                    }
+                        @*@Html.HiddenFor(m=>m.MANE_RECTIFICATION_DATE)*@
+                    </td>
+              }
+
+           <td></td>
+           
+        </tr>
+       
+
+        @if ((Model.statusFlag == "true"))
+        {
+            <tr>
+             <td></td>
+             
+            <td>@Html.LabelFor(m=>m.MANE_REMARKS)</td>
+            <td>
+                    @Html.TextAreaFor(m => m.MANE_REMARKS, new { @title = "Remark", tabindex = 5, @placeholder = "Remark",@maxlength=255,@disabled="disabled"})
+                    @Html.ValidationMessageFor(m=>m.MANE_REMARKS)
+                    @Html.HiddenFor(m=>m.MANE_REMARKS)  
+            </td>             
+            <td colspan="3"></td>
+           </tr>
+        }
+        
+     @*    <tr>
+            <td></td>
+             @if (Model.statusFlag == "true")
+             { 
+               <td></td>
+               <td></td>
+             }else{
+
+            <td>@Html.LabelFor(m=>m.MANE_REMARKS)</td>
+            <td>
+                @if(Model.statusFlag=="true")
+                {
+                    @Html.TextAreaFor(m => m.MANE_REMARKS, new { @title = "Remark", tabindex = 5, @placeholder = "Remark",@maxlength=255,@disabled="disabled"})
+                    @Html.ValidationMessageFor(m=>m.MANE_REMARKS)
+                    @Html.HiddenFor(m=>m.MANE_REMARKS)
+                 }
+                else
+                {
+                    @Html.TextAreaFor(m => m.MANE_REMARKS, new { @title = "Remark", tabindex = 5, @placeholder = "Remark",@maxlength=255})
+                    @Html.ValidationMessageFor(m=>m.MANE_REMARKS)
+                }
+            </td>
+             }
+            <td colspan="3"></td>
+        </tr>*@
+
+        <tr>
+            <td colspan="6">
+                    
+            
+            @if (Model.EncryptedPRRoadCode == null)
+            {
+                <center>
+                    <table>
+                        <tr>
+                       <td>
+                             <input type="button" id="btnCreateInspection" name="btnCreateNewInspection" value="Save" class= "jqueryButton" title="Add Maintenance Inspection Details" tabindex="5"  />  
+                             <input type="Reset" id="btnReset" name="btnReset" value="Reset" class= "jqueryButton" title="Reset" tabindex="6"  /> 
+                           </td> 
+                            </tr>
+                    </table>
+                </center>
+               
+                
+            }
+            else
+            {
+              <center>
+                    <table>
+                        <tr>
+                       <td>
+                             <input type="button" id="btnInspectionUpdate" name="btnInspectionDetailsUpdate" value="Update" class= "jqueryButton" title="Update Maintenance Inspection Details" tabindex="5"  />     
+                
+                              <input type="button" id="btnInspectionDetailsCancel" name="btnInspectionDetailsCancel" value="Cancel" class= "jqueryButton" title="Cancel" tabindex="6"  />     
+                             
+                           </td> 
+                            </tr>
+                    </table>
+                </center>
+                 
+               
+            }
+           
+          </td>
+            
+         
+           
+        </tr>
+
+      
+    </table>
+     </form>
+</div>

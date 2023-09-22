@@ -1,0 +1,14 @@
+﻿@using MvcReportViewer
+
+@model PMGSY.Models.QualityMonitoring.AllocateDistrictsToNQMViewModel
+
+@Html.MvcReportViewer("/PMGSYCitizen/Districts_Allocated_NQM_Report",
+     new
+     {
+         State = Model.stateCode,
+         Month = Model.Month,
+         Year = Model.Year,
+         StateName = Model.StateName,
+         
+     },
+       new { Height = 675, Width = "100%", style = "border:none;" })

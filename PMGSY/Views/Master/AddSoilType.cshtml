@@ -1,0 +1,89 @@
+﻿@model PMGSY.Models.Master.SoilTypeViewModel
+
+@{
+    ViewBag.Title = "AddSoilType";
+}
+
+<script src="~/Scripts/custom/Generic.js"></script>
+<script src="~/Scripts/Master/AddEditSoilType.js"></script>
+
+<div id="dvhdAddNewSoilDetails" class="ui-corner-top ui-widget-header panelheader" style="text-align: left; height: 20px;">
+    <span class="ui-jqgrid-title" style="float: left">&nbsp;Soil Type Details</span>
+
+    <span id="spCollapseIconCN" class="ui-icon ui-icon-circle-close" style="float: right"></span>
+</div>
+
+<div id="dvAddNewSoilDetails" style="display: block; border: 1px solid #B5B8C8; text-align: left">
+    <div id="dvErrorMessage" class="ui-widget ui-state-error ui-corner-all" style="padding: 0.7em .7em; display: none; margin: 5px 5px 5px 5px;">
+        <span class="ui-icon ui-icon-alert" style="float: left; margin-right: .3em;"></span>
+        <strong>Alert:</strong> <span id="message"></span>
+    </div>
+
+    <form id="frmAddSoilType">
+        @Html.AntiForgeryToken()
+        <table class="rowstyle" style="width: 100%; margin-top: 10px;">
+            <tr style="display: none">
+                <td>
+                    @Html.HiddenFor(m => m.EncryptedSoilCode)
+                </td>
+            </tr>
+            <tr>
+                <td style="width: 30%;"></td>
+                <td style="text-align: left; width: 15%;">
+                    @Html.LabelFor(model => model.MAST_SOIL_TYPE_NAME)
+                    <label style="color: red;">*</label>
+                </td>
+                <td>
+                    @Html.TextBoxFor(model => model.MAST_SOIL_TYPE_NAME, new { maxlength = 50, @title = "Soil Type", @tabindex = 1, @placeholder = "Enter Soil Type..." })
+                    @Html.ValidationMessageFor(model => model.MAST_SOIL_TYPE_NAME)
+                </td>
+            </tr>
+            <tr>
+                <td></td>
+                <td></td>
+                <td>
+                    @if (Model.EncryptedSoilCode == null)
+                    {                  
+                        <input type="button" id="btnSave" name="btnSave" value="Save" class="jqueryButton" title="Save Soil Type Details" tabindex="5" /> 
+                        <input type="reset" id="btnReset" name="btnReset" value="Reset" class="jqueryButton" title="Reset" tabindex="6" />
+                    }
+                    else
+                    {
+                        <input type="button" id="btnUpdate" name="btnUpdate" value="Update" class="jqueryButton" title="Update Soil Type Details" tabindex="5" /> 
+                        <input type="button" id="btnCancel" name="btnCancel" value="Cancel" class="jqueryButton" title="Cancel" tabindex="6" />
+                    }
+                    
+                </td>
+            </tr>
+            <tr>
+                <td colspan="3">
+                    <label @*class="ui-state-default"*@ style="border:none">[ Note: Fields marked with<label style="color: red;"> * </label>are mandatory.]</label>
+                </td>
+            </tr>
+        </table>
+
+    </form>
+</div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

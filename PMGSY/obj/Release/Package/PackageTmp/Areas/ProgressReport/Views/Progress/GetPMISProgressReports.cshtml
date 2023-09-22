@@ -1,0 +1,15 @@
+﻿@{
+    ViewBag.Title = "GetPMISProgressReports";
+}
+@using MvcReportViewer
+@model PMGSY.Areas.ProgressReport.Models.PMISProgressReports
+
+@Html.MvcReportViewer("/PMGSYCitizen/PMIS_Progress_Report",
+     new
+     {
+         LEVEL = Model.LevelCode,
+         STATE = Model.StateCode,
+         DISTRICT = Model.DistrictCode,
+         PIU=0
+     },
+     new { Height = 600, Width = "100%", style = "border:none;" })

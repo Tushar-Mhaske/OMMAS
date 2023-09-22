@@ -1,0 +1,54 @@
+﻿@*
+    * Project Id    :
+    * Project Name  :   OMMAS II
+    * Name          :   ScheduleFilters.cshtml
+    * Description   :   Render View for ScheduleFiltersMonitors.
+    * Author        :   Shyam Yadav
+    * Creation Date :   29/Jan/2015
+*@
+
+
+@model PMGSY.Models.QualityMonitoring.QMFilterViewModel
+@{ Layout = null; }
+
+<!DOCTYPE html>
+
+<html>
+<head>
+
+<script src="~/Scripts/QualityMonitoring/ScheduleFiltersMonitors.js"></script>
+
+</head>
+<body>
+    
+   <div style="width: 99%; border:none; margin-top:-15px; margin-bottom:10px;" class="ui-state-default">      
+        <div id="divScheduleFiltersForm">
+            <center>
+                <form id="scheduleFiltersMonitorsForm">  
+                    <table style="margin-top:10px; margin-bottom:5px; width:50%">
+                        <tr>
+                            <td style="width:10%;padding-left:25px;">
+                                @Html.LabelFor(model => model.FROM_MONTH)
+                            </td>
+                            <td style="width:10%">
+                                @Html.DropDownListFor(model => model.FROM_MONTH, new SelectList(Model.FROM_MONTHS_LIST, "Value", "Text"), new { @id = "ddlViewScheduleMonth" })
+                            </td>
+                            <td style="width:10%;padding-left:25px;">
+                              @Html.LabelFor(model => model.FROM_YEAR)
+                            </td>
+                            <td style="width:10%;">
+                                @Html.DropDownListFor(model => model.FROM_YEAR, new SelectList(Model.FROM_YEARS_LIST, "Value", "Text"), new { @id = "ddlViewScheduleYear" })
+                            </td>
+                            <td style="width:10%;">
+                                <input type="button" class="jqueryButton" value="View" id="btnViewSchedule" name ="btnViewSchedule"/>
+                            </td>
+                       </tr>
+                    </table>
+                </form>  
+            </center>
+    </div>
+</div>
+
+
+</body>
+</html>

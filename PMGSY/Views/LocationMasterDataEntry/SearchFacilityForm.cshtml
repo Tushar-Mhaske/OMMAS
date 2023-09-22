@@ -1,0 +1,170 @@
+﻿@model PMGSY.Models.MasterDataEntry.FacilitySearch
+<style type="text/css">
+    #preview {
+        border: 1px solid #ccc;
+        position: absolute;
+        background: #333;
+        padding: 5px;
+        display: none;
+        color: #fff;
+    }
+
+    .ui-jqgrid tr.jqgrow td {
+        vertical-align: top !important;
+    }
+</style>
+
+<script src="~/Scripts/jquery.ui.accordion.js"></script>
+<script src="~/Scripts/Bootstrap/bootstrap.min.js"></script>
+<script type="text/javascript" src="@Url.Content("~/Scripts/MasterDataEntry/ListFacilityDetails.js")"> </script>
+<div id="dvhdSearchFacilityHeader" class="ui-corner-top ui-widget-header panelheader" style="text-align:left;  height:20px;"> 
+     <span class="ui-jqgrid-title" style="float:left">&nbsp;Search Facility</span>
+     
+     <span  id="spCollapseIconCNSearch" class="ui-icon ui-icon-circle-triangle-n" style="float:right"></span>
+</div>
+
+
+<div id="hdrSearchFromDiv" style="width: 100%; border:none; margin-top:2px; margin-bottom:1px;" class="ui-state-default">
+<form id="frmSearchFacility">
+
+             <center>
+                 @Html.ValidationSummary(true)
+                 @Html.AntiForgeryToken()
+
+                 @Html.Hidden("DistrictCode", PMGSY.Extensions.PMGSYSession.Current.DistrictCode)
+                 @Html.Hidden("operation", Model.operation)
+            </center>
+        
+             <table style="width:100%;margin-top:0px;" class="rowstyle">
+              <tr class="">
+                   <td style="width :16% ;text-align:left">
+                        @Html.LabelFor(model => model.facilityCode) <label style="color:red;"> *</label>
+                    </td>
+               
+                    <td style="text-align:left">
+                      
+                         @Html.DropDownListFor(m => m.facilityCode, Model.facilityList, new { @id = "ddlFacilitySearch", @title = "Facility Category", @tabindex = 1 })
+                        <br />
+                   </td>
+
+                  <td style="width:16%; text-align:left">
+                       
+                  </td>  
+                  <td style = "text-align:left">
+                      
+                  </td> 
+                    <td style="width:15%;text-align:left">
+                          @Html.LabelFor(model => model.FacilityName) <label style="color:red;"> *</label>
+                    </td>
+                   <td>
+                        @Html.DropDownListFor(model => model.FacilityName, Model.facilityNameList, new { @id = "ddlFacilityNameListSearch", @tabindex = 2, @title = "Facility Type" })
+                        <br />
+                   </td>
+
+               
+                  </tr>
+             
+              <tr class=""> 
+                
+                   <td style="width :16% ;text-align:left" >
+                        @Html.LabelFor(model => model.MAST_DISTRICT_CODE) <label style="color:red;"> *</label>
+                    </td>
+               
+                    <td style="width:12%;text-align:left"">
+                        
+                       
+                         @Html.DropDownListFor(model => model.MAST_DISTRICT_CODE, Model.DistrictList, new { @id = "ddlDistrictsSearch", @title = "District", @tabindex = 6, @disabled = true })
+                        
+                       <br />
+                   </td>
+                
+                    <td style="width:13%; text-align:center">
+                        @Html.LabelFor(model => model.MAST_BLOCK_CODE) <label style="color:red;"> *</label>
+                    </td>
+               
+                         @if (Model.EncryptedFacilityCode == null)
+                         {
+                    <td style="width:16%;text-align:left">
+                        @Html.DropDownListFor(model => model.MAST_BLOCK_CODE, new SelectList(Model.BlockList, "Value", "Text", "Block is required"), new { @id = "ddlBlocksSearch", @title = "Block", @tabindex = 7, @class = "dropdown" })
+                       <br />
+                    </td>
+                         }
+
+                         else
+                         {
+                         <td style="width:16%;text-align:left">
+                        @Html.DropDownListFor(model => model.MAST_BLOCK_CODE, new SelectList(Model.BlockList, "Value", "Text", "Block is required"), new { @id = "ddlBlocks", @title = "Block", @tabindex = 7, @class = "dropdown", @disabled = true })
+                       <br />
+                         @Html.ValidationMessageFor(model => model.MAST_BLOCK_CODE)
+           
+                    </td>
+                     
+                         }
+               
+                   <td style="text-align:left;width:16%">
+                           @Html.LabelFor(model => model.HabitationCode) <label style="color:red;"> *</label>
+                      </td>
+
+                          @if (Model.EncryptedFacilityCode == null)
+                          {
+
+                      <td style="width:15%;text-align:left">
+                           @Html.DropDownListFor(m => m.HabitationCode, Model.habitationList, new { @id = "ddlHabitationSearch", @title = "Habitation", @tabindex = 8 })
+                          <br />
+                      </td> 
+                          }
+                          else
+                          { <td style="width:15%;text-align:left">
+                           @Html.DropDownListFor(m => m.HabitationCode, Model.habitationList, new { @id = "ddlHabitation", @title = "Habitation", @tabindex = 8, @disabled = true })
+                          <br />
+                           @Html.ValidationMessageFor(model => model.HabitationCode)
+                                @Html.Hidden("HabitationCode", Model.HabitationCode)
+                   </td>
+                      
+                      
+                          }
+
+                   </tr>
+               
+             <tr class="">
+
+                     <td colspan="6" style="text-align:center;">   
+                                    @*<input type="button" id="btnSearch" name="btnSearch" value="Search" class= "jqueryButton" title="Serach" tabindex="9"  />*@
+                     </td>
+                
+            </tr>
+                      <tr class="">
+
+                     <td colspan="6" style="text-align:center;">   
+                                    @*<input type="button" id="btnSearch" name="btnSearch" value="Search" class= "jqueryButton" title="Serach" tabindex="9"  />*@
+                     </td>
+                
+            </tr>
+
+                   </tr>
+              <tr class="">
+
+                     <td colspan="6" style="text-align:center;">   
+                                    <input type="button" id="btnSearch" name="btnSearch" value="Search" class= "jqueryButton" title="Serach" tabindex="9"  />
+                     </td>
+                
+            </tr>
+            <tr>  </tr>          
+        
+                     <tr >
+                        <td colspan="7">
+                          <label style="border:none">[ Note: Fields marked with<label style="color: red;"> * </label>are mandatory.]</label>
+                        </td>
+
+                    </tr>
+            </table>
+
+            </form>
+<br />
+<br />
+</div>
+
+<div id="dvhdRemark" class="ui-corner-top ui-widget-header panelheader" style="text-align:left;  height:20px;"> 
+     <span class="ui-jqgrid-title" style="float:left">&nbsp;Add Remark</span>
+</div>
+<div id ="IdRemarkForm"></div>

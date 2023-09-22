@@ -1,0 +1,295 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<stateList>
+	<HoldInit>
+		<stateUAT>
+			<statCode>20</statCode>
+			<parentNDCode>1063</parentNDCode>
+			<startDate>23/05/2023</startDate>		
+		</stateUAT>
+
+		<stateUAT>
+			<statCode>4</statCode>
+			<parentNDCode>1080</parentNDCode>
+			<startDate>23/05/2023</startDate>
+		</stateUAT>
+
+
+
+	 
+	</HoldInit>
+	
+	
+	
+	<SDOBTxnCount>
+		
+
+
+		<stateUAT>
+			<statCode>5</statCode>
+			<adminNDCode>1</adminNDCode>
+			<maxAllowCount>2</maxAllowCount>
+		</stateUAT>
+		<stateUAT>
+			<statCode>7</statCode>
+			<adminNDCode>2</adminNDCode>
+			<maxAllowCount>2</maxAllowCount>
+		</stateUAT>
+		<stateUAT>
+			<statCode>11</statCode>
+			<adminNDCode>3</adminNDCode>
+			<maxAllowCount>2</maxAllowCount>
+		</stateUAT>
+		<stateUAT>
+			<statCode>18</statCode>
+			<adminNDCode>1055</adminNDCode>
+			<maxAllowCount>2</maxAllowCount>
+		</stateUAT>
+		<stateUAT>
+			<statCode>16</statCode>
+			<adminNDCode>1056</adminNDCode>
+			<maxAllowCount>2</maxAllowCount>
+		</stateUAT>
+		<stateUAT>
+			<statCode>16</statCode>
+			<adminNDCode>1057</adminNDCode>
+			<maxAllowCount>2</maxAllowCount>
+		</stateUAT>
+		<stateUAT>
+			<statCode>5</statCode>
+			<adminNDCode>1058</adminNDCode>
+			<maxAllowCount>2</maxAllowCount>
+		</stateUAT>
+		<stateUAT>
+			<statCode>8</statCode>
+			<adminNDCode>1059</adminNDCode>
+			<maxAllowCount>2</maxAllowCount>
+		</stateUAT>
+		<stateUAT>
+			<statCode>16</statCode>
+			<adminNDCode>1060</adminNDCode>
+			<maxAllowCount>2</maxAllowCount>
+		</stateUAT>
+		<stateUAT>
+			<statCode>17</statCode>
+			<adminNDCode>1061</adminNDCode>
+			<maxAllowCount>2</maxAllowCount>
+		</stateUAT>
+		<stateUAT>
+			<statCode>27</statCode>
+			<adminNDCode>1062</adminNDCode>
+			<maxAllowCount>2</maxAllowCount>
+		</stateUAT>
+		<stateUAT>
+			<statCode>20</statCode>
+			<adminNDCode>1063</adminNDCode>
+			<maxAllowCount>2</maxAllowCount>
+		</stateUAT>
+		<stateUAT>
+			<statCode>21</statCode>
+			<adminNDCode>1064</adminNDCode>
+			<maxAllowCount>2</maxAllowCount>
+		</stateUAT>
+		<stateUAT>
+			<statCode>22</statCode>
+			<adminNDCode>1065</adminNDCode>
+			<maxAllowCount>2</maxAllowCount>
+		</stateUAT>
+		<stateUAT>
+			<statCode>23</statCode>
+			<adminNDCode>1066</adminNDCode>
+			<maxAllowCount>2</maxAllowCount>
+		</stateUAT>
+		<stateUAT>
+			<statCode>16</statCode>
+			<adminNDCode>1067</adminNDCode>
+			<maxAllowCount>2</maxAllowCount>
+		</stateUAT>
+		<stateUAT>
+			<statCode>5</statCode>
+			<adminNDCode>1068</adminNDCode>
+			<maxAllowCount>2</maxAllowCount>
+		</stateUAT>
+		<stateUAT>
+			<statCode>5</statCode>
+			<adminNDCode>1069</adminNDCode>
+			<maxAllowCount>2</maxAllowCount>
+		</stateUAT>
+		<stateUAT>
+			<statCode>16</statCode>
+			<adminNDCode>1070</adminNDCode>
+			<maxAllowCount>2</maxAllowCount>
+		</stateUAT>
+		<stateUAT>
+			<statCode>5</statCode>
+			<adminNDCode>1071</adminNDCode>
+			<maxAllowCount>2</maxAllowCount>
+		</stateUAT>
+		<stateUAT>
+			<statCode>2</statCode>
+			<adminNDCode>1072</adminNDCode>
+			<maxAllowCount>2</maxAllowCount>
+		</stateUAT>
+		<stateUAT>
+			<statCode>1</statCode>
+			<adminNDCode>1073</adminNDCode>
+			<maxAllowCount>2</maxAllowCount>
+		</stateUAT>
+		<stateUAT>
+			<statCode>14</statCode>
+			<adminNDCode>1074</adminNDCode>
+			<maxAllowCount>2</maxAllowCount>
+		</stateUAT>
+		<stateUAT>
+			<statCode>13</statCode>
+			<adminNDCode>1075</adminNDCode>
+			<maxAllowCount>2</maxAllowCount>
+		</stateUAT>
+		<stateUAT>
+			<statCode>24</statCode>
+			<adminNDCode>1076</adminNDCode>
+			<maxAllowCount>2</maxAllowCount>
+		</stateUAT>
+		<stateUAT>
+			<statCode>28</statCode>
+			<adminNDCode>1077</adminNDCode>
+			<maxAllowCount>2</maxAllowCount>
+		</stateUAT>
+		<stateUAT>
+			<statCode>33</statCode>
+			<adminNDCode>1078</adminNDCode>
+			<maxAllowCount>2</maxAllowCount>
+		</stateUAT>
+		<stateUAT>
+			<statCode>30</statCode>
+			<adminNDCode>1079</adminNDCode>
+			<maxAllowCount>2</maxAllowCount>
+		</stateUAT>
+		<stateUAT>
+			<statCode>4</statCode>
+			<adminNDCode>1080</adminNDCode>
+			<maxAllowCount>2</maxAllowCount>
+		</stateUAT>
+		<stateUAT>
+			<statCode>32</statCode>
+			<adminNDCode>1081</adminNDCode>
+			<maxAllowCount>2</maxAllowCount>
+		</stateUAT>
+		<stateUAT>
+			<statCode>34</statCode>
+			<adminNDCode>1082</adminNDCode>
+			<maxAllowCount>2</maxAllowCount>
+		</stateUAT>
+		<stateUAT>
+			<statCode>15</statCode>
+			<adminNDCode>1083</adminNDCode>
+			<maxAllowCount>2</maxAllowCount>
+		</stateUAT>
+		<stateUAT>
+			<statCode>29</statCode>
+			<adminNDCode>1084</adminNDCode>
+			<maxAllowCount>2</maxAllowCount>
+		</stateUAT>
+		<stateUAT>
+			<statCode>12</statCode>
+			<adminNDCode>1085</adminNDCode>
+			<maxAllowCount>2</maxAllowCount>
+		</stateUAT>
+		<stateUAT>
+			<statCode>31</statCode>
+			<adminNDCode>1086</adminNDCode>
+			<maxAllowCount>2</maxAllowCount>
+		</stateUAT>
+		<stateUAT>
+			<statCode>5</statCode>
+			<adminNDCode>1087</adminNDCode>
+			<maxAllowCount>2</maxAllowCount>
+		</stateUAT>
+		<stateUAT>
+			<statCode>3</statCode>
+			<adminNDCode>1088</adminNDCode>
+			<maxAllowCount>2</maxAllowCount>
+		</stateUAT>
+		<stateUAT>
+			<statCode>26</statCode>
+			<adminNDCode>1089</adminNDCode>
+			<maxAllowCount>2</maxAllowCount>
+		</stateUAT>
+		<stateUAT>
+			<statCode>25</statCode>
+			<adminNDCode>1090</adminNDCode>
+			<maxAllowCount>2</maxAllowCount>
+		</stateUAT>
+		<stateUAT>
+			<statCode>35</statCode>
+			<adminNDCode>1091</adminNDCode>
+			<maxAllowCount>2</maxAllowCount>
+		</stateUAT>
+		<stateUAT>
+			<statCode>36</statCode>
+			<adminNDCode>1131</adminNDCode>
+			<maxAllowCount>2</maxAllowCount>
+		</stateUAT>
+		<stateUAT>
+			<statCode>2</statCode>
+			<adminNDCode>1238</adminNDCode>
+			<maxAllowCount>2</maxAllowCount>
+		</stateUAT>
+		<stateUAT>
+			<statCode>36</statCode>
+			<adminNDCode>1239</adminNDCode>
+			<maxAllowCount>2</maxAllowCount>
+		</stateUAT>
+		<stateUAT>
+			<statCode>7</statCode>
+			<adminNDCode>1240</adminNDCode>
+			<maxAllowCount>2</maxAllowCount>
+		</stateUAT>
+		<stateUAT>
+			<statCode>26</statCode>
+			<adminNDCode>1242</adminNDCode>
+			<maxAllowCount>2</maxAllowCount>
+		</stateUAT>
+		<stateUAT>
+			<statCode>5</statCode>
+			<adminNDCode>1243</adminNDCode>
+			<maxAllowCount>2</maxAllowCount>
+		</stateUAT>
+		<stateUAT>
+			<statCode>21</statCode>
+			<adminNDCode>1244</adminNDCode>
+			<maxAllowCount>2</maxAllowCount>
+		</stateUAT>
+		<stateUAT>
+			<statCode>37</statCode>
+			<adminNDCode>1463</adminNDCode>
+			<maxAllowCount>2</maxAllowCount>
+		</stateUAT>
+		<stateUAT>
+			<statCode>10</statCode>
+			<adminNDCode>1473</adminNDCode>
+			<maxAllowCount>2</maxAllowCount>
+		</stateUAT>
+		<stateUAT>
+			<statCode>33</statCode>
+			<adminNDCode>1499</adminNDCode>
+			<maxAllowCount>2</maxAllowCount>
+		</stateUAT>
+		
+		
+		
+		
+		
+	</SDOBTxnCount>
+	
+	
+	
+	
+	
+	
+	
+	
+ 
+	
+	
+	
+</stateList>

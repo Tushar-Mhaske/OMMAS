@@ -1,0 +1,75 @@
+﻿@**
+        * Project Id    :
+        * Project Name  :   OMMAS II
+        * Name          :   QMATRRegrade.cshtml
+        * Description   :   View for QMATRRegrade
+        * Author        :   Shyam Yadav 
+        * Creation Date :   10/Jun/2013
+ **@
+
+
+@model PMGSY.Models.QualityMonitoring.QMATRRegradeModel
+
+<script src="~/Scripts/custom/Generic.js"></script>
+<script src="~/Scripts/QualityMonitoring/QMATRRegrade.js"></script>
+
+<form id="frmQMATRRegrade">
+     <div id="divATRError" class="ui-state-error ui-corner-all" style="text-align: left; display: none; width: 35%">
+        <span class="ui-icon ui-icon-alert" style="float: left;"></span>                   
+        <span></span>
+    </div>
+    @Html.HiddenFor(model => model.QM_OBSERVATION_ID)
+    @Html.Hidden("roleCode",PMGSY.Extensions.PMGSYSession.Current.RoleCode)
+    <div id="divNote" class="ui-state-default ui-corner-top"  style="text-align: left; width: 65%; height:20px; padding-top:3px;">
+       <strong>&nbsp;&nbsp;Note : Select 'Yes' if ATR has been recieved.</strong>
+    </div>
+    <table class="rowstyle" id="tblATRRegrade" style="margin-top: 0px; text-align: left; border: ridge 0.1em #ccc; width: auto; padding: 5px 5px 5px 5px;">
+        <tr>   
+            
+            <tr> <strong>State Name:</strong> @Html.DisplayFor(Model=>Model.StateName,"StateName") </tr> &nbsp;&nbsp;
+
+               <tr> <strong>District Name:</strong> @Html.DisplayFor(Model=>Model.DistrictName,"DistrictName") </tr>&nbsp;&nbsp;
+               <tr> <strong>Block Name:</strong> @Html.DisplayFor(Model=>Model.BlockName,"StateName") </tr>&nbsp;&nbsp;
+
+
+
+            <tr><strong>Package No.:</strong> @Html.DisplayFor(Model=>Model.PACKAGE_ID,"packageID") </tr>&nbsp;&nbsp;
+
+            <tr><strong>Road Name:</strong> @Html.DisplayFor(Model=>Model.ROAD_NAME,"roadName")</tr>
+        </tr> <br><br<br><br>
+        <tr>
+            <td style="width:15%;"></td>
+        
+            <td style="width:85%;">
+                @Html.RadioButtonFor(model => model.ATR_REGRADE_STATUS, "A", new { @id = "rdoAcceptATR" , @checked=true }) Accept 
+                &nbsp;&nbsp;&nbsp;
+                @Html.RadioButtonFor(model => model.ATR_REGRADE_STATUS, "R", new { @id = "rdoRejectATR"}) Reject   
+                &nbsp;&nbsp;&nbsp;
+                @Html.RadioButtonFor(model => model.ATR_REGRADE_STATUS, "V", new { @id = "rdoVerifyATR"}) Verification
+                &nbsp;&nbsp;&nbsp;
+                @Html.RadioButtonFor(model => model.ATR_REGRADE_STATUS, "C", new { @id = "rdoCommiteeATR"}) To Be sent to Commitee
+                &nbsp;&nbsp;&nbsp;
+                @Html.RadioButtonFor(model => model.ATR_REGRADE_STATUS, "D", new { @id = "rdoDefectATR"}) Non Rectifiable Deffect                                        
+            </td>
+             
+            @*<td style="width:45%;"></td> *@
+        </tr>
+            <tr id="trATRRemarks">
+                <td style="width:15%;"><b>Remarks:</b> <span style="color:red">*</span></td>
+                <td style="text-align:left;">
+                    @Html.TextAreaFor(model => model.ATR_REGRADE_REMARKS, new { @style = "width: 360px;", @maxlength = "255" })
+                    @Html.ValidationMessageFor(model => model.ATR_REGRADE_REMARKS)
+                </td>
+        </tr>
+        <tr>
+            <td colspan="2" style="text-align:center;">
+                <input type="button" value="Save" class="jqueryButton" id="btnSaveATRRegrade"/>
+                <input type="button" value="Cancel" class="jqueryButton" id="btnCancelATRRegrade"/>                              
+            </td>
+        </tr>
+    </table>
+    
+</form>
+
+
+                           

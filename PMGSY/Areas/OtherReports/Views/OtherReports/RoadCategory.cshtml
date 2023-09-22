@@ -1,0 +1,58 @@
+﻿@{
+    ViewBag.Title = "Road Category Details";
+}
+
+@model PMGSY.Areas.OtherReports.Models.RoadCategoryModel
+<div id="dvhdCreateNewReportDetails" class="ui-corner-top ui-widget-header panelheader" style="text-align: left; width: 100%;height: 20px;margin-top:3px;">
+    <span class="ui-jqgrid-title" style="float: left;margin-top:1px;">&nbsp;Road Category Details</span>
+</div>
+<form id="TestForm">
+
+
+
+@if (PMGSY.Extensions.PMGSYSession.Current.StateCode != 0)
+{           
+    @Html.Hidden("STATE_NAME", PMGSY.Extensions.PMGSYSession.Current.StateName.ToString())
+}
+
+@if (PMGSY.Extensions.PMGSYSession.Current.DistrictCode != 0)
+{
+    @Html.Hidden("DISTRICT_NAME", PMGSY.Extensions.PMGSYSession.Current.DistrictName.ToString())   
+}
+
+    @Html.AntiForgeryToken()
+<script src="~/Areas/OtherReports/Scripts/RoadCategory.js"></script>
+<script src="~/Scripts/custom/Generic.js"></script>
+<div style="width: 100%">
+    <table class="ui-state-default ui-corner-bottom" style="width: 100%;">
+        <tr>
+           
+            <td style="text-align: left; width: 5%;">
+                @Html.Label("State")
+            </td>
+            <td style="width: 15%;">
+                @Html.DropDownListFor(model=>model.StateCode, new SelectList(Model.StateList,"Value","Text"), new { @title = "State", @id="StateForVillage",@tabindex = 1 })<br/>
+                @Html.ValidationMessageFor(model=>model.StateCode)
+            </td>
+            <td style="text-align: left; width: 7%;">
+                @Html.Label("District")
+            </td>
+            <td style="width: 15%;">
+                @Html.DropDownListFor(model=>model.DistrictCode,  new SelectList(Model.DistrictList,"Value","Text"), new { @title = "District",@id="DistrictForVillage", @tabindex = 2 })<br/>
+                @Html.ValidationMessageFor(model=>model.DistrictCode)
+            </td>
+             <td style="text-align: center; width: 20%; margin-left: 5px;">
+                <input type="button" id="TestDetaisButton" value="View" class="jqueryButton" title="View Details" tabindex="3" />
+            </td>
+        </tr>
+       
+    </table>
+</div>
+<br />
+</form>
+
+<div id="TestReportDiv">
+</div>
+
+
+

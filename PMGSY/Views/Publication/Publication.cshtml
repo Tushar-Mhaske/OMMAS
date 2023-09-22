@@ -1,0 +1,66 @@
+﻿<script src="~/Scripts/custom/Generic.js"></script>
+<script src="~/Scripts/jquery.ui.accordion.js?_=1412081813509"></script>
+
+<script src="~/Scripts/Publication/Publication.js"></script>
+
+<center>
+<div id="divPublicationList" style="width:100%;">
+<table class="rowstyle" cellpadding="3px" style="text-align: left; border: ridge 0.1em #ccc; width: 98%; padding: 5px 5px 5px 5px;">
+    <tr>
+        <td style="width: 25%; font-weight: bold;text-align:center;" >
+            Publication:
+            @Html.DropDownList("ddPublication", (IEnumerable<SelectListItem>)ViewBag.PublicationCategory, new {@title="Publication",@tabIndex="1" })
+           
+        </td>
+       <td style="width: 25%; font-weight: bold;text-align:center;">
+           Finalized:
+            <select name="ddFinalize" id="ddFinalize" tabindex="2" title="Finalized">
+                <option value="0" selected>ALL</option>
+                <option value="Y">Yes</option>
+                <option value="N">No</option>                
+            </select>
+        </td>
+        <td style="width: 25%; font-weight: bold;text-align:center;">
+            Published:
+            <select name="ddPublishe" id="ddPublishe" tabindex="3" title="Published">
+                <option value="0" selected>ALL</option>
+                <option value="Y">Yes</option>
+                <option value="N">No</option>                
+            </select>
+        </td>
+        <td style="width: 25%; font-weight: bold;text-align:left;">
+            <input type="button" id="btnView" value="View" title="View" class="jqueryButton" tabindex="4"/>
+        </td>
+    
+    </tr>
+   
+   <tr>
+         <td style=" font-weight: bold;text-align:center;" colspan="4" >
+            <table id="tblPublication"> </table>
+            <div id="divPagerPublication"> </div>
+        </td>
+    
+    </tr>
+    <tr>
+        <td style=" font-weight: bold;text-align:left;" colspan="4">
+            <input type="button" id="btnCreate" value="Add Publication"  title="Add Publication Detail" class="jqueryButton" tabindex="5"/>
+        </td>
+    
+    </tr>
+</table>
+    </div>
+<div id="accordionPublication" style="display:none;width:90%;margin-top:10px;border:none;">            
+        <h3 style="text-align:left"><a id="" href="#" style=" font-size:.9em;" >Publication</a>
+            <a href="#"  style="float: right;">
+                <img style="border:solid" class="ui-icon ui-icon-closethick"  /></a>
+        </h3>
+        <div id="divPublication"></div>                
+   </div>
+    <div id="accordionPubUpload" style="display:none;width:70%;margin-top:10px;border:none;">            
+        <h3 style="text-align:left"><a id="" href="#" style=" font-size:.9em;" >Upload Publication</a>
+            <a href="#"  style="float: right;">
+                <img style="border:solid" class="ui-icon ui-icon-closethick"  /></a>
+        </h3>
+        <div id="divPubUpload"></div>                
+    </div>
+</center>

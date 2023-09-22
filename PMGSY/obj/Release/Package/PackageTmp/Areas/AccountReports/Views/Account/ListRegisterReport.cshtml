@@ -1,0 +1,22 @@
+﻿@using MvcReportViewer
+@model PMGSY.Areas.AccountReports.Models.RegisterViewModel
+
+<div id="AccDeposits" style="width: 100%; height: 570px; overflow-x: hidden; overflow-y: hidden">
+@Html.MvcReportViewer("/PMGSYCitizen/AccDeposits",
+     new {  
+         
+         PINTStateCode=Model.StateCode,
+         PINTAgencyCode=Model.Collaboration,
+         PINTAdminNDCode=Model.AdminCode,
+         PINTAccMonth=Model.Month,
+         PINTAccYear=Model.Year,
+         PCHARfundType=PMGSY.Extensions.PMGSYSession.Current.FundType,
+         PINTLvlID=Model.LevelId,
+         PINTHeadID=Model.HeadId,
+         PINTCollab=Model.FundingAgencyCode,
+         HeadName=Model.HeadName,
+         SRRDACode=Model.SRRDACode
+         },
+     new { Height = 600, Width = 1220, style = "border:none;" })
+
+</div>

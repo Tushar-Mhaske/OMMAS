@@ -1,0 +1,234 @@
+﻿@*
+    * Project Id    :
+    * Project Name  :   OMMAS II
+    * Name          :   AddPhysicalRoadProgress.cshtml
+    * Description   :   This View Adds the Physical Road Progress Details to Road Proposal Execution
+    * Author        :   Vikram Nandanwar        
+    * Creation Date :   25/June/2013    
+*@
+
+@model PMGSY.Models.Execution.ExecutionRoadStatusViewModelMRD
+
+
+<script src="~/Scripts/custom/Generic.js"></script>
+<script src="~/Scripts/jquery.ui.datepicker.js"></script>
+<script src="~/Scripts/Execution/AddPhysicalRoadProgressMRD.js"></script>
+
+
+<div id="divAddPhysicalRoad" style="margin-top: 20px">
+    <form id="frmAddPhysicalRoad">
+        <center>
+
+<div style="margin-left: 100px">
+    @Html.ValidationSummary(true) 
+    @Html.AntiForgeryToken()
+      
+    @Html.HiddenFor(model => model.IMS_PR_ROAD_CODE)
+@Html.HiddenFor(model => model.EncryptedPhysicalRoadCode)
+@Html.HiddenFor(model => model.OldCompleted)
+@Html.HiddenFor(model => model.Sanction_length)
+@Html.HiddenFor(model => model.CompleteStatus)
+@Html.HiddenFor(model => model.PreviousMonth)
+@Html.HiddenFor(model => model.PreviousYear)
+@Html.HiddenFor(model => model.Operation)
+@Html.HiddenFor(model => model.PreviousBaseCourse)
+@Html.HiddenFor(model => model.PreviousEarthWork)
+@Html.HiddenFor(model => model.PreviousMiscellaneous)
+@Html.HiddenFor(model => model.PreviousPreparatoryWork)
+@Html.HiddenFor(model => model.PreviousSubbase)
+@Html.HiddenFor(model => model.PreviousSurfaceCourse)
+@Html.HiddenFor(model => model.PreviousCDWorks)
+@Html.HiddenFor(model => model.PreviousLSB)
+@Html.HiddenFor(model => model.PreviousRoadSigns)
+@Html.HiddenFor(model => model.IsStage)
+@Html.HiddenFor(model => model.AgreementMonth)
+@Html.HiddenFor(model => model.AgreementYear)
+@Html.HiddenFor(model => model.AgreementDate)
+@Html.HiddenFor(model => model.PreviousCompletedLength)          
+@Html.HiddenFor(model => model.changed_SanctionedLength)
+
+@Html.Hidden("hdnCurrYear", Model.crYear)
+
+@Html.HiddenFor(model => model.currmonthName)
+@Html.HiddenFor(model => model.prevmonthName)
+</div>            
+<div id="divError" class="ui-state-error ui-corner-all" style="text-align: left; display: none; width: 99%;">
+        <span class="ui-icon ui-icon-alert" style="float: left;"></span>                   
+        <span></span>
+</div>
+<div style="height:20px; width: 99%; text-align:left; padding-top: 0.4em;" class="ui-state-default ui-corner-all" > 
+            &nbsp;<strong> Note :</strong>  Fields marked with * are mandatory.
+    <a href="#"  style="float: right;">
+                    <img style="margin-right:5px" alt="Close" src="" class="ui-icon ui-icon-closethick" id="imgCloseProgressDetails" /></a>
+</div>
+<table id="tbAddRoadDetails"  cellpadding="3px" class="rowstyle" style="margin-top:0px; text-align:left; border:ridge 0.1em #ccc; width:99%; padding-top:5px 5px 5px 5px;">
+    <tr>
+        <td style="width:5%">
+        </td>
+        <td style="width:10%">
+            @Html.LabelFor(model => model.EXEC_PROG_YEAR)<label style="color:red">*</label>
+        </td>
+        <td style="width:20%">
+            @if (Model.Operation != "E")
+            {
+                @Html.DropDownListFor(model => model.EXEC_PROG_YEAR, ViewData["Year"] as IEnumerable<SelectListItem>, new { @title = "Select Year", @id = "ddlYear", @tabindex = 2 })
+                @Html.ValidationMessageFor(model => model.EXEC_PROG_YEAR)
+            }
+            else
+            {
+                @Html.DropDownListFor(model => model.EXEC_PROG_YEAR, ViewData["Year"] as IEnumerable<SelectListItem>, new { @title = "Select Year", @id = "ddlYear", @tabindex = 2, @disabled = "disabled" })
+                @Html.ValidationMessageFor(model => model.EXEC_PROG_YEAR)
+                @Html.HiddenFor(model => model.EXEC_PROG_YEAR)
+            }
+        </td>
+        <td style="width:10%">
+            @Html.LabelFor(model => model.EXEC_PROG_MONTH)<label style="color:red">*</label>
+        </td>
+        <td style="width:20%">
+            @if (Model.Operation != "E")
+            {
+                 @Html.DropDownListFor(model => model.EXEC_PROG_MONTH, ViewData["Month"] as IEnumerable<SelectListItem>, new { @id = "ddlMonth", @title = "Select Month", @tabindex = 1 })
+                 @Html.ValidationMessageFor(model => model.EXEC_PROG_MONTH)
+            }
+            else
+            {
+                @Html.DropDownListFor(model => model.EXEC_PROG_MONTH, ViewData["Month"] as IEnumerable<SelectListItem>, new { @id = "ddlMonth", @title = "Select Month", @tabindex = 1, @disabled = "disabled" })
+                @Html.ValidationMessageFor(model => model.EXEC_PROG_MONTH)
+                @Html.HiddenFor(model => model.EXEC_PROG_MONTH)
+            }
+        </td>
+        
+    </tr>
+    <tr>
+        <td></td>
+        <td>
+            @Html.LabelFor(model => model.EXEC_ISCOMPLETED)<label style="color:red">*</label>
+        </td>
+        <td>
+            @Html.DropDownListFor(model => model.EXEC_ISCOMPLETED, ViewData["WorkStatus"] as IEnumerable<SelectListItem>, new { @id = "ddlWorkStatus", @title = "Select Work Status", @tabindex = 3 })
+            @Html.ValidationMessageFor(model => model.EXEC_ISCOMPLETED)
+        </td>
+        <td>
+            @Html.LabelFor(model => model.EXEC_PREPARATORY_WORK)<label style="color:red">*</label>
+        </td>
+        <td>
+            @Html.TextBoxFor(model => model.EXEC_PREPARATORY_WORK, new { @title = "Enter Preparatory Work", @maxlength = 8, @tabindex = 4, @placeholder = "Enter Preparatory Work..." })
+            @Html.ValidationMessageFor(model => model.EXEC_PREPARATORY_WORK)
+        </td>
+    </tr>
+    <tr>
+        <td></td>
+        <td>
+            @Html.LabelFor(model => model.EXEC_EARTHWORK_SUBGRADE)<label style="color:red">*</label>
+        </td>
+        <td>
+            @Html.TextBoxFor(model => model.EXEC_EARTHWORK_SUBGRADE, new { @title = "Enter Subgrade Stage", @maxlength = 8, @tabindex = 5, @placeholder = "Enter Subgrade Stage..." })
+            @Html.ValidationMessageFor(model => model.EXEC_EARTHWORK_SUBGRADE)
+        </td>
+        <td>
+            @Html.LabelFor(model => model.EXEC_SUBBASE_PREPRATION)<label style="color:red">*</label>
+        </td>
+        <td>
+            @Html.TextBoxFor(model => model.EXEC_SUBBASE_PREPRATION, new { @title = "Enter Subbase Preparation", @maxlength = 8, @tabindex = 6, @placeholder = "Enter Subbase Preparation..." })
+            @Html.ValidationMessageFor(model => model.EXEC_SUBBASE_PREPRATION)
+        </td>
+    </tr>
+    <tr>
+        <td></td>
+        <td>
+            @Html.LabelFor(model => model.EXEC_BASE_COURSE)<label style="color:red">*</label>
+        </td>
+        <td>
+            @Html.TextBoxFor(model => model.EXEC_BASE_COURSE, new { @title = "Enter Base Course", @maxlength = 8, @tabindex = 7, @placeholder = "Enter Base Course..." })
+            @Html.ValidationMessageFor(model => model.EXEC_BASE_COURSE)
+        </td>
+        <td>
+            @Html.LabelFor(model => model.EXEC_SURFACE_COURSE)<label style="color:red">*</label>
+        </td>
+        <td>
+            @Html.TextBoxFor(model => model.EXEC_SURFACE_COURSE, new { @title = "Enter Surface Course", @maxlength = 8, @tabindex = 8, @placeholder = "Enter Surface Course..." })
+            @Html.ValidationMessageFor(model => model.EXEC_SURFACE_COURSE)
+        </td>
+    </tr>
+    <tr>
+        <td></td>
+        <td>
+            @Html.LabelFor(model => model.EXEC_SIGNS_STONES)
+        </td>
+        <td>
+            @Html.TextBoxFor(model => model.EXEC_SIGNS_STONES, new { @title = "Enter Road Signs Stones", @maxlength = 8, @tabindex = 9, @placeholder = "Enter Road Signs Stones..." })
+            @Html.ValidationMessageFor(model => model.EXEC_SIGNS_STONES)
+        </td>
+        <td>
+            @Html.LabelFor(model => model.EXEC_CD_WORKS)
+        </td>
+        <td>
+            @Html.TextBoxFor(model => model.EXEC_CD_WORKS, new { @title = "Enter CDWorks", @maxlength = 8, @tabindex = 10, @placeholder = "Enter CD Works..." })
+            @Html.ValidationMessageFor(model => model.EXEC_CD_WORKS)
+        </td>
+    </tr>
+    <tr>
+        <td></td>
+        <td>
+            @Html.LabelFor(model => model.EXEC_LSB_WORKS)
+        </td>
+        <td>
+            @Html.TextBoxFor(model => model.EXEC_LSB_WORKS, new { @title = "Enter LSB Works", @maxlength = 8, @tabindex = 11, @placeholder = "Enter LSB Works..." })
+            @Html.ValidationMessageFor(model => model.EXEC_LSB_WORKS)
+        </td>
+        <td>
+            @Html.LabelFor(model => model.EXEC_MISCELANEOUS)<label style="color:red">*</label>
+        </td>
+        <td>
+            @Html.TextBoxFor(model => model.EXEC_MISCELANEOUS, new { @title = "Enter Miscellaneous Length", @maxlength = 8, @tabindex = 12, @placeholder = "Enter Completed Length..." })
+            @Html.ValidationMessageFor(model => model.EXEC_MISCELANEOUS)
+        </td>
+        
+    </tr>
+    <tr>
+        <td></td>
+        <td>
+            @Html.LabelFor(model => model.EXEC_COMPLETED)<label style="color:red">*</label>
+        </td>
+        <td>
+            @Html.TextBoxFor(model => model.EXEC_COMPLETED, new { @title = "Enter Completed Length", @maxlength = 8, @tabindex = 12, @placeholder = "Enter Completed Length..." })
+            @Html.ValidationMessageFor(model => model.EXEC_COMPLETED)
+        </td>
+        <td>
+            @Html.LabelFor(model => model.ExecutionCompleteDate, new { @id = "lblCompletionDate" })<label id="lblRequired" style="color:red">*</label>
+        </td>
+        <td id="tdCompletionDate">
+            @Html.TextBoxFor(model => model.ExecutionCompleteDate, new { @id = "txtCompletionDate", @title = "Enter Completion Date", @maxlength = 10, @tabindex = 13, @placeholder = "Enter Completion Date..." })
+            @Html.ValidationMessageFor(model => model.ExecutionCompleteDate, "", new { @id = "msgDateValidation" })
+        </td>
+    </tr>
+    <tr>
+        <td colspan="5">
+            @if (Model.Operation == "A")
+            {
+            <center>
+            <table>
+                <td>
+                    <input type="button" value="Save" name="btnAddRoadDetails" id="btnAddRoadDetails" class="jqueryButton" tabindex="13" />
+                    <input type="reset" value="Reset" name="btnResetRoadDetails" id="btnResetRoadDetails" class="jqueryButton" tabindex="14"/>
+                </td>
+            </table>
+            </center>
+            }
+            else
+            {
+            <center>
+            <table>
+                <td>
+                <input type="button" value="Update" name="btnUpdateRoadDetails" id="btnUpdateRoadDetails" class="jqueryButton" tabindex="13" />
+                <input type="button" value="Cancel" name="btnCancelRoadDetails" id="btnCancelRoadDetails" class="jqueryButton" tabindex="14" />
+                </td>
+            </table>
+            </center>
+            }
+        </td>
+    </tr>
+</table>
+</center>
+    </form>
+</div>

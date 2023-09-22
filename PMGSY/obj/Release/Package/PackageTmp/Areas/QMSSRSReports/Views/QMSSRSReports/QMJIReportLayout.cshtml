@@ -1,0 +1,98 @@
+﻿@model PMGSY.Areas.QMSSRSReports.Models.QMJIViewModel
+
+
+<script src="~/Scripts/custom/Generic.js" type="text/javascript"></script>
+<script type="text/javascript">
+    $(document).ready(function () {
+        LoadReport();
+        $("#btnViewJointInspection").click(function () {
+              LoadReport();
+        });
+    });
+
+    function LoadReport() {
+        var formData = $("#frmQMJIReport").serialize();
+        $("#dvQMJIReport").load('/QMSSRSReports/QMSSRSReports/QMJIReport/', formData);
+    }
+    function QMJIDownloadPDF(fileId) {
+        var url = "/QualityMonitoring/QMJIATRDownloadPdf/" + fileId;
+        window.location.href = url;
+        return false;
+    }
+
+    function QMJIDownloadATRPDF(fileId) {
+        var url = "/QualityMonitoring/QMJIATRDownloadPdf/" + fileId;
+        window.location.href = url;
+        return false;
+    }
+
+    
+
+</script>
+
+<form id="frmQMJIReport">
+     @Html.AntiForgeryToken()
+     
+    <div id="divFilter" class="ui-state-default ui-corner-all" style="text-align: center; width: 99%">
+            <table  style="margin-top:0px; text-align:center; border:ridge 0.1em #ccc; width:100%; padding:5px 5px 5px 5px;">                    
+                    <tr style="text-align:right;">
+                         <td style="width:25%;font-weight:bold;text-align:right;" >
+                             
+                        
+                               
+                              <span id="spanState">
+                                 @Html.LabelFor(model => model.MAST_STATE_CODE)
+                                 @Html.DropDownListFor(model => model.MAST_STATE_CODE, new SelectList(Model.StateList, "value", "text"), new { @id = "ddlState"})
+                               </span>
+                                
+                                
+                        
+                           
+                        </td>
+                        <td style="width:25%;font-weight:bold;" >
+                            @Html.LabelFor(model => model.FROM_MONTH)
+                                                 
+                            @Html.DropDownListFor(model => model.FROM_MONTH, new SelectList(Model.FROM_MONTHS_LIST, "value", "text"), new { @id = "ddlFromMonth"})
+                        </td>
+                        <td style="width:25%;font-weight:bold;">
+                            @Html.LabelFor(model => model.FROM_YEAR)
+                                               
+                            @Html.DropDownListFor(model => model.FROM_YEAR, new SelectList(Model.FROM_YEARS_LIST, "value", "text"), new { @id = "ddlFromYear"})
+                        </td>
+                         <td style="width:25%;font-weight:bold;">
+                           
+                        </td>
+                        
+                    </tr>
+                <tr style="text-align:right;">
+                         
+                        <td style="font-weight:bold;">                           
+                        
+                              <span id="spanState">
+                                 @Html.LabelFor(model => model.PublicRepresentativeCode)
+                                 @Html.DropDownListFor(model => model.PublicRepresentativeCode, new SelectList(Model.PublicRepresentativeList, "value", "text"), new { @id = "ddlPublicRepresentative"})
+                                  </span>
+                                
+                           
+                        </td>
+                        <td style="font-weight:bold;">
+                            @Html.LabelFor(model => model.TO_MONTH)
+                                                 
+                            @Html.DropDownListFor(model => model.TO_MONTH, new SelectList(Model.TO_MONTHS_LIST, "value", "text"), new { @id = "ddlToMonth"})
+                        </td>
+                        <td style="font-weight:bold;">
+                            @Html.LabelFor(model => model.TO_YEAR)
+                       
+                            @Html.DropDownListFor(model => model.TO_YEAR, new SelectList(Model.TO_YEARS_LIST, "value", "text"), new { @id = "ddlToYear"})
+                        </td>
+                        <td style="font-weight:bold;text-align:left">
+                            <input type="button" id="btnViewJointInspection" value="View" class="jquerybutton"  style="margin-left:20px;"/>
+                        </td>
+            </table>
+    </div>
+    
+
+    <div id="dvQMJIReport"></div>
+  
+ </form>
+

@@ -1,0 +1,71 @@
+﻿@using MvcReportViewer
+
+@model PMGSY.Models.ProposalReports.MRDProposalModel
+
+@if(Model.ProposalCode == "L")
+{
+@Html.MvcReportViewer("/PMGSYCitizen/Bridge_Proposal_Report",
+     new
+     { 
+         Level = Model.Level,
+         State = Model.StateCode,
+         District = Model.DistrictCode,
+         Block = Model.BlockCode,
+         Year = Model.Year,
+         Batch = Model.BatchCode,
+         Collaboration = Model.CollabCode,
+         Agency = Model.Agency,
+         Package = Model.PackageCode,
+         PTAStatus = Model.PTAStatus,
+         STAStaus = Model.STAStatusCode,
+         MRDStatus = Model.MRDStatus,
+         Type = Model.ProposalCode,
+         Connect = Model.CategoryCode,
+         PMGSY = PMGSY.Extensions.PMGSYSession.Current.PMGSYScheme,
+         StateName = Model.StateName,
+         DistrictName = Model.DistrictName,
+         YearName = Model.Year,
+         BatchName = Model.BatchName,
+         CollaborationName = Model.CollabName,
+         PackageName = Model.PackageName,
+         StatusName = Model.StatusName,
+         STAStatusName = Model.STAStatusName,
+         ProposalName = Model.ProposalName,
+         CategoryName = Model.CategoryName,
+     },
+     new { Height = 700, Width = 1180, style = "border:none;" })
+}
+else
+{
+    
+@Html.MvcReportViewer("/PMGSYCitizen/Proposal_Road_Report",
+     new
+     { 
+         Level = Model.Level,
+         State = Model.StateCode,
+         District = Model.DistrictCode,
+         Block = Model.BlockCode,
+         Year = Model.Year,
+         Batch = Model.BatchCode,
+         Collaboration = Model.CollabCode,
+         Agency = Model.Agency,
+         Package = Model.PackageCode,
+         PTAStatus = Model.PTAStatus,
+         STAStaus = Model.STAStatusCode,
+         MRDStatus = Model.MRDStatus,
+         Type = Model.ProposalCode,
+         Connect = Model.CategoryCode,
+         PMGSY = PMGSY.Extensions.PMGSYSession.Current.PMGSYScheme,
+         StateName = Model.StateName,
+         DistrictName = Model.DistrictName,
+         YearName = Model.Year,
+         BatchName = Model.BatchName,
+         CollaborationName = Model.CollabName,
+         PackageName = Model.PackageName,
+         StatusName = Model.StatusName,
+         STAStatusName = Model.STAStatusName,
+         ProposalName = Model.ProposalName,
+         CategoryName = Model.CategoryName,
+     },
+    new { Height = 700, Width = 1180, style = "border:none;" })
+}

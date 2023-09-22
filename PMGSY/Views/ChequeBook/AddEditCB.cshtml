@@ -1,0 +1,226 @@
+﻿@model PMGSY.Models.ChequeBook.ChequeBookDetailsViewModel
+@using PMGSY.Extensions
+<script src="~/Scripts/custom/Generic.js"></script>
+<script src="~/Scripts/jquery.ui.datepicker.js"></script>
+<script src="~/Scripts/ChequeBook/CB_Create.js"></script>
+@*<script src="~/Scripts/custom/Generic.js" type="text/javascript"></script>*@
+
+
+
+<div id="dvhdCreateNewAgencyDetails" class="ui-corner-top ui-widget-header panelheader" style="text-align: left; height: 20px;">
+    <span class="ui-jqgrid-title" style="float: left">&nbsp;Add / Edit Cheque Book</span>
+    <span id="spCollapseIconCN" class="ui-icon ui-icon-circle-triangle-n" style="float: right"></span>
+</div>
+
+
+
+<div id="dvCreateNewAgencyDetails" style="display: block; border: 1px solid #B5B8C8;">
+    <div id="dvErrorMessage" class="ui-widget ui-state-error ui-corner-all" style="padding: 0.7em .7em; display: none; margin: 5px 5px 5px 5px;" align="left">
+        <span class="ui-icon ui-icon-alert" style="float: left; margin-right: .3em;"></span>
+        <strong>Alert:</strong> <span id="message"></span>
+    </div>
+      <table class="ui-state-default ui-corner-all" style="border: 0.1em solid gray; width: 100%; margin-bottom:2px" cellspacing="1px;" id="tblBankDetails">
+        @{
+            if (ViewBag.BankName != null)
+            {        
+            <tr>
+                <td style="width: 2%">
+                    <div style="text-align: left">
+                        Bank Details : -
+            <span style="float: left" class="ui-icon ui-icon-info"></span>
+                    </div>
+
+                </td>
+                <td style="width: 2%; color: black">
+                   @Html.Label("Name of PIU/ SRRDA :")
+                </td>
+                <td style="width: 3%">
+                   <b> <span id="spnDPIUName">@ViewBag.Name</span> </b>
+                </td>
+
+                <td style="width: 2%; color: black">
+                    @Html.Label("Bank Name :")
+                </td>
+                <td style="width: 3%">
+                 <b>   @ViewBag.BankName </b>
+                </td>
+
+                <td style="width: 2%; color: black">
+                    @Html.Label("Branch Name :")
+                </td>
+                <td style="width: 3%">
+                   <b> @ViewBag.BankBranch </b>
+                </td>
+            </tr>
+            }
+            else
+            {
+            <tr>
+                <td>
+                     <div style="margin-left: 0; margin-right: 0; margin-bottom: 0; text-align: left">
+                        Bank Details : -
+            <span style="float: left" class="ui-icon ui-icon-info"></span>
+                    </div>
+
+                </td>
+                <td colspan="6">@Html.Label("Bank Details Not Present :")</td>
+            </tr>
+            }
+        }
+    </table>
+    <form id="frmMasterAgency">
+        <center>@Html.ValidationSummary(true)</center>
+        @Html.AntiForgeryToken()
+        @Html.HiddenFor(model=>model.CHQ_BOOK_ID)
+        @Html.HiddenFor(model=>model.ACC_OPEN_DATE)
+      
+    <table style="width: 100%; margin-top: 10px;" class="rowstyle">
+        <tr style="display: none">
+            <td colspan="3">
+                @*  @Html.HiddenFor(model => model.EncryptedChequeBookCode)*@
+                @*   @Html.HiddenFor(model=>model.ADMIN_ND_CODE)*@
+            </td>
+        </tr>
+
+
+        @if (PMGSYSession.Current.LevelId == 4 && PMGSYSession.Current.FundType == "A")
+        {
+
+            <tr>
+                <td style="width: 30%;"></td>
+                <td style="text-align: left; width: 15%;">
+                </td>
+
+                <td>
+                    @Html.RadioButtonFor(m => m.IsSRRDADpiu, "D", new { @id = "rdoDPIU", @title = "DPIU", @Checked = "checked", @tabindex = "1" }) @Html.Label("DPIU")
+                    @Html.RadioButtonFor(m => m.IsSRRDADpiu, "S", new { @id = "rdoSRRDA", @title = "SRRDA", @tabindex = "2" }) @Html.Label("SRRDA")
+                </td>
+            </tr>
+
+        }
+
+
+
+        @if (PMGSYSession.Current.LevelId == 4)
+        {
+            if (PMGSYSession.Current.FundType == "P")
+            {
+                <tr>
+                    <td style="width: 30%;"></td>
+                    <td style="text-align: left; width: 15%;" class="tdDPIU">
+                        @Html.LabelFor(model => model.BANK_ACC_TYPE)
+                        <label style="color: red;">*</label>
+                    </td>
+
+                    <td class="tdDPIU">
+                        @if (Model.EncryptedChequeBookCode == null)
+                        {
+
+                            @Html.DropDownListFor(m => m.BANK_ACC_TYPE, Model.lstBankAccType, new { @id = "ddlAccType", @title = "Acc", @tabindex = "2" })
+                            @Html.ValidationMessageFor(model => model.BANK_ACC_TYPE)
+                        }
+                        else
+                        {
+
+                            @Html.DropDownListFor(m => m.BANK_ACC_TYPE, Model.lstBankAccType, new { @id = "ddlAccType", @title = "Acc", @disabled = "disabled", @tabindex = "2" })
+                            @Html.HiddenFor(model => model.BANK_ACC_TYPE)
+                        }
+                    </td>
+                </tr>
+            }
+
+
+            <tr>
+                <td style="width: 30%;"></td>
+                <td style="text-align: left; width: 15%;" class="tdDPIU">
+                    @Html.LabelFor(model => model.ADMIN_ND_CODE)
+                    <label style="color: red;">*</label>
+                </td>
+
+                <td class="tdDPIU">
+                    @if (Model.EncryptedChequeBookCode == null)
+                    {
+
+                        @Html.DropDownListFor(m => m.ADMIN_ND_CODE, Model.PopulateDPIU, new { @id = "ddlDPIU", @title = "DPIU", @tabindex = "3" })
+                        @Html.ValidationMessageFor(model => model.ADMIN_ND_CODE)
+                    }
+                    else
+                    {
+
+                        @Html.DropDownListFor(m => m.ADMIN_ND_CODE, Model.PopulateDPIU, new { @id = "ddlDPIU", @title = "DPIU", @disabled = "disabled", @tabindex = "3" })
+                        @Html.HiddenFor(model => model.ADMIN_ND_CODE)
+                    }
+                </td>
+            </tr>
+        }
+
+        <tr>
+            <td style="width: 30%;"></td>
+            <td style="text-align: left; width: 15%;">
+                @Html.LabelFor(model => model.ISSUE_DATE)
+                <label style="color: red;">*</label>
+            </td>
+
+            <td>
+                @Html.TextBoxFor(m => m.ISSUE_DATE, String.Format("{0:dd/MM/yyyy}", Model.ISSUE_DATE), new { id = "ISSUE_DATE", @title = "Issue Date", @tabindex = "4" })
+                @Html.ValidationMessageFor(model => model.ISSUE_DATE)
+            </td>
+        </tr>
+
+        <tr>
+
+            <td style="width: 30%;"></td>
+            <td style="text-align: left; width: 15%;">
+                @Html.LabelFor(model => model.LEAF_START)
+                <label style="color: red;">*</label>
+            </td>
+
+            <td>
+                @Html.TextBoxFor(model => model.LEAF_START, new { maxlength = 6, @title = "Start Leaf", @tabindex = "5", @placeholder = "Enter Start Leaf..." })
+                @Html.ValidationMessageFor(model => model.LEAF_START)
+            </td>
+
+        </tr>
+
+        <tr>
+
+            <td style="width: 30%;"></td>
+            <td style="text-align: left; width: 15%;">
+                @Html.LabelFor(model => model.LEAF_END)
+                <label style="color: red;">*</label>
+            </td>
+
+            <td>
+                @Html.TextBoxFor(model => model.LEAF_END, new { maxlength = 6, @title = "End Leaf", @tabindex = "6", @placeholder = "Enter End Leaf..." })
+                @Html.ValidationMessageFor(model => model.LEAF_END)
+            </td>
+
+        </tr>
+
+
+        <tr>
+            <td></td>
+            <td></td>
+            <td>
+                @if (Model.EncryptedChequeBookCode == null)
+                {
+                    <input type="button" id="btnSave" name="btnSave" value="Save" class="jqueryButton" title="Save Cheque Book Details" tabindex="7" />
+                    <input type="reset" id="btnReset" name="btnReset" value="Reset" class="jqueryButton" title="Reset" tabindex="8" />
+                }
+                else
+                {
+                    <input type="button" id="btnUpdate" name="btnUpdate" value="Update" class="jqueryButton" title="Update Cheque Book Details" tabindex="7" />
+                    <input type="button" id="btnCancel" name="btnCancel" value="Cancel" class="jqueryButton" title="Cancel" tabindex="8" />
+                }
+
+            </td>
+        </tr>
+        <tr>
+            <td colspan="3">
+                <label style="border: none">[ Note: Bank Details Required to Enter Cheque Book Details ]</label>
+            </td>
+        </tr>
+    </table>
+    </form>
+</div>
+

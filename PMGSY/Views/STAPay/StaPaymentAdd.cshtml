@@ -1,0 +1,189 @@
+﻿@*
+    * Project Id    :
+    * Project Name  :   OMMAS II
+    * Name          :   STAPaymentDetails.cshtml
+    * Description   :   This View Adds the Test Result Details to Road Proposal
+    * Author        :   Abhishek Kamble       
+    * Creation Date :   19/Sep/2013    
+*@
+
+@model PMGSY.Models.STAPayment.STAPayemntInvoiceModel
+@using PMGSY.Extensions
+
+<script src="~/Scripts/custom/Generic.js"></script>
+<script src="~/Scripts/jquery.ui.datepicker.js" type="text/javascript"></script>
+<script src="~/Scripts/StaPay/StaPaymentAddDetail.js"></script>
+
+
+
+<style type="text/css">
+    td {
+        text-align: left;
+    }
+</style>
+
+<center>
+   
+    <div id="divError" class="ui-state-error ui-corner-all" style="text-align: left;width: 90%">
+                @*<span class="ui-icon ui-icon-alert" style="float: left;"></span>  *@                 
+                <span></span>
+    </div>     
+      
+    
+    <form id="frmSTAPayment">
+@Html.AntiForgeryToken()
+    <div style="margin-left: 100px">
+            @Html.ValidationSummary(true)             
+    </div>            
+
+    @*@Html.HiddenFor(model => model.IMS_PR_ROAD_CODE)
+    @Html.HiddenFor(model => model.Operation)
+    @Html.HiddenFor(model => model.RoadLength)
+    @Html.HiddenFor(model => model.IMS_SEGMENT_NO)
+
+         
+    @Html.HiddenFor(model => model.RoadLength, new { @id="TotalRoadLength"})
+    @Html.Hidden("AvailableRoadLength")*@
+
+
+      
+            @* <div class="ui-corner-all ui-state-highlight" style="border: solid 1px black; text-align: left;width:90%">
+                <table style="width: 100%">
+                <tr>
+                    <td style="text-align: right; width: 10%; font-weight: bold">@Html.LabelFor(model => model.IMS_YEAR):</td>
+                    <td style="text-align: left;width:7%;">@Html.DisplayFor(model => model.IMS_YEAR) - @Convert.ToInt32(Model.IMS_YEAR + 1)  </td>
+
+                    <td style="text-align: right; font-weight: bold;width:7%;">@Html.LabelFor(model => model.IMS_BATCH):</td>
+                    <td style="text-align: left;width:10%;">Batch @Html.DisplayFor(model => model.IMS_BATCH)</td>
+
+                    <td style="text-align: right; font-weight: bold;width:10%;">@Html.LabelFor(model => model.IMS_PACKAGE_ID):</td>
+                    <td style="text-align: left;width:5%;">@Html.DisplayFor(model => model.IMS_PACKAGE_ID)</td>
+
+                    <td style="text-align: right; font-weight: bold; width:10%">@Html.LabelFor(model => model.IMS_ROAD_NAME):</td>
+                    <td style="text-align: left;width:15%;" colspan="2">@Html.DisplayFor(model => model.IMS_ROAD_NAME)</td>
+                    </tr>
+                    <tr>
+                    <td style="text-align: right; font-weight: bold; width:10%">@Html.LabelFor(model => model.IMS_PAV_LENGTH):</td>
+                    <td style="text-align: left;width:10%">@Html.DisplayFor(model => model.IMS_PAV_LENGTH)&nbsp;Kms.</td>
+                    <td style="text-align: right; font-weight: bold; width:10%">@Html.LabelFor(model => model.IMS_STATE_AMOUNT_TEXT):</td>
+                    <td style="text-align: left;width:10%">@Html.DisplayFor(model => model.IMS_STATE_AMOUNT_TEXT)&nbsp;Lacs.</td>
+                    <td style="text-align: right; font-weight: bold; width:10%">@Html.LabelFor(model => model.IMS_MORD_AMOUNT_TEXT):</td>
+                    <td style="text-align: left;width:10%">@Html.DisplayFor(model => model.IMS_MORD_AMOUNT_TEXT)&nbsp;Lacs.</td>
+                    <td style="text-align: left;width:15%;"  ></td>
+                    <td style="text-align: left;width:15%;" colspan="2" ></td>
+
+                </tr>
+            </table>
+            </div> 
+     *@
+
+    <div id="divNote" style="height:20px;width:90%;text-align:left; padding-top: 0.6em;" class="ui-state-default ui-corner-all;" > 
+        &nbsp;<strong> Note: </strong> 1) Fields marked with * are mandatory.
+    </div>
+
+        @Html.HiddenFor(model => model.IMS_INVOICE_CODE)
+        @Html.HiddenFor(model => model.EncryptedIMS_Payment_CODE)
+        @Html.Hidden("RoleID", PMGSYSession.Current.RoleCode)
+        @Html.HiddenFor(model => model.EncryptedIMS_Invoice_Code)
+        @Html.HiddenFor(model => model.Invoice_Generate_DATE)
+    
+     
+
+    <table class="rowstyle" id="tblSTAPaymentDetails"  style="border:ridge 0.1em #ccc; padding:5px 5px 5px 5px;width:90%;">
+        <tr>
+            <td style="width:5%" ></td>
+            
+             <td style="font-weight:bold;width:10%">
+                @Html.LabelFor(model => model.Payment_Type)<span style="color:red">*</span>                
+            </td>
+            <td style="width:15%">
+                @if (Model.EncryptedIMS_Payment_CODE == null)
+                {
+                        @Html.RadioButtonFor(model => model.Payment_Type, "C", new { @id = "radioPayment_TypeCheque", @tabindex = 1, @title = "Chegue", @checked = true })
+                        @Html.Label("Cheque")
+                         @Html.RadioButtonFor(model => model.Payment_Type, "N", new { @id = "radioPayment_TypeNEFT", @tabindex = 2, @title = "NEFT" })
+                        @Html.Label("NEFT")
+                }
+                else
+                {
+                                              
+                        @Html.RadioButtonFor(model => model.Payment_Type, "C", new { @id = "radioPayment_TypeCheque", @tabindex = 1, @title = "Chegue" })
+                        @Html.Label("Cheque")
+                        @Html.RadioButtonFor(model => model.Payment_Type, "N", new { @id = "radioPayment_TypeNEFT", @tabindex = 2, @title = "NEFT" })
+                        @Html.Label("NEFT")
+
+                }
+            </td>
+            <td style="font-weight:bold;width:08%">
+                @Html.LabelFor(model => model.IMS_NEFT_CHEQUE_NUMBER, new { @id = "lblPaymentTypeNumber" })<span style="color:red">*</span>
+            </td>
+            <td style="table-layout:fixed;width:15%">
+                 @Html.TextBoxFor(model => model.IMS_NEFT_CHEQUE_NUMBER, new { @placeholder = "Enter Cheque Number", @tabindex = 3, maxlength = 25 })
+                @Html.ValidationMessageFor(model => model.IMS_NEFT_CHEQUE_NUMBER)
+           </td>           
+        </tr>
+                
+        <tr>
+            <td style="width:5%" ></td>
+
+            <td style="font-weight:bold">           
+                @Html.LabelFor(model => model.IMS_Payment_DATE)<span style="color:red">*</span>
+            </td>
+            <td style="font-weight:bold">
+                @Html.TextBoxFor(model => model.IMS_Payment_DATE, new { @title = "Enter Payment  Date", @placeholder = "Enter Payment Date...", @tabindex = 4 })
+                @Html.ValidationMessageFor(model => model.IMS_Payment_DATE)
+            </td>
+
+            <td style="font-weight:bold">         
+              
+            </td>
+            <td style="font-weight:bold">
+               
+            </td>
+           
+        </tr>
+
+        <tr>
+        @if (Model.EncryptedIMS_Payment_CODE == null)
+        { 
+             <td colspan="6" style="text-align:center">
+                <input type="button" id="btnSave" name="btnSave" value="Save" class="jqueryButton" tabindex="4" />
+                <input type="reset" id="btnReset" name="btnSave" value="Reset" class="jqueryButton" tabindex="5"/>
+            </td>    
+        }
+        else
+        {
+            <td colspan="6" style="text-align:center">
+                <input type="button" id="btnUpdate" name="btnUpdate" value="Update" class="jqueryButton" tabindex="4" />
+                <input type="button" id="btnCancel" name="btnCancel" value="Cancel" class="jqueryButton" tabindex="5"/>
+            </td>            
+        }
+
+         </tr>
+   @*     <tr id="rowAdd">
+            <td colspan="6" style="text-align:center">
+                <input type="button" id="btnSave" name="btnSave" value="Save" class="jqueryButton" />
+                <input type="button" id="btnReset" name="btnSave" value="Reset" class="jqueryButton" />
+            </td>            
+        </tr>
+
+        <tr id="rowUpdate" style="display:none">
+            <td colspan="6" style="text-align:center">
+                <input type="button" id="btnUpdate" name="btnUpdate" value="Update" class="jqueryButton" />
+            </td>            
+        </tr>*@
+
+
+        </table>
+
+       
+
+  
+       
+
+    </form>
+</center>
+
+
+
+

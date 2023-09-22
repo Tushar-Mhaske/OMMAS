@@ -1,0 +1,66 @@
+﻿@*
+    * Project Id    :
+    * Project Name  :   OMMAS II
+    * Name          :   DropOrderView.cshtml
+    * Description   :   This View Adds the Drop Order Details
+    * Author        :   Pradip Patil
+    * Creation Date :   12/04/2017
+*@
+
+@model PMGSY.Models.Proposal.DropOrderViewModel
+
+
+<script src="~/Scripts/jquery.ui.datepicker.js"></script>
+<script src="~/Scripts/custom/Generic.js"></script>
+<script src="~/Scripts/Proposal/AddDropOrder.js"></script>
+
+<form id="frmAddEditDropOrder">
+    <div style="margin-left: 100px">
+        @Html.ValidationSummary(true)
+        @Html.AntiForgeryToken()
+    </div>
+    <div id="errorDiv" class="ui-state-error ui-corner-all" style="text-align: left; display: none; width: 100%">
+        <span class="ui-icon ui-icon-alert" style="float: left;"></span>
+        <span></span>
+    </div>
+    <div style="height: 20px; width: 100%; text-align: left; padding-top: 0.6em;" class="ui-state-default ui-corner-all">
+        &nbsp; <strong>Note :</strong>  Fields marked with * are mandatory.
+    </div>
+    <table id="tb" cellpadding="3px" class="rowstyle" style="margin-top: 10px; text-align: left; border: ridge 0.1em #ccc; width: 100%; padding-top: 5px 5px 5px 5px;">
+        <tr></tr>
+        <tr>
+            <td style="width:10%">
+                @Html.HiddenFor(model=>model.StateCode)
+                @Html.HiddenFor(model=>model.YearCode)
+                @Html.HiddenFor(model=>model.StreamCode)
+                @Html.HiddenFor(model=>model.BatchCode)
+                @Html.HiddenFor(model=>model.PMGSYScheme)
+                @Html.HiddenFor(model=>model.RequestCode)
+                @Html.HiddenFor(model=>model.IMS_REQUEST_ORDER_DATE)
+            </td>
+            <td style="width: 10%;">
+                @Html.LabelFor(model=>model.IMS_DROP_ORDER_NUMBER)<label style="color:red">*</label>
+            </td>
+            <td style="width: 30%;"><!-- txtOrderNumber -->
+                @Html.TextBoxFor(model => model.IMS_DROP_ORDER_NUMBER, new { @id="txtDropOrderNumber",@placeholder = "Enter Order No...",@tabindex=9, @title="Enter Order Number", @maxlength = "25"})
+                @Html.ValidationMessageFor(model=>model.IMS_DROP_ORDER_NUMBER)
+            </td>
+            <td style="width: 10%;">
+                @Html.LabelFor(model=>model.IMS_DROP_ORDER_DATE)<label style="color:red">*</label>
+            </td>
+            <td style="width: 30%;"><!--txtOrderDate -->
+                @Html.TextBoxFor(model => model.IMS_DROP_ORDER_DATE, new { @id="txtDropOrderDate",@readonly="readonly",@placeholder = "Enter Order Date...",@tabindex=10, @title="Enter Order Date"})
+                @Html.ValidationMessageFor(model=>model.IMS_DROP_ORDER_DATE)
+            </td>
+        </tr>
+        <tr>
+            <td colspan="5">
+                <center>
+                <input type="button" id="btnSave" name="btnSave" value="Generate Drop Order" class= "jqueryButton" title="Generate Drop Order" tabindex="11"  />  
+                <input type="button" id="btnCancle" name="btnCancle" value="Cancel" class= "jqueryButton" title="Cancel" onclick="CloseDetails()" tabindex="12"  />
+                </center>
+            </td>
+        </tr>
+    </table>
+</form>
+

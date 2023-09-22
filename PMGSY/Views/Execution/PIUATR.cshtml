@@ -1,0 +1,345 @@
+﻿@model PMGSY.Models.Execution.RSAInspectionDetails
+
+
+<script src="~/Scripts/jquery.ui.tabs.js"></script>
+<script src="~/Scripts/custom/Generic.js"></script>
+<script src="~/Scripts/jquery.ui.accordion.js"></script>
+<script src="~/Scripts/jquery.ui.datepicker.js"></script>
+<script src="~/Scripts/Execution/RSATRPiu.js"></script>
+
+
+<form id="frmRoadSafetyLayout1">
+@Html.AntiForgeryToken()
+@Html.HiddenFor(model => model.IMS_PR_ROAD_CODE, new { @id="proposalCode"})
+@Html.HiddenFor(model => model.EXEC_PROGRESS_TYPE, new { @id="progressType"})
+@Html.HiddenFor(model=>model.EXEC_RSA_CODE)
+@Html.HiddenFor(model => model.RSAId, new { @id="RSAIdID"})
+@Html.HiddenFor(model => model.EncryptedRSAId, new { @id="EncryptedRSAId"})
+@Html.HiddenFor(model => model.EncryptedRoadCode, new { @id="EncryptedRoadCode"})
+
+    
+@*    @Html.HiddenFor(model=>model.IMS_PR_ROAD_CODE)*@
+
+<div style="height:auto; width: 99%; text-align:left; padding-top: 0.6em;"> 
+
+    <table class="rowstyle ui-corner-all" style="width:100%; border:solid black 1px;">
+        <tr>
+            <td style="width:5%"></td>
+            <td style="width:12%;font-weight:bold">
+                Block 
+            </td>
+            <td style="width:15%">
+                @Model.BlockName
+            </td>
+            <td style="width:12%;font-weight:bold">
+                Package No.
+            </td>
+            <td style="width:15%">
+                @Model.Package
+            </td>
+        </tr>
+        <tr>
+            <td></td>
+            <td style="font-weight:bold">
+                Road Name:
+            </td>
+            <td>
+                @Model.RoadName
+            </td>
+            <td style="font-weight:bold">
+                Agreement Date
+            </td>
+            <td>
+                @Model.AgreementDate
+            </td>
+        </tr>
+        <tr>
+            <td></td>
+            <td style="font-weight:bold">
+                Overall Cost(Rs. in Lakh):
+            </td>
+            <td>
+                @Model.AgreementCost@*<label id="lblView" onclick="ViewDetails()" style="color:blue;cursor:pointer">  (View Details)</label>*@
+            </td>
+            <td style="font-weight:bold">
+                Sanction Length(in Km)
+            </td>
+            <td>
+                @Model.Sanction_length
+            </td>
+        </tr>
+
+           
+             <tr>
+                <td></td>
+                <td style="font-weight: bold">
+                    <b>RSA Stage:</b> 
+                </td>
+                <td>
+                   @Html.DisplayFor(model=>model.RoadStatus) 
+                </td>
+                <td style="font-weight: bold">
+                   <b>Inspection Date</b> 
+                </td>
+                <td>
+           @Html.DisplayFor(model=>model.InspectionDate) 
+                </td>
+            </tr>
+              
+
+    </table>
+
+</div>
+<br />
+
+
+
+    <div id="divHabitationDetails" style="width: 99%; display:none">
+        <table style="width: 99%">
+
+            
+               <tr>
+                <td style="width: 10%; vertical-align: top; text-align: center;"></td>
+                <td style="width: 5%; vertical-align: top; text-align: left;">
+                    @Html.Label("Start Chainage :")
+                </td>
+                <td style="width: 10%; vertical-align: top;">
+                <label id="startChainage"></label>
+                </td>
+
+                <td style="width: 5%; vertical-align: top;display:none;">
+                 
+                </td>
+                <td style="width: 10%; vertical-align: top;display:none ">
+     
+                    <span style="display:none" id="errspn"></span>
+                    <br />
+                  
+                </td>
+                <td style="width: 5%; vertical-align: top">
+                     @Html.Label("End Chainage :")
+                </td>
+                <td style="width: 10%; vertical-align: top">
+                      <label id="endChainage"></label>
+                    
+                </td>
+                <td style="width: 10%; vertical-align: top; text-align: center;"></td>
+            </tr>
+
+
+              <tr>
+                <td style="width: 10%; vertical-align: top; text-align: center;"></td>
+                <td style="width: 5%; vertical-align: top; text-align: left;">
+                    @Html.Label("Safety Issue :")
+                </td>
+                <td style="width: 10%; vertical-align: top;">
+                <label id="IssueID"></label>
+                </td>
+
+                <td style="width: 5%; vertical-align: top;display:none;">
+                 
+                </td>
+                <td style="width: 10%; vertical-align: top;display:none ">
+     
+                    <span style="display:none" id="errspn"></span>
+                    <br />
+                  
+                </td>
+                <td style="width: 5%; vertical-align: top">
+                     @Html.Label("RSA Recommendation :")
+                </td>
+                <td style="width: 10%; vertical-align: top">
+                      <label id="RecommondationID"></label>
+                    
+                </td>
+                <td style="width: 10%; vertical-align: top; text-align: center;"></td>
+            </tr>
+
+            <tr>
+                <td style="width: 10%; vertical-align: top; text-align: center;"></td>
+                <td style="width: 5%; vertical-align: top; text-align: left;">
+                    @Html.Label("Severity :")
+                </td>
+                <td style="width: 10%; vertical-align: top;">
+                <label id="SeverityDetailsID"></label>
+                </td>
+
+                <td style="width: 5%; vertical-align: top;display:none;">
+                 
+                </td>
+                <td style="width: 10%; vertical-align: top;display:none ">
+     
+                    <span style="display:none" id="errspn"></span>
+                    <br />
+                  
+                </td>
+                <td style="width: 5%; vertical-align: top">
+                   
+                </td>
+                <td style="width: 10%; vertical-align: top">
+                     
+                    
+                </td>
+                <td style="width: 10%; vertical-align: top; text-align: center;"></td>
+            </tr>
+
+
+            
+            <tr>
+                <td style="width: 10%; vertical-align: top; text-align: center;"></td>
+                <td style="width: 5%; vertical-align: top; text-align: left;">
+                   
+                </td>
+                <td style="width: 10%; vertical-align: top;">
+              
+                </td>
+
+                <td style="width: 5%; vertical-align: top;display:none;">
+                 
+                </td>
+                <td style="width: 10%; vertical-align: top;display:none ">
+     
+                    <span style="display:none" id="errspn"></span>
+                    <br />
+                  
+                </td>
+                <td style="width: 5%; vertical-align: top">
+                   
+                </td>
+                <td style="width: 10%; vertical-align: top">
+                     
+                    
+                </td>
+                <td style="width: 10%; vertical-align: top; text-align: center;"></td>
+            </tr>
+
+                <tr>
+                <td style="width: 10%; vertical-align: top; text-align: center;"></td>
+                <td style="width: 5%; vertical-align: top; text-align: left;">
+                   
+                </td>
+                <td style="width: 10%; vertical-align: top;">
+              
+                </td>
+
+                <td style="width: 5%; vertical-align: top;display:none;">
+                 
+                </td>
+                <td style="width: 10%; vertical-align: top;display:none ">
+     
+                    <span style="display:none" id="errspn"></span>
+                    <br />
+                  
+                </td>
+                <td style="width: 5%; vertical-align: top">
+                   
+                </td>
+                <td style="width: 10%; vertical-align: top">
+                     
+                    
+                </td>
+                <td style="width: 10%; vertical-align: top; text-align: center;"></td>
+            </tr>
+
+                <tr>
+                <td style="width: 10%; vertical-align: top; text-align: center;"></td>
+                <td style="width: 5%; vertical-align: top; text-align: left;">
+                   
+                </td>
+                <td style="width: 10%; vertical-align: top;">
+              
+                </td>
+
+                <td style="width: 5%; vertical-align: top;display:none;">
+                 
+                </td>
+                <td style="width: 10%; vertical-align: top;display:none ">
+     
+                    <span style="display:none" id="errspn"></span>
+                    <br />
+                  
+                </td>
+                <td style="width: 5%; vertical-align: top">
+                   
+                </td>
+                <td style="width: 10%; vertical-align: top">
+                     
+                    
+                </td>
+                <td style="width: 10%; vertical-align: top; text-align: center;"></td>
+            </tr>
+
+                <tr>
+                <td style="width: 10%; vertical-align: top; text-align: center;"></td>
+                <td style="width: 5%; vertical-align: top; text-align: left;">
+                    @Html.Label("Acceptance of Recommendation")<label style="color:red">*</label>
+                </td>
+                <td style="width: 10%; vertical-align: top;">
+                     @if (Model.Operation.Equals("Update"))
+                    { @Model.RoadStatus
+                    }else{
+                    @Html.DropDownListFor(model => model.AccpetCode, new SelectList(Model.AccpetList, "Value", "Text"), new { @id = "ddlAccpetList", tabindex = 1, @title = "Acceptance of Recommendation", })
+                    <br />
+                    @Html.ValidationMessageFor(x => x.AccpetCode)
+                     }
+                </td>
+
+                <td style="width: 5%; vertical-align: top;display:none;">
+                    @Html.Label("Road Safety")<label style="color:red">*</label>
+                </td>
+                <td style="width: 10%; vertical-align: top;display:none ">
+     
+                    <span style="display:none" id="errspn"></span>
+                    <br />
+                  
+                </td>
+                <td style="width: 5%; vertical-align: top">
+                     @Html.Label("Action Taken Remarks ")<label style="color:red">*</label>
+                </td>
+                <td style="width: 10%; vertical-align: top">
+                       @Html.TextAreaFor(model => model.ATR_By_PIU, new { maxlength = 255, @title = "Enter Remarks", @tabindex = 2, @placeholder = "Enter Remarks..." })
+                 <br />
+                @Html.ValidationMessageFor(model => model.ATR_By_PIU)
+                    
+                </td>
+                <td style="width: 10%; vertical-align: top; text-align: center;"></td>
+            </tr>
+                
+            <tr>
+                <td colspan="3"></td>
+                <td colspan="3"> 
+             
+                <input type="button" name="btnSave" id="btnSaveByPIU" value="Save" title="Save Details" class="jqueryButton"  tabindex = 3 /> 
+                <input type="button" name="btnCancel" id="btnCancelByPIU" value="Cancel" title="Cancel Details" class="jqueryButton" tabindex = 4/>
+                
+                </td>
+             
+            </tr>
+
+        </table>
+    </div>
+
+    </form>
+
+
+
+    <div id="tabs-1" style="text-align:left; flex-align :center">
+        <div id="divCdWorks" style="text-align:left;width:100%">
+            <table id="tbCDWorksList" style="width:95%;flex-align:center"></table>
+            <div id="pagerCDWorksList"></div>
+        </div>
+    </div>
+ 
+
+
+
+
+
+<div id="accordion1" style="display:none;margin-top:20px;">            
+    <h4 style="text-align:left"><a id="" href="#" style=" font-size:.9em;" ></a>
+        <a href="#"  style="float: right;">
+   <img style="border:none;display:none" alt="Close" class="ui-icon ui-icon-closethick" id="imgCloseAgreementDetails1" /></a>
+    </h4>
+ <div id="dvAddMaintenanceAgreementAgainstRoad1" style="display:none"></div>      
+
+</div>

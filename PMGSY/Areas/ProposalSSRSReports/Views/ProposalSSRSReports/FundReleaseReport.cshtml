@@ -1,0 +1,24 @@
+﻿@using MvcReportViewer
+
+@model PMGSY.Areas.ProposalSSRSReports.Models.FundReleaseModel
+
+@*Not Sure about report design and parameter*@
+
+
+
+@Html.MvcReportViewer("/PMGSYCitizen/Fund_Sanction_Release_Report",
+     new
+     {       
+         State = Model.Mast_State_Code,
+         Agency = Model.Agency,
+         Year = Model.PhaseYear,      
+         Collaboration = Model.FundingAgency,
+         Fund = Model.FundType,
+         Type=Model.Type,
+         StateName = Model.StateName,
+         CollaborationName=Model.FundingAgencyName,
+         AgencyName =Model.AgencyName,
+         FundName=Model.FundTypeName
+     },
+     new { Height = 600, Width = 1215, style = "border:none;" })
+

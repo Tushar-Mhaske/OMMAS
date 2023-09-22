@@ -1,0 +1,29 @@
+﻿@using MvcReportViewer
+
+@model PMGSY.Areas.ProposalSSRSReports.Models.AgreementModel
+
+@*Not Sure about report design and parameter*@
+
+    @Html.MvcReportViewer("/PMGSYCitizen/Maintenence_Agreement_Report",
+     new
+     {
+        
+         State = Model.Mast_State_Code,
+         District = Model.Mast_District_Code,
+         Block = Model.Mast_Block_Code,
+         Year = Model.PhaseYear,
+         Batch = Model.Batch,
+         Collaboration = Model.FundingAgency,
+         Status = Model.Status,
+         PMGSY = PMGSY.Extensions.PMGSYSession.Current.PMGSYScheme,
+         StateName = Model.StateName,
+         DistrictName = Model.DistName,
+          BlockName = Model.BlockName ,
+         BatchName=Model.BatchName,
+         CollaborationName=Model.FundingAgencyName,        
+         StatusName=Model.StatusName
+
+     },
+     new { Height = 600, Width = 1198, style = "border:none;" })
+
+

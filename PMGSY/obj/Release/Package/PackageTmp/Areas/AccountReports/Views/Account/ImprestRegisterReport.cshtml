@@ -1,0 +1,16 @@
+﻿@using MvcReportViewer
+@model PMGSY.Areas.AccountReports.Models.ImprestSettlementViewModel
+
+<div id="dvImprestRegisterReport" style="width: 100%; height: 590px; overflow-x: hidden; overflow-y: hidden">
+    @Html.MvcReportViewer("/PMGSYCitizen/ImprestRegister",
+     new
+     {
+         PrmFundType = PMGSY.Extensions.PMGSYSession.Current.FundType,
+         PrmAdminndCode = (Model.ReportLevel == "D" ? Model.DpiuAdminCode : Model.SrrdaAdminCode),
+         PrmYear = Model.FinancialYear,
+         PrmReportType = Model.ReportLevel,
+         PrmAgencyName = Model.NodalAgency,
+         PrmDPIUName = Model.DPIUName
+     },
+     new { Height = 600, Width = 1201, style = "border:none;" })
+</div>

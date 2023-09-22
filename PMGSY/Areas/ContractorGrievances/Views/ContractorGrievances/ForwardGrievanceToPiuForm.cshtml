@@ -1,0 +1,246 @@
+﻿@model PMGSY.Areas.ContractorGrievances.Models.TrackingDetailsModel
+@{
+    ViewBag.Title = "ForwardGrievanceToPiuForm";
+}
+
+<script src="~/Scripts/custom/Generic.js"></script>
+<script src="~/Scripts/jquery.ui.datepicker.js" type="text/javascript"></script>
+<script src="~/Scripts/jquery.ui.css" type="text/javascript"></script>
+<script type="text/javascript" src="@Url.Content("~/Scripts/jquery.ui.autocomplete.js")"> </script>
+<script src="~/Areas/ContractorGrievances/Scripts/TrackGrievance.js"></script>
+  <div id="divError" class="ui-state-error ui-corner-all" style="text-align: left; display: none; width: 100%">          
+            <span></span>
+            <span></span>
+        </div>
+
+
+    <form id="frmForwardGrievance" method="POST" enctype="multipart/form-data">
+        <div style="margin-left: 100px">
+            @Html.ValidationSummary(true)
+            @Html.AntiForgeryToken()
+        </div>
+        <center>
+            <table class="rowstyle ui-corner-all" id="tblForwardGrievance"  style="width:100%; border:solid black 1px;"  >
+                   <tr style="text-align:left;height:25px">
+                        <td colspan="9" class="ui-widget-header" style="width:100%;font-size:1em;">
+                             Grievance Details
+                        </td>
+                       </tr>
+                 <tr  style="height:20px;text-align:left" >
+                     <td id="detailId" style="width:5%;">
+                          @Html.Hidden("hdnOperation", ((string)ViewBag.Operation))
+                         @Html.Hidden("hdnOperation", ((string)ViewBag.Form))
+                         @Html.HiddenFor(model => model.DETAIL_ID)
+                         @* @Html.HiddenFor((model => model.Agreement_Code), new { @id = "agreementCode"})                        
+                         @Html.HiddenFor((model => model.IMS_PR_ROAD_CODE), new { @id = "roadCode"})*@
+                     </td>    
+                     <td style="width:10%;"><strong>@Html.LabelFor(model => model.Contractor_Grievance_Category) :</strong></td>
+                         <td style="width:25%;text-align:left">
+                            <strong>
+                                  @Html.DisplayFor(model => model.Contractor_Grievance_Category)                         
+                            </strong>
+                        </td>  
+                       <td colspan = "6" ; style="width:10%;"></td>
+                     </tr>
+                 <tr  style="height:20px;text-align:left" >
+                          <td style="width:5%;"></td>
+                     <td style="width:10%;"><strong>@Html.LabelFor(model => model.Contractor_Grievance_SubCat) :</strong></td>
+                         <td style="width:25%;text-align:left">
+                            <strong>
+                                  @Html.DisplayFor(model => model.Contractor_Grievance_SubCat)                         
+                            </strong>
+                        </td>  
+                      <td colspan = "6" ; style="width:10%;"></td>
+                     </tr>
+                 <tr  style="height:20px;text-align:left" >
+                           <td style="width:5%;"></td>
+                     <td style="width:10%;"><strong>@Html.LabelFor(model => model.Contractor_Remarks) :</strong></td>
+                         <td style="width:25%;text-align:left">
+                            <strong>
+                                  @Html.DisplayFor(model => model.Contractor_Remarks)                         
+                            </strong>
+                        </td>     
+                      <td colspan = "6" ; style="width:10%;"></td>       
+                     </tr>
+                 <tr  style="height:20px;text-align:left" >
+                               <td style="width:5%;"></td>
+                         <td style="width:10%;"><strong>@Html.Label("Submitted On") :</strong></td>
+                             <td style="width:25%;text-align:left">
+                                <strong>
+                                      @Html.DisplayFor(model => model.SUBMITTED_ON)                         
+                                </strong>
+                            </td>     
+                          <td colspan = "6" ; style="width:10%;"></td>       
+                         </tr>
+                 <tr  style="height:20px;text-align:left" >
+                           <td style="width:5%;"></td>
+                     <td style="width:10%;"><strong>@Html.Label("View Uploaded File") :</strong></td>
+                         <td style="width:25%;text-align:left">
+                            <strong>
+                                  <span style="cursor:pointer;color:blueviolet;" title= "Click to view files"onclick ="LoadDownloadFileGrid('@Model.DETAIL_ID','C');">Contractor Files /</span>  
+                                 <span style="cursor:pointer;color:blueviolet;" title= "Click to view files" onclick ="LoadDownloadFileGrid('@Model.DETAIL_ID','S');">SRRDA Files /</span> 
+                                <span style="cursor:pointer;color:blueviolet;" title= "Click to view files" onclick ="LoadDownloadFileGrid('@Model.DETAIL_ID','D');">PIU Files </span>                     
+                            </strong>
+                        </td>     
+                      <td colspan = "6" ; style="width:10%;"></td>       
+                     </tr>
+
+                @if (ViewBag.Operation == "SRRDA"){
+                         <tr style="text-align:left;height:25px">
+                            <td colspan="9" class="ui-widget-header" style="width:100%;font-size:1.2em;">
+                                 <strong>Forward Grievance Details To PIU</strong>
+                            </td>
+                        </tr>
+                         <tr style="text-align:left;">  
+                               <td style="width: 5%;"></td>     
+                             <td  style=" width: 15%;text-align: left;"><strong>@Html.Label("Forward Date & Time :")</strong> 
+                             <td colspan="7"style="width: 15%; text-align: left;">
+                                     @DateTime.Now
+                              </td> 
+                              </tr>        
+                    if (ViewBag.Form == "srrdaAdd") {  
+                         <tr style="text-align:left;">  
+                               <td style="width: 5%;"></td>     
+                             <td  style=" width: 15%;text-align: left;"><strong>@Html.Label("SRRDA Remarks :")</strong><span style="color:red">*</span></td>      
+                             <td colspan="7"style="width: 15%; text-align: left;">
+                                @Html.TextAreaFor(m => m.SRRDA_REMARKS, new { @title = "Grievance Description", @tabindex = "4", @maxlength = "250", @style = "height: 100px; width: 350px; font-size: 1.2em;", @placeholder = "Please provide remarks."})
+                                @Html.ValidationMessageFor(model => model.SRRDA_REMARKS)
+                              </td> 
+                              </tr>
+                      }
+                else{
+                         <tr  style="height:20px;text-align:left" >
+                               <td style="width:5%;"></td>
+                         <td style="width:10%;"><strong>@Html.LabelFor(model => model.SRRDA_REMARKS) :</strong></td>
+                             <td style="width:25%;text-align:left">
+                                <strong>
+                                      @Html.DisplayFor(model => model.SRRDA_REMARKS)                         
+                                </strong>
+                            </td>     
+                          <td colspan = "6" ; style="width:10%;"></td>       
+                         </tr>
+                    }
+                         <tr id="fileUpload" style="text-align:left;">     
+                              <td style="width: 5%;"></td>
+                                    <td style="text-align:left;width: 15%;">
+                                        <strong>@Html.Label("Upload Document")</strong><span style="color:red">*</span><br />
+                                        @*<ul style="text-align: left;font-size:0.9em;color:forestgreen;">
+                                             <li>File Format allowed : [*.pdf, *.png, *.jpg, *.jpeg].</li>
+                                                <li>Upload upto 20 images.</li>
+                                                <li>Max File Size : 4 MB.</li>
+                                        </ul>*@
+                                        <span style ="font-size:0.9em;color:forestgreen;">Max File Size : 4 MB</span><br />
+                                        <span style ="font-size:0.9em;color:forestgreen;">File Format allowed : PDF, JPEG, JPG and PNG</span>
+                                    </td> 
+                                    <td   style="text-align:left;width: 15%;">
+                                      @Html.TextBoxFor(model => model.files,"", new { @type="file",@name = "file[]", @id ="grievanceFile", multiple="multiple", @tabindex = 1 })                
+                                    </td>
+                             </tr>
+                         <tr style="text-align:right;height:30px;font-size:1.2em;">
+                             <td style="width: 5%;"></td>                         
+                               <td  colspan="3" style="text-align:right;width: 15%;">
+                                   <input type="button" value="Forward" class="jqueryButton" id="btnForward"/>                                                     
+                                     </td>       
+                               <td  colspan="3" style="text-align:left;width: 15%;">
+                                   <input type="button" value="Reset" class="jqueryButton" id="btnReset"/>  
+                               </td>  
+                            <td colspan="4"></td>            
+                                </tr>
+                }
+                else{
+                        <tr style="text-align:left;height:25px">
+                        <td colspan="9" class="ui-widget-header" style="width:100%;font-size:1em;">
+                             SRRDA Details
+                        </td>
+                       </tr>
+                        <tr  style="height:20px;text-align:left" >
+                               <td style="width:5%;"></td>
+                         <td style="width:10%;"><strong>@Html.LabelFor(model => model.SRRDA_REMARKS) :</strong></td>
+                             <td style="width:25%;text-align:left">
+                                <strong>
+                                      @Html.DisplayFor(model => model.SRRDA_REMARKS)                         
+                                </strong>
+                            </td>     
+                          <td colspan = "6" ; style="width:10%;"></td>       
+                         </tr>
+                        <tr  style="height:20px;text-align:left" >
+                               <td style="width:5%;"></td>
+                         <td style="width:10%;"><strong>@Html.Label("Forwarded Date") :</strong></td>
+                             <td style="width:25%;text-align:left">
+                                <strong>
+                                      @Html.DisplayFor(model => model.FORWARD_DATE)                         
+                                </strong>
+                            </td>     
+                          <td colspan = "6" ; style="width:10%;"></td>       
+                         </tr>
+                        <tr  style="height:20px;text-align:left" >
+                               <td style="width:5%;"></td>
+                         <td style="width:10%;"><strong>@Html.LabelFor(model => model.IS_LATEST) :</strong></td>
+                             <td style="width:25%;text-align:left">
+                                <strong>
+                                      @Html.DisplayFor(model => model.IS_LATEST)                         
+                                </strong>
+                            </td>     
+                          <td colspan = "6" ; style="width:10%;"></td>       
+                         </tr>
+                        <tr style="text-align:left;height:25px">
+                        <td colspan="9" class="ui-widget-header" style="width:100%;font-size:1em;">
+                             PIU Action On Grievance
+                        </td>
+                       </tr>
+                        <tr style="text-align:left;">  
+                                   <td style="width: 5%;"></td>     
+                                 <td  style=" width: 15%;text-align: left;"><strong>@Html.Label("Action Date & Time :")</strong>   
+                                 <td colspan="7"style="width: 15%; text-align: left;">
+                                         @DateTime.Now
+                                  </td> 
+                                  </tr> 
+                     if (ViewBag.Form == "piuAdd") {  
+                        <tr style="text-align:left;">  
+                                   <td style="width: 5%;"></td>     
+                                 <td  style=" width: 15%;text-align: left;"><strong>@Html.Label("PIU Remarks :")</strong><span style="color:red">*</span></td>      
+                                 <td colspan="7"style="width: 15%; text-align: left;">
+                                    @Html.TextAreaFor(m => m.PIU_REMARKS, new { @title = "Remarks", @tabindex = "4", @maxlength = "250", @style = "height: 100px; width: 350px; font-size: 1.2em;", @placeholder = "Please provide remarks."})
+                                    @Html.ValidationMessageFor(model => model.PIU_REMARKS)
+                                  </td> 
+                          </tr>
+                        }
+                        else{
+                         <tr  style="height:20px;text-align:left" >
+                               <td style="width:5%;"></td>
+                         <td style="width:10%;"><strong>@Html.LabelFor(model => model.PIU_REMARKS) :</strong></td>
+                             <td style="width:25%;text-align:left">
+                                <strong>
+                                      @Html.DisplayFor(model => model.PIU_REMARKS)                         
+                                </strong>
+                            </td>     
+                          <td colspan = "6" ; style="width:10%;"></td>       
+                         </tr>
+                     }
+                        <tr id="fileUpload" style="text-align:left;">     
+                                  <td style="width: 5%;"></td>
+                                        <td style="text-align:left;width: 15%;">
+                                            <strong>@Html.Label("Upload Document")</strong><span style="color:red">*</span><br />
+                                            <span style ="font-size:0.9em;color:forestgreen;">Max File Size : 4 MB</span><br />
+                                            <span style ="font-size:0.9em;color:forestgreen;">File Format allowed : PDF, JPEG, JPG and PNG</span>
+                                        </td> 
+                                        <td   style="text-align:left;width: 15%;">
+                                          @Html.TextBoxFor(model => model.files,"", new { @type="file",@name = "file[]", @id ="grievanceFile", multiple="multiple", @tabindex = 1 })                
+                                        </td>
+                                 </tr>
+                    
+                        <tr style="text-align:right;height:30px;font-size:1.2em;">
+                                 <td style="width: 5%;"></td>                         
+                                   <td  colspan="3" style="text-align:right;width: 15%;">
+                                       <input type="button" value="Submit" class="jqueryButton" id="btnSubmit"/>                                                     
+                                         </td>       
+                                   <td  colspan="3" style="text-align:left;width: 15%;">
+                                       <input type="button" value="Reset" class="jqueryButton" id="btnReset"/>  
+                                   </td>  
+                                <td colspan="4"></td>            
+                                    </tr>
+                }
+                                          
+            </table>       
+        </center>
+    </form>

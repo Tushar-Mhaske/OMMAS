@@ -1,0 +1,22 @@
+﻿@using MvcReportViewer
+
+@model PMGSY.Areas.OtherReports.Models.RoadCategoryModel
+<style>
+    .ui-widget-content {
+    background-color:white;
+    }
+</style>
+@Html.MvcReportViewer("/PMGSYCitizen/Abstract_ODR_MDR_SH_CARRIAGE_WAY_WIDTH",
+     new
+     {
+       
+        
+        DISTRICT=Model.DistrictCode,
+      
+        
+     },
+     new { Height = 600, Width = "100%", style = "border:0.75px;" })
+
+
+
+

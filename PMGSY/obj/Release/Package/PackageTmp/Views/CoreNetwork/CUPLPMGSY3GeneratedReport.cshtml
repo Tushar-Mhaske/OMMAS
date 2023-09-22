@@ -1,0 +1,17 @@
+﻿@using MvcReportViewer
+@model PMGSY.Models.CoreNetwork.CUPLPMGSY3ViewModel
+
+@Html.MvcReportViewer("/PMGSYCitizen/CUPL_PMGSY3",
+     new
+     {
+       //State = Model.stateCode,
+       //District = Model.distCode,
+       Block = Model.blockCode,
+       Statename = Model.stateName,
+       Districtname = Model.districtName,
+       Blockname = Model.blockName,
+       Batch=Model.Batch,
+       Year=Model.Year
+       
+     },
+     new { Height = 600, Width = "100%", style = "border:none;" })

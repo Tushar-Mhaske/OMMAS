@@ -1,0 +1,103 @@
+﻿@model PMGSY.Models.QualityMonitoring.ProficiencyTestScoreModel
+
+<link href="~/Content/Chosen/chosen.min.css" rel="stylesheet" />
+<script src="~/Scripts/chosen.jquery.min.js"></script>
+<script src="~/Scripts/custom/Generic.js"></script>
+<script src="~/Scripts/jquery-ui.js"></script>
+<script src="~/Scripts/jquery.validate.min.js"></script>
+<script src="~/Scripts/jquery.validate.unobtrusive.min.js"></script>
+
+<script src="~/Scripts/QualityMonitoring/MonitorProficiencyTestScoreDetails.js"></script>
+
+<script>
+    jQuery.validator.methods["date"] = function (value, element) { return true; }
+</script>
+
+
+<center>
+    <form id="formAddScore">
+        @Html.AntiForgeryToken()
+        <center>@Html.ValidationSummary(true)</center>
+        <div id="divAddScore" class="ui-corner-top ui-widget-header panelheader" style="text-align: center; margin-top: 20px; height: 20px; width: 100%">
+            <span class="ui-jqgrid-title" id="inspOperation" style="float: left">&nbsp;&nbsp;Upload Proficiency Test Score</span>
+            <span id="spCollapseIconCN" class="ui-icon ui-icon-circle-close" style="float: right"></span>
+        </div>
+
+        <table class="rowstyle" style="width: 100%; margin-top: 0px; border: 1px solid grey; border-radius:0.5rem; padding: 0.5%">
+            <tr>
+                <td style="padding:0.5rem">
+                    @Html.LabelFor(model => model.DATE_OF_EXAM)<label style="color: red">*</label>
+                </td>
+                <td>
+                    @Html.TextBoxFor(model => model.DATE_OF_EXAM, new { style = "margin-bottom:0.6rem;margin-left:0.6", Value = "", @id = "dateOfExam" })
+                    @Html.ValidationMessageFor(model => model.DATE_OF_EXAM)
+                </td>
+
+                <td>
+                    @Html.LabelFor(model => model.INSTITUTION)<label style="color: red">*</label>
+                </td>
+                <td>
+                    @Html.DropDownListFor(model => model.INSTITUTION, new SelectList(Model.INSTITUTION_LIST, "Value", "Text"), new { @id = "institution" })
+                    @Html.ValidationMessageFor(model => model.INSTITUTION)
+                </td>
+
+                <td>
+                    @Html.LabelFor(model => model.NQM_SQM)<label style="color: red">*</label>
+                </td>
+                <td>
+                    @Html.DropDownListFor(model => model.NQM_SQM, new SelectList(Model.NQM_SQM_LIST, "Value", "Text"), new { @id = "monitorType" })
+
+                    @Html.DropDownListFor(model => model.STATE_CODE, new SelectList(Model.STATE_LIST, "Value", "Text"), new { style = "display: none;", @class = "stateDropdown" })
+                    @Html.ValidationMessageFor(model => model.NQM_SQM)
+                </td>
+            </tr>
+
+            <tr>
+                <td>
+                    @Html.LabelFor(model => model.UPLOADED_FILE)<label style="color: red">*</label>
+                </td>
+                <td>
+                    @Html.TextBoxFor(model => model.UPLOADED_FILE, new { @id = "BGFile", type = "file", @tabindex = 1 })
+                    @Html.ValidationMessageFor(model => model.UPLOADED_FILE)
+                </td>
+            </tr>
+
+            <tr>
+                <td></td>
+                <td></td>
+
+                <td style="text-align: center" colspan="2">
+                    <input type="button" id="btnSaveScore" name="btnSave" value="Save" class="jqueryButton" title="Save Proficiency Score" tabindex="5" />
+
+                    <input type="reset" id="btnResetScore" name="btnReset" value="Reset" class="jqueryButton" title="Reset Proficiency Score" tabindex="6" />
+                </td>
+
+                <td></td>
+                <td></td>
+            </tr>
+            <tr></tr>
+            <tr></tr>
+
+            <tr>
+                <td colspan="5">
+                    <label style="border: none">
+                        [ Note: File size cannot be greater than 4MB.]
+                    </label>
+                </td>
+            </tr>
+
+            <tr></tr>
+
+            <tr>
+                <td colspan="5">
+                    <label style="border: none">
+                        [ Note: Fields marked with<label style="color: red;"> * </label>
+                        are mandatory.]
+                    </label>
+                </td>
+            </tr>
+
+        </table>
+    </form>
+</center>
+

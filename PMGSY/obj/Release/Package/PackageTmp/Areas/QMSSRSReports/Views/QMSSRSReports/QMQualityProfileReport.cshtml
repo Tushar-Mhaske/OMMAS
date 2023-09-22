@@ -1,0 +1,19 @@
+﻿
+
+@using MvcReportViewer
+
+@model PMGSY.Areas.QMSSRSReports.Models.QMQualityProfileViewModel
+
+<div id="QMPhaseProgressDetails" style="width:100%;height:600px;overflow:hidden">
+@Html.MvcReportViewer("/PMGSYCitizen/QMQualityProfile",
+     new {  
+         
+         
+         LEVEL=1,
+         STATE=Model.StateCode,
+         YEAR=0,
+         StateName=Model.StateName
+            
+        },
+        new { Width = "100%" , Height = "600px" , style = "border:none;overflow:hidden" })
+</div>

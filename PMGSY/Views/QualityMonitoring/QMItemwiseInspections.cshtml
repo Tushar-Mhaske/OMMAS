@@ -1,0 +1,96 @@
+﻿@*
+    * Project Id    :
+    * Project Name  :   OMMAS II
+    * Name          :   QMItemwiseInspections.cshtml
+    * Description   :   Renders view for Summary of Deficiencies Reported in NQM Inspection
+    * Author        :   Shyam Yadav
+    * Creation Date :   04/December/2013    
+*@
+
+@model PMGSY.Models.QualityMonitoring.QMReportsViewModel
+
+
+<script src="~/Scripts/QualityMonitoring/QMItemwiseInspections.js"></script>
+
+@Html.Hidden("hdnRole", PMGSY.Extensions.PMGSYSession.Current.RoleCode.ToString())
+<form id="frmItemwiseInspectionsReport">
+    <div id="divItemwiseInspectionsReport" class="ui-state-default ui-corner-all" style="text-align: center; width: 100%">
+            <table style="margin-top:0px; text-align:center; border:ridge 0.1em #ccc; width:100%; padding:5px 5px 5px 5px;">
+                    <tr>
+                        <td colspan="4" style="text-align:left;"><b> Select Type of Work Graded as : </b> 
+                            &nbsp;&nbsp;&nbsp;@Html.RadioButtonFor(model => model.GRADE, "2", new { @id = "rdoGradeSRI", @name = "rdoGradeSRI" }) Satisfactory Requiring Improvement     
+                            &nbsp;&nbsp;&nbsp; @Html.RadioButtonFor(model => model.GRADE, "3", new { @id = "rdoGradeU", @name = "rdoGradeU" }) 	Unsatisfactory 
+                        </td>
+                    </tr>
+                    <tr>
+                       <td style="width:15%;font-weight:bold;text-align:left;" >
+                            @Html.LabelFor(model => model.STATE)
+                        </td>
+                        <td style="width:10%" >                            
+                            @if(PMGSY.Extensions.PMGSYSession.Current.RoleCode == 8)
+                            {                          
+                                @Html.DropDownListFor(model => model.STATE, new SelectList(Model.STATE_LIST, "value", "text"), new { @id = "ddlStatesItemwiseInspections", @disabled = "disabled"})
+                            }
+                            else
+                            {
+                                @Html.DropDownListFor(model => model.STATE, new SelectList(Model.STATE_LIST, "value", "text"), new { @id = "ddlStatesItemwiseInspections"})
+                            }    
+                        </td>
+                        <td style="width:15%;font-weight:bold;text-align:left;">
+                            @Html.LabelFor(model => model.ITEM)
+                        </td>
+                        <td style="width:10%" >                            
+                            @Html.DropDownListFor(model => model.ITEM, new SelectList(Model.ITEM_LIST, "value", "text"), new { @id = "ddlItemsInItemwiseInspections"})
+                        </td>
+                        <td rowspan="5" style="text-align:left;">
+                             <input type="button" id="btnViewItemwiseInspectionsDetails" value="View Details" class="jquerybutton"  style="margin-left:20px;"/>
+                        </td>
+                    </tr>
+                   <tr>
+                       <td style="width:15%;font-weight:bold;text-align:left;" >
+                            @Html.LabelFor(model => model.FROM_MONTH)
+                        </td>
+                        <td style="width:10%" >                            
+                            @Html.DropDownListFor(model => model.FROM_MONTH, new SelectList(Model.FROM_MONTH_LIST, "value", "text"), new { @id = "ddlFromMonthItemwiseInspections"})
+                        </td>
+                        <td style="width:15%;font-weight:bold;text-align:left;">
+                            @Html.LabelFor(model => model.FROM_YEAR)
+                        </td>
+                        <td style="width:10%" >                            
+                            @Html.DropDownListFor(model => model.FROM_YEAR, new SelectList(Model.FROM_YEAR_LIST, "value", "text"), new { @id = "ddlFromYearItemwiseInspections"})
+                        </td>
+                        
+                    </tr>
+                    <tr>
+                        <td style="width:15%;font-weight:bold;text-align:left;">
+                            @Html.LabelFor(model => model.TO_MONTH)
+                        </td>
+                        <td style="width:10%">                            
+                            @Html.DropDownListFor(model => model.TO_MONTH, new SelectList(Model.TO_MONTH_LIST, "value", "text"), new { @id = "ddlToMonthItemwiseInspections"})
+                        </td>
+                        <td style="width:15%;font-weight:bold;text-align:left;">
+                            @Html.LabelFor(model => model.TO_YEAR)
+                        </td>
+                        <td style="width:10%">
+                            @Html.DropDownListFor(model => model.TO_YEAR, new SelectList(Model.TO_YEAR_LIST, "value", "text"), new { @id = "ddlToYearItemwiseInspections"})
+                        </td>
+                    </tr>
+                    
+            </table>
+    </div>
+    <br />
+
+    <table id="tbItemwiseInspectionsNQMReport"></table>
+    <div id="dvItemwiseInspectionsNQMReportPager"></div>
+    <br />
+    <table id="tbItemwiseInspectionsSQMReport"></table>
+    <div id="dvItemwiseInspectionsSQMReportPager"></div>
+    <br />
+    <div id="accordionItemwiseInspection" style="display:none;width:100%;margin-top:10px;">            
+        <h3 style="text-align:left"><a id="" href="#" style=" font-size:.9em;" >ATR Details</a>
+            <a href="#"  style="float: right;">
+                <img style="border:none" src="" class="ui-icon ui-icon-closethick" onclick="CloseItemwiseInspectionAccordion();" /></a>
+        </h3>
+        <div id="divItemwiseInspection" style="display:none;"></div>                     
+    </div>
+</form>

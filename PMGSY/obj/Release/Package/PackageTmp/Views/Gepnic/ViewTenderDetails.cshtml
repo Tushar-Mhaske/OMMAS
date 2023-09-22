@@ -1,0 +1,188 @@
+﻿@model PMGSY.Models.Gepnic.WORKITEMDETAILS
+
+<script src="~/Scripts/jquery.ui.accordion.js"></script>
+<script src="~/Scripts/custom/Generic.js"></script>
+@*<script src="~/Scripts/Proposal/DisplayProposal.js"></script>*@
+@*<script src="~/Scripts/Execution/ViewExecutionProgressDetails.js"></script>*@
+<style type="text/css">
+    #preview {
+        border: 1px solid #ccc;
+        position: absolute;
+        background: #333;
+        padding: 5px;
+        display: none;
+        color: #fff;
+    }
+
+    td {
+        height: 20px;
+        text-align: left;
+    }
+
+    body {
+        text-align: left;
+    }
+</style>
+<div class="ui-corner-all ui-state-highlight" style="border: solid 1px black; text-align: left">
+    <table style="width: 100%">
+        <tr>
+              <td style="text-align: left; font-weight: bold; width: 5%; color:blue">@Html.Label("Ref No") :</td>
+            <td style="text-align: left; width: 15%;">@Html.DisplayFor(model => model.WORKITEM_REF_NO)</td>
+
+            <td style="text-align: left; font-weight: bold; width: 5%;color:blue">@Html.Label("Org Chain") :</td>
+            <td style="text-align: left; width: 15%;">Batch @Html.DisplayFor(model => model.ORG_CHAIN)</td>
+
+            <td style="text-align: left; font-weight: bold; width: 5%;color:blue">@Html.Label("T Refe No") :</td>
+            <td style="text-align: left; width: 15%;">@Html.DisplayFor(model => model.T_REF_NO)</td>
+
+            <td style="text-align: left; font-weight: bold; width: 5%; color:blue">@Html.Label("Tender Type") :</td>
+            <td style="text-align: left; width: 15%;">@Html.DisplayFor(model => model.T_TENDER_TYPE)</td>
+
+            <td style="text-align: left; font-weight: bold; width: 5%; color:blue">@Html.Label("T Contract") :</td>
+            <td style="text-align: left; width: 15%">@Html.DisplayFor(model => model.T_FORM_OF_CONTRACT)&nbsp;Kms.</td>
+        </tr>
+    </table>
+</div>
+
+
+    
+
+    <div id="tabs-1">
+     <div class="ui-corner-all ui-state-highlight" style="border: solid 1px black; text-align: left">
+    <table style="width: 100%">
+        <tr>
+              <td style="text-align: left; font-weight: bold; width:5%; color:black">@Html.Label("Tender Cat") :</td>
+            <td style="text-align: left; width: 15%;">@Html.DisplayFor(model => model.T_TENDER_CATEGORY)</td>
+
+            <td style="text-align: left; font-weight: bold; width: 5%;color:black">@Html.Label("W Title") :</td>
+            <td style="text-align: left; width: 15%;">Batch @Html.DisplayFor(model => model.W_TITLE)</td>
+
+            <td style="text-align: left; font-weight: bold; width: 5%;color:black">@Html.Label("W Desc") :</td>
+            <td style="text-align: left; width: 15%;">@Html.DisplayFor(model => model.W_DESC)</td>
+
+            <td style="text-align: left; font-weight: bold; width: 5%; color:black">@Html.Label("Pre Qual") :</td>
+            <td style="text-align: left; width: 15%;">@Html.DisplayFor(model => model.W_PRE_QUAL)</td>
+
+            <td style="text-align: left; font-weight: bold; width: 5%; color:black">@Html.Label("Prod Cat") :</td>
+            <td style="text-align: left; width: 15%">@Html.DisplayFor(model => model.W_PROD_CAT)&nbsp;Kms.</td>
+        </tr>
+
+         <tr>
+              <td style="text-align: left; font-weight: bold; width:5%; color:black">@Html.Label("Prod Sub") :</td>
+            <td style="text-align: left; width: 15%;">@Html.DisplayFor(model => model.W_PROD_SUB_CAT)</td>
+
+            <td style="text-align: left; font-weight: bold; width: 5%;color:black">@Html.Label("W Value") :</td>
+            <td style="text-align: left; width: 15%;">Batch @Html.DisplayFor(model => model.W_VALUE)</td>
+
+            <td style="text-align: left; font-weight: bold; width: 5%;color:black">@Html.Label("Bid Validity") :</td>
+            <td style="text-align: left; width: 15%;">@Html.DisplayFor(model => model.W_BIDVALIDITY)</td>
+
+            <td style="text-align: left; font-weight: bold; width: 5%; color:black">@Html.Label("W Location") :</td>
+            <td style="text-align: left; width: 15%;">@Html.DisplayFor(model => model.W_LOCATION)</td>
+
+            <td style="text-align: left; font-weight: bold; width: 5%; color:black">@Html.Label("Pincode") :</td>
+            <td style="text-align: left; width: 15%">@Html.DisplayFor(model => model.W_PINCODE)&nbsp;Kms.</td>
+        </tr>
+
+         <tr>
+             <td style="text-align: left; font-weight: bold; width:5%; color:black">@Html.Label("Meet place") :</td>
+            <td style="text-align: left; width: 15%;">@Html.DisplayFor(model => model.W_PREBID_MEET_PLACE)</td>
+
+            <td style="text-align: left; font-weight: bold; width: 5%;color:black">@Html.Label("Prebid Add") :</td>
+            <td style="text-align: left; width: 15%;">Batch @Html.DisplayFor(model => model.W_PREBID_ADDRESS)</td>
+
+            <td style="text-align: left; font-weight: bold; width: 5%;color:black">@Html.Label("Open Place") :</td>
+            <td style="text-align: left; width: 15%;">@Html.DisplayFor(model => model.W_BID_OPENING_PLACE)</td>
+
+            <td style="text-align: left; font-weight: bold; width: 5%; color:black">@Html.Label("Inv Officer") :</td>
+            <td style="text-align: left; width: 15%;">@Html.DisplayFor(model => model.W_INVITING_OFFICER)</td>
+
+            <td style="text-align: left; font-weight: bold; width: 5%; color:black">@Html.Label("Inv Add") :</td>
+            <td style="text-align: left; width: 15%">@Html.DisplayFor(model => model.W_INVITING_OFF_ADDRESS)&nbsp;Kms.</td>
+        </tr>
+
+
+        
+        <tr>
+            <td style="text-align: left; font-weight: bold; width:5%; color:black">@Html.Label("Tender Fee") :</td>
+            <td style="text-align: left; width: 15%;">@Html.DisplayFor(model => model.W_TENDER_FEE)</td>
+
+            <td style="text-align: left; font-weight: bold; width: 5%;color:black">@Html.Label("TF Pay To") :</td>
+            <td style="text-align: left; width: 15%;">Batch @Html.DisplayFor(model => model.W_TF_PAYABLE_TO)</td>
+
+            <td style="text-align: left; font-weight: bold; width: 5%;color:black">@Html.Label("TF Pay At") :</td>
+            <td style="text-align: left; width: 15%;">@Html.DisplayFor(model => model.W_TF_PAYABLE_AT)</td>
+
+            <td style="text-align: left; font-weight: bold; width: 5%; color:black">@Html.Label("Emd Fee") :</td>
+            <td style="text-align: left; width: 15%;">@Html.DisplayFor(model => model.W_EMD_FEE)</td>
+
+            <td style="text-align: left; font-weight: bold; width: 5%; color:black">@Html.Label("EMD Pay To") :</td>
+            <td style="text-align: left; width: 15%">@Html.DisplayFor(model => model.W_EMD_PAYABLE_TO)&nbsp;Kms.</td>
+        </tr>
+
+
+
+          <tr>
+            <td style="text-align: left; font-weight: bold; width:5%; color:black">@Html.Label("EMD Pay At") :</td>
+            <td style="text-align: left; width: 15%;">@Html.DisplayFor(model => model.W_EMD_PAYABLE_AT)</td>
+
+            <td style="text-align: left; font-weight: bold; width: 5%;color:black">@Html.Label("Pub Date") :</td>
+            <td style="text-align: left; width: 15%;">Batch @Html.DisplayFor(model => model.W_PUB_DATE)</td>
+
+            <td style="text-align: left; font-weight: bold; width: 5%;color:black">@Html.Label("Doc Start") :</td>
+            <td style="text-align: left; width: 15%;">@Html.DisplayFor(model => model.W_DOC_START_DATE)</td>
+
+            <td style="text-align: left; font-weight: bold; width: 5%; color:black">@Html.Label("Doc End") :</td>
+            <td style="text-align: left; width: 15%;">@Html.DisplayFor(model => model.W_DOC_END_DATE)</td>
+
+            <td style="text-align: left; font-weight: bold; width: 5%; color:black">@Html.Label("Clear Start") :</td>
+            <td style="text-align: left; width: 15%">@Html.DisplayFor(model => model.W_SEEK_CLAR_START_DATE)&nbsp;Kms.</td>
+        </tr>
+
+        <tr>
+            <td style="text-align: left; font-weight: bold; width:5%; color:black">@Html.Label("Clear End") :</td>
+            <td style="text-align: left; width: 15%;">@Html.DisplayFor(model => model.W_SEEK_CLAR_END_DATE)</td>
+
+            <td style="text-align: left; font-weight: bold; width: 5%;color:black">@Html.Label("Prebid Date") :</td>
+            <td style="text-align: left; width: 15%;">Batch @Html.DisplayFor(model => model.W_PREBID_DATE)</td>
+
+            <td style="text-align: left; font-weight: bold; width: 5%;color:black">@Html.Label("Bidsub Start") :</td>
+            <td style="text-align: left; width: 15%;">@Html.DisplayFor(model => model.W_BIDSUB_START_DATE)</td>
+
+            <td style="text-align: left; font-weight: bold; width: 5%; color:black">@Html.Label("Bidsub End") :</td>
+            <td style="text-align: left; width: 15%;">@Html.DisplayFor(model => model.W_BIDSUB_END_DATE)</td>
+
+            <td style="text-align: left; font-weight: bold; width: 5%; color:black">@Html.Label("W Bid Open") :</td>
+            <td style="text-align: left; width: 15%">@Html.DisplayFor(model => model.W_BID_OPEN_DATE)&nbsp;Kms.</td>
+        </tr>
+
+
+         <tr>
+            <td style="text-align: left; font-weight: bold; width:5%; color:black">@Html.Label("Fin Bid Open") :</td>
+            <td style="text-align: left; width: 15%;">@Html.DisplayFor(model => model.W_FIN_BID_OPEN_DATE)</td>
+
+            <td style="text-align: left; font-weight: bold; width: 5%;color:black">@Html.Label("Bid Opener") :</td>
+            <td style="text-align: left; width: 15%;">Batch @Html.DisplayFor(model => model.W_BID_OPENERS)</td>
+
+            <td style="text-align: left; font-weight: bold; width: 5%;color:black">@Html.Label("No of Bids") :</td>
+            <td style="text-align: left; width: 15%;">@Html.DisplayFor(model => model.W_NO_OF_BIDS)</td>
+
+            <td style="text-align: left; font-weight: bold; width: 5%; color:black">@Html.Label("Return URL") :</td>
+            <td style="text-align: left; width: 15%;">@Html.DisplayFor(model => model.W_RETURN_URL)</td>
+
+            <td style="text-align: left; font-weight: bold; width: 5%; color:black"></td>
+            <td style="text-align: left; width: 15%">&nbsp;</td>
+        </tr>
+    </table>
+</div>
+    </div>
+
+
+
+
+
+<div style="text-align: center">
+@*<input type="button" id="btnFinalize" name="btnFinalize" class="jqueryButton" value="Finalize" style="height: 35px; width: 100px" />*@
+</div>
+
+

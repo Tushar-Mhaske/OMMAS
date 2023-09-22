@@ -1,0 +1,39 @@
+﻿@{
+    ViewBag.Title = "SearchNetworks";
+}
+<script src="~/Scripts/custom/Generic.js"></script>
+<script src="~/Scripts/Master/SearchNetworks.js"></script>
+<div id="dvhdSearch" class="ui-corner-top ui-widget-header panelheader" style="text-align: left; margin-left: 10px; margin-right: 10px; margin-top: 10px; height: 20px;">
+    <span class="ui-jqgrid-title" style="float: left">&nbsp;Search</span>
+
+    <span id="spCollapseIconS" class="ui-icon ui-icon-circle-triangle-n" style="float: right"></span>
+</div>
+<div id="dvSearchParameter" class="ui-corner-bottom" style="margin-left: 10px; margin-right: 10px; display: block; border: 1px solid #B5B8C8;">
+    <form id="frmSearchCoreNetworks">
+        <center>@Html.ValidationSummary(true) </center>
+
+        <table style="width: 100%;" class="rowstyle">
+            <tr>
+            </tr>
+            <tr>
+                <td style="width: 5%"></td>
+                <td style="text-align: left; width: 10%;">
+                    @Html.Label("District")
+                </td>
+                <td style="width: 17%;">
+                    @Html.DropDownList("ddlDistrict", ViewData["Districts"] as IEnumerable<SelectListItem>, "All Districts", new { @id = "ddlDistricts", @title = "District", @tabindex = 1 })
+                </td>
+                <td style="text-align: left; width: 7%;">
+                    @Html.Label("Block")
+                </td>
+                <td style="width: 17%;">
+                    @Html.DropDownList("ddlBlock", ViewData["Blocks"] as IEnumerable<SelectListItem>, "All Blocks", new { @id = "ddlBlocks", @title = "Blocks", @tabindex = 2 })
+                </td>
+                <td>
+                    <input type="button" id="btnRoadSearch" name="btnRoadSearch" value="Search" class="jqueryButton" title="Search Road Plan" tabindex="4" style="margin-left: 20px" />
+                </td>
+            </tr>
+        </table>
+
+    </form>
+</div>

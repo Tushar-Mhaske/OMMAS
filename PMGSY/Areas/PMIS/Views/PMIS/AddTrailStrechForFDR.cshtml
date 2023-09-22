@@ -1,0 +1,1335 @@
+﻿<!--Newly Added By Hrishikesh To Add "Trail Stretch For FDR" --05-06-2023 ---start-->
+
+@model PMGSY.Areas.PMIS.Models.AddTrailStrechForFDRModel
+
+@{
+    ViewBag.Title = "AddTrailStrechForFDR";
+}
+
+
+
+<head>
+
+    <script src="~/Scripts/custom/Generic.js"></script>
+    <link href="~/Content/jquery.multiselect.css" rel="stylesheet" />
+    <script src="~/Scripts/jquery.multiselect.min.js"></script>
+    <script src="~/Scripts/jquery.ui.datepicker.js" type="text/javascript"></script>
+    <script src="~/Areas/PMIS/Scripts/AddTrailStrechForFDR.js"></script>
+    <script src="~/Scripts/jquery.validate.min.js"></script>
+    <script src="~/Scripts/jquery.validate.unobtrusive.min.js"></script>
+
+    <script type="text/javascript">
+        $(document).ready(function () {
+
+            if (($("#IS_FDR_FILLED").val() != "N") || ($("#IS_FDR_FILLED").val() != "N" && $("#IS_Finalized").val() != "N")) {
+                var arr = "";
+                arr = $("#SELECTED_ADDITIVES_DB").val().split(",");
+                //alert("arr-"+arr)
+
+                for (var j = 0; j < arr.length; j++) {
+                    //alert("j-"+j)
+                    var element = $('#ui-multiselect-additiveId-option-' + (arr[j] - 1));
+                    element.attr("aria-selected", "true");
+                    element.attr("checked", "checked");
+                }
+                $(".ui-icon.ui-icon-triangle-2-n-s").next("span").html(arr.length + " Selected");
+            }
+
+        });//doc.Ready ends here
+    </script>
+    <style>
+        .tds {
+            text-align: center;
+            width: 11px;
+        }
+    </style>
+
+
+</head>
+<form id="addTrailStrechForFDRFormId">
+    @Html.ValidationSummary(true)
+    <div style="margin-left: 100px">
+        @Html.ValidationSummary(true)
+        @Html.AntiForgeryToken()
+        @Html.HiddenFor(m => m.IMS_PR_ROAD_CODE, "roadCodeId")
+        @Html.HiddenFor(m => m.ADDITIVE_ID_LIST.Count, "additiveCountId")
+        @Html.HiddenFor(m => m.IS_FDR_FILLED, "isFDRFilled")
+        @Html.HiddenFor(m => m.IS_Finalized, "isFinalized")
+
+        @Html.HiddenFor(m => m.ADDITIVE_ID, "additiveId")
+        @Html.HiddenFor(m => m.ADDITIVE_ID_LIST, "additiveIdList")
+        @Html.HiddenFor(m => m.SELECTED_ADDITIVES_DB, "SELECTED_ADDITIVES_DB_ID")
+
+    </div>
+
+    <div id="divError" class="ui-state-error ui-corner-all" style="text-align: left; display: none; width: 100%">
+        <span></span>
+        <span></span>
+    </div>
+
+
+    <input type="hidden" id="RoadCode" value="@ViewBag.IMS_PR_ROAD_CODE" />
+
+
+    @*<h3 style="text-align:center ; height:10px">Details of Mix Design for (FDR) Cement Stablization </h3>*@
+    <hr />
+    <table class="rowstyle ui-corner-all" id="tblAddTrailStrechForFDRId" style="width:100%; border:solid black 1px;">
+
+        <tr style="height:25px;text-align:left">
+            <td style="width:15px"></td>
+            <td class="tds">State  </td>
+            <td class="tds">District </td>
+            <td class="tds">Block </td>
+            <td class="tds">Package Name </td>
+            <td class="tds">Sanction Year </td>
+            <td class="tds">Sanction Date </td>
+            <td class="tds">Batch </td>
+            <td class="tds">Length </td>
+            <td class="tds">Road Name </td>
+            <td class="tds">Technology Name </td>
+
+        </tr>
+        <tr style="height:25px;text-align:left">
+            <td style="width:15px"></td>
+            <td>@ViewBag.StateName</td>
+            <td>@ViewBag.District</td>
+            <td>@ViewBag.Block</td>
+            <td>@ViewBag.PackageName</td>
+            <td>@ViewBag.SanctionedYear</td>
+            <td>@ViewBag.SanctionedDate</td>
+            <td>@ViewBag.Batch</td>
+            @*<td>@Html.DisplayFor(ViewBag.Length, new { @id="sanctionedLength"})</td>*@
+            <td id="sanctionedLength">@ViewBag.Length</td>
+            <td>@ViewBag.RoadName</td>
+            <td>@ViewBag.TechName</td>
+
+        </tr>
+    </table>
+    @* ---------------One Time Entry--------------- *@
+    @if (Model.IS_FDR_FILLED == "N")
+    {
+        <table class="rowstyle ui-corner-all" id="tblAddTrailStrechForFDRId1" style="width:100%; margin-top:15px">
+
+            <tr style="text-align:center;height:15px;">
+                <td colspan="8" style="padding-bottom: 5px; background-color: #fccc6b; text-align: center">
+                    <span style="text-align: center; color:black; height: 1px; font-weight:bold">Information from Mix Design Report </span>
+                </td>
+            </tr>
+
+            <tr style="height:20px">
+                <td style="width:20px"></td>
+                <td>@Html.Label("Additive Used") <span style="color: red;"> *</span></td>
+                <td style="text-align:left">
+                    @Html.DropDownListFor(m => m.ADDITIVE_ID, Model.ADDITIVE_ID_LIST, new { @id = "additiveId", @title = "Additivetitle" })
+                    @Html.ValidationMessageFor(m => m.ADDITIVE_ID)
+                    @*@Html.ListBox("additiveId", new MultiSelectList(Model.ADDITIVE_ID_LIST, "Value", "Text"), new { multiple = "multiple" })*@
+
+                    @*@Html.ListBox("LevelMaster")*@
+                </td>
+                <td></td>
+                <td></td>
+                <td>@Html.Label("JMF Prepared By") <span style="color: red;"> *</span> </td>
+                <td style="text-align:left">
+                    @Html.DropDownListFor(m => m.JMF_ID, Model.JMF_ID_LIST, new { @id = "jmfId", @titel = "jmftitle" })
+                    @Html.ValidationMessageFor(m => m.JMF_ID)
+                </td>
+                <td></td>
+            </tr>
+
+            <tr style="height:20px">
+                <td style="width:20px"></td>
+                <td>@Html.Label("Cement Content") <span style="color: red;"> *</span> </td>
+                <td style="text-align:left">
+                    @Html.TextBoxFor(m => m.PERC_CEMENT_CONT, new { @placeholder = "%" })
+                    @Html.ValidationMessageFor(m => m.PERC_CEMENT_CONT)
+                </td>
+                <td></td>
+                <td></td>
+                @*<td>
+                        @Html.Label("Additive Content Unit") <span style="color: red;"> *</span>
+                    </td>
+                    <td style="text-align:left">
+                        @Html.RadioButtonFor(m => m.IS_ADDITIVE_CONT_PERC_ML, "%", new { @checked = "Checked", @id = "isAdditivePerc", @tital = "%" }) @Html.Label("%")
+                        @Html.RadioButtonFor(m => m.IS_ADDITIVE_CONT_PERC_ML, "ml/cum", new { @id = "isAdditiveMlCum", @tital = "ml/cum" }) @Html.Label("ml/cum")
+                    </td>*@
+                <td>
+                </td>
+            </tr>
+
+            <tr style="height:20px">
+                <td style="width:20px"></td>
+                <td>
+                    @Html.Label("Additive Content Unit") <span style="color: red;"> *</span>
+                </td>
+                <td style="text-align:left">
+                    @Html.RadioButtonFor(m => m.IS_ADDITIVE_CONT_PERC_ML, "%", new { @checked = "Checked", @id = "isAdditivePerc", @tital = "%" }) @Html.Label("%")
+                    @Html.RadioButtonFor(m => m.IS_ADDITIVE_CONT_PERC_ML, "ml/cum", new { @id = "isAdditiveMlCum", @tital = "ml/cum" }) @Html.Label("ml/cum")
+                </td>
+                <td>
+                </td>
+                <td>
+                </td>
+                <td id="LabelAdditiveConPerc">
+                    @Html.Label("Additive Content in %") <span style="color: red;"> *</span>
+                </td>
+                <td style="text-align:left" id="TextAdditiveConPerc">
+                    @Html.TextBoxFor(m => m.PERC_ADDITIVE_CONT, new { @placeholder = "%", @id = "InputAdditivePerc" })
+                    @Html.ValidationMessageFor(m => m.PERC_ADDITIVE_CONT)
+                </td>
+
+                <td id="LabelAdditiveConMlCum">
+                    @Html.Label("Additive Content in ml/cum") <span style="color: red;"> *</span>
+                </td>
+                <td style="text-align:left" id="TextAdditiveMlCum">
+                    @Html.TextBoxFor(m => m.ADDITIVE_CONT_ML_CUM, new { @placeholder = "ml/cum", @id = "InputAdditiveMlCum" })
+                    @Html.ValidationMessageFor(m => m.ADDITIVE_CONT_ML_CUM)
+                </td>
+                <td>
+                </td>
+            </tr>
+
+            <tr style="height:20px">
+                <td style="width:20px"></td>
+                <td>@Html.Label("Cement Type") <span style="color: red;"> *</span> </td>
+                <td style="text-align:left">
+                    @Html.TextBoxFor(m => m.CEMENT_TYPE)
+                    @Html.ValidationMessageFor(m => m.CEMENT_TYPE)
+                </td>
+                <td></td>
+                <td></td>
+                <td>@Html.Label("Cement Grade") <span style="color: red;"> *</span> </td>
+                <td style="text-align:left">
+                    @Html.TextBoxFor(m => m.CEMENT_GRADE)
+                    <span style="width:30px">
+                        @Html.ValidationMessageFor(m => m.CEMENT_GRADE)
+                    </span>
+                </td>
+                <td></td>
+            </tr>
+
+
+            <tr style="height:20px">
+                <td style="width:20px"></td>
+                <td>
+                    @Html.Label("Average Thickness of Existing Crust(Excluding subgrade)") <span style="color: red;"> *</span>
+                </td>
+                <td style="text-align:left">
+                    @Html.TextBoxFor(m => m.AVG_THICK_CRUST, new { @placeholder = "mm" })
+                    @Html.ValidationMessageFor(m => m.AVG_THICK_CRUST)
+                </td>
+                <td></td>
+                <td></td>
+                <td>@Html.Label("Whether Combined gradation of material confirm with Specification Limit") <span style="color: red;"> *</span> </td>
+                <td style="text-align:left">
+                    @Html.RadioButtonFor(m => m.IS_GRAD_MATERIAL_SPEC_LIMIT, "Y", new { @checked = "Checked", @id = "isGradMaterialSpecYes", @tital = "Yes" }) @Html.Label("Yes")
+                    @Html.RadioButtonFor(m => m.IS_GRAD_MATERIAL_SPEC_LIMIT, "N", new { @id = "isGradMaterialSpecNo", @tital = "No" }) @Html.Label("No")
+                </td>
+                @*<td></td>
+                    <td style="text-align:left"></td>*@
+                <td></td>
+            </tr>
+
+            <tr style="height:20px">
+                <td style="width:20px"></td>
+                <td>@Html.Label("Plasticity Index of Subgrade Soil") <span style="color: red;"> </span> </td>
+                <td style="text-align:left">
+                    @Html.TextBoxFor(m => m.PERC_INDEX_SUBGRADE_SOIL, new { @placeholder = "%" })
+                    @Html.ValidationMessageFor(m => m.PERC_INDEX_SUBGRADE_SOIL)
+                </td>
+                <td></td>
+                <td></td>
+                <td>
+                    @Html.Label("Plasticity Index Reclaimed Material") <span style="color: red;"> </span>
+                </td>
+                <td style="text-align:left">
+                    @Html.TextBoxFor(m => m.PERC_PLASTICITY_RECLAM_SOIL, new { @placeholder = "%" })
+                    @Html.ValidationMessageFor(m => m.PERC_PLASTICITY_RECLAM_SOIL)
+                </td>
+                <td></td>
+            </tr>
+
+
+            <tr style="height:20px">
+                <td style="width:20px"></td>
+                <td>@Html.Label("Whether Average UCS Strength(MPa) ") <span style="color: red;"> *</span> </td>
+                <td style="text-align:left">
+                    @Html.RadioButtonFor(m => m.IS_AVG_UCS_7D_28D, "7D", new { @checked = "Checked", @id = "isUCSStrength7Days", @tital = "7-Days" }) @Html.Label("7-Days")
+                    @Html.RadioButtonFor(m => m.IS_AVG_UCS_7D_28D, "28D", new { @id = "isUCSStrength28Days", @tital = "28-Days" }) @Html.Label("28-Days")
+                </td>
+                <td></td>
+                <td></td>
+                <td id="isMpa7days">
+                    @Html.Label("Average UCS Strength(MPa) 7-Days") <span style="color: red;"> *</span>
+                </td>
+                <td style="text-align:left" id="isUcs7days">
+                    @Html.TextBoxFor(m => m.AVG_UCS_7D, new { @placeholder = "", @id = "isUCSPI7Days" })
+                    @Html.ValidationMessageFor(m => m.AVG_UCS_7D)
+                </td>
+                <td id="isMpa28days">
+                    @Html.Label("Average UCS Strength(MPa) 28-Days") <span style="color: red;"> *</span>
+                </td>
+                <td style="text-align:left" id="isUcs28days">
+                    @Html.TextBoxFor(m => m.AVG_UCS_28D, new { @placeholder = "", @id = "isUCSPI28Days" })
+                    @Html.ValidationMessageFor(m => m.AVG_UCS_28D)
+                </td>
+            </tr>
+
+
+            <tr style="height:20px">
+                <td style="width:20px"></td>
+                <td>@Html.Label("Whether UCS Test was Conducted on ") <span style="color: red;"> *</span> </td>
+                <td style="text-align:left">
+                    @Html.RadioButtonFor(m => m.IS_UCS_TEST_CUBE_CYLINDER, "Cube", new { @checked = "Checked", @id = "isUCSTestCube", @tital = "Cube" }) @Html.Label("Cube")
+                    @Html.RadioButtonFor(m => m.IS_UCS_TEST_CUBE_CYLINDER, "Cylindrical", new { @id = "isUCSTestCylindrical", @tital = "Cylindrical" }) @Html.Label("Cylindrical")
+                </td>
+                <td></td>
+                <td></td>
+                <td id="isUcsCube">
+                    @Html.Label("UCS Test Conducted on Cube Sample") <span style="color: red;"> *</span>
+                </td>
+                <td style="text-align:left" id="isUcsCubeSample">
+                    @Html.TextBoxFor(m => m.UCS_TEST_CUBE, new { @placeholder = "", @id = "isUCSCube" })
+                    @Html.ValidationMessageFor(m => m.UCS_TEST_CUBE)
+                </td>
+                <td id="isUcsCylinder">
+                    @Html.Label("UCS Test Conducted on Cylindrical Sample") <span style="color: red;"> *</span>
+                </td>
+                <td style="text-align:left" id="isUcsCylinSample">
+                    @Html.TextBoxFor(m => m.UCS_TEST_CYLINDER, new { @placeholder = "", @id = "isUCSCylindrical" })
+                    @Html.ValidationMessageFor(m => m.UCS_TEST_CYLINDER)
+                </td>
+            </tr>
+
+            <tr style="height:20px">
+                <td style="width:20px"></td>
+                <td>@Html.Label("Maximum Dry Density(MDD) of Mix") <span style="color: red;"> *</span></td>
+                <td style="text-align:left">
+                    @Html.TextBoxFor(m => m.MDD_MIX)
+                    @Html.ValidationMessageFor(m => m.MDD_MIX)
+                </td>
+                <td></td>
+                <td></td>
+                <td>@Html.Label("Optimum Moisture Content(OMC) of Mix") <span style="color: red;"> *</span></td>
+                <td style="text-align:left">
+                    @Html.TextBoxFor(m => m.OMC_MIX)
+                    @Html.ValidationMessageFor(m => m.OMC_MIX)
+                </td>
+                <td></td>
+            </tr>
+
+            <tr style="height:20px">
+                <td style="width:20px"></td>
+                <td>
+                    @Html.Label("Test Result Report of UCS pdf") <span style="color: red;"> *</span>
+                </td>
+                <td style="text-align:left">
+                    @Html.TextBoxFor(m => m.UPLOADED_FILE3, new { @id = "BGFile1", type = "file", @tabindex = 1 })
+                    <span style="color:green">Upload pdf file (upto 4 MB)</span>
+                </td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td>
+                </td>
+
+                <td></td>
+            </tr>
+
+
+            <tr style="text-align:center;height:15px;">
+                <td colspan="8" style="padding-bottom: 5px; background-color: #fccc6b; text-align: center">
+                    <span style="text-align: center; height: 1px; font-weight:bold">Details of Trial Stretch </span>
+                </td>
+            </tr>
+
+            <tr style="height:20px">
+                <td style="width:20px"></td>
+                <td>@Html.Label("Length of Trial Stretch in km") <span style="color: red;"> *</span> </td>
+                <td style="text-align:left">
+                    @Html.TextBoxFor(m => m.STRETCH_LENGTH)
+                    @Html.ValidationMessageFor(m => m.STRETCH_LENGTH)
+                </td>
+                <td></td>
+                <td></td>
+                <td>@Html.Label("Date of Construction of Trial Stretch") <span style="color: red;"> *</span> </td>
+                <td style="text-align:left">
+                    @Html.TextBoxFor(m => m.STRETCH_CONSTR_DATE, "{0:d}", new { @id = "date", @readonly = "readonly", @title = "Date of construction of Trial Stretch", @align = "center" })
+                    @Html.ValidationMessageFor(m => m.STRETCH_CONSTR_DATE)
+                </td>
+                <td></td>
+            </tr>
+
+
+            <tr style="height:20px">
+                <td style="width:20px"></td>
+                <td>@Html.Label("Whether UCS Test Conducted On ") <span style="color: red;"> *</span> </td>
+                <td style="text-align:left">
+                    @Html.RadioButtonFor(m => m.IS_TS_UCS_STRENGTH_CUBE_CYLINDER, "Cube", new { @checked = "Checked", @id = "isTSUCSCube", @tital = "Cube" }) @Html.Label("Cube")
+                    @Html.RadioButtonFor(m => m.IS_TS_UCS_STRENGTH_CUBE_CYLINDER, "Cylindrical", new { @id = "isTSUCSCylindrical", @tital = "Cylindrical" }) @Html.Label("Cylindrical")
+                </td>
+                <td></td>
+                <td></td>
+                <td id="LabelUcsCube">
+                    @Html.Label("UCS Test Conducted on Cube") <span style="color: red;"> *</span>
+                </td>
+                <td style="text-align:left" id="TextUcsCube">
+                    @Html.TextBoxFor(m => m.UCS_STRENGTH_CUBE, new { @placeholder = "", @id = "InputUcsCube" })
+                    @Html.ValidationMessageFor(m => m.PERC_PLASTICITY_RECLAM_SOIL)
+                </td>
+                <td id="LabelUcsCylindrical">
+                    @Html.Label("UCS Test Conducted on Cylinder") <span style="color: red;"> *</span>
+                </td>
+                <td style="text-align:left" id="TextUcsCylinder">
+                    @Html.TextBoxFor(m => m.UCS_STRENGTH_CYLINDER, new { @placeholder = "", @id = "InputUcsCylinder" })
+                    @Html.ValidationMessageFor(m => m.PERC_INDEX_SUBGRADE_SOIL)
+                </td>
+            </tr>
+
+            <tr style="height:20px">
+                <td style="width:20px"></td>
+                <td>@Html.Label("Whether UCS Value of ") <span style="color: red;"> *</span> </td>
+                <td style="text-align:left">
+                    @Html.RadioButtonFor(m => m.IS_TS_UCS_7D_28D, "7D", new { @checked = "Checked", @id = "isTSUCSValu7D", @tital = "7-Days" }) @Html.Label("7-Days")
+                    @Html.RadioButtonFor(m => m.IS_TS_UCS_7D_28D, "28D", new { @id = "isTSUCSValu28D", @tital = "28-Days" }) @Html.Label("28-Days")
+                </td>
+                <td></td>
+                <td></td>
+                <td id="LabelUcs7D">
+                    @Html.Label("UCS Value of 7-Days") <span style="color: red;"> *</span>
+                </td>
+                <td style="text-align:left" id="TextUcs7D">
+                    @Html.TextBoxFor(m => m.TS_UCS_7D, new { @placeholder = "", @id = "InputUcs7D" })
+                    @Html.ValidationMessageFor(m => m.TS_UCS_7D)
+                </td>
+                <td id="LabelUcs28D">
+                    @Html.Label("UCS Value of 28-Days") <span style="color: red;"> *</span>
+                </td>
+                <td style="text-align:left" id="TextUcs28D">
+                    @Html.TextBoxFor(m => m.TS_UCS_28D, new { @placeholder = "", @id = "InputUcs28D" })
+                    @Html.ValidationMessageFor(m => m.TS_UCS_28D)
+                </td>
+            </tr>
+
+
+            <tr style="height:20px">
+                <td style="width:20px"></td>
+                <td>
+                    @Html.Label("Test result of core taken from trail section") <span style="color: red;"> *</span>
+                </td>
+                <td style="text-align:left">
+                    @Html.TextBoxFor(m => m.UPLOADED_FILE1, new { @id = "BGFile1", type = "file", @tabindex = 1 })
+                    <span style="color:green">Upload pdf file (upto 4 MB)</span>
+                </td>
+                <td></td>
+                <td></td>
+                <td>@Html.Label("Residual Strength after 12 cycle Wetting drying(MPa) ") <span style="color: red;"> *</span></td>
+                <td style="text-align:left">
+                    @Html.TextBoxFor(m => m.TS_RESD_STRENGTH_WETT)
+                    @Html.ValidationMessageFor(m => m.TS_RESD_STRENGTH_WETT)
+
+                </td>
+                <td></td>
+            </tr>
+
+
+
+            <tr style="height:20px">
+                <td style="width:20px"></td>
+                <td>@Html.Label("Residual Strength after 12 cycle wetting and drying ( MPa) PDF report") <span style="color: red;"> *</span></td>
+                <td style="text-align: left">
+                    @Html.TextBoxFor(m => m.UPLOADED_FILE2, new { @id = "BGFile2", type = "file", @tabindex = 2 })
+                    <span style="color:green">Upload pdf file (upto 4 MB)</span>
+                </td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td>
+                </td>
+
+                <td></td>
+            </tr>
+
+
+            <tr style="height:20px">
+                <td style="width:20px"></td>
+                <td>@Html.Label("Crack Relief Layer") <span style="color: red;"> *</span> </td>
+                <td style="text-align:left">
+                    @Html.RadioButtonFor(m => m.CRACK_RELIEF_LAYER, "Aggregate", new { @checked = "Checked", @id = "crackRelifAggregate", @tital = "Aggregate" }) @Html.Label("Aggregate")
+                    @Html.RadioButtonFor(m => m.CRACK_RELIEF_LAYER, "Aggregate+Bitumen", new { @id = "crackRelifAggBitumen", @tital = "Aggregate Bitumen" }) @Html.Label("Aggregate+Bitumen")
+                    @Html.RadioButtonFor(m => m.CRACK_RELIEF_LAYER, "Geosynthetic+Tack Coat", new { @id = "crackRelifGeoCoat", @tital = "Geosynthetic+Tack Coat" }) @Html.Label("Geosynthetic+Tack Coat")
+                    @Html.RadioButtonFor(m => m.CRACK_RELIEF_LAYER, "Other", new { @id = "IsCrackRelifOtherLayer", @tital = "Other" }) @Html.Label("Other")
+
+                </td>
+                <td></td>
+                <td></td>
+                <td id="LabelOtherCrackRelief">
+                    @Html.Label("Other Crack Relief Layer:") <span style="color: red;"> *</span>
+                </td>
+                <td style="text-align:left" id="TextOtherCrackRelief">
+                    @Html.TextBoxFor(m => m.OTHER_CRACK_LAYER, new { @id = "InputOtherLayer" })
+                </td>
+                <td></td>
+            </tr>
+
+            <tr>
+                <td colspan="8" style="text-align:center">
+                    <input type="button" value="Save" class="jqueryButton" id="btnSumit" />
+                    <input type="button" value="Save and Finalize" class="jqueryButton" id="btnSaveFinalize" />
+                    <input type="reset" class="jqueryButton" value="Reset" id="btnCancel" name="btnCancel" />
+                </td>
+            </tr>
+
+        </table>
+    }@*---------------Only Provide View(view only stage)---------------*@
+    else if (Model.IS_FDR_FILLED == "Y" && Model.IS_Finalized == "Y")
+    {
+
+        <table class="rowstyle ui-corner-all" id="tblAddTrailStrechForFDRId1" style="width:100%; margin-top:15px">
+
+
+            <tr style="text-align:center;height:15px;">
+                <td colspan="8" style="padding-bottom: 5px; background-color: #fccc6b; text-align: center">
+                    <span style="text-align: center; color:black; height: 1px; font-weight:bold">Information from Mix Design Report </span>
+                </td>
+            </tr>
+
+
+            <tr style="height:20px">
+                <td style="width:20px"></td>
+                <td>@Html.Label("Additive Used") <span style="color: red;"> *</span></td>
+                <td style="text-align:left">
+                    @ViewBag.Additive_List
+
+                </td>
+                <td></td>
+                <td></td>
+                <td>@Html.Label("JMF Prepared By") <span style="color: red;"> *</span> </td>
+                <td style="text-align:left">
+                    @ViewBag.JMF_List
+                </td>
+                <td></td>
+            </tr>
+
+            <tr style="height:20px">
+                <td style="width:20px"></td>
+                <td>@Html.Label("Cement Content") <span style="color: red;"> *</span> </td>
+                <td style="text-align:left">
+                    @Model.PERC_CEMENT_CONT
+                </td>
+                <td></td>
+                <td></td>
+                <td>  </td>
+                <td style="text-align:left">
+                </td>
+                <td></td>
+            </tr>
+
+            <tr style="height:20px">
+                <td style="width:20px"></td>
+                <td>@Html.Label("Additive Content Unit") <span style="color: red;"> *</span> </td>
+                <td style="text-align:left">
+                    @Model.IS_ADDITIVE_CONT_PERC_ML
+                </td>
+                <td></td>
+                <td></td>
+                @if (Model.IS_ADDITIVE_CONT_PERC_ML.Equals("%"))
+                {
+                    <td>@Html.Label("Additive in Percent") <span style="color: red;"> *</span> </td>
+                    <td style="text-align:left">
+                        @Model.PERC_ADDITIVE_CONT
+                    </td>
+                }
+                else
+                {
+                    <td>@Html.Label("Additive in ml/cum") <span style="color: red;"> *</span> </td>
+                    <td style="text-align:left">
+                        @Model.ADDITIVE_CONT_ML_CUM
+                    </td>
+                }
+                <td></td>
+            </tr>
+
+            <tr style="height:20px">
+                <td style="width:20px"></td>
+                <td>
+                    @Html.Label("Cement Type ") <span style="color: red;"> *</span>
+                </td>
+                <td style="text-align:left">
+                    @Model.CEMENT_TYPE
+                </td>
+                <td></td>
+                <td></td>
+                <td>
+                    @Html.Label("Cement Grade ") <span style="color: red;"> *</span>
+                </td>
+                <td style="text-align:left">
+                    @Model.CEMENT_GRADE
+                </td>
+                <td></td>
+            </tr>
+
+            <tr style="height:20px">
+                <td style="width:20px"></td>
+                <td>@Html.Label("Average Thickness of Existing Crust (Excluding subgrade) ") <span style="color: red;"> *</span> </td>
+                <td style="text-align:left">
+                    @Model.AVG_THICK_CRUST
+                </td>
+                <td></td>
+                <td></td>
+                <td>@Html.Label("Whether Combined gradation of material confirm with Specification Limit") <span style="color: red;"> *</span> </td>
+                <td style="text-align:left">
+                    @Html.RadioButtonFor(m => m.IS_GRAD_MATERIAL_SPEC_LIMIT, "Y", new { @id = "isGradMaterialSpecYes", @tital = "Yes", @disabled = "disabled" }) @Html.Label("Yes")
+                    @Html.RadioButtonFor(m => m.IS_GRAD_MATERIAL_SPEC_LIMIT, "N", new { @id = "isGradMaterialSpecNo", @tital = "No", @disabled = "disabled" }) @Html.Label("No")
+                </td>
+                <td></td>
+            </tr>
+
+            <tr style="height:20px">
+                <td style="width:20px"></td>
+                <td>@Html.Label("Plasticity Index Of Subgrade Soil ") <span style="color: red;"> *</span> </td>
+                <td style="text-align:left">
+                    @Model.PERC_INDEX_SUBGRADE_SOIL
+                </td>
+                <td></td>
+                <td></td>
+                <td>@Html.Label("Plasticity Index Of Reclaimed Material ") <span style="color: red;"> *</span> </td>
+                <td style="text-align:left">
+                    @Model.PERC_PLASTICITY_RECLAM_SOIL
+                </td>
+                <td></td>
+            </tr>
+
+            <tr style="height:20px">
+                <td style="width:20px"></td>
+                <td>@Html.Label("Whether Average UCS Strength (Mpa)") <span style="color: red;"> *</span> </td>
+                <td style="text-align:left">
+                    @Html.RadioButtonFor(m => m.IS_AVG_UCS_7D_28D, "7D", new { @tital = "7D", @disabled = "disabled" }) @Html.Label("7-Days")
+                    @Html.RadioButtonFor(m => m.IS_AVG_UCS_7D_28D, "28D", new { @tital = "28D", @disabled = "disabled" }) @Html.Label("28-Days")
+                </td>
+                <td></td>
+                <td></td>
+                @if (Model.IS_AVG_UCS_7D_28D.Equals("7D"))
+                {
+                    <td>@Html.Label("Average UCS Strength (Mpa) 7-Days") <span style="color: red;"> *</span> </td>
+                    <td style="text-align:left">
+                        @Model.AVG_UCS_7D
+
+                    </td>
+                }
+                else
+                {
+                    <td>@Html.Label("Average UCS Strength (Mpa) 28-Days") <span style="color: red;"> *</span> </td>
+                    <td style="text-align:left">
+                        @Model.AVG_UCS_28D
+                    </td>
+                }
+                <td></td>
+            </tr>
+
+            <tr style="height:20px">
+                <td style="width:20px"></td>
+                <td>@Html.Label("Whether UCS Test Conducted On ") <span style="color: red;"> *</span> </td>
+                <td style="text-align:left">
+                    @Html.RadioButtonFor(m => m.IS_UCS_TEST_CUBE_CYLINDER, "Cube", new { @tital = "Cube", @disabled = "disabled" }) @Html.Label("Cube")
+                    @Html.RadioButtonFor(m => m.IS_UCS_TEST_CUBE_CYLINDER, "Cylindrical", new { @tital = "Cylindrical", @disabled = "disabled" }) @Html.Label("Cylindrical")
+                </td>
+                <td></td>
+                <td></td>
+                @if (Model.IS_UCS_TEST_CUBE_CYLINDER.Equals("Cube"))
+                {
+                    <td>@Html.Label("UCS Test Conducted On Cube Sample ") <span style="color: red;"> *</span> </td>
+                    <td style="text-align:left">
+                        @Model.UCS_TEST_CUBE
+                    </td>
+                }
+                else
+                {
+                    <td>@Html.Label("UCS Test Conducted On Cylindrical Sample ") <span style="color: red;"> *</span> </td>
+                    <td style="text-align:left">
+                        @Model.UCS_TEST_CYLINDER
+                    </td>
+                }
+                <td></td>
+            </tr>
+
+            <tr style="height:20px">
+                <td style="width:20px"></td>
+                <td>@Html.Label("Maximum Dry Density(MDD) of Mix") <span style="color: red;"> *</span> </td>
+                <td style="text-align:left">
+                    @Model.MDD_MIX
+                    @*@Html.TextBoxFor(m => m.MDD_MIX, new { @placeholder = "%", @disabled = "disabled" })
+                        @Html.ValidationMessageFor(m => m.MDD_MIX)*@
+                </td>
+                <td></td>
+                <td></td>
+                <td>@Html.Label("Optimum moisture Content(OMC) of Mix") <span style="color: red;"> *</span> </td>
+                <td style="text-align:left">
+                    @Model.OMC_MIX
+                    @*@Html.TextBoxFor(m => m.OMC_MIX, new { @placeholder = "%", @disabled = "disabled" })
+                        @Html.ValidationMessageFor(m => m.OMC_MIX)*@
+                </td>
+                <td></td>
+            </tr>
+
+            <tr style="height:20px">
+                <td style="width:20px"></td>
+                <td>
+                    @Html.Label("Test result report of UCS Pdf")
+                </td>
+                <td style="text-align:left">
+                    @if (Model.TEST_RESULT_FILE_PATH != "")
+                    {
+                        @Html.TextBoxFor(m => m.TEST_RESULT_FILE_PATH, new { @hidden = true, @id = "TEST_RESULT_FILE_PATH" })
+                        <input type="button" value="View File" class="jqueryButton" id="btnView3" />
+                    }
+                </td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td style="text-align: left">
+                </td>
+                <td></td>
+            </tr>
+            <tr style="text-align:center;height:15px;">
+                <td colspan="8" style="padding-bottom: 5px; background-color: #fccc6b; text-align: center">
+                    <span style="text-align: center; height: 1px; font-weight:bold">Details of Trial Stretch </span>
+                </td>
+            </tr>
+
+            <tr style="height:20px">
+                <td style="width:20px"></td>
+                <td>@Html.Label("Length of Trial Stretch in Km")</td>
+                <td style="text-align:left">
+                    @Model.STRETCH_LENGTH
+
+
+                </td>
+                <td></td>
+                <td></td>
+                <td>@Html.Label("Date of Construction of Trial Stretch")</td>
+                <td style="text-align: left">
+                    @Model.STRETCH_CONSTR_DATE
+
+                </td>
+                <td></td>
+            </tr>
+
+
+            <tr style="height:20px">
+                <td style="width:20px"></td>
+                <td>@Html.Label("Whether UCS Test Conducted On") <span style="color: red;"> *</span> </td>
+                <td style="text-align:left">
+                    @Html.RadioButtonFor(m => m.IS_TS_UCS_STRENGTH_CUBE_CYLINDER, "Cube", new { @tital = "Cube", @disabled = "disabled" }) @Html.Label("Cube")
+                    @Html.RadioButtonFor(m => m.IS_TS_UCS_STRENGTH_CUBE_CYLINDER, "Cylindrical", new { @tital = "Cylindrical", @disabled = "disabled" }) @Html.Label("Cylindrical")
+                </td>
+                <td></td>
+                <td></td>
+                @if (Model.IS_TS_UCS_STRENGTH_CUBE_CYLINDER.Equals("Cube"))
+                {
+                    <td>@Html.Label("UCS Test Conducted On Cube") <span style="color: red;"> *</span> </td>
+                    <td style="text-align:left">
+                        @Model.UCS_STRENGTH_CUBE
+                    </td>
+                }
+                else
+                {
+                    <td>@Html.Label("UCS Test Conducted On Cylindrical") <span style="color: red;"> *</span> </td>
+                    <td style="text-align:left">
+                        @Model.UCS_STRENGTH_CYLINDER
+                    </td>
+                }
+                <td></td>
+            </tr>
+
+            <tr style="height:20px">
+                <td style="width:20px"></td>
+                <td>@Html.Label("Whether UCS Value of ") <span style="color: red;"> *</span> </td>
+                <td style="text-align:left">
+                    @Html.RadioButtonFor(m => m.IS_TS_UCS_7D_28D, "7D", new { @tital = "7-Days", @disabled = "disabled" }) @Html.Label("7-Days")
+                    @Html.RadioButtonFor(m => m.IS_TS_UCS_7D_28D, "28D", new { @tital = "28-Days", @disabled = "disabled" }) @Html.Label("28-Days")
+                </td>
+                <td></td>
+                <td></td>
+                @if (Model.IS_TS_UCS_7D_28D.Equals("7D"))
+                {
+                    <td>@Html.Label("UCS Value of 7-Days") <span style="color: red;"> *</span> </td>
+                    <td style="text-align:left">
+                        @Model.TS_UCS_7D
+                    </td>
+                }
+                else
+                {
+                    <td>@Html.Label("UCS Value of 28-Days") <span style="color: red;"> *</span> </td>
+                    <td style="text-align:left">
+                        @Model.TS_UCS_28D
+                    </td>
+                }
+                <td></td>
+            </tr>
+
+            <tr style="height:20px">
+                <td style="width:20px"></td>
+                <td>
+                    @Html.Label("Test result of core taken from trail section")
+                </td>
+                <td style="text-align:left">
+                    @if (Model.TS_CORE_TRIAL_STRETCH_FILE_PATH != "")
+                    {
+                        @Html.TextBoxFor(m => m.TS_CORE_TRIAL_STRETCH_FILE_PATH, new { @hidden = true, @id = "TEST_RESULT_FILE_PATH" })
+                        <input type="button" value="View File" class="jqueryButton" id="btnView1" />
+                    }
+                </td>
+                <td></td>
+                <td></td>
+                <td>@Html.Label("Residual Strength after 12 cycle Wetting drying(MPa)")</td>
+                <td style="text-align: left">
+                    @Model.TS_RESD_STRENGTH_WETT
+                </td>
+                <td></td>
+            </tr>
+
+            <tr style="height:20px">
+                <td style="width:20px"></td>
+                <td>
+                    @Html.Label("Residual Strength after 12 cycle wetting and drying ( MPa) PDF report")
+                </td>
+                <td style="text-align:left">
+                    @if (Model.TS_RESD_STRENGTH_WETT_FILE_PATH != "")
+                    {
+                        @Html.TextBoxFor(m => m.TS_RESD_STRENGTH_WETT_FILE_PATH, new { @hidden = true, @id = "JMF_FILE_PATH" })
+                        <input type="button" value="View File" class="jqueryButton" id="btnView2" />
+                    }
+                </td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td style="text-align: left">
+                </td>
+                <td></td>
+            </tr>
+
+            <tr style="height:20px">
+                <td style="width:20px"></td>
+                <td>@Html.Label("Crack Relief Layer") <span style="color: red;"> *</span> </td>
+                <td style="text-align:left">
+                    @Html.RadioButtonFor(m => m.CRACK_RELIEF_LAYER, "Aggregate", new { @tital = "Aggregate", @disabled = "disabled" }) @Html.Label("Aggregate")
+                    @Html.RadioButtonFor(m => m.CRACK_RELIEF_LAYER, "Aggregate+Bitumen", new { @tital = "Aggregate Bitumen", @disabled = "disabled" }) @Html.Label("Aggregate+Bitumen")
+                    @Html.RadioButtonFor(m => m.CRACK_RELIEF_LAYER, "Geosynthetic+Tack Coat", new { @tital = "Geosynthetic+Tack Coat", @disabled = "disabled" }) @Html.Label("Geosynthetic+Tack Coat")
+                    @Html.RadioButtonFor(m => m.CRACK_RELIEF_LAYER, "Other", new { @tital = "Other", @disabled = "disabled" }) @Html.Label("Other")
+
+                </td>
+                <td></td>
+                <td></td>
+                <td>
+                    @Html.Label("Other Crack Relief Layer:")
+                </td>
+                <td style="text-align:left">
+                    @Model.OTHER_CRACK_LAYER
+                </td>
+                <td></td>
+            </tr>
+
+        </table>
+
+    }
+    @*---------------Update Data---------------*@
+    else
+    {
+
+        <table class="rowstyle ui-corner-all" id="tblAddTrailStrechForFDRId1" style="width:100%; margin-top:15px">
+
+
+            <tr style="text-align:center;height:15px;">
+                <td colspan="8" style="padding-bottom: 5px; background-color: #fccc6b; text-align: center">
+                    <span style="text-align: center; color:black; height: 1px; font-weight:bold">Information from Mix Design Report </span>
+                </td>
+            </tr>
+
+
+            <tr style="height:20px">
+                <td style="width:20px"></td>
+                <td>@Html.Label("Additive Used") <span style="color: red;"> *</span></td>
+                <td style="text-align:left">
+                    @Html.DropDownListFor(m => m.ADDITIVE_ID, Model.ADDITIVE_ID_LIST, new { @id = "additiveId", @title = "Additivetitle" })
+                    @Html.ValidationMessageFor(m => m.ADDITIVE_ID)
+
+                </td>
+                <td></td>
+                <td></td>
+                <td>@Html.Label("JMF Prepared By") <span style="color: red;"> *</span> </td>
+                <td style="text-align:left">
+                    @*@Html.DropDownListFor(m => m.JMF_ID, Model.JMF_ID_LIST, new { @id = "jmfId", @titel = "jmftitle" })*@
+                    @*@Html.DropDownListFor(m => m.JMF_ID, new SelectList(Model.JMF_ID_LIST, "Value", "Text",Model.JMF_ID), new { @id = "jmfId", @titel = "jmftitle" })*@
+                    @Html.DropDownListFor(m => m.JMF_ID, new SelectList(Model.JMF_ID_LIST, "Value", "Text", Model.JMF_ID), new { @id = "jmfId", @title = "jmftitle" })
+                    @Html.ValidationMessageFor(m => m.JMF_ID)
+                </td>
+                <td></td>
+            </tr>
+
+            <tr style="height:20px">
+                <td style="width:20px"></td>
+                <td>@Html.Label("Cement Content") <span style="color: red;"> *</span> </td>
+                <td style="text-align:left">
+                    @Html.TextBoxFor(m => m.PERC_CEMENT_CONT, new { @placeholder = "%" })
+                    @Html.ValidationMessageFor(m => m.PERC_CEMENT_CONT)
+                </td>
+                <td></td>
+                <td></td>
+                @*<td>@Html.Label("Additive Content") <span style="color: red;"> *</span> </td>
+                    <td style="text-align:left">
+                        @Html.TextBoxFor(m => m.PERC_ADDITIVE_CONT, new { @placeholder = "%" })
+                        @Html.ValidationMessageFor(m => m.PERC_ADDITIVE_CONT)
+                    </td>*@
+
+                <td></td>
+            </tr>
+
+            <tr style="height:20px">
+                <td style="width:20px"></td>
+                <td>
+                    @Html.Label("Additive Content Unit") <span style="color: red;"> *</span>
+                </td>
+                <td style="text-align:left">
+                    @Html.RadioButtonFor(m => m.IS_ADDITIVE_CONT_PERC_ML, "%", new { @id = "isAdditivePerc", @tital = "%" }) @Html.Label("%")
+                    @Html.RadioButtonFor(m => m.IS_ADDITIVE_CONT_PERC_ML, "ml/cum", new { @id = "isAdditiveMlCum", @tital = "ml/cum" }) @Html.Label("ml/cum")
+                </td>
+                <td>
+                </td>
+                <td>
+                </td>
+                <td id="LabelAdditiveConPerc">
+                    @Html.Label("Additive Content in %") <span style="color: red;"> *</span>
+                </td>
+                <td style="text-align:left" id="TextAdditiveConPerc">
+                    @Html.TextBoxFor(m => m.PERC_ADDITIVE_CONT, new { @placeholder = "%", @id = "InputAdditivePerc" })
+                    @Html.ValidationMessageFor(m => m.PERC_ADDITIVE_CONT)
+                </td>
+
+                <td id="LabelAdditiveConMlCum">
+                    @Html.Label("Additive Content in ml/cum") <span style="color: red;"> *</span>
+                </td>
+                <td style="text-align:left" id="TextAdditiveMlCum">
+                    @Html.TextBoxFor(m => m.ADDITIVE_CONT_ML_CUM, new { @placeholder = "ml/cum", @id = "InputAdditiveMlCum" })
+                    @Html.ValidationMessageFor(m => m.ADDITIVE_CONT_ML_CUM)
+                </td>
+                <td>
+                </td>
+            </tr>
+
+            <tr style="height:20px">
+                <td style="width:20px"></td>
+                <td>@Html.Label("Cement Type") <span style="color: red;"> *</span> </td>
+                <td style="text-align:left">
+                    @Html.TextBoxFor(m => m.CEMENT_TYPE)
+                    @Html.ValidationMessageFor(m => m.CEMENT_TYPE)
+                </td>
+                <td></td>
+                <td></td>
+                <td>@Html.Label("Cement Grade") <span style="color: red;"> *</span> </td>
+                <td style="text-align:left">
+                    @Html.TextBoxFor(m => m.CEMENT_GRADE)
+                    <span style="width:30px">
+                        @Html.ValidationMessageFor(m => m.CEMENT_GRADE)
+                    </span>
+                </td>
+                <td></td>
+            </tr>
+
+            <tr style="height:20px">
+                <td style="width:20px"></td>
+                <td>
+                    @Html.Label("Average Thickness of Existing Crust(Excluding subgrade)") <span style="color: red;"> *</span>
+                </td>
+                <td style="text-align:left">
+                    @Html.TextBoxFor(m => m.AVG_THICK_CRUST, new { @placeholder = "mm" })
+                    @Html.ValidationMessageFor(m => m.AVG_THICK_CRUST)
+                </td>
+                <td></td>
+                <td></td>
+                <td>@Html.Label("Whether Combined gradation of material confirm with Specification Limit") <span style="color: red;"> *</span> </td>
+                <td style="text-align:left">
+                    @Html.RadioButtonFor(m => m.IS_GRAD_MATERIAL_SPEC_LIMIT, "Y", new { @id = "isGradMaterialSpecYes", @tital = "Yes" }) @Html.Label("Yes")
+                    @Html.RadioButtonFor(m => m.IS_GRAD_MATERIAL_SPEC_LIMIT, "N", new { @id = "isGradMaterialSpecNo", @tital = "No" }) @Html.Label("No")
+                </td>
+                @*<td></td>
+                    <td style="text-align:left"></td>*@
+                <td></td>
+            </tr>
+
+            <tr style="height:20px">
+                <td style="width:20px"></td>
+                <td>@Html.Label("Plasticity Index of Subgrade Soil") <span style="color: red;"> </span> </td>
+                <td style="text-align:left">
+                    @Html.TextBoxFor(m => m.PERC_INDEX_SUBGRADE_SOIL, new { @placeholder = "%" })
+                    @Html.ValidationMessageFor(m => m.PERC_INDEX_SUBGRADE_SOIL)
+                </td>
+                <td></td>
+                <td></td>
+                <td>
+                    @Html.Label("Plasticity Index Reclaimed Material") <span style="color: red;"> </span>
+                </td>
+                <td style="text-align:left">
+                    @Html.TextBoxFor(m => m.PERC_PLASTICITY_RECLAM_SOIL, new { @placeholder = "%" })
+                    @Html.ValidationMessageFor(m => m.PERC_PLASTICITY_RECLAM_SOIL)
+                </td>
+                <td></td>
+            </tr>
+
+            <tr style="height:20px">
+                <td style="width:20px"></td>
+                <td>@Html.Label("Whether Average UCS Strength(MPa) ") <span style="color: red;"> *</span> </td>
+                <td style="text-align:left">
+                    @Html.RadioButtonFor(m => m.IS_AVG_UCS_7D_28D, "7D", new { @id = "isUCSStrength7Days", @tital = "7-Days" }) @Html.Label("7-Days")
+                    @Html.RadioButtonFor(m => m.IS_AVG_UCS_7D_28D, "28D", new { @id = "isUCSStrength28Days", @tital = "28-Days" }) @Html.Label("28-Days")
+                </td>
+                <td></td>
+                <td></td>
+                @if (Model.IS_AVG_UCS_7D_28D.Equals("7D"))
+                {
+                    <td id="isMpa7days">
+                        @Html.Label("Average UCS Strength(MPa) 7-Days") <span style="color: red;"> *</span>
+                    </td>
+                    <td style="text-align:left" id="isUcs7days">
+                        @Html.TextBoxFor(m => m.AVG_UCS_7D, new { @placeholder = "", @id = "isUCSPI7Days" })
+                        @Html.ValidationMessageFor(m => m.AVG_UCS_7D)
+                    </td>
+                }
+                else
+                {
+                    <td id="isMpa28days">
+                        @Html.Label("Average UCS Strength(MPa) 28-Days") <span style="color: red;"> *</span>
+                    </td>
+                    <td style="text-align:left" id="isUcs28days">
+                        @Html.TextBoxFor(m => m.AVG_UCS_28D, new { @placeholder = "", @id = "isUCSPI28Days" })
+                        @Html.ValidationMessageFor(m => m.AVG_UCS_28D)
+                    </td>
+                }
+
+            </tr>
+
+            <tr style="height:20px">
+                <td style="width:20px"></td>
+                <td>@Html.Label("Whether UCS Test was Conducted on ") <span style="color: red;"> *</span> </td>
+                <td style="text-align:left">
+                    @Html.RadioButtonFor(m => m.IS_UCS_TEST_CUBE_CYLINDER, "Cube", new { @id = "isUCSTestCube", @tital = "Cube" }) @Html.Label("Cube")
+                    @Html.RadioButtonFor(m => m.IS_UCS_TEST_CUBE_CYLINDER, "Cylindrical", new { @id = "isUCSTestCylindrical", @tital = "Cylindrical" }) @Html.Label("Cylindrical")
+                </td>
+                <td></td>
+                <td></td>
+
+                @if (Model.IS_UCS_TEST_CUBE_CYLINDER.Equals("Cube"))
+                {
+                    <td id="isUcsCube">
+                        @Html.Label("UCS Test Conducted on Cube Sample") <span style="color: red;"> *</span>
+                    </td>
+                    <td style="text-align:left" id="isUcsCubeSample">
+                        @Html.TextBoxFor(m => m.UCS_TEST_CUBE, new { @placeholder = "", @id = "isUCSCube" })
+                        @Html.ValidationMessageFor(m => m.UCS_TEST_CUBE)
+                    </td>
+                }
+                else
+                {
+                    <td id="isUcsCylinder">
+                        @Html.Label("UCS Test Conducted on Cylindrical Sample") <span style="color: red;"> *</span>
+                    </td>
+                    <td style="text-align:left" id="isUcsCylinSample">
+                        @Html.TextBoxFor(m => m.UCS_TEST_CYLINDER, new { @placeholder = "", @id = "isUCSCylindrical" })
+                        @Html.ValidationMessageFor(m => m.UCS_TEST_CYLINDER)
+                    </td>
+                }
+
+            </tr>
+
+            <tr style="height:20px">
+                <td style="width:20px"></td>
+                <td>@Html.Label("Maximum Dry Density(MDD) of Mix") <span style="color: red;"> *</span></td>
+                <td style="text-align:left">
+                    @Html.TextBoxFor(m => m.MDD_MIX)
+                    @Html.ValidationMessageFor(m => m.MDD_MIX)
+                </td>
+                <td></td>
+                <td></td>
+                <td>@Html.Label("Optimum Moisture Content(OMC) of Mix") <span style="color: red;"> *</span></td>
+                <td style="text-align:left">
+                    @Html.TextBoxFor(m => m.OMC_MIX)
+                    @Html.ValidationMessageFor(m => m.OMC_MIX)
+                </td>
+                <td></td>
+            </tr>
+
+            <tr style="height:20px">
+                <td style="width:20px"></td>
+                <td>
+                    @Html.Label("Test Result Report of UCS pdf") <span style="color: red;"> *</span>
+                </td>
+                <td style="text-align:left">
+                    @if (Model.TEST_RESULT_FILE_PATH != "")
+                    {
+                        <input type="button" value="View File" class="jqueryButton" id="btnView3" />
+
+                    }
+                </td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td>
+                </td>
+
+                <td></td>
+            </tr>
+
+            <tr style="height:20px">
+                <td style="width:20px"></td>
+                <td style="text-align:right">
+                    @Html.Label("Update File")
+                </td>
+                <td style="text-align:left">
+                    @if (Model.TEST_RESULT_FILE_PATH != "")
+                    {
+                        @Html.TextBoxFor(m => m.TEST_RESULT_FILE_PATH, new { @id = "BGFile1", @type = "file", @tabindex = 1 })
+                        <span style="color:green">Upload pdf file (upto 4 MB)</span>
+                    }
+                </td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td style="text-align: left">
+                </td>
+                <td></td>
+            </tr>
+
+            <tr style="text-align:center;height:15px;">
+                <td colspan="8" style="padding-bottom: 5px; background-color: #fccc6b; text-align: center">
+                    <span style="text-align: center; height: 1px; font-weight:bold">Details of Trial Stretch </span>
+                </td>
+            </tr>
+
+            <tr style="height:20px">
+                <td style="width:20px"></td>
+                <td>@Html.Label("Length of Trial Stretch in km") <span style="color: red;"> *</span> </td>
+                <td style="text-align:left">
+                    @Html.TextBoxFor(m => m.STRETCH_LENGTH)
+                    @Html.ValidationMessageFor(m => m.STRETCH_LENGTH)
+                </td>
+                <td></td>
+                <td></td>
+                <td>@Html.Label("Date of Construction of Trial Stretch") <span style="color: red;"> *</span> </td>
+                <td style="text-align:left">
+                    @Html.TextBoxFor(m => m.STRETCH_CONSTR_DATE, "{0:d}", new { @id = "date", @readonly = "readonly", @title = "Date of construction of Trial Stretch", @align = "center" })
+                    @Html.ValidationMessageFor(m => m.STRETCH_CONSTR_DATE)
+                </td>
+                <td></td>
+            </tr>
+
+
+
+            <tr style="height:20px">
+                <td style="width:20px"></td>
+                <td>@Html.Label("Whether UCS Test Conducted On ") <span style="color: red;"> *</span> </td>
+                <td style="text-align:left">
+                    @Html.RadioButtonFor(m => m.IS_TS_UCS_STRENGTH_CUBE_CYLINDER, "Cube", new { @id = "isTSUCSCube", @tital = "Cube" }) @Html.Label("Cube")
+                    @Html.RadioButtonFor(m => m.IS_TS_UCS_STRENGTH_CUBE_CYLINDER, "Cylindrical", new { @id = "isTSUCSCylindrical", @tital = "Cylindrical" }) @Html.Label("Cylindrical")
+                </td>
+                <td></td>
+                <td></td>
+
+                @if (Model.IS_TS_UCS_STRENGTH_CUBE_CYLINDER.Equals("Cube"))
+                {
+                    <td id="LabelUcsCube">
+                        @Html.Label("UCS Test Conducted on Cube") <span style="color: red;"> *</span>
+                    </td>
+                    <td style="text-align:left" id="TextUcsCube">
+                        @Html.TextBoxFor(m => m.UCS_STRENGTH_CUBE, new { @placeholder = "", @id = "InputUcsCube" })
+                        @Html.ValidationMessageFor(m => m.PERC_PLASTICITY_RECLAM_SOIL)
+                    </td>
+                }
+                else
+                {
+                    <td id="LabelUcsCylindrical">
+                        @Html.Label("UCS Test Conducted on Cylinder") <span style="color: red;"> *</span>
+                    </td>
+                    <td style="text-align:left" id="TextUcsCylinder">
+                        @Html.TextBoxFor(m => m.UCS_STRENGTH_CYLINDER, new { @placeholder = "", @id = "InputUcsCylinder" })
+                        @Html.ValidationMessageFor(m => m.PERC_INDEX_SUBGRADE_SOIL)
+                    </td>
+                }
+            </tr>
+
+
+            <tr style="height:20px">
+                <td style="width:20px"></td>
+                <td>@Html.Label("Whether UCS Value of ") <span style="color: red;"> *</span> </td>
+                <td style="text-align:left">
+                    @Html.RadioButtonFor(m => m.IS_TS_UCS_7D_28D, "7D", new { @id = "isTSUCSValu7D", @tital = "7-Days" }) @Html.Label("7-Days")
+                    @Html.RadioButtonFor(m => m.IS_TS_UCS_7D_28D, "28D", new { @id = "isTSUCSValu28D", @tital = "28-Days" }) @Html.Label("28-Days")
+
+                </td>
+                <td></td>
+                <td></td>
+
+                @if (Model.IS_TS_UCS_7D_28D.Equals("7D"))
+                {
+                    <td id="LabelUcs7D">
+                        @Html.Label("UCS Value of 7-Days") <span style="color: red;"> *</span>
+                    </td>
+                    <td style="text-align:left" id="TextUcs7D">
+                        @Html.TextBoxFor(m => m.TS_UCS_7D, new { @placeholder = "", @id = "InputUcs7D" })
+                        @Html.ValidationMessageFor(m => m.TS_UCS_7D)
+                    </td>
+                }
+                else
+                {
+                    <td id="LabelUcs28D">
+                        @Html.Label("UCS Value of 28-Days") <span style="color: red;"> *</span>
+                    </td>
+                    <td style="text-align:left" id="TextUcs28D">
+                        @Html.TextBoxFor(m => m.TS_UCS_28D, new { @placeholder = "", @id = "InputUcs28D" })
+                        @Html.ValidationMessageFor(m => m.TS_UCS_28D)
+                    </td>
+                }
+
+            </tr>
+
+
+            <tr style="height:20px">
+                <td style="width:20px"></td>
+                <td>
+                    @Html.Label("Test result of core taken from trail section") <span style="color: red;"> *</span>
+                </td>
+                <td style="text-align:left">
+                    @if (Model.TS_CORE_TRIAL_STRETCH_FILE_PATH != "")
+                    {
+                        <input type="button" value="View File" class="jqueryButton" id="btnView1" />
+
+                    }
+                    @*@Html.Label("Update File")
+                        @Html.TextBoxFor(m => m.TS_CORE_TRIAL_STRETCH_FILE_PATH, new { @id = "BGFile1", type = "file", @tabindex = 1 })
+                        <span style="color:green">Upload pdf file (upto 4 MB)</span>*@
+                </td>
+                <td></td>
+                <td></td>
+                <td>@Html.Label("Residual Strength after 12 cycle Wetting drying(MPa) ") <span style="color: red;"> *</span></td>
+                <td style="text-align:left">
+                    @Html.TextBoxFor(m => m.TS_RESD_STRENGTH_WETT)
+                    @Html.ValidationMessageFor(m => m.TS_RESD_STRENGTH_WETT)
+
+                </td>
+                <td></td>
+            </tr>
+
+            <tr style="height:20px">
+                <td style="width:20px"></td>
+                <td style="text-align:right">
+                    @Html.Label("Update File")
+                </td>
+                <td style="text-align:left">
+                    @if (Model.TS_CORE_TRIAL_STRETCH_FILE_PATH != "")
+                    {
+                        @Html.TextBoxFor(m => m.TS_CORE_TRIAL_STRETCH_FILE_PATH, new { @id = "BGFile1", @type = "file", @tabindex = 1 })
+                        <span style="color:green">Upload pdf file (upto 4 MB)</span>
+                    }
+                </td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td style="text-align: left">
+                </td>
+                <td></td>
+            </tr>
+
+            <tr style="height:20px">
+                <td style="width:20px"></td>
+                <td>@Html.Label("Residual Strength after 12 cycle wetting and drying ( MPa) PDF report") <span style="color: red;"> *</span></td>
+                <td style="text-align: left">
+                    @if (Model.TS_RESD_STRENGTH_WETT_FILE_PATH != "")
+                    {
+                        <input type="button" value="View File" class="jqueryButton" id="btnView2" />
+
+                    }
+                    @*@Html.Label("Update File")*@
+                    @*@Html.TextBoxFor(m => m.TS_RESD_STRENGTH_WETT_FILE_PATH, new { @id = "BGFile2", type = "file", @tabindex = 2 })
+                        <span style="color:green">Upload pdf file (upto 4 MB)</span>*@
+                </td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td>
+                </td>
+
+                <td></td>
+            </tr>
+
+
+            <tr style="height:20px">
+                <td style="width:20px"></td>
+                <td style="text-align:right">
+                    @Html.Label("Update File")
+                </td>
+                <td style="text-align:left">
+                    @if (Model.TS_RESD_STRENGTH_WETT_FILE_PATH != "")
+                    {
+                        @Html.TextBoxFor(m => m.TS_RESD_STRENGTH_WETT_FILE_PATH, new { @id = "BGFile1", @type = "file", @tabindex = 1 })
+                        <span style="color:green">Upload pdf file (upto 4 MB)</span>
+                    }
+                </td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td style="text-align: left">
+                </td>
+                <td></td>
+            </tr>
+
+
+            <tr style="height:20px">
+                <td style="width:20px"></td>
+                <td>@Html.Label("Crack Relief Layer") <span style="color: red;"> *</span> </td>
+                <td style="text-align:left">
+                    @Html.RadioButtonFor(m => m.CRACK_RELIEF_LAYER, "Aggregate", new { @id = "crackRelifAggregate", @tital = "Aggregate" }) @Html.Label("Aggregate")
+                    @Html.RadioButtonFor(m => m.CRACK_RELIEF_LAYER, "Aggregate+Bitumen", new { @id = "crackRelifAggBitumen", @tital = "Aggregate Bitumen" }) @Html.Label("Aggregate+Bitumen")
+                    @Html.RadioButtonFor(m => m.CRACK_RELIEF_LAYER, "Geosynthetic+Tack Coat", new { @id = "crackRelifGeoCoat", @tital = "Geosynthetic+Tack Coat" }) @Html.Label("Geosynthetic+Tack Coat")
+                    @Html.RadioButtonFor(m => m.CRACK_RELIEF_LAYER, "Other", new { @id = "IsCrackRelifOtherLayer", @tital = "Other" }) @Html.Label("Other")
+
+                </td>
+                <td></td>
+                <td></td>
+                @if (Model.CRACK_RELIEF_LAYER.Equals("Other"))
+                {
+                    <td id="LabelOtherCrackRelief">
+                        @Html.Label("Other Crack Relief Layer:") <span style="color: red;"> *</span>
+                    </td>
+                    <td style="text-align:left" id="TextOtherCrackRelief">
+                        @Html.TextBoxFor(m => m.OTHER_CRACK_LAYER, new { @id = "InputOtherLayer" })
+                    </td>
+                }
+                <td></td>
+            </tr>
+
+            <tr>
+                @if (Model.IS_Finalized == "N")
+                {
+                    <td colspan="8" style="text-align:center">
+                        <input type="button" value="Delete" class="jqueryButton" id="btnDelete" />
+
+                        <input type="button" value="Update" class="jqueryButton" id="btnUpdate" />
+
+                        <input type="button" class="jqueryButton" value="Finalize" id="btnFinalize" name="btnFinalize" />
+
+                    </td>
+                }
+                @*else
+                    {
+                        <td colspan="8" style="text-align:center">
+                            <input type="button" value="Delete" class="jqueryButton" id="btnDelete" />
+                        </td>
+                    }*@
+
+            </tr>
+
+        </table>
+
+    }
+
+
+
+</form>

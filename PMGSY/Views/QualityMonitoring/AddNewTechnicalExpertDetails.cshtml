@@ -1,0 +1,206 @@
+﻿@model PMGSY.Models.QualityMonitoring.AddTechnicalExpert
+@{
+    ViewBag.Title = "Add New Technical Expert";
+}
+
+
+<style>
+    .ui-datepicker td {
+        border: 1px solid #CCC;
+        padding: 0;
+    }
+
+    .fileremove {
+        float: left;
+    }
+</style>
+
+
+
+<script src="~/Scripts/custom/Generic.js"></script>
+<script src="~/Scripts/jquery-ui.js"></script>
+<script src="~/Scripts/jquery.validate.min.js"></script>
+<script src="~/Scripts/jquery.validate.unobtrusive.min.js"></script>
+<script src="~/Scripts/QualityMonitoring/AddTechnicalExpert.js"></script>
+
+<center>
+    <div id="dvAddNewTechnicalExpert" class="ui-corner-top ui-widget-header panelheader" style="text-align: center; height: 20px; width: 76%">
+        <span class="ui-jqgrid-title" id="qcrOperation" style="float: left">&nbsp;&nbsp;Add Technical Expert Details</span>
+    </div>
+
+
+    <div id="divAddNewTechnicalExpert" class="ui-corner-bottom" style="display: block; border: 1px solid #B5B8C8; width: 76%">
+        <form id="formAddNewTechnicalExpert" enctype="multipart/form-data">
+            @Html.AntiForgeryToken()
+
+            @if (Model.ADD_EDIT_FLAG == "A")
+            {
+                <div style="width: 98%; border:none; margin-top:0px; margin-bottom:10px;" class="ui-state-default">
+                    <table style="margin-top:10px; margin-bottom:5px;">
+                        <tr>
+                            <td style="text-align:right">
+                                @Html.LabelFor(model => model.TECHNICAL_EXPERT_FNAME)<b style="color: red">*</b>
+                            </td>
+                            <td>
+                                @Html.TextBoxFor(model => model.TECHNICAL_EXPERT_FNAME, new { @id = "fName" })
+                                @Html.ValidationMessageFor(model => model.TECHNICAL_EXPERT_FNAME)
+                            </td>
+
+                            <td style="width:9%;"></td>
+
+                            <td>
+                                @Html.LabelFor(model => model.TECHNICAL_EXPERT_MNAME)
+                            </td>
+                            <td>
+                                @Html.TextBoxFor(model => model.TECHNICAL_EXPERT_MNAME, new { @id = "mName" })
+                                @Html.ValidationMessageFor(model => model.TECHNICAL_EXPERT_MNAME)
+                            </td>
+
+                            <td style="width:9%;"></td>
+
+                            <td>
+                                @Html.LabelFor(model => model.TECHNICAL_EXPERT_LNAME)<b style="color: red">*</b>
+                            </td>
+                            <td>
+                                @Html.TextBoxFor(model => model.TECHNICAL_EXPERT_LNAME, new { @id = "lName" })
+                                @Html.ValidationMessageFor(model => model.TECHNICAL_EXPERT_LNAME)
+                            </td>
+                        </tr>
+
+                        <tr>
+                            <td>
+                                @Html.LabelFor(model => model.PAN_NUMBER)<b style="color: red">*</b>
+                            </td>
+                            <td>
+                                @Html.TextBoxFor(model => model.PAN_NUMBER, new { @id = "pan" })
+                                @Html.ValidationMessageFor(model => model.PAN_NUMBER)
+                            </td>
+
+                            <td style="width:9%;"></td>
+
+                            <td>
+                                @Html.LabelFor(model => model.TECHNICAL_EXPERT_MOBILE)<b style="color: red">*</b>
+                            </td>
+                            <td>
+                                @Html.TextBoxFor(model => model.TECHNICAL_EXPERT_MOBILE, new { @id = "mobile" })
+                                @Html.ValidationMessageFor(model => model.TECHNICAL_EXPERT_MOBILE)
+                            </td>
+
+                            <td style="width:9%;"></td>
+
+                            <td>
+                                @Html.LabelFor(model => model.TECHNICAL_EXPERT_EMAIL)<b style="color: red">*</b>
+                            </td>
+                            <td>
+                                @Html.TextBoxFor(model => model.TECHNICAL_EXPERT_EMAIL, new { @id = "email" })
+                                @Html.ValidationMessageFor(model => model.TECHNICAL_EXPERT_EMAIL)
+                            </td>
+                        </tr>
+
+                        <tr>
+                            <td></td>
+                            <td></td>
+                            <td style="width:9%"></td>
+
+                            <td>
+                                <input type="button" class="jqueryButton" value="Save" id="btnSave" name="btnSave" title="Click here to Save Details" />
+                                <input type="reset" class="jqueryButton" value="Reset" id="btnReset" name="btnReset" title="Click here to Reset Details" />
+                                <input type="button" class="jqueryButton" value="Back" id="btnBack" name="btnBack" title="Click here to go Back" />
+                            </td>
+                        </tr>
+
+                    </table>
+
+                </div>
+            }
+            else
+            {
+                <div style="width: 98%; border:none; margin-top:0px; margin-bottom:10px;" class="ui-state-default">
+                    <table style="margin-top:10px; margin-bottom:5px;">
+                        <tr>
+                            <td>
+                                @Html.HiddenFor(model => model.ID)
+                            </td>
+                        </tr>
+                        <tr>
+                            <td style="text-align:right">
+                                @Html.LabelFor(model => model.TECHNICAL_EXPERT_FNAME)
+                            </td>
+                            <td>
+                                @Html.TextBoxFor(model => model.TECHNICAL_EXPERT_FNAME, new { @id = "fName", @readonly = "readonly", @disabled = "disabled" })
+                            </td>
+
+                            <td style="width:9%;"></td>
+
+                            <td>
+                                @Html.LabelFor(model => model.TECHNICAL_EXPERT_MNAME)
+                            </td>
+                            <td>
+                                @Html.TextBoxFor(model => model.TECHNICAL_EXPERT_MNAME, new { @id = "mName", @readonly = "readonly", @disabled = "disabled" })
+                            </td>
+
+                            <td style="width:9%;"></td>
+
+                            <td>
+                                @Html.LabelFor(model => model.TECHNICAL_EXPERT_LNAME)
+                            </td>
+                            <td>
+                                @Html.TextBoxFor(model => model.TECHNICAL_EXPERT_LNAME, new { @id = "lName", @readonly = "readonly", @disabled = "disabled" })
+                            </td>
+                        </tr>
+
+                        <tr>
+                            <td>
+                                @Html.LabelFor(model => model.PAN_NUMBER)<b style="color: red">*</b>
+                            </td>
+                            <td>
+                                @Html.TextBoxFor(model => model.PAN_NUMBER, new { @id = "pan" })
+                                @Html.ValidationMessageFor(model => model.PAN_NUMBER)
+                            </td>
+
+                            <td style="width:9%;"></td>
+
+                            <td>
+                                @Html.LabelFor(model => model.TECHNICAL_EXPERT_MOBILE)<b style="color: red">*</b>
+                            </td>
+                            <td>
+                                @Html.TextBoxFor(model => model.TECHNICAL_EXPERT_MOBILE, new { @id = "mobile" })
+                                @Html.ValidationMessageFor(model => model.TECHNICAL_EXPERT_MOBILE)
+                            </td>
+
+                            <td style="width:9%;"></td>
+
+                            <td>
+                                @Html.LabelFor(model => model.TECHNICAL_EXPERT_EMAIL)<b style="color: red">*</b>
+                            </td>
+                            <td>
+                                @Html.TextBoxFor(model => model.TECHNICAL_EXPERT_EMAIL, new { @id = "email" })
+                                @Html.ValidationMessageFor(model => model.TECHNICAL_EXPERT_EMAIL)
+                            </td>
+                        </tr>
+
+                        <tr>
+                            <td></td>
+                            <td></td>
+                            <td style="width:9%"></td>
+
+                            <td>
+                                <input type="button" class="jqueryButton" value="Update" id="btnUpdate" name="btnUpdate" title="Click here to Update Details" />
+                                <input type="reset" class="jqueryButton" value="Reset" id="btnReset" name="btnReset" title="Click here to Reset Details" />
+                                <input type="button" class="jqueryButton" value="Back" id="btnBack" name="btnBack" title="Click here to go Back" />
+                            </td>
+                        </tr>
+
+                    </table>
+
+                </div>
+            }
+
+
+        </form>
+
+    </div>
+
+</center>
+
+

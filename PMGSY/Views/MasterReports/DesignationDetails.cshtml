@@ -1,0 +1,30 @@
+﻿@{
+    ViewBag.Title = "DesignationDetails";
+}
+<div style="width: 100%">
+    <table class="ui-state-default ui-corner-all" style="width: 100%;">
+        <tr>
+            <td style="width: 6%;"></td>
+            <td style="text-align: left; width: 8%;">
+                @Html.Label("Designation Type")
+            </td>
+             <td style="width: 15%;">
+                @Html.DropDownList("MAST_DESIG_TYPE", ViewData["MAST_DESIG_TYPE"] as IEnumerable<SelectListItem>, new { @title = "Designation Type", @tabindex = 1 })
+            </td>
+           <td style="text-align: center; width: 5%; margin-left: 5px;">
+                <input type="button" id="DesignationDetailsButton" value="View" class="jqueryButton" title="View Details" tabindex="2" />
+            </td>
+            <td style="width: 50%;"></td>
+        </tr>
+        
+    </table>
+</div>
+<br />
+
+<div id="DesignationDetails">
+    <table id="DesignationDetailsTable"></table>
+</div> 
+<div id="DesignationDetailsPager"></div>
+
+<script src="~/Scripts/MasterReports/DesignationDetails.js" type="text/javascript"></script>
+<script src="~/Scripts/custom/Generic.js"></script>

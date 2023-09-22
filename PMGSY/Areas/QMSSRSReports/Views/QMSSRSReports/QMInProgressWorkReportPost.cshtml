@@ -1,0 +1,14 @@
+﻿@using MvcReportViewer
+
+@model PMGSY.Areas.QMSSRSReports.Models.InProgressWorkViewModel
+
+    @Html.MvcReportViewer("/PMGSYCitizen/InProgressWorkOfContractorReport",
+     new
+     {
+         
+         YEAR = Model.Year,
+         PMGSY = Convert.ToInt16( Model.schemeType),
+         STATE = Model.State , 
+          
+     },
+       new { Height = 600, Width = "100%", style = "border:none;" })

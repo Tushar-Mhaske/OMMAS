@@ -1,0 +1,503 @@
+﻿
+
+@using PMGSY.Models
+@using PMGSY.Models.Report
+@model PMGSY.Models.AccountReports.AccountBillViewModel
+@using PMGSY.Extensions
+
+<style type="text/css">
+
+div.CBHeader{
+			padding:5px;
+            width:98%;
+			display:inline-block;
+			cursor:default;
+			/*font:12px/14px Arial, Helvetica, sans-serif;*/
+            font-family: Trebuchet MS,Tahoma,Verdana,Arial,sans-serif;
+			color:#000;
+			background-color:#eee;
+			-moz-border-radius:10px;
+			-webkit-border-radius:10px;
+			-moz-box-shadow:#999 2px 0px 3px;
+			-webkit-box-shadow:#999 2px 0px 3px;
+		}
+</style>
+
+
+<script type="text/javascript" src="@Url.Content("~/Scripts/jquery.ui.dialog.js")"> </script>
+<link href="~/Content/demo_page.css" rel="stylesheet" />
+<link href="~/Content/demo_table_jui.css" rel="stylesheet" />
+<link href="~/Content/TableTools.css" rel="stylesheet" />
+<link href="~/Content/TableTools_JUI.css" rel="stylesheet" />
+
+
+<script src="~/Scripts/custom/Generic.js"></script>
+<script src="~/Scripts/DataTables/jquery.dataTables.js"></script>
+<script src="~/Scripts/DataTables/ZeroClipboard.js"></script>
+<script src="~/Scripts/DataTables/TableTools.js"></script>
+<script src="~/Scripts/AccountsReports/TransactionDetails.js"></script>
+ 
+
+@if (Model.BillType == "P" && PMGSYSession.Current.FundType == "P" || PMGSYSession.Current.FundType == "M")
+{
+
+if (Model.lstTransactionDetails != null)
+{
+    <table id="tblTransactionDetails">
+        @{ 
+            <thead>
+                <tr style="width:1200px">
+                    <th >SR No.</th>
+                   @* <th rowspan="2">Account Code Number</th>*@
+                    <th >Head Code</th>  
+                     <th >Type</th>   
+                     <th>Cash-Cheque</th>   
+                     <th >Credit</th>   
+                     <th >Ammount (In Rs.)</th>   
+                     <th >Contractor Company Name</th>   
+                     <th >Aggrement Number</th>   
+                     <th >Work Name</th>   
+                     <th >Department Name</th>   
+                     <th>Narration</th>   
+                                                         
+                </tr>
+                
+                         
+            </thead>
+            
+             
+            
+        <tbody> 
+                        
+                @if (Model.lstTransactionDetails.Count > 0)
+                {
+
+                    foreach (SP_ACC_RPT_DISPALY_BILL_TRANSACTIONS_DETAILS_Result item in Model.lstTransactionDetails)
+                    {
+                        <tr>
+                            <td></td>
+                            
+                            <td>@item.Head_desc</td>
+                            <td>@item.Bill_Type</td>
+                            <td>@item.Cash_Cheque</td>
+                            <td>@item.CREDIT_DEBIT</td>
+                            <td>@item.amount</td>       
+                            <td>@item.Company_Name</td>
+                            <td>@item.Agreement_Number</td>
+                            <td>@item.Work_Name</td>
+                            <td>@item.Department_Name</td>
+                            <td>@item.NARRATION</td>
+                        
+                        </tr>
+                    
+                     
+                    }                         
+                 }                          
+                 else
+                 {
+                        <tr> 
+                            <td></td>
+                            <td></td>     
+                            <td></td>     
+                            <td></td>     
+                            <td></td>                         
+                            <td></td>
+                            <td> No Records To Display</td>
+                            <td></td>
+                            <td></td>
+                            <td></td>
+                            <td></td>                               
+                           
+                        </tr>
+                            
+                 }     
+    </tbody>
+            
+            <tfoot>
+                @if (Model.lstTransactionDetails.Count > 0)
+                {
+                    <tr>
+                        <td>TOTAL</td>
+                     @*   <td></td>*@
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td>@Model.TotalAmmount</td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                    </tr> 
+                }                                     
+        </tfoot>
+    }
+    </table>
+}
+}
+else if (Model.BillType == "P" && PMGSYSession.Current.FundType == "A" )
+{
+
+if (Model.lstTransactionDetails != null)
+{
+    <table id="tblTransactionDetails">
+        @{ 
+            <thead>
+                <tr style="width:100%">
+                    <th >SR No.</th>
+                   @* <th rowspan="2">Account Code Number</th>*@
+                    <th>Head Code</th>  
+                     <th>Type</th>   
+                     <th>Cash-Cheque</th>   
+                     <th>Credit</th>   
+                     <th>Ammount(In Rs.)</th>   
+                    
+                     <th>Department Name</th>   
+                     <th>Narration</th>   
+                                                         
+                </tr>
+                
+                         
+            </thead>
+            
+             <tfoot>
+                @if (Model.lstTransactionDetails.Count > 0)
+                {
+                    <tr>
+                        <td>TOTAL</td>
+                     @*   <td></td>*@
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        
+                    </tr> 
+                }                                     
+        </tfoot>
+            
+        <tbody> 
+                        
+                @if (Model.lstTransactionDetails.Count > 0)
+                {
+
+                    foreach (SP_ACC_RPT_DISPALY_BILL_TRANSACTIONS_DETAILS_Result item in Model.lstTransactionDetails)
+                    {
+                        <tr>
+                            <td></td>
+                            
+                            <td>@item.Head_desc</td>
+                            <td>@item.Bill_Type</td>
+                            <td>@item.Cash_Cheque</td>
+                            <td>@item.CREDIT_DEBIT</td>
+                            <td>@item.amount</td>       
+                            
+                            
+                            <td>@item.Department_Name</td>
+                            <td>@item.NARRATION</td>
+                        
+                        </tr>
+                    
+                     
+                    }                         
+                 }                          
+                 else
+                 {
+                        <tr> 
+                           
+                            <td></td>     
+                            <td></td>                         
+                            <td></td>
+                            <td> No Records To Display</td>
+                            <td></td>
+                            <td></td>
+                            <td></td>
+                            <td></td>                               
+                           
+                        </tr>
+                            
+                 }     
+    </tbody>
+    }
+    </table>
+}
+}
+
+else if (Model.BillType == "R" )
+{
+
+if (Model.lstTransactionDetails != null)
+{
+    <table id="tblTransactionDetails">
+        @{ 
+            <thead>
+                <tr style="width:100%">
+                    <th >SR No.</th>
+                   @* <th rowspan="2">Account Code Number</th>*@
+                    <th>Head Code</th>  
+                     <th>Type</th>   
+                     <th>Cash-Cheque</th>   
+                     <th>Debit</th>   
+                     <th>Ammount(In Rs.)</th>   
+                     <th>Contractor Company Name</th>   
+                     <th>Aggrement Number</th>   
+                     <th>Work Name</th>      
+                     <th>Department Name</th>   
+                     <th>Narration</th>   
+                                                         
+                </tr>
+                
+                         
+            </thead>
+            
+             <tfoot>
+                @if (Model.lstTransactionDetails.Count > 0)
+                {
+                    <tr>
+                        <td>TOTAL</td>
+                     @*   <td></td>*@
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        
+                    </tr> 
+                }                                     
+        </tfoot>
+            
+        <tbody> 
+                        
+                @if (Model.lstTransactionDetails.Count > 0)
+                {
+
+                    foreach (SP_ACC_RPT_DISPALY_BILL_TRANSACTIONS_DETAILS_Result item in Model.lstTransactionDetails)
+                    {
+                        <tr>
+                            <td></td>
+                            
+                            <td>@item.Head_desc</td>
+                            <td>@item.Bill_Type</td>
+                            <td>@item.Cash_Cheque</td>
+                            <td>@item.CREDIT_DEBIT</td>
+                            <td>@item.amount</td>       
+                            <td>@item.Company_Name</td>
+                            <td>@item.Agreement_Number</td>
+                            <td>@item.Work_Name</td>
+                            <td>@item.Department_Name</td>
+                            <td>@item.NARRATION</td>
+                        
+                        </tr>
+                    
+                     
+                    }                         
+                 }                          
+                 else
+                 {
+                        <tr> 
+                           
+                            <td></td>     
+                            <td></td>                         
+                            <td></td>
+                            <td> No Records To Display</td>
+                            <td></td>
+                            <td></td>
+                            <td></td>
+                            <td></td>                               
+                           
+                        </tr>
+                            
+                 }     
+    </tbody>
+    }
+    </table>
+}
+}
+
+else if (Model.BillType == "T" && PMGSYSession.Current.FundType == "P" || PMGSYSession.Current.FundType == "M")
+{
+
+if (Model.lstTransactionDetails != null)
+{
+    <table id="tblTransactionDetails">
+        @{ 
+            <thead>
+                <tr style="width:100%">
+                    <th >SR No.</th>
+                   @* <th rowspan="2">Account Code Number</th>*@
+                    <th>Head Code</th>  
+                     <th>Type</th>   
+                     <th>Cash-Cheque</th>   
+                     <th>Credit-Debit</th>   
+                     <th>Ammount(In Rs.)</th>   
+                     <th>Contractor Company Name</th>   
+                     <th>Aggrement Number</th>   
+                     <th>Work Name</th>      
+                     <th>Department Name</th>   
+                     <th>Narration</th>   
+                                                         
+                </tr>
+                
+                         
+            </thead>
+            
+             <tfoot>
+                @if (Model.lstTransactionDetails.Count > 0)
+                {
+                    
+                    <tr>
+                        <td>TOTAL</td>
+                     @*   <td></td>*@
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        
+                    </tr> 
+                }                                     
+        </tfoot>
+            
+        <tbody> 
+                        
+                @if (Model.lstTransactionDetails.Count > 0)
+                {
+
+                    foreach (SP_ACC_RPT_DISPALY_BILL_TRANSACTIONS_DETAILS_Result item in Model.lstTransactionDetails)
+                    {
+                        <tr>
+                            <td></td>
+                            
+                            <td>@item.Head_desc</td>
+                            <td>@item.Bill_Type</td>
+                            <td>@item.Cash_Cheque</td>
+                            <td>@item.CREDIT_DEBIT</td>
+                            <td>@item.amount</td>       
+                            <td>@item.Company_Name</td>
+                            <td>@item.Agreement_Number</td>
+                            <td>@item.Work_Name</td>
+                            <td>@item.Department_Name</td>
+                            <td>@item.NARRATION</td>
+                        
+                        </tr>
+                    
+                     
+                    }                         
+                 }                          
+                 else
+                 {
+                        <tr> 
+                           
+                            <td></td>     
+                            <td></td>                         
+                            <td></td>
+                            <td> No Records To Display</td>
+                            <td></td>
+                            <td></td>
+                            <td></td>
+                            <td></td>                               
+                           
+                        </tr>
+                            
+                 }     
+    </tbody>
+    }
+    </table>
+}
+}
+
+else if (Model.BillType == "T" && PMGSYSession.Current.FundType == "A" )
+{
+
+if (Model.lstTransactionDetails != null)
+{
+    <table id="tblTransactionDetails" style="width:1200px">
+        @{ 
+            <thead>
+                <tr style="width:100%">
+                    <th >SR No.</th>
+                   @* <th rowspan="2">Account Code Number</th>*@
+                    <th>Head Code</th>  
+                     <th>Type</th>   
+                     <th>Cash-Cheque</th>   
+                     <th>Credit-Debit</th>   
+                     <th>Ammount(In Rs.)</th>   
+                         
+                     <th>Department Name</th>   
+                     <th>Narration</th>   
+                                                         
+                </tr>
+                
+                         
+            </thead>
+            
+             <tfoot>
+                @if (Model.lstTransactionDetails.Count > 0)
+                {
+                    <tr>
+                        <td>TOTAL</td>
+                     @*   <td></td>*@
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                       <td></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                    </tr> 
+                }                                     
+        </tfoot>
+            
+        <tbody> 
+                        
+                @if (Model.lstTransactionDetails.Count > 0)
+                {
+
+                    foreach (SP_ACC_RPT_DISPALY_BILL_TRANSACTIONS_DETAILS_Result item in Model.lstTransactionDetails)
+                    {
+                        <tr>
+                            <td></td>
+                            
+                            <td>@item.Head_desc</td>
+                            <td>@item.Bill_Type</td>
+                            <td>@item.Cash_Cheque</td>
+                            <td>@item.CREDIT_DEBIT</td>
+                            <td>@item.amount</td>       
+                           
+                            <td>@item.Department_Name</td>
+                            <td>@item.NARRATION</td>
+                            
+                        
+                        </tr>
+                    
+                     
+                    }                         
+                 }                          
+                 else
+                 {
+                        <tr> 
+                           
+                            <td></td>     
+                            <td></td>                         
+                            <td></td>
+                            <td> No Records To Display</td>
+                           <td></td>
+                            <td></td>
+                            <td></td>                               
+                           <td></td>
+                        </tr>
+                            
+                 }     
+    </tbody>
+    }
+    </table>
+}
+}
+        

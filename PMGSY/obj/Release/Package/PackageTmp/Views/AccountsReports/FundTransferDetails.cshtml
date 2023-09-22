@@ -1,0 +1,250 @@
+﻿
+@using PMGSY.Models
+@using PMGSY.Models.Report
+@model PMGSY.Models.AccountsReports.FundTransferViewModel
+@using PMGSY.Extensions
+@using System.Globalization
+@using PMGSY.Common
+
+<style type="text/css">
+
+div.CBHeader{
+			padding:5px;
+            width:98%;
+			display:inline-block;
+			cursor:default;
+			/*font:12px/14px Arial, Helvetica, sans-serif;*/
+            font-family: Trebuchet MS,Tahoma,Verdana,Arial,sans-serif;
+			color:#000;
+			background-color:#eee;
+			-moz-border-radius:10px;
+			-webkit-border-radius:10px;
+			-moz-box-shadow:#999 2px 0px 3px;
+			-webkit-box-shadow:#999 2px 0px 3px;
+		}
+</style>
+
+<link href="~/Content/demo_page.css" rel="stylesheet" />
+<link href="~/Content/demo_table_jui.css" rel="stylesheet" />
+<link href="~/Content/TableTools.css" rel="stylesheet" />
+<link href="~/Content/TableTools_JUI.css" rel="stylesheet" />
+
+<script src="~/Scripts/custom/Generic.js"></script>
+<script src="~/Scripts/DataTables/jquery.dataTables.js"></script>
+<script src="~/Scripts/DataTables/ZeroClipboard.js"></script>
+<script src="~/Scripts/DataTables/TableTools.js"></script>
+<script src="~/Scripts/AccountsReports/FundTransferDetails.js"></script>
+@{
+   CommonFunctions objCommonFunction = new CommonFunctions();
+}
+@Html.Hidden("TotalRecord",Model.TotalRecord)
+<div class="CBHeader ui-corner-all" style="width:99%" >
+    
+    <table class="ui-state-default ui-corner-all" style="border: 0.1em solid gray; width: 100%; margin-top: 1px" id="tblFilter" >
+        <tr>
+            <td style="text-align:right;color:green;" colspan="4">
+                @Html.DisplayFor(m=>m.ReportNumber)
+            </td>
+            </tr>
+        <tr>
+            <td style="text-align:center;color:green;" colspan="4">
+                @Html.DisplayFor(m=>m.FundName)
+            </td>
+            </tr>
+        <tr>
+               <td style="text-align:center;color:green;" colspan="4">
+                @Html.DisplayFor(m=>m.ReportName)
+            </td>
+            </tr>
+        <tr>
+            <td style="text-align:center;color:green;" colspan="4">
+                @Html.DisplayFor(m=>m.ReportPara)
+            </td>
+        </tr>
+        <tr>
+            <td style="width:10%;color:green;">
+                @Html.Label("Nodal Agency"):
+            </td>         
+            <td style="width:15%">
+                @Html.Label(ViewBag.StateName as string)
+            </td>           
+           
+            <td style="width:10%;color:green;">
+                @Html.Label("PIU Name"):
+
+            </td>
+            <td style="width:15%;">
+                @Html.Label(ViewBag.DPIUName as string)
+            </td>
+        </tr>
+        <tr>
+            <td style="width:10%;color:green;">
+                @Html.Label("Month - Year"):
+            </td>
+            <td style="width:15%">
+                @Html.Label(ViewBag.MonthName as string) - @Html.Label(ViewBag.YearName as string)
+            </td>
+            <td style="width:10%;color:green;">
+                @Html.Label("Head"):
+            </td>
+            <td style="width:15%">
+                @Html.DisplayFor(m=>m.HeadName)
+            </td>
+        </tr>
+    </table>
+        
+</div>
+<br />
+<br />
+
+
+
+
+@if (Model.lstFundTransfer != null)
+{
+    <table id="tblFundTransfer">
+        @{ 
+            <thead>
+                <tr>
+                    <th rowspan="2">Sr. No.</th>
+                    <th rowspan="2">Date</th>                
+                    <th rowspan="2">Vr/TE. No</th>                            
+                    <th rowspan="2">Particulars of Transaction</th>                            
+                    <th rowspan="2">Cash Book/TE/BATE Entry Book</th>
+                    <th colspan="3">Transaction For The Month<br /> @ViewBag.MonthName-@ViewBag.YearName</th>
+                    <th rowspan="2">Closing Balance (In Rs.)</th>
+                </tr>
+                <tr>
+                    <th >Debit<br /> (In Rs.)</th>
+                    <th>Credit<br /> (In Rs.)</th>                                              
+                    <th>Debit Balance<br /> (In Rs.)</th>                                                        
+                </tr>  
+                         
+            </thead>
+            <tfoot>
+                @if (Model.lstFundTransfer.Count > 0)
+                {
+                    <tr>
+                        <td></td>
+                        <td></td>                   
+                        <td></td>
+                        <td><b>Total for the month</b></td>
+                        <td></td>
+                        @*<td style="text-align:right"><b>@Model.TotalDebit</b> </td>*@
+                        <td style="text-align:right">
+                             @{ 
+                                        @objCommonFunction._IndianFormatAmount(Model.TotalDebit==null?"0":Model.TotalDebit.ToString());
+                              }
+                        </td>
+                        @*<td style="text-align:right"><b>@Model.TotalCredit</b></td>*@
+                        <td style="text-align:right">
+                            @{ 
+                                        @objCommonFunction._IndianFormatAmount(Model.TotalCredit==null?"0":Model.TotalCredit.ToString());
+                             }
+                        </td>
+                        <td style="text-align:right">
+                            <b> 
+                                @{ 
+                                        @objCommonFunction._IndianFormatAmount((Convert.ToDecimal(Model.TotalDebit==null?0:Model.TotalDebit)- Convert.ToDecimal(Model.TotalCredit==null?0:Model.TotalCredit)).ToString());
+                                 }
+                            </b> 
+                        </td>
+                        <td style="text-align:right"><b>
+                            @{ 
+                                        @objCommonFunction._IndianFormatAmount((Convert.ToDecimal(Model.OpeningBalance==null?0:Model.OpeningBalance) + (Convert.ToDecimal(Model.TotalDebit==null?0:Model.TotalDebit)- Convert.ToDecimal(Model.TotalCredit==null?0:Model.TotalCredit))).ToString());
+                             }
+                        </b></td>
+                    </tr> 
+                }                                     
+        </tfoot>
+        <tbody>           
+                @if (Model.lstFundTransfer.Count > 0)
+                {
+                    int COUNT=0;
+
+                    foreach (USP_ACC_RPT_REGISTER_PIUWISE_FUND_TRANSFERRED_Result item in Model.lstFundTransfer)
+                    {
+                        if(COUNT==0)
+                        {
+                           <tr>                                
+                            <td style="text-align:center"></td>
+                            <td>@item.VR_DATE</td>                    
+                            <td>@item.VR_NUMBER</td>
+                            <td><b>@item.REMARKS</b></td>
+                            <td >@item.CASH_FOLIO_NUMBER</td>
+                            @*<td style="text-align:right"><b>@item.DEBIT_AMT</b></td>        *@
+                            <td style="text-align:right">
+                                  @{ 
+                                        @objCommonFunction._IndianFormatAmount(item.DEBIT_AMT==null?"0":item.DEBIT_AMT.ToString());
+                                  }
+                            </td>
+                            <td style="text-align:right"></td>
+                            <td style="text-align:right"></td>
+                            <td style="text-align:right"></td>
+                        </tr> 
+                        }
+                        else
+                        {
+                        <tr>                                
+                            <td style="text-align:center"></td>
+                            <td>@item.VR_DATE</td>                    
+                            <td>@item.VR_NUMBER</td>
+                            <td >@item.REMARKS</td>
+                            <td >@item.CASH_FOLIO_NUMBER</td>
+                            @*<td style="text-align:right">@item.DEBIT_AMT</td>        *@
+                            <td style="text-align:right">
+                                @{ 
+                                        @objCommonFunction._IndianFormatAmount(item.DEBIT_AMT==null?"0":item.DEBIT_AMT.ToString());
+                                 }
+                            </td>
+                            @*<td style="text-align:right">@item.CREDIT_AMT</td>*@
+                            <td style="text-align:right">
+                                @*@if (item.DEBIT_AMT != null)
+                                {
+                                    @(item.DEBIT_AMT.ToString().Length > 3? String.Format(new System.Globalization.CultureInfo("en-IN"),"{0:C0}",item.DEBIT_AMT).Substring(1):item.DEBIT_AMT.ToString())     
+                                }
+                                else
+                                {
+                                    @item.DEBIT_AMT
+                                }*@    
+                                
+                                 @{ 
+                                        @objCommonFunction._IndianFormatAmount(item.CREDIT_AMT==null?"0":item.CREDIT_AMT.ToString());
+                                 }
+                            </td>
+                            <td style="text-align:right">
+                                 @{ 
+                                        @objCommonFunction._IndianFormatAmount((Convert.ToDecimal(item.DEBIT_AMT==null?0:item.DEBIT_AMT)-Convert.ToDecimal(item.CREDIT_AMT==null?0:item.CREDIT_AMT)).ToString());
+                                 }
+                            </td>
+                            <td style="text-align:right">
+                                @{ 
+                                      @objCommonFunction._IndianFormatAmount((Convert.ToDecimal(Model.OpeningBalance==null?0:Model.OpeningBalance) + (Convert.ToDecimal(item.DEBIT_AMT==null?0:item.DEBIT_AMT)- Convert.ToDecimal(item.CREDIT_AMT==null?0:item.CREDIT_AMT))).ToString());
+                                }
+                            </td>
+                        </tr>
+                       }
+                        COUNT++;
+                     
+                    }                         
+                 }                          
+                 else
+                 {
+                        <tr>                                            
+                            <td></td>
+                            <td></td>
+                            <td></td>
+                            <td><b>No Records to Display</b></td>
+                            <td></td>
+                            <td></td>  
+                            <td></td>                             
+                            <td></td>
+                            <td></td>
+                        </tr>
+                            
+                 }                  
+  
+    </tbody>
+    }
+    </table>
+}

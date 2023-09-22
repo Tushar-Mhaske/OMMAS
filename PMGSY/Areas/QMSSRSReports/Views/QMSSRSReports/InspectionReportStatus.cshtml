@@ -1,0 +1,93 @@
+﻿@model PMGSY.Areas.QMSSRSReports.Models.QualityReportsViewModel
+
+<script src="~/Scripts/custom/Generic.js" type="text/javascript"></script>
+<form id="frmScheduleRoad">
+    @Html.AntiForgeryToken()
+    <div id="dvhdCreateNewReportDetails" class="ui-corner-top ui-widget-header panelheader" style="text-align: left; height: 20px; width: 99%;">
+        <span class="ui-jqgrid-title" style="float: left">&nbsp;Inspection Report Upload Status</span>
+@*        <span id="spCollapseIconCN" class="ui-icon ui-icon-circle-triangle-n" style="float: right"></span>*@
+    </div>
+
+    <div id="divFilter" class="ui-state-default ui-corner-all" style="text-align: center; width: 99%">
+        <table style="margin-top: 0px; text-align: center; border: ridge 0.1em #ccc; width: 100%; padding: 5px 5px 5px 5px;">
+
+            <tr>
+                <td style="font-weight: bold; text-align: right">
+                    @Html.LabelFor(model => model.FromMonth)
+
+                    @Html.DropDownListFor(model => model.FromMonth, new SelectList(Model.FromMonthList, "value", "text"), new { @id = "ddlFromMonth" })
+                </td>
+                <td style="font-weight: bold;">
+                    @Html.LabelFor(model => model.FromYear)
+
+                    @Html.DropDownListFor(model => model.FromYear, new SelectList(Model.FromYearList, "value", "text"), new { @id = "ddlFromYear" })
+                </td>
+                <td style="font-weight: bold;">
+                    @Html.LabelFor(model => model.ToMonth)
+
+                    @Html.DropDownListFor(model => model.ToMonth, new SelectList(Model.ToMonthList, "value", "text"), new { @id = "ddlToMonth" })
+                </td>
+                <td style="font-weight: bold;">
+                    @Html.LabelFor(model => model.ToYear)
+                    @Html.DropDownListFor(model => model.ToYear, new SelectList(Model.ToYearList, "value", "text"), new { @id = "ddlToYear" })
+                </td>
+              
+            </tr>
+
+            <tr>
+
+                 <td style="font-weight: bold; text-align: right">
+                    @Html.LabelFor(model => model.State)
+
+                    @Html.DropDownListFor(model => model.State, new SelectList(Model.StateList, "value", "text"))
+                </td>
+
+                 <td style="font-weight: bold; text-align: right">
+                    @Html.LabelFor(model => model.qmType)
+
+                    @Html.DropDownListFor(model => model.qmType, new SelectList(Model.qmTypeList, "value", "text"))
+                </td>
+                    <td>
+                    </td>
+
+                  <td style="font-weight: bold;" colspan="2">
+                    <input type="button" id="btnViewScheduleDetails" value="View" class="jquerybutton" style="margin-left: 20px;" />
+                </td>
+
+                </tr>
+
+        </table>
+    </div>
+    <div id="dvQMMonitorScheduleReport"></div>
+</form>
+<script type="text/javascript">
+    $(document).ready(function () {
+
+        $.validator.unobtrusive.parse($('#frmScheduleRoad'));
+
+        $("#btnViewScheduleDetails").click(function () {
+
+
+            if ($('#frmScheduleRoad').valid()) {
+                $.blockUI({ message: '<img src="/Content/images/ajax-loader.gif" />' });
+                $.ajax({
+                    url: '/QMSSRSReports/QMSSRSReports/InspectionReportStatusReport/',
+                    type: 'POST',
+                    catche: false,
+                    data: $("#frmScheduleRoad").serialize(),
+                    async: false,
+                    success: function (response) {
+                        $.unblockUI();
+                        $("#dvQMMonitorScheduleReport").html(response);
+                    },
+                    error: function () {
+                        $.unblockUI();
+                        alert("Error ocurred");
+                        return false;
+                    },
+                });
+            }
+
+        });
+    });
+</script>

@@ -1,0 +1,89 @@
+﻿@model PMGSY.Models.MaintenanceAgreement.WorkStatusReport
+
+
+<script src="~/Scripts/jquery-ui.js"></script>
+<script src="~/Scripts/MaintenanceAgreement/WorkStatusReport.js"></script>
+<script src="~/Scripts/custom/Generic.js"></script>
+
+
+<center>
+    <div id="spanDiv" style="width:98%; height:20px;border:none; margin-top:5px; margin-bottom:-15px; " class="ui-corner-top ui-widget-header panelheader">
+        <span class="ui-jqgrid-title" style="float: left">&nbsp;Work Status Report</span>   <span style="float:right;margin-right:2Px; margin-top:2px" id="idFilterDiv" class="ui-icon ui-icon-circle-triangle-n"></span>
+    </div>
+    <div id="divSearchExecution">
+        <div style="width: 98%; border:none; margin-top:15px; margin-bottom:10px;" class="ui-state-default">
+            <center>
+                <form id="searchExecution">
+                    @Html.ValidationSummary(true)
+                    @Html.AntiForgeryToken()
+                    <div style="width: 98%; border:none; margin-top:10px; margin-bottom:10px;" class="ui-state-default">
+
+                        <table style="margin-top:15px; margin-bottom:10px;">
+                            <tr>
+
+
+
+                                <td>
+                                    @Html.LabelFor(model => model.stateCode)  <span style="color: red">*</span>
+                                </td>
+                                <td>
+
+                                    @Html.DropDownListFor(model => model.stateCode, new SelectList(Model.lstStates, "Value", "Text"), new { @id = "ddlStates" })
+                                    @Html.ValidationMessageFor(model => model.stateCode)
+
+                                </td>
+                                <td style="width: 9%"></td>
+                                <td>
+                                    @Html.LabelFor(model => model.districtCode) <span style="color: red">*</span>
+                                </td>
+                                <td>
+                                    @Html.DropDownListFor(model => model.districtCode, new SelectList(Model.lstDistricts, "Value", "Text"), new { @id = "ddlDistrict" })
+                                    @Html.ValidationMessageFor(model => model.districtCode)
+
+                                </td>
+
+                                <td style="width: 9%"></td>
+                                <td>
+                                    @Html.LabelFor(model => model.Scheme) <span style="color: red">*</span>
+                                </td>
+                                <td>
+                                    @Html.DropDownListFor(model => model.Scheme, new SelectList(Model.lstScheme, "Value", "Text"), new { @id = "ddlScheme" })
+                                    @Html.ValidationMessageFor(model => model.Scheme)
+
+                                </td>
+
+                                <td style="width: 9%"></td>
+                                <td>
+                                    <input type="button" class="jqueryButton" value="List Details" id="btnWorkStatusReport" name="btnListDetails" title="Click here to list Details" />
+                                </td>
+                            </tr>
+
+                        </table>
+
+                    </div>
+                </form>
+            </center>
+        </div>
+    </div>
+    <div id="divListExecution" style="margin-top:20px; width:100%">
+        <table id="tbExecutionList">
+        </table>
+        <div id="pagerExecution">
+
+        </div>
+    </div>
+
+</center>
+
+
+<center>
+
+    <div id="viewReport" style="width:100%; margin-top:0%">
+
+    </div>
+
+
+</center>
+
+
+

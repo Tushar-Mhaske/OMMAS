@@ -1,0 +1,20 @@
+﻿
+
+@{
+    var arrayParameter = string.Join(",", ViewBag.AdminQmCodeList);
+}
+
+
+@using MvcReportViewer
+@Html.MvcReportViewer("/PMGSYCitizen/GENERATE_MONITOR_LIST",
+   new Dictionary<string, object>
+    {
+@*        { "AdminQmCodeList", @ViewBag.AdminQmCodeList },
+    { "MyArrayParameter", arrayParameter }*@
+{ "AdminQmCodeList", arrayParameter },
+@*{ "MyArrayParameter", arrayParameter }*@
+},
+new { Height = 650, Width = "100%", style = "border:none; text-align: center" })
+
+
+

@@ -1,0 +1,70 @@
+﻿@model PMGSY.Models.ARRR.ScheduleRatesViewModel
+
+<script src="~/Scripts/custom/Generic.js"></script>
+<script src="~/Scripts/jquery.ui.datepicker.js" type="text/javascript"></script>
+<script src="~/Scripts/ARRR/MachineryScheduleLayout.js"></script>
+
+<div id="dvMachinerySchedule">
+    <div id="dvhdMachinerySchedule" class="ui-corner-top ui-widget-header panelheader" style="text-align: left; height: 20px;">
+        Add Machinery<span style="float: right; margin-right: 2Px; margin-top: 2px" id="idFilterDivMac" class="ui-icon ui-icon-circle-triangle-n"></span>
+    </div>
+    <form id="frmMachinerySchedule">
+        @Html.AntiForgeryToken()
+        @Html.ValidationSummary(true)
+        @Html.HiddenFor(m => m.User_Action)
+        @Html.HiddenFor(m => m.ItemCode)
+        @Html.Hidden("hdnItemCodeMc",Model.ItemCode)
+        @Html.HiddenFor(m => m.ItemTypeCode)
+        @*@Html.HiddenFor(m => m.hdnItemTypeCode)*@
+        @Html.HiddenFor(m => m.hdnItemCodeMachinery)
+        <table class="rowstyle" style="width: 100%; margin-bottom: 5px; border: 1px solid #B5B8C8;">
+            <tr>
+                <td style="width: 2%;"></td>
+                <td style="text-align: left; width: 15%;">
+                    @Html.Label("Category")
+                </td>
+                <td style="width: 20%;">
+                    @Html.DropDownListFor(model => model.Category, new SelectList(Model.CategoryList, "Value", "Text"), new { @title = "Category", @id = "ddlCategoryMac", @style = "width:300px;", @tabindex = 1 })
+                    <br />
+                    @Html.ValidationMessageFor(model => model.Category)
+                </td>
+                <td style="width: 5%"></td>
+            </tr>
+            <tr>
+                <td style="width: 2%;"></td>
+                <td style="width: 5%;">
+                    <label>Machinery</label><label style="color: red;"> *</label></td>
+                <td style="width: 10%;">
+                    @Html.DropDownListFor(model => model.lmmType, new SelectList(Model.lmmTypeList, "Value", "Text"), new { @title = "Item", @id = "ddlItemMac", @style = "width:300px;", @tabindex = 2 })
+                    <br />
+                    @Html.ValidationMessageFor(m => m.lmmType)
+                </td>
+                <td style="width: 5%"></td>
+            </tr>
+            <tr>
+                <td style="width: 2%;"></td>
+                <td style="width: 5%;">
+                    <label>Quantity</label><label style="color: red;"> *</label></td>
+                <td style="width: 10%;">
+                    @Html.TextBoxFor(m => m.quantity, new { @id = "txtQuantity", @maxlength = "13", placeholder = "Please enter Quantity", @tabindex = 3 })
+                    <br />
+                    @Html.ValidationMessageFor(m => m.quantity)
+                </td>
+                <td style="width: 5%"></td>
+            </tr>
+            <tr style="text-align: center;">
+                <td colspan="5">
+                    <input type="button" id="btnSaveMachinery" name="Save" value="Save" class="jqueryButton" title="Save" tabindex="4" />
+                    <input type="reset" id="btnResetMachinery" name="Reset" value="Reset" class="jqueryButton" title="Reset" tabindex="5" />
+                </td>
+            </tr>
+        </table>
+    </form>
+</div>
+
+@*<div id="dvLoadScheduleMachineryList" style="margin-top: 10px;">
+    <table id="tblLoadScheduleMachineryList">
+    </table>
+    <div id="dvLoadScheduleMachineryListpager">
+    </div>
+</div>*@

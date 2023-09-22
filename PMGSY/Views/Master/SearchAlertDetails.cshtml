@@ -1,0 +1,34 @@
+﻿@model PMGSY.Models.Master.AdminAlertsViewModel
+<script src="~/Scripts/custom/Generic.js"></script>
+<script src="~/Scripts/Master/SearchAlertDetails.js"></script>
+<div id="dvheaderSearchAlertDetails" class="ui-corner-top ui-widget-header panelheader" style="text-align: left; height: 20px;">
+    <span class="ui-jqgrid-title" style="float: left">&nbsp;Search Alert Details</span>
+    <span id="iconSearchClose" class="ui-icon ui-icon-circle-triangle-n"  style="float: right"></span>
+</div>
+@*class="ui-icon ui-icon-circle-close"*@
+<div id="dvSearchAlertDetails" style="display: block; border: 1px solid #B5B8C8;">
+    <div id="dvErrorMessage" class="ui-widget ui-state-error ui-corner-all" style="padding: 0.7em .7em; display: none; margin: 5px 5px 5px 5px; text-align: left;">
+        <span class="ui-icon ui-icon-alert" style="float: left; margin-right: .3em;"></span>
+        <strong>Alert:</strong> <span id="message"></span>
+    </div>
+<form id="frmSearchAlertDetails">
+    @Html.AntiForgeryToken()
+    @*@Html.HiddenFor(model => model.EncryptedAlertId)      
+    @Html.Hidden("SystemDate",System.DateTime.Now.ToString("dd/MM/yyyy"))      *@
+
+<center>@Html.ValidationSummary(true)</center>
+<table style="width: 100%; margin-top: 0px;" class="rowstyle">  
+    <tr>
+        <td style="width:15%"></td>
+        <td style="width:05%">@Html.LabelFor(model=>model.ALERT_STATUS)</td>
+        <td style="width:10%">
+            @Html.DropDownListFor(m => m.ALERT_STATUS,ViewBag.Status as SelectList, new { @id="ddlStatus",@tabindex=2,@title="Status"})
+        </td>             
+        
+        <td style="width:20%">              
+                <input type="button" value="Search" name="btnSearchAlertDetails" id="btnSearchAlertDetails" class="jqueryButton" tabindex="2" title="Search Details"/>
+        </td>        
+    </tr>     
+</table>
+</form>
+</div>

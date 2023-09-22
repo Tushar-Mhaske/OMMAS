@@ -1,0 +1,42 @@
+﻿@using MvcReportViewer
+
+@model PMGSY.Areas.QMSSRSReports.Models.QMGradingAbstract
+
+
+@*@if (Model.StateCode > 0)
+{
+    @Html.MvcReportViewer("/PMGSYCitizen/QM_Dist_Gr_Abs_Report",
+     new
+     {
+         fromyear = Model.FrmYear,
+         frommonth = Model.FrmMonth,
+         toyear = Model.ToYear,
+         tomonth = Model.ToMonth,
+         state = Model.StateCode,
+         qmtype = Model.qmtype,
+         LocalizationValue = Model.localizedValue,
+         FromMonthName = Model.FromMonthName,
+         FromYearName = Model.FromYearName,
+         ToMonthName = Model.ToMonthName,
+         ToYearName = Model.ToYearName
+     },
+     new { Height = 675, Width = 1210, style = "border:none;" })
+}
+else*@
+
+    @Html.MvcReportViewer("/PMGSYCitizen/QM_State_Grading_Abstract_Report_Length",
+     new
+     {
+         fromyear = Model.FrmYear,
+         frommonth = Model.FrmMonth,
+         toyear = Model.ToYear,
+         tomonth = Model.ToMonth,
+         qmtype = Model.qmtype,
+        // LocalizationValue = Model.localizedValue,
+         FromMonthName = Model.FromMonthName,
+         FromYearName = Model.FromYearName,
+         ToMonthName = Model.ToMonthName,
+         ToYearName = Model.ToYearName,
+          PMGSY = Model.schemeType
+     },
+     new { Height = 750, Width = "100%", style = "border:none;" })

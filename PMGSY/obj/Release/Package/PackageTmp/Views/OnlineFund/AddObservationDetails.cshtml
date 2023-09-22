@@ -1,0 +1,175 @@
+﻿@model PMGSY.Models.OnlineFundRequest.RequestApprovalViewModel
+
+<script src="~/Scripts/custom/Generic.js"></script>
+<script src="~/Scripts/jquery.ui.accordion.js"></script>
+
+<link href="~/Content/jquery.multiselect.css" rel="stylesheet" />
+<script src="~/Scripts/jquery.multiselect.min.js"></script>
+
+<script src="~/Scripts/OnlineFundProcess/AddObservationDetails.js"></script>
+
+
+@if (ViewBag.IsObservationDone == "N" && PMGSY.Extensions.PMGSYSession.Current.RoleCode != 2)
+{
+    <div id="dvObservationDetails">
+        <div id="dvErrorMessage" class="ui-widget ui-state-error ui-corner-all" style="padding: 0.7em .7em; margin: 5px 5px 5px 5px; display: none; text-align: left">
+            <span class="ui-icon ui-icon-alert" style="float: left; margin-right: .3em; text-align: left"></span>
+            <strong style="text-align: left">Alert:</strong> <span id="message" style="text-align: left"></span>
+        </div>
+        @*<form id="frmAddObservation">*@
+        @using (Html.BeginForm("UploadDocuments", "OnlineFund", FormMethod.Post, new { enctype = "multipart/form-data", @id = "frmAddObservation" }))
+        {
+            @Html.HiddenFor(model => model.ConditionCode)
+            <table cellpadding="3px" style="margin-top: 0px; text-align: left; border: ridge 0.1em #ccc; width: 100%; padding-top: 5px 5px 5px 5px;" class="rowstyle">
+                <tr>
+                    <td>
+                        @Html.LabelFor(model => model.APPROVAL_STATUS)<label style="color: red;">*</label>
+                    </td>
+                    @*@if(PMGSY.Extensions.PMGSYSession.Current.RoleCode != 52)
+            {
+                <td>
+                    @Html.RadioButtonFor(model => model.APPROVAL_STATUS, "A", new { @id = "rdApproveRequest" })
+                    @Html.Label(PMGSY.Extensions.PMGSYSession.Current.RoleCode != 59 ? "Approve / Approve and Forward" : "Approve")
+                </td>
+            }*@
+
+                    @* 
+                     @if (PMGSY.Extensions.PMGSYSession.Current.RoleCode == 51)
+                    {
+                        <td>
+                            @Html.RadioButtonFor(model => model.APPROVAL_STATUS, "A", new { @id = "rdApproveRequest" })
+                            @Html.Label(PMGSY.Extensions.PMGSYSession.Current.RoleCode != 63 ? "Approve / Approve and Forward" : "Approve")
+                        </td>
+                    }
+
+                    @if (PMGSY.Extensions.PMGSYSession.Current.RoleCode == 25)
+                    {
+                        <td>
+                            @Html.RadioButtonFor(model => model.APPROVAL_STATUS, "A", new { @id = "rdApproveRequest" })
+                            @Html.Label("Approve")
+                        </td>
+                    }
+
+                    *@
+
+                    <td>
+                        @Html.RadioButtonFor(model => model.APPROVAL_STATUS, "A", new { @id = "rdApproveRequest" })
+                        @Html.Label("Approve")
+                    </td>
+
+                    @*@if(PMGSY.Extensions.PMGSYSession.Current.RoleCode != 59)
+            {
+            <td>
+                @Html.RadioButtonFor(model => model.APPROVAL_STATUS, "F", new { @id = "rdForwardRequest" })
+                @Html.Label("Forward")
+            </td>
+            }*@
+                    @if (PMGSY.Extensions.PMGSYSession.Current.RoleCode != 25)
+                    {
+                        <td>
+                            @Html.RadioButtonFor(model => model.APPROVAL_STATUS, "R", new { @id = "rdRejectRequest" })
+                            @Html.Label("Reject")
+                        </td>
+                    }
+                </tr>
+                <tr id="trRejectLetter" style="display: none">
+                    <td>Reject Letter (in .pdf)
+                    </td>
+                    <td colspan="3">
+                        <input type="file" name="file" id="rejectLetter" tabindex="1" />
+                    </td>
+                </tr>
+                <tr>
+                    @Html.HiddenFor(model => model.REQUEST_ID)
+
+                    @* @if (PMGSY.Extensions.PMGSYSession.Current.RoleCode == 25)
+                    {
+                        *@
+                    <td class="trForwardRequest">
+                        @Html.LabelFor(model => model.REQUEST_FORWADED_TO)<label style="color: red;">*</label>
+                    </td>
+                    <td class="trForwardRequest">
+                        @Html.DropDownListFor(model => model.REQUEST_FORWADED_TO, new SelectList(Model.lstRequestTo, "Value", "Text"), new { @title = "Please select Forward Request To", @tabindex = 1 })
+                        @Html.ValidationMessageFor(model => model.REQUEST_FORWADED_TO)
+                    </td>
+
+                    <!-- }-->
+
+                    @if (PMGSY.Extensions.PMGSYSession.Current.RoleCode == 51)
+                    {
+                        <td>
+                            @Html.LabelFor(model => model.FILE_NO)<label style="color: red">*</label>
+                        </td>
+                        <td>
+
+                            @Html.TextBoxFor(model => model.FILE_NO, new { @title = "Enter File No.", @placeholder = "Enter File No...", @tabindex = 1 })
+                            @Html.ValidationMessageFor(model => model.FILE_NO)
+
+                            @*
+                else
+                {
+                    @Html.DisplayFor(model => model.FILE_NO)
+                    @Html.HiddenFor(model => model.FILE_NO)
+                }
+                *@
+                        </td>
+                    }
+                </tr>
+                <tr>
+                    <td>
+                        @Html.LabelFor(model => model.CONDITION_IMPOSED)
+                    </td>
+                    <td>
+                        @Html.RadioButtonFor(model => model.CONDITION_IMPOSED, "Y", new { @id = "rdConditionYes" })
+                        @Html.Label("Yes")
+                        @Html.RadioButtonFor(model => model.CONDITION_IMPOSED, "N", new { @id = "rdConditionNo", @checked = true })
+                        @Html.Label("No")
+                        @Html.ValidationMessageFor(model => model.CONDITION_IMPOSED)
+                    </td>
+                    @*<td class="trCondition">
+                        @Html.LabelFor(model => model.ConditionCode)
+                    </td>
+                    <td class="trCondition">
+                        @Html.DropDownListFor(model => model.ConditionCode, new SelectList(Model.lstConditions, "Value", "Text"), new { @title = "Please select condition" })
+                        @Html.ValidationMessageFor(model => model.ConditionCode)
+                    </td>*@
+                    <td style="width: 5%; vertical-align: top" class="trCondition">@Html.Label("Condition")
+                    </td>
+                    <td style="width: 15%; vertical-align: top" class="trCondition">
+                        <div id="dvConditionList"></div>
+                        <br />
+                        <span id="showLevelError">@Html.ValidationMessage("showLevelError")
+                        @*@Html.ListBox("ConditionList")*@
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        @Html.LabelFor(model => model.REMARKS)<label style="color: red;">*</label>
+                    </td>
+                    <td colspan="3">
+                        @Html.TextAreaFor(model => model.REMARKS, new { @title = "Enter Remarks", @placeholder = "Enter Remarks...", @tabindex = 1 })
+                        @Html.ValidationMessageFor(model => model.REMARKS)
+                    </td>
+                </tr>
+                <tr>
+                    <td colspan="5">
+                        <center>
+                    <table>
+                        <td>
+                            <input type="submit" value="Save" name="btnAddObservation" id="btnAddObservation" class="jqueryButton" tabindex ="7" />
+                            <input type="reset" value="Reset" name="btnResetObservation" id="btnResetObservation" class="jqueryButton" tabindex="8"/>
+                        </td>
+                    </table>
+                </center>
+                    </td>
+                </tr>
+            </table>
+        }
+        @*</form>*@
+    </div>
+}
+@Html.HiddenFor(model => model.REQUEST_ID)
+<div id="dvListObservationDetails" style="width: 95%; margin-top: 20px">
+    <table id="tblObservationDetails"></table>
+    <div id="pgObservationDetails"></div>
+</div>

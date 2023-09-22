@@ -1,0 +1,19 @@
+﻿@{
+    ViewBag.Title = "GetCuplExclusionPost";
+}
+
+@using MvcReportViewer
+@model PMGSY.Areas.ProgressReport.Models.CuplExclusionModel
+
+@Html.MvcReportViewer("/PMGSYCitizen/CuplExclusionReport",
+    new { 
+        
+         Year = Model.Year,
+         State = Model.StateCode,
+         Batch = Model.Batch,
+         StateName = Model.StateName,
+         SCHEME = 4
+    },
+    new { Height = 600, Width = "100%", style = "border:none;" }
+)
+

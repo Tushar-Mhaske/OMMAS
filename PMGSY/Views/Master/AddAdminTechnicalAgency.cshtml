@@ -1,0 +1,237 @@
+﻿@model PMGSY.Models.Master.AdminTechnicalAgencyViewModel
+<script src="~/Scripts/custom/Generic.js"></script>
+<script src="~/Scripts/Master/AddAdminTechnicalAgency.js"></script>
+
+<div id="dvhdCreateNewDetails" class="ui-corner-top ui-widget-header panelheader" style="text-align: left; height: 20px;">
+    <span class="ui-jqgrid-title" style="float: left">&nbsp;Technical Agency Details</span>
+    <span id="spCollapseIconCN" class="ui-icon ui-icon-circle-triangle-n" style="float: right"></span>
+</div>
+
+<div id="dvCreateNewDetails" style="display: block; border: 1px solid #B5B8C8;">
+
+    <div id="dvErrorMessage" class="ui-widget ui-state-error ui-corner-all" style="padding: 0.7em .7em; display: none; margin: 5px 5px 5px 5px; text-align: left">
+        <span class="ui-icon ui-icon-alert" style="float: left; margin-right: .3em;"></span>
+        <strong>Alert:</strong> <span id="message"></span>
+    </div>
+    <form id="frm">
+        @Html.AntiForgeryToken()
+        <center>@Html.ValidationSummary(true)</center>
+        <table style="width: 100%; margin-top: 10px;" class="rowstyle">
+            <tr style="display: none">
+                <td colspan="3">
+                    @Html.HiddenFor(model => model.EncryptedTACode)
+                </td>
+            </tr>
+
+            <tr>
+                <td style="width: 8%"></td>
+                <td style="width: 15%">
+                    @Html.LabelFor(model => model.ADMIN_TA_TYPE)<label style="color: red;"> *</label>
+                    @Html.ValidationMessageFor(model => model.ADMIN_TA_TYPE)
+                </td>
+
+                <td style="width: 30%">
+                    @if (Model.EncryptedTACode == null)
+                    {
+                        @Html.RadioButtonFor(model => model.ADMIN_TA_TYPE, "S", new { @checked = "checked", @tabindex = 3, @title = "STA" })
+
+                        @Html.Label("STA")
+                        @Html.RadioButtonFor(model => model.ADMIN_TA_TYPE, "P", new { @tabindex = 4, @style = "margin-left:25px", @title = "PTA" })
+                        @Html.Label("PTA")
+                    }
+                    else
+                    {
+                        @Html.RadioButtonFor(model => model.ADMIN_TA_TYPE, "S", new { @tabindex = 3, @title = "STA", disabled = "disabled" })
+
+                        @Html.Label("STA")
+                        @Html.RadioButtonFor(model => model.ADMIN_TA_TYPE, "P", new { @tabindex = 4, @style = "margin-left:25px", @title = "PTA", disabled = "disabled" })
+                        @Html.Label("PTA")
+                        @Html.HiddenFor(model => model.ADMIN_TA_TYPE)
+                    }
+                </td>
+                <td style="width: 17%">
+                    @Html.LabelFor(model => model.ADMIN_TA_NAME)<label style="color: red">*</label>
+                </td>
+                <td>
+                    @Html.TextBoxFor(model => model.ADMIN_TA_NAME, new { maxlength = 255, @tabindex = "1", @title = "Technical Agency Name", @placeHolder = "Enter Technical Agency Name..." })
+                    @Html.ValidationMessageFor(model => model.ADMIN_TA_NAME)
+                </td>
+            </tr>
+
+            <tr>
+                <td></td>
+                <td>
+                    @Html.LabelFor(model => model.ADMIN_TA_CONTACT_NAME)
+                </td>
+
+                <td>
+                    @Html.TextBoxFor(model => model.ADMIN_TA_CONTACT_NAME, new { maxlength = 255, @tabindex = "2", @placeHolder = "Enter Contact Name...", @title = "Contact Name" })
+                    @Html.ValidationMessageFor(model => model.ADMIN_TA_CONTACT_NAME)
+                </td>
+                <td>
+                    @Html.LabelFor(model => model.ADMIN_TA_CONTACT_DESG)
+                </td>
+                <td>
+                    @Html.DropDownListFor(model => model.ADMIN_TA_CONTACT_DESG, Model.Designation, new { @tabindex = "3", @title = "Designation" })
+                    @Html.ValidationMessageFor(model => model.ADMIN_TA_CONTACT_DESG)
+                </td>
+            </tr>
+
+            <tr>
+                <td></td>
+                <td>
+                    @Html.LabelFor(model => model.MAST_STATE_CODE)
+                </td>
+                <td>
+                    @Html.DropDownListFor(model => model.MAST_STATE_CODE, Model.States, new { @tabindex = "4", @title = "State" })
+                    @Html.ValidationMessageFor(model => model.MAST_STATE_CODE)
+                </td>
+                <td>
+                    @Html.LabelFor(model => model.MAST_DISTRICT_CODE)
+                </td>
+                <td>
+                    @Html.DropDownListFor(model => model.MAST_DISTRICT_CODE, Model.Districts, new { @tabindex = "5", @title = "District" })
+                    @Html.ValidationMessageFor(model => model.MAST_DISTRICT_CODE)
+                </td>
+            </tr>
+
+            <tr>
+                <td></td>
+                <td>
+                    @Html.LabelFor(model => model.ADMIN_TA_ADDRESS1)
+                </td>
+                <td>
+                    @Html.TextBoxFor(model => model.ADMIN_TA_ADDRESS1, new { maxlength = 255, @tabindex = "6", @placeHolder = "Enter Address1...", @title = "Address1" })
+                    @Html.ValidationMessageFor(model => model.ADMIN_TA_ADDRESS1)
+                </td>
+                <td>
+                    @Html.LabelFor(model => model.ADMIN_TA_PIN)
+                </td>
+                <td>
+                    @Html.TextBoxFor(model => model.ADMIN_TA_PIN, new { maxlength = 6, @tabindex = "8", @placeHolder = "Enter PIN Code...", @title = "PIN Code" })
+                    @Html.ValidationMessageFor(model => model.ADMIN_TA_PIN)
+                </td>
+            </tr>
+
+            <tr>
+                <td></td>
+                <td></td>
+                <td>
+                    @Html.TextBoxFor(model => model.ADMIN_TA_ADDRESS2, new { maxlength = 255, @tabindex = "7", @placeHolder = "Enter Address2...", @title = "Address2" })
+                    @Html.ValidationMessageFor(model => model.ADMIN_TA_ADDRESS2)
+                </td>
+                <td></td>
+                <td></td>
+            </tr>
+
+            <tr>
+                <td></td>
+                <td>
+                    @Html.LabelFor(model => model.ADMIN_TA_STD1)
+                </td>
+                <td>
+                    @Html.TextBoxFor(model => model.ADMIN_TA_STD1, new { maxlength = 5, @style = "width:50px;", @tabindex = "9", @placeHolder = "STD Code...", @title = "STD Code" })-
+                    @Html.TextBoxFor(model => model.ADMIN_TA_PHONE1, new { maxlength = 30, @style = "width:88px", @tabindex = "10", @placeHolder = "Enter Phone1...", @title = "Phone1" })
+                    @Html.ValidationMessageFor(model => model.ADMIN_TA_STD1)
+                    @Html.ValidationMessageFor(model => model.ADMIN_TA_PHONE1)
+                </td>
+                <td>
+                    @Html.LabelFor(model => model.ADMIN_TA_STD2)
+                </td>
+                <td>
+                    @Html.TextBoxFor(model => model.ADMIN_TA_STD2, new { maxlength = 5, @style = "width:50px", @tabindex = "11", @placeHolder = "STD Code...", @title = "STD Code" })-
+                    @Html.TextBoxFor(model => model.ADMIN_TA_PHONE2, new { maxlength = 30, @style = "width:88px", @tabindex = "12", @placeHolder = "Enter Phone2...", @title = "Phone2" })
+                    @Html.ValidationMessageFor(model => model.ADMIN_TA_STD2)
+                    @Html.ValidationMessageFor(model => model.ADMIN_TA_PHONE2)
+                </td>
+            </tr>
+
+            <tr>
+                <td></td>
+                <td>
+                    @Html.LabelFor(model => model.ADMIN_TA_MOBILE_NO)
+                </td>
+                <td>
+                    @Html.TextBoxFor(model => model.ADMIN_TA_MOBILE_NO, new { maxlength = 10, @tabindex = "13", @placeHolder = "Enter Mobile Number...", @title = "Mobile Number" })
+                    @Html.ValidationMessageFor(model => model.ADMIN_TA_MOBILE_NO)
+                </td>
+                <td>
+                    @Html.LabelFor(model => model.ADMIN_TA_FAX)
+                </td>
+                <td>
+                    @Html.TextBoxFor(model => model.ADMIN_TA_STD_FAX, new { maxlength = 5, @style = "width:50px", @tabindex = "14", @placeHolder = "STD Code...", @title = "STD Code" })-
+                    @Html.TextBoxFor(model => model.ADMIN_TA_FAX, new { maxlength = 30, @style = "width:88px", @tabindex = "15", @placeHolder = "Enter FAX Number...", @title = "FAX Number" })
+                    @Html.ValidationMessageFor(model => model.ADMIN_TA_STD_FAX)
+                    @Html.ValidationMessageFor(model => model.ADMIN_TA_FAX)
+
+                </td>
+            </tr>
+
+            <tr>
+                <td></td>
+                <td>
+                    @Html.LabelFor(model => model.ADMIN_TA_WEBISTE)
+                </td>
+                <td>
+                    @Html.TextBoxFor(model => model.ADMIN_TA_WEBISTE, new { maxlength = 255, @tabindex = "16", @placeHolder = "Enter Website Address...", @title = "Website" })
+                    @Html.ValidationMessageFor(model => model.ADMIN_TA_WEBISTE)
+                </td>
+                <td>
+                    @Html.LabelFor(model => model.ADMIN_TA_EMAIL)
+                </td>
+                <td>
+                    @Html.TextBoxFor(model => model.ADMIN_TA_EMAIL, new { maxlength = 50, @tabindex = "17", @placeHolder = "Enter Email...", @title = "Email" })
+                    @Html.ValidationMessageFor(model => model.ADMIN_TA_EMAIL)
+                </td>
+
+            </tr>
+            <tr>
+                <td></td>
+                <td>
+                    @Html.LabelFor(model => model.ADMIN_TA_REMARKS)
+                </td>
+                <td>
+                    @Html.TextAreaFor(model => model.ADMIN_TA_REMARKS, new { maxlength = 255, @tabindex = "18", @placeHolder = "Enter Remark...", @title = "Remark" })
+                    @Html.ValidationMessageFor(model => model.ADMIN_TA_REMARKS)
+
+                </td>
+                <td> @Html.LabelFor(model => model.ADMIN_TA_SERVICE_TAX) </td>
+                <td>  @Html.TextAreaFor(model => model.ADMIN_TA_SERVICE_TAX, new { maxlength = 255, @tabindex = "19", @placeHolder = "Enter Service Tax Reg No..", @title = "Remark" })
+                    @Html.ValidationMessageFor(model => model.ADMIN_TA_SERVICE_TAX)</td>
+            </tr>
+         @*    <tr>
+                <td></td>
+                <td>
+                   
+                </td>
+                <td>
+                   
+
+                </td>
+                <td></td>
+                <td></td>
+            </tr>*@
+            <tr>
+                <td colspan="5" style="text-align: center">
+                    @if (Model.EncryptedTACode == null)
+                    {
+                        <input type="button" id="btnSave" name="btnSave" value="Save" class="jqueryButton" title="Save Technical Agency Details" tabindex="19" /> 
+                        <input type="reset" id="btnReset" name="btnReset" value="Reset" class="jqueryButton" title="Reset" tabindex="20" />
+                    }
+                    else
+                    {
+                        <input type="button" id="btnUpdate" name="btnUpdate" value="Update" class="jqueryButton" title="Update Technical Agency Details" tabindex="19" /> 
+                        <input type="button" id="btnCancel" name="btnCancel" value="Cancel" class="jqueryButton" title="Cancel" tabindex="20" />
+                    }
+                </td>
+            </tr>
+            <tr>
+                <td colspan="5">
+                    <label style="border:none">[ Note: Fields marked with<label style="color: red;"> * </label>are mandatory.]</label>
+                </td>
+            </tr>
+        </table>
+    </form>
+</div>
+
+

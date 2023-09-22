@@ -1,0 +1,112 @@
+﻿@model PMGSY.Models.ExistingRoads.HabitationDetailsPMGSY3ViewModel
+
+@{
+    ViewBag.Title = "ListHabitations";
+}
+
+<script src="~/Scripts/custom/Generic.js"></script>
+
+<script src="~/Scripts/ExistingRoads/ListHabitationsPMGSY3.js"></script>
+
+<script src="~/Scripts/jquery.ui.accordion.js"></script>
+<script src="~/Scripts/jquery.ui.tabs.js"></script>
+
+<center>
+      
+       @Html.HiddenFor(model => model.IsBenifitedHabitation)
+
+@if (Model.IsBenifitedHabitation == "Y")
+{
+ <div id="divError" class="ui-state-error ui-corner-all" style="text-align: left; display: none; width: 89%">
+                <span class="ui-icon ui-icon-alert" style="float: left;"></span>                   
+                <span id="spnErr">No Habitations are available for mapping.</span>
+</div>   
+    
+<div style="height:20px; width:89%; text-align:left; padding-top: 0.6em;" class="ui-state-default ui-corner-all" > 
+    &nbsp;   <strong> Road Number:</strong>   @Html.DisplayFor(model => model.RoadNumber)<strong> &nbsp;  &nbsp;  &nbsp;  &nbsp;  &nbsp;  &nbsp;  &nbsp; 
+             Road Name:</strong>   @Html.DisplayFor(model => model.RoadName)
+    
+    &nbsp;  &nbsp;  &nbsp;  &nbsp;  &nbsp;  &nbsp;  &nbsp;  &nbsp;[<b>Note:</b><label>This only includes directly benefitted habitations.</label>]
+</div>
+<div id="filterForm" style="width:98%">
+   <form id="frmListHabitations">
+
+@* <div style="height:20px; width:98%; text-align:left; padding-top: 0.6em;" class="ui-state-default ui-corner-all" > 
+    &nbsp;   <strong> Mapped Habitations:</strong> 
+</div>*@
+
+@*<div id="divHabitationList" style="margin-top:0px; width:100%">
+   
+</div>*@
+       @Html.AntiForgeryToken()
+       @Html.HiddenFor(model => model.EncryptedRoadCode)
+       @Html.HiddenFor(model => model.EncryptedHabCodes)
+       @Html.HiddenFor(model => model.IsBenifitedHabitation)
+
+<br />
+    @*   <div style="height:20px; width:98%; text-align:left; padding-top: 0.6em;" class="ui-state-default ui-corner-all" > 
+    &nbsp;   <strong>Habitation List:</strong> 
+   </div>*@
+       <div id="mapHabitation" style=" width:100%">
+           <table>
+               <tr>
+                    <td>
+                        <center>Block - @Html.DropDownList("Blocks", ViewBag.Blocks as List<SelectListItem>, new { @id = "ddlBlocksToMap" })</center>
+                        <br />
+                            <center>Habitation Direct - 
+                            @Html.RadioButtonFor(m => m.habDirect, "Y", new { @id = "rdbHabDirectY" })
+                            @Html.Label("Yes")
+                            @Html.RadioButtonFor(m => m.habDirect, "N", new { @id = "rdbHabDirectN" })
+                            @Html.Label("No")
+                            @Html.ValidationMessageFor(m => m.habDirect)
+                                </center>
+                        <br />
+                        <table id="mapHabitationList" >
+                       </table>
+                       <div id="mapHabitationPager">
+                       </div>
+                   </td>
+                   <td>
+                        <table id="habitationCategory" >
+                        </table>
+                        <div id="pagerHabitation">
+                        </div>
+                   </td>
+                  
+               </tr>
+           </table>
+
+       </div>
+
+       <br />
+       <div style="text-align:left;margin-left:20%">
+       <table>
+           <tr>
+                <td style="text-align:left">
+                       <input type="button" id="btnSaveHabitation" name="btnSave" value="Map Habitations" class= "jqueryButton" title="Map Habitation Details" />
+                   </td>
+               <td>
+                   <input type="button" id="btnMapCancel" name="Cancel" value="Cancel" class= "jqueryButton" title="Cancel" />
+               </td>
+               </tr>
+       </table>
+    </div>
+
+
+</form>
+</div>
+}
+else
+{
+
+ <strong>For the road - </strong>   @Html.DisplayFor(model => model.RoadName) <strong>,you already selected option as "no benifited habitations", so you can't map habitations.</strong>   
+                                                                                  
+@*<div style="height:20px; width:96%; text-align:left; padding-top: 0.6em;" class="ui-state-default ui-corner-all" > 
+    &nbsp;   
+</div>*@
+
+}
+
+
+
+</center>

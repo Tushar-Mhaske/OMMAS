@@ -1,0 +1,137 @@
+﻿@model PMGSY.Areas.QMSSRSReports.Models.QMRegradeGradingAbstractViewModel1
+
+@*<script src="~/Areas/QMSSRSReports/Scripts/NQMGradingAbstractReport.js"></script>*@
+<script src="~/Scripts/custom/Generic.js"></script>
+
+<script type="text/javascript">
+    $(document).ready(function () {
+        $.validator.unobtrusive.parse($('#PendingATRStatus'));
+
+        $('#btnView').click(function () {
+            if (parseInt($('#ddlFromMonth').val()) > parseInt($('#ddlToMonth').val())) {
+                alert('From Year should be less than or equal to To Year');
+                return false;
+            }
+
+            if ($('#PendingATRStatus').valid()) {
+                $.ajax({
+                    url: "/QMSSRSReports/QMSSRSReports/PendingATRStatusReport/",
+                    cache: false,
+                    type: "POST",
+                    async: false,
+                    data: $("#PendingATRStatus").serialize(),
+                    success: function (data) {
+                        if (data.Success == false) {
+                            alert(data.ErrorMessage);
+                        }
+                        else {
+                            $("#loadPendingATRStatus").html('');
+                            $("#loadPendingATRStatus").html(data);
+                        }
+                    },
+                    error: function () {
+                        alert("error");
+                    }
+                })
+            }
+        });
+
+        $('#btnView').trigger('click');
+    });
+</script>
+
+<div id="dvPendingATRStatus">
+    <form id="PendingATRStatus">
+        @Html.AntiForgeryToken()
+        @Html.ValidationSummary(true)
+
+        <div id="dvhdRegradeAbstractLayout" class="ui-corner-top ui-widget-header panelheader" style="text-align: left; height: 20px;">
+            <span class="ui-jqgrid-title" style="float: left; margin-left: 5px;">Pending ATR Status</span>
+        </div>
+        <table style="width: 100%; display: block; border: 1px solid #B5B8C8;" class="rowstyle ui-corner-all">
+            <tr>
+                <td style="width: 5%;"></td>
+                <td style="width: 5%; vertical-align: top">
+                    @Html.LabelFor(model => model.fromMonth)
+                </td>
+                <td style="width: 10%; vertical-align: top">
+                    @Html.DropDownListFor(model => model.fromMonth, new SelectList(Model.lstFromMonth, "Value", "Text"), new { @title = "From Month", @id = "ddlFromMonth", @tabindex = 1 })
+                    <br />
+                    @Html.ValidationMessageFor(m => m.fromMonth)
+                </td>
+
+                <td style="width: 5%; vertical-align: top">
+                    @Html.LabelFor(model => model.fromYear)
+
+                </td>
+                <td style="width: 10%; vertical-align: top">
+                    @Html.DropDownListFor(model => model.fromYear, new SelectList(Model.lstFromYear, "Value", "Text"), new { @title = "From Year", @id = "ddlFromYear", @tabindex = 2 })
+                    <br />
+                    @Html.ValidationMessageFor(m => m.fromYear)
+                </td>
+
+                <td style="width: 5%; vertical-align: top">
+                    @Html.LabelFor(model => model.toMonth)
+
+                </td>
+                <td style="width: 10%; vertical-align: top">
+                    @Html.DropDownListFor(model => model.toMonth, new SelectList(Model.lstToMonth, "Value", "Text"), new { @title = "To Month", @id = "ddlToMonth", @tabindex = 3 })
+                    <br />
+                    @Html.ValidationMessageFor(m => m.toMonth)
+                </td>
+
+                <td style="width: 5%; vertical-align: top">
+                    @Html.LabelFor(model => model.toYear)
+                </td>
+                <td style="width: 10%; vertical-align: top">
+                    @Html.DropDownListFor(model => model.toYear, new SelectList(Model.lstToYear, "Value", "Text"), new { @title = "To Year", @id = "ddlToYear", @tabindex = 4 })
+                    <br />
+                    @Html.ValidationMessageFor(m => m.toYear)
+                </td>
+
+                <td style="width: 5%; text-align: center; vertical-align: top"></td>
+                <td style="width: 5%;"></td>
+            </tr>
+            <tr>
+                <td style="width: 5%;"></td>
+                <td style="width: 5%; vertical-align: top">
+                    @Html.Label("State ")
+                </td>
+                <td style="width: 10%; vertical-align: top">
+                    @Html.DropDownListFor(model => model.State, new SelectList(Model.StateList, "Value", "Text"), new { @id = "ddlStateUnsatisfactoryWork", @title = "State", @tabindex = 2 })
+                    <br />
+                    @Html.ValidationMessageFor(m => m.State)
+                </td>
+
+                <td style="width: 5%; vertical-align: top">
+                    <input type="button" class="button" value="View" id="btnView" title="View Details" tabindex="5" />
+
+                </td>
+                <td style="width: 10%; vertical-align: top">
+
+                    <br />
+
+                </td>
+
+                <td style="width: 5%; vertical-align: top"></td>
+                <td style="width: 10%; vertical-align: top">
+
+                    <br />
+
+                </td>
+
+                <td style="width: 5%; vertical-align: top"></td>
+                <td style="width: 10%; vertical-align: top">
+
+                    <br />
+
+                </td>
+
+                <td style="width: 5%; text-align: center; vertical-align: top"></td>
+                <td style="width: 5%;"></td>
+            </tr>
+        </table>
+    </form>
+</div>
+
+<div id="loadPendingATRStatus"></div>

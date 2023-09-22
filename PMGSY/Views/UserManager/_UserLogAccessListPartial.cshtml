@@ -1,0 +1,49 @@
+﻿<!DOCTYPE html>
+
+<html>
+<head>
+    <script src="~/Scripts/custom/Generic.js"></script>
+    <script src="~/Scripts/UserManager/UserManager.js"></script>
+</head>
+<body>
+
+    <center>
+      <div style="text-align:left;margin-left:5px;margin-bottom:5px;">
+          <table  style="width: 100%;">
+        <tr>
+            <td style="width: 5%;"></td>
+            <td style="text-align: left; width: 5%;">
+                @Html.Label("Module")
+            </td>
+            <td style="width: 20%;">
+                @Html.DropDownList("ddModule_UserLogAccessDetails", ViewData["MODULE"] as IEnumerable<SelectListItem>, new { @title = "Module", @tabindex = 1 })
+            </td>
+            <td style="text-align: left; width: 5%;">
+                @Html.Label("Year")
+            </td>
+            <td style="width: 20%;">
+                @Html.DropDownList("ddYear_UserLogAccessDetails", ViewData["YEAR"] as IEnumerable<SelectListItem>, new { @title = "Year", @tabindex = 2 })
+            </td>
+            <td style="text-align: left; width: 5%;">
+                @Html.Label("Month")
+            </td>
+            <td style="width: 20%;">
+                @Html.DropDownList("ddMonth_UserLogAccessDetails", ViewData["MONTH"] as IEnumerable<SelectListItem>, new { @title = "Month", @tabindex = 3 })
+            </td>
+            <td>
+                <input type="button" value="View" title="View Details" class="jqueryButton" id="btnViewLogAccessDetails" tabindex="4"/>
+            </td>
+        </tr>
+       
+
+    </table>
+        
+    </div>
+    <table id="tblLogAccessList" class="scroll">
+    </table>
+    <div id="divLogAccessListPager"></div>    
+  
+</center>
+</body>
+</html>
+

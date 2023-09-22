@@ -1,0 +1,17 @@
+﻿@using MvcReportViewer
+
+@model PMGSY.Areas.OtherReports.Models.WorksWithoutAgrModel
+
+  @Html.MvcReportViewer("/PMGSYCitizen/WorksWithoutMainAGR",
+     new
+     {
+        STATE = Model.StateCode,
+        DISTRICT = Model.DistrictCode,
+        StateName = Model.StateName,
+        DistrictName = Model.DistName,
+        StartDate = Convert.ToDateTime(Model.StartDate),
+        EndDate = Convert.ToDateTime(Model.EndDate)
+     },
+       new { Height = 600, Width = "100%", style = "border:none;" })
+
+    

@@ -1,0 +1,532 @@
+﻿@model PMGSY.Models.PaymentModel.ListModel
+
+
+<!DOCTYPE html>
+<html>
+<head>
+    <meta name="viewport" content="width=device-width" />
+    <title>GetPaymentList</title>
+
+    <style type="text/css" media="screen">
+        th.ui-th-column div {
+            white-space: normal !important;
+            height: auto !important;
+            padding: 2px;
+        }
+
+        .ui-jqgrid .ui-jqgrid-resize {
+            height: 100% !important;
+        }
+
+        #first td, th {
+            border: 1px solid black;
+        }
+
+        #first {
+            border-collapse: collapse;
+        }
+
+        #second {
+            border-collapse: collapse;
+        }
+
+            #second td, th {
+                border: 1px solid black;
+            }
+
+        button.button.orange {
+            background: #feda71;
+            background: -webkit-gradient(linear, 0 0, 0 bottom, from(#feda71), to(#febe4d));
+            background: -moz-linear-gradient(#feda71, #febe4d);
+            background: linear-gradient(#feda71, #febe4d);
+            border: solid 1px #eab551;
+            border-bottom: solid 3px #b98a37;
+            box-shadow: inset 0 0 0 1px #fee9aa;
+            color: #996633;
+            text-shadow: 0 1px 0 #fedd9b;
+        }
+
+            button.button.orange:hover {
+                background: #fec455;
+                background: -webkit-gradient(linear, 0 0, 0 bottom, from(#fec455), to(#fecd61));
+                background: -moz-linear-gradient(#fec455, #fecd61);
+                background: linear-gradient(#fec455, #fecd61);
+                border: solid 1px #e6a93d;
+                border-bottom: solid 3px #b98a37;
+                box-shadow: inset 0 0 0 1px #fedb98;
+            }
+
+            button.button.orange:active {
+                background: #f9bd4f;
+                background: -webkit-gradient(linear, 0 0, 0 bottom, from(#f9bd4f), to(#f0b64d));
+                background: -moz-linear-gradient(#f9bd4f, #f0b64d);
+                background: linear-gradient(#f9bd4f, #f0b64d);
+                border: solid 1px #a77f35;
+                box-shadow: inset 0 10px 15px 0 #dba646;
+            }
+    </style>
+
+
+    <script>
+        var varAlreadyReg = '@ViewBag.IsAlreadyRegistered';
+        var module_type = '@ViewBag.ModuleType';
+    </script>
+
+    <script>
+        $(function () {
+            $("#SignEpaymentDialog").dialog({
+                autoOpen: false,
+                // height:550,
+                width: 1050,
+                modal: true,
+                show: {
+                    effect: "blind",
+                    duration: 1000
+                },
+                hide: {
+                    effect: "explode",
+                    duration: 1000
+                }
+
+            });
+
+            $("#SignEpaymentDialog1").dialog({
+                autoOpen: false,
+                width: 1050,
+                modal: true,
+                show: {
+                    effect: "blind",
+                    duration: 1000
+                },
+                hide: {
+                    effect: "explode",
+                    duration: 1000
+                },
+                open: function (event, ui) {
+                    $(".ui-dialog-titlebar-close", ui.dialog | ui).hide();
+                },
+                closeOnEscape: false
+
+            });
+
+
+            $("#REATSignEpaymentDialog1").dialog({
+                autoOpen: false,
+                width: 1050,
+                modal: true,
+                show: {
+                    effect: "blind",
+                    duration: 1000
+                },
+                hide: {
+                    effect: "explode",
+                    duration: 1000
+                },
+                open: function (event, ui) {
+                    $(".ui-dialog-titlebar-close", ui.dialog | ui).hide();
+                },
+                closeOnEscape: false
+
+            });
+
+
+            $("#SignERemDialog").dialog({
+                autoOpen: false,
+                // height:550,
+                width: 850,
+                modal: true,
+                show: {
+                    effect: "blind",
+                    duration: 1000
+                },
+                hide: {
+                    effect: "explode",
+                    duration: 1000
+                }
+
+            });
+
+            $("#SignERemDialog1").dialog({
+                autoOpen: false,
+                width: 850,
+                modal: true,
+                show: {
+                    effect: "blind",
+                    duration: 1000
+                },
+                hide: {
+                    effect: "explode",
+                    duration: 1000
+                },
+                open: function (event, ui) {
+                    $(".ui-dialog-titlebar-close", ui.dialog | ui).hide();
+                },
+                closeOnEscape: false
+
+            });
+
+        });
+
+    </script>
+
+    <script src="~/Scripts/jquery.ui.datepicker.js"></script>
+    <script src="~/Scripts/custom/Generic.js"></script>
+    <script src="~/Scripts/jquery.ui.dialog.js"></script>
+    <script src="~/Scripts/Login/md5.js"></script>
+    <script src="~/Scripts/Payment/EpayList.js"></script>
+</head>
+<body>
+    @{
+        
+        int flag = Convert.ToInt32(ViewBag.IsAlreadyRegistered);
+
+        int paymentflag = Convert.ToInt32(ViewBag.IsPaymentEnabled);
+        int reatpaymentflag = Convert.ToInt32(ViewBag.IsReatPaymentEnabled);
+        string moduleType = Convert.ToString(ViewBag.ModuleType);
+        
+    }
+
+    @if (flag == 0)
+    {
+        <div style="margin-top: 5px; border: 1px solid #CCC; border-radius: 4px;">
+            <table style='width: 100%;'>
+                <tr style="background: #f9f8d8;">
+                    <td style="width: 20%;">
+                        <b>Authorise signatory details are not available. First enter Authorise signatory details or </b>
+                        <b>DSC is not registered / Accepeted  at PFMS  </b>
+                    </td>
+                </tr>
+            </table>
+        </div>
+    }
+
+    @if (flag == 2)
+    {
+        <div style="margin-top: 5px; border: 1px solid #CCC; border-radius: 4px;">
+            <table style='width: 100%;'>
+                <tr style="background: #f9f8d8;">
+                    <td style="width: 20%;">
+                        <b>Digital certificate of authorise signatory is not registerd . To proceed further, first register digital certificate of authorise signatory .  </b>
+                    </td>
+                </tr>
+            </table>
+        </div>
+    }
+
+    @if (flag == 1)
+    {
+        <br />
+        if (moduleType.Equals("D"))
+        {
+        <div class="ui-widget-header innerDivHeader">
+            Epayment / E-Remittance List - DBT
+        </div>
+        }
+        
+         if (moduleType.Equals("R"))
+         {
+        <div class="ui-widget-header innerDivHeader">
+            Epayment / E-Remittance List - REAT
+        </div>
+         }
+         
+        <div id="divError" style="margin-left: 10px; margin-right: 15px; margin-top: 5px; margin-bottom: 5px; display: none" class="ui-state-error ui-corner-all">
+            <span class="ui-icon ui-icon-alert " style="float: left"></span>
+            <span id="errorSpan"></span>
+        </div>
+
+        <table style="margin-left: 10px; margin-right: 15px; margin-top: 10px; margin-bottom: 10px">
+            <tbody>
+                <tr>
+
+                    <td>
+
+                        <div style="float: left; padding: 0pt 0.7em; cursor: pointer;" class="jqueryButton"
+                            id="Search" title="Click here to search">
+                            <span class="ui-icon ui-icon-search " style="float: left; margin-right: 0.3em;"></span>
+                            <strong>Search   </strong>
+                        </div>
+                        @*@if (PMGSY.Extensions.PMGSYSession.Current.AdminNdCode == 245 || PMGSY.Extensions.PMGSYSession.Current.AdminNdCode == 583)*@
+                        @*@if (PMGSY.Extensions.PMGSYSession.Current.AdminNdCode == 451 || PMGSY.Extensions.PMGSYSession.Current.AdminNdCode == 453 || PMGSY.Extensions.PMGSYSession.Current.AdminNdCode == 173)*@
+                        @if ((paymentflag == 1) && (moduleType.Equals("D")))
+                        {
+                            <button type="button" id="signXmlDetails" class="button orange" style="margin-top: 0px; margin-bottom: 0px; margin-left: 100px; height: 36px; padding: 5px; color: white">Generate sample Payment for PFMS Application</button>
+                        }
+                          @if ((reatpaymentflag == 1) && (moduleType.Equals("R")))
+                          {
+                            <button type="button" id="signXmlDetailsREAT" class="button orange" style="margin-top: 0px; margin-bottom: 0px; margin-left: 100px; height: 36px; padding: 5px; color: white">Generate sample Payment for REAT Application</button>
+                          }
+                    </td>
+
+
+                </tr>
+            </tbody>
+        </table>
+
+        <center>
+            <table id="tblOptions" class="table-content ui-corner-all" style="width:100%;border:.1em solid gray" >
+    
+                <tr>
+                <td  style="text-align: right;width:20%">
+                    Month <label style="color:red">*</label>
+        
+                </td>
+                <td  style="text-align: left;width:03%">
+                 @Html.DropDownList("months", ViewData["months"] as SelectList, new { Title = "Month", tabindex = "1", @class = "dropdown" })
+           
+                </td>
+                <td  style="text-align: right;width:03%">
+                    Year <label style="color:red">*</label>
+                </td>
+                <td  style="text-align: left;width:10%">
+                  @Html.DropDownList("year", ViewData["year"] as SelectList, new { Title = "Year", tabindex = "2", @class = "dropdown" })
+            
+                </td>
+                <td style="width:20%">
+                    <input type="submit" class="jqueryButton"
+                        name="btnViewSubmit" id="btnViewSubmit" title="Click here to view details" value='View Details' />
+                </td>
+            </tr>
+        </table>
+            <table  class="table-content ui-corner-all" style="width:100%;border:.1em solid gray;margin-top:10px" >
+        <tr>
+                            <td style="text-align: right; width: 50%">Mode of Transaction <label style="color:red">*</label>
+                            </td>
+                            <td style="text-align: left" colspan="3">
+
+                                <div id="divEpay" style="float: left;">
+                           
+                                   <input type="radio" id="Epay" name="pay"  value="E" checked="checked" title="E-Payment"/> 
+                                  <label for="Epay">E-Payment </label>
+                                </div>
+                                <div id="divERem" style="float: left">
+                                     <input type="radio" id="ERem" name="pay" value="R" title="E-Remittance"/>  
+                                    <label for="ERem">E-Remittance   </label> 
+                            
+                                </div>
+                                </td>
+          </tr>                 
+        </table>
+    </center>
+        @Html.Hidden("fundtype", @PMGSY.Extensions.PMGSYSession.Current.FundType)
+        <form id="listForm" style="margin-top: 5px; margin-bottom: 5px">
+            <center>
+                <table id="tblSearch"  class="ui-state-default ui-corner-all" style="display:none;width:100%;border:.1em solid gray">
+    
+        <tr>
+            <td class="ui-widget ui-corner-bottom"  style="text-align:left; border-bottom:0.1em solid gray" colspan="2">
+                    <span class="ui-icon ui-icon-info" style="float: left;"></span>
+                    <span style="float: left; font-weight:bold">Search Criteria</span>
+                    <span class="ui-icon ui-icon-circle-close" style="float: right;" id="iconCloseEPayment" title="Close"></span>
+            </td>
+        </tr>
+
+
+        <tr class="class-head-tr">
+            <td  style="text-align: right;width:50%">
+                @Html.LabelFor(model => model.fromDate)
+        
+            </td>
+            <td style="text-align: left;width:50%">
+             @Html.TextBox("fromDate", null, new { maxlength = 10, @title = "From Date" })
+           <br />
+                 @Html.ValidationMessageFor(model => model.fromDate)
+            </td>
+            </tr>
+     <tr class="class-head-tr">
+        <td  style="text-align: right;width:50%">
+         @Html.LabelFor(model => model.toDate)
+        </td>
+        <td  style="text-align: left;width:50%">
+         @Html.TextBox("toDate", null, new { maxlength = 10, @title = "To Date" })   
+             <br /> 
+            @Html.ValidationMessageFor(model => model.toDate)
+            </td>
+        
+        </tr>  
+     <tr class="class-head-tr" style="display:none">  
+         
+         
+         <td  style="text-align:right;width:50%">
+        <b>Transaction Type </b>     </td>
+         <td>     
+                          
+              @Html.DropDownList("TXN_ID", ViewData["TXN_ID"] as SelectList, new { Title = "Transaction Type", tabindex = "1", @class = "dropdown", @style = "width:50%" })
+             
+              </td>
+          </tr>  
+         <tr class="class-head-tr">  
+            <td  style="text-align:right;width:50%">
+                 <input type="button" class="jqueryButton"
+                 name="btnSearch" id="btnSearch" title="Click here to search details" value='Search Details' />
+            </td>
+                   
+            <td  style="text-align:left;width:50%">
+                 <input type="button" class="jqueryButton"
+                 name="btnClearSearch" id="btnClearSearch" title="Click here to cancel" value='Cancel' />
+            </td>
+           
+
+      </tr> 
+</table>
+        </center>
+        </form>
+        <center> 
+        <div id="listDiv" style="width:100%">
+        <table id="PaymentList" ></table>
+        <div id="pager"></div>
+         </div>
+    </center>
+
+        <div id="SignEpaymentDialog" title="E-Payment Details" style="display: none; width: 1050px !important">
+            <div id="divSignError2" style="margin-left: 10px; margin-right: 15px; display: none; margin-top: 5px; margin-bottom: 5px" class="ui-state-error ui-corner-all">
+                <span class="ui-icon ui-icon-alert " style="float: left"></span>
+                <span id="errorSignSpan2"></span>
+            </div>
+
+            <div id="SignEpaymentDiv" style="width: 1050px !important">
+            </div>
+            <div style="margin-top: 5px; margin-bottom: 5px;">
+                <span style="color: red">Note: Please Ask the Bank to  allow all type of Emails coming from omms.pmgsy@nic.in on their Email server </span>
+                <br />
+                <div class="ui-state-default ui-corner-all jqueryButton" id="btnPrintEpaymentDetails" title="Print Epayment Details">
+                    <span style="float: left" class="ui-icon ui-icon-print"></span>
+                    <span style="float: left; margin-right: 5px">Print</span>
+                </div>
+
+            </div>
+
+        </div>
+
+    
+        <div id="SignEpaymentDialog1" title="Digitally Sign E-Payment -DBT " style="display: none; width: 1050px !important">
+            <div id="divSignError4" style="margin-left: 10px; margin-right: 15px; display: none; margin-top: 5px; margin-bottom: 5px" class="ui-state-error ui-corner-all">
+                <span class="ui-icon ui-icon-alert " style="float: left"></span>
+                <span id="errorSignSpan4"></span>
+            </div>
+            <div id="SignEpaymentDiv1" style="width: 1050px !important">
+            </div>
+            <div style="margin-top: 5px; margin-bottom: 5px;">
+                <span style="color: red">Note: Please Ask the Bank to  allow all type of Emails coming from omms.pmgsy@nic.in on their Email server </span>
+            </div>
+        </div>    
+    
+          
+        <div id="REATSignEpaymentDialog1" title="Digitally Sign E-Payment -REAT" style="display: none; width: 1050px !important">
+            <div id="REATdivSignError4" style="margin-left: 10px; margin-right: 15px; display: none; margin-top: 5px; margin-bottom: 5px" class="ui-state-error ui-corner-all">
+                <span class="ui-icon ui-icon-alert " style="float: left"></span>
+                <span id="REATerrorSignSpan4"></span>
+            </div>
+            <div id="REATSignEpaymentDiv1" style="width: 1050px !important">
+            </div>
+            <div style="margin-top: 5px; margin-bottom: 5px;">
+                <span style="color: red">Note: Please Ask the Bank to  allow all type of Emails coming from omms.pmgsy@nic.in on their Email server </span>
+            </div>
+        </div>    
+    
+    
+        <div id="SignERemDialog" title="E-Remittance Details" style="display: none; width: 850px !important; overflow-y: auto">
+
+            <div id="divSignError3" style="margin-left: 10px; margin-right: 15px; display: none; margin-top: 5px; margin-bottom: 5px" class="ui-state-error ui-corner-all">
+                <span class="ui-icon ui-icon-alert " style="float: left"></span>
+                <span id="errorSignSpan3"></span>
+            </div>
+
+            <div id="SignERemDiv" style="width: 850px !important">
+            </div>
+            <div style="margin-top: 5px; margin-bottom: 5px;">
+                <span style="color: red">Note: Please Ask the Bank to  allow all type of Emails coming from omms.pmgsy@nic.in on their Email server </span>
+                <br />
+                <div class="ui-state-default ui-corner-all jqueryButton" id="btnPrintERemDetails" title="Print Eremittance Details">
+                    <span style="float: left" class="ui-icon ui-icon-print"></span>
+                    <span style="float: left; margin-right: 5px">Print</span>
+                </div>
+            </div>
+
+        </div>    
+    
+        <div id="SignERemDialog1" title="Digitally Sign E-Remittance" style="display: none; width: 850px !important">
+
+            <div id="divSignError5" style="margin-left: 10px; margin-right: 15px; display: none; margin-top: 5px; margin-bottom: 5px" class="ui-state-error ui-corner-all">
+                <span class="ui-icon ui-icon-alert " style="float: left"></span>
+                <span id="errorSignSpan5"></span>
+            </div>
+
+            <div id="SignERemDiv1" style="width: 850px !important">
+            </div>
+            <div style="margin-top: 5px; margin-bottom: 5px;">
+                <span style="color: red">Note: Please Ask the Bank to  allow all type of Emails coming from omms.pmgsy@nic.in on their Email server </span>
+            </div>
+
+        </div>      
+    
+    }
+
+@*Temporary for Testing of Payment Sign XML *@
+    @{
+        //if (PMGSY.Extensions.PMGSYSession.Current.AdminNdCode == 245 || PMGSY.Extensions.PMGSYSession.Current.AdminNdCode == 583)
+        //if (PMGSY.Extensions.PMGSYSession.Current.AdminNdCode == 135 || PMGSY.Extensions.PMGSYSession.Current.AdminNdCode == 900)
+        //if (PMGSY.Extensions.PMGSYSession.Current.AdminNdCode == 451 || PMGSY.Extensions.PMGSYSession.Current.AdminNdCode == 453 || PMGSY.Extensions.PMGSYSession.Current.AdminNdCode == 173)
+        if (moduleType.Equals("D"))
+        {
+            if (paymentflag == 1)
+            {
+        <script>
+            $("#signXmlDetails").click(function () {
+                $.ajax({
+                    url: '/PFMS1/SignEpaymentXmlTest',
+                    type: 'POST',
+                    cache: false,
+                    success: function (response) {
+                        $("#containerDsc").html(response);
+                    },
+                    complete: function () {
+
+                    },
+                    error: function () {
+                        alert("Error occured while processing your request");
+                    },
+                });
+            });
+
+            
+        </script>
+
+        <!-- Added by pradip for testing of 2 epay login PFMS Dsc digital signature-->
+        <div id="containerDsc" style="margin-top: 20px"></div>
+            }
+        }
+
+
+        if (moduleType.Equals("R"))
+        {
+            if (reatpaymentflag == 1)
+            {
+        <script>
+            $("#signXmlDetailsREAT").click(function () {
+                $.ajax({
+                     url: '/Reat/Reat/SignEpaymentXmlTestREAT',
+                    //url: '/Reat/Reat/GetXmlTempREAT' ,
+                    type: 'POST',
+                    cache: false,
+                    success: function (response) {
+                        $("#containerDsc").html(response);
+                    },
+                    complete: function () {
+
+                    },
+                    error: function () {
+                        alert("Error occured while processing your request");
+                    },
+                });
+            });
+
+        </script>
+
+        <!-- Added by pradip for testing of 2 epay login PFMS Dsc digital signature-->
+        <div id="containerDsc" style="margin-top: 20px"></div>
+        }
+        }
+    }
+</body>
+</html>

@@ -1,0 +1,147 @@
+﻿@model PMGSY.Areas.QMSSRSReports.Models.QualityReportsViewModel
+
+@if (Layout == null)
+{
+    Layout = Request.IsAjaxRequest() ? null : "~/Areas/AccountReports/Views/Account/_Layout.cshtml";
+}
+<script type="text/javascript" src="@Url.Content("~/Scripts/jquery.ui.dialog.js")"> </script>
+<script src="~/Areas/QMSSRSReports/Scripts/QMItemwiseInspectionsLayout.js"></script>
+<script src="~/Scripts/custom/Generic.js"></script>
+
+<div id="dvhdQMItemwiseInspectionsLayout" class="ui-corner-top ui-widget-header panelheader" style="text-align: left; height: 20px;">
+    <span class="ui-jqgrid-title" style="float: left">&nbsp;Itemwise Inspections</span>
+    <span id="spCollapseIconCN" class="ui-icon ui-icon-circle-triangle-n" style="float: right"></span>
+</div>
+<div id="dvQMItemwiseInspectionsLayout" class="ui-corner-bottom" style="display: block;">
+    <form id="frmQMItemwiseInspectionsLayout">
+        @Html.AntiForgeryToken()
+        @Html.ValidationSummary(true)
+        @Html.Hidden("hdnRole", PMGSY.Extensions.PMGSYSession.Current.RoleCode.ToString())
+        @Html.HiddenFor(m => m.StateName)
+        @Html.HiddenFor(m => m.DistName)
+        @Html.HiddenFor(m => m.GradingItemName)
+        <table class="rowstyle" style="margin-top: 0px; text-align: center; border: ridge 0.1em #ccc; width: 100%;">
+            <tr>
+                <td colspan="8" style="text-align: left;"><b>Select Type of Work Graded as : </b>
+                    &nbsp;&nbsp;&nbsp;@Html.RadioButtonFor(model => model.Grade, "2", new { @id = "rdoGradeSRI", @name = "rdoGradeSRI" }) Satisfactory Requiring Improvement     
+                            &nbsp;&nbsp;&nbsp; @Html.RadioButtonFor(model => model.Grade, "3", new { @id = "rdoGradeU", @name = "rdoGradeU" }) 	Unsatisfactory 
+                <br />
+                    @Html.ValidationMessageFor(m => m.Grade)
+                </td>
+            </tr>
+            <tr>
+                <td style="width: 15%; font-weight: bold; text-align: left;">
+                    @Html.LabelFor(model => model.State)
+                </td>
+                <td style="width: 10%">
+                    @if (PMGSY.Extensions.PMGSYSession.Current.RoleCode == 8)
+                    {                          
+@*@Html.DropDownListFor(model => model.STATE, new SelectList(Model.STATE_LIST, "value", "text"), new { @id = "ddlStatesItemwiseInspections", @disabled = "disabled" })*@
+                        @Html.DropDownListFor(model => model.State, new SelectList(Model.StateList, "Value", "Text"), new { @id = "ddlStatesItemwiseInspections", @title = "State", @tabindex = 1, @disabled = "disabled" })
+                        <br />
+                        @Html.ValidationMessageFor(m => m.State)
+                    }
+                    else
+                    {
+@*@Html.DropDownListFor(model => model.STATE, new SelectList(Model.STATE_LIST, "value", "text"), new { @id = "ddlStatesItemwiseInspections" })*@
+                        @Html.DropDownListFor(model => model.State, new SelectList(Model.StateList, "Value", "Text"), new { @id = "ddlStatesItemwiseInspections", @title = "State", @tabindex = 1, })
+                        <br />
+                        @Html.ValidationMessageFor(m => m.State)
+                    }
+                </td>
+
+                <td style="width: 15%; font-weight: bold; text-align: left;">
+                    @Html.LabelFor(model => model.District)
+                </td>
+                <td style="width: 10%">
+                    @Html.DropDownListFor(model => model.District, new SelectList(Model.DistrictList, "Value", "Text"), new { @id = "ddlDistrictsItemwiseInspections", @title = "Item", @tabindex = 2, })
+                    <br />
+                    @Html.ValidationMessageFor(m => m.District)
+                </td>
+
+                <td style="width: 15%; font-weight: bold; text-align: left;">
+                    @Html.LabelFor(model => model.GradingItem)
+                </td>
+                <td style="width: 10%">
+                    @*@Html.DropDownListFor(model => model.GradingItem, new SelectList(Model.GradingItemList, "Value", "Text"), new { @id = "ddlItemsInItemwiseInspections", @title = "Item", @tabindex = 3, })*@
+
+                    <select name="GradingItem" id="GradingItem">
+                        @{var lstTypes = Model.GradingItemList.Select(m => m.MAST_ITEM_STATUS).Distinct().ToList();}
+                        <option value="0">All Items</option>
+                        @foreach (var type in lstTypes)
+                        {
+                            
+                            <optgroup label="@(type == "A" ? "Common Items " : type == "C" ? "Completed " : type == "L" ? "Bridge " : type == "M" ? "Maintenance " : type == "O" ? "Overall Grading " : "In Progress ")">
+                                @foreach (var item in Model.GradingItemList)
+                                {
+                                    string text = "";
+                                    text = item.MAST_ITEM_CODE.ToString() + "." + item.MAST_SUB_ITEM_CODE.ToString() + " " + item.MAST_ITEM_NAME;
+                                    if (type == item.MAST_ITEM_STATUS)
+                                    {
+                                        if (item.MAST_ITEM_NAME != "Overall Grading")
+                                        {
+                                            if (Model.GradingItem == item.MAST_ITEM_NO)
+                                            {
+                                                <option value="@(item.MAST_ITEM_NO)" selected="selected">@text</option>
+                                            }
+                                            else
+                                            {
+                                                <option value="@(item.MAST_ITEM_NO)">@text</option>
+                                            }
+                                        }
+                                    }
+                                }
+                            </optgroup>
+                        }
+                    </select>
+
+                    <br />
+                    @Html.ValidationMessageFor(m => m.GradingItem)
+                </td>
+                <td style="width: 15%; font-weight: bold; text-align: left;">
+                    @Html.LabelFor(model => model.FromMonth)
+                </td>
+                <td style="width: 10%">
+                    @*@Html.DropDownListFor(model => model.FROM_MONTH, new SelectList(Model.FROM_MONTH_LIST, "value", "text"), new { @id = "ddlFromMonthItemwiseInspections" })*@
+                    @Html.DropDownListFor(model => model.FromMonth, new SelectList(Model.FromMonthList, "Value", "Text"), new { @id = "ddlFromMonthItemwiseInspections", @title = "From Month", @tabindex = 4, })
+                    <br />
+                    @Html.ValidationMessageFor(m => m.FromMonth)
+                </td>
+            </tr>
+            <tr>
+                <td style="width: 15%; font-weight: bold; text-align: left;">
+                    @Html.LabelFor(model => model.FromYear)
+                </td>
+                <td style="width: 10%">
+                    @*@Html.DropDownListFor(model => model.FROM_YEAR, new SelectList(Model.FROM_YEAR_LIST, "value", "text"), new { @id = "ddlFromYearItemwiseInspections" })*@
+                    @Html.DropDownListFor(model => model.FromYear, new SelectList(Model.FromYearList, "Value", "Text"), new { @id = "ddlFromYearItemwiseInspections", @title = "From Year", @tabindex = 5, })
+                    <br />
+                    @Html.ValidationMessageFor(m => m.FromYear)
+                </td>
+
+                <td style="width: 15%; font-weight: bold; text-align: left;">
+                    @Html.LabelFor(model => model.ToMonth)
+                </td>
+                <td style="width: 10%">
+                    @*@Html.DropDownListFor(model => model.TO_MONTH, new SelectList(Model.TO_MONTH_LIST, "value", "text"), new { @id = "ddlToMonthItemwiseInspections" })*@
+                    @Html.DropDownListFor(model => model.ToMonth, new SelectList(Model.ToMonthList, "Value", "Text"), new { @id = "ddlToMonthItemwiseInspections", @title = "To Month", @tabindex = 6, })
+                    <br />
+                    @Html.ValidationMessageFor(m => m.ToMonth)
+                </td>
+                <td style="width: 15%; font-weight: bold; text-align: left;">
+                    @Html.LabelFor(model => model.ToYear)
+                </td>
+                <td style="width: 10%">
+                    @*@Html.DropDownListFor(model => model.TO_YEAR, new SelectList(Model.TO_YEAR_LIST, "value", "text"), new { @id = "ddlToYearItemwiseInspections" })*@
+                    @Html.DropDownListFor(model => model.ToYear, new SelectList(Model.ToYearList, "Value", "Text"), new { @id = "ddlToYearItemwiseInspections", @title = "To Year", @tabindex = 7, })
+                    <br />
+                    @Html.ValidationMessageFor(m => m.ToYear)
+                </td>
+                <td colspan="4" style="text-align: left;">
+                    <input type="button" id="btnViewItemwiseInspectionsDetails" value="View Details" class="jquerybutton" style="margin-left: 20px;" />
+                </td>
+            </tr>
+        </table>
+    </form>
+</div>
+<div id="dvLoadItemwiseInspectionsReport"></div>

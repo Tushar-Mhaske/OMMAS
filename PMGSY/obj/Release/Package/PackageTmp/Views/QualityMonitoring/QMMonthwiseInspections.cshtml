@@ -1,0 +1,53 @@
+﻿@*
+    * Project Id    :
+    * Project Name  :   OMMAS II
+    * Name          :   QMMonthwiseInspections.cshtml
+    * Description   :   Renders Abstract Grading & ATR Details for Monitors.
+    * Author        :   Shyam Yadav
+    * Creation Date :   03/December/2013    
+*@
+
+@model PMGSY.Models.QualityMonitoring.QMReportsViewModel
+
+
+<script src="~/Scripts/QualityMonitoring/QMMonthwiseInspections.js"></script>
+
+<form id="frmMonthwiseInspectionsReport">
+    <div id="divMonthwiseInspectionsReport" class="ui-state-default ui-corner-all" style="text-align: center; width: 100%">
+            <table id="tblMonthwiseInspectionsReport" style="margin-top:0px; text-align:center; border:ridge 0.1em #ccc; width:100%; padding:5px 5px 5px 5px;">
+                    <tr>
+                       <td style="width:15%;font-weight:bold;" >
+                            @Html.LabelFor(model => model.STATE)
+                        </td>
+                        <td style="width:10%" >  
+                            @if(PMGSY.Extensions.PMGSYSession.Current.RoleCode == 8)
+                            {                          
+                                @Html.DropDownListFor(model => model.STATE, new SelectList(Model.STATE_LIST, "value", "text"), new { @id = "ddlStateMonthwiseComparision", @disabled = "disabled"})
+                            }
+                            else
+                            {
+                                @Html.DropDownListFor(model => model.STATE, new SelectList(Model.STATE_LIST, "value", "text"), new { @id = "ddlStateMonthwiseComparision"})
+                            }                          
+                        </td>
+                        <td style="width:15%;font-weight:bold;">
+                            @Html.LabelFor(model => model.YEAR)
+                        </td>
+                        <td style="width:10%">
+                            @Html.DropDownListFor(model => model.YEAR, new SelectList(Model.YEAR_LIST, "value", "text"), new { @id = "ddlYearMonthwiseComparision"})
+                        </td>
+                        <td rowspan="2" style="text-align:left;">
+                             <input type="button" id="btnViewMonthwiseComparision" value="View Details" class="jquerybutton"  style="margin-left:20px;"/>
+                        </td>
+                    </tr>
+            </table>
+    </div>
+    <br />
+
+    <table id="tbMonthwiseComparisionNQMReport"></table>
+    <div id="dvMonthwiseComparisionNQMReportPager"></div>
+    
+    <br />
+
+    <table id="tbMonthwiseComparisionSQMReport"></table>
+    <div id="dvMonthwiseComparisionSQMReportPager"></div>
+ </form>

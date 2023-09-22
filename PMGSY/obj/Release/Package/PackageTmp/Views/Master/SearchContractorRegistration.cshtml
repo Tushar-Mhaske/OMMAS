@@ -1,0 +1,47 @@
+﻿@{
+    ViewBag.Title = "SearchContractorRegistration";
+}
+
+<script src="~/Scripts/custom/Generic.js"></script>
+<script src="~/Scripts/Master/SearchContractorReg.js"></script>
+
+<form id="frmSearchContractor">
+    <div id="dvhdSearch" class="ui-corner-top ui-widget-header panelheader" style="text-align: left; margin-left: 10px; margin-right: 10px; margin-top: 10px; height: 20px;">
+        <span class="ui-jqgrid-title" style="float: left">&nbsp;Search</span>
+        <span id="spCollapseIconS" class="ui-icon ui-icon-circle-triangle-n" style="float: right"></span>
+    </div>
+    <div id="dvSearchParameter" class="ui-corner-bottom" style="margin-left: 10px; margin-right: 10px; display: block; border: 1px solid #B5B8C8;">
+        <table style="width: 100%" class="rowstyle">
+            <tr>
+                <td style="text-align: left; width: 15%;">@Html.Label("Registration State")</td>
+                <td style="text-align: left; width: 20%">@Html.DropDownList("State", null, new { @title = "State" })</td>
+                @* <td style="text-align:right;width:8%";>@Html.Label("District")</td>
+               <td style="text-align:left;width:12%;">@Html.DropDownList("District", null, new { @title = "District",@style="width:100px" })</td> *@
+                <td style="text-align: left; width: 15%">@Html.Label("Registration Status")</td>
+                <td style="text-align: left; width: 20%">@Html.DropDownList("Status", null, "--All--", new { @title = "Status" })</td>
+            </tr>
+            <tr>
+                <td style="text-align: left; width: 15%">@Html.Label("Contractor Status")</td>
+                <td style="text-align: left; width: 20%">@Html.DropDownList("ContractorStatus", null, "--All--", new { @title = "Status"})</td>
+                <td style="text-align: left; width: 15%;">@Html.Label("Contractor First Name")</td>
+                <td style="text-align: left; width: 20%">@Html.TextBox("Contractor", "", new { @title = "Contractor First Name", @id = "txtContractor", @placeholder = "Enter Contractor First Name..." })</td>
+            </tr>
+             <tr>
+                <td style="text-align: left; width: 15%">@Html.Label("Pan No")</td>
+                <td style="text-align: left; width: 20%">@Html.TextBox("PanNumbers","",new { @title = "Status" , @id="txtPan",@placeholder = "Enter Pan Number..."})</td>
+                <td style="text-align: left; width: 15%;">@Html.Label("Class Type")</td>
+                <td style="text-align: left; width: 20%">@Html.DropDownList("ClassType",null, "--All--", new { @title = "Class Type"})</td>
+            </tr>
+            <tr>
+                 <td style="text-align: left; width: 15%;">@Html.Label("Registration No")</td>
+                <td style="text-align: left; width: 20%">@Html.TextBox("RegNo", "", new { @title = "Registration Number", @id = "txtRegNo", @placeholder = "Enter Registration No..." })</td>
+                <td style="text-align: left; width: 15%;">@Html.Label("Company Name")</td>
+                <td style="text-align: left; width: 20%">@Html.TextBox("Company", "", new { @title = "Company Name", @id = "txtCompanyName", @placeholder = "Enter Company Name..." })</td>
+            </tr>
+            <tr>
+                <td colspan="4" style="text-align: center">
+                    <input type="button" id="btnSearchView" name="btnSearch" value="Search" class="jqueryButton" title="Search Contractor Information" tabindex="5" /></td>
+            </tr>
+        </table>
+    </div>
+</form>

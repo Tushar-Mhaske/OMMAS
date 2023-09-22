@@ -1,0 +1,373 @@
+﻿@model PMGSY.Models.Report.Ledger.ledgerListModel
+@using System.Globalization
+@using PMGSY.Common
+@{
+    Layout = null;
+}
+@{
+                                    CommonFunctions objCommonFunction = new CommonFunctions();
+}
+<!DOCTYPE html>
+
+<html>
+<head>
+    <meta name="viewport" content="width=device-width" />
+   
+    <link href="~/Content/demo_page.css" rel="stylesheet" />
+     <link href="~/Content/demo_table_jui.css" rel="stylesheet" />
+   <link href="~/Content/TableTools.css" rel="stylesheet" />
+<link href="~/Content/TableTools_JUI.css" rel="stylesheet" />
+
+@*<script src="~/Scripts/jquery-ui.js"></script>*@
+<script src="~/Scripts/DataTables/jquery.dataTables.js"></script>
+<script src="~/Scripts/DataTables/ZeroClipboard.js"></script>
+<script src="~/Scripts/DataTables/TableTools.js"></script>
+<style type="text/css">
+
+div.CBHeader{
+			padding:5px;
+            width:98%;
+			display:inline-block;
+			cursor:default;
+			/*font:12px/14px Arial, Helvetica, sans-serif;*/
+            font-family: Trebuchet MS,Tahoma,Verdana,Arial,sans-serif;
+			color:#000;
+			background-color:#eee;
+			-moz-border-radius:10px;
+			-webkit-border-radius:10px;
+			-moz-box-shadow:#999 2px 0px 3px;
+			-webkit-box-shadow:#999 2px 0px 3px;
+		}
+</style>
+
+
+
+    <script type="text/javascript">
+        var tblLedger = $('#tblLedger').dataTable({
+            "bJQueryUI": true,
+            "bFilter": false,
+            //"sPaginationType": "full_numbers",
+            "sScrollY": "320px",
+            "bPaginate": false,
+            "bScrollInfinite": true,
+            "bScrollCollapse": true,
+            //"bAutoWidth": false,
+            "sDom": '<"H"Tfr>t<"F"ip>',
+            "oTableTools": {
+                "aButtons": [
+                    //{
+                    //    "sExtends": "pdf",
+                    //    "sPdfOrientation": "landscape",
+                    //    "sButtonText": "<img src='../../content/images/Reader.gif' alt='PDF' style='margin-right:20px'></img>",
+                    //    "sPdfMessage": "Your custom message would go here.",
+                    //    "sFileName": "CB-Payment" + $('#Month').children('option').filter(':selected').text() + "-" + $("#Year").val() + ".pdf"
+                    //},
+                    //{
+                    //    "sExtends": "xls",
+                    //    "bBomInc": true,
+                    //    "sButtonText": "<img src='../../content/images/Excel.gif' alt='Excel'></img>",
+                    //    "sFileName": "CB-Payment" + $('#Month').children('option').filter(':selected').text() + "-" + $("#Year").val() + ".xls"
+                    //    //"sButtonClass": "ui-icon ui-icon-circle-close"
+                    //}
+
+                ]
+            }
+        });
+
+
+
+        $("#ToolTables_tblLedger_0").removeClass('DTTT_button').removeClass('ui-state-default').removeClass('DTTT_button_collection');
+        $("#ToolTables_tblLedger_1").removeClass('DTTT_button').removeClass('ui-state-default').removeClass('DTTT_button_collection');
+        </script>
+</head>
+<body>
+    <br />
+
+    <div class="CBHeader ui-corner-all" id="dvDetails" style="width:99%">
+        <table class="ui-state-default ui-corner-all" style="border: 0.1em solid gray; width: 100%; margin-top: 1px" id="tblFilter">
+            <tr>
+                <td colspan="5" style="color:green;text-align:right">
+                    @Html.DisplayFor(m=>m.ReportNumber)
+                </td>
+            </tr>
+            <tr>
+                <td colspan="5" style="color:green;text-align:center">@Html.DisplayFor(m=>m.FundType)</td>
+            </tr>
+             <tr>
+                <td colspan="5"style="color:green;text-align:center">@Html.DisplayFor(m=>m.ReportName)</td>
+            </tr>
+             <tr>
+                <td colspan="5" style="color:green;text-align:center">@Html.DisplayFor(m=>m.ReporPara)</td>
+            </tr>
+             <tr id="nodalAgencyTR">
+                 <td style="width:10%"></td>
+                <td style="width:09%;color:green">
+                    Name of SRRDA:
+                </td>
+                <td  style="text-align:left;width:45%">
+                    @Model.StateDepartment
+                </td>
+                       
+                 @if (Model.DistrictDepartment == "-")
+                 {
+                     <td style="width:08%;color:green">
+                    </td>
+                    <td  style="text-align:left;width:20%">
+                    
+                    </td>
+                 }
+                 else { 
+                <td style="width:08%;color:green">
+                    Name of DPIU:
+                </td>
+                <td  style="text-align:left;width:20%">
+                    @Model.DistrictDepartment
+                </td>
+                 }
+            </tr>
+               <tr>
+                 <td></td>
+                <td style="color:green">
+                    Month : 
+                </td>
+                <td  style="text-align:left;">
+                    @Model.MonthName
+                </td>
+                       
+                <td style="color:green">
+                    Year :
+                </td>
+                <td  style="text-align:left;">
+                    @Model.Year
+                </td>
+            </tr>
+        </table>
+
+    </div>
+
+     <div>
+      
+         <table id="tblLedger" class="table-content ui-corner-all" style="width: 98%; border: .1em solid gray">
+          <thead>
+             <tr>
+                <th  style="width:10%;text-align:left" colspan ="3">
+                  @{ string balanceLabel =string.Empty;
+                       if (Model.CR_DR == "C")
+                             {
+                                balanceLabel = "Credit Balances";
+                             }
+                             else 
+                             { 
+                                balanceLabel = "Debit Balances" ;
+                             }  
+                          }
+                    <b> General Ledger (@balanceLabel)   </b>        
+                    
+                </th>
+                <th  style="text-align:right" colspan="6">
+                    <b> PMGSY/IA/F-9</b>
+                </th>
+            </tr>
+           <tr >
+            <th id="HeadDescTD" colspan="9">
+
+            </th>
+           </tr>
+             <tr>
+                <th style="width:10%;text-align:center"><b> Date </b></th>
+                 <th style="width:5%;text-align:center"><b> Mr./Vr./Te.No. </b></th>
+                 <th style="width:25%;text-align:center"><b> Particulars of Transaction </b> </th>
+                <th style="width:16%;text-align:center"><b> Opening Balance To the End of previous month @Model.previousMonthName</b></th>
+                 <th style="width:30%;text-align:center" colspan="3"><b> Transaction For Month @Model.currentMonthName</b></th>
+                 <th style="width:16%;text-align:center"><b> Balance To the End of The Month @Model.currentMonthName (4+7) </b></th>
+            </tr>
+            <tr>
+                <th></th>
+                 <th></th>
+                <th></th>
+                 <th></th>
+                 <th style="text-align:center" id="tdcrdr1">
+                      @if (Model.CR_DR == "D")
+                             {
+                                <text><b> Debit </b></text>
+                             }
+                             else 
+                             { 
+                                <text><b> Credit </b></text>
+                             }
+                 </th>
+                 <th style="text-align:center" id="tdcrdr2">
+                      @if (Model.CR_DR == "D")
+                             {
+                                <text><b> Credit </b></text>
+                             }
+                             else 
+                             { 
+                                 <text><b> Debit </b></text>
+                             }
+                 </th>
+                <th style="text-align:center"  id="tdBalanceCrDr">
+                     @if (Model.CR_DR == "D")
+                             {
+                                 <text><b> Debit Balance <br /> (5-6) </b> </text>
+                             }
+                             else 
+                             { 
+                                <text><b> Credit Balance <br /> (5-6)  </b></text>
+                             }
+
+                </th>
+                 <th></th>
+            </tr>
+            <tr>
+            <th style="text-align:center"><b>1</b></th>
+           <th style="text-align:center"><b>2</b></th>
+            <th style="text-align:center"><b>3</b></th>
+           <th style="text-align:center"><b>4</b></th>
+            <th style="text-align:center"><b>5</b></th>
+            <th style="text-align:center"><b>6</b></th>
+            <th style="text-align:center"><b>7</b></th>
+            <th style="text-align:center"><b>8</b></th>
+             </tr>
+                </thead>         
+             <tbody>
+             
+             <tr>
+                <td></td>
+                <td></td>
+                <td style="text-align:left"><b>Opening Balance</b> </td>
+                <td style="text-align:right"><b> @Model.OPENING_BALANCE </b></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td> 
+            </tr>
+            @{
+               decimal creditSumAmount = 0;
+               decimal debitSumAmount = 0;
+               decimal balanceAmount = 0;
+               String balanceSumAmount = String.Empty;
+               int i = 0;
+                }
+           @foreach (var item in Model.ListLedger)
+           {    //If Condition Changed By Abhishek kamble 4-Apr-2014
+               if(i!=0 && i!=(Model.ListLedger.Count()-1)){
+               creditSumAmount = creditSumAmount +  Convert.ToDecimal(item.CREDIT_AMOUNT);
+               debitSumAmount = debitSumAmount + Convert.ToDecimal(item.DEBIT_AMOUNT);
+               <tr>
+                      <td style="text-align:center">@item.BILL_DATE </td>
+                      <td style="text-align:center">@item.TEO_NUMBER</td>
+                      <td style="text-align:left">@item.NARRATION</td>
+                     <td></td>
+
+                      <td style="text-align:right"> 
+                            @if (Model.CR_DR == "C")
+                             { 
+                               @objCommonFunction._IndianFormatAmount(item.CREDIT_AMOUNT == null ? "0" : item.CREDIT_AMOUNT)
+                             }
+                            else
+                            {   
+                                @objCommonFunction._IndianFormatAmount(item.DEBIT_AMOUNT == null ? "0" : item.DEBIT_AMOUNT)
+                            }
+                           
+                     </td>
+                      <td style="text-align:right"> 
+                          @if (Model.CR_DR == "D")
+                          {     
+                              @objCommonFunction._IndianFormatAmount(item.CREDIT_AMOUNT == null ? "0" : item.CREDIT_AMOUNT)
+                          }
+                          else
+                          {
+                              @objCommonFunction._IndianFormatAmount(item.DEBIT_AMOUNT == null ? "0" : item.DEBIT_AMOUNT)
+                          }
+                           
+                     </td>
+                      <td style="text-align:right">
+                            @if (Model.CR_DR == "D")
+                            {
+                                balanceAmount = (Convert.ToDecimal(item.DEBIT_AMOUNT) - Convert.ToDecimal(item.CREDIT_AMOUNT));
+                            }
+                            else
+                            {
+                                balanceAmount = (Convert.ToDecimal(item.CREDIT_AMOUNT) - Convert.ToDecimal(item.DEBIT_AMOUNT));
+                            }
+                          @{
+                             @objCommonFunction._IndianFormatAmount(balanceAmount.ToString())
+                           }
+                     </td>
+                     <td>
+
+                     </td>
+                     
+                 </tr>
+               }
+               i++;
+           }
+             </tbody>
+           
+              <tfoot>
+              <tr>
+                 <td></td>
+                 <td></td>
+                
+                  <td style="text-align:left"><b> Total For the Month  </b> </td>
+                  <td style="text-align:right"><b>@String.Format(new CultureInfo("en-IN"), "{0:C}", Convert.ToDecimal( Model.OPENING_BALANCE )) </b> </td>
+                 <td style="text-align:right">
+                    
+                      @if (Model.CR_DR == "D")
+                      {                             
+                                <b>
+                                    @(balanceSumAmount == "0" ? "0.00" : @String.Format(new CultureInfo("en-IN"), "{0:C}", debitSumAmount))
+                                    
+                                </b>
+                      }
+                      else
+                      {
+                                <b>@(balanceSumAmount == "0" ? "0.00" : @String.Format(new CultureInfo("en-IN"), "{0:C}", creditSumAmount)) 
+                                    
+                                </b>
+                      }
+
+                 </td>
+                  <td style="text-align:right">
+                      @if (Model.CR_DR == "D")
+                      {                               
+                                <b>
+                                    @(balanceSumAmount == "0" ? "0.00" : @String.Format(new CultureInfo("en-IN"), "{0:C}", creditSumAmount))
+                                </b>
+                      }
+                      else
+                      {  
+                                <b>
+                                    @(balanceSumAmount == "0" ? "0.00" : @String.Format(new CultureInfo("en-IN"), "{0:C}", debitSumAmount)) 
+                                </b>
+                      }
+                  </td>
+                 <td style="text-align:right">
+                      @if (Model.CR_DR == "D")
+                      {
+                          
+                          balanceSumAmount = objCommonFunction._IndianFormatAmount((debitSumAmount - creditSumAmount).ToString());
+                      }
+                      else
+                      {   
+                          balanceSumAmount = objCommonFunction._IndianFormatAmount((creditSumAmount - debitSumAmount).ToString());
+                      }
+                   <b>      
+                       @String.Format(new CultureInfo("en-IN"), "{0:C}",Convert.ToDecimal(balanceSumAmount))
+                   </b>
+                 </td>
+                  <td style="text-align:right">
+                      @{ decimal EndOfMonthBalance = 0;
+                         EndOfMonthBalance = Convert.ToDecimal(Model.OPENING_BALANCE) + Convert.ToDecimal(balanceSumAmount);
+                      }
+                     <b> 
+                         @String.Format(new CultureInfo("en-IN"), "{0:C}", EndOfMonthBalance)
+                     </b>
+                 </td>
+            </tr>
+              </tfoot>
+        </table>
+    </div>
+</body>
+</html>

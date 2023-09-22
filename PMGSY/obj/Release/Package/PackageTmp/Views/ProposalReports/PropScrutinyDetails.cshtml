@@ -1,0 +1,86 @@
+﻿@model PMGSY.Models.ProposalReports.ProposalReportsModel
+<script type="text/javascript" src="@Url.Content("~/Scripts/jquery.ui.dialog.js")"> </script>
+<script type="text/javascript" src="~/Scripts/ProposalReports/PropScrutinyDetails.js"></script>
+<script src="~/Scripts/custom/Generic.js"></script>
+
+<form id="frmPropScrutinyReport">
+    @Html.Hidden("hdnLevelId", PMGSY.Extensions.PMGSYSession.Current.LevelId.ToString())
+
+    @if (PMGSY.Extensions.PMGSYSession.Current.StateCode != 0)
+    {           
+        @Html.Hidden("STATE_NAME", PMGSY.Extensions.PMGSYSession.Current.StateName.ToString())
+    }
+
+    @if (PMGSY.Extensions.PMGSYSession.Current.DistrictCode != 0)
+    {
+        @Html.Hidden("DISTRICT_NAME", PMGSY.Extensions.PMGSYSession.Current.DistrictName.ToString())   
+    }
+
+    @Html.HiddenFor(model => model.BLOCK_NAME)
+    @Html.HiddenFor(model => model.MAST_STATE_CODE)
+    @Html.HiddenFor(model => model.MAST_DISTRICT_CODE)
+
+    <div style="width: 100%">
+        <table class="ui-state-default ui-corner-all" style="width: 100%;">
+
+
+            <tr>
+                <td style="width: 6%;"></td>
+                <td style="text-align: left; width: 5%;">
+                    @Html.Label("State")
+                </td>
+                <td style="width: 15%;">
+                    @Html.DropDownList("ddState_PropScruitinyDetails", ViewData["STATE"] as IEnumerable<SelectListItem>, new { @title = "State", @tabindex = 1 })
+                </td>
+                <td style="text-align: left; width: 5%;">
+                    @Html.Label("STA/PTA")
+                </td>
+                <td style="width: 15%;">
+                    @Html.DropDownList("ddStaPta_PropScruitinyDetails", ViewData["TYPE"] as IEnumerable<SelectListItem>, new { @title = "STA/PTA", @tabindex = 2 })
+                </td>
+                <td style="text-align: left; width: 10%;">
+                    @Html.Label("Institute Name(STA)")
+                </td>
+                <td style="width: 15%;">
+                    @Html.DropDownList("ddAgency_PropScruitinyDetails", ViewData["AGENCY"] as IEnumerable<SelectListItem>, new { @title = "Institute Name(STA)", @tabindex = 3 })
+                </td>
+            </tr>
+            <tr>
+                <td style="width: 6%;"></td>
+
+                <td style="text-align: left; width: 5%;">
+                    @Html.Label("Year")
+                </td>
+                <td style="width: 15%;">
+                    @Html.DropDownList("ddYear_PropScruitinyDetails", ViewData["YEAR"] as IEnumerable<SelectListItem>, new { @title = "Year", @tabindex = 4 })
+                </td>
+                <td style="text-align: left; width: 5%;">
+                    @Html.Label("Batch")
+                </td>
+                <td style="width: 15%;">
+                    @Html.DropDownList("ddBatch_PropScruitinyDetails", ViewData["BATCH"] as IEnumerable<SelectListItem>, new { @title = "Batch", @tabindex = 5 })
+                </td>
+
+                <td style="text-align: left; width: 10%;">
+                    @Html.Label("Scheme")
+                </td>
+                <td style="width: 15%;">
+                    @Html.DropDownList("ddScheme_PropScruitinyDetails", ViewData["SCHEME"] as IEnumerable<SelectListItem>, new { @title = "Scheme", @tabindex = 6 })
+                </td>
+                <td style="text-align: center; width: 20%; margin-left: 5px;">
+                    <input type="button" id="btnGoScruitiny" value="View" class="jqueryButton" title="View Details" tabindex="7" />
+                </td>
+            </tr>
+
+        </table>
+    </div>
+
+    <div id="divPropScrutinyDetails" style="width: 100%; margin-top: 20px;">
+        <table id="tbPropScrutinyReport"></table>
+        <div id="dvPropScrutinyReportPager"></div>
+    </div>
+    <div id="divPropScrutinyTASDDetails" style="width: 100%; margin-top: 20px;">
+        <table id="tbPropScrutinyTASDReport"></table>
+        <div id="dvPropScrutinyTASDReportPager"></div>
+    </div>
+</form>

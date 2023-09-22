@@ -1,0 +1,32 @@
+﻿<script src="~/Scripts/custom/Generic.js"></script>
+<script src="~/Scripts/PFMS/PFMSGetXMLValueLayoutTemp.js"></script>
+
+<div id="dvhdPFMSDownloadXMLLayout" class="ui-corner-top ui-widget-header panelheader" style="text-align: left; height: 20px;">@*margin-left:0px;margin-right:0px;margin-top:0px; *@
+    <span class="ui-jqgrid-title" style="float: left">&nbsp;PFMS Contractor Acknowledge Temp</span>
+
+    @*<span id="spCollapseIconAddDropOrder" class="ui-icon ui-icon-circle-triangle-n" style="float: right"></span>*@
+</div>
+<div id="dvPFMSGetXMLValueLayout" class="ui-corner-bottom" style="display: block; border: 1px solid #B5B8C8;">
+    <form id="frmPFMSGetXMLValueLayoutTemp">
+        @Html.ValidationSummary(true)
+        @Html.AntiForgeryToken()
+        <table style="margin-top: 0px; margin-bottom: 0px; width: 100%;" class="rowstyle">
+            <tr>
+                <td style="width:5%"></td>
+                <td style="width:10%"></td>
+                <td>
+                    <input type="file" name="file" id="PFMSFile" tabindex="4"  multiple="multiple" />
+                    <label id="lblPFMSxml"></label>
+                    <img id="imgPFMSxml" style="display: none; margin-left: 5px; cursor: pointer;" title="Click here to clear file" src="~/Content/images/close-icon.png" />
+                </td>
+                <td>
+                    <input type="button" class="jqueryButton" value="Map PFMS Contractor" title="Map PFMS Contractor" id="btnGetNodeValue" name="btnGetNodeValue" tabindex="5" />
+                </td>
+                @*<td style="width:15%">
+                    <label id="lbNodeValue"></label>
+                </td>*@
+                <td style="width:5%"></td>
+            </tr>
+        </table>
+    </form>
+</div>

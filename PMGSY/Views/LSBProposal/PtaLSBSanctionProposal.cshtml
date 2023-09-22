@@ -1,0 +1,179 @@
+﻿@*
+    * Project Id    :
+    * Project Name  :   OMMAS II
+    * Name          :   PtaLSBSanctionProposal.cshtml
+    * Description   :   This View is for PTA to Display PTA Sanctioning Details
+    * Author        :   Shyam Yadav
+    * Creation Date :   21-11-2013
+*@
+
+@model PMGSY.Models.Proposal.PtaLSBSanctionViewModel
+
+<script src="~/Scripts/jquery.ui.datepicker.js"></script>
+<script src="~/Scripts/custom/Generic.js"></script>
+<script src="~/Scripts/Proposal/LSBPtaSanction.js"></script>
+
+  <form id="frmLSBPTAScrutiny">   
+    @Html.HiddenFor(model=> model.IMS_PR_ROAD_CODE)            
+    @Html.HiddenFor(model => model.PTA_SANCTIONED)
+
+    @if (Model.PTA_SANCTIONED == "N")
+    {    
+            <table class="rowstyle" cellpadding="3px" style="border:ridge 0.1em #ccc; width:100%; padding:5px 5px 5px 5px;">
+            <tr>
+                <td style="width:15%; text-align:left; font-weight:bold ">
+                    @Html.LabelFor(model=> model.NAME_OF_PTA)
+                    <span style="color:red">*</span>
+                </td>
+                <td style="text-align:left;width:85%">
+                    @Html.DisplayFor(model => model.NAME_OF_PTA)
+                    @Html.ValidationMessageFor(model => model.NAME_OF_PTA)
+                </td>
+            </tr>
+            <tr>
+                <td style="width:15%; text-align:left; font-weight:bold ">
+                    @Html.LabelFor(model=> model.PTA_SANCTIONED_DATE)
+                    <span style="color:red">*</span>
+                </td>
+                <td style="text-align:left;width:85%">
+                    @Html.TextBoxFor(model => model.PTA_SANCTIONED_DATE, new { @id = "txtPtaScrutinyDate" })
+                    @Html.ValidationMessageFor(model=> model.PTA_SANCTIONED_DATE)
+                </td>
+            </tr>
+            <tr>
+                <td style="text-align:left; font-weight:bold;">
+                    @Html.LabelFor(model=> model.MS_PTA_REMARKS)
+                    <span style="color:red">*</span>
+                </td>
+                <td style="text-align:left">
+                    @Html.TextAreaFor(model=> model.MS_PTA_REMARKS,new {@maxlength = 250 , @style = "width: 400px;"}) 
+                    @Html.ValidationMessageFor(model => model.MS_PTA_REMARKS)                                
+                </td>
+            </tr>
+            <tr>
+                <td>
+                </td>
+                <td style="text-align:left">
+                    <input type="button" id="btnScrutinize" name="btnScrutinize" class="jqueryButton" value="Scrutinize" /> 
+                </td>
+            </tr>
+
+        </table> 
+          
+    }
+    else if(Model.PTA_SANCTIONED == "Y" || Model.PTA_SANCTIONED == "U")
+    {
+       <table class="rowstyle" cellpadding="3px" style="border:ridge 0.1em #ccc; width:100%; padding:5px 5px 5px 5px;">
+
+        @if (Model.PTA_SANCTIONED == "Y")
+        {
+        <tr>
+            <td colspan="2"> 
+                <div class="ui-corner-all ui-state-default" style="height:20px; padding-top:5px; padding-left:5px;"> 
+                               Proposal has been Scrutinized by PTA.
+                 </div> 
+            </td>
+        </tr>
+        }
+        else if (Model.PTA_SANCTIONED == "U")
+        {
+        <tr>
+            <td colspan="2" style="text-align :left">
+                <div class="ui-corner-all ui-state-default" style="height:20px; padding-top:5px; padding-left:5px">
+                    Proposal has been Un-Scrutinized by PTA.
+                </div>                    
+            </td>                    
+        </tr> 
+        }            
+        <tr>
+            <td style="width:15%; text-align:left; font-weight:bold ">
+                @Html.LabelFor(model=> model.NAME_OF_PTA)
+            </td>
+            <td style="text-align:left;width:85%">
+                @Html.DisplayFor(model => model.NAME_OF_PTA)
+                @Html.HiddenFor(model=> model.NAME_OF_PTA)
+            </td>
+        </tr>
+
+        <tr>
+            <td style="width:15%; text-align:left; font-weight:bold ">
+                @Html.LabelFor(model => model.PTA_SANCTIONED_DATE)
+            </td>
+            <td style="text-align:left;width:85%">               
+                @Html.DisplayFor(model => model.PTA_SANCTIONED_DATE)
+                @Html.HiddenFor(model=> model.PTA_SANCTIONED_DATE)
+            </td>
+        </tr>
+
+        <tr>
+            <td style="text-align:left; font-weight:bold;">
+                @Html.LabelFor(model => model.MS_PTA_REMARKS)
+            </td>
+            <td style="text-align:left">
+                @Html.DisplayFor(model => model.MS_PTA_REMARKS)
+                
+            </td>
+        </tr>
+
+       @*<tr id="trUnscrutinyDate"  style="display:none">*@
+       <tr id="trUnscrutinyDatePtaLSB"  style="display:none">    @*Hrishikesh*@
+            <td style=" text-align:left; font-weight:bold ">
+                @Html.LabelFor(model=> model.PTA_UNSCRUTINY_DATE)
+                <span style="color:red">*</span>
+            </td>
+            <td style="text-align:left;">
+                @*@Html.TextBoxFor(model => model.PTA_UNSCRUTINY_DATE, new { @id = "txtPtaUnScrutinyDate" })*@
+                @Html.TextBoxFor(model => model.PTA_UNSCRUTINY_DATE, new { @id = "txtPtaUnScrutinyDatePtaLSB" })  @*Hrishikesh*@
+                @Html.ValidationMessageFor(model=> model.PTA_UNSCRUTINY_DATE)
+            </td>
+        </tr>
+
+        @*<tr id="trScrutinyRemark" style="display:none">*@
+        <tr id="trScrutinyRemarkPtaLSB" style="display:none">    @*Hrishikesh*@
+            <td style="text-align:left; font-weight:bold;">
+                @Html.LabelFor(model => model.MS_PTA_REMARKS)
+                <span style="color:red">*</span>
+            </td>
+            <td style="text-align:left">
+                @Html.TextAreaFor(model => model.MS_PTA_REMARKS, new { @maxlength = 250, @style = "width: 400px;", @value = "" }) 
+                @Html.ValidationMessageFor(model => model.MS_PTA_REMARKS)                                                
+            </td>            
+        </tr>
+
+        @*<tr id="trUnscrutinyRemark" style="display:none">*@
+        <tr id="trUnscrutinyRemarkPtaLSB" style="display:none">    @*Hrishikesh*@
+            <td style="text-align:left; font-weight:bold;">
+                @Html.LabelFor(model=> model.MS_PTA_UnScrutinised_REMARKS)
+                <span style="color:red">*</span>
+            </td>
+            <td style="text-align:left">
+                @Html.TextAreaFor(model=> model.MS_PTA_UnScrutinised_REMARKS,new {@maxlength = 250 , @style = "width: 400px;"}) 
+                @Html.ValidationMessageFor(model => model.MS_PTA_UnScrutinised_REMARKS)                                                 
+            </td>
+        </tr>
+
+        @if (PMGSY.Extensions.PMGSYSession.Current.RoleCode == 15 && Model.PTA_SANCTIONED == "Y" && Model.IMS_SANCTIONED != "Y")               
+        {
+            <tr>
+                <td>
+                </td>
+                <td style="text-align:left">
+                    <input type="button" id="btnUnScrutinize" name="btnUnScrutinize" class="jqueryButton" value="Un-Scrutinize" /> 
+                </td>
+            </tr>
+        }           
+        else if (PMGSY.Extensions.PMGSYSession.Current.RoleCode == 15 && Model.PTA_SANCTIONED == "U")           
+        {               
+            <tr>
+                <td>
+                </td>
+                <td style="text-align:left">
+                    <input type="button" id="btnScrutinize" name="btnScrutinize" class="jqueryButton" value="Scrutinize" /> 
+                </td>
+            </tr>
+        }
+
+       </table>
+    }
+
+</form>         

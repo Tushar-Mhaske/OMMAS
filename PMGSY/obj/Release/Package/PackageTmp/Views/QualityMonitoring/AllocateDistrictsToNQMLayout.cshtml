@@ -1,0 +1,54 @@
+﻿@model PMGSY.Models.QualityMonitoring.AllocateDistrictsToNQMViewModel
+
+<script src="~/Scripts/custom/Generic.js"></script>
+<script src="~/Scripts/QualityMonitoring/AllocateDistrictsToNQMLayout.js"></script>
+
+<div id="dvhdAllocateDistrictsToNQMLayout" class="ui-corner-top ui-widget-header panelheader" style="text-align: left; height: 20px;">
+    <span class="ui-jqgrid-title" style="float: left">&nbsp;Allocate Districts To NQM</span>
+
+</div>
+<div id="dvAllocateDistrictsToNQMLayout" class="ui-corner-bottom" style="display: block; border: 1px solid #B5B8C8;">
+    <form id="frmAllocateDistrictsToNQMLayout">
+        @Html.ValidationSummary(true)
+        @Html.AntiForgeryToken()
+
+        <table style="margin-top: 0px; margin-bottom: 0px; width: 100%;" class="rowstyle">
+            <tr>
+                <td style="width: 5%"></td>
+                <td>
+                    @Html.Label("State")<span style="color: red">*</span>
+                </td>
+                <td>
+                    @Html.DropDownListFor(model => model.stateCode, new SelectList(Model.lstState, "Value", "Text"), new { @id = "ddlState", @tabindex = 1 })
+                    <br />
+                    @Html.ValidationMessageFor(model => model.stateCode)
+                </td>
+                <td>
+                    @Html.Label("Month")<span style="color: red">*</span>
+                </td>
+                <td>
+                    @Html.DropDownListFor(model => model.Month, new SelectList(Model.MonthList, "Value", "Text"), new { @id = "ddlMonth", @tabindex = 2 })
+                    <br />
+                    @Html.ValidationMessageFor(model => model.Month)
+                </td>
+                <td>
+                    @Html.Label("Year")<span style="color: red">*</span>
+                </td>
+                <td>
+                    @Html.DropDownListFor(model => model.Year, new SelectList(Model.YearList, "Value", "Text"), new { @id = "ddlYear", @tabindex = 3 })
+                    <br />
+                    @Html.ValidationMessageFor(model => model.Year)
+                </td>
+                <td>
+                    <input type="button" class="jqueryButton" value="View" title="View" id="btnView" name="btnView" tabindex="4" />
+                </td>
+            </tr>
+        </table>
+
+         <div style="margin-top: 10px; width: 98%; margin-left: 5px; margin-bottom: 5px;">
+            <table id="tblQMDistrictList"></table>
+            <div id="dvPagerQMDistrictList"></div>
+        </div>
+
+    </form>
+</div>

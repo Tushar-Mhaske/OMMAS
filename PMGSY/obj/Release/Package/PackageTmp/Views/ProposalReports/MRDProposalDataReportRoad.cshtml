@@ -1,0 +1,1515 @@
+﻿@using PMGSY.Models.ProposalReports
+@model PMGSY.Models.ProposalReports.MRDProposalModel
+@using PMGSY.Extensions
+@using PMGSY.Common
+
+<style type="text/css">
+    div.CBHeader {
+        padding: 5px;
+        width: 98%;
+        display: inline-block;
+        cursor: default;
+        /*font:12px/14px Arial, Helvetica, sans-serif;*/
+        font-family: Trebuchet MS,Tahoma,Verdana,Arial,sans-serif;
+        color: #000;
+        background-color: #eee;
+        -moz-border-radius: 10px;
+        -webkit-border-radius: 10px;
+        -moz-box-shadow: #999 2px 0px 3px;
+        -webkit-box-shadow: #999 2px 0px 3px;
+    }
+
+    .alt {
+        background-color: #DEDFDE;
+    }
+
+    .treven {
+        background-color: lightyellow;
+    }
+
+    .trodd {
+        background-color: white;
+    }
+</style>
+<script src="~/Scripts/custom/Generic.js"></script>
+@*<link href="~/Content/demo_page.css" rel="stylesheet" />
+<link href="~/Content/demo_table_jui.css" rel="stylesheet" />
+<link href="~/Content/TableTools.css" rel="stylesheet" />
+<link href="~/Content/TableTools_JUI.css" rel="stylesheet" />*@
+<script src="~/Scripts/jquery.ui.dialog.js"></script>
+
+<script src="~/Scripts/DataTables/jquery.dataTables.js"></script>
+<script src="~/Scripts/DataTables/ZeroClipboard.js"></script>
+<script src="~/Scripts/DataTables/TableTools.js"></script>
+
+<script src="~/Scripts/DataTables/dataTables.fixedColumns.min.js"></script>
+<script src="~/Scripts/ProposalReports/MRDProposalDataReportRoad.js"></script>
+
+<br />
+
+
+<div class="ui-widget-header innerDivHeader" style="width: 98%; margin-bottom: 5px">
+    Road Proposal Report
+        <span style="float: right; margin-right: 2Px; margin-top: 2px" id="idheaderDiv" class="ui-icon ui-icon-circle-triangle-n"></span>
+</div>
+<div id="dvMRDPropRoad" style="width: auto;">
+    @{
+        CommonFunctions objCommonFunction = new CommonFunctions();
+        PMGSY.Controllers.ProposalReportsController o = new PMGSY.Controllers.ProposalReportsController();
+    }
+    <form id="frmMRDProposalDataReport">
+        @Html.ValidationSummary(true)
+
+        <div class="CBHeader ui-corner-all" id="dvMRDPropDetails">
+            <center>
+                
+               
+<table class="ui-state-default ui-corner-all" style="border: 0.1em solid gray;  margin-top: 1px" id="tblFilter" >
+
+<tr>
+    <td style="width:5%"><b>State:</b></td><td style="width:10%;">@Html.DisplayFor(m => m.StateName)</td>
+    <td style="width:5%"><b>District:</b></td><td style="width:10%">@Html.DisplayFor(m => m.DistrictName)</td>
+    <td style="width:5%"><b>Block:</b></td><td style="width:10%">@Html.DisplayFor(m => m.BlockName)</td>
+    <td style="width:10%"><b>Sanctioned Year:</b></td>
+    @if (Model.Year != 0)
+    {
+         <td style="width:10%">@Html.DisplayFor(m => m.YearName)</td>
+    }
+    else
+    {
+         <td style="width:10%">@Html.Label("All Years")</td>
+    }
+    <td style="width:5%"><b>Batch:</b></td><td style="width:10%">@Html.DisplayFor(m => m.BatchName)</td>
+    <td style="width:5%"><b>Collaboration:</b></td><td style="width:10%">@Html.DisplayFor(m => m.CollabName)</td>
+    </tr>
+    <tr>
+    <td style="width:5%"><b>Package:</b></td><td style="width:10%">@Html.DisplayFor(m => m.PackageName)</td>
+    <td style="width:7%"><b>MRD Status:</b></td><td style="width:10%">@Html.DisplayFor(m => m.StatusName)</td>
+    <td style="width:7%"><b>STA Status:</b></td><td style="width:10%">@Html.DisplayFor(m => m.STAStatusName)</td>
+    <td style="width:7%"><b>Proposal:</b></td><td style="width:10%">@Html.DisplayFor(m => m.ProposalName)</td>
+    <td style="width:5%"><b>Category:</b></td><td style="width:10%">@Html.DisplayFor(m => m.CategoryName)</td>
+        <td style="width:5%"><b>Agency:</b></td><td style="width:10%">@Html.DisplayFor(m => m.AgencyName)</td>
+</tr>
+
+</table>
+               
+        </center>
+        </div>
+
+        @*@if (Model.lstMRDProposal != null) class="DataTables_sort_wrapper"  style="position:fixed;"  class="ui-state-default"
+    {*@
+
+        @*<div style="width: 98%; height: 400px; overflow: auto" id="divBridgeParent">*@
+        @if (Model.PMGSY == 1)
+        {
+        
+            <div style="width: 99%">
+                <table id="tblRoadReportData1" class="ui-state-default">
+                    <thead>
+                        <tr>
+
+                            <th style="border: 1px solid #CCC;" colspan="11"></th>
+                            @*<th style="width:68px;"></th>
+                            <th style="width:75px;"></th>
+                            <th style="width:45px;"></th>
+                            <th style="width:106px;"></th>
+                            <th style="width:62px;"></th>
+                            <th style="width:31px;"></th>
+                            <th style="width:45px;"></th>
+                            <th style="width:50px;"></th>
+                            <th style="border-right:1px solid #CCC; width:71px;"></th>*@
+                            <th style="border: 1px solid #CCC;" colspan="4">Habitations Being Connected </th>
+
+                            <th style="border: 1px solid #CCC;" colspan="5">Pavement</th>
+
+                            <th style="border: 1px solid #CCC;" colspan="3">CD Works</th>
+
+                            <th style="border: 1px solid #CCC;" colspan="7"></th>
+                            @*<th></th>
+                        <th></th>
+                        <th></th>
+                        <th></th>
+                        <th></th>
+                        <th></th>*@
+
+                            <th style="border: 1px solid #CCC;" colspan="2">Constituency no.</th>
+
+                            <th style="border: 1px solid #CCC;" colspan="5"></th>
+                            @*<th></th>
+                        <th></th>
+
+                        <th></th>
+                        <th></th>
+                        <th></th>
+                        <th></th>
+                        <th></th>*@
+                            <th style="border: 1px solid #CCC;" colspan="3">Traffic Intensity</th>
+
+                            <th style="border: 1px solid #CCC;" colspan="9"></th>
+                            @*<th></th>
+                        <th></th>
+                        <th></th>
+                        <th></th>
+                        <th></th>
+                        <th></th>
+                        <th></th>
+                        <th></th>
+                        <th></th>*@
+
+                        </tr>
+                        <tr>
+
+                            <th style="vertical-align: top; border-right: 1px solid #FFF;">Sr.No.</th>
+                            <th style="vertical-align: top; border-right: 1px solid #FFF;">District</th>
+                            <th style="vertical-align: top; border-right: 1px solid #FFF;">Block</th>
+                            <th style="vertical-align: top; border-right: 1px solid #FFF;">Package Number</th>
+                            <th style="vertical-align: top; border-right: 1px solid #FFF;">Road Code as per Core Network</th>
+                            <th style="vertical-align: top; border-right: 1px solid #FFF;">Road Name</th>
+                            <th style="vertical-align: top; border-right: 1px solid #FFF;">Sanctioned Year</th>
+
+                            <th style="vertical-align: top; border-right: 1px solid #FFF;">Batch</th>
+                            <th style="vertical-align: top; border-right: 1px solid #FFF;">Funding Agency</th>
+
+                            <th style="vertical-align: top; border-right: 1px solid #FFF;">Category of Road (N/U)*</th>
+                            <th style="vertical-align: top; border-right: 1px solid #FFF;">Existing surface type (in case of upgradation)</th>
+                            <th style="vertical-align: top; border-right: 1px solid #FFF;">Number of Habitations</th>
+                            <th style="vertical-align: top; border-right: 1px solid #FFF;">Name</th>
+                            <th style="vertical-align: top; border-right: 1px solid #FFF;">Population</th>
+                            <th style="vertical-align: top; border-right: 1px solid #FFF;">SC/ST Population</th>
+                            <th style="vertical-align: top; border-right: 1px solid #FFF;">CC Length</th>
+                            <th style="vertical-align: top; border-right: 1px solid #FFF;">BT Length</th>
+                            <th style="vertical-align: top; border-right: 1px solid #FFF;">Length (in Kms)</th>
+                            <th style="vertical-align: top; border-right: 1px solid #FFF;">Estimated Cost (Rs. in lakhs)</th>
+                            <th style="vertical-align: top; border-right: 1px solid #FFF;">Average Cost (Per Km.)</th>
+                            <th style="vertical-align: top; border-right: 1px solid #FFF;">Number of works</th>
+                            <th style="vertical-align: top; border-right: 1px solid #FFF;">Estimated Cost (Rs. in lakhs)</th>
+                            <th style="vertical-align: top; border-right: 1px solid #FFF;">Average Cost (Rs. in lakhs)</th>
+                            <th style="vertical-align: top; border-right: 1px solid #FFF;">Protection Works Cost</th>
+                            <th style="vertical-align: top; border-right: 1px solid #FFF;">Other Works Cost (Rs. in lakhs)</th>
+                            <th style="vertical-align: top; border-right: 1px solid #FFF;">MORD Cost (Rs. in lakhs)</th>
+                            <th style="vertical-align: top; border-right: 1px solid #FFF;">State Share(Rs. in lakhs)</th>
+                            <th style="vertical-align: top; border-right: 1px solid #FFF;">Total Cost (Rs. in lakhs)</th>
+                            <th style="vertical-align: top; border-right: 1px solid #FFF;">Average Cost (Per Km.)</th>
+                            <th style="vertical-align: top; border-right: 1px solid #FFF;">Stage Construction</th>
+                            <th style="vertical-align: top; border-right: 1px solid #FFF;">If proposed by MP</th>
+                            <th style="vertical-align: top; border-right: 1px solid #FFF;">If proposed by MLA</th>
+                            <th style="vertical-align: top; border-right: 1px solid #FFF;">Whether ZP Resolution obtained (Y/N)</th>
+
+                            <th style="vertical-align: top; border-right: 1px solid #FFF;">Carriage Way Width</th>
+                            <th style="vertical-align: top; border-right: 1px solid #FFF;">Proposed Surface</th>
+                            <th style="vertical-align: top; border-right: 1px solid #FFF;">Curve Type/Traffic Category</th>
+                            @*<th style="vertical-align: top; border-right: 1px solid #FFF;">Road Code as per Core Network</th>*@
+                            <th style="vertical-align: top; border-right: 1px solid #FFF;">Estimated Maintenance Cost (Rs.in lakhs)</th>
+                            <th style="vertical-align: top; border-right: 1px solid #FFF;">Year</th>
+                            <th style="vertical-align: top; border-right: 1px solid #FFF;">AADT</th>
+                            <th style="vertical-align: top; border-right: 1px solid #FFF;">ESAL</th>
+                            <th style="vertical-align: top; border-right: 1px solid #FFF;">Segment %CBR Value (Min-Max)</th>
+                            <th style="vertical-align: top; border-right: 1px solid #FFF;">STA Sanctioned Status</th>
+                            <th style="vertical-align: top; border-right: 1px solid #FFF;">PTA Sanction Status</th>
+                            <th style="vertical-align: top; border-right: 1px solid #FFF;">MoRD Sanction Status</th>
+                            <th style="vertical-align: top; border-right: 1px solid #FFF;">Clearance Date</th>
+                            <th style="vertical-align: top; border-right: 1px solid #FFF;">STA Remarks</th>
+                            <th style="vertical-align: top; border-right: 1px solid #FFF;">PTA Remarks</th>
+                            <th style="vertical-align: top; border-right: 1px solid #FFF;">Remarks by DPIU</th>
+                            <th style="vertical-align: top; border-right: 1px solid #FFF;">View Photos / C Proforma</th>
+                            @*<th style="vertical-align: top; border-right: 1px solid #FFF;">C Proforma</th>*@
+
+                        </tr>
+                        <tr>
+                            <th>1</th>
+                            <th>2</th>
+                            <th>3</th>
+                            <th>4</th>
+                            <th>5</th>
+                            <th>6</th>
+                            <th>7</th>
+                            <th>8</th>
+                            <th>9</th>
+                            <th>10</th>
+                            <th>11</th>
+                            <th>12</th>
+                            <th>13</th>
+                            <th>14</th>
+                            <th>15</th>
+                            <th>16</th>
+                            <th>17</th>
+                            <th>18</th>
+                            <th>19</th>
+                            <th>20</th>
+                            <th>21</th>
+                            <th>22</th>
+                            <th>23</th>
+                            <th>24</th>
+                            <th>25</th>
+                            <th>26</th>
+                            <th>27</th>
+                            <th>28</th>
+                            <th>29</th>
+                            <th>30</th>
+                            <th>31</th>
+                            <th>32</th>
+                            <th>33</th>
+                            <th>34</th>
+                            <th>35</th>
+                            <th>36</th>
+                            <th>37</th>
+                            <th>38</th>
+                            <th>39</th>
+                            <th>40</th>
+                            <th>41</th>
+                            <th>42</th>
+                            <th>43</th>
+                            <th>44</th>
+                            <th>45</th>
+                            <th>46</th>
+                            <th>47</th>
+                            <th>48</th>
+                            <th>49</th>
+                            @*<th>50</th>*@
+                            @*<th>51</th>*@
+                        </tr>
+                        @{
+            decimal CCLenDTotal = 0;
+            int HabitationNumberDTotal = 0;
+            int HabitationNumberDTotalN = 0;
+            decimal BTLenDTotal = 0;
+            decimal RoadLenDTotal = 0;
+            decimal SanctionCostDTotal = 0;
+            decimal AVGCostDTotal = 0;
+            decimal AVGCostPerKmDTotal = 0;
+            int NoOdWorksDTotal = 0;
+            decimal EstCDCostDTotal = 0;
+            decimal AVGCDCostDTotal = 0;
+            decimal ProtectionCostDTotal = 0;
+            decimal OtherWorksDTotal = 0;
+            decimal MordCosrDTotal = 0;
+            decimal StateShareDTotal = 0;
+            decimal TotalCostDTotal = 0;
+            decimal HabPopDTotal = 0;
+            decimal SCSTPopDTotal = 0;
+
+            decimal EstimatedMaintAmtDTotal = 0;
+
+            string dist = "";
+
+
+            decimal CCLenTotal = 0;
+            int HabitationNumberTotal = 0;
+            int HabitationNumberTotalN = 0;
+            decimal BTLenTotal = 0;
+            decimal RoadLenTotal = 0;
+            decimal SanctionCostTotal = 0;
+            decimal AVGCostTotal = 0;
+            int NoOdWorksTotal = 0;
+            decimal EstCDCostTotal = 0;
+            decimal AVGCDCostTotal = 0;
+            decimal ProtectionCostTotal = 0;
+            decimal OtherWorksTotal = 0;
+            decimal MordCosrTotal = 0;
+            decimal StateShareTotal = 0;
+            decimal TotalCostTotal = 0;
+            decimal AVGCostPerKMTotal = 0;
+            decimal EstimatedMaintAmtTotal = 0;
+            decimal MaintCostPercent = 0;
+            decimal HabPopTotal = 0;
+            decimal SCSTPopTotal = 0;
+                        }
+                    </thead>
+
+                    <tbody id="b1">
+                        @if (Model.lstMRDProposal.Count > 0)
+                        {
+                            int cnt = 1;
+                            CCLenTotal = 0;
+                            HabitationNumberTotal = 0;
+                            HabitationNumberTotalN = 0;
+                            BTLenTotal = 0;
+                            RoadLenTotal = 0;
+                            SanctionCostTotal = 0;
+                            AVGCostTotal = 0;
+                            NoOdWorksTotal = 0;
+                            EstCDCostTotal = 0;
+                            AVGCDCostTotal = 0;
+                            ProtectionCostTotal = 0;
+                            OtherWorksTotal = 0;
+                            MordCosrTotal = 0;
+                            StateShareTotal = 0;
+                            TotalCostTotal = 0;
+                            AVGCostPerKMTotal = 0;
+                            EstimatedMaintAmtTotal = 0;
+                            HabPopTotal = 0;
+                            SCSTPopTotal = 0;
+
+                            var districts = Model.lstMRDProposal.Select(s => s.MAST_DISTRICT_CODE).Distinct();
+                            foreach (var distitem in districts)
+                            {
+                                dist = "";
+                                CCLenDTotal = 0;
+                                HabitationNumberDTotal = 0;
+                                HabitationNumberDTotalN = 0;
+                                BTLenDTotal = 0;
+                                RoadLenDTotal = 0;
+                                SanctionCostDTotal = 0;
+                                AVGCostDTotal = 0;
+                                NoOdWorksDTotal = 0;
+                                EstCDCostDTotal = 0;
+                                AVGCDCostDTotal = 0;
+                                ProtectionCostDTotal = 0;
+                                OtherWorksDTotal = 0;
+                                MordCosrDTotal = 0;
+                                StateShareDTotal = 0;
+                                TotalCostDTotal = 0;
+                                //AVGCostPerKMDTotal = 0;
+                                AVGCostPerKmDTotal = 0;
+                                EstimatedMaintAmtDTotal = 0;
+                                HabPopDTotal = 0;
+                                SCSTPopDTotal = 0;
+
+                                int k = 0;
+                                var districtwise = Model.lstMRDProposal.Where(s => s.MAST_DISTRICT_CODE == distitem);
+                                foreach (var itm in districtwise)
+                                {
+                                    //if (k == 0)
+
+                                }
+
+                                var roads = Model.lstMRDProposal.Where(a => a.MAST_DISTRICT_CODE == distitem).Select(s => s.IMS_PR_ROAD_CODE).Distinct();
+                                int asp = roads.Count();
+
+                                foreach (var roaditem in roads)
+                                {
+                                    var roadwise = Model.lstMRDProposal.Where(s => s.IMS_PR_ROAD_CODE == roaditem);
+
+                                    var roadname = Model.lstMRDProposal.Where(m => m.IMS_PR_ROAD_CODE == roaditem).Select(s => s.ROAD_NAME).FirstOrDefault();
+
+                                    int roadcnt = Model.lstMRDProposal.Where(m => m.IMS_PR_ROAD_CODE == roaditem).Select(s => s.ROAD_NAME).Count();
+
+                                    int i = 0;
+                                    int j = 0;
+                                    var css = (cnt % 2 == 0) ? "background-color:lightyellow;" : "background-color:white;";
+                                    foreach (var item in roadwise)
+                                    {
+                                        i++;
+                                        
+                            <tr id="@i" style="@css">
+                                @if (j == 0)
+                                {
+
+                                    dist = item.MAST_DISTRICT_NAME;
+                                    <td rowspan="@roadcnt" style="text-align: center;">@cnt</td>
+
+                                    <td rowspan="@roadcnt">@item.MAST_DISTRICT_NAME</td>
+
+                                    <td rowspan="@roadcnt">@item.MAST_BLOCK_NAME</td>
+                                    <td rowspan="@roadcnt"  style="text-align: center;">@item.IMS_PACKAGE_ID</td>
+
+                                    <td rowspan="@roadcnt" style="text-align: center">@item.CN_ROAD</td>
+                                    <td rowspan="@roadcnt" >@item.ROAD_NAME</td>
+
+                                    <td rowspan="@roadcnt"  style="text-align: right;">@item.IMS_YEAR</td>
+
+                                    <td rowspan="@roadcnt" style="text-align: right;">@item.IMS_BATCH</td>
+
+                                    <td rowspan="@roadcnt" style="text-align: center;">@item.IMS_COLLABORATION</td>
+
+                                    <td rowspan="@roadcnt" >@item.IMS_UPGRADE_CONNECT</td>
+
+                                    <td rowspan="@roadcnt" >@item.MAST_EXISTING_SURFACE_CODE</td>
+
+                                    <td rowspan="@roadcnt" style="text-align: right;">@item.TOTAL_HABS</td>
+                                
+                                    if (item.IMS_UPGRADE_CONNECT.Trim() == "New")
+                                    {
+                                        HabitationNumberDTotalN += Convert.ToInt32(item.TOTAL_HABS);
+                                        HabitationNumberTotalN += Convert.ToInt32(item.TOTAL_HABS);
+                                    }
+                                    HabitationNumberDTotal += Convert.ToInt32(item.TOTAL_HABS);
+                                    HabitationNumberTotal += Convert.ToInt32(item.TOTAL_HABS);
+                                    <td id="r1">@item.HAB_NAME</td>
+                                    <td id="r2" style="text-align: right;">@item.HAB_POP</td>
+
+                                    HabPopDTotal += Convert.ToInt32(item.HAB_POP);
+                                    HabPopTotal += Convert.ToInt32(item.HAB_POP);
+
+                                    <td style="text-align: right;">@item.SCST_POP</td>
+
+                                    SCSTPopDTotal += Convert.ToInt32(item.SCST_POP);
+                                    SCSTPopTotal += Convert.ToInt32(item.SCST_POP);
+
+                                    CCLenDTotal += item.IMS_CC_LENGTH;
+                                    CCLenTotal += item.IMS_CC_LENGTH;
+                                    <td rowspan="@roadcnt" style="text-align: right;">@objCommonFunction._IndianFormatLength(item.IMS_CC_LENGTH.ToString())</td>
+
+                                    BTLenDTotal += item.IMS_BT_LENGTH;
+                                    BTLenTotal += item.IMS_BT_LENGTH; 
+                                    <td rowspan="@roadcnt" style="text-align: right;">@objCommonFunction._IndianFormatLength(item.IMS_BT_LENGTH.ToString())</td>
+                                    RoadLenDTotal += item.ROAD_LENGTH;
+                                    RoadLenTotal += item.ROAD_LENGTH;
+                                    <td  rowspan="@roadcnt" style="text-align: right">@objCommonFunction._IndianFormatLength(item.ROAD_LENGTH.ToString())</td>
+                                    {
+                                        SanctionCostDTotal += item.PAV_COST;
+                                        SanctionCostTotal += item.PAV_COST;
+                                    }
+                                    <td rowspan="@roadcnt" style="text-align: right;">@objCommonFunction._IndianFormatAmount(item.PAV_COST == null ? "0" : item.PAV_COST.ToString())</td>
+
+                                    //AVGCostPerKmDTotal += Convert.ToDecimal(item.PW_AVG_KM);
+                                    <td rowspan="@roadcnt" style="text-align: right;">@objCommonFunction._IndianFormatAmount(item.PW_AVG_KM == null ? "0" : item.PW_AVG_KM.ToString())</td>
+                                    {
+                                        NoOdWorksDTotal += item.IMS_NO_OF_CDWORKS;
+                                        NoOdWorksTotal += item.IMS_NO_OF_CDWORKS;
+                                    }
+                                    <td rowspan="@roadcnt" style="text-align: right;">@item.IMS_NO_OF_CDWORKS</td>
+
+                                    EstCDCostDTotal += item.CD_COST;
+                                    EstCDCostTotal += item.CD_COST;
+                                    <td  rowspan="@roadcnt" style="text-align: right">@objCommonFunction._IndianFormatAmount(@item.CD_COST == null ? "0" : @item.CD_COST.ToString())</td>
+                                    AVGCDCostDTotal += Convert.ToDecimal(item.AVG_CD_COST);
+                                    <td rowspan="@roadcnt" style="text-align: right">@objCommonFunction._IndianFormatAmount(@item.AVG_CD_COST == null ? "0" : @item.AVG_CD_COST.ToString())</td>
+                                    ProtectionCostDTotal += item.PW_COST;
+                                    ProtectionCostTotal += item.PW_COST;
+                                    <td rowspan="@roadcnt" style="text-align: right">@objCommonFunction._IndianFormatAmount(@item.PW_COST == null ? "0" : @item.PW_COST.ToString())</td>
+                                    OtherWorksDTotal += item.OW_COST;
+                                    OtherWorksTotal += item.OW_COST;
+                                    <td rowspan="@roadcnt" style="text-align: right">@objCommonFunction._IndianFormatAmount(@item.OW_COST == null ? "0" : @item.OW_COST.ToString())</td>
+                                    MordCosrDTotal += Convert.ToDecimal(item.ROAD_AMT);
+                                    MordCosrTotal += Convert.ToDecimal(item.ROAD_AMT);
+                                    <td rowspan="@roadcnt" style="text-align: right">@objCommonFunction._IndianFormatAmount(@item.ROAD_AMT == null ? "0" : @item.ROAD_AMT.ToString())</td>
+                                    StateShareDTotal += Convert.ToDecimal(item.ROAD_STATE);
+                                    StateShareTotal += Convert.ToDecimal(item.ROAD_STATE);
+                                    <td rowspan="@roadcnt" style="text-align: right">@objCommonFunction._IndianFormatAmount(@item.ROAD_STATE == null ? "0" : @item.ROAD_STATE.ToString())</td>
+                                    TotalCostDTotal += Convert.ToDecimal(item.TOTAL_COST);
+                                    TotalCostTotal += Convert.ToDecimal(item.TOTAL_COST);
+                                    <td rowspan="@roadcnt" style="text-align: right">@objCommonFunction._IndianFormatAmount(@item.TOTAL_COST == null ? "0" : @item.TOTAL_COST.ToString())</td>
+                                    //AVGCostPerKmDTotal += Convert.ToDecimal(item.AVG_COST_KM);
+                                    <td rowspan="@roadcnt" style="text-align: right">@objCommonFunction._IndianFormatAmount(@item.AVG_COST_KM == null ? "0" : @item.AVG_COST_KM.ToString())</td>
+
+                                    <td rowspan="@roadcnt" >@item.STAGE_CONST</td>
+
+                                    <td rowspan="@roadcnt" >@item.MP_CONST</td>
+
+                                    <td rowspan="@roadcnt" >@item.MLA_CONST</td>
+
+                                    <td rowspan="@roadcnt" >@item.IMS_ZP_RESO_OBTAINED</td>
+
+
+@*<td rowspan="@roadcnt" style="text-align: right">@item.IMS_BATCH</td>
+
+                                    <td rowspan="@roadcnt" style="text-align: center">@item.IMS_COLLABORATION</td>*@
+
+                                    <td rowspan="@roadcnt" style="text-align: right">@item.MAST_CARRIAGE_WIDTH</td>
+
+                                    <td rowspan="@roadcnt" >@item.IMS_PROPOSED_SURFACE</td>
+
+                                    <td rowspan="@roadcnt" style="text-align: center">@item.IMS_TRAFFIC_TYPE</td>
+
+@*<td rowspan="@roadcnt" style="text-align: center">@item.CN_ROAD</td>*@
+                                    EstimatedMaintAmtDTotal += Convert.ToDecimal(item.MAINT_AMT);
+                                    EstimatedMaintAmtTotal += Convert.ToDecimal(item.MAINT_AMT);
+                                    <td rowspan="@roadcnt" style="text-align: right"><a style="text-decoration:underline; color:blue"  href="#" onclick="GetBridgeCostDetails('@item.IMS_PR_ROAD_CODE,@item.MAST_STATE_NAME,@item.MAST_DISTRICT_NAME,@item.MAST_BLOCK_NAME, @item.IMS_PACKAGE_ID.ToString() ,@item.IMS_YEAR,@item.ROAD_NAME,@item.LSB_NAME,@item.LSB_LEN,@item.ROAD_LENGTH,P')">@objCommonFunction._IndianFormatAmount(@item.MAINT_AMT == null ? "0" : @item.MAINT_AMT.ToString())</a></td>
+
+                                    <td rowspan="@roadcnt" style="text-align: right">@item.TRAFFIC_YEAR</td>
+
+                                    <td rowspan="@roadcnt" style="text-align: right">@item.AADT</td>
+
+                                    <td rowspan="@roadcnt" style="text-align: right">@item.ESAL</td>
+
+                                    <td rowspan="@roadcnt" style="text-align: right"><a style="text-decoration:underline; color:blue"  href="#" onclick="GetRoadCBRDetails('@item.IMS_PR_ROAD_CODE,@item.MAST_STATE_NAME,@item.MAST_DISTRICT_NAME,@item.MAST_BLOCK_NAME, @item.IMS_PACKAGE_ID.ToString() ,@item.IMS_YEAR,@item.ROAD_NAME,@item.LSB_NAME,@item.LSB_LEN,@item.ROAD_LENGTH,P')">@(item.CBR.ToString())</a></td>
+
+                                    <td rowspan="@roadcnt" style="text-align: center">@item.STA_SCRUTINY</td>
+
+                                    <td rowspan="@roadcnt" style="text-align: center">@item.PTA_SCRUTINY</td>
+
+                                    <td rowspan="@roadcnt" >@item.PROPOSAL_STATUS</td>
+
+                                    <td rowspan="@roadcnt" style="text-align: center">@item.IMS_SANCTIONED_DATE</td>
+
+                                    <td rowspan="@roadcnt" >@item.IMS_STA_REMARKS</td>
+                                    <td rowspan="@roadcnt" >@item.IMS_PTA_REMARKS</td>
+                                    <td rowspan="@roadcnt">@item.IMS_REMARKS</td>
+                                    <td rowspan="@roadcnt"><a  style="text-decoration:underline; color:blue"  href="#" onclick="GetBridgeProposalFilesDetails('@item.IMS_PR_ROAD_CODE,@item.MAST_STATE_NAME,@item.MAST_DISTRICT_NAME,@item.MAST_BLOCK_NAME, @item.IMS_PACKAGE_ID.ToString() ,@item.IMS_YEAR.ToString(),@item.ROAD_NAME,@item.ROAD_LENGTH,@item.IMS_COLLABORATION,@item.IMS_BATCH,@item.LSB_NAME,@item.LSB_LEN,P')">View</a></td>
+@*<td rowspan="@roadcnt">-</td>*@
+                        
+                                    cnt++;
+                                    j++;
+                                }
+                                else
+                                {
+                                    <td style="display: none;"></td>
+                                    <td style="display: none;"></td>
+                                    <td style="display: none;"></td>
+                                    <td style="display: none;"></td>
+                                    <td style="display: none;"></td>
+                                    <td style="display: none;"></td>
+                                    <td style="display: none;"></td>
+                                    <td style="display: none;"></td>
+                                    <td style="display: none;"></td>
+                                    <td style="display: none;"></td>
+                                    <td style="display: none;"></td>
+                                    <td style="display: none;"></td>
+                                    <td id="t1">@item.HAB_NAME</td>
+
+                                    <td id="t2" style="text-align: right;">@item.HAB_POP</td>
+                                    HabPopDTotal += Convert.ToInt32(item.HAB_POP);
+                                    HabPopTotal += Convert.ToInt32(item.HAB_POP);
+
+                                    <td style="text-align: right;">@item.SCST_POP</td>
+                                    SCSTPopDTotal += Convert.ToInt32(item.SCST_POP);
+                                    SCSTPopTotal += Convert.ToInt32(item.SCST_POP);
+                                    <td style="display: none;"></td>
+                                    <td style="display: none;"></td>
+                                    <td style="display: none;"></td>
+                                    <td style="display: none;"></td>
+                                    <td style="display: none;"></td>
+                                    <td style="display: none;"></td>
+                                    <td style="display: none;"></td>
+                                    <td style="display: none;"></td>
+                                    <td style="display: none;"></td>
+                                    <td style="display: none;"></td>
+                                    <td style="display: none;"></td>
+                                    <td style="display: none;"></td>
+                                    <td style="display: none;"></td>
+                                    <td style="display: none;"></td>
+                                    <td style="display: none;"></td>
+                                    <td style="display: none;"></td>
+                                    <td style="display: none;"></td>
+                                    <td style="display: none;"></td>
+                                    <td style="display: none;"></td>
+                                    <td style="display: none;"></td>
+                                    <td style="display: none;"></td>
+@*<td style="display: none;"></td>*@
+                                    <td style="display: none;"></td>
+                                    <td style="display: none;"></td>
+                                    <td style="display: none;"></td>
+                                    <td style="display: none;"></td>
+                                    <td style="display: none;"></td>
+                                    <td style="display: none;"></td>
+                                    <td style="display: none;"></td>
+                                    <td style="display: none;"></td>
+                                    <td style="display: none;"></td>
+                                    <td style="display: none;"></td>
+                                    <td style="display: none;"></td>
+                                    <td style="display: none;"></td>
+                                    <td style="display: none;"></td>
+@*<td style="display: none;"></td>*@
+                                    j++;
+                                }
+
+                            </tr>
+                                    }
+
+                                }
+                            <tr class="ui-state-default">
+                                @{
+                                if (RoadLenDTotal > 0)
+                                {
+                                    AVGCostDTotal = SanctionCostDTotal / RoadLenDTotal;
+                                }
+                                else
+                                {
+                                    AVGCostDTotal = 0;
+                                }
+                                if (NoOdWorksDTotal > 0)
+                                {
+                                    AVGCDCostDTotal = EstCDCostDTotal / NoOdWorksDTotal;
+                                }
+                                else
+                                {
+                                    AVGCDCostDTotal = 0;
+                                }
+                                if (RoadLenDTotal > 0)
+                                {
+                                    AVGCostPerKmDTotal = MordCosrDTotal / RoadLenDTotal;
+                                }
+                                else
+                                {
+                                    AVGCostPerKmDTotal = 0;
+                                }
+                                
+                                }
+                                <td style="vertical-align: top;"><b></b></td>
+                                <td><b>Total for @dist </b></td>
+                                <td></td>
+                                <td></td>
+                                <td></td>
+                                <td></td>
+                                <td></td>
+                                <td></td>
+                                <td></td>
+                                <td></td>
+                                <td></td>
+                                <td style="text-align: right"><b>@objCommonFunction._IndianFormatNumber(HabitationNumberDTotal == null ? "0" : HabitationNumberDTotal.ToString())</b></td>
+                                <td><b>@("Number of Habitations for New Connectivity : " + objCommonFunction._IndianFormatNumber(HabitationNumberDTotalN == null ? "0" : HabitationNumberDTotalN.ToString()))</b></td>
+                                <td style="text-align: right"><b>@objCommonFunction._IndianFormatNumber(HabPopDTotal == null ? "0" : HabPopDTotal.ToString())</b></td>
+                                <td style="text-align: right"><b>@objCommonFunction._IndianFormatNumber(SCSTPopDTotal == null ? "0" : SCSTPopDTotal.ToString())</b></td>
+                                <td style="text-align: right"><b>@objCommonFunction._IndianFormatLength(CCLenDTotal == null ? "0" : CCLenDTotal.ToString())</b></td>
+                                <td style="text-align: right"><b>@objCommonFunction._IndianFormatLength(BTLenDTotal == null ? "0" : BTLenDTotal.ToString())</b></td>
+                                <td style="text-align: right"><b>@objCommonFunction._IndianFormatLength(RoadLenDTotal == null ? "0" : RoadLenDTotal.ToString())</b></td>
+                                <td style="text-align: right"><b>@objCommonFunction._IndianFormatAmount(SanctionCostDTotal == null ? "0" : SanctionCostDTotal.ToString())</b></td>
+                                <td style="text-align: right"><b>@objCommonFunction._IndianFormatAmount(AVGCostDTotal == null ? "0" : AVGCostDTotal.ToString())</b></td>
+                                <td style="text-align: right"><b>@objCommonFunction._IndianFormatNumber(NoOdWorksDTotal == null ? "0" : NoOdWorksDTotal.ToString())</b></td>
+                                <td style="text-align: right"><b>@objCommonFunction._IndianFormatAmount(EstCDCostDTotal == null ? "0" : EstCDCostDTotal.ToString())</b></td>
+                                <td style="text-align: right"><b>@objCommonFunction._IndianFormatAmount(AVGCDCostDTotal == null ? "0" : AVGCDCostDTotal.ToString())</b></td>
+                                <td style="text-align: right"><b>@objCommonFunction._IndianFormatAmount(ProtectionCostDTotal == null ? "0" : ProtectionCostDTotal.ToString())</b></td>
+                                <td style="text-align: right"><b>@objCommonFunction._IndianFormatAmount(OtherWorksDTotal == null ? "0" : OtherWorksDTotal.ToString())</b></td>
+                                <td style="text-align: right"><b>@objCommonFunction._IndianFormatAmount(MordCosrDTotal == null ? "0" : MordCosrDTotal.ToString())</b></td>
+                                <td style="text-align: right"><b>@objCommonFunction._IndianFormatAmount(StateShareDTotal == null ? "0" : StateShareDTotal.ToString())</b></td>
+                                <td style="text-align: right"><b>@objCommonFunction._IndianFormatAmount(TotalCostDTotal == null ? "0" : TotalCostDTotal.ToString())</b></td>
+                                <td style="text-align: right"><b>@objCommonFunction._IndianFormatAmount(@AVGCostPerKmDTotal == null ? "0" : @AVGCostPerKmDTotal.ToString())</b></td>
+                                <td></td>
+                                <td></td>
+                                <td></td>
+                                <td></td>
+
+                                <td></td>
+                                <td></td>
+                                <td></td>
+                                @*<td></td>*@
+                                <td style="text-align: right"><b>@objCommonFunction._IndianFormatAmount(EstimatedMaintAmtDTotal == null ? "0" : EstimatedMaintAmtDTotal.ToString())</b></td>
+                                <td></td>
+                                <td></td>
+                                <td></td>
+                                <td></td>
+                                <td></td>
+                                <td></td>
+                                <td></td>
+                                <td></td>
+                                <td></td>
+                                <td></td>
+                                <td></td>
+                                <td></td>
+                                @*<td></td>*@
+                            </tr>
+                            }
+
+                        }
+                    </tbody>
+
+                    <tfoot>
+                        @if (Model.lstMRDProposal.Count > 0)
+                        {
+
+                            <tr>
+                                @*<td colspan="4"><b>Total</b></td>*@
+                                @{
+                            if (RoadLenTotal > 0)
+                            {
+                                AVGCostTotal = SanctionCostTotal / RoadLenTotal;
+                            }
+                            else
+                            {
+                                AVGCostTotal = 0;
+                            }
+                            if (NoOdWorksTotal > 0)
+                            {
+                                AVGCDCostTotal = EstCDCostTotal / NoOdWorksTotal;
+                            }
+                            else
+                            {
+                                AVGCDCostTotal = 0;
+                            }
+                            if (RoadLenTotal > 0)
+                            {
+                                AVGCostPerKMTotal = MordCosrTotal / RoadLenTotal;
+                            }
+                            else
+                            {
+                                AVGCostPerKMTotal = 0;
+                            }
+                            if (TotalCostTotal > 0)
+                            {
+                                MaintCostPercent = (EstimatedMaintAmtTotal / TotalCostTotal) * 100;
+                            }
+                                }
+                                <td style="border-right: 1px solid #CCC"></td>
+                                <td style="border-right: 1px solid #CCC"><b>Grand Total</b></td>
+                                <td style="border-right: 1px solid #CCC"></td>
+                                <td style="border-right: 1px solid #CCC"></td>
+                                <td style="border-right: 1px solid #CCC"></td>
+                                <td style="border-right: 1px solid #CCC"></td>
+                                <td style="border-right: 1px solid #CCC"></td>
+                                <td style="border-right: 1px solid #CCC"></td>
+                                <td style="border-right: 1px solid #CCC"></td>
+                                <td style="text-align: center; border-right: 1px solid #CCC"></td>
+                                <td style="border-right: 1px solid #CCC"></td>
+                                <td style="text-align: right; border-right: 1px solid #CCC"><b>@(objCommonFunction._IndianFormatNumber(HabitationNumberTotal == null ? "0" : HabitationNumberTotal.ToString()))</b></td>
+                                <td style="border-right: 1px solid #CCC"><b>@("Total Number of Habitations for New Connectivity : " + objCommonFunction._IndianFormatNumber(HabitationNumberTotalN == null ? "0" : HabitationNumberTotalN.ToString()))</b></td>
+                                <td style="text-align: right; border-right: 1px solid #CCC"><b>@objCommonFunction._IndianFormatNumber(HabPopTotal == null ? "0" : HabPopTotal.ToString())</b></td>
+                                <td style="text-align: right; border-right: 1px solid #CCC"><b>@objCommonFunction._IndianFormatNumber(SCSTPopTotal == null ? "0" : SCSTPopTotal.ToString())</b></td>
+
+                                <td style="text-align: right; border-right: 1px solid #CCC"><b>@objCommonFunction._IndianFormatLength(CCLenTotal == null ? "0" : CCLenTotal.ToString())</b></td>
+                                <td style="text-align: right; border-right: 1px solid #CCC"><b>@objCommonFunction._IndianFormatLength(BTLenTotal == null ? "0" : BTLenTotal.ToString())</b></td>
+                                <td style="text-align: right; border-right: 1px solid #CCC"><b>@objCommonFunction._IndianFormatLength(RoadLenTotal == null ? "0" : RoadLenTotal.ToString())</b></td>
+                                <td style="text-align: right; border-right: 1px solid #CCC"><b>@objCommonFunction._IndianFormatAmount(SanctionCostTotal == null ? "0" : SanctionCostTotal.ToString())</b></td>
+
+                                <td style="text-align: right; border-right: 1px solid #CCC"><b>@objCommonFunction._IndianFormatAmount(AVGCostTotal == null ? "0" : AVGCostTotal.ToString())</b></td>
+                                <td style="text-align: right; border-right: 1px solid #CCC"><b>@objCommonFunction._IndianFormatNumber(NoOdWorksTotal == null ? "0" : NoOdWorksTotal.ToString())</b></td>
+                                <td style="text-align: right; border-right: 1px solid #CCC"><b>@objCommonFunction._IndianFormatAmount(EstCDCostTotal == null ? "0" : EstCDCostTotal.ToString())</b></td>
+                                <td style="text-align: right; border-right: 1px solid #CCC"><b>@objCommonFunction._IndianFormatAmount(AVGCDCostTotal == null ? "0" : AVGCDCostTotal.ToString())</b></td>
+                                <td style="text-align: right; border-right: 1px solid #CCC"><b>@objCommonFunction._IndianFormatAmount(ProtectionCostTotal == null ? "0" : ProtectionCostTotal.ToString())</b></td>
+                                <td style="text-align: right; border-right: 1px solid #CCC"><b>@objCommonFunction._IndianFormatAmount(OtherWorksTotal == null ? "0" : OtherWorksTotal.ToString())</b></td>
+                                <td style="text-align: right; border-right: 1px solid #CCC"><b>@objCommonFunction._IndianFormatAmount(MordCosrTotal == null ? "0" : MordCosrTotal.ToString())</b></td>
+                                <td style="text-align: right; border-right: 1px solid #CCC"><b>@objCommonFunction._IndianFormatAmount(StateShareTotal == null ? "0" : StateShareTotal.ToString())</b></td>
+                                <td style="text-align: right; border-right: 1px solid #CCC"><b>@objCommonFunction._IndianFormatAmount(TotalCostTotal == null ? "0" : TotalCostTotal.ToString())</b></td>
+                                <td style="text-align: right; border-right: 1px solid #CCC"><b>@objCommonFunction._IndianFormatAmount(AVGCostPerKMTotal == null ? "0" : AVGCostPerKMTotal.ToString())</b></td>
+
+                                <td style="border-right: 1px solid #CCC"></td>
+                                <td style="border-right: 1px solid #CCC"></td>
+                                <td style="border-right: 1px solid #CCC"></td>
+                                <td style="border-right: 1px solid #CCC"></td>
+
+                                <td style="border-right: 1px solid #CCC"></td>
+                                <td style="border-right: 1px solid #CCC"></td>
+                                <td style="border-right: 1px solid #CCC"></td>
+                                @*<td></td>*@
+                                <td style="text-align: right; border-right: 1px solid #CCC"><b>@(objCommonFunction._IndianFormatAmount(EstimatedMaintAmtTotal == null ? "0" : EstimatedMaintAmtTotal.ToString()) + " (" + objCommonFunction._IndianFormatAmount(MaintCostPercent == null ? "0" : MaintCostPercent.ToString()) + "% of Total Cost)")</b></td>
+                                <td style="border-right: 1px solid #CCC"></td>
+                                <td style="border-right: 1px solid #CCC"></td>
+                                <td style="border-right: 1px solid #CCC"></td>
+                                <td style="border-right: 1px solid #CCC"></td>
+                                <td style="border-right: 1px solid #CCC"></td>
+                                <td style="border-right: 1px solid #CCC"></td>
+                                <td style="border-right: 1px solid #CCC"></td>
+                                <td style="border-right: 1px solid #CCC"></td>
+                                <td style="border-right: 1px solid #CCC"></td>
+                                <td style="border-right: 1px solid #CCC"></td>
+                                <td style="border-right: 1px solid #CCC"></td>
+                                <td></td>
+                                @*<td></td>*@
+                                @*<td></td>*@
+                            </tr>
+                        }
+                    </tfoot>
+                </table>
+            </div>
+       
+        }
+        else
+        {
+            <div style="width: 99%">
+                <table id="tblRoadReportData2" class="ui-state-default ui-corner-all">
+                    <thead>
+                        <tr>
+                            <th colspan="9" style="border: 1px solid #CCC;"></th>
+                            @*<th></th>
+                        <th></th>
+                        <th></th>
+                        <th></th>
+                        <th></th>
+                        <th></th>*@
+                            <th style="vertical-align: top; border: 1px solid #CCC;" colspan="4">Habitations Being Benefited </th>
+
+                            <th style="vertical-align: top; border: 1px solid #CCC;" colspan="5">Pavement</th>
+
+                            <th style="vertical-align: top; border: 1px solid #CCC;" colspan="3">CD Works</th>
+
+                            <th colspan="7" style="border: 1px solid #CCC;"></th>
+                            @*<th></th>
+                        <th></th>
+                        <th></th>
+                        <th></th>
+                        <th></th>
+                        <th></th>*@
+
+                            <th style="vertical-align: top;" colspan="2">Constituency no.</th>
+
+                            <th colspan="8" style="border: 1px solid #CCC;"></th>
+                            @*   <th></th>
+                        <th></th>
+
+                        <th></th>
+                        <th></th>
+                        <th></th>
+                        <th></th>
+                        <th></th>*@
+                            <th style="vertical-align: top;" colspan="3">Traffic Intensity</th>
+
+                            <th colspan="10" style="border: 1px solid #CCC;"></th>
+                            @*<th></th>
+                        <th></th>
+                        <th></th>
+                        <th></th>
+                        <th></th>
+                        <th></th>
+                        <th></th>
+                        <th></th>
+                        <th></th>
+                        <th></th>*@
+                        </tr>
+                        <tr>
+
+                            <th style="vertical-align: top; border-right: 1px solid #FFF;">Sr.No.</th>
+                            <th style="vertical-align: top; border-right: 1px solid #FFF;">District</th>
+                            <th style="vertical-align: top; border-right: 1px solid #FFF;">Block</th>
+                            <th style="vertical-align: top; border-right: 1px solid #FFF;">Package Number</th>
+                            <th style="vertical-align: top; border-right: 1px solid #FFF;">Road Code as per Core Network</th>
+                            <th style="vertical-align: top; border-right: 1px solid #FFF;">Road Name</th>
+                            <th style="vertical-align: top; border-right: 1px solid #FFF;">Sanctioned Year</th>
+
+                            <th style="vertical-align: top; border-right: 1px solid #FFF;">Batch</th>
+                            <th style="vertical-align: top; border-right: 1px solid #FFF;">Funding Agency</th>
+                            @* <th>Category of Road (N/U)*</th>*@
+                            <th style="vertical-align: top; border-right: 1px solid #FFF;">Existing surface type (in case of upgradation)</th>
+                            <th style="vertical-align: top; border-right: 1px solid #FFF;">Number of Habitations</th>
+                            <th style="vertical-align: top; border-right: 1px solid #FFF;">Name</th>
+                            <th style="vertical-align: top; border-right: 1px solid #FFF;">Population</th>
+                            <th style="vertical-align: top; border-right: 1px solid #FFF;">SC/ST</th>
+                            <th style="vertical-align: top; border-right: 1px solid #FFF;">CC Length and BT Length</th>
+                            @*<th>BT Length</th>*@
+                            <th style="vertical-align: top; border-right: 1px solid #FFF;">Length (in Kms)</th>
+                            <th style="vertical-align: top; border-right: 1px solid #FFF;">Estimated Cost (Rs. in lakhs)</th>
+                            <th style="vertical-align: top; border-right: 1px solid #FFF;">Average Cost (Per Km.)</th>
+                            <th style="vertical-align: top; border-right: 1px solid #FFF;">Number of works</th>
+                            <th style="vertical-align: top; border-right: 1px solid #FFF;">Estimated Cost (Rs. in lakhs)</th>
+                            <th style="vertical-align: top; border-right: 1px solid #FFF;">Average Cost</th>
+                            <th style="vertical-align: top; border-right: 1px solid #FFF;">Protection Works Cost</th>
+                            <th style="vertical-align: top; border-right: 1px solid #FFF;">Other Works Cost (Rs. in lakhs)</th>
+                            <th style="vertical-align: top; border-right: 1px solid #FFF;">Furniture cost (Rs. in lakhs)</th>
+                            <th style="vertical-align: top; border-right: 1px solid #FFF;">Higher Specification Cost (Rs. in lakhs)</th>
+                            <th style="vertical-align: top; border-right: 1px solid #FFF;">Total Cost including Higher Specification cost (Rs. in lakhs)</th>
+                            <th style="vertical-align: top; border-right: 1px solid #FFF;">MORD Cost (Rs in Lakhs)</th>
+                            <th style="vertical-align: top; border-right: 1px solid #FFF;">State Cost (Rs in Lakhs)</th>
+                            <th style="vertical-align: top; border-right: 1px solid #FFF;">Average Cost (Rs. in Lakhs)/km</th>
+                            <th style="vertical-align: top; border-right: 1px solid #FFF;">If proposed by MP</th>
+                            <th style="vertical-align: top; border-right: 1px solid #FFF;">If proposed by MLA</th>
+                            <th style="vertical-align: top; border-right: 1px solid #FFF;">Whether ZP Resolution obtained (Y/N)</th>
+
+                            <th style="vertical-align: top; border-right: 1px solid #FFF;">Carriage Way Width</th>
+                            <th style="vertical-align: top; border-right: 1px solid #FFF;">Proposed Surface</th>
+                            <th style="vertical-align: top; border-right: 1px solid #FFF;">Curve Type/Traffic Category</th>
+
+                            <th style="vertical-align: top; border-right: 1px solid #FFF;">5 Years Estimated Maintenance Cost (Rs.in lakhs)</th>
+                            <th style="vertical-align: top; border-right: 1px solid #FFF;">6th Year Renewal Cost (Rs.in lakhs)</th>
+                            <th style="vertical-align: top; border-right: 1px solid #FFF;">Year</th>
+                            <th style="vertical-align: top; border-right: 1px solid #FFF;">AADT</th>
+                            <th style="vertical-align: top; border-right: 1px solid #FFF;">ESAL</th>
+                            <th style="vertical-align: top; border-right: 1px solid #FFF;">Segment %CBR Value (Min-Max)</th>
+                            @*<th style="vertical-align: top;">Segment %CBR Value (Max)</th>*@
+                            <th style="vertical-align: top; border-right: 1px solid #FFF;">STA Sanctioned Status with Date and Institute Name</th>
+                            <th style="vertical-align: top; border-right: 1px solid #FFF;">PTA Sanction Status With Date and Institute Name</th>
+                            <th style="vertical-align: top; border-right: 1px solid #FFF;">MoRD Sanction Status</th>
+                            <th style="vertical-align: top; border-right: 1px solid #FFF;">Clearance Date</th>
+                            <th style="vertical-align: top; border-right: 1px solid #FFF;">STA Remarks</th>
+                            <th style="vertical-align: top; border-right: 1px solid #FFF;">PTA Remarks</th>
+                            <th style="vertical-align: top; border-right: 1px solid #FFF;">Remarks by DPIU</th>
+                            <th style="vertical-align: top; border-right: 1px solid #FFF;">View Photos / C Proforma</th>
+                            @*<th style="vertical-align: top; border-right: 1px solid #FFF;">C Proforma</th>*@
+
+                        </tr>
+                        <tr>
+                            <th>1</th>
+                            <th>2</th>
+                            <th>3</th>
+                            <th>4</th>
+                            <th>5</th>
+                            <th>6</th>
+                            <th>7</th>
+                            <th>8</th>
+                            <th>9</th>
+                            <th>10</th>
+                            <th>11</th>
+                            <th>12</th>
+                            <th>13</th>
+                            <th>14</th>
+                            <th>15</th>
+                            <th>16</th>
+                            <th>17</th>
+                            <th>18</th>
+                            <th>19</th>
+                            <th>20</th>
+                            <th>21</th>
+                            <th>22</th>
+                            <th>23</th>
+                            <th>24</th>
+                            <th>25</th>
+                            <th>26</th>
+                            <th>27</th>
+                            <th>28</th>
+                            <th>29</th>
+                            <th>30</th>
+                            <th>31</th>
+                            <th>32</th>
+                            <th>33</th>
+                            <th>34</th>
+                            <th>35</th>
+                            <th>36</th>
+                            <th>37</th>
+                            <th>38</th>
+                            <th>39</th>
+                            <th>40</th>
+                            <th>41</th>
+                            <th>42</th>
+                            <th>43</th>
+                            <th>44</th>
+                            <th>45</th>
+                            <th>46</th>
+                            <th>47</th>
+                            <th>48</th>
+                            <th>49</th>
+                            @*<th>50</th>*@
+                        </tr>
+                        @{
+                        
+                       
+            var EstimatedMaintAmt = Model.lstMRDProposal.Sum(s => s.MAINT_AMT);
+            var HabitationNumber = Model.lstMRDProposal.Sum(s => s.TOTAL_HABS);
+            var CCLen = Model.lstMRDProposal.Sum(s => s.IMS_CC_LENGTH);
+            var BTLen = Model.lstMRDProposal.Sum(s => s.IMS_BT_LENGTH);
+            var RoadLen = Model.lstMRDProposal.Sum(s => s.ROAD_LENGTH);
+            var SanctionCost = Model.lstMRDProposal.Sum(s => s.PAV_COST);
+            var AVGCostPerKm = Model.lstMRDProposal.Sum(s => s.PW_AVG_KM);
+            var NoOdWorks = Model.lstMRDProposal.Sum(s => s.IMS_NO_OF_CDWORKS);
+            var EstCDCost = Model.lstMRDProposal.Sum(s => s.CD_COST);
+            var AVGCDCost = Model.lstMRDProposal.Sum(s => s.AVG_CD_COST);
+            var ProtectionCost = Model.lstMRDProposal.Sum(s => s.PW_COST);
+            var OtherWorks = Model.lstMRDProposal.Sum(s => s.OW_COST);
+            var MordCosr = Model.lstMRDProposal.Sum(s => s.ROAD_AMT);
+            var StateShare = Model.lstMRDProposal.Sum(s => s.ROAD_STATE);
+            var TotalCost = Model.lstMRDProposal.Sum(s => s.TOTAL_COST);
+            var AVGCostPerKM = Model.lstMRDProposal.Sum(s => s.AVG_COST_KM);
+            var FurnitureCost = Model.lstMRDProposal.Sum(s => s.FURNITURE_COST);
+
+
+            decimal CCLenDTotal = 0;
+            int HabitationNumberDTotal = 0;
+            int HabitationNumberDTotalN = 0;
+            decimal BTLenDTotal = 0;
+            decimal RoadLenDTotal = 0;
+            decimal SanctionCostDTotal = 0;
+            decimal AVGCostDTotal = 0;
+            decimal AVGCostPerKmDTotal = 0;
+            int NoOdWorksDTotal = 0;
+            decimal EstCDCostDTotal = 0;
+            decimal AVGCDCostDTotal = 0;
+            decimal ProtectionCostDTotal = 0;
+            decimal OtherWorksDTotal = 0;
+            decimal MordCosrDTotal = 0;
+            decimal StateShareDTotal = 0;
+            decimal TotalCostDTotal = 0;
+            decimal FurnitureCostDTotal = 0;
+            decimal HSpecCostDTotal = 0;
+            decimal EstimatedMaintAmtDTotal = 0;
+            decimal RenewalCostDTotal = 0;
+            decimal HabPopDTotal = 0;
+            decimal SCSTPopDTotal = 0;
+
+            string dist = "";
+
+
+            decimal CCLenTotal = 0;
+            int HabitationNumberTotal = 0;
+            int HabitationNumberTotalN = 0;
+            decimal BTLenTotal = 0;
+            decimal RoadLenTotal = 0;
+            decimal SanctionCostTotal = 0;
+            decimal AVGCostTotal = 0;
+            int NoOdWorksTotal = 0;
+            decimal EstCDCostTotal = 0;
+            decimal AVGCDCostTotal = 0;
+            decimal ProtectionCostTotal = 0;
+            decimal OtherWorksTotal = 0;
+            decimal MordCosrTotal = 0;
+            decimal StateShareTotal = 0;
+            decimal TotalCostTotal = 0;
+            decimal AVGCostPerKMTotal = 0;
+            decimal FurnitureCostTotal = 0;
+            decimal HSpecCostTotal = 0;
+            decimal EstimatedMaintAmtTotal = 0;
+            decimal RenewalCostTotal = 0;
+            decimal MaintCostPercent = 0;
+            decimal HabPopTotal = 0;
+            decimal SCSTPopTotal = 0;
+                        }
+                    </thead>
+
+
+
+                    <tbody>
+                        @if (Model.lstMRDProposal.Count > 0)
+                        {
+                            int cnt = 1;
+                            CCLenTotal = 0;
+                            HabitationNumberTotal = 0;
+                            HabitationNumberTotalN = 0;
+                            BTLenTotal = 0;
+                            RoadLenTotal = 0;
+                            SanctionCostTotal = 0;
+                            AVGCostTotal = 0;
+                            NoOdWorksTotal = 0;
+                            EstCDCostTotal = 0;
+                            AVGCDCostTotal = 0;
+                            ProtectionCostTotal = 0;
+                            OtherWorksTotal = 0;
+                            MordCosrTotal = 0;
+                            StateShareTotal = 0;
+                            TotalCostTotal = 0;
+                            FurnitureCostTotal = 0;
+                            HSpecCostTotal = 0;
+                            AVGCostPerKMTotal = 0;
+                            EstimatedMaintAmtTotal = 0;
+                            RenewalCostTotal = 0;
+                            HabPopTotal = 0;
+                            SCSTPopTotal = 0;
+
+                            var districts = Model.lstMRDProposal.Select(s => s.MAST_DISTRICT_CODE).Distinct();
+                            foreach (var distitem in districts)
+                            {
+                                dist = "";
+                                CCLenDTotal = 0;
+                                HabitationNumberDTotal = 0;
+                                HabitationNumberDTotalN = 0;
+                                BTLenDTotal = 0;
+                                RoadLenDTotal = 0;
+                                SanctionCostDTotal = 0;
+                                AVGCostDTotal = 0;
+                                NoOdWorksDTotal = 0;
+                                EstCDCostDTotal = 0;
+                                AVGCDCostDTotal = 0;
+                                ProtectionCostDTotal = 0;
+                                OtherWorksDTotal = 0;
+                                MordCosrDTotal = 0;
+                                StateShareDTotal = 0;
+                                TotalCostDTotal = 0;
+                                FurnitureCostDTotal = 0;
+                                HSpecCostDTotal = 0;
+                                //AVGCostPerKMDTotal = 0;
+                                AVGCostPerKmDTotal = 0;
+                                EstimatedMaintAmtDTotal = 0;
+                                RenewalCostDTotal = 0;
+                                HabPopDTotal = 0;
+                                SCSTPopDTotal = 0;
+
+                                var districtwise = Model.lstMRDProposal.Where(s => s.MAST_DISTRICT_CODE == distitem);
+                                foreach (var itm in districtwise)
+                                {
+                                    //if (k == 0)
+
+                                }
+
+                                var roads = Model.lstMRDProposal.Where(a => a.MAST_DISTRICT_CODE == distitem).Select(s => s.IMS_PR_ROAD_CODE).Distinct();
+                                int asp = roads.Count();
+
+                                foreach (var roaditem in roads)
+                                {
+                                    var roadwise = Model.lstMRDProposal.Where(s => s.IMS_PR_ROAD_CODE == roaditem);
+
+                                    var roadname = Model.lstMRDProposal.Where(m => m.IMS_PR_ROAD_CODE == roaditem).Select(s => s.ROAD_NAME).FirstOrDefault();
+
+                                    int roadcnt = Model.lstMRDProposal.Where(m => m.IMS_PR_ROAD_CODE == roaditem).Select(s => s.ROAD_NAME).Count();
+
+                                    int i = 0;
+                                    int j = 0;
+                                    var css = (cnt % 2 == 0) ? "background-color:lightyellow;" : "background-color:white;";
+                                    foreach (var item in roadwise)
+                                    {
+                                        i++;
+                            <tr style="@css">
+                                @if (j == 0)
+                                {
+                                    dist = item.MAST_DISTRICT_NAME;
+                                    <td rowspan="@roadcnt" style="text-align: center">@cnt</td>
+
+                                    <td rowspan="@roadcnt" >@item.MAST_DISTRICT_NAME</td>
+
+                                    <td rowspan="@roadcnt" >@item.MAST_BLOCK_NAME</td>
+
+                                    <td rowspan="@roadcnt" style="text-align: center;">@item.IMS_PACKAGE_ID</td>
+
+                                    <td rowspan="@roadcnt" style="text-align: center;" >@item.CN_ROAD</td>
+                                    
+                                    <td rowspan="@roadcnt" >@item.ROAD_NAME</td>
+
+                                    <td rowspan="@roadcnt" >@item.IMS_YEAR</td>
+                                    
+                                    <td rowspan="@roadcnt" style="text-align: right">@item.IMS_BATCH</td>
+
+                                    <td rowspan="@roadcnt" style="text-align: center">@item.IMS_COLLABORATION</td>
+
+                                    <td rowspan="@roadcnt" >@item.MAST_EXISTING_SURFACE_CODE</td>
+                                    if (item.IMS_UPGRADE_CONNECT == "New")
+                                    {
+                                        HabitationNumberDTotalN += Convert.ToInt32(item.TOTAL_HABS);
+                                        HabitationNumberTotalN += Convert.ToInt32(item.TOTAL_HABS);
+                                    }
+                                    HabitationNumberDTotal += Convert.ToInt32(item.TOTAL_HABS);
+                                    HabitationNumberTotal += Convert.ToInt32(item.TOTAL_HABS);
+                                    <td rowspan="@roadcnt"  style="text-align:right;">@item.TOTAL_HABS</td>
+
+                                    <td>@item.HAB_NAME</td>
+
+                                    HabPopDTotal += Convert.ToInt32(item.HAB_POP);
+                                    HabPopTotal += Convert.ToInt32(item.HAB_POP);
+
+                                    <td style="text-align: right;">@item.HAB_POP</td>
+
+                                    SCSTPopDTotal += Convert.ToInt32(item.SCST_POP);
+                                    SCSTPopTotal += Convert.ToInt32(item.SCST_POP);
+
+                                    <td style="text-align: right;">@item.SCST_POP</td>
+                                    
+                                    BTLenDTotal += item.IMS_BT_LENGTH;
+                                    BTLenTotal += item.IMS_BT_LENGTH;
+                                    <td rowspan="@roadcnt" style="text-align:right;" >@(item.IMS_CC_LENGTH.ToString() + " to " + item.IMS_BT_LENGTH.ToString())</td>
+                                    RoadLenDTotal += item.ROAD_LENGTH;
+                                    RoadLenTotal += item.ROAD_LENGTH;
+                                    <td rowspan="@roadcnt" style="text-align:right;">@item.ROAD_LENGTH</td>
+                                    SanctionCostDTotal += item.PAV_COST;
+                                    SanctionCostTotal += item.PAV_COST;
+                                    <td rowspan="@roadcnt" style="text-align:right;" >@objCommonFunction._IndianFormatAmount(item.PAV_COST == null ? "0" : item.PAV_COST.ToString())</td>
+                                    AVGCostPerKmDTotal += Convert.ToDecimal(item.PW_AVG_KM);
+                                    <td rowspan="@roadcnt" style="text-align:right;" >@objCommonFunction._IndianFormatAmount(item.PW_AVG_KM == null ? "0" : item.PW_AVG_KM.ToString())</td>
+                                    NoOdWorksDTotal += item.IMS_NO_OF_CDWORKS;
+                                    NoOdWorksTotal += item.IMS_NO_OF_CDWORKS;
+                                    <td rowspan="@roadcnt"  style="text-align:right;">@item.IMS_NO_OF_CDWORKS</td>
+                                    EstCDCostDTotal += item.CD_COST;
+                                    EstCDCostTotal += item.CD_COST;
+                                    <td rowspan="@roadcnt" style="text-align: right">@objCommonFunction._IndianFormatAmount(@item.CD_COST == null ? "0" : @item.CD_COST.ToString())</td>
+                                    //AVGCDCostTotal += Convert.ToDecimal(item.AVG_CD_COST);
+                                    <td  rowspan="@roadcnt" style="text-align: right">@objCommonFunction._IndianFormatAmount(@item.AVG_CD_COST == null ? "0" : @item.AVG_CD_COST.ToString())</td>
+                                    ProtectionCostDTotal += item.PW_COST;
+                                    ProtectionCostTotal += item.PW_COST;
+                                    <td rowspan="@roadcnt" style="text-align: right">@objCommonFunction._IndianFormatAmount(@item.PW_COST == null ? "0" : @item.PW_COST.ToString())</td>
+                                    OtherWorksDTotal += item.OW_COST;
+                                    OtherWorksTotal += item.OW_COST;
+                                    <td rowspan="@roadcnt" style="text-align: right">@objCommonFunction._IndianFormatAmount(@item.OW_COST == null ? "0" : @item.OW_COST.ToString())</td>
+                                    FurnitureCostDTotal += item.FURNITURE_COST;
+                                    FurnitureCostTotal += item.FURNITURE_COST;
+                                    <td rowspan="@roadcnt" style="text-align: right">@objCommonFunction._IndianFormatAmount(@item.FURNITURE_COST == null ? "0" : @item.FURNITURE_COST.ToString())</td>
+
+                                    HSpecCostDTotal += item.HIGHER_COST;
+                                    HSpecCostTotal += item.HIGHER_COST;
+                                    <td rowspan="@roadcnt" style="text-align: right">@objCommonFunction._IndianFormatAmount(@item.HIGHER_COST == null ? "0" : @item.HIGHER_COST.ToString())</td>
+                                    
+                                    TotalCostDTotal += Convert.ToDecimal(item.TOTAL_COST);
+                                    TotalCostTotal += Convert.ToDecimal(item.TOTAL_COST);
+                                    <td  rowspan="@roadcnt" style="text-align: right">@objCommonFunction._IndianFormatAmount(@item.TOTAL_COST == null ? "0" : @item.TOTAL_COST.ToString())</td>
+                                    
+                                    MordCosrDTotal += Convert.ToDecimal(item.ROAD_AMT);
+                                    MordCosrTotal += Convert.ToDecimal(item.ROAD_AMT);
+                                    <td rowspan="@roadcnt" style="text-align: right">@objCommonFunction._IndianFormatAmount(@item.ROAD_AMT == null ? "0" : @item.ROAD_AMT.ToString())</td>
+                                    StateShareDTotal += Convert.ToDecimal(item.ROAD_STATE);
+                                    StateShareTotal += Convert.ToDecimal(item.ROAD_STATE);
+                                    <td  rowspan="@roadcnt"  style="text-align: right">@objCommonFunction._IndianFormatAmount(@item.ROAD_STATE == null ? "0" : @item.ROAD_STATE.ToString())</td>
+                                    
+                                    //AVGCostPerKMTotal += Convert.ToDecimal(item.AVG_COST_KM);
+                                    <td rowspan="@roadcnt" style="text-align: right">@objCommonFunction._IndianFormatAmount(@item.AVG_COST_KM == null ? "0" : @item.AVG_COST_KM.ToString())</td>
+
+                                    <td rowspan="@roadcnt" >@item.MP_CONST</td>
+
+                                    <td  rowspan="@roadcnt">@item.MLA_CONST</td>
+
+                                    <td rowspan="@roadcnt" >@item.IMS_ZP_RESO_OBTAINED</td>
+
+
+                                    
+
+                                    <td rowspan="@roadcnt" style="text-align: right">@item.MAST_CARRIAGE_WIDTH</td>
+
+                                    <td rowspan="@roadcnt">@item.IMS_PROPOSED_SURFACE</td>
+
+                                    <td rowspan="@roadcnt" >@item.IMS_TRAFFIC_TYPE</td>
+
+                                    
+                                    EstimatedMaintAmtDTotal += Convert.ToDecimal(item.MAINT_AMT);
+                                    EstimatedMaintAmtTotal += Convert.ToDecimal(item.MAINT_AMT);
+                                    <td rowspan="@roadcnt" style="text-align: right"><a style="text-decoration:underline; color:blue"  href="#" onclick="GetBridgeCostDetails('@item.IMS_PR_ROAD_CODE,@item.MAST_STATE_NAME,@item.MAST_DISTRICT_NAME,@item.MAST_BLOCK_NAME, @item.IMS_PACKAGE_ID.ToString() ,@item.IMS_YEAR,@item.ROAD_NAME,@item.LSB_NAME,@item.LSB_LEN,P')">@objCommonFunction._IndianFormatAmount(@item.MAINT_AMT == null ? "0" : @item.MAINT_AMT.ToString())</a></td>
+
+                                    RenewalCostDTotal += Convert.ToDecimal(item.RENEWAL_COST);
+                                    RenewalCostTotal += Convert.ToDecimal(item.RENEWAL_COST);
+                                    
+                                    <td rowspan="@roadcnt" style="text-align: right">@objCommonFunction._IndianFormatAmount(@item.RENEWAL_COST == null ? "0" : @item.RENEWAL_COST.ToString())</td>
+
+                                    <td rowspan="@roadcnt" style="text-align: right">@item.TRAFFIC_YEAR</td>
+
+                                    <td  rowspan="@roadcnt" style="text-align: right">@item.AADT</td>
+
+                                    <td rowspan="@roadcnt" style="text-align: right">@item.ESAL</td>
+
+                                    <td rowspan="@roadcnt" style="text-align: right"><a style="text-decoration:underline; color:blue"  href="#" onclick="GetRoadCBRDetails('@item.IMS_PR_ROAD_CODE,@item.MAST_STATE_NAME,@item.MAST_DISTRICT_NAME,@item.MAST_BLOCK_NAME, @item.IMS_PACKAGE_ID.ToString() ,@item.IMS_YEAR,@item.ROAD_NAME,@item.LSB_NAME,@item.LSB_LEN,P')">@(item.CBR.ToString())</a></td>
+
+                                    <td rowspan="@roadcnt" style="text-align: center">@item.STA_SCRUTINY</td>
+
+                                    <td rowspan="@roadcnt" style="text-align: center">@item.PTA_SCRUTINY</td>
+
+                                    <td rowspan="@roadcnt" >@item.PROPOSAL_STATUS</td>
+
+                                    <td rowspan="@roadcnt" style="text-align: center">@item.IMS_SANCTIONED_DATE</td>
+
+                                    <td rowspan="@roadcnt">@item.IMS_STA_REMARKS</td>
+                                    <td rowspan="@roadcnt">@item.IMS_PTA_REMARKS</td>
+                                    <td rowspan="@roadcnt">@item.IMS_REMARKS</td>
+                                    <td rowspan="@roadcnt" ><a style="text-decoration:underline; color:blue"  href="#" onclick="GetBridgeProposalFilesDetails('@item.IMS_PR_ROAD_CODE,@item.MAST_STATE_NAME,@item.MAST_DISTRICT_NAME,@item.MAST_BLOCK_NAME, @item.IMS_PACKAGE_ID.ToString() ,@item.IMS_YEAR.ToString(),@item.ROAD_NAME,@item.ROAD_LENGTH,@item.IMS_COLLABORATION,@item.IMS_BATCH,@item.LSB_NAME,@item.LSB_LEN,P')">View</a></td>
+@*<td rowspan="@roadcnt" >-</td>*@
+                                    cnt++;
+                                    j++;
+                                }
+                                else
+                                {
+                                    <td style="display: none;"></td>
+                                    <td style="display: none;"></td>
+                                    <td style="display: none;"></td>
+                                    <td style="display: none;"></td>
+                                    <td style="display: none;"></td>
+                                    <td style="display: none;"></td>
+                                    <td style="display: none;"></td>
+                                    <td style="display: none;"></td>
+                                    <td style="display: none;"></td>
+                                    <td style="display: none;"></td>
+                                    <td style="display: none;"></td>
+                                    <td>@item.HAB_NAME</td>
+
+                                    <td style="text-align: right;">@item.HAB_POP</td>
+                                
+                                    HabPopDTotal += Convert.ToInt32(item.HAB_POP);
+                                    HabPopTotal += Convert.ToInt32(item.HAB_POP);
+
+                                    <td style="text-align: right;">@item.SCST_POP</td>
+
+                                    SCSTPopDTotal += Convert.ToInt32(item.SCST_POP);
+                                    SCSTPopTotal += Convert.ToInt32(item.SCST_POP);    
+                                    
+                                    <td style="display: none;"></td>
+                                    <td style="display: none;"></td>
+                                    <td style="display: none;"></td>
+                                    <td style="display: none;"></td>
+                                    <td style="display: none;"></td>
+                                    <td style="display: none;"></td>
+                                    <td style="display: none;"></td>
+                                    <td style="display: none;"></td>
+                                    <td style="display: none;"></td>
+                                    <td style="display: none;"></td>
+                                    <td style="display: none;"></td>
+                                    <td style="display: none;"></td>
+                                    <td style="display: none;"></td>
+                                    <td style="display: none;"></td>
+                                    <td style="display: none;"></td>
+                                    <td style="display: none;"></td>
+                                    <td style="display: none;"></td>
+                                    <td style="display: none;"></td>
+                                    <td style="display: none;"></td>
+                                    <td style="display: none;"></td>
+                                    <td style="display: none;"></td>
+                                    
+                                    <td style="display: none;"></td>
+                                    <td style="display: none;"></td>
+                                    <td style="display: none;"></td>
+                                    <td style="display: none;"></td>
+                                    <td style="display: none;"></td>
+                                    <td style="display: none;"></td>
+                                    <td style="display: none;"></td>
+                                    <td style="display: none;"></td>
+                                    <td style="display: none;"></td>
+                                    <td style="display: none;"></td>
+                                    <td style="display: none;"></td>
+                                    <td style="display: none;"></td>
+                                    <td style="display: none;"></td>
+                                    <td style="display: none;"></td>
+@*<td style="display: none;"></td>*@
+                                    j++;
+                                }
+                            </tr>
+                                
+                                    }
+
+                                }
+                            <tr class="ui-state-default">
+                                @{
+                                //AVGCostDTotal = SanctionCostDTotal / RoadLenDTotal;
+                                //AVGCDCostDTotal = EstCDCostDTotal / NoOdWorksDTotal;
+                                //AVGCostPerKmDTotal = MordCosrDTotal / RoadLenDTotal;
+                                if (RoadLenDTotal > 0)
+                                {
+                                    AVGCostDTotal = SanctionCostDTotal / RoadLenDTotal;
+                                }
+                                else
+                                {
+                                    AVGCostDTotal = 0;
+                                }
+                                if (NoOdWorksDTotal > 0)
+                                {
+                                    AVGCDCostDTotal = EstCDCostDTotal / NoOdWorksDTotal;
+                                }
+                                else
+                                {
+                                    AVGCDCostDTotal = 0;
+                                }
+                                if (RoadLenDTotal > 0)
+                                {
+                                    AVGCostPerKmDTotal = MordCosrDTotal / RoadLenDTotal;
+                                }
+                                else
+                                {
+                                    AVGCostPerKmDTotal = 0;
+                                }
+                                }
+                                <td></td>
+                                <td><b>Total for @dist</b></td>
+                                <td></td>
+                                <td></td>
+                                <td></td>
+                                <td></td>
+                                <td></td>
+                                <td></td>
+
+                                <td></td>
+                                <td></td>
+
+                                <td style="text-align: right"><b>@objCommonFunction._IndianFormatNumber(HabitationNumberDTotal == null ? "0" : HabitationNumberDTotal.ToString())</b></td>
+                                <td><b>@("Number of Habitations for New Connectivity : " + objCommonFunction._IndianFormatNumber(HabitationNumberDTotalN == null ? "0" : HabitationNumberDTotalN.ToString()))</b></td>
+                                <td style="text-align: right"><b>@objCommonFunction._IndianFormatNumber(HabPopDTotal == null ? "0" : HabPopDTotal.ToString())</b></td>
+                                <td style="text-align: right"><b>@objCommonFunction._IndianFormatNumber(SCSTPopDTotal == null ? "0" : SCSTPopDTotal.ToString())</b></td>
+
+                                <td style="text-align: right">@*<b>@objCommonFunction._IndianFormatAmount(CCLenDTotal == null ? "0" : CCLenDTotal.ToString())</b>*@</td>
+
+                                <td style="text-align: right"><b>@objCommonFunction._IndianFormatAmount(RoadLenDTotal == null ? "0" : RoadLenDTotal.ToString())</b></td>
+                                <td style="text-align: right"><b>@objCommonFunction._IndianFormatAmount(SanctionCostDTotal == null ? "0" : SanctionCostDTotal.ToString())</b></td>
+
+                                <td style="text-align: right"><b>@objCommonFunction._IndianFormatAmount(AVGCostDTotal == null ? "0" : AVGCostDTotal.ToString())</b></td>
+                                <td style="text-align: right"><b>@objCommonFunction._IndianFormatNumber(NoOdWorksDTotal == null ? "0" : NoOdWorksDTotal.ToString())</b></td>
+                                <td style="text-align: right"><b>@objCommonFunction._IndianFormatAmount(EstCDCostDTotal == null ? "0" : EstCDCostDTotal.ToString())</b></td>
+                                <td style="text-align: right"><b>@objCommonFunction._IndianFormatAmount(AVGCDCostDTotal == null ? "0" : AVGCDCostDTotal.ToString())</b></td>
+                                <td style="text-align: right"><b>@objCommonFunction._IndianFormatAmount(ProtectionCostDTotal == null ? "0" : ProtectionCostDTotal.ToString())</b></td>
+                                <td style="text-align: right"><b>@objCommonFunction._IndianFormatAmount(OtherWorksDTotal == null ? "0" : OtherWorksDTotal.ToString())</b></td>
+                                <td style="text-align: right"><b>@objCommonFunction._IndianFormatAmount(FurnitureCostDTotal == null ? "0" : FurnitureCostDTotal.ToString())</b></td>
+                                <td style="text-align: right"><b>@objCommonFunction._IndianFormatAmount(HSpecCostDTotal == null ? "0" : HSpecCostDTotal.ToString())</b></td>
+                                <td style="text-align: right"><b>@objCommonFunction._IndianFormatAmount(TotalCostDTotal == null ? "0" : TotalCostDTotal.ToString())</b></td>
+                                <td style="text-align: right"><b>@objCommonFunction._IndianFormatAmount(MordCosrDTotal == null ? "0" : MordCosrDTotal.ToString())</b></td>
+                                <td style="text-align: right"><b>@objCommonFunction._IndianFormatAmount(StateShareDTotal == null ? "0" : StateShareDTotal.ToString())</b></td>
+                                <td style="text-align: right"><b>@objCommonFunction._IndianFormatAmount(AVGCostPerKmDTotal == null ? "0" : AVGCostPerKmDTotal.ToString())</b></td>
+                                <td style="text-align: right"></td>
+                                <td style="text-align: right"></td>
+
+                                <td></td>
+
+                                <td></td>
+                                <td></td>
+                                <td></td>
+
+                                <td style="text-align: right"><b>@objCommonFunction._IndianFormatAmount(EstimatedMaintAmtDTotal == null ? "0" : EstimatedMaintAmtDTotal.ToString())</b></td>
+
+                                <td style="text-align: right"><b>@objCommonFunction._IndianFormatAmount(RenewalCostDTotal == null ? "0" : RenewalCostDTotal.ToString())</b></td>
+                                <td></td>
+                                <td></td>
+                                <td></td>
+                                <td></td>
+                                <td></td>
+                                <td></td>
+                                <td></td>
+                                <td></td>
+                                <td></td>
+                                <td></td>
+                                <td></td>
+                                <td></td>
+                                @*<td></td>*@
+                            </tr>
+                            }
+                        }
+                    </tbody>
+
+                    <tfoot>
+
+
+                        <tr>
+                            @{
+                        if (RoadLenTotal > 0)
+                        {
+                            AVGCostTotal = SanctionCostTotal / RoadLenTotal;
+                        }
+                        else
+                        {
+                            AVGCostTotal = 0;
+                        }
+                        if (NoOdWorksTotal > 0)
+                        {
+                            AVGCDCostTotal = EstCDCostTotal / NoOdWorksTotal;
+                        }
+                        else
+                        {
+                            AVGCDCostTotal = 0;
+                        }
+                        if (RoadLenTotal > 0)
+                        {
+                            AVGCostPerKMTotal = MordCosrTotal / RoadLenTotal;
+                        }
+                        else
+                        {
+                            AVGCostPerKMTotal = 0;
+                        }
+                        if (TotalCostTotal > 0)
+                        {
+                            MaintCostPercent = (EstimatedMaintAmtTotal / TotalCostTotal) * 100;
+                        }
+                            }
+                            <td style="border-right: 1px solid #CCC"></td>
+                            <td style="border-right: 1px solid #CCC"><b>Grand Total</b></td>
+                            <td style="border-right: 1px solid #CCC"></td>
+                            <td style="border-right: 1px solid #CCC"></td>
+                            <td style="border-right: 1px solid #CCC"></td>
+                            <td style="border-right: 1px solid #CCC"></td>
+                            <td style="border-right: 1px solid #CCC"></td>
+                            <td style="border-right: 1px solid #CCC"></td>
+
+                            <td style="border-right: 1px solid #CCC"></td>
+                            <td style="border-right: 1px solid #CCC"></td>
+
+                            <td style="text-align: right; border-right: 1px solid #CCC"><b>@(objCommonFunction._IndianFormatNumber(HabitationNumberTotal == null ? "0" : HabitationNumberTotal.ToString()))</b></td>
+                            <td style="border-right: 1px solid #CCC"><b>@("Total Number of Habitations for New Connectivity : " + objCommonFunction._IndianFormatNumber(HabitationNumberTotalN == null ? "0" : HabitationNumberTotalN.ToString()))</b></td>
+                            <td style="border-right: 1px solid #CCC"><b>@objCommonFunction._IndianFormatNumber(HabPopTotal == null ? "0" : HabPopTotal.ToString())</b></td>
+                            <td style="border-right: 1px solid #CCC"><b>@objCommonFunction._IndianFormatNumber(SCSTPopTotal == null ? "0" : SCSTPopTotal.ToString())</b></td>
+
+                            <td style="text-align: right; border-right: 1px solid #CCC">@*<b>@objCommonFunction._IndianFormatAmount(CCLenTotal == null ? "0" : CCLenTotal.ToString())</b>*@</td>
+
+                            <td style="text-align: right; border-right: 1px solid #CCC"><b>@objCommonFunction._IndianFormatAmount(RoadLenTotal == null ? "0" : RoadLenTotal.ToString())</b></td>
+                            <td style="text-align: right; border-right: 1px solid #CCC"><b>@objCommonFunction._IndianFormatAmount(SanctionCostTotal == null ? "0" : SanctionCostTotal.ToString())</b></td>
+
+                            <td style="text-align: right; border-right: 1px solid #CCC"><b>@objCommonFunction._IndianFormatAmount(AVGCostTotal == null ? "0" : AVGCostTotal.ToString())</b></td>
+                            <td style="text-align: right; border-right: 1px solid #CCC"><b>@objCommonFunction._IndianFormatNumber(NoOdWorksDTotal == null ? "0" : NoOdWorksDTotal.ToString())</b></td>
+                            <td style="text-align: right; border-right: 1px solid #CCC"><b>@objCommonFunction._IndianFormatAmount(EstCDCostTotal == null ? "0" : EstCDCostTotal.ToString())</b></td>
+                            <td style="text-align: right; border-right: 1px solid #CCC"><b>@objCommonFunction._IndianFormatAmount(AVGCDCostTotal == null ? "0" : AVGCDCostTotal.ToString())</b></td>
+                            <td style="text-align: right; border-right: 1px solid #CCC"><b>@objCommonFunction._IndianFormatAmount(ProtectionCostTotal == null ? "0" : ProtectionCostTotal.ToString())</b></td>
+                            <td style="text-align: right; border-right: 1px solid #CCC"><b>@objCommonFunction._IndianFormatAmount(OtherWorksTotal == null ? "0" : OtherWorksTotal.ToString())</b></td>
+                            <td style="text-align: right; border-right: 1px solid #CCC"><b>@objCommonFunction._IndianFormatAmount(FurnitureCostTotal == null ? "0" : FurnitureCostTotal.ToString())</b></td>
+                            <td style="text-align: right; border-right: 1px solid #CCC"><b>@objCommonFunction._IndianFormatAmount(HSpecCostTotal == null ? "0" : HSpecCostTotal.ToString())</b></td>
+                            <td style="text-align: right; border-right: 1px solid #CCC"><b>@objCommonFunction._IndianFormatAmount(TotalCostTotal == null ? "0" : TotalCostTotal.ToString())</b></td>
+                            <td style="text-align: right; border-right: 1px solid #CCC"><b>@objCommonFunction._IndianFormatAmount(MordCosrTotal == null ? "0" : MordCosrTotal.ToString())</b></td>
+                            <td style="text-align: right; border-right: 1px solid #CCC"><b>@objCommonFunction._IndianFormatAmount(StateShareTotal == null ? "0" : StateShareTotal.ToString())</b></td>
+                            <td style="text-align: right; border-right: 1px solid #CCC"><b>@objCommonFunction._IndianFormatAmount(AVGCostPerKMTotal == null ? "0" : AVGCostPerKMTotal.ToString())</b></td>
+                            <td style="text-align: right; border-right: 1px solid #CCC"></td>
+                            <td style="text-align: right; border-right: 1px solid #CCC"></td>
+
+                            <td style="border-right: 1px solid #CCC"></td>
+
+                            <td style="border-right: 1px solid #CCC"></td>
+                            <td style="border-right: 1px solid #CCC"></td>
+                            <td style="border-right: 1px solid #CCC"></td>
+
+                            <td style="text-align: right; border-right: 1px solid #CCC"><b>@(objCommonFunction._IndianFormatAmount(EstimatedMaintAmtTotal == null ? "0" : EstimatedMaintAmtTotal.ToString()) + " (" + objCommonFunction._IndianFormatAmount(MaintCostPercent == null ? "0" : MaintCostPercent.ToString()) + "% of Total Cost)")</b></td>
+                            <td style="text-align: right; border-right: 1px solid #CCC"><b>@objCommonFunction._IndianFormatAmount(RenewalCostTotal == null ? "0" : RenewalCostTotal.ToString())</b></td>
+                            <td style="border-right: 1px solid #CCC"></td>
+                            <td style="border-right: 1px solid #CCC"></td>
+                            <td style="border-right: 1px solid #CCC"></td>
+                            <td style="border-right: 1px solid #CCC"></td>
+                            <td style="border-right: 1px solid #CCC"></td>
+                            <td style="border-right: 1px solid #CCC"></td>
+                            <td style="border-right: 1px solid #CCC"></td>
+                            <td style="border-right: 1px solid #CCC"></td>
+                            <td style="border-right: 1px solid #CCC"></td>
+                            <td style="border-right: 1px solid #CCC"></td>
+                            <td style="border-right: 1px solid #CCC"></td>
+                            <td style="border-right: 1px solid #CCC"></td>
+                            @*<td></td>*@
+
+                        </tr>
+
+                    </tfoot>
+                </table>
+            </div>
+        }
+    </form>
+</div>
+
+<div id="dvHabCoverage" style="width: 40%; margin-top: 20px;">
+</div>
+
+<div id="dvBridgeParent"></div>
+@*<div id="dvBridgeCostParent"></div>*@
+<div id="dvBridgeFile"></div>

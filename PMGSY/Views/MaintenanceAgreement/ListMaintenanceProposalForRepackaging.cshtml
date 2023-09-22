@@ -1,0 +1,60 @@
+﻿
+@model PMGSY.Models.MaintenanceAgreement.RepackageDetailsViewModel
+
+<script src="~/Scripts/custom/Generic.js"></script>
+<script src="~/Scripts/MaintenanceAgreement/ListMaintenanceProposalForRepackaging.js"></script>
+
+
+
+<form id="frmFilterMaintenanceProposal">
+    <div style="margin-left: 100px">
+        @Html.ValidationSummary(true)
+    </div>
+    
+    <div id="divError" class="ui-state-error ui-corner-all" style="text-align: left; display: none; width: 100%">
+        <span class="ui-icon ui-icon-alert" style="float: left;"></span>
+        <span></span>
+    </div>
+    <div style="height: 20px; width: 99.7%; text-align: left; padding-top: 0.6em;" class="ui-corner-top ui-widget-header panelheader">
+        &nbsp; Maintenance Works for Repackaging
+    </div>
+    <table id="tb" cellpadding="3px" style="margin-top: 0px; text-align: left; border: ridge 0.1em #ccc; width: 99.7%; padding-top: 5px 5px 5px 5px;" class="rowstyle">
+        <tr>
+            <td>@Html.LabelFor(model=>model.Block)</td>
+            <td>@Html.DropDownListFor(model => model.Block, Model.lstBlocks ,new { @id="ddlBlocks",@title="Please select block",@tabindex = 1})</td>
+            <td>@Html.LabelFor(model=>model.Year)</td>
+            <td>@Html.DropDownListFor(model => model.Year, Model.lstYears ,new { @id="ddlYears",@title="Please select year",@tabindex = 2})</td>
+            <td>@Html.LabelFor(model=>model.Batch)</td>
+            <td>@Html.DropDownListFor(model => model.Batch, Model.lstBatchs ,new { @id="ddlBatchs",@title="Please select batch",@tabindex = 3})
+                @Html.ValidationMessageFor(model=>model.Batch)
+            </td>
+            <td>@Html.LabelFor(model=>model.Package)</td>
+            <td>
+                @Html.DropDownListFor(model => model.lstPackages, Model.lstPackages ,new { @id="ddlPackages",@title="Please select package",@tabindex = 4})
+            </td>
+        </tr>
+        <tr>
+            <td>@Html.LabelFor(model=>model.Collaboration)</td>
+            <td>@Html.DropDownListFor(model => model.Collaboration, Model.lstCollaborations ,new { @id="ddlCollaborations",@title="Please select collaboration",@tabindex = 5})</td>
+            <td>@Html.LabelFor(model=>model.ProposalType)</td>
+            <td>@Html.DropDownListFor(model => model.ProposalType, Model.lstProposalTypes ,new { @id="ddlProposalTypes",@title="Please select proposal type",@tabindex = 6})</td>
+            <td>@Html.LabelFor(model=>model.UpgradationType)</td>
+            <td>@Html.DropDownListFor(model => model.UpgradationType, Model.lstUpgradationTypes ,new { @id="ddlUpgradationTypes",@title="Please select upgradation type",@tabindex = 7})</td>
+            <td>
+                <center>
+                <input type="button" id="btnListProposal" name="btnListProposal" value="View Details" class= "jqueryButton" title="List Proposal Details" tabindex="4"  />  
+                </center>
+            </td>
+        </tr>
+    </table>
+</form>
+<div id="dvProposalList" style="margin-top:20px;width:98%;margin-left:15%">
+    <table id="tblstProposalRepackage"></table>
+    <div id="dvlstPagerProposalRepackage"></div>
+</div>
+<div id="accordion" style="display:none;width:98%;margin-top:20px;" >
+    <h3 style="text-align:left"><a id="" href="#" style=" font-size:.9em;" >Change Maintenance Package</a>
+    <a href="#"  style="float: right;"><img class="ui-icon ui-icon-closethick" onclick="CloseDetails();" /></a>
+    </h3>
+    <div id="divAddPackage" style="display:none"></div>
+</div>

@@ -1,0 +1,66 @@
+﻿@*
+    * Project Id    :
+    * Project Name  :   OMMAS II
+    * Name          :   Form1StateLevel.cshtml
+    * Description   :   Renders Form1 Details in Report
+    * Author        :   Shyam Yadav
+    * Creation Date :   26/August/2013    
+*@
+
+@model PMGSY.Models.FormReports.FormReportsViewModel
+
+<script type="text/javascript" src="@Url.Content("~/Scripts/jquery.ui.dialog.js")"> </script>
+<script src="~/Scripts/FormReports/Form1.js"></script>
+<script src="~/Scripts/custom/Generic.js"></script>
+<form id="frmForm1StateLevelReport">
+     @Html.Hidden("hdnLevelId", PMGSY.Extensions.PMGSYSession.Current.LevelId.ToString())
+     @Html.HiddenFor(model => model.STATE_NAME)   
+     @Html.HiddenFor(model => model.DISTRICT_NAME)   
+     @Html.HiddenFor(model => model.BLOCK_NAME)   
+
+
+    @if(PMGSY.Extensions.PMGSYSession.Current.LevelId == 6)     //Mord
+    {
+         <table id="tbForm1StateLevelReport"></table>
+         <div id="dvForm1StateLevelReportPager"></div>
+ 
+         <br />
+         <table id="tbForm1DistrictLevelReport"></table>
+         <div id="dvForm1DistrictLevelReportPager"></div> 
+
+         <br />
+         <table id="tbForm1BlockLevelReport"></table>
+         <div id="dvForm1BlockLevelReportPager"></div>
+
+         <br />
+         <table id="tbForm1VillageLevelReport"></table>
+         <div id="dvForm1VillageLevelReportPager"></div> 
+    }
+    else if(PMGSY.Extensions.PMGSYSession.Current.LevelId == 4)     //State
+    {
+         @Html.HiddenFor(model => model.MAST_STATE_CODE)
+         <table id="tbForm1DistrictLevelReport"></table>
+         <div id="dvForm1DistrictLevelReportPager"></div> 
+
+         <br />
+         <table id="tbForm1BlockLevelReport"></table>
+         <div id="dvForm1BlockLevelReportPager"></div>
+
+         <br />
+         <table id="tbForm1VillageLevelReport"></table>
+         <div id="dvForm1VillageLevelReportPager"></div> 
+    }
+    else if(PMGSY.Extensions.PMGSYSession.Current.LevelId == 5)     //District
+    {
+        @Html.HiddenFor(model => model.MAST_STATE_CODE)
+        @Html.HiddenFor(model => model.MAST_DISTRICT_CODE)
+
+         <table id="tbForm1BlockLevelReport"></table>
+         <div id="dvForm1BlockLevelReportPager"></div>
+
+         <br />
+         <table id="tbForm1VillageLevelReport"></table>
+         <div id="dvForm1VillageLevelReportPager"></div> 
+    }
+
+ </form>

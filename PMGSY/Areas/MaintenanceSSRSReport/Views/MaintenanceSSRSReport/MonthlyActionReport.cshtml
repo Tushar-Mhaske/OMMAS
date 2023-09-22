@@ -1,0 +1,20 @@
+﻿@using MvcReportViewer
+
+@model PMGSY.Areas.MaintenanceSSRSReport.Models.AwardwisePayment
+
+
+
+@Html.MvcReportViewer("/PMGSYCitizen/Monthly_Action_Plan_Progress",
+     new
+     {   
+         scheme=0,
+         state=0,
+         Month =Model.MonthCode,
+         year=Model.PhaseYear,
+         pyear=2020,
+         pMonth=3
+          
+         
+     },
+     new { Height = 600, Width = "100%", style = "border:none;" })
+

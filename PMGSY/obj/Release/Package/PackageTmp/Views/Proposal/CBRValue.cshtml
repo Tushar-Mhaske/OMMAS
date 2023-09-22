@@ -1,0 +1,143 @@
+﻿@*
+    * Project Id    :
+    * Project Name  :   OMMAS II
+    * Name          :   AddHabitation.cshtml
+    * Description   :   This View Adds the CBR Details to Road Proposal
+    * Author        :   Shivkumar Deshmukh        
+    * Creation Date :   30/April/2013    
+*@
+
+@model PMGSY.Models.Proposal.CBRViewModel
+
+
+<script src="~/Scripts/custom/Generic.js"></script>
+<script src="~/Scripts/Proposal/CBRValue.js"></script>
+<style type="text/css">
+    td {
+        text-align:left
+    }
+</style>
+<center>
+    <div id="divCBRDetails">
+            <div id="divDetails" class="ui-corner-all ui-state-highlight" style="border:solid 1px black; text-align:left; width:90%">
+        <table style="width:100%">
+            <tr>
+                <td style="text-align:right;width:10%;font-weight:bold">@Html.LabelFor(model => model.IMS_YEAR):</td>
+                <td style="text-align:left;"> @Html.DisplayFor(model => model.IMS_YEAR) - @Convert.ToInt32(Model.IMS_YEAR + 1)  </td>
+
+                <td style="text-align: right; font-weight:bold"> @Html.LabelFor(model => model.IMS_BATCH):</td>
+                <td style="text-align: left;">Batch @Html.DisplayFor(model => model.IMS_BATCH)</td>
+
+                <td style="text-align:right; font-weight:bold">@Html.LabelFor(model => model.IMS_PACKAGE_ID):</td>
+                <td style="text-align:left; ">@Html.DisplayFor(model => model.IMS_PACKAGE_ID)</td>
+
+                <td style="text-align:right; font-weight:bold">@Html.LabelFor(model => model.IMS_ROAD_NAME):</td>
+                <td style="text-align:left; ">@Html.DisplayFor(model => model.IMS_ROAD_NAME)</td>
+                
+                <td style="text-align: right; font-weight: bold; width:10%">@Html.LabelFor(model => model.IMS_PAV_LENGTH):</td>
+                <td style="text-align: left;width:10%">@Html.DisplayFor(model => model.IMS_PAV_LENGTH)&nbsp;Kms.</td>
+
+            </tr>
+        </table>
+    </div>
+    <form id="frmCBRValue">
+    @Html.HiddenFor(model => model.IMS_PR_ROAD_CODE)
+    @Html.HiddenFor(model => model.Operation)
+    @Html.HiddenFor(model => model.RoadLength)
+    @Html.HiddenFor(model => model.IMS_SEGMENT_NO)
+         
+    @Html.HiddenFor(model => model.RoadLength, new { @id="TotalRoadLength"})
+    @Html.Hidden("AvailableRoadLength")
+
+    <div style="height:20px;width:90%;text-align:left; padding-top: 0.6em;" class="ui-state-default ui-corner-all;" > 
+        &nbsp;<strong> Note: </strong> Only Last Entry in CBR Details can be Edited/Deleted.
+    </div>
+
+    <table class="rowstyle" id="tblCBRDetails" style="border:ridge 0.1em #ccc; padding:5px 5px 5px 5px;width:90%;">
+        <tr>
+            <td style="font-weight:bold;">
+                @Html.LabelFor(model => model.IMS_STR_CHAIN)<span style="color:red">*</span>
+            </td>
+            <td style="table-layout:fixed;">
+                @Html.TextBoxFor(model => model.IMS_STR_CHAIN, new { style="width:80px;" , @maxlength=7, @readonly="readonly"})
+            </td>
+
+            <td style="font-weight:bold">
+                @Html.LabelFor(model => model.IMS_END_CHAIN)<span style="color:red">*</span>
+            </td>
+            <td>
+                @Html.TextBoxFor(model => model.IMS_END_CHAIN ,new { style="width:80px;"})
+            </td>
+
+            <td style="font-weight:bold">           
+                @Html.LabelFor(model => model.Segment_Length)
+            </td>
+            <td style="font-weight:bold">
+                @Html.TextBoxFor(model => model.Segment_Length, new { @readonly="readonly" , style="width:80px;"})
+            </td>
+
+            <td style="font-weight:bold">
+                @Html.LabelFor(model => model.IMS_CBR_VALUE1)<span style="color:red">*</span>
+            </td>
+            <td>
+                @Html.TextBoxFor(model => model.IMS_CBR_VALUE1 ,new { style="width:80px;", @width="80px"})
+            </td>
+        </tr>
+        <tr>
+            <td colspan="2" style="table-layout: fixed;word-wrap:break-word;width:25%">
+                @Html.ValidationMessageFor(model => model.IMS_STR_CHAIN)
+            </td>
+            <td colspan="2" style="table-layout: fixed;word-wrap:break-word;width:25%">
+                @Html.ValidationMessageFor(model => model.IMS_END_CHAIN)
+            </td> 
+            <td colspan="2" style="table-layout: fixed;word-wrap:break-word;width:25%">
+              @*  @Html.ValidationMessageFor(model => model.Segment_Length)*@
+            </td>
+            <td colspan="2" style="text-align:left;table-layout: fixed;word-wrap:break-word;width:25%">
+                @Html.ValidationMessageFor(model => model.IMS_CBR_VALUE1)
+            </td>
+        </tr>
+
+        <tr>
+            <td colspan="2">
+                Core Network Length: <strong>@Html.DisplayFor(model => model.RoadLength) Kms.</strong> 
+                @Html.HiddenFor(model => model.RoadLength)
+            </td>
+            <td colspan="2">
+                Pavement Length : <strong>@Html.DisplayFor(model=> model.IMS_PAV_LENGTH) Kms. </strong>
+                @Html.HiddenFor(model => model.IMS_PAV_LENGTH)               
+            </td>
+            <td colspan="4">
+                Remaining Length :                              
+                <span class="spanRemainingLength" style="font-weight:bold">
+                    @Html.DisplayFor(model => model.Remaining_Length, new { @id="lblRemainingLength"})
+                </span>                        
+                @Html.HiddenFor(model => model.Remaining_Length)
+            </td>
+        </tr>   
+               
+        <tr id="rowAdd">
+            <td colspan="8" style="text-align:center">
+                <input type="button" id="btnSave" name="btnSave" value="Save" class="jqueryButton" />
+                 <input type="button" id="btnReset" name="btnReset" value="Reset" class="jqueryButton" />
+            </td>            
+        </tr>
+
+        <tr id="rowUpdate" style="display:none">
+            <td colspan="8" style="text-align:center">
+                <input type="button" id="btnUpdate" name="btnUpdate" value="Update" class="jqueryButton" />
+            </td>            
+        </tr>
+        </table>
+
+        <div style="margin-top:10px">
+                <div id="divCBR">                
+                    <table id="tbCBR"></table>
+                    <div id="dvCBRPager"></div>
+                </div>
+        </div>
+    </form>
+    </div>
+</center>
+
+

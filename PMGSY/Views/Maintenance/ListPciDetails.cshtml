@@ -1,0 +1,61 @@
+﻿<script src="~/Scripts/custom/Generic.js"></script>
+<script src="~/Scripts/jquery.ui.accordion.js"></script>
+<script src="~/Scripts/Maintenance/PCIListPmgsyRoad.js"></script>
+<center>
+    <div style="width:98%; height:20px;border:none; margin-top:5px; margin-bottom:-15px; " class="ui-state-default">
+        <span style="float:right;margin-right:2Px; margin-top:2px" id="idFilterDiv" class="ui-icon ui-icon-circle-triangle-n"></span>     
+    </div>
+
+    <div style="width: 98%; border:none; margin-top:-15px; margin-bottom:10px;" class="ui-state-default">     
+        <div id="divFilterForm">
+            <table class="rowstyle" style="width:100%">
+                <tr>
+                    <td style="text-align:right; width:10%">
+                        @Html.Label("Road Type")
+                    </td>
+                    <td style="text-align:left; width:15%">
+                        @Html.DropDownList("ddlRoadType", ViewBag.RoadType as IEnumerable<SelectListItem>)                        
+                    </td>  
+
+                    <td style="text-align:right; width:10%">
+                        @Html.Label("Block")
+                    </td>
+                    <td style="text-align:left; width:15%">
+                        @Html.DropDownList("ddlBlock", ViewBag.Blocks as IEnumerable<SelectListItem>)                        
+                    </td>        
+
+                    <td style="text-align:right; width:10%" id="tdlblYear">
+                        @Html.Label("Year")
+                    </td>
+                    <td style="text-align:left; width:15%" id="tdddlYear">
+                        @Html.DropDownList("ddlYear", ViewBag.Years as IEnumerable<SelectListItem>)                        
+                    </td>        
+                                                                
+                    <td style="text-align:left">
+                        <input type="button" id="btnGo" name="btnGo" value="View" class="jqueryButton" />
+                    </td>                    
+                </tr>
+            </table>
+        </div> 
+    </div>
+    
+    <div id="dvPmgsyRoadList" style="margin-top:20px;width:98%;">
+        <table id="tbPmgsyRoadList"></table>
+        <div id="tbPmgsyRoadListPager"></div>          
+    </div>
+
+    <div id="dvCNRoadList" style="margin-top:20px;width:98%;">
+        <table id="tbCNRoadList"></table>
+        <div id="tbCNRoadListPager"></div>          
+    </div>
+
+    <div id="accordion" style="display:none;width:98%;margin-top:10px;">                    
+        <h3 style="text-align:left"><a id="" href="#" style=" font-size:.9em;" >Add PCI Index For PMGSY Road</a>
+            <a href="#"  style="float: right;">
+            <img style="border:none" src="" alt="Close" class="ui-icon ui-icon-closethick" onclick="CloseDetails();" /></a>
+        </h3>
+        <div id="divPciForm" style="display:none;">
+        </div>                     
+    </div>
+
+</center>

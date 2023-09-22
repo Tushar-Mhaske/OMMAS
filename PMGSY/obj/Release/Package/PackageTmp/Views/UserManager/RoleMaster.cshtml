@@ -1,0 +1,51 @@
+﻿@model IEnumerable<PMGSY.Models.UM_Role_Master>
+@{
+    ViewBag.Title = "RoleMaster";
+}
+<script src="~/Scripts/custom/Generic.js"></script>
+<script src="~/Scripts/UserManager/RoleMaster.js"></script>
+<br/>
+<div class="ui-widget-header innerDivHeader">Role List</div>
+<center>
+<table style="width:958px">
+    <tr>
+        <td colspan="5" style="text-align:left">
+<input type="button" id="btnAddRole" value="Add Role" class="jqueryButton"/>
+            </td>
+        </tr>
+</table>
+
+<div id="tableMain" class="jqueryTable" style="margin-top:10px">
+    <div id="tableTitle">
+        <span id="tableTitleName">Role Master</span>
+    </div>
+    <div id="tableHeader">
+        <table id="Table1" >
+            <tr>
+                <th>@Html.DisplayNameFor(model => model.RoleName)</th>
+                <th>@Html.DisplayNameFor(model => model.IsActive)</th>
+                <th>@Html.DisplayNameFor(model => model.Remark)</th>
+                <th style="width:auto"> Edit </th>
+                <th style="width:auto"> Delete </th>
+            </tr>
+        </table>
+    </div>
+    <div id="tableContent">
+        <table>
+            @foreach (var item in Model)
+                {
+                <tr>
+                    <td>@Html.DisplayFor(modelItem => item.RoleName)</td>
+                    <td>@Html.DisplayFor(modelItem => item.IsActive)</td>
+                    <td>@Html.DisplayFor(modelItem => item.Remark)</td>
+                    <td style="text-align:center">@Html.ActionLink("Edit", "EditRole", new { id = item.RoleID }, new { @class ="ui-icon ui-icon-pencil ui-align-center"})</td>                   
+                    <td><span id="delRole" class ="ui-icon ui-icon-trash ui-align-center" onclick="delRole(@item.RoleID)"></span></td>
+                </tr>
+                }
+        </table>
+       
+    </div>
+</div>
+</center>
+
+@*@Html.ActionLink("Delete", "DeleteRole", new { id = item.RoleID } , new { @class ="ui-icon ui-icon-trash ui-align-center"})*@

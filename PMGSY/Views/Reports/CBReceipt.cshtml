@@ -1,0 +1,117 @@
+﻿@using PMGSY.Models
+@model PMGSY.Models.Report.CBReceiptModel
+<script type="text/javascript">
+    //$('#tblCBReceipt').fixheadertable({
+    //    caption: 'My header is fixed !',
+    //    height: 300
+    //});
+    //var oTable = $('#tblCBReceipt').dataTable();
+    //new FixedHeader(oTable);
+    $('#tblCBReceipt').dataTable({
+        "bJQueryUI": true,
+        //"sPaginationType": "full_numbers",
+        "sScrollY": "300px",
+        "bPaginate": false,
+        "bScrollInfinite": true,
+        "bScrollCollapse": true,
+        "bAutoWidth": true,
+        "sDom": '<"H"Tfr>t<"F"ip>',
+        "oTableTools": {
+            "aButtons": [
+				//"csv", "xls", "pdf",
+				//{
+				//    "sExtends": "collection",
+				//    "sButtonText": "<span class='ui-icon ui-icon-close'>Save</span>",
+				//    "aButtons": ["csv", "xls", "pdf"]
+				//}
+                {
+                    "sExtends": "pdf",
+                    "sPdfOrientation": "landscape",
+                    "sButtonText": "<img src='../../content/images/Reader.gif' alt='pdf'></img>",
+                    "sPdfMessage": "Your custom message would go here."
+                }
+            ]
+        }
+    });
+    //alert($("#ToolTables_tblCBReceipt_0").attr('class'));
+    $("#ToolTables_tblCBReceipt_0").removeClass('ui-button').removeClass('DTTT_button').removeClass('ui-state-default').removeClass('DTTT_button_collection');
+    
+    //var oTable = $('#example').dataTable();
+
+    ///* Apply the tooltips */
+    //oTable.$('tr').tooltip({
+    //    "delay": 0,
+    //    "track": true,
+    //    "fade": 250
+    //});
+</script>
+<table id="tblCBReceipt">
+    @{ 
+        if(Model.ListReceiptCB != null && Model.ListReceiptCB.Count > 0)
+        {
+            <thead>
+            <tr>
+                <th>Date</th>
+                <th>Money Receipt</th>
+                <th>Perticulars of Transactions</th>
+                <th>Cash(Rs.)</th>
+                <th>EPayment Number</th>
+                <th>Bank Authorization</th>
+                <th>Account Code</th>   
+            </tr>            
+            </thead>  
+            <tfoot>
+            <tr>
+                <td>-</td>
+                <td>-</td>
+                <td>Total:</td>
+                <td>@ViewBag.TotalRecCash</td>
+                <td>Total:</td>
+                <td>@Model.TotalRecBank</td>
+                <td></td>
+            </tr>
+       </tfoot>           
+        }
+        else
+        {
+        <tr>
+            <td colspan="7">No Records to show</td>
+        </tr>   
+        }
+    }
+    <tbody>
+          
+            <tr>
+                <td>@Html.DisplayFor(m=>m.OpeningBalace.bill_date)</td>
+                <td>@Html.DisplayFor(m=>m.OpeningBalace.bill_no)</td>
+                <td>@Html.DisplayFor(m=>m.OpeningBalace.narration)</td>
+                <td>@Html.DisplayFor(m=>m.OpeningBalace.cash)</td>
+                <td>@Html.DisplayFor(m=>m.OpeningBalace.cheque_epay)</td>
+                <td>@Html.DisplayFor(m=>m.OpeningBalace.bank_auth)</td>
+                <td>@Html.DisplayFor(m=>m.OpeningBalace.head_code)</td>            
+            </tr>
+            
+            @{
+                
+            foreach (SP_ACC_CASHBOOK_RECEIPT_SIDE_Result item in Model.ListReceiptCB)
+            {
+               
+		    <tr>
+                <td>@item.bill_date.ToString()</td>
+                <td>@item.bill_no</td>
+                <td>@item.narration</td>
+                <td>@item.cash</td>
+                <td>@item.cheque_epay</td>
+                <td>@item.bank_auth</td>
+                <td>@item.head_code</td>                
+            </tr>
+            }
+            }
+        </tbody>
+        
+</table>
+
+
+    @section Scripts {
+    @Scripts.Render("~/bundles/jqueryval")
+}

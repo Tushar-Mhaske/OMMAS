@@ -1,0 +1,23 @@
+﻿@using MvcReportViewer
+@model PMGSY.Models.MasterReports.LocationMasterHabitationReport
+
+<div id="QMCommenceInspDetails" style="width: 100%; height: 590px; overflow-x: hidden; overflow-y: hidden;">
+    @Html.MvcReportViewer("/PMGSYCitizen/LocationMasterHabitationReport",
+     new
+     {
+         RptNo = Model.RptNo,
+         State = Model.MAST_STATE_CODE,
+         District = Model.MAST_DISTRICT_CODE,
+         Block = Model.MAST_BLOCK_CODE,
+         Village = Model.MAST_VILLAGE_CODE,
+         Panchayat = Model.Panchayat,
+         CensusYear = Model.CensusYear,
+         Type1 = Model.Type1,
+         Type2 = Model.Type2,
+         Type3 = Model.Type3,
+         Type4 = Model.Type4,
+         Type5 = Model.Type5,
+         Active = Model.Active,
+     },
+     new { Height = 600, Width = "100%", style = "border:none;" })
+</div>

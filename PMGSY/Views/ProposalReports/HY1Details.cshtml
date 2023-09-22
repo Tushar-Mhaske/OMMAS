@@ -1,0 +1,61 @@
+﻿@{
+    ViewBag.Title = "HY1Details";
+}
+
+@model PMGSY.Models.ProposalReports.ProposalReportsModel
+<script type="text/javascript" src="@Url.Content("~/Scripts/jquery.ui.dialog.js")"> </script>
+<script src="~/Scripts/ProposalReports/HY1Details.js" type="text/javascript"></script>
+<script src="~/Scripts/custom/Generic.js"></script>
+<form id="frmCN1StateLevelReport">
+    @Html.Hidden("hdnLevelId", PMGSY.Extensions.PMGSYSession.Current.LevelId.ToString())
+
+    @if (PMGSY.Extensions.PMGSYSession.Current.StateCode != 0)
+    {           
+        @Html.Hidden("STATE_NAME", PMGSY.Extensions.PMGSYSession.Current.StateName.ToString())
+    }
+
+    @if (PMGSY.Extensions.PMGSYSession.Current.DistrictCode != 0)
+    {
+        @Html.Hidden("DISTRICT_NAME", PMGSY.Extensions.PMGSYSession.Current.DistrictName.ToString())   
+    }
+
+    @Html.HiddenFor(model => model.BLOCK_NAME)
+
+    @if (PMGSY.Extensions.PMGSYSession.Current.LevelId == 6)     //Mord
+    {
+        <div id="HY1StateReport">
+            <table id="HY1StateReportTable"></table>
+        </div>
+        <div id="HY1StateReportPager"></div>
+        <br />
+
+        <div id="HY1DistrictReport">
+            <table id="HY1DistrictReportTable"></table>
+        </div>
+        <div id="HY1DistrictReportPager"></div>
+        
+    }
+
+    else if (PMGSY.Extensions.PMGSYSession.Current.LevelId == 4)     //State
+    {
+        @Html.HiddenFor(model => model.MAST_STATE_CODE)
+       <div id="HY1DistrictReport">
+            <table id="HY1DistrictReportTable"></table>
+        </div>
+        <div id="HY1DistrictReportPager"></div>
+    }
+   
+</form>
+
+
+
+
+
+
+
+
+
+
+
+
+

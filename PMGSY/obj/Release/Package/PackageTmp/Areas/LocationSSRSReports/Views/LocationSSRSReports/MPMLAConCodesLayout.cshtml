@@ -1,0 +1,55 @@
+﻿@model PMGSY.Areas.LocationSSRSReports.Models.MPMLAConCodesViewModel
+
+@if (Layout == null)
+{
+    Layout = Request.IsAjaxRequest() ? null : "~/Areas/AccountReports/Views/Account/_Layout.cshtml";
+}
+
+<script src="~/Areas/LocationSSRSReports/Scripts/MPMLACodesLayout.js"></script>
+<script src="~/Scripts/custom/Generic.js"></script>
+
+<div id="dvhdMPMLACodesLayout" class="ui-corner-top ui-widget-header panelheader" style="text-align: left; height: 20px;">
+    <span class="ui-jqgrid-title" style="float: left">MP/MLA Constitution Codes Report</span>
+    <span id="spCollapseIconCN" class="ui-icon ui-icon-circle-triangle-n" style="float: right"></span>
+</div>
+<div id="dvMPMLACodesLayout" class="ui-corner-bottom" style="display: block; border: 1px solid #B5B8C8;">
+    <form id="frmMPMLACodesLayout">
+        @Html.AntiForgeryToken()
+        @Html.ValidationSummary(true)
+
+        @Html.HiddenFor(model => model.StateName)
+
+        <table class="rowstyle" style="width: 100%;">
+            <tr>
+                <td style="width: 2%;"></td>
+                <td style="text-align: left; width: 7%;">
+                    @Html.Label("Constituency Type")
+                </td>
+                <td style="width: 15%;">
+                    @Html.DropDownListFor(model => model.ConstituencyType, new SelectList(Model.ConstituencyTypeList, "Value", "Text"), new { @id = "ddlConstituencyType", @title = "District", @tabindex = 2 })
+                    <br />
+                    @Html.ValidationMessageFor(m => m.ConstituencyType)
+                </td>
+                <td style="text-align: left; width: 5%;">
+                    @Html.Label("State")
+                </td>
+                <td style="width: 15%;">
+                    @Html.DropDownListFor(model => model.StateCode, new SelectList(Model.StateList, "Value", "Text"), new { @id = "ddlState", @title = "State", @tabindex = 1 })
+                    <br />
+                    @Html.ValidationMessageFor(m => m.StateCode)
+                </td>
+
+                <td style="text-align: center; width: 5%; margin-left: 5px;">
+                    <input type="button" id="btnView" value="View" class="jqueryButton" title="View Details" tabindex="3" />
+                </td>
+                <td style="width: 20%;"></td>
+            </tr>
+
+        </table>
+    </form>
+</div>
+
+<div id="dvMPMLACodesReport">
+</div>
+
+

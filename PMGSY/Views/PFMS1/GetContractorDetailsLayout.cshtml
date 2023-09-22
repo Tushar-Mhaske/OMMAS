@@ -1,0 +1,84 @@
+﻿@model PMGSY.Models.PFMS.DeactivateAccountDetailsModel
+
+<script src="~/Scripts/custom/Generic.js"></script>
+<script src="~/Scripts/PFMS/GetContractorDetailslayout.js"></script>
+
+<div id="dvhdPFMSDownloadXMLLayout" class="ui-corner-top ui-widget-header panelheader" style="text-align: left; height: 20px;">@*margin-left:0px;margin-right:0px;margin-top:0px; *@
+    <span class="ui-jqgrid-title" style="float: left">&nbsp;Deactivate Contractor Account</span>
+
+    @*<span id="spCollapseIconAddDropOrder" class="ui-icon ui-icon-circle-triangle-n" style="float: right"></span>*@
+</div>
+<div id="dvPFMSDownloadXMLLayout" class="ui-corner-bottom" style="display: block; border: 1px solid #B5B8C8;">
+    <form id="frmPFMSDownloadXMLLayout">
+        @Html.ValidationSummary(true)
+        @Html.AntiForgeryToken()
+
+   <table style="margin-top: 0px; margin-bottom: 0px; width: 100%;" class="rowstyle">
+            <tr>
+                <td style="width: 5%"></td>
+                <td>
+                    @Html.Label("State")<span style="color: red">*</span>
+                </td>
+                <td>
+                    @Html.DropDownListFor(model => model.stateCode, new SelectList(Model.lstState, "Value", "Text"), new { @id = "ddlState", @tabindex = 1 })
+                    <br />
+                    @Html.ValidationMessageFor(model => model.stateCode)
+                </td>
+                
+                <td>
+                    @Html.Label("PAN")<span style="color: red">*</span>
+                </td>
+                
+                <td>
+                    @Html.TextBoxFor(model => model.contractorPAN , new {@id = "tbPanNumber" , @maxlength = 10 ,@tabindex = "2" , @placeholder = "Enter PAN Number"})
+                    <br />
+                    @Html.ValidationMessageFor(model => model.contractorPAN)
+                </td>
+
+                 <td style =" text-align:center">
+                    @Html.Label("Account Status")
+                </td>
+
+                <td style="text-align:center;width:5%">
+                    @Html.Label("Accepted")
+                    @Html.RadioButton("Status","A", true ,new {@id = "btnRadioStatus" })
+                </td>
+                <td style="width:auto">
+                    @Html.Label("Rejected")
+                    @Html.RadioButton("Status","R", new {@id = "btnRadioStatus" })
+                
+                </td>
+               
+              
+                <td>
+                    
+                    <input type="button" class="jqueryButton" value="View Details" title="View Details" id="btnGetBeneficiaryList" name="btnGetBeneficiaryList" tabindex="3" />
+                </td>
+                <td style="width: 5%"></td>
+            </tr>
+            @*<tr>
+                <td></td>
+                <td>
+                    <input type="file" name="file" id="PFMSFile" tabindex="4" />
+                    <label id="lblPFMSxml"></label>
+                    <img id="imgPFMSxml" style="display: none; margin-left: 5px; cursor: pointer;" title="Click here to clear file" src="~/Content/images/close-icon.png" />
+                </td>
+                <td>
+                    <input type="button" class="jqueryButton" value="Get Node Value" title="Get Node Value" id="btnGetNodeValue" name="btnGetNodeValue" tabindex="5" />
+                </td>
+                <td>
+                    <label id="lbNodeValue"></label>
+                </td>
+                <td></td>
+            </tr>*@
+        </table>
+
+        <div style="margin-top: 10px; width: 98%; margin-left: 5px; margin-bottom: 5px;">
+            <table id="tblContractorsList"></table>
+            <div id="dvPagerContractorsList"></div>
+        </div>
+    </form>
+</div>
+
+
+

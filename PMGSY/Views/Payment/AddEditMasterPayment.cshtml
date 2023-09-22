@@ -1,0 +1,818 @@
+﻿@model PMGSY.Models.PaymentMasterModel
+
+@{
+    Layout = null;
+}
+
+<!DOCTYPE html>
+
+<html>
+<head>
+    <meta name="viewport" content="width=device-width" />
+    <title>Add Edit Master Payment</title>
+    <style>
+        .ui-autocomplete {
+            max-height: 200px;
+            overflow-y: auto;
+        }
+
+        html .ui-autocomplete {
+            height: 100px;
+        }
+    </style>
+
+    <style type="text/css" media="screen">
+        th.ui-th-column div {
+            white-space: normal !important;
+            height: auto !important;
+            padding: 2px;
+        }
+
+        .ui-jqgrid .ui-jqgrid-resize {
+            height: 100% !important;
+        }
+    </style>
+
+
+
+    <script type="text/javascript">
+        var opeartion = '@ViewBag.operationType';
+        var Bill_ID = '@ViewBag.Bill_id';
+        var Bill_finalized = '@ViewBag.BillFinalized';
+        // var availableCheques = @Html.Raw(Json.Encode(@ViewBag.availableCheques));
+
+    </script>
+    <script src="~/Scripts/jquery.ui.autocomplete.js"></script>
+    <script src="~/Scripts/custom/Generic.js"></script>
+
+    @*Below two lines are added on 14-01-2022 to enable search functionality in dropdown *@
+    <link href="~/Content/Chosen/chosen.min.css" rel="stylesheet" />
+    <script src="~/Scripts/chosen.jquery.min.js"></script>
+
+    <script src="~/Scripts/Payment/AddEditMasterPayment.js"></script>
+
+
+
+</head>
+<body>
+
+    @Html.Hidden("LevelID")
+
+
+    @Html.Hidden("currentDate", DateTime.Now.ToString("dd/MM/yyyy"))
+
+    @Html.HiddenFor(model => model.CURRENT_DATE)
+    @Html.Hidden("fundType", PMGSY.Extensions.PMGSYSession.Current.FundType)
+
+    <table style="margin-right: 15px">
+        <tbody>
+            <tr>
+                <td>
+
+                    <div style="padding: 0pt 0.7em; cursor: pointer;" class="jqueryButton" id="lblBack">
+
+                        <span class="ui-icon ui-icon-circle-triangle-w" style="float: left; margin-right: 0.3em;"></span><strong>
+                            @HttpContext.GetLocalResourceObject(@"~\Views\Shared\authorizedSignatory", "lblGoBack", System.Globalization.CultureInfo.CurrentUICulture)
+                        </strong>
+                    </div>
+
+                </td>
+                @* <td>
+
+                        <div style="padding: 0pt 0.7em; cursor: pointer;" class="jqueryButton" id="hideMasterDetails">
+
+                            <span class="ui-icon ui-icon-circle-triangle-n" style="float: left; margin-right: 0.3em;"></span><strong>show hide master Details
+                            </strong>
+                        </div>
+
+                    </td>*@
+
+                <td>
+
+                    <div style="padding: 0pt 0.7em; cursor: pointer;" class="jqueryButton" id="AddNewMasterDetails">
+
+                        <span class="ui-icon ui-icon-circle-plus" style="float: left; margin-right: 0.3em;"></span><strong>
+                            Add New Master Details
+                        </strong>
+                    </div>
+
+                </td>
+
+            </tr>
+        </tbody>
+    </table>
+
+    <form id="masterPaymentForm">
+        @Html.AntiForgeryToken()
+        @Html.HiddenFor(x => x.conAccountId)
+        @* Added By Abhishek Kamlbe 3-jan-2014 *@
+        <table style="margin-left: 0px; margin-right: 15px; width: 99%">
+            <tr>
+                <td style="width: 20%">
+                    <div id="AccountStatusDiv" style="float: left">
+                        <table>
+                            <tbody>
+                                <tr id="TrMonthlyClosing" style="display: none">
+                                    <td style="text-align: center">
+                                        <div style="text-align: right; width: 100%;" id="1">
+                                            <label style="color: red">
+                                                <b>
+                                                    Last Month Closed
+                                                    -
+
+                                                    <label id="lblMonth">
+                                                    </label>
+
+                                                    <label id="lblYear">
+                                                    </label>
+                                                </b>
+                                            </label>
+                                        </div>
+                                    </td>
+                                </tr>
+                                <tr id="AccountNotClosedTr">
+                                    <td style="text-align: center">
+                                        <div style="text-align: right; width: 100%;" id="2">
+                                            <label style="color: red"><b>Last Month Closed - -  </b></label>
+
+                                        </div>
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </td>
+            </tr>
+        </table>
+        <div id="BalanceDiv">
+            <table>
+                <tbody>
+                    <tr>
+                        <td style="text-align: left">
+                            <div style="text-align: left; width: 100%;" id="pOpenBal">
+                                <label style="color: red">
+                                    <b>
+                                        Balance
+                                        -
+                                        Cash
+                                        :
+                                        <label id="lblCash">
+                                        </label>
+                                        @{if (ViewBag.LevelID == 5)
+                                            { <text> Bank Authorization</text> }
+                                        else
+                                        { <text> Bank balance</text> } }
+                                        :
+                                        <label id="lblBank">
+                                        </label>
+
+                                        &nbsp;&nbsp;&nbsp;
+                                        @*Holding*@
+                                        @{if (ViewBag.LevelID == 5)
+                                            { <text> Holding Account Bank Authorization </text> }
+                                        else
+                                        { <text> Bank balance Holding</text> } }
+                                        :
+                                        <label id="lblBankHold">
+                                        </label>
+
+                                        &nbsp;&nbsp;&nbsp;
+                                        @*Security Deposit*@
+                                        @{if (ViewBag.LevelID == 5)
+                                            { <text> Security deposit Account Bank Authorization </text> }
+                                        else
+                                        { <text> Bank balance Security deposit</text> } }
+                                        :
+                                        <label id="lblBankSec">
+                                        </label>
+                                    </b>
+                                </label>
+                            </div>
+                        </td>
+
+
+                    </tr>
+                    <tr>
+                        <td style="text-align: left">
+                            <div style="text-align: left; width: 100%;">
+                                <label style="color: green">
+                                    <b>
+                                        @{if (ViewBag.moduleType == "R")
+                                            { <text> PIU is enabled for REAT module. Payments will be made through REAT module </text> }
+                                        else
+                                        { <text>  PIU is enabled for PFMS-DBT module. Payments will be made through  PFMS-DBT module </text> } }
+
+                                    </b>
+
+                                </label>
+                            </div>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+
+
+        @Html.ValidationSummary(true)
+        @Html.Hidden("CURRENT_DATE_Hidden")
+        @Html.Hidden("SELECTED_CHQ_EPAY_ON_ERROR")
+        @Html.Hidden("IS_EREMIT")
+        @Html.Hidden("IsAdvicePayment", Model.CHQ_EPAY)
+        <table id="tblOptions" class="table-content ui-corner-all" style="width: 98%; border: .1em solid gray">
+
+            <tr>
+                <td style="text-align: center; width: 25%">
+                    Month
+                    <label style="color: red">*</label>
+
+                </td>
+                <td style="text-align: center; width: 25%">
+                    @* @Html.DropDownList("months", ViewData["months"] as SelectList, new { Title = "Month", tabindex = "1", @class = "dropdown" })*@
+                    @Html.DropDownListFor(model => model.BILL_MONTH, new SelectList(Model.BILL_MONTH_List, "Value", "Text"), new { Title = "Voucher Month", tabindex = "1", @class = "dropdown" })
+                    <br />
+                    @Html.ValidationMessageFor(model => model.BILL_MONTH)
+                </td>
+                <td style="text-align: center">
+                    Year
+                    <label style="color: red">*</label>
+                </td>
+                <td style="text-align: center; width: 25%">
+                    @* @Html.DropDownList("year", ViewData["year"] as SelectList, new { Title = "year", tabindex = "2", @class = "dropdown" })*@
+                    @Html.DropDownListFor(model => model.BILL_YEAR, new SelectList(Model.BILL_YEAR_List, "Value", "Text"), new { Title = "Voucher Year", tabindex = "2", @class = "dropdown" })
+                    <br />
+                    @Html.ValidationMessageFor(model => model.BILL_YEAR)
+                </td>
+                @* <td style="text-align: center; width: 20%">
+                        <input type="button" class="jqueryButton"
+                            name="btnViewDetails" id="btnViewDetails" title="Click here" value='View Details' />
+                    </td>*@
+            </tr>
+        </table>
+        @*PFMS Validations*@
+        @* @if (!(Model.IsAgencyMapped && Model.IsDSCEnrollmentFinalized && Model.IsSRRDABankDetailsFinalized && Model.IsEmailAvailable /*&& Model.IsPaymentSuccess*/))
+            {
+                <strong style="color: red; font-weight: bold">Alert :</strong><br />
+                if (Model.IsAgencyMapped == false)
+                {
+                <span style="color: red;">Initiating Party details is not available.</span> <br />
+                }
+
+                if (Model.IsDSCEnrollmentFinalized == false)
+                {
+                <span style="color: red;">User has not enrolled for PFMS.</span> <br />
+                }
+
+                if (Model.IsSRRDABankDetailsFinalized == false)
+                {
+                <span style="color: red;">Bank details for SRRDA not finalized.</span> <br />
+                }
+
+                if (Model.IsEmailAvailable == false)
+                {
+                <span style="color: red;">Email is not available.</span> <br />
+                }
+                if (Model.IsPaymentSuccess == false)
+                {
+                <span style="color: red;">Payment cannot be made.</span> <br />
+                }
+            }
+            else
+            {*@
+        <div id="MasterDataEntryDiv" style="display: none">
+
+            <table id="tblTransaction" class="table-content ui-corner-all" style="width: 98%; border: .1em solid gray; margin-bottom: 5px; margin-top: 5px">
+
+                <tr>
+                    <td style="text-align: right; width: 50%">
+                        @Html.LabelFor(model => model.TXN_ID)
+                        <label style="color: red">*</label>
+
+                    </td>
+                    <td style="text-align: left; width: 50%">
+
+                        @Html.DropDownListFor(model => model.TXN_ID, new SelectList(Model.txn_ID1, "Value", "Text"), new { Title = "Transaction Type", tabindex = "3", @class = "dropdown", @style = "width:60%" })
+
+                        @Html.ValidationMessageFor(model => model.TXN_ID)
+                    </td>
+                </tr>
+            </table>
+            <div id="FormParameters">
+                <table id="formTable" class="ui-corner-all rowstyle" style="width: 98%; border: .1em solid gray" cellspacing="1px">
+
+                    <tr id="trModeOfTransaction">
+                        <td style="text-align: left; width: 15%">
+                            Mode of Transaction
+                            <label style="color: red">*</label>
+                        </td>
+                        <td style="text-align: left" colspan="6">
+
+                            <div id="divCash" style="float: left; display: none">
+                                @{ if (Model.CHQ_EPAY.Trim() == "C")
+                                    {
+                                        @Html.RadioButtonFor(model => model.CHQ_EPAY, "C", new { @id = "Cash", @checked = "checked", @tabindex = "4", @title = "Cash" })
+                                    }
+                                    else
+                                    {
+                                        @Html.RadioButtonFor(model => model.CHQ_EPAY, "C", new { @id = "Cash", @tabindex = "4", @title = "Cash" })
+                                    }
+                                }
+
+                                @*<input type="radio" name="transactionType" id="Cash" />*@
+                                <label for="Cash">Cash </label>
+                            </div>
+                            <div id="divCheque" style="float: left">
+
+                                @{ if (Model.CHQ_EPAY.Trim() == "Q" || Model.CHQ_EPAY.Trim() == string.Empty)
+                                    {
+                                        @Html.RadioButtonFor(model => model.CHQ_EPAY, "Q", new { @id = "Cheque", @checked = "checked", @tabindex = "5", @title = "Cheque" })
+                                    }
+                                    else
+                                    {
+                                        @Html.RadioButtonFor(model => model.CHQ_EPAY, "Q", new { @id = "Cheque", @tabindex = "5", @title = "Cheque" })
+                                    }
+                                }
+
+                                @*<input type="radio" name="transactionType" id="Cheque" checked="checked" />*@
+                                <label for="Cheque">Cheque </label>
+                            </div>
+                            <div id="divEpay" style="float: left; display: none">
+
+                                @{ if (Model.CHQ_EPAY.Trim() == "E" && !Model.IS_EREMIT)
+                                    {
+                                        @Html.RadioButtonFor(model => model.CHQ_EPAY, "E", new { @id = "Epay", @checked = "checked", @tabindex = "6", @title = "Epay" })
+                                    }
+                                    else
+                                    {
+                                        @Html.RadioButtonFor(model => model.CHQ_EPAY, "E", new { @id = "Epay", @tabindex = "6", @title = "Epay" })
+                                    }
+                                }
+
+                                <label for="Epay">Epayment </label>
+                            </div>
+                            <div id="divERemit" style="float: left; display: none">
+
+                                @{ if (Model.CHQ_EPAY.Trim() == "E" && Model.IS_EREMIT)
+                                    {
+                                        @Html.RadioButtonFor(model => model.CHQ_EPAY, "R", new { @id = "ERem", @checked = "checked", @tabindex = "7", @title = "Eremittance" })
+                                    }
+                                    else
+                                    {
+                                        @Html.RadioButtonFor(model => model.CHQ_EPAY, "R", new { @id = "ERem", @tabindex = "7", @title = "Eremittance" })
+                                    }
+                                }
+
+                                <label for="ERem">Eremittance </label>
+                            </div>
+
+                            <div id="divDeductionOnly" style="float: left; display: none">
+
+                                @{ if (Model.CHQ_EPAY.Trim() == "C" && (Model.CHQ_AMOUNT == 0 || Model.CHQ_AMOUNT == null))
+                                    {
+                                        @Html.RadioButtonFor(model => model.CHQ_EPAY, "C", new { @id = "DeductionOnly", @checked = "checked", @tabindex = "8" })
+                                    }
+                                    else
+                                    {
+                                        @Html.RadioButtonFor(model => model.CHQ_EPAY, "C", new { @id = "DeductionOnly", @tabindex = "8" })
+                                    }
+                                }
+
+                                <label for="DeductionOnly">Only Deduction </label>
+                            </div>
+                            @* Added by Abhi 1Apr2015 *@
+                            <div id="divAdviceNo" style="float: left; display: none">
+
+                                @{ if (Model.CHQ_EPAY.Trim() == "A" || Model.CHQ_EPAY.Trim() == string.Empty)
+                                    {
+                                        @Html.RadioButtonFor(model => model.CHQ_EPAY, "A", new { @id = "Advice", @checked = "checked", @tabindex = "8", @title = "Advice No" })
+                                    }
+                                    else
+                                    {
+                                        @Html.RadioButtonFor(model => model.CHQ_EPAY, "A", new { @id = "Advice", @tabindex = "8", @title = "Advice No" })
+                                    }
+                                }
+
+                                @*<input type="radio" name="transactionType" id="Cheque" checked="checked" />*@
+                                <label for="Cheque">Advice</label>
+                            </div>
+                        </td>
+
+                    </tr>
+
+                    @{ string chq_book_idStyle = string.Empty;
+                        if (Model.CHQ_EPAY.Trim() == "E" || Model.CHQ_EPAY.Trim() == "C" || ViewBag.LevelID == 4)
+                        {
+
+                            chq_book_idStyle = "display:none";
+                        }
+
+                    }
+                    <tr class="chequeTr" id="chqseriesTr" style="@chq_book_idStyle">
+                        <td style="text-align: left;">
+                            @Html.LabelFor(model => model.CHQ_Book_ID)
+                            @{
+                                if (ViewBag.LevelID == 5)
+                                {
+                                    <label style="color: red">*</label>
+                                }
+                            }
+
+                        </td>
+                        <td style="text-align: left;">
+
+                            @Html.DropDownListFor(model => model.CHQ_Book_ID, new SelectList(Model.CHQ_Book_ID_List, "Value", "Text"), new { Title = "Cheque Book Series", tabindex = "9", @class = "dropdown", @style = "width:60%" })
+                            <br />
+                            @Html.ValidationMessageFor(model => model.CHQ_Book_ID)
+                        </td>
+                        <td>@Html.Label("Cheque book Issue date : ", new { @id = "lblChqBookIssueDate", @Style = "display:none" })</td>
+                        <td>
+                            @Html.HiddenFor(m => m.ChequeBookIssueDate)
+                            <span id="spnChqBookIssueDate" style="display: none">@ViewBag.ChequeIssueDate</span>
+
+                        </td>
+                        <td></td>
+                    </tr>
+
+                    <tr>
+                        <td style="text-align: left; width: 15%">
+                            @Html.LabelFor(model => model.BILL_NO)<label style="color: red">*</label>
+                        </td>
+                        <td style="text-align: left; width: 25%">
+                            @Html.TextBoxFor(model => model.BILL_NO, new { @style = "width:55%", @tabindex = "10", @title = "Voucher Number", @readonly = "readonly" })
+                            <br />
+                            @Html.ValidationMessageFor(model => model.BILL_NO)
+
+                        </td>
+
+                        <td style="text-align: left; width: 15%">
+                            @Html.LabelFor(model => model.BILL_DATE)
+                            <label style="color: red">*</label>
+                        </td>
+
+                        <td style="text-align: left; width: 20%">
+                            @Html.TextBoxFor(model => model.BILL_DATE, new { @style = "width:20%", @tabindex = "11", @title = "Voucher Date" })
+                            @*@Html.EditorFor(model=>model.BILL_DATE,"0:dd/MM/yyyy",Model.BILL_DATE)*@
+                            <br />
+                            @Html.ValidationMessageFor(model => model.BILL_DATE)
+                        </td>
+                        <td style="text-align: left; width: 10%"></td>
+                        <td style="text-align: left; width: 10%"></td>
+                    </tr>
+                    <tr class="chequeTr">
+                        <td style="text-align: left">
+                            @{ if (ViewBag.LevelID == 5)
+                                {
+
+                                    @Html.LabelFor(model => model.CHQ_NO) <label style="color: red">*</label>
+                                }
+                                else
+                                {
+                                    <text>Cheque Number
+                                        <label style="color: red">*</label></text>
+                                }
+                            }
+
+                        </td>
+                        <td style="text-align: left; width: 25%">
+                            @{
+                                if (Model.CHQ_EPAY.Trim() == "E")
+                                {
+                                    @Html.TextBoxFor(model => model.EPAY_NO, new { @style = "width:55%", Title = "Epayment Number ", placeholder = "Enter Epayment Number", @readonly = "readonly", @tabindex = "12" })
+                                }
+                                else
+                                {
+                                    @Html.TextBoxFor(model => model.EPAY_NO, new { Title = "Epayment Number ", @style = "display:none;width:55%", placeholder = "Enter Epayment Number", @readonly = "readonly", @tabindex = "12" })
+                                }
+                            }
+
+                            @{
+
+                                if (Model.CHQ_EPAY.Trim() == "Q")
+                                {
+
+                                    @Html.TextBoxFor(model => model.CHQ_NO, new { Title = "Cheque  Number ", tabindex = "13", @class = "dropdown", @style = "width:55%" })
+
+                                    @* @Html.DropDownListFor(model => model.CHQ_NO, new SelectList(Model.chq_NO1, "Value", "Text", "Cheque/Epayment Number is required"), new { Title = "Cheque Book Number ", tabindex = "1", @class = "dropdown", width = "50%" })*@
+
+                                }
+                                else
+                                {
+                                    @*@Html.DropDownListFor(model => model.CHQ_NO, new SelectList(Model.chq_NO1, "Value", "Text", "Cheque/Epayment Number is required"), new { Title = "Cheque Book Number ", @style = "display:none;", @class = "dropdown", width = "50%" })*@
+
+                                    @Html.TextBoxFor(model => model.CHQ_NO, new { Title = "Cheque  Number ", @style = "display:none;width:55%", @class = "dropdown", @tabindex = "13" })
+
+                                }
+                            }
+                            <br />
+                            @Html.ValidationMessageFor(model => model.CHQ_NO)
+                            @Html.ValidationMessageFor(model => model.EPAY_NO)
+                        </td>
+                        <td style="text-align: left">
+                            @{ if (ViewBag.LevelID == 5)
+                                {
+                                    @Html.LabelFor(model => model.CHQ_DATE) <label style="color: red">*</label>
+                                }
+                                else
+                                {
+                                    <text>Cheque Date
+                                        <label style="color: red">*</label></text>
+                                }
+                            }
+
+
+
+                        </td>
+                        <td style="text-align: left; width: 25%">
+                            @Html.TextBoxFor(model => model.CHQ_DATE, new { @style = "width:20%", @tabindex = "14", @title = "Cheque book date" })
+                            @Html.ValidationMessageFor(model => model.CHQ_DATE)
+
+                        </td>
+
+                    </tr>
+                    <tr>
+
+                        <td style="text-align: left">
+                            Amount
+                            <label style="color: red">*</label>
+                        </td>
+                        <td style="text-align: left; width: 25%">
+                            <div id="DivChequeAmount">
+                                @Html.TextBoxFor(model => model.CHQ_AMOUNT, new { @class = "TAC", @style = "width:55%", @tabindex = "15", @title = "Cheque Amount" })
+                                <br />
+                                @Html.ValidationMessageFor(model => model.CHQ_AMOUNT)
+
+                            </div>
+                            <div id="DivCashAmount" style="display: none">
+                                @Html.TextBoxFor(model => model.CASH_AMOUNT, new { @class = "TAC", @style = "width:55%", @tabindex = "16", @title = "Cash Amount" })
+                                <br />
+                                @Html.ValidationMessageFor(model => model.CASH_AMOUNT)
+                            </div>
+                        </td>
+
+                        <td style="text-align: left">
+                            @Html.LabelFor(model => model.DEDUCTION_AMOUNT)
+                        </td>
+                        <td style="text-align: left; width: 25%">
+                            @Html.TextBoxFor(model => model.DEDUCTION_AMOUNT, new { @tabindex = "17", @title = "Deduction Amount", @class = "TAC" })
+                            <br />
+                            @Html.ValidationMessageFor(model => model.DEDUCTION_AMOUNT)
+                        </td>
+                        @* Added on 1 April 2021- For auto calculated total amount*@
+                        <td style="text-align: left">
+                            @Html.Label("Total Amount : ")
+                        </td>
+                        <td style="text-align: left; width: 25%">
+                            @Html.TextBox("Total Amount", "", new { @id = "txtTotalAmount", @title = "Total Amount", @readonly = "true", @placeholder = "AutoCal", @width = "50px", @align = "center" })
+                        </td>
+                    </tr>
+
+                    <tr class="ContracorTr" style="display: none">
+
+                        <td style="text-align: left" id="ContracorTrID">
+                            @Html.LabelFor(model => model.MAST_CON_ID_C)
+                            <label style="color: red">*</label>
+                        </td>
+                        <td style="text-align: left; width: 25%">
+
+                            @*@Html.TextBoxFor(model => model.MAST_CON_ID)*@
+
+                            @Html.DropDownListFor(model => model.MAST_CON_ID_C, new SelectList(Model.mast_CON_ID_C1, "Value", "Text", "Company name is required"), new { Title = "Company name", tabindex = "18", @class = "dropdown", @style = "width:80%" })
+                            <br />
+                            @Html.ValidationMessageFor(model => model.MAST_CON_ID_C)
+
+                        </td>
+
+                        <td style="text-align: left">
+                            @Html.LabelFor(model => model.PAYEE_NAME_C)
+                            <label style="color: red">*</label>
+                        </td>
+                        <td style="text-align: left; width: 25%">
+                            @Html.TextBoxFor(model => model.PAYEE_NAME_C, new { @style = "width:55%", Title = "payee name ", placeholder = "payee name", @readonly = "readonly", @tabindex = "19" })
+                            <br />
+                            @Html.ValidationMessageFor(model => model.PAYEE_NAME_C)
+                        </td>
+
+
+
+                    </tr>
+
+                    @*<tr id="trContractorBankDetails" style="display: none">
+                            <td style="text-align: left" id="ContracorAccountTrID"> Select  Contractor Bank Account <label style="color: red">*</label></td>
+                             <td style="text-align: left; width: 25%">
+                               @Html.DropDownListFor(model => model.CONC_Account_ID , new SelectList(Model.CONC_Account_ID1, "Value", "Text", "Acount details are required"), new { Title = "Account Details", tabindex = "20", @class = "dropdown", @style = "width:80%" })
+                                <br />
+                                @Html.ValidationMessageFor(model => model.CONC_Account_ID)
+
+                            </td>
+                            <td>
+                                 @Html.Label("Bank Name : ")
+                                <span id="spnBankName" style="margin-left: 0px">-</span>
+
+                            </td>
+                            <td>
+                                @Html.Label("Account Number : ")
+                                <span id="spnBankAccNumber" style="margin-left: 0px">-</span> &nbsp; &nbsp; &nbsp; &nbsp;
+                                 <br />
+                                @Html.Label("IFSC Code : ", new { @style = "margin-left:0px" })
+                                <span id="spnIFSCCode" style="margin-left: 0px">-</span>&nbsp; &nbsp; &nbsp; &nbsp;
+                            </td>
+                            <td></td>
+                             <td></td>
+
+                        </tr>*@
+
+                    <tr class="RemittanceTr" style="display: none">
+                        <td style="text-align: left">
+                            @Html.LabelFor(model => model.DEPT_ID)
+                            <label style="color: red">*</label>
+                        </td>
+                        <td style="text-align: left; width: 25%">
+                            @* @Html.TextBoxFor(model => model.DEPT_ID)*@
+                            @Html.DropDownListFor(model => model.DEPT_ID, new SelectList(Model.dept_ID1, "Value", "Text"), new { Title = "Department name", tabindex = "20", @class = "dropdown", @style = "width:80%" })
+                            <br />
+                            @Html.ValidationMessageFor(model => model.DEPT_ID)
+                        </td>
+
+                        <td style="text-align: left">
+                            @Html.LabelFor(model => model.PAYEE_NAME_R)
+                            <label style="color: red">*</label>
+                        </td>
+                        <td style="text-align: left; width: 25%">
+                            @Html.TextBoxFor(model => model.PAYEE_NAME_R, new { Title = "payee name ", placeholder = "payee name", @readonly = "readonly", @tabindex = "21" })
+                            <br />
+                            @Html.ValidationMessageFor(model => model.PAYEE_NAME_R)
+                        </td>
+
+
+                    </tr>
+
+                    <tr class="RemittanceTr" style="display: none">
+                        <td style="text-align: left">
+                            @Html.LabelFor(model => model.CHALAN_NO)
+
+                        </td>
+                        <td style="text-align: left; width: 25%">
+                            @Html.TextBoxFor(model => model.CHALAN_NO, new { @tabindex = "22", @title = "Chalan Number" })
+                            <br />
+                            @Html.ValidationMessageFor(model => model.CHALAN_NO)
+
+                        </td>
+
+                        <td style="text-align: left">@Html.LabelFor(model => model.CHALAN_DATE)</td>
+                        <td style="text-align: left; width: 25%">
+                            @Html.TextBoxFor(model => model.CHALAN_DATE, new { @style = "width:20%", @tabindex = "23", @title = "Chalan Date" })
+                            <br />
+                            @Html.ValidationMessageFor(model => model.CHALAN_DATE)
+                        </td>
+
+                    </tr>
+
+
+
+                    <tr class="supplierTr" style="display: none">
+                        <td style="text-align: left" id="tdSupplier">@Html.LabelFor(model => model.MAST_CON_ID_S)<label style="color: red">*</label></td>
+                        <td style="text-align: left; width: 25%">
+                            @Html.DropDownListFor(model => model.MAST_CON_ID_S, new SelectList(Model.mast_CON_ID_S1, "Value", "Text", "Company name is required"), new { Title = "Supplier Company name", tabindex = "24", @class = "dropdown", @style = "width:80%" })
+                            <br />
+                            @Html.ValidationMessageFor(model => model.MAST_CON_ID_S)
+
+                        </td>
+                        <td style="text-align: left">
+                            @Html.LabelFor(model => model.PAYEE_NAME_S)
+                            <label style="color: red">*</label>
+                        </td>
+                        <td style="text-align: left; width: 25%">
+                            @Html.TextBoxFor(model => model.PAYEE_NAME_S, new { Title = "payee name ", placeholder = "payee name", @readonly = "readonly", @tabindex = "25" })
+                            <br />
+                            @Html.ValidationMessageFor(model => model.PAYEE_NAME_S)
+                        </td>
+
+                    </tr>
+                    <tr id="normalPayeename">
+
+                        <td style="text-align: left">
+                            @Html.LabelFor(model => model.PAYEE_NAME)
+                            <label style="color: red">*</label>
+                        </td>
+                        <td style="text-align: left; width: 25%">
+                            @Html.TextBoxFor(model => model.PAYEE_NAME, new { @style = "width:55%", @tabindex = "26", @title = "Payee name" })
+                            <br />
+                            @Html.ValidationMessageFor(model => model.PAYEE_NAME)
+                        </td>
+
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                    </tr>
+
+                    <tr id="trContractorBankDetails" style="display: none">
+                        <td style="text-align: left" id="ContracorAccountTrID"> Select  Contractor Bank Account <label style="color: red">*</label></td>
+                        <td style="text-align: left; width: 25%">
+                            @Html.DropDownListFor(model => model.CONC_Account_ID, new SelectList(Model.CONC_Account_ID1, "Value", "Text", "Acount details are required"), new { Title = "Account Details", tabindex = "20", @class = "dropdown", @style = "width:80%" })
+                            <br />
+                            @Html.ValidationMessageFor(model => model.CONC_Account_ID)
+
+                        </td>
+                        <td>
+                            @Html.Label("Bank Name : ")
+                            <span id="spnBankName" style="margin-left: 0px">-</span>
+
+                        </td>
+                        <td>
+                            @Html.Label("Account Number : ")
+                            <span id="spnBankAccNumber" style="margin-left: 0px">-</span> &nbsp; &nbsp; &nbsp; &nbsp;
+                            <br />
+                            @Html.Label("IFSC Code : ", new { @style = "margin-left:0px" })
+                            <span id="spnIFSCCode" style="margin-left: 0px">-</span>&nbsp; &nbsp; &nbsp; &nbsp;
+                        </td>
+                        <td></td>
+                        <td></td>
+
+                    </tr>
+                    <tr>
+                        <th colspan="2" style="text-align: right">
+
+                            @*   <input tabindex="27" type="button" id="btnSubmit" Style="display:none"   value=" @HttpContext.GetLocalResourceObject(@"~\Views\Shared\authorizedSignatory", "lblSave", System.Globalization.CultureInfo.CurrentUICulture)"  class="jqueryButton" title= "@HttpContext.GetLocalResourceObject(@"~\Views\Shared\authorizedSignatory", "lblClickSave", System.Globalization.CultureInfo.CurrentUICulture) "/>
+                                <input tabindex="28" type="button" id="btnUpdate" Style="display:none" value=" @HttpContext.GetLocalResourceObject(@"~\Views\Shared\authorizedSignatory", "lblUpdate", System.Globalization.CultureInfo.CurrentUICulture)"  class="jqueryButton" title= "@HttpContext.GetLocalResourceObject(@"~\Views\Shared\authorizedSignatory", "lblClickUpdate", System.Globalization.CultureInfo.CurrentUICulture)" />*@
+
+
+                            <input tabindex="27" type="button" id="btnSubmit" style="display: none" value=" Save" />
+                            <input tabindex="28" type="button" id="btnUpdate" style="display: none" value="Update " />
+
+
+                        </th>
+                        <th colspan="2" style="text-align: left">
+                            <input tabindex="27" type="reset" class="jqueryButton"
+                                   name="btnMasterReset" id="btnMasterReset" title="Click here to reset" value='Reset' />
+                            <input tabindex="28" type="button" class="jqueryButton"
+                                   name="btnMasterCancel" id="btnMasterCancel" title="Click here to cancel" value='Cancel' style="display: none" />
+                        </th>
+                    </tr>
+
+                </table>
+            </div>
+        </div>
+        <div id="PFMSValidations" style="display: none;">
+            <strong style="color: red; font-weight: bold">Alert :</strong><br />
+            @{
+                //if (Model.IsAgencyMapped == false)
+                {
+                    @*<span id="spnAgency" style="color: red;">Initiating Party detail is not available.</span>*@
+                    <span id="spnAgency" style="color: red;">Detail of Agency registered with PFMS is not available in OMMAS.</span>
+                    <br />
+                }
+
+                //if (Model.IsDSCEnrollmentFinalized == false)
+                {
+                    @*<span id="spnDSCEnroll" style="color: red;">User has not enrolled for PFMS.</span>*@
+                    <span id="spnDSCEnroll" style="color: red;">[Authorised signatory DSC details are not generated for PFMS] / [Authorised signatory details are rejected by PFMS] / [Authorised signatory details Verification is in progress by PFMS] .</span>
+                    <br />
+                }
+
+                //if (Model.IsSRRDABankDetailsFinalized == false)
+                {
+                    <span id="spnSRRDABank" style="color: red;">Bank details (Programme Fund) of SRRDA are not finalized as per PFMS master data.</span>
+                    <br />
+                }
+
+                //if (Model.IsEmailAvailable == false)
+                {
+                    <span id="spnEmail" style="color: red;">Auhtorised Signatory Email is not entered.</span>
+                    <br />
+                }
+                //if (Model.IsPaymentSuccess == false)
+                {
+                    <span id="spnPaymentSuccess" style="color: red;">Payment is prohibited, generate sample payment file for PFMS.</span>
+                    <br />
+                }
+                //Conditions to check Security Deposit and Holding Account Bank Validation
+                {
+                    <span id="HoldBankVal1" style="color: red;">Holding Bank Account details is not available.</span>
+                    <br />
+                }
+                {
+                    <span id="HoldBankVal2" style="color: red;">Holding Bank Account Number is not available.</span>
+                    <br />
+                }
+                {
+                    <span id="HoldBankVal3" style="color: red;">Holding Bank IFSC Code is not available.</span>
+                    <br />
+                }
+                {
+                    <span id="SecDepBankVal1" style="color: red;">Security Deposit Bank Account details is not available.</span>
+                    <br />
+                }
+                {
+                    <span id="SecDepBankVal2" style="color: red;">Security Deposit Bank IFSC Code is not available.</span>
+                    <br />
+                }
+                {
+                    <span id="SecDepBankVal3" style="color: red;">Security Deposit Bank Account Number is not available.</span>
+                    <br />
+                }
+            }
+        </div>
+    </form>
+
+</body>
+</html>

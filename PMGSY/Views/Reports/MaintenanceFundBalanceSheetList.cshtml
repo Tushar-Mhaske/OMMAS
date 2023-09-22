@@ -1,0 +1,284 @@
+﻿@*@model PMGSY.Models.Report.MaintenanceFund.MaintenanceFundBalanceSheetList*@
+
+
+@model PMGSY.Models.Report.Account.BalanceSheetList
+
+@using PMGSY.Models
+@using PMGSY.Extensions 
+@using PMGSY.Models.Report.Account
+@using PMGSY.Common
+
+<link href="~/Content/demo_page.css" rel="stylesheet" />
+<link href="~/Content/demo_table_jui.css" rel="stylesheet" />
+<link href="~/Content/TableTools.css" rel="stylesheet" />
+<link href="~/Content/TableTools_JUI.css" rel="stylesheet" />
+
+
+<script src="~/Scripts/custom/Generic.js"></script>
+<script src="~/Scripts/DataTables/jquery.dataTables.js"></script>
+<script src="~/Scripts/DataTables/ZeroClipboard.js"></script>
+<script src="~/Scripts/DataTables/TableTools.js"></script>
+<script src="~/Scripts/Report/Account/ViewScheduleBalanceSheet.js"></script>
+ <script type="text/javascript">
+     var tblLedger = $('#tblMaintenanceFundBalanceSheet').dataTable({
+            "bJQueryUI": true,
+            "bFilter": false,
+            "bSort": false,
+            //"sPaginationType": "full_numbers",
+            "sScrollY": "400px",
+            "bPaginate": false,
+            "bHeader": true,
+            "bScrollInfinite": true,
+            "bScrollCollapse": true,
+            //"bAutoWidth": false,
+            "sDom": '<"H"Tfr>t<"F"ip>',
+            "oTableTools": {
+                "aButtons": []
+            }
+        });
+
+     $("#ToolTables_tblMaintenanceFundBalanceSheet_0").removeClass('DTTT_button').removeClass('ui-state-default').removeClass('DTTT_button_collection');
+     $("#ToolTables_tblMaintenanceFundBalanceSheet_1").removeClass('DTTT_button').removeClass('ui-state-default').removeClass('DTTT_button_collection');
+        </script>
+
+<style type="text/css">
+
+    div.CBHeader 
+    {
+        padding: 5px;
+        width: 98%;
+        display: inline-block;
+        cursor: default;
+        font-family: Trebuchet MS,Tahoma,Verdana,Arial,sans-serif;
+        color: #000;
+        background-color: #eee;
+        -moz-border-radius: 10px;
+        -webkit-border-radius: 10px;
+        -moz-box-shadow: #999 2px 0px 3px;
+        -webkit-box-shadow: #999 2px 0px 3px;
+    }
+
+</style>
+
+@{
+    CommonFunctions objCommonFunction = new CommonFunctions();
+ }
+
+
+
+    <div id="dvBalanceSheetDetails" class="CBHeader ui-corner-all" style="display:none;">
+    <table class="ui-state-default ui-corner-all" style="border: 0.1em solid gray; width: 100%; margin-top: 1px" id="rptMAAnnex">
+
+        <tr>
+            <td colspan="5" style="color: green;text-align:right">@Html.DisplayFor(model => model.ReportFormNumber)</td>
+        </tr>
+        <tr>
+            <td colspan="5" style="color: green;text-align:center">@Html.DisplayFor(model => model.FundType)</td>
+        </tr>
+        <tr>
+            <td colspan="5" style="color: green;text-align:center">@Html.DisplayFor(model => model.ReportHeader)</td>
+        </tr>
+        <tr>
+            <td colspan="5" style="color: green;text-align:center">@Html.DisplayFor(model => model.Section)</td>
+        </tr>
+        <tr>
+            <td colspan="5"><br /></td>
+        </tr>
+
+
+
+          <tr>
+
+              <td style="width:15%"></td>
+              <td style="width:55%"> <span style="color: green; font-weight:bold">State :</span> @ViewBag.State</td>
+                 <td style="text-align:left">
+                        <span style="color: green;font-weight:bold">Name Of SRRDA : </span>@Model.NodalAgency
+               </td>
+        </tr>
+        <tr>
+            <td></td>
+                    
+            <td>
+                  <span style="color: green;font-weight:bold">
+                      
+                      @if (Model.IsMonthlyYearly == 1)
+                      {
+                          @Html.Label("Year: ")
+                      }
+                      else
+                      { 
+                        @Html.Label("Month-Year: ")
+                      }
+                      
+
+                  </span> @ViewBag.Year
+              </td>
+    
+             @if (Model.Type.Equals("PIU"))
+             {
+                   <td style="text-align:left">
+                        <span style="color: green;font-weight:bold">Name Of DPIU : </span>                        
+                        @ViewBag.DPIU  @*@PMGSYSession.Current.DepartmentName.Trim() *@                                             
+                    </td>
+             }
+             else if (PMGSYSession.Current.LevelId == 5)
+             {
+                <td style="text-align:left">
+                        <span style="color: green;font-weight:bold">Name Of DPIU : </span>                        
+                        @PMGSYSession.Current.DepartmentName
+                </td>
+             }   
+            <td></td>           
+        </tr>
+</table>
+
+    </div>
+<br />
+@*<div class="ui-state-default ui-corner-all" style="margin-bottom: 05px; height: 20px">Balance Sheet Details<span style="float: right; margin-right: 2Px; margin-top: 2px"></span>  </div>    *@
+ <table id="tblMaintenanceFundBalanceSheet" style="width: 100%;">
+         <thead>
+         
+                 <tr>
+             <th>
+                 Particular
+             </th>
+                 <th>                 
+                 Schedule
+             </th>
+                 <th>
+                 Current Amount
+             </th>
+                 <th>
+                 Previous Amount
+             </th>
+                 </tr>
+         </thead>
+      
+         <tbody>
+                    
+            @{
+                int i = 0;
+                int j = 0;
+                //new change
+
+                decimal totalCurrentAmt = 0;
+                decimal totalPreviousAmt = 0;
+
+                     //end of change
+                }
+                 @if (Model.ListBalanceSheet.Count() > 0)
+                 {
+                     foreach (var item in Model.ListBalanceSheet)
+                     {
+                         //new change done by Vikram on 21-09-2013
+                        <tr>
+                           <td style="text-align:left; width:30%;">
+                               @if (item.ITEM_HEADING == "Liabilities Total" || item.ITEM_HEADING == "Assets Total" || item.ITEM_HEADING == "Administrative Fund Liabilities" || item.ITEM_HEADING == "Administrative Fund Assets" || item.ITEM_HEADING == "Programme Fund Liabilities" || item.ITEM_HEADING == "Programme Fund Assets" || item.ITEM_HEADING == "Maintenance Fund Liabilities" || item.ITEM_HEADING == "Maintenance Fund Assets")
+                               {
+                                    <b style="font-size:small">@item.ITEM_HEADING</b>     
+                               }
+                               else
+                               {
+                                   @(item.ITEM_HEADING == null ? "-" : item.ITEM_HEADING.ToString())
+                               }
+
+                           </td>
+
+                             <td style="text-align:center;width:20%;"> 
+
+                                 <form id="frmShowSchedule">
+
+                                 @* Added by Abhishek Kamble 20-dec-2013 *@
+                                 @{
+                               var BalanceSheetViewModel = new BalanceSheet
+                               {
+                                   Month = Model.balanceSheet.Month,
+                                   Year = Model.balanceSheet.Year,
+                                   IsMonthlyYearly = Model.balanceSheet.IsMonthlyYearly,
+                                   ReportLevel = Model.balanceSheet.ReportLevel,
+                                   AdminCode = Model.balanceSheet.AdminCode,
+                                   StateAdminCode = Model.balanceSheet.StateAdminCode,
+                                   HeadCode = item.ITEM_ID,
+                                   HeadName = item.ITEM_HEADING
+                               };                               
+                               
+                               @Html.Hidden("SelectedMonth", Model.balanceSheet.Month)
+                               
+                               @Html.Hidden("SelectedYear", Model.balanceSheet.Year)
+                                     
+                               @Html.Hidden("IsMonthlyYearly", BalanceSheetViewModel.IsMonthlyYearly)
+                               @Html.Hidden("ReportLevel", BalanceSheetViewModel.ReportLevel)
+                               @Html.Hidden("AdminCode", BalanceSheetViewModel.AdminCode)
+                               @Html.Hidden("StateAdminCode", BalanceSheetViewModel.StateAdminCode)
+                               @Html.Hidden("HeadCode", BalanceSheetViewModel.HeadCode)
+                               @Html.Hidden("HeadName", BalanceSheetViewModel.HeadName)
+                               
+                            }   
+                                
+                                 @{
+                               if (item.LINK == null || item.LINK == String.Empty)
+                               {
+                                         @Html.Label("-")                                 
+                               }
+                               else
+                               {
+                                   string[] arr = item.LINK.Split('$');
+                                   //arr[2] link text
+                                   //arr[1] Action Name
+                                   //arr[0] Controller Name
+                                   @Html.Hidden("ActionName", arr[1])
+                                   @Html.Hidden("ControllerName", arr[0])                                        
+                                <a href="#" onclick="ShowBalanceSheetSchedules('@arr[1]','@arr[0]','@item.ITEM_HEADING');">@arr[2] </a>
+                               }
+                                 }
+                             </form>
+                           </td>
+                            <td style="text-align:right;width:15%;">
+                               @if (item.ITEM_HEADING == "Liabilities Total" || item.ITEM_HEADING == "Assets Total" || item.ITEM_HEADING == "Administrative Fund Liabilities" || item.ITEM_HEADING == "Administrative Fund Assets" || item.ITEM_HEADING == "Programme Fund Liabilities" || item.ITEM_HEADING == "Programme Fund Assets" || item.ITEM_HEADING == "Maintenance Fund Liabilities" || item.ITEM_HEADING == "Maintenance Fund Assets")
+                               {
+                                   if (item.CURRENT_AMT != null)
+                                   {
+                                    <b>
+                                        @String.Format(new System.Globalization.CultureInfo("en-IN"), "{0:C}", item.CURRENT_AMT)
+                                    </b>     
+                                   }
+                                   else
+                                   {
+                                       @item.CURRENT_AMT
+                                   }
+                               }
+                               else
+                               {
+                                        @objCommonFunction._IndianFormatAmount(item.CURRENT_AMT==null?"0":item.CURRENT_AMT.ToString());
+                               }
+                           </td>
+
+                           <td style="text-align:right; width:15%;">
+                               @if (item.ITEM_HEADING == "Liabilities Total" || item.ITEM_HEADING == "Assets Total" || item.ITEM_HEADING == "Administrative Fund Liabilities" || item.ITEM_HEADING == "Administrative Fund Assets" || item.ITEM_HEADING == "Programme Fund Liabilities" || item.ITEM_HEADING == "Programme Fund Assets" || item.ITEM_HEADING == "Maintenance Fund Liabilities" || item.ITEM_HEADING == "Maintenance Fund Assets")
+                               {
+                                   if (item.PREVIOUS_AMT != null)
+                                   {
+                                    <b>
+                                        @String.Format(new System.Globalization.CultureInfo("en-IN"), "{0:C}", item.PREVIOUS_AMT)
+                                    </b>     
+                                   }
+                                   else
+                                   {
+                                       @item.PREVIOUS_AMT
+                                   }
+                               }
+                               else
+                               {
+                                   @objCommonFunction._IndianFormatAmount(item.PREVIOUS_AMT==null?"0":item.PREVIOUS_AMT.ToString());
+                               }
+                              
+                           </td>
+                       </tr> 
+                     }
+                 }
+             </tbody>           
+</table>
+
+
+
+<div id="dvShowBalancesheetSchedules"></div>

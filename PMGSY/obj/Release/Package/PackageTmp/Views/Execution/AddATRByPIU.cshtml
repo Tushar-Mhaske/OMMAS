@@ -1,0 +1,133 @@
+﻿@model PMGSY.Models.Execution.AddATRByPIU
+
+
+<script src="~/Scripts/jquery.ui.tabs.js"></script>
+<script src="~/Scripts/jquery.ui.accordion.js"></script>
+<script src="~/Scripts/jquery.ui.datepicker.js"></script>
+
+
+
+<script src="~/Scripts/Execution/PIUATR_Add.js"></script>
+
+<form id="frmRoadSafetyLayout1">
+
+@*@Html.HiddenFor(model => model.IMS_PR_ROAD_CODE, new { @id="proposalCode"})
+@Html.HiddenFor(model => model.EXEC_PROGRESS_TYPE, new { @id="progressType"})
+@Html.HiddenFor(model=>model.EXEC_RSA_CODE)*@
+@Html.HiddenFor(model=>model.RSAId)
+
+
+<br />
+
+
+
+    <div id="divHabitationDetails" style="width: 99%;">
+        <table style="width: 99%">
+
+          
+                <tr>
+                <td style="width: 10%; vertical-align: top; text-align: center;"></td>
+                <td style="width: 5%; vertical-align: top; text-align: left;">
+                    @Html.Label("Acceptance of Recommendation")<label style="color:red">*</label>
+                </td>
+                <td style="width: 10%; vertical-align: top;">
+                   
+                    @Html.DropDownListFor(model => model.AccpetCode, new SelectList(Model.AccpetList, "Value", "Text"), new { @id = "ddlAccpetList", tabindex = 1, @title = "Acceptance of Recommendation", })
+                    <br />
+                    @Html.ValidationMessageFor(x => x.AccpetCode)
+                        </td>
+
+                <td style="width: 5%; vertical-align: top;display:none;">
+            
+                </td>
+                <td style="width: 10%; vertical-align: top;display:none ">
+     
+                    <span style="display:none" id="errspn"></span>
+                    <br />
+                  
+                </td>
+                <td style="width: 5%; vertical-align: top">
+                    @Html.Label("ATR Upload Date")<label style="color:red">*</label>
+                </td>
+                <td style="width: 10%; vertical-align: top">
+                   
+                    @Html.TextBoxFor(model => model.ATRUploadDate, new { @title = "ATR Upload Date",@readonly="readonly", @maxlength = 10, @tabindex = 5, @placeholder = "Enter ATR Upload Date...", @id = "txtAuditDate" })
+                    <br />
+                    @Html.ValidationMessageFor(x => x.ATRUploadDate)
+                    
+                </td>
+                <td style="width: 10%; vertical-align: top; text-align: center;"></td>
+            </tr>
+      
+            
+
+              <tr>
+                <td style="width: 10%; vertical-align: top; text-align: center;"></td>
+                <td style="width: 5%; vertical-align: top; text-align: left;">
+                    @Html.Label("Description of Action Taken")<label style="color:red">*</label>
+                </td>
+                <td style="width: 10%; vertical-align: top;">
+                      @Html.TextAreaFor(model => model.ATR_By_PIU, new { @title = "Action Taken Description", @maxlength = 255, @tabindex = 3, @placeholder = "Enter Action Taken Description...", @id = "txtActionstaken1" })
+                    <br />
+                    @Html.ValidationMessageFor(x => x.ATR_By_PIU)
+                </td>
+
+                <td style="width: 5%; vertical-align: top;display:none;">
+                    @Html.Label("Road Safety")<label style="color:red">*</label>
+                </td>
+                <td style="width: 10%; vertical-align: top;display:none ">
+     
+                    <span style="display:none" id="errspn"></span>
+                    <br />
+                  
+                </td>
+                <td style="width: 5%; vertical-align: top">
+    
+                </td>
+                <td style="width: 10%; vertical-align: top">
+           
+                </td>
+                <td style="width: 10%; vertical-align: top; text-align: center;"></td>
+            </tr>
+
+
+              
+
+
+
+            <tr>
+                <td colspan="3"></td>
+                <td colspan="3"> 
+              
+                <input type="button" name="btnSave" id="btnSaveByPIU" value="Save" title="Save Details" class="jqueryButton" /> 
+                <input type="button" name="btnCancel" id="btnCancel" value="Cancel" title="Cancel Details" class="jqueryButton" />
+                
+                </td>
+             
+            </tr>
+ 
+        </table>
+    </div>
+
+
+
+    </form>
+
+
+@*<div id="divAddExecution" style="text-align:left; flex-align :center">
+       
+</div>*@
+
+
+@*
+    <div id="tabs-1" style="text-align:left; flex-align :center">
+        <div id="divCdWorks" style="text-align:left;width:100%">
+            <table id="tbCDWorksList" style="width:95%;flex-align:center"></table>
+            <div id="pagerCDWorksList"></div>
+        </div>
+    </div>
+ *@
+
+
+
+

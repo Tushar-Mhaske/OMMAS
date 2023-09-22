@@ -1,0 +1,402 @@
+﻿@model PMGSY.Models.ExistingRoads.ExistingRoadsViewModel
+@{
+    ViewBag.Title = "Create ExistingRoads";
+}
+@using PMGSY.Extensions
+<script src="~/Scripts/custom/Generic.js"></script>
+
+<script src="~/Scripts/ExistingRoads/ExistingRoadsAddEdit.js"></script>
+@{    
+    
+    <form id="frmCreateExistingRoad">
+        <div style="margin-left: 100px">
+            @Html.AntiForgeryToken()
+            @Html.ValidationSummary(true)
+
+            @Html.Hidden("hdnPMGSYScheme", PMGSYSession.Current.PMGSYScheme)
+            @Html.HiddenFor(x => x.MAST_ER_ROAD_CODE_PMGSY1)
+        </div>
+
+        <div id="divError" class="ui-state-error ui-corner-all" style="text-align: left; display: none; width: 100%">
+            <span class="ui-icon ui-icon-alert" style="float: left;"></span>
+            <span></span>
+        </div>
+
+        <center>
+             <div style="height:20px; width: 100%; text-align:left; padding-top: 0.6em;" class="ui-state-default ui-corner-all" > 
+                   &nbsp;<strong>Block Name: @Html.DisplayFor(model => model.BlockName) </strong> &nbsp; ( Fields marked with * are mandatory. )
+             </div>
+              <table id="Table1"  cellspacing="0" cellpadding="3" class="rowstyle" style="margin-top:0px; text-align:left; border:ridge 0.1em #ccc; width:100%; padding-top:5px; padding-left:5px; padding-right:5px; padding-bottom:5px;">
+                <tr style="text-align:left;">
+                        @Html.HiddenFor(model => model.EncryptedRoadCode)
+                         @Html.HiddenFor(model => model.MAST_STATE_CODE)
+                         @Html.HiddenFor(model => model.MAST_DISTRICT_CODE)
+                         @Html.HiddenFor(model => model.MAST_BLOCK_CODE)
+                         @Html.HiddenFor(model => model.MAST_LOCK_STATUS)
+                        @Html.HiddenFor(model => model.LockUnlockFlag)
+                   @* @if (Model.LockUnlockFlag == "M")
+                    {
+                        @Html.HiddenFor(model=>model.MAST_ER_ROAD_F_WIDTH)
+                        @Html.HiddenFor(model=>model.MAST_ER_ROAD_L_WIDTH)
+                        @Html.HiddenFor(model=>model.MAST_ER_ROAD_C_WIDTH)
+                    }*@
+                    </tr>
+                     <tr style="text-align:left;">                         
+                             @if (Model.isSurfaceCbrDetails != 0)
+                             {   <td style="width:40%" colspan="4">
+                                    <span> <strong>Note: Surface or CBR Details are entered so you can't change Start and End Chainage.</strong></span>
+                                 </td>
+                             }
+                     </tr>
+                    <tr style="text-align:left;">
+                        <td style="width:7%;">
+                            @Html.LabelFor(model => model.MAST_ROAD_CAT_CODE)
+                             <span style="color:red">*</span>
+                        </td>
+                        <td style="width:15%;">           
+                            @if (Model.EncryptedRoadCode == null)
+                            {                
+                                @Html.DropDownListFor(model => model.MAST_ROAD_CAT_CODE, Model.RoadCategory, new { @title = "Select the Category of Road", @tabindex = 1 })
+                                @Html.ValidationMessageFor(model => model.MAST_ROAD_CAT_CODE)
+                            }
+                            else
+                            {
+                                <!--Changes by SAMMED A. PATIL to enable Road Category for edit only if PMGSY1 road is mapped to PMGSY2 or PMGSY1
+                                if ((PMGSYSession.Current.PMGSYScheme == 2 && Model.MAST_ER_ROAD_CODE_PMGSY1 > 0) || PMGSYSession.Current.PMGSYScheme == 1)
+                                {
+                                    @Html.DropDownListFor(model => model.MAST_ROAD_CAT_CODE, Model.RoadCategory, new { @title = "Select the Category of road", @tabindex = 1, /*@disabled = "disabled"*/ })
+                                }
+                                else
+                                {
+                                    @Html.DropDownListFor(model => model.MAST_ROAD_CAT_CODE, Model.RoadCategory, new { @title = "Select the Category of road", @tabindex = 1, @disabled = "disabled" })   
+                                }
+                                -->
+                             
+                             @*Changes to allow editing of Road Category if PMGSY1 road is mapped to PMGSY2 OR if PMGSY1 then unconditional*@
+                             @Html.DropDownListFor(model => model.MAST_ROAD_CAT_CODE, Model.RoadCategory, new { @title = "Select the Category of road", @tabindex = 1, })
+                             @Html.HiddenFor(m => m.hdnRoadCategoryCode)
+                             @Html.ValidationMessageFor(model => model.MAST_ROAD_CAT_CODE)
+                            }
+                        </td>
+                        <td style="width:7%;">
+                            @Html.LabelFor(model => model.MAST_ER_ROAD_NUMBER)
+                             <span style="color:red">*</span>
+                        </td>
+                        <td style="width:15%;">
+                             @if (Model.EncryptedRoadCode == null)
+                             {
+                                @Html.TextBoxFor(model => model.MAST_ER_SHORT_DESC, new { @title = "Road Short Name", @readonly = true, @style = "width:17%" }) <span style="width:1%">&nbsp;</span>                                 
+                                @Html.TextBoxFor(model => model.MAST_ER_ROAD_NUMBER, new { @maxlength = "6", @tabindex = 2, @title = "Enter the Road Number", @style = "width:23%", @placeholder = "Enter Road No" })
+                                @*@Html.ValidationMessageFor(model => model.MAST_ER_ROAD_NUMBER, "", new { id = "ValRoadNumber" })*@
+                             }
+                             else
+                             {
+                                 @*@Html.DisplayFor(model => model.MAST_ER_ROAD_NUMBER, "span")*@
+                                 
+                                 @*Changes to allow editing of Road Category if PMGSY1 road is mapped to PMGSY2 OR if PMGSY1 then unconditional*@
+                                 @*<label id="lb_MAST_ER_ROAD_NUMBER">@Model.hdn_MAST_ER_ROAD_NUMBER</label>
+                                 if ((PMGSYSession.Current.PMGSYScheme == 2 && Model.MAST_ER_ROAD_CODE_PMGSY1 > 0) || PMGSYSession.Current.PMGSYScheme == 1)
+                                 {
+                                     @Html.TextBoxFor(model => model.MAST_ER_SHORT_DESC, new { @title = "Road Short Name", @readonly = true, @style = "width:17%; display:none" }) <span style="width:1%">&nbsp;</span>                                 
+                                     @Html.TextBoxFor(model => model.MAST_ER_ROAD_NUMBER, new { @maxlength = "6", @tabindex = 2, @title = "Enter the Road Number", @style = "width:23%; display:none", @placeholder = "Enter Road No" })
+                                 }
+                                 else
+                                 {
+                                    @Html.HiddenFor(model => model.MAST_ER_ROAD_NUMBER)
+                                 }*@
+                                 
+                                 @*Changed by SAMMED A. PATIL on 01JAN2018 to allow changing of Road Category on edit for PMGSY1 & 2 unconditionally*@
+                                 <label id="lb_MAST_ER_ROAD_NUMBER">@Model.hdn_MAST_ER_ROAD_NUMBER</label>
+                                 @Html.TextBoxFor(model => model.MAST_ER_SHORT_DESC, new { @title = "Road Short Name", @readonly = true, @style = "width:17%; display:none" }) <span style="width:1%">&nbsp;</span>                                 
+                                 @Html.TextBoxFor(model => model.MAST_ER_ROAD_NUMBER, new { @maxlength = "6", @tabindex = 2, @title = "Enter the Road Number", @style = "width:23%; display:none", @placeholder = "Enter Road No" })
+                             }
+                            @Html.ValidationMessageFor(model => model.MAST_ER_ROAD_NUMBER, "", new { id = "ValRoadNumber" }) 
+                        </td>
+                    </tr>
+
+                    <tr style="text-align:left;">
+                        <td class="editor-label">
+                            @Html.LabelFor(model => model.MAST_ER_ROAD_NAME)
+                                <span style="color:red">*</span>
+                        </td>
+                        <td class="editor-field">
+                            @Html.TextBoxFor(model => model.MAST_ER_ROAD_NAME, new { @maxlength = "200", @tabindex = 3, @title = "Enter Road Name", @placeholder = "Enter Road Name" })    
+                             @Html.ValidationMessageFor(model => model.MAST_ER_ROAD_NAME)                    
+                        </td>
+
+                        <td class="editor-label">
+                            @Html.LabelFor(model => model.MAST_ER_ROAD_OWNER)
+                            <span style="color:red">*</span>
+                        </td>
+                        <td class="editor-field">                    
+                            @Html.DropDownListFor(model => model.MAST_ER_ROAD_OWNER, Model.GovOwners, new { @title = "Select the Owner of the Road", @tabindex = 4 })                            
+                            @Html.ValidationMessageFor(model => model.MAST_ER_ROAD_OWNER)
+
+@*                            @Html.DropDownListFor(model => model.MAST_ER_ROAD_OWNER, new[] { new SelectListItem() { Text = "BRO/GREF", Value = "26" } }, new { @style="display:none",@id="MastErRoadOwnerForBRO"})
+                            @Html.HiddenFor(model=>model.MAST_ER_ROAD_OWNER)*@
+
+
+                        </td>
+
+                    </tr>
+
+                    <tr style="text-align:left;">
+                        <td class="editor-label">
+                            @Html.LabelFor(model => model.MAST_ER_ROAD_TYPE)
+                            <span style="color:red">*</span>
+                        </td>
+                        <td class="editor-field">
+                            
+@*                            @Html.DropDownListFor(model=>model.MAST_ER_ROAD_TYPE,Model.RoadType,new {@title="Select the road type",@tabindex=5})*@
+                            @if (Model.EncryptedRoadCode == null)
+                            {
+                           @Html.RadioButtonFor(model => model.MAST_ER_ROAD_TYPE, "A", new { @id = "radioYes", @title = "All Weather", @tabindex = 5, @checked = "checked" })
+                           <label>All Weather</label>
+                            @Html.RadioButtonFor(model => model.MAST_ER_ROAD_TYPE, "F", new { @id = "radioNo", @title = "Fair Weather", @tabindex = 5 })
+                            <label>Fair Weather</label>
+                            @Html.ValidationMessageFor(model => model.MAST_ER_ROAD_TYPE)
+                            }
+                            else
+                            {
+                                @Html.RadioButtonFor(model => model.MAST_ER_ROAD_TYPE, "A", new { @id = "radioYes", @title = "All Weather", @tabindex = 5 })
+                           <label>All Weather</label>
+                            @Html.RadioButtonFor(model => model.MAST_ER_ROAD_TYPE, "F", new { @id = "radioNo", @title = "Fair Weather", @tabindex = 5 })
+                            <label>Fair Weather</label>
+                            }
+
+
+                        </td>
+                               <td class="editor-label" >
+                                @* @Html.LabelFor(model => model.MAST_CORE_NETWORK)*@
+                                   @if (PMGSYSession.Current.PMGSYScheme == 1)
+                                   {
+                                        @Html.Label("Is Included in Core Network/RCPLWE ?")                                   	
+                                   }
+                                   else
+                                   {
+                                       @Html.Label("Is Included in Candidate Road ?")                                    	                                   
+                                   }
+
+                             <span style="color:red">*</span>
+                        </td>
+                        <td class="editor-field" colspan="3">     
+                        @if (Model.EncryptedRoadCode == null)
+                        {                          
+                           @Html.RadioButtonFor(model => model.MAST_CORE_NETWORK, "Y", new { @id = "radioCNYes", @title = "Yes", @tabindex = 5, @checked = true })@Html.Label("Yes")
+                           @Html.RadioButtonFor(model => model.MAST_CORE_NETWORK, "N", new { @id = "radioCNNo", @title = "No", @tabindex = 5 })@Html.Label("No")                        
+                           @Html.ValidationMessageFor(model => model.MAST_CORE_NETWORK)
+                        }
+                        else
+                        {
+                           @Html.RadioButtonFor(model => model.MAST_CORE_NETWORK, "Y", new { @id = "radioCNYes", @title = "Yes", @tabindex = 5 })@Html.Label("Yes")
+                           @Html.RadioButtonFor(model => model.MAST_CORE_NETWORK, "N", new { @id = "radioCNNo", @title = "No", @tabindex = 5 })@Html.Label("No")                        
+                           @Html.ValidationMessageFor(model => model.MAST_CORE_NETWORK)
+                        }
+                        </td>
+                    </tr>
+
+                    <tr style="text-align:left;">
+                        <td class="editor-label">
+                            @Html.LabelFor(model => model.MAST_TERRAIN_TYPE_CODE)
+                            <span style="color:red">*</span>
+                        </td>
+                        <td class="editor-field">
+                            @Html.DropDownListFor(model => model.MAST_TERRAIN_TYPE_CODE, Model.TerrainTypes, new { @title = "Select the Terrain Type", @tabindex = 6 })
+                            @Html.ValidationMessageFor(model => model.MAST_TERRAIN_TYPE_CODE)
+                        </td>
+
+                          <td class="editor-label">
+                            @Html.LabelFor(model => model.MAST_SOIL_TYPE_CODE)
+                            <span style="color:red">*</span>                           
+                        </td>
+                        <td class="editor-field">
+                            @Html.DropDownListFor(model => model.MAST_SOIL_TYPE_CODE, Model.SoilTypes, new { @title = "Select the Soil Type", @tabindex = 7 })
+                            @Html.ValidationMessageFor(model => model.MAST_SOIL_TYPE_CODE)
+                        </td>
+                      
+
+                    </tr>
+
+                    <tr id="showYear" style="text-align:left;">
+                       @* @Html.HiddenFor(m=>m.isTrafficDetails)*@
+                          <td class="editor-label">
+                            @Html.LabelFor(model => model.MAST_CONS_YEAR)
+                              @if (PMGSYSession.Current.PMGSYScheme != 2)
+                              {
+                           <span style="color:red">*</span>
+                              }
+                        </td>
+                        <td class="editor-field">
+                            
+                            @Html.DropDownListFor(model => model.MAST_CONS_YEAR, Model.RoadConstuctionYears, new { @title = "Select the year in which road was constructed", @tabindex = 9 })                           
+                            @Html.ValidationMessageFor(model => model.MAST_CONS_YEAR, "", new { id = "roadConstructionYear" })
+                            
+                        </td>
+                        <td class="editor-label" >
+                            @Html.LabelFor(model => model.MAST_RENEW_YEAR)
+                            @if (PMGSYSession.Current.PMGSYScheme != 2)
+                            {
+                           <span style="color:red">*</span>
+                            }
+                        </td>
+                        <td class="editor-field">
+                           
+                            @Html.DropDownListFor(model => model.MAST_RENEW_YEAR, Model.RoadPeriodicRenewalYears, new { @title = "Select the year in which road was last renewed", @tabindex = 10 })                           
+                            @Html.ValidationMessageFor(model => model.MAST_RENEW_YEAR, "", new { id = "roadRenewalYear" })
+                           
+                        </td>
+
+                    </tr>
+                  @*  <tr id="hideYear" style="display:none">
+                        <td colspan="4"></td>
+                    </tr>                  *@
+
+
+                    <tr style="text-align:left;">
+                        <td class="editor-label">
+                            @Html.LabelFor(model => model.MAST_ER_ROAD_L_WIDTH) @Html.Label("(In Mtrs)")
+                            <span style="color:red">*</span>
+                        </td>
+                        <td class="editor-field">
+                            @Html.TextBoxFor(model => model.MAST_ER_ROAD_L_WIDTH, new { @maxlength = "8", @tabindex = 11, @title = "Enter the Land Width", @placeholder = "Enter the Land Width" })                              
+                            @Html.ValidationMessageFor(model => model.MAST_ER_ROAD_L_WIDTH, "", new { id = "landWidth" })
+                        </td>
+
+                        <td class="editor-label">
+                            @Html.LabelFor(model => model.MAST_ER_ROAD_F_WIDTH)  @Html.Label("(In Mtrs)")
+                            <span style="color:red">*</span>
+                        </td>
+                        <td class="editor-field">
+                           @Html.TextBoxFor(model => model.MAST_ER_ROAD_F_WIDTH, new { @maxlength = "8", @tabindex = 12, @title = "Enter the Formation Width", @placeholder = "Enter the Formation Width" })    
+                            @Html.ValidationMessageFor(model => model.MAST_ER_ROAD_F_WIDTH, "", new { id = "formationWidth" })
+                        </td>
+                    </tr>
+
+                    <tr style="text-align:left;">
+                        <td class="editor-label">
+                            @Html.LabelFor(model => model.MAST_ER_ROAD_C_WIDTH)  @Html.Label("(In Mtrs)")
+                            <span style="color:red">*</span>
+                        </td>
+                        <td class="editor-field" colspan="3">                           
+                         @Html.TextBoxFor(model => model.MAST_ER_ROAD_C_WIDTH, new { @maxlength = "8", @tabindex = 13, @title = "Enter the Carriageway Width", @placeholder = "Enter the Carriageway Width" })                              
+                            @Html.ValidationMessageFor(model => model.MAST_ER_ROAD_C_WIDTH, "", new { id = "carriagewayWidth" })                                      
+                        </td>
+                    </tr>
+
+                 
+                    <tr style="text-align:left;">
+                        <td class="editor-label">
+                            @Html.LabelFor(model => model.MAST_ER_ROAD_STR_CHAIN) @Html.Label("(In Kms)")
+                            <span style="color:red">*</span>
+                        </td>
+                        <td class="editor-field">      
+                            @Html.HiddenFor(model => Model.isSurfaceCbrDetails)
+                            @if (Model.EncryptedRoadCode == null)
+                            {                                                                                  
+                                @Html.TextBoxFor(model => model.MAST_ER_ROAD_STR_CHAIN, new { @maxlength = "8", @tabindex = 14, @title = "Enter the Start Chainage", @Value = "", @placeholder = "Enter the Start Chainage" })                              
+                                @Html.ValidationMessageFor(model => model.MAST_ER_ROAD_STR_CHAIN, "", new { id = "RoadStartChainage" })
+                            }
+                            else
+                            {
+                                if (Model.isSurfaceCbrDetails == 0)
+                                {        
+                                @Html.TextBoxFor(model => model.MAST_ER_ROAD_STR_CHAIN, new { @maxlength = "8", @tabindex = 14, @title = "Enter the Start Chainage", @placeholder = "Enter the Start Chainage" })                              
+                                @Html.ValidationMessageFor(model => model.MAST_ER_ROAD_STR_CHAIN, "", new { id = "RoadStartChainage" })
+                                }
+                                else
+                                {
+                                         @Html.TextBoxFor(model => model.MAST_ER_ROAD_STR_CHAIN, new { @maxlength = "8", @tabindex = 14, @title = "Enter the Start Chainage", @placeholder = "Enter the Start Chainage", @disabled = "disabled" })                              
+                                }
+                            }
+                        </td>
+                        <td class="editor-label">
+                            @Html.LabelFor(model => model.MAST_ER_ROAD_END_CHAIN) @Html.Label("(In Kms)")
+                            <span style="color:red">*</span>
+                        </td>
+                        <td class="editor-field">                          
+                            
+                           @if (Model.EncryptedRoadCode == null)
+                           {    @Html.TextBoxFor(model => model.MAST_ER_ROAD_END_CHAIN, new { @maxlength = "8", @tabindex = 15, @title = "Enter the End Chainage", @Value = "", @placeholder = "Enter the End Chainage" })                              
+                                @Html.ValidationMessageFor(model => model.MAST_ER_ROAD_END_CHAIN, "", new { id = "RoadEndChainage" })
+                           }
+                           else
+                           {
+                               if (Model.isSurfaceCbrDetails == 0)
+                               { 
+                                        @Html.TextBoxFor(model => model.MAST_ER_ROAD_END_CHAIN, new { @maxlength = "8", @tabindex = 15, @title = "Enter the End Chainage", @placeholder = "Enter the End Chainage" })                              
+                                        @Html.ValidationMessageFor(model => model.MAST_ER_ROAD_END_CHAIN, "", new { id = "RoadEndChainage" })
+                               }
+                               else
+                               {                               
+                                        @Html.TextBoxFor(model => model.MAST_ER_ROAD_END_CHAIN, new { @maxlength = "8", @tabindex = 15, @title = "Enter the End Chainage", @placeholder = "Enter the End Chainage", @disabled = "disabled" })                              
+                               }
+                           }
+                        </td>
+
+                    </tr>
+                    <tr style="display:none"> 
+
+                    </tr>
+                     <tr style="text-align:left;">
+
+                         <td class="editor-field">      
+                              @Html.LabelFor(model => model.MAST_IS_BENEFITTED_HAB)
+                        </td>
+                        <td class="editor-label">
+                            @if (Model.EncryptedRoadCode == null)
+                            {
+                            @Html.RadioButtonFor(model => model.MAST_IS_BENEFITTED_HAB, "Y", new { @id = "radioHabYes", @title = "Select if No Benefitted Habitation", @checked = "checked" })
+                            <label>Yes</label>
+                            @Html.RadioButtonFor(model => model.MAST_IS_BENEFITTED_HAB, "N", new { @id = "radioHabNo", @title = "Select if Benefitted Habitation" })
+                            <label>No</label>
+                            }
+                            else
+                            {
+                                    @Html.RadioButtonFor(model => model.MAST_IS_BENEFITTED_HAB, "Y", new { @id = "radioHabYes", @title = "Select if No Benefitted Habitation" })
+                                    <label>Yes</label>
+                                    @Html.RadioButtonFor(model => model.MAST_IS_BENEFITTED_HAB, "N", new { @id = "radioHabNo", @title = "Select if Benefitted Habitation" })
+                                    <label>No</label>   
+                            }
+                        </td>
+                        <td class="editor-label" id="reasonLabel">
+                            @Html.LabelFor(model => model.MAST_NOHABS_REASON)<label style="color:red">*</label> 
+                        </td>
+                        <td class="editor-field" id="reasonDdl">                          
+                             @Html.DropDownListFor(model => model.MAST_NOHABS_REASON, Model.Reason, new { id = "ddlMastNoHabsReason", @tabindex = 17, @style = "width:60%" }) @*@title="Select Reason",*@
+                             @Html.ValidationMessageFor(model => model.MAST_NOHABS_REASON, "", new { id = "errMastNoHabsReason" })                            
+                        </td>
+                         @*<td id="reasonTD" colspan="2" style="display:none"></td>
+    
+                         <span id="spnTip"></span>*@
+                    </tr>
+
+
+                    <tr style="text-align:left;">
+                        
+                        @if (Model.EncryptedRoadCode == null)
+                        {
+                            
+                        <td colspan="2" style="text-align:right">
+                            <input type="button" value="Save" class="jqueryButton" id="btnCreate" name="btnCreate" title="Save Existing Roads Details" tabindex="18"/>
+                        </td>
+                        <td colspan="2" style="text-align:left">
+                            <input type="reset" value="Reset" class="jqueryButton" id="btnReset" name="btnReset"  title="Reset" tabindex="19"/>
+                        </td>
+                        }
+                        else
+                        {
+                        <td colspan="2" style="text-align:right">
+                            <input type="button" value="Update" class="jqueryButton" id="btnUpdate" name="btnUpdate" title="Update Existing Roads Details" tabindex="18"/>
+                        </td>
+                        <td colspan="2" style="text-align:left">
+                            <input type="reset" value="Cancel" class="jqueryButton" id="btnCancel" name="btnCancel"  title="Cancel" tabindex="19"/>
+                        </td>                   
+                        }
+                    </tr>
+
+            </table>
+     </center>
+
+    </form>
+}
+

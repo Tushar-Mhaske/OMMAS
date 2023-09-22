@@ -1,0 +1,31 @@
+﻿@*
+    * Project Id    :
+    * Project Name  :   OMMAS II
+    * Name          :   STAPaymentDetails.cshtml
+    * Description   :   This View Adds the Test Result Details to Road Proposal
+    * Author        :   Abhishek Kamble       
+    * Creation Date :   19/Sep/2013    
+*@
+<script src="~/Scripts/StaPay/StaPaymentDetail.js"></script>
+<style type="text/css">
+    td {
+        text-align: left;
+    }
+</style>
+
+<center>
+ @Html.Hidden("hdIMS_INVOICE_CODE", ViewData["IMS_INVOICE_CODE"])
+     @Html.Hidden("hdEncryptedIMS_Invoice_Code", ViewData["EncryptedIMS_Invoice_Code"])
+    <div id="divStaPayementAdd"> </div>
+    <div style="margin-top:10px">
+                <div id="divSTAPaymentList">                
+                    <table id="tbSTAPaymentList"></table>
+                    <div id="dvSTAPaymentListPager"></div>
+                </div>
+        </div>
+ 
+</center>
+
+
+
+

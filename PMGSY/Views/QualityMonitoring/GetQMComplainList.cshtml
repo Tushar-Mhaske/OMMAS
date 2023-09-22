@@ -1,0 +1,80 @@
+﻿@model PMGSY.Models.QualityMonitoring.QMComplainFilterViewModel
+<script src="~/Scripts/QualityMonitoring/GetQMComplainList.js"></script>
+
+<div id="divQMComplainFilterForm">
+
+    <form id="frmQMComplainFilter">
+
+        <table style="margin-bottom: 5px; width: 90%">
+
+            <tr style="text-align: right">
+                <td style="width: 25%; font-weight: bold;">
+                    @*@if (Model.RoleCode == 5)
+                                    {*@
+                    @Html.LabelFor(model => model.StateCode)
+                    @Html.DropDownListFor(model => model.StateCode, new SelectList(Model.StateList, "Value", "Text"), new { @id = "ddlState", tabindex = 1 })
+                    @*}
+                                    else
+                                    {
+                                        @Html.HiddenFor(model=>model.StateCode)
+                                    }*@
+                </td>
+                <td style="width: 25%; padding-left: 25px;">
+                    @Html.LabelFor(model => model.FROM_MONTH):
+                        @Html.DropDownListFor(model => model.FROM_MONTH, new SelectList(Model.FROM_MONTHS_LIST, "Value", "Text"), new { @id = "ddlFromMonth", tabindex = 1 })
+                </td>
+
+                <td style="width: 25%; font-weight: bold;">
+                    @Html.LabelFor(model => model.FROM_YEAR):
+                        @Html.DropDownListFor(model => model.FROM_YEAR, new SelectList(Model.FROM_YEARS_LIST, "Value", "Text"), new { @id = "ddlFromYear", tabindex = 1 })
+                </td>
+                <td style="width: 25%; padding-left: 25px; text-align: left;">
+                    @Html.LabelFor(model => model.status)
+                    @Html.DropDownListFor(model => model.status, new SelectList(Model.statusList, "Value", "Text"), new { @id = "ddlStatus", tabindex = 1 })
+                </td>
+
+            </tr>
+            <tr style="text-align: right">
+                <td style="font-weight: bold;">
+                    @Html.LabelFor(model => model.RecievedThroughCode)
+                    @Html.DropDownListFor(model => model.RecievedThroughCode, new SelectList(Model.RecievedThroughList, "Value", "Text"), new { @id = "ddlRecievedThrough", tabindex = 3 })
+                    <br />
+                    @Html.ValidationMessageFor(x => x.RecievedThroughCode)
+                </td>
+                <td style="padding-left: 25px;">
+                    @Html.LabelFor(model => model.TO_MONTH):
+                        @Html.DropDownListFor(model => model.TO_MONTH, new SelectList(Model.TO_MONTHS_LIST, "Value", "Text"), new { @id = "ddlToMonth", tabindex = 1 })
+
+                </td>
+                <td style="font-weight: bold;">
+                    @Html.LabelFor(model => model.TO_YEAR):
+                        @Html.DropDownListFor(model => model.TO_YEAR, new SelectList(Model.TO_YEARS_LIST, "Value", "Text"), new { @id = "ddlToYear", tabindex = 1 })
+                </td>
+                <td style="padding-left: 25px; text-align: left;">
+                    <input type="button" class="jqueryButton" value="View" id="btnView" tabindex="6" name="btnView" />
+                </td>
+            </tr>
+
+
+        </table>
+    </form>
+</div>
+
+
+<div id="dvQMComplainUploadFileAccordion" style="display: none; width: 70%; margin-top: 10px;">
+    <h3 style="text-align: left"><a id="" href="#" style="font-size: .9em;">Upload Complaint Document </a>
+        <a href="#" style="float: right;">
+            <img style="border: none" class="ui-icon ui-icon-closethick" onclick="CloseQMComplainUpload();" /></a>
+    </h3>
+    <div id="dvQMComplainUploadFile" style="display: none;">
+    </div>
+</div>
+@if (Model.RoleCode == 5 || Model.RoleCode == 9)
+{
+    <a href="javascript:void(0);" id="divCreateFormLoad"><b><u>Add Complaint Details</u></b></a>
+}
+<div style="margin-top: 10px; width: 98%; margin-right: 5px;">
+    <table id="tbQMComplainList"></table>
+    <div id="dvtbQMComplainListPager"></div>
+</div>
+

@@ -1,0 +1,54 @@
+﻿@model PMGSY.Models.NQMTourClaimModels.NQM_TOUR_CLAIM_MASTER_MODEL
+
+@{
+    ViewBag.Title = "ViewSummaryDetailsReport";
+}
+
+<link href="~/Content/Chosen/chosen.min.css" rel="stylesheet" />
+<script src="~/Scripts/chosen.jquery.min.js"></script>
+<script src="~/Scripts/custom/Generic.js"></script>
+<script src="~/Scripts/jquery-ui.js"></script>
+
+<script src="~/Scripts/QualityMonitoring/QualityMonitorsLayout.js"></script>
+<script src="~/Scripts/TourClaim/TourDetails.js"></script>
+
+@Html.HiddenFor(model => model.ADMIN_SCHEDULE_CODE, new { id = "sCode" })
+@Html.HiddenFor(model => model.MONTH_OF_INSPECTION)
+@Html.HiddenFor(model => model.YEAR_OF_INSPECTION)
+
+@if (Model.finalizeFlag == 0)
+{
+    <center>
+        <button style="border-radius:0.5rem; padding:0.5rem; border:1px solid black" onclick="FinalizeTourDetails($('#sCode').val() + '$' + $('#MONTH_OF_INSPECTION').val() + '$' + $('#YEAR_OF_INSPECTION').val())">Finalize Details</button>
+        <button style="border-radius:0.5rem; padding:0.5rem; border:1px solid black; width: 5%" onclick="AddAllTourDetails($('#sCode').val())">Back</button>
+    </center>
+}
+
+
+@using MvcReportViewer
+
+@if (Model.finalizeFlag == 5)
+{
+    @Html.MvcReportViewer("/PMGSYCitizen/TOUR_CLAIM_PREVIEW_REPORT",
+    new
+    {
+        tourId = @ViewBag.tourId,
+        monthOfInspection = Model.MONTH_NUMBER,
+        yearOfInspection = Model.YEAR_OF_INSPECTION
+    },
+
+       new { Height = 600, Width = "100%", style = "border:none;" })
+}
+else
+{
+    @Html.MvcReportViewer("/PMGSYCitizen/TOUR_CLAIM_PREVIEW_REPORT_1",
+    new
+    {
+        tourId = @ViewBag.tourId,
+        monthOfInspection = Model.MONTH_NUMBER,
+        yearOfInspection = Model.YEAR_OF_INSPECTION
+    },
+
+       new { Height = 600, Width = "100%", style = "border:none;" })
+}
+

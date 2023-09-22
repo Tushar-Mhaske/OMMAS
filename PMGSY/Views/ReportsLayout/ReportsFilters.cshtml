@@ -1,0 +1,340 @@
+﻿@*
+    * Project Id    :
+    * Project Name  :   OMMAS II
+    * Name          :   ReportsFilters.cshtml
+    * Description   :   Renders Filters for Reports
+    * Author        :   Shyam Yadav
+    * Creation Date :   26/August/2013    
+*@
+
+@model PMGSY.Models.ReportsLayout.ReportsFiltersViewModel
+@{Layout = null;}
+<style>
+    #tabs-report-filters .ui-tabs-nav {
+            margin:-6px 0 0 0;
+            padding:0.1em 0.2em 0;
+        }   
+
+   #tabs-report-filters  .ui-tabs-panel {
+            background: none repeat scroll 0 0 transparent;
+            border-width: 0;
+            display: block;
+            padding: 0 1.4em;
+        }
+
+</style>
+<script src="~/Scripts/jquery.ui.tabs.js"></script>
+<script src="~/Scripts/custom/Generic.js"></script>
+<script src="~/Scripts/ReportsLayout/ReportFilters.js"></script>
+<center>    
+
+        @*<div style="width:100%; height:20px;border:none; margin-top:0px; margin-bottom:2px; " >
+                 
+        </div>*@
+        <div style="width: 100%; border:none; margin-top:5px; margin-bottom:5px;">
+         <table style="margin-bottom:-5px;margin-top:-5px;">
+             <tr>
+                 <td style="width: 99%;">
+                         <div id="divFilterForm" class="ui-corner-all">
+                                <div id="tabs-report-filters" style="margin-right:-5px;">
+                                    <ul>
+                                        <li><a href="#tabs-form-1">Form</a></li>
+                                        <li><a href="#tabs-proposal-2">Proposal</a></li>
+                                        <li><a href="#tabs-quality-3">Quality</a></li>
+                                        <li><a href="#tabs-accounts-4">Accounts</a></li>
+                                    </ul>
+
+
+                                    <!-- Tab1 For Form Reports  Starts Here-->
+                
+                                    <div id="tabs-form-1">
+                                            <center>
+                                                 <form id="formReportsFilterForm">
+                                                    @* Level ---  Mord || National || NRRDA  *@
+                                                    @if (PMGSY.Extensions.PMGSYSession.Current.LevelId == 6 || PMGSY.Extensions.PMGSYSession.Current.LevelId == 3 || PMGSY.Extensions.PMGSYSession.Current.LevelId == 2)
+                                                    {
+                                                        <table style="margin-top:5px; margin-bottom:5px">
+                                                            <tr>
+                                                                <td>
+                                                                    @Html.LabelFor(model => model.MAST_STATE_CODE)
+                                                                </td>
+                                                                <td>                            
+                                                                    @Html.DropDownListFor(model => model.MAST_STATE_CODE, new SelectList(Model.STATES, "Value", "Text"), new { @id = "ddlFormReportsStates" })
+                                                                </td>
+                                                                <td>
+                                                                    @Html.LabelFor(model => model.MAST_DISTRICT_CODE)
+                                                                </td>
+                                                                <td>                            
+                                                                    @Html.DropDownListFor(model => model.MAST_DISTRICT_CODE, new SelectList(Model.DISTRICTS, "Value", "Text"), new { @id = "ddlFormReportsDistricts" })
+                                                                </td>
+                                                                <td>
+                                                                    @Html.LabelFor(model => model.MAST_BLOCK_CODE)
+                                                                </td>
+                                                                <td>                            
+                                                                    @Html.DropDownListFor(model => model.MAST_BLOCK_CODE, new SelectList(Model.BLOCKS, "Value", "Text"), new { @id = "ddlFormReportsBlocks" })
+                                                                </td>
+                                                                <td style="padding-left:10px;">
+                                                                    <input type="button" class="jqueryButton" value="View Details" id="btnViewReportDetails" name ="btnViewReportDetails"/>
+                                                                </td>
+                                                            </tr>
+                                                        </table>
+                                                    }
+                                                    else if (PMGSY.Extensions.PMGSYSession.Current.LevelId == 4)        // State
+                                                    {
+                                                        <table style="margin-top:5px; margin-bottom:5px">
+                                                            <tr>
+                                                                <td>
+                                                                    @Html.LabelFor(model => model.MAST_DISTRICT_CODE)
+                                                                </td>
+                                                                <td>                            
+                                                                    @Html.DropDownListFor(model => model.MAST_DISTRICT_CODE, new SelectList(Model.DISTRICTS, "Value", "Text"), new { @id = "ddlFormReportsDistricts" })
+                                                                </td>
+                                                                <td>
+                                                                    @Html.LabelFor(model => model.MAST_BLOCK_CODE)
+                                                                </td>
+                                                                <td>                            
+                                                                    @Html.DropDownListFor(model => model.MAST_BLOCK_CODE, new SelectList(Model.BLOCKS, "Value", "Text"), new { @id = "ddlFormReportsBlocks" })
+                                                                </td>
+                                                                <td style="padding-left:10px;">
+                                                                    <input type="button" class="jqueryButton" value="View Details" id="btnViewReportDetails" name ="btnViewReportDetails"/>
+                                                                </td>
+                                                            </tr>
+                                                        </table>
+                                                    }
+                                                    else if (PMGSY.Extensions.PMGSYSession.Current.LevelId == 5)        // District
+                                                    {
+                                                        <table style="margin-top:5px; margin-bottom:5px">
+                                                            <tr>
+                                                                <td>
+                                                                    @Html.LabelFor(model => model.MAST_BLOCK_CODE)
+                                                                </td>
+                                                                <td>                            
+                                                                    @Html.DropDownListFor(model => model.MAST_BLOCK_CODE, new SelectList(Model.BLOCKS, "Value", "Text"), new { @id = "ddlFormReportsBlocks" })
+                                                                </td>
+                                                                <td style="padding-left:10px;">
+                                                                    <input type="button" class="jqueryButton" value="View Details" id="btnViewReportDetails" name ="btnViewReportDetails"/>
+                                                                </td>
+                                                            </tr>
+                                                        </table>
+                                                    }
+
+                                            </form>
+                                            </center>
+                                    </div>
+
+                                    <!-- Tab1 For Form Reports Ends Here -->
+
+
+
+                                    <!-- Tab2 For Proposal Reports  Starts Here-->
+                
+                                    <div id="tabs-proposal-2">
+                                        <center>
+                                                    <form id="proposalReportsFilterForm">
+                                                        @* Level ---  Mord || National || NRRDA  *@
+                                                        @if (PMGSY.Extensions.PMGSYSession.Current.LevelId == 6 || PMGSY.Extensions.PMGSYSession.Current.LevelId == 3 || PMGSY.Extensions.PMGSYSession.Current.LevelId == 2)
+                                                        {
+                                                                <table style="margin-top:5px; margin-bottom:5px">
+                                                                    <tr>
+                                                                        <td>
+                                                                            @Html.LabelFor(model => model.MAST_STATE_CODE)
+                                                                        </td>
+                                                                        <td>                            
+                                                                            @Html.DropDownListFor(model => model.MAST_STATE_CODE, new SelectList(Model.STATES, "Value", "Text"), new { @id = "ddlProposalStates" })
+                                                                        </td>
+                                                                        <td>
+                                                                            @Html.LabelFor(model => model.MAST_DISTRICT_CODE)
+                                                                        </td>
+                                                                        <td>                            
+                                                                            @Html.DropDownListFor(model => model.MAST_DISTRICT_CODE, new SelectList(Model.DISTRICTS, "Value", "Text"), new { @id = "ddlProposalDistricts" })
+                                                                        </td>
+                                                                        <td>
+                                                                            @Html.LabelFor(model => model.MAST_BLOCK_CODE)
+                                                                        </td>
+                                                                        <td>
+                                                                            @Html.DropDownListFor(model => model.MAST_BLOCK_CODE, new SelectList(Model.BLOCKS, "Value", "Text"), new { @id = "ddlProposalBlocks"  })
+                                                                        </td> 
+                                                                        <td>
+                                                                            @Html.LabelFor(model => model.YEAR)
+                                                                        </td>
+                                                                        <td>                            
+                                                                            @Html.DropDownListFor(model => model.YEAR, new SelectList(Model.Years, "Value", "Text"), new { @id = "ddlProposalYears" })
+                                                                        </td>
+                                                                        <td rowspan="2" style="padding-left:10px;">
+                                                                            <input type="button" class="jqueryButton" value="View Details" id="btnViewReportDetails" name ="btnViewReportDetails"/>
+                                                                        </td>
+                                                                    </tr> 
+                                                                    <tr>
+                                                                        <td>
+                                                                            @Html.LabelFor(model => model.MONTH)
+                                                                        </td>
+                                                                        <td>                            
+                                                                            @Html.DropDownListFor(model => model.MONTH, new SelectList(Model.Months, "Value", "Text"), new { @id = "ddlProposalMonths" })
+                                                                        </td>
+                                                                        <td>
+                                                                            @Html.LabelFor(model => model.IMS_BATCH)
+                                                                        </td>
+                                                                        <td>
+                                                                            @Html.DropDownListFor(model => model.IMS_BATCH, new SelectList(Model.BATCHS, "Value", "Text"), new { @id = "ddlProposalBatch" })
+                                                                        </td>
+                                                                        <td>
+                                                                            @Html.LabelFor(model => model.IMS_COLLABORATION)
+                                                                        </td>
+                                                                        <td>
+                                                                            @Html.DropDownListFor(model => model.IMS_COLLABORATION, new SelectList(Model.COLLABORATIONS, "Value", "Text"), new { @id = "ddlProposalStreams" })
+                                                                        </td>
+                                                                        <td>
+                                                                            @Html.LabelFor(model => model.IMS_PROPOSAL_TYPE)
+                                                                        </td>
+                                                                        <td>
+                                                                            @Html.DropDownListFor(model => model.IMS_PROPOSAL_TYPE, new SelectList(Model.PROPOSAL_TYPES, "Value", "Text"), new { @id = "ddlProposalTypes" })
+                                                                        </td>
+                                                                    </tr>                           
+                                                                </table>
+                                                        }
+                                                        else if (PMGSY.Extensions.PMGSYSession.Current.LevelId == 4)        // State
+                                                        {
+                                                                <table style="margin-top:5px; margin-bottom:5px">
+                                                                    <tr>
+                                                                        <td>
+                                                                            @Html.LabelFor(model => model.MAST_DISTRICT_CODE)
+                                                                        </td>
+                                                                        <td>                            
+                                                                            @Html.DropDownListFor(model => model.MAST_DISTRICT_CODE, new SelectList(Model.Years, "Value", "Text"), new { @id = "ddlProposalDistricts" })
+                                                                        </td>
+                                                                        <td>
+                                                                            @Html.LabelFor(model => model.MAST_BLOCK_CODE)
+                                                                        </td>
+                                                                        <td>
+                                                                            @Html.DropDownListFor(model => model.MAST_BLOCK_CODE, new SelectList(Model.BLOCKS, "Value", "Text"), new { @id = "ddlProposalBlocks" })
+                                                                        </td> 
+                                                                        <td>
+                                                                            @Html.LabelFor(model => model.YEAR)
+                                                                        </td>
+                                                                        <td>                            
+                                                                            @Html.DropDownListFor(model => model.YEAR, new SelectList(Model.Years, "Value", "Text"), new { @id = "ddlProposalYears" })
+                                                                        </td>
+                                                                        <td>
+                                                                            @Html.LabelFor(model => model.MONTH)
+                                                                        </td>
+                                                                        <td>                            
+                                                                            @Html.DropDownListFor(model => model.MONTH, new SelectList(Model.Months, "Value", "Text"), new { @id = "ddlProposalMonths" })
+                                                                        </td>
+                                                                        <td rowspan="2" style="padding-left:10px;">
+                                                                            <input type="button" class="jqueryButton" value="View Details" id="btnViewReportDetails" name ="btnViewReportDetails"/>
+                                                                        </td>
+                                                                    </tr> 
+                                                                    <tr>
+                                                                        <td>
+                                                                            @Html.LabelFor(model => model.IMS_BATCH)
+                                                                        </td>
+                                                                        <td>
+                                                                            @Html.DropDownListFor(model => model.IMS_BATCH, new SelectList(Model.BATCHS, "Value", "Text"), new { @id = "ddlProposalBatch" })
+                                                                        </td>
+                                                                        <td>
+                                                                            @Html.LabelFor(model => model.IMS_COLLABORATION)
+                                                                        </td>
+                                                                        <td>
+                                                                            @Html.DropDownListFor(model => model.IMS_COLLABORATION, new SelectList(Model.COLLABORATIONS, "Value", "Text"), new { @id = "ddlProposalStreams" })
+                                                                        </td>
+                                                                        <td>
+                                                                            @Html.LabelFor(model => model.IMS_PROPOSAL_TYPE)
+                                                                        </td>
+                                                                        <td>
+                                                                            @Html.DropDownListFor(model => model.IMS_PROPOSAL_TYPE, new SelectList(Model.PROPOSAL_TYPES, "Value", "Text"), new { @id = "ddlProposalTypes" })
+                                                                        </td>
+                                                                    </tr>                           
+                                                                </table>
+                                                        }
+                                                        else if (PMGSY.Extensions.PMGSYSession.Current.LevelId == 5)        // District
+                                                        {
+                                                                <table style="margin-top:5px; margin-bottom:5px">
+                                                                    <tr>
+                                                                        <td>
+                                                                            @Html.LabelFor(model => model.MAST_BLOCK_CODE)
+                                                                        </td>
+                                                                        <td>
+                                                                            @Html.DropDownListFor(model => model.MAST_BLOCK_CODE, new SelectList(Model.BLOCKS, "Value", "Text"), new { @id = "ddlProposalBlocks" })
+                                                                        </td> 
+                                                                        <td>
+                                                                            @Html.LabelFor(model => model.YEAR)
+                                                                        </td>
+                                                                        <td>                            
+                                                                            @Html.DropDownListFor(model => model.YEAR, new SelectList(Model.Years, "Value", "Text"), new { @id = "ddlProposalYears" })
+                                                                        </td>
+                                                                        <td>
+                                                                            @Html.LabelFor(model => model.MONTH)
+                                                                        </td>
+                                                                        <td>                            
+                                                                            @Html.DropDownListFor(model => model.MONTH, new SelectList(Model.Months, "Value", "Text"), new { @id = "ddlProposalMonths" })
+                                                                        </td>
+                                                                        <td rowspan="2" style="padding-left:10px;">
+                                                                            <input type="button" class="jqueryButton" value="View Details" id="btnViewReportDetails" name ="btnViewReportDetails"/>
+                                                                        </td>
+                                                                    </tr> 
+                                                                    <tr>
+                                                                        <td>
+                                                                            @Html.LabelFor(model => model.IMS_BATCH)
+                                                                        </td>
+                                                                        <td>
+                                                                            @Html.DropDownListFor(model => model.IMS_BATCH, new SelectList(Model.BATCHS, "Value", "Text"), new { @id = "ddlBatch" })
+                                                                        </td>
+                                                                        <td>
+                                                                            @Html.LabelFor(model => model.IMS_COLLABORATION)
+                                                                        </td>
+                                                                        <td>
+                                                                            @Html.DropDownListFor(model => model.IMS_COLLABORATION, new SelectList(Model.COLLABORATIONS, "Value", "Text"), new { @id = "ddlStreams" })
+                                                                        </td>
+                                                                        <td>
+                                                                            @Html.LabelFor(model => model.IMS_PROPOSAL_TYPE)
+                                                                        </td>
+                                                                        <td>
+                                                                            @Html.DropDownListFor(model => model.IMS_PROPOSAL_TYPE, new SelectList(Model.PROPOSAL_TYPES, "Value", "Text"), new { @id = "ddlProposalTypes" })
+                                                                        </td>
+                                                                    </tr>                           
+                                                                </table>
+                                                        }
+                                                </form>
+                                        </center>
+                                    </div>
+
+                                    <!-- Tab2 For Proposal Reports Ends Here -->
+
+
+
+                                    <!-- Tab3 For Accounts Reports  Starts Here-->
+                
+                                    <div id="tabs-quality-3">
+                                        <center>
+                                            Load Quality Filters here
+                                        </center>
+                                    </div>
+
+                                    <!-- Tab3 For Accounts Reports Ends Here -->
+
+
+
+                                    <!-- Tab4 For Quality Reports  Starts Here-->
+                
+                                    <div id="tabs-accounts-4">
+                                        <center>
+                                            Load Accounts Filters here
+                                        </center>
+                                    </div>
+
+                                    <!-- Tab4 For Quality Reports Ends Here -->
+
+                                </div>
+                        </div>
+                 </td>
+                 <td style="width:1%;margin-left:-15px;">
+                        <span style="float:right;font-size:25px;" id="idFilterDiv" title="Click here to Hide/Show Filters"  class="ui-icon ui-icon-carat-1-e"></span>
+                 </td>
+             </tr>
+         </table>         
+       
+        
+        
+</div>
+       
+</center>

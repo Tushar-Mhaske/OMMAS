@@ -1,0 +1,92 @@
+﻿@{
+    ViewBag.Title = "VillageDetails";
+}
+@model PMGSY.Models.MasterReports.MasterReportsModel
+
+@Html.Hidden("hdnLevelId", PMGSY.Extensions.PMGSYSession.Current.LevelId.ToString())
+
+@if (PMGSY.Extensions.PMGSYSession.Current.StateCode != 0)
+{           
+    @Html.Hidden("STATE_NAME", PMGSY.Extensions.PMGSYSession.Current.StateName.ToString())
+}
+
+@if (PMGSY.Extensions.PMGSYSession.Current.DistrictCode != 0)
+{
+    @Html.Hidden("DISTRICT_NAME", PMGSY.Extensions.PMGSYSession.Current.DistrictName.ToString())   
+}
+
+@Html.HiddenFor(model => model.BLOCK_NAME)
+@Html.HiddenFor(model => model.MAST_STATE_CODE)
+@Html.HiddenFor(model => model.MAST_DISTRICT_CODE)
+<script type="text/javascript" src="~/Scripts/MasterReports/VillageDetails.js"></script>
+<script src="~/Scripts/custom/Generic.js"></script>
+<div style="width: 100%">
+    <table class="ui-state-default ui-corner-all" style="width: 100%;">
+        <tr>
+            <td style="width: 2%;"></td>
+            <td style="text-align: left; width: 5%;">
+                @Html.Label("State")
+            </td>
+            <td style="width: 15%;">
+                @Html.DropDownList("StateList_VillageDetails", ViewData["STATE"] as IEnumerable<SelectListItem>, new { @title = "State", @tabindex = 1 })
+            </td>
+            <td style="text-align: left; width: 7%;">
+                @Html.Label("District")
+            </td>
+            <td style="width: 15%;">
+                @Html.DropDownList("DistrictList_VillageDetails", ViewData["DISTRICT"] as IEnumerable<SelectListItem>, new { @title = "District", @tabindex = 2 })
+            </td>
+            <td style="text-align: left; width: 5%;">
+                @Html.Label("Block")
+            </td>
+            <td style="width: 15%;">
+                @Html.DropDownList("BlockList_VillageDetails", ViewData["BLOCK"] as IEnumerable<SelectListItem>, new { @title = "Block", @tabindex = 3 })
+            </td>
+            <td style="width: 15%;"></td>
+        </tr>
+        <tr>
+            <td style="width: 2%;"></td>
+            <td style="text-align: left; width: 5%;">
+                @Html.Label("Is Schedule5")
+            </td>
+            <td style="width: 15%;">
+                @Html.DropDownList("IS_SCHEDULE5_VillageDetails", ViewData["IS_SCHEDULE5"] as IEnumerable<SelectListItem>, new { @title = "Is Schedule5", @tabindex = 4 })
+            </td>
+            <td style="text-align: left; width: 7%;">
+                @Html.Label("Census Year")
+            </td>
+            <td style="width: 15%;">
+                @Html.DropDownList("CENSUS_YEAR_VillageDetails", ViewData["CENSUS_YEAR"] as IEnumerable<SelectListItem>, new { @title = "Census Year", @tabindex = 5 })
+            </td>
+            <td style="text-align: left; width: 5%;">
+                @Html.Label("Active")
+            </td>
+            <td style="width: 15%;">
+                @Html.DropDownList("ActiveType_VillageDetails", ViewData["Active_TYPE"] as IEnumerable<SelectListItem>, new { @title = "Active", @tabindex = 6 })
+            </td>
+            <td style="text-align: left; width: 15%; margin-left: 5px;">
+                <input type="button" id="VillageDetailsButton" value="View" class="jqueryButton" title="View Details" tabindex="7" />
+            </td>
+            
+        </tr>
+    </table>
+</div>
+<br />
+@*@Html.Label("State") &nbsp; @Html.DropDownList("StateList_VillageDetails", ViewData["STATE"] as IEnumerable<SelectListItem>)      
+@Html.Label("District") &nbsp; @Html.DropDownList("DistrictList_VillageDetails", ViewData["DISTRICT"] as IEnumerable<SelectListItem>)     
+@Html.Label("Block") &nbsp; @Html.DropDownList("BlockList_VillageDetails",ViewData["BLOCK"] as IEnumerable<SelectListItem>) 
+<br />
+<br />
+@Html.Label("Is Schedule5") &nbsp; @Html.DropDownList("IS_SCHEDULE5_VillageDetails", ViewData["IS_SCHEDULE5"] as IEnumerable<SelectListItem>)
+@Html.Label("Census Year") &nbsp; @Html.DropDownList("CENSUS_YEAR_VillageDetails", ViewData["CENSUS_YEAR"] as IEnumerable<SelectListItem>)
+<br />
+<button id="VillageDetailsButton">View</button>
+
+<br />
+<br />*@
+<div id="VillageDetails">
+    <table id="VillageDetailsTable"></table>
+</div>
+<div id="VillageDetailsPager"></div>
+
+

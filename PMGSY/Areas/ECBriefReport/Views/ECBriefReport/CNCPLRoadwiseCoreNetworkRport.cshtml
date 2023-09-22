@@ -1,0 +1,15 @@
+﻿@using MvcReportViewer
+
+@model PMGSY.Areas.ECBriefReport.Models.FAPhaseProfileReportViewModel
+@Html.MvcReportViewer("/PMGSYCitizen/USP_CNCPL_Level_Report",
+     new
+     {   State = Model.StateCode,
+         District = Model.DistrictCode,
+         Block = Model.BlockCode,
+         Route="%",
+         PMGSY = PMGSY.Extensions.PMGSYSession.Current.PMGSYScheme,
+       //  StateName = Model.StateName,
+        // DistrictName = Model.DistName,
+        // BlockName = Model.BlockName,
+      },
+       new { Height = 600, Width = 1215, style = "border:none;" })

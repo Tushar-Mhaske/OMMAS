@@ -1,0 +1,14 @@
+﻿@using MvcReportViewer
+
+@model PMGSY.Areas.Feedback.Models.FeedbackModel
+ @Html.MvcReportViewer("/PMGSYCitizen/LengthCleared1",
+     new
+     {
+         
+         STATE=0,
+         Month=Model.Month,
+         Year=Model.Year
+         
+                
+     },
+       new { Height = 600, Width = "100%", style = "border:none;" })

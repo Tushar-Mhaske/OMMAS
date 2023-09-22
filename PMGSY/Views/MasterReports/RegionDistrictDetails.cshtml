@@ -1,0 +1,65 @@
+﻿@{
+    ViewBag.Title = "_RegionDistrictDetails";
+}
+@model PMGSY.Models.MasterReports.MasterReportsModel
+
+@Html.Hidden("hdnLevelId", PMGSY.Extensions.PMGSYSession.Current.LevelId.ToString())
+
+@if (PMGSY.Extensions.PMGSYSession.Current.StateCode != 0)
+{           
+    @Html.Hidden("STATE_NAME", PMGSY.Extensions.PMGSYSession.Current.StateName.ToString())
+}
+
+@if (PMGSY.Extensions.PMGSYSession.Current.DistrictCode != 0)
+{
+    @Html.Hidden("DISTRICT_NAME", PMGSY.Extensions.PMGSYSession.Current.DistrictName.ToString())   
+}
+
+
+@Html.HiddenFor(model => model.BLOCK_NAME)
+@Html.HiddenFor(model => model.MAST_STATE_CODE)
+@Html.HiddenFor(model => model.MAST_DISTRICT_CODE)
+<div style="width: 100%">
+    <table class="ui-state-default ui-corner-all" style="width: 100%;">
+        <tr>
+            <td style="width: 2%;"></td>
+            <td style="text-align: left; width: 5%;">
+                @Html.Label("State")
+            </td>
+            <td style="width: 15%;">
+                @Html.DropDownList("StateList_RegionDistrictDetails", ViewData["STATE"] as IEnumerable<SelectListItem>, new { @title = "State", @tabindex = 1 })
+            </td>
+            <td style="text-align: left; width: 5%;">
+                @Html.Label("Region")
+            </td>
+            <td style="width: 15%;">
+                @Html.DropDownList("RegionList_RegionDistrictDetails", ViewData["REGION"] as IEnumerable<SelectListItem>, new { @title = "Region", @tabindex = 2 })
+            </td>
+            <td style="text-align: left; width: 5%;">
+                @Html.Label("Active")
+            </td>
+            <td style="width: 15%;">
+                @Html.DropDownList("ActiveType_RegionDistrictDetails", ViewData["Active_TYPE"] as IEnumerable<SelectListItem>, new { @title = "Active", @tabindex = 3 })
+            </td>
+            <td style="text-align: center; width: 5%; margin-left: 5px;">
+                <input type="button" id="RegionDistrictDetailsButton" value="View" class="jqueryButton" title="View Details" tabindex="4" />
+            </td>
+            <td style="width: 20%;"></td>
+        </tr>
+
+    </table>
+</div>
+<br />
+@*@Html.Label("State") &nbsp; @Html.DropDownList("StateList_RegionDistrictDetails", ViewData["STATE"] as IEnumerable<SelectListItem>)
+@Html.Label("Region") &nbsp; @Html.DropDownList("RegionList_RegionDistrictDetails", ViewData["REGION"] as IEnumerable<SelectListItem>)
+<br />
+<button id="RegionDistrictDetailsButton">View</button>
+<br />
+<br />*@
+<div id="RegionDistrictDetails">
+    <table id="RegionDistrictDetailsTable"></table>
+</div>
+<div id="RegionDistrictDetailsPager"></div>
+
+<script src="~/Scripts/MasterReports/RegionDistrictDetails.js" type="text/javascript"></script>
+<script src="~/Scripts/custom/Generic.js"></script>

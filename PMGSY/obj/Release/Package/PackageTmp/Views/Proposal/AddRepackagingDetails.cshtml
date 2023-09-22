@@ -1,0 +1,85 @@
+﻿@*
+    * Project Id    :
+    * Project Name  :   OMMAS II
+    * Name          :   AddRepackagingDetails.cshtml
+    * Description   :   This View Adds the Repackaging Details 
+    * Author        :   Vikram Nandanwar
+    * Creation Date :   10/07/2014
+*@
+
+@model PMGSY.Models.Proposal.RepackagingDetailsViewModel
+
+
+<script src="~/Scripts/custom/Generic.js"></script>
+<script src="~/Scripts/Proposal/AddRepackagingDetails.js"></script>
+
+<form id="frmAddRepakagingDetails">
+    <div style="margin-left: 100px">
+        @Html.AntiForgeryToken()
+        @Html.ValidationSummary(true)
+    </div>
+    <div id="divError" class="ui-state-error ui-corner-all" style="text-align: left; display: none; width: 100%">
+        <span class="ui-icon ui-icon-alert" style="float: left;"></span>
+        <span></span>
+    </div>
+    <div style="height: 20px; width: 100%; text-align: left; padding-top: 0.6em;" class="ui-state-default ui-corner-all">
+        &nbsp; <strong>Note :</strong>  Fields marked with * are mandatory.
+    </div>
+    <table id="tb" cellpadding="3px" class="rowstyle" style="margin-top: 10px; text-align: left; border: ridge 0.1em #ccc; width: 100%; padding-top: 5px 5px 5px 5px;">
+        <tr></tr>
+        <tr>
+            <td style="width: 10%">
+                @Html.HiddenFor(model => model.ShortStateCode)
+            </td>
+            <td style="width: 10%;">
+                @Html.RadioButtonFor(model => model.NewOldPackage, "Y", new { @id = "rdoNewPackage", @name = "rdoNewPackage", @checked = "checked" }) New Package                                         
+            </td>
+            <td style="width: 20%;">
+                @Html.RadioButtonFor(model => model.NewOldPackage, "N", new { @id = "rdoOldPackage", @name = "rdoNewPackage" }) Existing Package
+            </td>
+            <td></td>
+            <td></td>
+        </tr>
+        <tr>
+            <td style="width: 10%">
+                @Html.HiddenFor(model => model.EncProposalCode)
+            </td>
+            <td style="width: 10%;">
+                @Html.LabelFor(model => model.OLD_PACKAGE_ID)<label style="color: red">*</label>
+            </td>
+            <td style="width: 20%;">
+                @Html.DisplayFor(model => model.OLD_PACKAGE_ID)
+                @Html.HiddenFor(model => model.OLD_PACKAGE_ID)
+            </td>
+
+            <td class="tdExistingPackage" style="width: 10%;">
+                @Html.Label("Year")<label style="color: red">*</label>
+            </td>
+            <td class="tdExistingPackage" style="width: 20%;">
+                @Html.DropDownListFor(model => model.Year, Model.lstYear, new { @id = "ddlYear", @placeholder = "Select New Package...", @title = "Select New Package" })
+                @Html.ValidationMessageFor(model => model.NEW_PACKAGE_ID)
+            </td>
+
+            <td style="width: 10%;">
+                @Html.LabelFor(model => model.NEW_PACKAGE_ID)<label style="color: red">*</label>
+            </td>
+            <td id="tdNewPackage" style="width: 30%;">
+                <!--length changed by pradip patil 10=>15-->
+                @Html.DisplayFor(model => model.ShortStateCode) @Html.TextBoxFor(model => model.NEW_PACKAGE_ID, new { @id = "txtNewPackage", @placeholder = "Enter New Package...", @title = "Enter New Package", @maxlength = 11 })
+                @Html.ValidationMessageFor(model => model.NEW_PACKAGE_ID)
+            </td>
+            <td class="tdExistingPackage" style="width: 30%; display: none">
+                @Html.DropDownListFor(model => model.ExistingPackage, Model.lstPackages, new { @id = "ddlNewPackage", @placeholder = "Select New Package...", @title = "Select New Package" })
+                @Html.ValidationMessageFor(model => model.ExistingPackage)
+            </td>
+        </tr>
+        <tr>
+            <td colspan="7">
+                <center>
+                <input type="button" id="btnSave" name="btnSave" value="Save" class= "jqueryButton" title="Save Repackaging Details" tabindex="3"  />  
+                <input type="reset" id="btnReset" name="btnReset" value="Reset" class= "jqueryButton" title="Reset" tabindex="7"  />
+                </center>
+            </td>
+        </tr>
+    </table>
+</form>

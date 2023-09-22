@@ -1,0 +1,27 @@
+﻿@using MvcReportViewer
+@model PMGSY.Areas.AccountReports.Models.CheckBookDetailsViewFilterModel
+
+@{ PMGSY.Models.Report.ReportFilter objParam = new PMGSY.Models.Report.ReportFilter();}
+
+@Html.MvcReportViewer("/PMGSYCitizen/Acc_Cheque_Issued_Report",
+     new
+     {
+         PrmFundType = Model.FundType,
+         PrmAdminNdCode = Model.AdminNdCode,
+         PrmMonth = Model.Month,
+         PrmYear = Model.Year,
+         Prmflag = Model.CheckbookMonthYearWise,
+         PrmCBID = Model.CheckbookSeries,
+         PrmSrrdaCode = Model.SRRDANdCode,
+         ReportHeading = Model.ReportName,
+         Reference = Model.ReportParagraphName,
+         SRRDAName = Model.NodalAgencyName,
+         DPIU = Model.PIUName,
+         BankName = Model.BankName,
+         Selection = Model.MonthlyOrChequebookWiseSelection,
+         Year = Model.YearName,
+         StateName = Model.StateName,
+         FormName = Model.ReportFormNumber,
+         IsSRRDADPIU=Model.IsSRRDA_DPIU
+     },
+     new { Height = 600, Width = "100%", style = "border:none;" })

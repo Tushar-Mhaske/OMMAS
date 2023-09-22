@@ -1,0 +1,26 @@
+﻿@using MvcReportViewer
+@model PMGSY.Areas.AccountReports.Models.PfmsMisPaymentModel
+
+@Html.MvcReportViewer("/PMGSYCitizen/PFMS_MIS_PaymentReport",
+     new
+     {
+
+         SrrdaCode = Model.AdminNdCode,
+         DpiuCode = Model.DPIU,
+         FundType = Model.FundType,
+         Duration = Model.rType,
+         Month = Model.Month,
+         Year = Model.Year,
+         startdate = Model.StartDate,
+         Endate = Model.EndDate,
+         //NodalAgency = Model.NodalAgency,
+         Dpiuname = Model.DPIUName,
+         DPIU = Model.DPIUName,
+         StateName = Model.StateName,
+         Selection = Model.Selection,
+         //Level = Model.levelId,
+         YearName = Model.YearName
+     },
+     new { Height = 600, Width = "100%", style = "border:none;" })
+
+

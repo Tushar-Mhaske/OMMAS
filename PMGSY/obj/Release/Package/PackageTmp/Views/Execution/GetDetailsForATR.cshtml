@@ -1,0 +1,409 @@
+﻿@model PMGSY.Models.Execution.RSAInspectionDetails
+
+
+<script src="~/Scripts/jquery.ui.tabs.js"></script>
+<script src="~/Scripts/custom/Generic.js"></script>
+<script src="~/Scripts/jquery.ui.accordion.js"></script>
+<script src="~/Scripts/jquery.ui.datepicker.js"></script>
+
+<script src="~/Scripts/Execution/RSATRAuditor.js"></script>
+
+
+
+<form id="frmRoadSafetyLayout1">
+     @Html.AntiForgeryToken()
+    @Html.HiddenFor(model=>model.Sanction_length)
+@Html.HiddenFor(model => model.IMS_PR_ROAD_CODE, new { @id="proposalCode"})
+@Html.HiddenFor(model => model.EXEC_PROGRESS_TYPE, new { @id="progressType"})
+@Html.HiddenFor(model=>model.EXEC_RSA_CODE)
+@Html.HiddenFor(model => model.encryptedURL, new {  @id="encryptedURLID"})
+@*    @Html.HiddenFor(model=>model.IMS_PR_ROAD_CODE)*@
+
+<div style="height:auto; width: 99%; text-align:left; padding-top: 0.6em;"> 
+
+    <table class="rowstyle ui-corner-all" style="width:100%; border:solid black 1px;">
+        <tr>
+            <td style="width:5%"></td>
+            <td style="width:12%;font-weight:bold">
+                Block 
+            </td>
+            <td style="width:15%">
+                @Model.BlockName
+            </td>
+            <td style="width:12%;font-weight:bold">
+                Package No.
+            </td>
+            <td style="width:15%">
+                @Model.Package
+            </td>
+        </tr>
+        <tr>
+            <td></td>
+            <td style="font-weight:bold">
+                Road Name:
+            </td>
+            <td>
+                @Model.RoadName
+            </td>
+            <td style="font-weight:bold">
+                Agreement Date
+            </td>
+            <td>
+                @Model.AgreementDate
+            </td>
+        </tr>
+        <tr>
+            <td></td>
+            <td style="font-weight:bold">
+                Overall Cost(Rs. in Lakh):
+            </td>
+            <td>
+                @Model.AgreementCost@*<label id="lblView" onclick="ViewDetails()" style="color:blue;cursor:pointer">  (View Details)</label>*@
+            </td>
+            <td style="font-weight:bold">
+                Sanction Length(in Km)
+            </td>
+            <td>
+                @Model.Sanction_length
+            </td>
+        </tr>
+
+           
+             <tr>
+                <td></td>
+                <td style="font-weight: bold;color:green">
+                    <b>RSA Stage:</b> 
+                </td>
+                <td  style="font-weight: bold;color:green">
+                   @Html.DisplayFor(model=>model.RoadStatus) 
+                </td>
+                <td style="font-weight: bold;color:green">
+                   <b>Inspection Date</b> 
+                </td>
+                <td  style="font-weight: bold;color:green">
+           @Html.DisplayFor(model=>model.InspectionDate) 
+                </td>
+            </tr>
+              
+           
+             <tr>
+                <td></td>
+                <td style="font-weight: bold;color:green">
+                    <b>Forwarded To PIU :</b> 
+                </td>
+                <td  style="font-weight: bold;color:green">
+                   @Html.DisplayFor(model=>model.IsFinalizedByAuditor) 
+                </td>
+                <td style="font-weight: bold">
+                   <b></b> 
+                </td>
+                <td>
+         
+                </td>
+            </tr>
+
+
+         <tr>
+                <td></td>
+                <td style="font-weight: bold;color:green">
+                    <b>Total Entered Chainage Length :</b> 
+                </td>
+                <td  style="font-weight: bold;color:green">
+                   @Html.DisplayFor(model=>model.TotalSegmentEntered)<b> Kms </b> 
+                </td>
+                @*<td style="font-weight: bold;color:green">
+                   <b>Remaining Length</b> 
+                </td>
+                <td  style="font-weight: bold;color:green">
+              @Html.DisplayFor(model=>model.RemainingSegmentLength) <b> Kms </b> 
+                </td>*@
+            </tr>
+    </table>
+
+</div>
+<br />
+
+
+
+    <div id="divHabitationDetails" style="width: 99%">
+        <table style="width: 99%">
+            @if (Model.IsFinalizedByAuditor.Equals("Yes"))
+            { 
+            }
+            else
+            {
+            if(Model.RoadStatus.Equals("NA"))
+            {
+            <tr>
+                <td style="width: 10%; vertical-align: top; text-align: center;"></td>
+                <td style="width: 5%; vertical-align: top; text-align: left;">
+                    @Html.Label("RSA Stage")<label style="color:red">*</label>
+                </td>
+                <td style="width: 10%; vertical-align: top;">
+                     @if (Model.Operation.Equals("Update"))
+                    { @Model.RoadStatus
+                    }else{
+                    @Html.DropDownListFor(model => model.stageCode, new SelectList(Model.stageList, "Value", "Text"), new { @id = "ddlStage", tabindex = 1, @title = "RSA Stage", })
+                    <br />
+                    @Html.ValidationMessageFor(x => x.stageCode)
+                     }
+                </td>
+
+                <td style="width: 5%; vertical-align: top;display:none;">
+                    @Html.Label("Road Safety")<label style="color:red">*</label>
+                </td>
+                <td style="width: 10%; vertical-align: top;display:none ">
+     
+                    <span style="display:none" id="errspn"></span>
+                    <br />
+                  
+                </td>
+                <td style="width: 5%; vertical-align: top;">
+                    @Html.Label("Inspection Date")<label style="color:red">*</label>
+                </td>
+                <td style="width: 10%; vertical-align: top;">
+                    @if (Model.Operation.Equals("Update"))
+                    {
+                          @Model.InspectionDate
+                    }else
+                    {
+                    @Html.TextBoxFor(model => model.auditDate, new { @title = "Inspection Date",@readonly="readonly", @maxlength = 10, @tabindex = 2, @placeholder = "Enter Date...", @id = "txtAuditDate" })
+                    <br />
+                    @Html.ValidationMessageFor(x => x.auditDate)
+                    }
+                </td>
+                <td style="width: 10%; vertical-align: top; text-align: center;"></td>
+            </tr>
+                
+            <tr>
+                <td colspan="3"></td>
+                <td colspan="3"> 
+                @if (Model.Operation.Equals("Update"))
+                {
+                }
+                else
+                {
+                <input type="button" name="btnSave" id="btnSave1" value="Save" title="Save Details" class="jqueryButton" tabindex="3" /> 
+                <input type="button" name="btnCancel1" id="btnCancel1" value="Cancel" title="Cancel Details" class="jqueryButton" tabindex="4" />
+                }
+                </td>
+             
+            </tr>
+            }
+            else
+            {
+            <tr>
+                <td style="width: 10%; vertical-align: top; text-align: center;"></td>
+                <td style="width: 5%; vertical-align: top; text-align: left;">
+                   @Html.Label("Start Chainage (in Km)")<label style="color:red">*</label>
+                </td>
+                <td style="width: 10%; vertical-align: top;" id="ab">
+                      @Html.TextBoxFor(model => model.StartChainage, new { maxlength = 10, @title = "Enter Start Chainage",id="StartChainage" ,@tabindex = 5, @placeholder = "Enter Start Chainage..." })
+                 <br />
+                @Html.ValidationMessageFor(model => model.StartChainage)
+                </td>
+
+                <td style="width: 5%; vertical-align: top;display:none;">
+                    @Html.Label("Road Safety")<label style="color:red">*</label>
+                </td>
+                <td style="width: 10%; vertical-align: top;display:none ">
+     
+                    <span style="display:none" id="errspn"></span>
+                    <br />
+                  
+                </td>
+                <td style="width: 5%; vertical-align: top">
+                    @Html.Label("End Chainage (in Km)")<label style="color:red">*</label>
+                </td>
+                <td style="width: 10%; vertical-align: top">
+                      @Html.TextBoxFor(model => model.EndChainage, new { maxlength = 10, @title = "Enter End Chainage", @tabindex = 6, @placeholder = "Enter End Chainage..." })
+                 <br />
+                @Html.ValidationMessageFor(model => model.EndChainage)
+                </td>
+                <td style="width: 10%; vertical-align: top; text-align: center;"></td>
+            </tr>
+
+                      <tr>
+                <td style="width: 10%; vertical-align: top; text-align: center;"></td>
+                <td style="width: 5%; vertical-align: top; text-align: left;">
+                    @Html.Label("Safety Issue")<label style="color:red">*</label>
+                </td>
+                <td style="width: 10%; vertical-align: top;">
+                        @Html.DropDownListFor(model => model.IssueCode, new SelectList(Model.IssueList, "Value", "Text"), new { @id = "ddlIssueCodeDetails", tabindex = 7, @title = "Issue" })
+                    <br />
+                    @Html.ValidationMessageFor(x => x.IssueCode)
+                 
+                </td>
+
+                <td style="width: 5%; vertical-align: top;display:none;">
+                    @Html.Label("Road Safety")<label style="color:red">*</label>
+                </td>
+                <td style="width: 10%; vertical-align: top;display:none ">
+     
+                    <span style="display:none" id="errspn"></span>
+                    <br />
+                  
+                </td>
+                <td style="width: 5%; vertical-align: top">
+               
+                </td>
+                <td style="width: 10%; vertical-align: top">
+                      
+                 <br />
+            
+                </td>
+                <td style="width: 10%; vertical-align: top; text-align: center;"></td>
+            </tr>
+                
+            <tr>
+                <td style="width: 10%; vertical-align: top; text-align: center;"></td>
+                <td style="width: 5%; vertical-align: top; text-align: left;">
+                    @Html.Label("Safety Issue")<label style="color:red">*</label>
+                </td>
+                <td style="width: 10%; vertical-align: top;">
+                      @Html.TextAreaFor(model => model.Safety_Issue, new { @title = "Safety Issue", @maxlength = 255, @tabindex = 8, @placeholder = "Enter Safety Issue...", @id = "txtSafetyIssue",style="width: 450px; height: 62px;"})
+                    <br />
+                    @Html.ValidationMessageFor(x => x.Safety_Issue)
+                </td>
+
+                <td style="width: 5%; vertical-align: top;display:none;">
+                    @Html.Label("Road Safety")<label style="color:red">*</label>
+                </td>
+                <td style="width: 10%; vertical-align: top;display:none ">
+     
+                    <span style="display:none" id="errspn"></span>
+                    <br />
+                  
+                </td>
+                <td style="width: 5%; vertical-align: top">
+                  @Html.Label("RSA Recommendation")<label style="color:red">*</label>
+                </td>
+                <td style="width: 10%; vertical-align: top">
+                          @Html.TextAreaFor(model => model.RSA_Recommendation, new { maxlength = 255, @title = "Enter RSA Recommendation", @tabindex =9, @placeholder = "Enter RSA Recommendation...", @id="txtRecommondation",style="width: 450px; height: 62px;" })
+                   @*     @Html.DropDownListFor(model => model.PriorityCode, new SelectList(Model.PriorityList, "Value", "Text"), new { @id = "ddlPriority", tabindex = 9, @title = "", })*@
+                 <br />
+                @Html.ValidationMessageFor(model => model.RSA_Recommendation)
+                </td>
+                <td style="width: 10%; vertical-align: top; text-align: center;"></td>
+            </tr>
+
+            <tr>
+                <td style="width: 10%; vertical-align: top; text-align: center;"></td>
+                <td style="width: 5%; vertical-align: top; text-align: left;">
+                   @Html.Label("Severity : ")<label style="color:red">*</label>
+                </td>
+                <td style="width: 10%; vertical-align: top;">
+                @Html.DropDownListFor(model => model.GradeCode, new SelectList(Model.GradeList, "Value", "Text"), new { @id = "ddlGrade", tabindex = 10, @title = "Severity", })
+                    <br />
+                    @Html.ValidationMessageFor(x => x.GradeCode)
+                </td>
+
+                <td style="width: 5%; vertical-align: top;display:none;">
+                    @Html.Label("Road Safety")<label style="color:red">*</label>
+                </td>
+                <td style="width: 10%; vertical-align: top;display:none ">
+     
+                    <span style="display:none" id="errspn"></span>
+                    <br />
+                  
+                </td>
+                <td style="width: 5%; vertical-align: top">
+                 @Html.Label("Likelihood (Frequency) of Occurrence")<label style="color:red">*</label>
+                </td>
+                <td style="width: 10%; vertical-align: top">
+                   @Html.DropDownListFor(model => model.LikelihoodCode, new SelectList(Model.LikelihoodList, "Value", "Text"), new { @id = "ddlLikelihood", tabindex = 11, @title = "Frequency of Occurrence", })
+                    <br />
+                    @Html.ValidationMessageFor(x => x.LikelihoodCode)
+                </td>
+                <td style="width: 10%; vertical-align: top; text-align: center;"></td>
+            </tr>
+
+                   <tr>
+                <td style="width: 10%; vertical-align: top; text-align: center;"></td>
+                <td style="width: 5%; vertical-align: top; text-align: left;">
+                
+                </td>
+                <td style="width: 10%; vertical-align: top;">
+                @Html.Label("Probability Of Occurrence : Essential ", new { id = "Essential" })
+                @Html.Label("Probability Of Occurrence : Desirable ", new { id = "Desirable" })
+                @Html.Label("Probability Of Occurrence : Highly Desirable ", new { id = "HighlyDesirable" })
+                </td>
+
+                <td style="width: 5%; vertical-align: top;display:none;">
+                    @Html.Label("Road Safety")<label style="color:red">*</label>
+                </td>
+                <td style="width: 10%; vertical-align: top;display:none ">
+     
+                    <span style="display:none" id="errspn"></span>
+                    <br />
+                  
+                </td>
+                <td style="width: 5%; vertical-align: top">
+              
+                </td>
+                <td style="width: 10%; vertical-align: top">
+               
+                </td>
+                <td style="width: 10%; vertical-align: top; text-align: center;"></td>
+            </tr>
+
+                
+                
+                
+                
+      
+
+                
+                
+            <tr>
+                <td colspan="3"></td>
+                <td colspan="3"> 
+                @if (Model.Operation.Equals("Update"))
+                {
+                }
+                else
+                {
+                <input type="button" name="btnSave" id="btnSave" value="Save" title="Save Details" class="jqueryButton" tabindex="12"/> 
+                <input type="button" name="btnCancel" id="btnCancel" value="Cancel" title="Cancel Details" class="jqueryButton" tabindex="13"/>
+                }
+                </td>
+             
+            </tr>
+            }
+            }
+
+        </table>
+    </div>
+
+
+
+    </form>
+
+@if (Model.RoadStatus.Equals("NA"))
+{ 
+}
+else
+{
+    <div id="tabs-1" style="text-align:left; flex-align :center" >
+        <div id="divCdWorks" style="text-align:left;width:100%">
+            <table id="tbCDWorksList" style="width:95%;flex-align:center" ></table>
+            <div id="pagerCDWorksList" tabindex="15"></div>
+        </div>
+    </div>
+}
+ 
+
+
+<div id="accordion1" style="display:none;margin-top:20px;" >            
+    <h4 style="text-align:left"><a id="" href="#" style=" font-size:.9em;" ></a>
+        <a href="#"  style="float: right;">
+   <img style="border:none;display:none" alt="Close" class="ui-icon ui-icon-closethick" id="imgCloseAgreementDetails1" /></a>
+    </h4>
+ <div id="dvAddMaintenanceAgreementAgainstRoad1" style="display:none"></div>      
+
+</div>
+
+
+
+
+

@@ -1,0 +1,30 @@
+﻿@{
+    ViewBag.Title = "ReasonDetails";
+}
+<div style="width: 100%">
+    <table class="ui-state-default ui-corner-all" style="width: 100%;">
+        <tr>
+            <td style="width: 6%;"></td>
+            <td style="text-align: left; width: 10%;">
+                @Html.Label("Reason Type")
+            </td>
+             <td style="width: 15%;">
+                @Html.DropDownList("MAST_REASON_TYPE", ViewData["MAST_REASON_TYPE"] as IEnumerable<SelectListItem>, new { @title = "Reason Type", @tabindex = 1 })
+            </td>
+           <td style="text-align: center; width: 5%; margin-left: 5px;">
+                <input type="button" id="ReasonDetailsButton" value="View" class="jqueryButton" title="View Details" tabindex="2" />
+            </td>
+            <td style="width: 60%;"></td>
+        </tr>
+        
+    </table>
+</div>
+<br />
+
+<div id="ReasonDetails">
+    <table id="ReasonDetailsTable"></table>
+</div> 
+<div id="ReasonDetailsPager"></div>
+
+<script src="~/Scripts/MasterReports/ReasonDetails.js" type="text/javascript"></script>
+<script src="~/Scripts/custom/Generic.js"></script>

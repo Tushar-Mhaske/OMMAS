@@ -1,0 +1,58 @@
+﻿@model PMGSY.Models.NQMTourClaimModels.NQM_TOUR_CLAIM_MASTER_MODEL
+
+<script src="~/Scripts/custom/Generic.js"></script>
+<script src="~/Scripts/jquery-ui.js"></script>
+<script src="~/Scripts/TourClaim/TourClaimFinance2.js"></script>
+<link href="~/Content/TourClaim/TourClaimCss.css" rel="stylesheet" />
+
+<body>
+    <div style="width: 99%; border:none; margin-top:10px; margin-bottom:10px;" class="ui-state-default">
+        <div id="divFinance2Filters">
+            <center>
+                <form id="finance2FiltersForm">
+                    <table style="margin-top:10px; margin-bottom:5px; width:50%">
+                        <tr>
+                            <td style="width:10%;padding-left:25px;">
+                                @Html.LabelFor(model => model.FROM_MONTH)
+                            </td>
+                            <td style="width:10%">
+                                @Html.DropDownListFor(model => model.FROM_MONTH, new SelectList(Model.FROM_MONTHS_LIST, "Value", "Text"), new { @id = "ddlNQMScheduleMonth" })
+                            </td>
+                            <td style="width:10%;padding-left:25px;">
+                                @Html.LabelFor(model => model.FROM_YEAR)
+                            </td>
+                            <td style="width:10%;">
+                                @Html.DropDownListFor(model => model.FROM_YEAR, new SelectList(Model.FROM_YEARS_LIST, "Value", "Text"), new { @id = "ddlNQMScheduleYear" })
+                            </td>
+                            <td style="width:10%;">
+                                <input type="button" class="jqueryButton" value="View" id="btnViewMonitorsList" name="btnViewMonitors" />
+                            </td>
+                        </tr>
+                    </table>
+                </form>
+            </center>
+        </div>
+    </div>
+
+    <center>
+        <div id="divFinance2Monitor" style="margin-top:20px; width:100%">
+            <table id="tbFinance2MonitorList"></table>
+            <div id="pagerFinance2Monitor"></div>
+        </div>
+    </center>
+
+    <center>
+        <div id="accordionDetails2" style="display: none; width: 100%; margin-top: 10px;" class="ui-state-default">
+
+            <h3 style="text-align: left">
+                <a id="" href="#" style="font-size: .9em;">Tour Claim</a>
+                <a href="#" style="float: right;">
+                    <img style="border: none;" class="ui-icon ui-icon-closethick" onclick="closeTourClaimList();" />
+                </a>
+            </h3>
+            <div id="divFinance2Details" style="display: none;"></div>
+        </div>
+    </center>
+
+</body>
+

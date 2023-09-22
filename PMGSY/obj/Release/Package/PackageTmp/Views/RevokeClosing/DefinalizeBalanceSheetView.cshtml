@@ -1,0 +1,38 @@
+﻿@model PMGSY.Models.RevokeClosing.DefinalizeBalanceSheetModel
+
+<script src="~/Scripts/custom/Generic.js"></script>
+<script src="~/Scripts/RevokeClosing/DefinalizeBalanceSheet.js"></script>
+<br/>
+@*<div class="ui-widget-header innerDivHeader" style="margin-bottom:5px">De-Finalize Balance Sheet</div>*@
+
+<form id="frmDeFinalizeBalanceSheet">
+    @Html.ValidationSummary(true)   
+    <div>
+        <b>
+       @* <span id="spnMonthClosedDetails" style="color:green" >            
+        @(Model.FinalizedYear == String.Empty ? "Balance Sheet not yet finalized" : "Last Finalized Balance Sheet Year - "+ (Convert.ToInt32(Model.FinalizedYear)-1)+"-"+ Model.FinalizedYear)
+         </span>*@
+
+@*        <span id="spnMonthClosedDetailsUsingAjax"></span>*@
+        </b>
+     </div>
+<table class="ui-state-default ui-corner-all" style="border:0.1em solid gray; width:100%; margin-top:1px" id="tblFilter">            
+            <tr>
+            <td style="width:01%"></td>
+            <td style="text-align:right; font-weight:bold; width:07%">@Html.LabelFor(m=>m.AdminNdCode)<label style="color:red;"> *</label>:</td>
+            <td style="width:10%">@Html.DropDownListFor(m=>m.AdminNdCode,Model.lstAgency,new { @tabindex="1",@id="ddlAgency"})
+                                 @Html.ValidationMessageFor(m => m.AdminNdCode)
+            </td>
+                <td style="text-align:right; font-weight:bold; width:08%">@Html.LabelFor(m=>m.FundType)<label style="color:red;"> *</label>:</td>
+            <td style="width:12%">@Html.DropDownListFor(m=>m.FundType,Model.lstFundType,new { @tabindex="2",@id="ddlFundType"})
+                                 @Html.ValidationMessageFor(m => m.FundType)
+            </td>
+                <td style="text-align:right; font-weight:bold; width:07%">@Html.LabelFor(m=>m.Year)<label style="color:red;"> *</label>:</td>
+            <td style="width:15%">@Html.DropDownListFor(m=>m.Year,Model.lstYear,new { @tabindex="3",@id="ddlYear"})
+                                 @Html.ValidationMessageFor(m => m.Year)
+            </td>
+            <td style="width:12%"><input type="button" id="btnDefinalizeBalSheet" value="Definalize" class="jqueryButton" tabindex="4"></td>        
+          </tr>
+</table>
+
+</form>

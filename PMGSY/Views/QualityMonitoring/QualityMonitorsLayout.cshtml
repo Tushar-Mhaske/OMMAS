@@ -1,0 +1,176 @@
+﻿@*
+    * Project Id    :
+    * Project Name  :   OMMAS II
+    * Name          :   QualityMonitorsLayout.cshtml
+    * Description   :   Render View for QualityMonitorsLayout.
+    * Author        :   Shyam Yadav
+    * Creation Date :   11/Jun/2013
+*@
+
+<!DOCTYPE html>
+
+<html>
+<head>
+    <style type="text/css">
+        #preview {
+            border: 1px solid #ccc;
+            position: absolute;
+            background: #333;
+            padding: 5px;
+            display: none;
+            color: #fff;
+        }
+
+        td {
+            height: 20px;
+            text-align: left;
+        }
+
+        body {
+            text-align: left;
+        }
+    </style>
+
+
+    <script src="~/Scripts/custom/Generic.js"></script>
+    <script src="~/Scripts/jquery.ui.tabs.js"></script>
+    <script src="~/Scripts/Bootstrap/bootstrap.min.js"></script>
+    <script src="~/Scripts/jquery-ui.js"></script>
+    <script src="~/Scripts/QualityMonitoring/QualityMonitorsLayout.js"></script>
+
+</head>
+<body>
+
+    @Html.Hidden("hdnRoleCodeOnMonitorLayout", PMGSY.Extensions.PMGSYSession.Current.RoleCode.ToString())
+    <div id="divError" class="ui-state-error ui-corner-all" style="text-align: left; display: none; width: 99%">
+        <span class="ui-icon ui-icon-alert" style="float: left;"></span>
+        <span></span>
+        <span style="float: right;"><a style="float: right;" href="#">
+            <img class="ui-icon ui-icon-closethick" onclick="closeDivError();" style="border: none; border-width: 0;">
+        </a></span>
+    </div>
+    <div id="tabs-MonitorLayout" style="width: 99%;">
+        <ul>
+            <li><a href="#tabs-MonitorLayout-1" onclick="showMonitorsInspectionDetails();return false;">Inspection Details</a></li>
+            <li><a href="#tabs-MonitorLayout-2" onclick="showMonitorsAssignScheduleListGrid(0,0);return false;">Schedule Details</a></li>
+            <li><a href="#tabs-MonitorLayout-3" onclick="showMonitorsObservationList();return false;">Fill Observations</a></li>
+            @if (PMGSY.Extensions.PMGSYSession.Current.RoleCode == 6)
+            {
+                <li><a href="#tabs-MonitorLayout-3" onclick="showBankDetailsList();return false;">Bank Details</a></li>
+                <li><a href="#tabs-MonitorLayout-5" onclick="showTourClaimList();return false;">Tour Claim</a></li>
+            }
+        </ul>
+
+        <div id="tabs-MonitorLayout-1">
+            <div id="div3TierInspectionQualityFilters" style="width: 100%">
+                @{Html.RenderAction("QualityMonitorFilters", "QualityMonitoring");}
+            </div>
+            <div id="divMonitorsInspectionDetails" style="width: 98%">
+                <table id="tbMonitorsInspectionList"></table>
+                <div id="dvMonitorsinspectionListPager"></div>
+            </div>
+
+            <div id="accordionMonitorsInspection" style="display: none; width: 100%; margin-top: 10px;">
+                <h3 style="text-align: left">
+                    <a id="" href="#" style="font-size: .9em;">Inspection Details</a>
+                    <a href="#" style="float: right;">
+                        <img style="border: none" class="ui-icon ui-icon-closethick" onclick="closeMonitorsInspectionDetails();" />
+                    </a>
+                </h3>
+                <div id="divMonitorsInspCorrectionDetails" style="display: none;"></div>
+            </div>
+        </div>
+
+        <div id="tabs-MonitorLayout-2">
+            <div id="div3TierScheduleFilters" style="width: 100%">
+                @{Html.RenderAction("ScheduleFiltersMonitors", "QualityMonitoring");}
+            </div>
+            <div id="divMonitorsSchedulePreparation" style="width: 100%">
+                <table id="tbMonitorsScheduleList"></table>
+                <div id="dvMonitorsScheduleListPager"></div>
+            </div>
+
+            <div id="accordionMonitorsSchedule" style="display: none; width: 100%; margin-top: 10px;">
+                <h3 style="text-align: left">
+                    <a id="" href="#" style="font-size: .9em;">Schedule Details</a>
+                    <a href="#" style="float: right;">
+                        <img style="border: none" class="ui-icon ui-icon-closethick" onclick="closeMonitorsScheduleDetails();" />
+                    </a>
+                </h3>
+                <div id="divMonitorsScheduleDetails" style="display: none;"></div>
+            </div>
+        </div>
+
+        <div id="tabs-MonitorLayout-3">
+
+            <div id="divMonitorsObsDetails" style="width: 100%">
+                @*<table id="tbMonitorsObsList"></table>
+                <div id="dvMonitorsObsListPager"></div>*@
+            </div>
+
+            <div id="accordionObsMonitors" style="display: none; width: 100%; margin-top: 10px;">
+                <h3 style="text-align: left">
+                    <a id="" href="#" style="font-size: .9em;">Observation Details</a>
+                    <a href="#" style="float: right;">
+                        <img style="border: none" class="ui-icon ui-icon-closethick" onclick="closeMonitorsObsDetails();" />
+                    </a>
+                </h3>
+                <div id="divMonitorsObservationDetails" style="display: none;"></div>
+            </div>
+        </div>
+
+        <div id="tabs-MonitorLayout-4">
+
+            @*<div id="dvBankDetails" style="width: 100%">
+
+            </div>*@
+
+            <div id="accordionBankDetails" style="display: none; width: 100%; margin-top: 10px;">
+                <h3 style="text-align: left">
+                    <a id="" href="#" style="font-size: .9em;">Monitor Bank Details</a>
+                    <a href="#" style="float: right;">
+                        <img style="border: none" class="ui-icon ui-icon-closethick" onclick="closeBankDetailsList();" />
+                    </a>
+                </h3>
+                <div id="divBankDetails" style="display: none;"></div>
+            </div>
+
+            <div id="accordionTreePlant" style="display: none; margin-top: 20px;">
+                <h3 style="text-align: left">
+                    <a id="" href="#" style="font-size: .9em;">Add Tree Plant Details</a>
+                    <a href="#" style="float: right;">
+                        <img style="border: none" alt="Close" src="" class="ui-icon ui-icon-closethick" id="imgCloseTreePlantDetails" />
+                    </a>
+                </h3>
+                <div id="dvAddTreePlant" style="display: none">
+                </div>
+            </div>
+        </div>
+
+        @*Added on 20-10-2022 for Tour Claim *@
+        <div id="tabs-MonitorLayout-5">
+            <div id="divNqmScheduleList" style="display: none;"></div>
+            <div id="divMonitorsSchedulePreparation" style="width: 100%">
+                <table id="tbNQMScheduleList"></table>
+                <div id="dvNQMScheduleListPager"></div>
+            </div>
+
+            <div id="accordionNQMSchedule" style="display: none; width: 100%; margin-top: 10px;">
+                <h3 style="text-align: left">
+                    <a id="" href="#" style="font-size: .9em;">Tour Claim</a>
+                    <a href="#" style="float: right;">
+                        <img style="border: none" class="ui-icon ui-icon-closethick" onclick="closeTourClaimList();" />
+                    </a>
+                </h3>
+                <div id="divNQMScheduleDetails" style="display: none;"></div>
+            </div>
+            <div id="divTourClaimList" style="display: none; margin-top:30px; width:100%">
+                <table id="tbTourClaimList"> </table>
+                <div id="pagerTourClaimList"> </div>
+            </div>
+        </div>
+
+    </div>
+
+</body>
+</html>

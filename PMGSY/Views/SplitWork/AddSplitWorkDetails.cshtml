@@ -1,0 +1,160 @@
+﻿@*----------------------------------------------------------------------------------------
+
+ * Project Id:
+
+ * Project Name:OMMAS2
+
+ * File Name: AddSplitWorkDetails.cshtml
+
+ * Author : Koustubh Nakate
+
+ * Creation Date :01/July/2013
+
+ * Desc : This is partial view which consist add/edit split work details view and listing of split work for road .
+ * ---------------------------------------------------------------------------------------*@
+
+@model PMGSY.Models.SplitWork.SplitWorkDetails
+
+
+@*<script type="text/javascript" src="@Url.Content("~/Scripts/jquery.ui.dialog.js")"> </script>*@
+<script src="@Url.Content("~/Scripts/custom/Generic.js")" type="text/javascript" ></script>
+<script type="text/javascript" src="@Url.Content("~/Scripts/SplitWork/AddSplitWorkDetails.js")"> </script>
+
+<style>
+
+    /*div {
+        font-size:1em;
+    }*/
+    #accordion .ui-accordion-content  {
+        font-size:1em;
+    }
+
+</style>
+
+<div id="dvRoadDetails" class="ui-state-default ui-corner-all" style="width:100%; border:1px solid #EEEEEE" >
+    <table width="100%" class="rowstyle">
+        <tr >
+            <td style="width:5%; text-align:left">
+                  @Html.Label("Year")
+            </td>
+            <td style="width:8%;text-align:left ">
+                 @if (!(string.IsNullOrEmpty(ViewBag.SanctionedYear)))
+                    {
+                      @Html.Label("SanctionedYear", ViewBag.SanctionedYear as String)   
+                    }
+                    else
+                    {
+                     @Html.Label("SanctionedYear","NA")   
+                    }
+            </td>
+
+              <td style="width:5%; text-align:left">
+                  @Html.Label("Package")
+            </td>
+
+             <td style="width:8%;text-align:left ">
+                 @if (!(string.IsNullOrEmpty(ViewBag.Package)))
+                    {
+                    @Html.Label("Package", ViewBag.Package as String)  
+                    }
+                    else
+                    {
+                       @Html.Label("Package","NA")   
+                    }
+            </td>
+            <td style="width:8%;text-align:left ">
+                  @Html.Label("Road Name")
+
+            </td>
+
+             <td style="width:25%;text-align:left "> 
+                   @if (!(string.IsNullOrEmpty(ViewBag.RoadName)))
+                    {
+                    @Html.Label("RoadName", ViewBag.RoadName as String)  
+                    }
+                    else
+                    {
+                     @Html.Label("RoadName","NA")  
+                    }
+
+            </td>
+
+               <td style="width:12%;text-align:left ">
+                  @Html.Label("Road Length (In Kms)")
+
+            </td>
+
+             <td style="width:10%;text-align:left "> 
+                   @if (!(string.IsNullOrEmpty(ViewBag.RoadLength)))
+                    {
+                    @Html.Label("RoadLength", ViewBag.RoadLength as String)  
+                    }
+                    else
+                    {
+                     @Html.Label("RoadLength","NA")   
+                    }
+
+            </td>
+
+
+             <td style="width:7%;text-align:left ">
+                  @Html.Label("Split Count")
+
+            </td>
+
+             <td style="width:5%;text-align:left "> 
+                   @if (!(string.IsNullOrEmpty(ViewBag.SplitCount)))
+                    {
+                    @Html.Label("SplitCount", ViewBag.SplitCount as String)  
+                    }
+                    else
+                    {
+                     @Html.Label("SplitCount","NA")   
+                    }
+
+            </td>
+           
+           
+        </tr>
+    </table>
+
+</div>
+
+<div id="dvSplitWorkDetails" style="display:none">
+ 
+       @Html.Partial("SplitWorkDetails", Model)
+</div>
+
+<div id="dvSplitWorkList" style=" margin-top:20px; margin-bottom:15px;">
+
+ 
+    <table id="tbSplitWorkList" >
+
+    </table>
+
+    <div id="dvSplitWorkListPager"></div>
+
+      <table id="tblCreateNewSplitWork" style="width:100%; padding-top:1em;">
+    <tr></tr>
+      <tr>  
+      
+        <td style="text-align:right; width:55%">
+              <input type="button" id="btnCreateNew_SplitWorkDetails" name="btnCreateNew_SplitWorkDetails" value="Add Split Work Details" class= "jqueryButton" title="Add Split Work Details"  />  
+        
+             
+        </td>
+          <td style="text-align:left">
+              <input type="button" id="btnSplitWorkDetailsCancel" name="btnSplitWorkDetailsCancel" value="Cancel" class= "jqueryButton" title="Cancel" tabindex="4"  />     
+          </td>
+        </tr>
+          <tr style="display:none">
+
+              <td colspan="2">
+                  @Html.Hidden("SplitCount")
+              </td>
+          </tr>
+  
+    </table>
+
+</div>
+

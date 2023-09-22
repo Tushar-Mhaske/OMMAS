@@ -1,0 +1,42 @@
+﻿@using MvcReportViewer
+
+@model PMGSY.Areas.MaintenanceSSRSReport.Models.RoutineMaintPriorityModel
+
+
+@if (Model.RoadWise == false)
+{
+
+    @Html.MvcReportViewer("/PMGSYCitizen/Mane_Routine_Priority_List_Report.",
+     new
+     {
+         Level = Model.LevelCode,
+         State = Model.Mast_State_Code,
+         District = Model.Mast_District_Code,
+         Block = Model.Mast_Block_Code,       
+       //  PMGSY = PMGSY.Extensions.PMGSYSession.Current.PMGSYScheme,
+         StateName = Model.StateName,
+         DistrictName = Model.DistName,
+         BlockName = Model.BlockName
+     },
+     new { Height = 600, Width = 1215, style = "border:none;" })
+}
+else
+{
+    @Html.MvcReportViewer("/PMGSYCitizen/Mane_Routine_Priority_List_SubReport",
+     new
+     {
+         Level = Model.LevelCode,
+         State = Model.Mast_State_Code,
+         District = Model.Mast_District_Code,
+         Block = Model.Mast_Block_Code,       
+        // PMGSY = PMGSY.Extensions.PMGSYSession.Current.PMGSYScheme,
+         StateName = Model.StateName,
+         DistrictName = Model.DistName,
+         BlockName = Model.BlockName
+     },
+     new { Height = 600, Width = 1215, style = "border:none;" })
+}
+
+
+
+

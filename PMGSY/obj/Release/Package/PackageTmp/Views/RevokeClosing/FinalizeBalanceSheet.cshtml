@@ -1,0 +1,38 @@
+﻿@model PMGSY.Models.RevokeClosing.FinalizeBalanceSheetModel
+
+<script src="~/Scripts/custom/Generic.js"></script>
+<script type="text/javascript" src="~/Scripts/jquery.ui.datepicker.js" ></script>
+<script src="~/Scripts/RevokeClosing/FinalizeBalanceSheet.js"></script>
+<br/>
+<div class="ui-widget-header innerDivHeader" style="margin-bottom:5px">Finalize Balance Sheet</div>
+
+<form id="frmFinalizeBalanceSheet">
+    @Html.ValidationSummary(true)   
+
+    <div>
+        <b>
+        <span id="spnMonthClosedDetails" style="color:green" >            
+        @(Model.FinalizedYear == String.Empty ? "Balance Sheet not yet finalized" : "Last Finalized Balance Sheet Year - "+ (Convert.ToInt32(Model.FinalizedYear)-1)+"-"+ Model.FinalizedYear)
+         </span>
+
+        <span id="spnMonthClosedDetailsUsingAjax"></span>
+        </b>
+     </div>
+<table class="ui-state-default ui-corner-all" style="border:0.1em solid gray; width:100%; margin-top:1px" id="tblFilter">
+            
+            <tr>
+            <td style="width:15%"></td>
+                <td style="text-align:right; font-weight:bold; width:10%">@Html.LabelFor(m=>m.AuditDate)<label style="color:red;"> *</label>:</td>
+            <td style="width:15%">@Html.TextBoxFor(t => t.AuditDate, new { @id="txtAuditDate",@tabindex="1"})
+                            @Html.ValidationMessageFor(m => m.AuditDate)
+            </td>
+
+            <td style="text-align:right; font-weight:bold; width:5%">@Html.LabelFor(m=>m.Year)<label style="color:red;"> *</label>:</td>
+            <td style="width:15%">@Html.DropDownListFor(m=>m.Year,ViewBag.lstYear as IEnumerable<SelectListItem> ,new { @tabindex="2"})
+                            @Html.ValidationMessageFor(m => m.Year)
+            </td>
+            <td style="width:25%"><input type="button" id="btnView" value="Finalize" class="jqueryButton" tabindex="3"></td>        
+          </tr>
+</table>
+
+</form>

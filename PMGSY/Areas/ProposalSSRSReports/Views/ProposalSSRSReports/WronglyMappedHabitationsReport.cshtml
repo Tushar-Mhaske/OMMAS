@@ -1,0 +1,15 @@
+﻿@using MvcReportViewer
+
+@model PMGSY.Areas.ProposalSSRSReports.Models.WronglyMappedHabitaions
+
+    @Html.MvcReportViewer("/PMGSYCitizen/WrongMappedHabitations",
+     new
+     {
+         StateCode = Model.StateCode,
+        // StateName = Model.StateName
+         
+     },
+       new { Height = 600, Width = "100%", style = "border:none;" })
+
+
+

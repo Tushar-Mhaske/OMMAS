@@ -1,0 +1,48 @@
+﻿@model PMGSY.Models.TransferEntryOrder.ImprestSettlementViewModel
+@{
+    ViewBag.Title = "MapTEODetails";
+}
+
+
+<script src="~/Scripts/custom/Generic.js"></script>
+<script src="~/Scripts/TransferEntryOrder/MapTEODetails.js"></script>
+
+<div class="ui-widget-header innerDivHeader">
+    <span style="margin-left:5px">Imprest Voucher Details</span>
+</div>
+<br />
+@Html.HiddenFor(model=>model.P_BILL_ID)
+<div id="divTEOList" style="margin-left:10px; margin-top:5px;width:98%">
+    
+    <div style="margin-left:10px;" class="ui-state-default ui-corner-all jqueryButton" id="lblBackToList">
+    <span style="float:left" class="ui-icon ui-icon-circle-triangle-w"></span>
+    <span style="float:left; margin-right:5px">Go to List Page</span>
+</div>
+<center>
+    <table class="ui-state-default ui-corner-all" style="border:0.1em solid gray; width:98%" id="tblViewDetails">
+        <tr>
+            <td style="width:25%"></td>
+            <td style="text-align:right; font-weight:bold; width:5%">Month:<label style="color:red;"> *</label></td>
+            <td style="width:15%">@Html.DropDownList("ddlMonth")</td>
+            <td style="text-align:right; font-weight:bold; width:5%">Year:<label style="color:red;"> *</label></td>
+            <td style="width:15%">@Html.DropDownList("ddlYear")</td>
+            <td style="width:35%"><input type="button" id="btnViewDetails" value="View Details" class="jqueryButton"></td>        
+        </tr>
+    </table>
+    <div style="width:98%;margin-top:20px"> 
+        <table id="tblTEORecieptList"></table>
+        <div id="pgTEORecieptList"></div>
+    </div>
+    <div style="margin-top:20px">
+        <center>
+            <input type="button" name="btnMapDetails" value="Map Vouchers" id="btnMapDetails" class="jqueryButton"/>
+        </center>
+    </div>
+</center>
+</div>
+
+
+
+@section Scripts {
+    @Scripts.Render("~/bundles/jqueryval")
+}

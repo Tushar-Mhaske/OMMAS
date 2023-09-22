@@ -1,0 +1,101 @@
+﻿@*
+    * Project Id    :
+    * Project Name  :   OMMAS II
+    * Name          :   DashboardFilters.cshtml
+    * Description   :   Renders Filters for Dashboard
+    * Author        :   Shyam Yadav
+    * Creation Date :   18/Sep/2013    
+*@
+
+@model PMGSY.Models.Dashboard.WBankDashboardFiltersViewModel
+@{Layout = null;}
+<style>
+    #tabs-report-filters .ui-tabs-nav {
+            margin:-6px 0 0 0;
+            padding:0.1em 0.2em 0;
+        }   
+
+   #tabs-report-filters  .ui-tabs-panel {
+            background: none repeat scroll 0 0 transparent;
+            border-width: 0;
+            display: block;
+            padding: 0 1.4em;
+        }
+
+</style>
+
+<script src="~/Scripts/custom/Generic.js"></script>
+<script src="~/Scripts/Dashboard/DashboardFilters.js"></script>
+<center>    
+
+        <div style="width: 100%; border:none; margin-top:0px; margin-bottom:5px;">
+        <center>
+           <table style="margin-bottom:-5px;margin-top:-15px;">
+             <tr>
+                 <td style="width: 100%;">
+                         <div id="divFilterForm" class="ui-corner-all ui-state-default" >
+                             <center>
+                               <table style="margin-top:5px; margin-bottom:5px">
+                                    <tr>
+                                        <td>
+                                            @Html.LabelFor(model => model.STATE_ND_CODE)
+                                        </td>
+                                        <td>                            
+                                            @Html.DropDownListFor(model => model.STATE_ND_CODE, new SelectList(Model.STATE_DEPT_LIST, "Value", "Text"))
+                                        </td>
+                                        <td>
+                                            @Html.LabelFor(model => model.MAST_DISTRICT_CODE)
+                                        </td>
+                                        <td>                            
+                                            @Html.DropDownListFor(model => model.MAST_DISTRICT_CODE, new SelectList(Model.DISTRICTS_LIST, "Value", "Text"))
+                                        </td>
+                                        <td>
+                                            @Html.LabelFor(model => model.ADMIN_ND_CODE)
+                                        </td>
+                                        <td>
+                                            @Html.DropDownListFor(model => model.ADMIN_ND_CODE, new SelectList(Model.DPIU_LIST, "Value", "Text"))
+                                        </td> 
+                                        <td>
+                                            @Html.LabelFor(model => model.IMS_COLLABORATION)
+                                        </td>
+                                        <td>                            
+                                            @Html.DropDownListFor(model => model.IMS_COLLABORATION, new SelectList(Model.COLLABORATIONS_LIST, "Value", "Text"))
+                                        </td>
+                                    </tr> 
+                                    <tr>
+                                        <td>
+                                            @Html.LabelFor(model => model.DURATION_TYPE)
+                                        </td>
+                                        <td>                            
+                                            @Html.DropDownListFor(model => model.DURATION_TYPE, new SelectList(Model.DURATION_TYPE_LIST, "Value", "Text"))
+                                        </td>
+                                        <td>
+                                            @Html.LabelFor(model => model.YEAR)
+                                        </td>
+                                        <td>
+                                            @Html.DropDownListFor(model => model.YEAR, new SelectList(Model.YEARS_LIST, "Value", "Text"))
+                                        </td>
+                                        <td>
+                                             @Html.LabelFor(model => model.DURATION)
+                                        </td>
+                                        <td>
+                                            @Html.DropDownListFor(model => model.DURATION, new SelectList(Model.DURATION_LIST, "Value", "Text"))
+                                        </td>
+                                        <td></td>
+                                        <td>
+                                            <input type="button" class="jqueryButton" value="View Details" id="btnViewDetails" name ="btnViewDetails"/>
+                                        </td>
+                                    </tr>                           
+                                </table>
+                             </center>
+                        </div>
+                 </td>
+                 <td style="width:0%;margin-left:-15px;">
+                        <span style="float:right;" id="idFilterDiv" title="Click here to Hide/Show Filters"  class="ui-icon ui-icon-carat-1-e"></span>
+                 </td>
+             </tr>
+         </table>         
+        </center>
+        </div>
+       
+</center>

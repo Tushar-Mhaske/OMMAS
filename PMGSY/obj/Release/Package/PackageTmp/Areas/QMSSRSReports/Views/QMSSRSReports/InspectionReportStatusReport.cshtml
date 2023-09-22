@@ -1,0 +1,18 @@
+﻿@model PMGSY.Areas.QMSSRSReports.Models.QualityReportsViewModel
+
+
+@using MvcReportViewer
+
+    @Html.MvcReportViewer("/PMGSYCitizen/inspection_pdf_report",
+     new
+     {
+        FMONTH =Model.FromMonth,
+        TMONTH =Model.ToMonth,
+        FYEAR=Model.FromYear,
+        TYEAR =Model.ToYear,
+        STATE= Model.State,
+        MonitorType=Model.qmType,
+        Level=1
+     },
+       new { Height = 600, Width = "100%", style = "border:none;" })
+

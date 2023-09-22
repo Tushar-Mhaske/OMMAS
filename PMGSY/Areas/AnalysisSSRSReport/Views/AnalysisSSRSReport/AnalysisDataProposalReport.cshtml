@@ -1,0 +1,62 @@
+﻿@using MvcReportViewer
+
+@model PMGSY.Areas.AnalysisSSRSReport.Models.AnalysisDataProposalModel
+
+
+@if (Model.RoadWise == false)
+{
+  <div id="AnalysisDataFromProposal" style="width:100%;height:590px;overflow-x:hidden;overflow-y:hidden;">
+      
+    @Html.MvcReportViewer("/PMGSYCitizen/AnalysisDataFromProposal",
+     new
+     {
+         Level = Model.LevelCode,
+         State = Model.Mast_State_Code,
+         District = Model.Mast_District_Code,
+         Block = Model.Mast_Block_Code,
+         Year = Model.FromYear,
+         ToYear = Model.ToYear,
+         Batch = Model.Batch,
+         Collaboration = Model.FundingAgency,
+         Status = Model.Status,
+         PMGSY = PMGSY.Extensions.PMGSYSession.Current.PMGSYScheme,
+         LocationName = Model.StateName,
+         DistrictName = Model.DistName,
+         BlockName = Model.BlockName,
+         BatchName = Model.BatchName,
+         CollaborationName = Model.FundingAgencyName,
+         LocalizationValue = "en"
+
+     },
+     new { Height = 600, Width = 1215, style = "border:none;" })
+      </div>
+}
+else
+{
+     <div id="AnalysisDataFromProposalSubreport" style="width:100%;height:590px;overflow-x:hidden;overflow-y:hidden;">
+ 
+    @Html.MvcReportViewer("/PMGSYCitizen/AnalysisDataFromProposalSubreport",
+     new
+     {
+         Level = Model.LevelCode,
+         State = Model.Mast_State_Code,
+         District = Model.Mast_District_Code,
+         Block = Model.Mast_Block_Code,
+         Year = Model.FromYear,
+         ToYear = Model.ToYear,
+         Batch = Model.Batch,
+         Collaboration = Model.FundingAgency,
+         Status = Model.Status,
+         PMGSY = PMGSY.Extensions.PMGSYSession.Current.PMGSYScheme,
+         LocationName = Model.StateName,
+         DistrictName = Model.DistName,
+         BlockName = Model.BlockName,
+         BatchName = Model.BatchName,
+         CollaborationName = Model.FundingAgencyName,
+         LocalizationValue = "en"
+
+     },
+     new { Height = 600, Width = 1215, style = "border:none;" })
+    </div>
+}
+

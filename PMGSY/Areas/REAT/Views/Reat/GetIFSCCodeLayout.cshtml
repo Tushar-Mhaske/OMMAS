@@ -1,0 +1,263 @@
+﻿@model PMGSY.Areas.REAT.Models.AddIfscCodeModel
+
+
+ <script src="~/Scripts/jquery-ui.js"></script>
+<script src="~/Areas/REAT/Scripts/AddIfscCodeLayout.js"></script>
+<script src="~/Scripts/custom/Generic.js"></script>
+
+
+<style>
+    .ui-autocomplete{
+    max-height: 180px;
+    overflow-y: auto;
+    overflow-x: hidden;
+    max-width: 350px;
+    }
+
+
+    .textWidth {
+        width:200px;
+    }
+</style> 
+
+
+
+
+
+
+
+
+@*<script src="~/Areas/REAT/Scripts/AddIfscCodeLayout.js"></script>
+<script src="~/Scripts/custom/Generic.js"></script>*@
+
+<div id="getIFSCForm">
+
+<div id="divgetIFSCcode" class="ui-corner-top ui-widget-header panelheader" style="text-align: left; height: 20px;">@*margin-left:0px;margin-right:0px;margin-top:0px; *@
+    <span class="ui-jqgrid-title" style="float: left">&nbsp;Add IFSC code</span>
+</div>
+    <form id="frmAddIfscCode">
+        @Html.ValidationSummary(true)
+        @Html.AntiForgeryToken()
+
+    @*   @Html.HiddenFor(model => model.Level)*@
+
+        
+
+        <table style="margin-top: 0px; margin-bottom: 0px; width: 100%;" class="rowstyle">
+            <tr style="line-height:80%">
+                 
+              
+                 <td style="width: 9%"></td>
+                 <td style="width: 8%">
+                    @Html.Label("Bank Name")<span style="color: red">*</span>
+                </td>
+                <td style="width:30%">
+                    @Html.TextBoxFor(model => model.BankName, new { @id = "ddlBankName", @tabindex = 1,Class="textWidth" }) 
+                    @Html.ValidationMessageFor(model => model.BankName)
+                </td>
+             
+               
+                  <td style="width: 10%">
+                    @Html.Label("Branch Name")<span style="color: red">*</span>
+                </td>
+                <td>
+                    @Html.EditorFor(model => model.BranchName)
+                  
+                    @Html.ValidationMessageFor(model => model.BranchName)
+                </td>
+                
+                 </tr>
+        
+
+            <tr>
+                  <td style="width: 15%"></td>
+                 <td>
+                    @Html.Label("Bank Address")<span style="color: red">*</span>
+                </td>
+                <td>
+                    @Html.TextAreaFor(model => model.BankAddress)
+                    
+                    @Html.ValidationMessageFor(model => model.BankAddress)
+                </td>
+                
+              
+               
+
+                 <td>
+                    @Html.Label("City")<span style="color: red">*</span>
+                </td>
+                <td>
+                    @Html.EditorFor(model => model.City)
+                    
+                    @Html.ValidationMessageFor(model => model.City)
+                </td>
+                
+              </tr>
+
+            <tr>
+              <td style="width: 15%"></td>
+                 
+                <td>
+                    @Html.Label("State")<span style="color: red">*</span>
+                </td>
+                <td>
+                    @Html.DropDownListFor(model => model.stateCode, new SelectList(Model.lstState, "Value", "Text"), new { @id = "ddlstate", @tabindex = 1 })
+                    
+                    @Html.ValidationMessageFor(model => model.stateCode)
+                </td>
+                
+
+                
+
+                 <td>
+                    @Html.Label("IFSC Code")<span style="color: red">*</span>
+                </td>
+                <td>
+                    @Html.EditorFor(model => model.IfscCode)
+                    
+                    @Html.ValidationMessageFor(model => model.IfscCode)
+                </td>
+
+
+                </tr>
+              
+
+               
+               <tr>
+                    <td></td><td></td>
+                <td style="text-align:right">
+                    <input type="button"  class="jqueryButton" value="Add IFSC Code" title="Add IFSC code" id="btnAddIfscCode" name="btnViewDetails" tabindex="3" />
+                
+                      <input type="reset" class="jqueryButton" value="Reset" id="btnReset"  />
+                     </td>
+              
+            </tr>
+        </table>
+         
+    </form>
+
+
+</div>
+
+
+
+<br />
+<div id="divStatus_Duplicate" style="display:none; text-align: left; height: 25px;" class="ui-corner-top ui-widget-header panelheader"  > 
+    <span class="ui-jqgrid-title" style="float: left ">&nbsp;IFSC code is already exist as below:</span>
+</div>
+<div id="divStatus_Insert" style="display:none; text-align: left; height: 25px;" class="ui-corner-top ui-widget-header panelheader"  > 
+    <span class="ui-jqgrid-title" style="float: left">&nbsp;IFSC code addedd as below:</span>
+</div>
+
+<div id="isStatus" style="display:none">
+
+<div id="dvAuthoriszedSignatoryDetails" class="ui-corner-bottom" style="display: block; border: 1px solid #B5B8C8;">
+    <form id="AuthoriszedSignatoryDetails">
+        @Html.ValidationSummary(true)
+        @Html.AntiForgeryToken()
+
+   
+
+
+
+        <table id="AStable" style="margin-top: 0px; margin-bottom: 0px; width: 100%; " class="rowstyle">
+            <tr>
+              
+                <tr>
+                    <td style="width:25%">                   
+                </td>
+                <td style="width:20%">
+                    @Html.Label("Bank Name :")
+                </td>
+                <td id="Bank_Name">
+                   
+                   
+                </td>
+                </tr>
+
+                <tr>
+                     <td style="width:15%">                  
+                </td>  
+                <td style="width:20%">
+                    @Html.Label("Branch Name :")
+                </td>
+                
+                <td id="Branch_Name">
+                  
+                   
+                </td>
+                </tr>
+
+                <tr>
+                    <td style="width:15%">                  
+                </td> 
+                   <td style="width:20%">
+                    @Html.Label("Address :")
+                </td>
+     
+                <td id="Bank_Address">
+               
+                </td>
+                </tr>
+
+
+
+             <tr>
+                    <td style="width:15%">                  
+                </td> 
+                   <td style="width:20%">
+                    @Html.Label("City :")
+                </td>
+     
+                <td id="BankCity">
+               
+                </td>
+                </tr>
+
+
+             <tr>
+                    <td style="width:15%">                  
+                </td> 
+                   <td style="width:20%">
+                    @Html.Label("State :")
+                </td>
+     
+                <td id="State">
+               
+                </td>
+                </tr>
+
+
+             <tr>
+                    <td style="width:15%">                  
+                </td> 
+                   <td style="width:20%">
+                    @Html.Label("IFSC code :")
+                </td>
+     
+                <td id="IFSCCode">
+               
+                </td>
+                </tr>
+
+               <tr>
+               
+                   
+               
+              
+            </tr>
+        </table>
+        </form>
+</div>
+    </div>
+
+<style>
+
+    tr, td {
+
+        padding:5px;
+    }
+
+
+</style>
+

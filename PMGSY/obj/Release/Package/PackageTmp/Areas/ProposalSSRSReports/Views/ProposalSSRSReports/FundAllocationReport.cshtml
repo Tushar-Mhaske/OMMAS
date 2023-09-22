@@ -1,0 +1,23 @@
+﻿@using MvcReportViewer
+
+@model PMGSY.Areas.ProposalSSRSReports.Models.FundAllocationModel
+
+@*Not Sure about report design and parameter*@
+
+
+
+@Html.MvcReportViewer("/PMGSYCitizen/Fund_Allocation_Report",
+     new
+     {       
+         State = Model.Mast_State_Code,
+         Agency = Model.Agency,
+         Year = Model.PhaseYear,      
+         Collaboration = Model.FundingAgency,
+         Fund = Model.FundType     
+         //StateName = Model.StateName,
+         //CollaborationName=Model.FundingAgencyName,
+         //AgencyName =Model.AgencyName,
+         //FundName=Model.FundTypeName
+     },
+     new { Height = 600, Width = 1215, style = "border:none;" })
+

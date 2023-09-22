@@ -1,0 +1,79 @@
+﻿@model PMGSY.Models.UserManager.Role_Master
+
+
+@*<script src="~/Scripts/jquery.validate.unobtrusive.js"></script>
+<script src="~/Scripts/jquery.validate.js"></script>*@
+<link href="~/Content/jquery.multiselect.css" rel="stylesheet" />
+<script src="~/Scripts/jquery.multiselect.min.js"></script>
+<script src="~/Scripts/custom/Generic.js"></script>
+<script src="~/Scripts/UserManager/CreateRole.js"></script>
+<script type="text/javascript">
+    $(document).ready(function () {
+        if ('@ViewBag.Operation' == 'A') {
+            $("#btnAddRole").attr('value', 'Save');
+            $('#btnReset').show();
+            $('#btnCancel').hide();
+            //$("#RoleName").removeAttr('disabled');
+        }
+        else if ('@ViewBag.Operation' == 'U') {
+                $("#btnAddRole").attr('value', 'Update');
+                $('#btnReset').hide();
+                $('#btnCancel').show();
+                var arr = ""; 
+                if ($("#hidLevelId").val().indexOf("$$") >= 0) {
+                    arr = $("#hidLevelId").val().split("$$");
+                    $("#LevelMaster").val(arr);
+                    $("#LevelMaster").multiselect("refresh");
+                }    
+        }//else ends here
+    });//doc.Ready ends here
+
+</script>
+
+<center>
+     
+  <form id="createRoleForm">
+    @Html.HiddenFor(m => m.LevelId, new { @id = "hidLevelId" })
+    
+      @if(ViewBag.Operation == "U"){
+        @Html.HiddenFor(m => m.RoleID, new { @id = "hidRoleId" })
+        }
+
+    @Html.ValidationSummary(true)
+    @Html.ValidationMessageFor(model => model.RoleID)
+ <div id="divError" class="ui-state-error ui-corner-all" style="text-align: left; display: none; width: 99%">
+    <span class="ui-icon ui-icon-alert" style="float: left;"></span>
+    <span></span>
+</div> 
+ <table id="Table1"  cellspacing="0" cellpadding="2" class="rowstyle" style="margin-top:10px; text-align:left; border:ridge 0.1em #ccc; width:100%; padding-top:5px; padding-left:5px; padding-right:5px; padding-bottom:5px;">
+        <tr>
+            <td style="font-weight:bold;width:10%">@Html.LabelFor(model => model.RoleName)<span style="color:red">*</span></td>
+            <td>@Html.TextBoxFor(model => model.RoleName, new { @maxlength = "50" }) </td>
+            
+            <td style="font-weight:bold;width:20%">Levels<span style="color:red">*</span></td>
+            <td> @Html.ListBox("LevelMaster")</td> 
+          
+             
+        </tr>
+        <tr>
+             <td style="width:10%"></td>
+             <td>@Html.ValidationMessageFor(model => model.RoleName)</td> 
+              
+             <td style="width:20%"></td>
+             <td style="text-align:center"><span id="showLevelError"> @Html.ValidationMessage("showLevelError")</span></td> 
+        </tr>
+        <tr>
+            <td style="font-weight:bold;width:20%" @Html.LabelFor(model => model.Remark)</td>
+            <td colspan="7">@Html.TextAreaFor(model => model.Remark, new { @maxlength = "50" }) @Html.ValidationMessageFor(model => model.Remark)</td>
+        </tr>
+        <tr>
+               <td colspan="4" style="text-align:center">
+                   <input type="button" class="jqueryButton" value="Add Role" id="btnAddRole"/>
+                   <input type="reset" class="jqueryButton" value="Reset" id="btnReset" />
+                   <input type="button" class="jqueryButton" value="Cancel" id="btnCancel" style="display:none;"/>
+               </td>
+           </tr>  
+        
+</table>
+   </form>
+</center>

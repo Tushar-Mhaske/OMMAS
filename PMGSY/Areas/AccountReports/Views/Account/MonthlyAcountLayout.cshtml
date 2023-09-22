@@ -1,0 +1,159 @@
+﻿@model PMGSY.Areas.AccountReports.Models.MonthlyAccountModel
+
+@{
+    //Layout = "~/Views/Shared/_Layout.cshtml";
+    //Layout = "~/Areas/AccountReports/Views/Account/_Layout.cshtml";
+
+    Layout = Request.IsAjaxRequest() ? null : "~/Areas/AccountReports/Views/Account/_Layout.cshtml";
+    
+}
+
+@using PMGSY.Extensions
+<script src="~/Areas/AccountReports/Scripts/MonthlyAcountReport.js"></script>
+<div id="loadFilters">
+<form id="frmMonthlyAccount" >
+    @Html.AntiForgeryToken()
+    @Html.ValidationSummary(true)
+    @Html.Hidden("LevelIdMonthlyAccount",PMGSYSession.Current.LevelId)
+    @Html.Hidden("PIUNdCode",PMGSYSession.Current.AdminNdCode)
+
+     <div id="dvhdrMonthlyDetailsForStateAndSRRDA" class="ui-widget-header innerDivHeader" style="margin-bottom: 05px; height: 20px;">
+        Monthly Account Details        
+    </div>
+
+<table class="table-content ui-corner-all" style="width: 100%; border: .1em solid gray">
+    @* Mord User /SSRDA *@
+        
+    @* 1-All State 2- Srrda *@
+    @if (PMGSYSession.Current.LevelId == 6 || PMGSYSession.Current.LevelId == 4)
+    {
+         <tr>
+            <td style="width:5%"></td>
+            <td style="width:15%;text-align:left">@Html.Label("Report Type : ") <label style="color:red;"> *</label></td>
+
+            <td style="text-align:center;  width:20%">
+                
+                @if (PMGSYSession.Current.LevelId == 5)
+                {
+                    @Html.RadioButtonFor(model => model.monthlyStateSrrdaDpiu, "STATE", new { @id="rdoStateMonthlyAccount",@title="State"}) @Html.DisplayNameFor(model=>model.State)
+                }
+                else
+                {
+                    @Html.RadioButtonFor(model => model.monthlyStateSrrdaDpiu, "STATE", new { @id="rdoStateMonthlyAccount",@title="State",@checked="checked"}) @Html.DisplayNameFor(model=>model.State)
+                }
+            </td>
+
+            <td style="width:10%;text-align:right" > 
+                @if (PMGSYSession.Current.LevelId == 4)//SRRDA
+                {                
+                    @Html.RadioButtonFor(model => model.monthlyStateSrrdaDpiu, "SRRDA", new { @id="rdoSrrdaMonthlyAccount",@title="SRRDA"}) @Html.DisplayNameFor(model=>model.Srrda)
+                }
+                else if (PMGSYSession.Current.LevelId ==6) //SRRDA
+                {
+                    @Html.RadioButtonFor(model => model.monthlyStateSrrdaDpiu, "SRRDA", new { @id="rdoSrrdaMonthlyAccount",@title="SRRDA"}) @Html.DisplayNameFor(model=>model.Srrda)
+                }
+                else if (PMGSYSession.Current.LevelId == 5) //DPIU
+                {
+                    @Html.RadioButtonFor(model => model.monthlyStateSrrdaDpiu, "SRRDA", new { @id="rdoSrrdaMonthlyAccount",@title="SRRDA",@disabled="disabled"})  @Html.DisplayNameFor(model=>model.Srrda)
+                }
+            </td>
+            
+            <td style="text-align:left; font-weight:bold; width:5%">
+               
+            </td>
+             <td style="width:05%">
+                  @if (PMGSYSession.Current.LevelId == 5)
+                {
+                    @Html.RadioButtonFor(model => model.monthlyStateSrrdaDpiu, "DPIU", new { @id="rdoDpiuMonthlyAccount",@title="DPIU",@checked="checked"}) @Html.DisplayNameFor(model=>model.Dpiu)
+                }
+                else
+                {
+                    @Html.RadioButtonFor(model => model.monthlyStateSrrdaDpiu, "DPIU", new { @id="rdoDpiuMonthlyAccount",@title="DPIU"}) @Html.DisplayNameFor(model=>model.Dpiu)
+                }
+
+             </td>
+            
+            <td style="text-align:left; font-weight:bold; width:08%">
+            </td>
+             <td></td>
+             <td></td>
+            
+        </tr>
+
+        <tr>
+            <td></td>
+            <td style="width:10%;text-align:left">@Html.Label("Select Agency : ")</td>
+            <td style="text-align:right">
+                @if (PMGSYSession.Current.LevelId == 4 || PMGSYSession.Current.LevelId == 5)//SRRDA or DPIU
+                {
+                    @Html.DropDownListFor(m => m.State,new SelectList(Model.lstStates,"Value","Text") , new { @style="width:200px", @disabled=true,@title="Agency",@id="ddlSrrdaMonthlyAccount"})
+                }
+                else {//MORD 
+                    @Html.DropDownListFor(m => m.State, new SelectList(Model.lstStates,"Value","Text") ,new { @style="width:200px",@title="Agency",@id="ddlSrrdaMonthlyAccount"})
+                }
+            </td>  
+            <td style="text-align:right;width:10%;">@Html.Label("Select DPIU : ", new { @id="lblSelectDpiu",style="display:none"})</td>              
+            <td style="width:05%;">@Html.DropDownListFor(m => m.Dpiu, ViewBag.ddlDPIU as IEnumerable<SelectListItem>, new { style="display:none;width:100px",@title="DPIU",@id="ddlDpiuMonthlyAccount"})
+            </td>
+            <td></td>
+            <td></td>            
+            <td></td>
+            <td></td>
+        </tr>
+    }
+    else if (PMGSYSession.Current.LevelId ==5)
+    { 
+     <tr>
+            <td></td>
+            <td style="width:10%;text-align:left">@Html.Label("Select Agency : ")</td>
+            <td style="text-align:right">
+                @Html.DropDownListFor(m => m.State,new SelectList(Model.lstStates,"Value","Text") , new { @style="width:200px", @disabled=true,@title="Agency",@id="ddlSrrdaMonthlyAccount"})
+            </td>  
+            <td style="text-align:right">@Html.Label("Select DPIU : ", new { @id="lblSelectDpiu"})</td>              
+            <td>
+                
+                
+                @Html.DropDownListFor(m => m.Dpiu, ViewBag.ddlDPIU as IEnumerable<SelectListItem>, new { @title="DPIU",@id="ddlDpiuMonthlyAccount"})
+                    
+                
+            </td>
+            <td></td>
+            <td></td>            
+            <td></td>
+            <td></td>
+        </tr>    
+    }    
+        <tr>
+            <td style="width:5%"></td>
+            <td style="width:15%;text-align:left">@Html.Label("Report Duration : ")</td>
+            <td style="width:20%;text-align:right; font-weight:bold;">               
+                 @Html.LabelFor(m=>m.Month)<label style="color:red;"> *</label>:
+                  @Html.DropDownListFor(m => m.Month, ViewBag.ddlMonth as IEnumerable<SelectListItem>, new { @title="Month",@id="ddlMonthMonthlyAccount"})
+                            @Html.ValidationMessageFor(m=>m.Month)
+            </td>
+            <td style="width:10%;text-align:right">@Html.LabelFor(m=>m.Year)<label style="color:red;"> *</label>:</td>
+            <td style="width:5%;text-align:left; font-weight:bold;">@Html.DropDownListFor(m => m.Year, ViewBag.ddlYear as IEnumerable<SelectListItem>, new { @title="Year",@id="ddlYearMonthlyAccount"})                
+                @Html.ValidationMessageFor(m=>m.Year)
+            </td>
+            <td style="width:07%;text-align:right">@Html.LabelFor(m=>m.CreditDebit)<label style="color:red;"> *</label>:</td>
+            <td style="width:8%;text-align:left;">@Html.DropDownListFor(m => m.CreditDebit, ViewBag.ddlCreditDebit as IEnumerable<SelectListItem>, new { @title="Balance",@id="ddlCreditDebitMonthlyAccount"})
+                @Html.ValidationMessageFor(m=>m.CreditDebit)
+            </td>
+             <td style="width:07%;text-align:left"></td>
+                <td style="width:10%;text-align:left;">                    
+            </td>
+        </tr>
+    
+    <tr>
+                <td style="width:10%;" Colspan="9">     
+                    <center>
+                       <input type="button" class="jqueryButton" value="View" id="btnViewMonthlyAcount" />
+                    </center>           
+               </td>
+    </tr>
+</table>
+
+    </form>
+</div>
+
+<div id="loadReport" style="width:90%" class="divLoadReport"></div>

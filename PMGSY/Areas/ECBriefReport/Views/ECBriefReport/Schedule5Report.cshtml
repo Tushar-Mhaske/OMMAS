@@ -1,0 +1,13 @@
+﻿@using MvcReportViewer
+
+   
+    @Html.MvcReportViewer("/PMGSYCitizen/Schedule_5_Report",
+     new
+     {
+         Level = 1,
+         StateCode = 0,
+         PMGSY = PMGSY.Extensions.PMGSYSession.Current.PMGSYScheme,
+         Section = '%',
+         
+     },
+       new { Height = 600, Width = "100%", style = "border:none;" })

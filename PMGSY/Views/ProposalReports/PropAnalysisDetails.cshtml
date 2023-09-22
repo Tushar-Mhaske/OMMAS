@@ -1,0 +1,226 @@
+﻿@model PMGSY.Models.ProposalReports.ProposalReportsModel
+<script type="text/javascript" src="@Url.Content("~/Scripts/jquery.ui.dialog.js")"> </script>
+<script src="~/Scripts/custom/Generic.js"></script>
+<script type="text/javascript" src="~/Scripts/ProposalReports/PropAnalysisDetails.js"></script>
+<script src="~/Scripts/jquery.ui.accordion.js"></script>
+<script src="~/Scripts/jquery.ui.tabs.js"></script>
+
+@Html.Hidden("hdnLevelId", PMGSY.Extensions.PMGSYSession.Current.LevelId.ToString())
+
+@if (PMGSY.Extensions.PMGSYSession.Current.StateCode != 0)
+{           
+    @Html.Hidden("STATE_NAME", PMGSY.Extensions.PMGSYSession.Current.StateName.ToString())
+}
+
+@if (PMGSY.Extensions.PMGSYSession.Current.DistrictCode != 0)
+{
+    @Html.Hidden("DISTRICT_NAME", PMGSY.Extensions.PMGSYSession.Current.DistrictName.ToString())   
+}
+
+@Html.HiddenFor(model => model.BLOCK_NAME)
+@Html.HiddenFor(model => model.MAST_STATE_CODE)
+@Html.HiddenFor(model => model.MAST_DISTRICT_CODE)
+<div style="width: 98%">
+    <table class="ui-state-default ui-corner-all" style="width: 100%;">
+        <tr>
+            <td style="width: 6%;"></td>
+            <td style="text-align: left; width: 5%;">
+                @Html.Label("State")
+            </td>
+            <td style="width: 15%;">
+                @Html.DropDownList("ddState_PropAnalysisDetails", ViewData["STATE"] as IEnumerable<SelectListItem>, new { @title = "State", @tabindex = 1 })
+            </td>
+            <td style="text-align: left; width: 5%;">
+                @Html.Label("Scrutiny")
+            </td>
+            <td style="width: 15%;">
+                @Html.DropDownList("ddScrutiny_PropAnalysisDetails", ViewData["SCRUTINY"] as IEnumerable<SelectListItem>, new { @title = "Scrutiny", @tabindex = 2 })
+            </td>
+            <td style="text-align: left; width: 5%;">
+                @Html.Label("Sanctioned")
+            </td>
+            <td style="width: 15%;">
+                @Html.DropDownList("ddSanctioned_PropAnalysisDetails", ViewData["SANCTION"] as IEnumerable<SelectListItem>, new { @title = "Sanctioned", @tabindex = 3 })
+            </td>
+            <td style="text-align: center; width: 20%; margin-left: 5px;">
+                <input type="button" id="btnGoPropAnalysis" value="View" class="jqueryButton" title="View Details" tabindex="4" />
+            </td>
+        </tr>
+
+    </table>
+</div>
+
+<br />
+
+<div id="tabs" style="width: 98%;">
+    <div>
+        <table class="ui-state-default ui-corner-all" style="width: 98%;">
+            <tr>
+                <td style="width: 10%;"></td>
+                <td style="text-align: left; width: 2%;">
+                    @Html.Label("Collapse")
+                </td>
+                <td style="width: 15%;">
+                    @Html.RadioButton("rdButton", true, true, new { @id = "rbtnCollapsAll" })  @Html.Label("Yes")  &nbsp;&nbsp;
+                     @Html.RadioButton("rdButton", false, false, new { @id = "rbtnExpandAll" })  @Html.Label("No")
+                </td>
+
+
+
+            </tr>
+
+        </table>
+    </div>
+    <br />
+    <ul>
+        <li><a href="#tabs-1">Road Proposals</a></li>
+        <li><a href="#tabs-2">Bridge Proposals</a></li>
+
+    </ul>
+
+
+    <div id="tabs-1" style="text-align: left">
+        <div id="divPropDataGapRoadDetail" style="width: 98%; margin-top: 20px;">
+            <center>
+    <table id="tbPropDataGapRoadDetailReport"></table>
+    <div id="dvPropDataGapRoadDetailReportPager"></div>
+            </center>
+        </div>
+        @* Start Proposal Details div*@
+
+        <div id="divPropAnalysisDetail" style="width: 98%; margin-top: 20px;">
+            <center> 
+               <table id="tbPropAnalysisDetailReport"></table>
+            <div id="dvPropAnalysisDetailReportPager"></div>
+          </center>
+        </div>
+        @* End Proposal Details div*@
+
+        <br />
+        @* Start  of Hab,Traffic,CBR  tab div*@
+        <div id="tabhabTrafiicCBRMain" style="display: none; width: 98%">
+            <span class="ui-jqgrid-title"></span>
+            <span id="spCollapseIconTrafiicCBRMain" class="ui-icon ui-icon-circle-triangle-n" style="float: right;"></span>
+
+            <ul>
+                <li><a href="#habtab-1">Habitation</a></li>
+                <li><a href="#traffictab-2">Traffic Intensity</a></li>
+                <li><a href="#CBRtab-3">CBR Values</a></li>
+
+            </ul>
+
+
+            <div id="habtab-1" style="text-align: left">
+                <div id="divPropAnalysisHabDetail" style="width: 98%; margin-top: 20px;">
+                    <center>
+    <table id="tbPropAnalysisHabDetailReport"></table>
+    <div id="dvPropAnalysisHabDetailReportPager"></div>
+            </center>
+                </div>
+
+            </div>
+
+
+            <div id="traffictab-2">
+                <div id="divPropAnalysistrafficDetail" style="width: 98%; margin-top: 20px;">
+                    <center>
+    <table id="tbPropAnalysistrafficDetailReport"></table>
+    <div id="dvPropAnalysistrafficDetailReportPager"></div>
+            </center>
+                </div>
+            </div>
+
+            <div id="CBRtab-3">
+                <div id="divPropAnalysisCBRDetail" style="width: 98%; margin-top: 20px;">
+                    <center>
+    <table id="tbPropAnalysisCBRDetailReport"></table>
+    <div id="dvPropAnalysisCBRDetailReportPager"></div>
+            </center>
+                </div>
+            </div>
+            @* End of Bridge Proposals tab *@
+
+        </div>
+        @* End  of Hab,Traffic,CBR  tab div*@
+
+    </div>
+    @* End of Road Proposals tab *@
+
+    <div id="tabs-2">
+        <div id="divPropDataGapBridgeDetail" style="width: 98%; margin-top: 20px;">
+            <center>
+    <table id="tbPropDataGapBridgeDetailReport"></table>
+    <div id="dvPropDataGapBridgeDetailReportPager"></div>
+            </center>
+        </div>
+
+        @* Start Proposal Birdge Details div*@
+
+        <div id="divBridgePropAnalysisDetail" style="width: 98%; margin-top: 20px;">
+            <center> 
+               <table id="tbBridgePropAnalysisDetailReport"></table>
+            <div id="dvBridgePropAnalysisDetailReportPager"></div>
+    </center>
+        </div>
+        @* End Proposal Details div*@
+        <br />
+        @* Start  of Bridge Hab,Traffic,CBR  tab div*@
+        <div id="tabBridgehabTrafiicCBRMain" style="display: none; width: 98%">
+            <span class="ui-jqgrid-title"></span>
+            <span id="spCollapseIconBridgeTrafiicCBRMain" class="ui-icon ui-icon-circle-triangle-n" style="float: right;"></span>
+
+            <ul>
+                <li><a href="#Bridgehabtab-1">Habitation</a></li>
+                <li><a href="#Bridgetraffictab-2">Traffic Intensity</a></li>
+                <li><a href="#BridgeCBRtab-3">CBR Values</a></li>
+
+            </ul>
+
+
+            <div id="Bridgehabtab-1" style="text-align: left">
+                <div id="divBridgePropAnalysisHabDetail" style="width: 98%; margin-top: 20px;">
+                    <center>
+                    <table id="tbBridgePropAnalysisHabDetailReport"></table>
+                    <div id="dvBridgePropAnalysisHabDetailReportPager"></div>
+            </center>
+                </div>
+
+            </div>
+
+
+            <div id="Bridgetraffictab-2">
+                <div id="divBridgePropAnalysistrafficDetail" style="width: 98%; margin-top: 20px;">
+                    <center>
+                <table id="tbBridgePropAnalysistrafficDetailReport"></table>
+                <div id="dvBridgePropAnalysistrafficDetailReportPager"></div>
+            </center>
+                </div>
+            </div>
+
+            <div id="BridgeCBRtab-3">
+                <div id="divBridgePropAnalysisCBRDetail" style="width: 98%; margin-top: 20px;">
+                    <center>
+                <table id="tbBridgePropAnalysisCBRDetailReport"></table>
+                <div id="dvBridgePropAnalysisCBRDetailReportPager"></div>
+            </center>
+                </div>
+            </div>
+            @* End of Bridge Proposals tab *@
+
+        </div>
+        @* End  of Hab,Traffic,CBR  tab div*@
+
+    </div>
+    @* End of Bridge Proposals tab *@
+
+</div>
+@* End of Main  tab div*@
+
+<br />
+
+
+
+<br />
+
+
+

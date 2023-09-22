@@ -1,0 +1,36 @@
+﻿@model PMGSY.Areas.Feedback.Models.CategorywiseFeedbackModel
+
+@if (Layout == null)
+{
+    Layout = Request.IsAjaxRequest() ? null : "~/Areas/AccountReports/Views/Account/_Layout.cshtml";
+}
+<script src="~/Scripts/jquery.ui.datepicker.js"></script>
+<script type="text/javascript" src="@Url.Content("~/Scripts/jquery.ui.dialog.js")"> </script>
+<script src="~/Areas/Feedback/Scripts/LDGLayout.js"></script>
+<script src="~/Scripts/custom/Generic.js"></script>
+
+<div id="dvhdCategoryFeedbackLayout" class="ui-corner-top ui-widget-header panelheader" style="text-align: left; height: 20px;">
+    <span class="ui-jqgrid-title" style="float: left">&nbsp;LGD MIS Data report</span>
+    <span id="spCollapseIconCN" class="ui-icon ui-icon-circle-triangle-n" style="float: right"></span>
+</div>
+<div id="dvCategoryFeedbackLayout" class="ui-corner-bottom" style="display: block;">
+    <form id="frmCategoryFeedbackReportLayout">
+        <table id="tblCategoryFeedbackReportLayout" class="rowstyle" style="margin-top: 0px; text-align: center; width: 100%; border: 1px solid #B5B8C8;">
+            <tr>
+                <td style="width: 15%; font-weight: bold;">
+                    @Html.Label("Select Date")
+                </td>
+                <td style="width: 15%">
+                    @Html.EditorFor(m => m.FROM_DATE, String.Format("{0:dd/MM/yyyy}", Model.FROM_DATE))
+                </td>
+               
+                <td colspan="2" style="text-align: left;">
+                    <input type="button" id="btnViewCategorywisefeedbackreport" value="View Details" class="jquerybutton" style="margin-left: 20px;" />
+                </td>
+            </tr>
+        </table>
+    </form>
+</div>
+
+<div id="dvLoadCategorywisefeedbackreport"></div>
+

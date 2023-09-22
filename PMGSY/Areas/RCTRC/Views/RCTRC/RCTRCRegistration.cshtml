@@ -1,0 +1,351 @@
+﻿@model PMGSY.Areas.RCTRC.Models.RCTRCRegistrationModel
+
+@{
+    ViewBag.Title = "RCTRCRegistrationModel";
+}
+
+<script src="~/Scripts/custom/Generic.js" type="text/javascript"></script>
+
+<script src="~/Scripts/jquery.ui.datepicker.js"></script>
+
+<script src="~/Areas/RCTRC/Scripts/RCTRCRegistration.js"></script>
+
+<div id="dvhdAddNewCdWorksDetails" class="ui-corner-top ui-widget-header panelheader" style="text-align: left; height: 20px;">
+    <span class="ui-jqgrid-title" style="float: left">&nbsp;TNA Registration Details</span>
+    <span id="spCollapseIconCN" class="ui-icon ui-icon-circle-triangle-n" style="float: right"></span>
+</div>
+
+<div id="dvAddNewCdWorksDetails" style="display: block; border: 1px solid #B5B8C8; text-align: left">
+    <div id="dvErrorMessage" class="ui-widget ui-state-error ui-corner-all" style="padding: 0.7em .7em; display: none; margin: 5px 5px 5px 5px;">
+        <span class="ui-icon ui-icon-alert" style="float: left; margin-right: .3em;"></span>
+        <strong>Alert:</strong> <span id="message"></span>
+    </div>
+
+    <form id="frmAddCdWorks">
+        @Html.AntiForgeryToken()
+        <center>@Html.ValidationSummary(true)</center>
+        <table class="rowstyle" style="width: 100%; margin-top: 10px">
+            <tr style="display: none">
+                <td>@Html.HiddenFor(m=>m.EncryptedRCTRCCode)</td>
+            </tr>
+
+            
+
+            <tr>
+                <td style="width: 30%;"></td>
+                <td style="text-align: left; width: 15%; color:forestgreen">
+                   <h3>@Html.Label("Personal Information")</h3>
+                   
+                </td>
+                <td>
+                  
+                </td>
+
+            </tr>
+
+            <tr>
+                <td style="width: 30%;"></td>
+                <td style="text-align: left; width: 15%;">
+                    @Html.LabelFor(model => model.CONTACT_NAME)
+                    <label style="color: red;">*</label>
+                </td>
+                <td>
+                    @Html.TextBoxFor(model => model.CONTACT_NAME, new { maxlength = 100, @title = "Name", @tabindex = 1, @placeholder = "Enter Contact Name..." })
+                    @Html.ValidationMessageFor(model => model.CONTACT_NAME)
+                </td>
+
+            </tr>
+
+               <tr>
+                <td style="width: 30%;"></td>
+                <td style="text-align: left; width: 15%;">
+                    @Html.LabelFor(model => model.DOB)
+                    <label style="color: red;">*</label>
+                </td>
+                <td>
+                   @Html.TextBoxFor(model => model.DOB, new { @title = "Date of Birth",@readonly="readonly", @maxlength = 10, @tabindex = 2, @placeholder = "Select Date of Birth...", @id = "txtDOB" })
+
+                    @Html.ValidationMessageFor(model => model.DOB)
+                </td>
+
+            </tr>
+
+                <tr>
+                <td style="width: 30%;"></td>
+                <td style="text-align: left; width: 15%;">
+                       @Html.LabelFor(model => model.DesignationText)
+               @*     @Html.LabelFor(model => model.DesignationCode)*@
+                    <label style="color: red;">*</label>
+                </td>
+                <td>
+                 @Html.TextBoxFor(model => model.DesignationText, new { @title = "Designation", @maxlength = 200, @tabindex = 3, @placeholder = "Enter Designation...", @id = "txtDesignation" })
+                 @Html.ValidationMessageFor(model => model.DesignationText)
+
+       @*          @Html.DropDownListFor(model => model.DesignationCode, new SelectList(Model.DesignationList, "Value", "Text"), new { @title = "Designation", @id = "ddlDesignation", @tabindex = 3, @style = "width:150px" })
+                 @Html.ValidationMessageFor(m => m.DesignationCode)*@
+                </td>
+
+            </tr>
+
+                <tr>
+                <td style="width: 30%;"></td>
+                <td style="text-align: left; width: 15%;">
+                    @Html.LabelFor(model => model.JOINING_DATE)
+                    <label style="color: red;">*</label>
+                </td>
+                <td>
+                   @Html.TextBoxFor(model => model.JOINING_DATE, new { @title = "Date of Joining Services",@readonly="readonly", @maxlength = 10, @tabindex = 4, @placeholder = "Select Date of Joining Services...", @id = "txtDOJ" })
+
+                    @Html.ValidationMessageFor(model => model.JOINING_DATE)
+                </td>
+
+            </tr>
+
+                <tr>
+                <td style="width: 30%;"></td>
+                <td style="text-align: left; width: 15%;">
+                      @Html.LabelFor(model => model.StateCode)
+                    <label style="color: red;">*</label>
+                </td>
+                <td>
+                  
+                        @Html.DropDownListFor(model => model.StateCode, new SelectList(Model.StateList, "Value", "Text"), new { @title = "State", @tabindex = 1, @id = "StateList_StateListRoadDetails", @style = "width:150px" })
+                        @Html.ValidationMessageFor(m => m.StateCode)
+                   
+                </td>
+
+            </tr>
+
+
+
+                <tr>
+                <td style="width: 30%;"></td>
+                <td style="text-align: left; width: 15%;">
+            
+                    
+                    @Html.Label("Place of Deputation (District)")
+                      @*  @Html.LabelFor(model => model.DistrictCode)*@
+                    <label style="color: red;">*</label>
+                </td>
+                <td>
+                       @Html.DropDownListFor(model => model.DistrictCode, new SelectList(Model.DistrictList, "Value", "Text"), new { @title = "District", @id = "DistrictList_StateListRoadDetails", @tabindex = 2, @style = "width:150px" })
+                </td>
+
+            </tr>
+
+
+         
+
+
+
+                <tr>
+                <td style="width: 30%;"></td>
+                <td style="text-align: left; width: 15%;">
+                    @Html.LabelFor(model => model.DEPUTATION)
+                    <label style="color: red;">*</label>
+                </td>
+                <td>
+                    @Html.TextBoxFor(model => model.DEPUTATION, new { maxlength = 3, @title = "Period of Deputation", @tabindex = 5, @placeholder = "Enter Period of Deputation..." })
+                    @Html.ValidationMessageFor(model => model.DEPUTATION)
+                </td>
+
+            </tr>
+
+
+             <tr>
+                <td style="width: 30%;"></td>
+                <td style="text-align: left; width: 15%;">
+                    @Html.LabelFor(model => model.MOBILE)
+                    <label style="color: red;">*</label>
+                </td>
+                <td>
+                    @Html.TextBoxFor(model => model.MOBILE, new { maxlength = 10, @title = "Mobile Number", @tabindex = 6, @placeholder = "Enter Mobile Number..." })
+                    @Html.ValidationMessageFor(model => model.MOBILE)
+                </td>
+
+            </tr>
+               <tr>
+                <td style="width: 30%;"></td>
+                <td style="text-align: left; width: 15%;">
+                    @Html.LabelFor(model => model.EMAIL)
+                    <label style="color: red;">*</label>
+                </td>
+                <td>
+                    @Html.TextBoxFor(model => model.EMAIL, new { maxlength = 100, @title = "Email ID", @tabindex = 7, @placeholder = "Enter Email..." })
+                    @Html.ValidationMessageFor(model => model.EMAIL)
+                </td>
+
+            </tr>
+
+
+              <tr>
+                <td style="width: 30%;"></td>
+                <td style="text-align: left; width: 15%; color:forestgreen">
+                   <h3>@Html.Label("Education Qualification")</h3>
+                   
+                </td>
+                <td>
+                  
+                </td>
+
+            </tr>
+
+            <tr>
+                <td style="width: 30%;"></td>
+                <td style="text-align: left; width: 15%;">
+                    @Html.LabelFor(model => model.GraduationCode)
+                    <label style="color: red;">*</label>
+                </td>
+                <td>
+                      @Html.DropDownListFor(model => model.GraduationCode, new SelectList(Model.GraduationList, "Value", "Text"), new { @title = "Graduation", @id = "ddlGraduation", @tabindex = 8, @style = "width:150px" })
+                 @Html.ValidationMessageFor(m => m.GraduationCode)
+                </td>
+
+            </tr>
+
+               <tr>
+                <td style="width: 30%;"></td>
+                <td style="text-align: left; width: 15%;">
+                    @Html.LabelFor(model => model.GraduationDate)
+                    <label style="color: red;">*</label>
+                </td>
+                <td>
+                       @Html.TextBoxFor(model => model.GraduationDate, new { @title = "Date of Graduation",@readonly="readonly", @maxlength = 10, @tabindex = 9, @placeholder = "Select Date of Graduation...", @id = "txtGraduationDate" })
+
+                    @Html.ValidationMessageFor(model => model.GraduationDate)
+                </td>
+
+            </tr>
+
+
+            <tr>
+                <td style="width: 30%;"></td>
+                <td style="text-align: left; width: 15%;">
+                    @Html.LabelFor(model => model.PostGraduationCode)
+                    <label style="color: red;">*</label>
+                </td>
+                <td>
+                    @Html.DropDownListFor(model => model.PostGraduationCode, new SelectList(Model.PostGraduationList, "Value", "Text"), new { @title = "Post Graduation", @id = "ddlPostDesignation", @tabindex = 10, @style = "width:150px" })
+                 @Html.ValidationMessageFor(m => m.PostGraduationCode)
+                </td>
+
+            </tr>
+
+                <tr>
+                <td style="width: 30%;"></td>
+                <td style="text-align: left; width: 15%;">
+                    @Html.LabelFor(model => model.PostGraduationDate)
+                    <label style="color: red;">*</label>
+                </td>
+                <td>
+                       @Html.TextBoxFor(model => model.PostGraduationDate, new { @title = "Date of Post Graduation",@readonly="readonly", @maxlength = 10, @tabindex = 11, @placeholder = "Select Date of Post Graduation...", @id = "txtPostGraduationDate" })
+
+                    @Html.ValidationMessageFor(model => model.PostGraduationDate)
+                </td>
+
+            </tr>
+            
+            <tr>
+                <td style="width: 30%;"></td>
+                <td style="text-align: left; width: 15%;">
+                    @Html.LabelFor(model => model.ComputerAtHomeCode)
+                    <label style="color: red;">*</label>
+                </td>
+                <td>
+                    @Html.DropDownListFor(model => model.ComputerAtHomeCode, new SelectList(Model.ComputerAtHomeCodeList, "Value", "Text"), new { @title = "Computer at Home ?", @id = "ddlCompHome", @tabindex = 12, @style = "width:150px" })
+                 @Html.ValidationMessageFor(m => m.ComputerAtHomeCode)
+                </td>
+
+            </tr>
+
+           <tr>
+                <td style="width: 30%;"></td>
+                <td style="text-align: left; width: 15%;">
+                    @Html.LabelFor(model => model.ComputerAtOfficeCode)
+                    <label style="color: red;">*</label>
+                </td>
+                <td>
+                    @Html.DropDownListFor(model => model.ComputerAtOfficeCode, new SelectList(Model.ComputerAtOfficeList, "Value", "Text"), new { @title = "Computer at Office ?", @id = "ddlCompOffice", @tabindex = 13, @style = "width:150px" })
+                 @Html.ValidationMessageFor(m => m.ComputerAtOfficeCode)
+                </td>
+
+            </tr>
+
+               <tr>
+                <td style="width: 30%;"></td>
+                <td style="text-align: left; width: 15%;">
+                    @Html.Label("Password")
+                    <label style="color: red;">*</label>
+                </td>
+                <td>
+                   @Html.PasswordFor(m => m.Password, new {  @placeholder = "Password", @class = "border-radius-3",@tabindex=14, @maxlength = 32, onCopy="return false" ,onDrag="return false", onDrop="return false", onPaste="return false", autocomplete="off" })
+              @Html.ValidationMessageFor(m => m.Password)
+                </td>
+
+            </tr>
+
+
+            		
+
+            <tr>
+                <td></td>
+                <td></td>
+                <td>
+                    @if (Model.EncryptedRCTRCCode == null)
+                    {
+                  
+                        <input type="button" id="btnSave" name="btnSave" value="Save" class="jqueryButton" title="Save Details" tabindex="15" /> 
+                        <input type="reset" id="btnReset" name="btnReset" value="Reset" class="jqueryButton" title="Reset" tabindex="16" />
+                    }
+                    else
+                    {
+                        <input type="button" id="btnUpdate" name="btnUpdate" value="Update" class="jqueryButton" title="Update Details" tabindex="17" /> 
+                        <input type="button" id="btnCancel" name="btnCancel" value="Cancel" class="jqueryButton" title="Cancel" tabindex="18" />
+                    }
+                </td>
+            </tr>
+            <tr>
+                <td colspan="4">
+                    <label style="border:none">[ Note: Fields marked with<label style="color: red;"> * </label>are mandatory.]</label>
+                </td>
+            </tr>
+        </table>
+
+    </form>
+</div>
+
+
+  <div id="tabs-1" style="text-align:left; flex-align :center" >
+        <div id="divCdWorks" style="text-align:left;width:100%">
+            <table id="tbCDWorksList" style="width:95%;flex-align:center" ></table>
+            <div id="pagerCDWorksList" tabindex="15"></div>
+        </div>
+    </div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

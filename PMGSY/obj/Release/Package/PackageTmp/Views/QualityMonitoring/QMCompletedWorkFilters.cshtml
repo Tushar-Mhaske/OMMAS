@@ -1,0 +1,37 @@
+﻿@*
+    * Project Id    :
+    * Project Name  :   OMMAS II
+    * Name          :   QMCompletedWorkFilters.cshtml
+    * Description   :   Renders View & Filters for Completed Work Details
+    * Author        :   Shyam Yadav
+    * Creation Date :   01/August/2014
+*@
+
+@model PMGSY.Models.QualityMonitoring.QMCompletedWorkModel
+
+<script src="~/Scripts/QualityMonitoring/QMCompletedWorkFilters.js"></script>
+
+    <div>
+        <table id="tblCompletedWorksFilters" style="margin-top:0px; text-align:center;  width:100%; padding:5px 5px 5px 5px;">
+                <tr>
+                    <td style="width:15%;font-weight:bold;" >
+                        @Html.LabelFor(model => model.FROM_DATE)
+                    </td>
+                    <td style="width:15%" >
+                        @Html.EditorFor(m => m.FROM_DATE, String.Format("{0:dd/MM/yyyy}", Model.FROM_DATE))                            
+                    </td>
+                    <td style="width:15%;font-weight:bold;">
+                        @Html.LabelFor(model => model.TO_DATE)
+                    </td>
+                    <td style="width:15%" >
+                        @Html.EditorFor(m => m.TO_DATE, String.Format("{0:dd/MM/yyyy}", Model.TO_DATE))                                                        
+                    </td>
+                    <td colspan="2" style="text-align:left;">
+                       <input type="button" id="btnViewCompletedWorks" value="View Details" class="jquerybutton"  style="margin-left:20px;"/>
+                    </td>
+                </tr>
+        </table>
+    </div>
+    
+    <div id="divCompletedWorksDetails"></div>
+

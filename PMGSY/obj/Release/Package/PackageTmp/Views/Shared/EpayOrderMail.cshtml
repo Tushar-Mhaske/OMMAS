@@ -1,0 +1,147 @@
+﻿@model PMGSY.Models.EpaymentOrderModel
+@using Mvc.Mailer;
+@{
+     Layout = Layout;
+     }
+
+<html>
+ <head>
+ <style>
+table
+{
+border-collapse:collapse;
+}
+table, td, th
+{
+border:1px solid black;
+}
+.ui-widget-header
+{
+background-color:orange;
+font:bold;
+color:white;
+}
+
+</style>
+       <script src="~/Scripts/custom/Generic.js"></script>
+   </head>
+<body>
+         
+     <div class="ui-corner-all" style="border: solid gray 1px; margin-top: 3px;height:6%;width:100%">
+     @Html.InlineImage("logo", "Company Logo")      
+    </div>
+
+    @* <table  class="tdstyle"  style="width: 100%">
+                 
+               <tr>
+                    <td colspan="2" style="vertical-align: central"><b>Epayments Instruction Details :</b> @Model.EpayNumber </td>
+                </tr>
+                <tr>
+                    <td style="width: 20%">Email Sender</td>
+                    <td style="width: 80%"><b>omms.cdac.in</b></td>
+                </tr>
+                <tr>
+                    <td style="width: 20%">Email Recepient </td>
+                    <td id="EmailRecepient"><b>@Model.EmailRecepient</b></td>
+                </tr>
+                <tr>
+                    <td style="width: 20%">Email Subject</td>
+                    <td><b>An Epayment transaction is made by DPIU of <span id="DPIUName">@Model.DPIUName</span>of <span id="STATEName">@Model.STATEName</span> on www.omms.cdac.in,
+                     Epayment No:<span id="EpayNo">@Model.EpayNumber</span></b>
+                    </td>
+                </tr>
+                <tr>
+                    <td style="width: 20%">Email Date</td>
+                    <td id="EmailDate"><b>@Model.EmailDate</b></td>
+                </tr>
+                <tr>
+                    <td style="width: 20%">Email is for</td>
+                    <td id="Bankaddress"><b>@Model.Bankaddress</b></td>
+                </tr>
+                <tr>
+                    <td style="width: 20%">Account Number </td>
+                    <td id="BankAcNumber"><b>@Model.BankAcNumber</b></td>
+                </tr>
+            </table>
+           
+     <table  class="tdstyle"  style="width:100%" >
+                <tr>
+                    <td colspan="2"><b>Epayment Transaction Details :</b>@Model.EpayNumber </td>
+                </tr>
+            </table>
+           
+     <table class="tdstyle"  style="width: 100%">
+                <tr>
+                    <td style="width: 20%; height:0">Epayment Number </td>
+                    <td id="EpayNumber"  style="width: 70%; height:0"><b>@Model.EpayNumber </b></td>
+                </tr>
+                <tr>
+                    <td style="width:20%">Epayment Date </td>
+                    <td id="EpayDate"><b>@Model.EpayDate </b></td>
+                </tr>
+                <tr>
+                    <td style="width: 20%">State </td>
+                    <td id="EpayState"><b>@Model.EpayState </b></td>
+                </tr>
+
+                <tr>
+                    <td style="width: 30%">DPIU</td>
+                    <td id="EpayDPIU"><b>@Model.EpayDPIU </b></td>
+                </tr>
+                <tr>
+                    <td style="width: 20%">Voucher Number</td>
+                    <td id="EpayVNumber"><b>@Model.EpayVNumber </b></td>
+                </tr>
+                <tr>
+                    <td style="width: 30%">Voucher Date </td>
+                    <td id="EpayVDate"><b>@Model.EpayVDate </b></td>
+                </tr>
+                <tr>
+                    <td style="width:20%">Package(s) </td>
+                    <td id="EpayVPackages"><b>@Model.EpayVPackages </b></td>
+                </tr>
+                <tr>
+                    <td style="width: 20%">Contractor Name </td>
+                    <td id="EpayConName"><b>@Model.EpayConName </b></td>
+                </tr>
+
+                <tr>
+                    <td style="width: 20%">Contractor Account Number </td>
+                    <td id="EpayConAcNum"><b>@Model.EpayConAcNum </b></td>
+                </tr>
+
+                <tr>
+                    <td style="width:20%">Contractor Bank Name </td>
+                    <td id="EpayConBankName"><b>@Model.EpayConBankName </b></td>
+                </tr>
+
+                <tr>
+                    <td style="width: 20%">Contractor Bank IFSC Code </td>
+                    <td id="EpayConBankIFSCCode"><b>@Model.EpayConBankIFSCCode </b></td>
+                </tr>
+                <tr>
+                    <td style="width: 20%">Net Amount </td>
+                    <td id="EpayAmount"><b>@Model.EpayAmount  <br/> @Model.EpayAmountInWord  </b></td>
+                                                      
+                </tr>
+
+            </table>*@
+              <br />
+              <br />
+                    <b>Dear Sir / Madam,</b><br /><br />
+
+            An E-Payment transaction has been made on https://online.omms.nic.in. <br /><br />
+
+            Please see the attached PDF File: @Model.PdfFileName for details.<br /><br />
+
+            This PDF file is protected by a password, which is required to open it and view its details. The password is already mailed to you.<br /><br />
+            
+            With Regards,<br /><br />
+            OMMAS Team<br /><br /><br />
+            
+            Note: <span style="font-family: Zurich BT; color: #444444;">This is a system generated mail. Please do not reply back to this email ID. If you have a query or need any clarification you may contact the concerned PIU / SRRDA.</span><br /><br />
+
+            <span style="font-family: Times New Roman; color: #444444;"><b>CONFIDENTIALITY INFORMATION AND DISCLAIMER</b></span><br />
+            <span style="font-family: Zurich BT; color: #444444;">This email message and its attachments may contain confidential, proprietary or legally privileged information and is intended solely for the use of the individual or entity to whom it is addressed. If you have erroneously received this message, please delete it immediately and notify the sender. If you are not the intended recipient of the email message you should not disseminate, distribute or copy this e-mail.E-mail transmission can not be guaranteed to be secure or error-free as information could be intercepted, corrupted, lost, destroyed, incomplete or contain viruses and the OMMAS team accepts no liability for any damage caused by the limitations of the e-mail transmission.</span>
+</body>
+</html>

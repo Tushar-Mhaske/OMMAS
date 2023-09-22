@@ -1,0 +1,285 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<Agreements>
+  
+  <ByPassAgreement>
+    <Key>AgreementCode</Key>
+    <Value>154745</Value>
+	<IMS_PR_Road_Code>235744</IMS_PR_Road_Code>
+  </ByPassAgreement>
+  
+  <ByPassAgreement>
+    <Key>AgreementCode</Key>
+    <Value>154766</Value>
+	<IMS_PR_Road_Code>236739</IMS_PR_Road_Code>
+  </ByPassAgreement>
+  
+  <ByPassAgreement>
+    <Key>AgreementCode</Key>
+    <Value>154766</Value>
+	<IMS_PR_Road_Code>236883</IMS_PR_Road_Code>
+  </ByPassAgreement>
+  
+  <ByPassAgreement>
+    <Key>AgreementCode</Key>
+    <Value>154766</Value>
+	<IMS_PR_Road_Code>236878</IMS_PR_Road_Code>
+  </ByPassAgreement>
+  
+  <ByPassAgreement>
+    <Key>AgreementCode</Key>
+    <Value>154746</Value>
+	<IMS_PR_Road_Code>236744</IMS_PR_Road_Code>
+  </ByPassAgreement>
+
+	<ByPassAgreement>
+		<Key>AgreementCode</Key>
+		<Value>154634</Value>
+		<IMS_PR_Road_Code>235698</IMS_PR_Road_Code>
+	</ByPassAgreement>
+	
+	<ByPassAgreement>
+		<Key>AgreementCode</Key>
+		<Value>154634</Value>
+		<IMS_PR_Road_Code>233703</IMS_PR_Road_Code>
+	</ByPassAgreement>
+
+	
+	<ByPassAgreement>
+		<Key>AgreementCode</Key>
+		<Value>154701</Value>
+		<IMS_PR_Road_Code>235894</IMS_PR_Road_Code>
+	</ByPassAgreement>
+
+	<ByPassAgreement>
+		<Key>AgreementCode</Key>
+		<Value>155094</Value>
+		<IMS_PR_Road_Code>236541</IMS_PR_Road_Code>
+	</ByPassAgreement>
+		
+	<ByPassAgreement>
+		<Key>AgreementCode</Key>
+		<Value>155294</Value>
+		<IMS_PR_Road_Code>233733</IMS_PR_Road_Code>
+	</ByPassAgreement>
+
+	<ByPassAgreement>
+		<Key>AgreementCode</Key>
+		<Value>154699</Value>
+		<IMS_PR_Road_Code>233625</IMS_PR_Road_Code>
+	</ByPassAgreement>
+	
+	<ByPassAgreement>
+		<Key>AgreementCode</Key>
+		<Value>154699</Value>
+		<IMS_PR_Road_Code>233627</IMS_PR_Road_Code>
+	</ByPassAgreement>
+
+
+	<ByPassAgreement>
+		<Key>AgreementCode</Key>
+		<Value>155492</Value>
+		<IMS_PR_Road_Code>236505</IMS_PR_Road_Code>
+	</ByPassAgreement>
+
+	<ByPassAgreement>
+		<Key>AgreementCode</Key>
+		<Value>161690</Value>
+		<IMS_PR_Road_Code>239994</IMS_PR_Road_Code>
+	</ByPassAgreement>
+	
+	<ByPassAgreement>
+		<Key>AgreementCode</Key>
+		<Value>161690</Value>
+		<IMS_PR_Road_Code>239989</IMS_PR_Road_Code>
+	</ByPassAgreement>
+	
+	<ByPassAgreement>
+		<Key>AgreementCode</Key>
+		<Value>154934</Value>
+		<IMS_PR_Road_Code>236491</IMS_PR_Road_Code>
+	</ByPassAgreement>
+
+
+	<ByPassAgreement>
+		<Key>AgreementCode</Key>
+		<Value>155294</Value>
+		<IMS_PR_Road_Code>236951</IMS_PR_Road_Code>
+	</ByPassAgreement>
+	
+	<ByPassAgreement>
+		<Key>AgreementCode</Key>
+		<Value>154700</Value>
+		<IMS_PR_Road_Code>233622</IMS_PR_Road_Code>
+	</ByPassAgreement>
+
+	<ByPassAgreement>
+		<Key>AgreementCode</Key>
+		<Value>154700</Value>
+		<IMS_PR_Road_Code>233620</IMS_PR_Road_Code>
+	</ByPassAgreement>
+
+	<ByPassAgreement>
+		<Key>AgreementCode</Key>
+		<Value>155291</Value>
+		<IMS_PR_Road_Code>236936</IMS_PR_Road_Code>
+	</ByPassAgreement>
+
+	<ByPassAgreement>
+		<Key>AgreementCode</Key>
+		<Value>155291</Value>
+		<IMS_PR_Road_Code>236493</IMS_PR_Road_Code>
+	</ByPassAgreement>
+	
+	<ByPassAgreement>
+		<Key>AgreementCode</Key>
+		<Value>167322</Value>
+		<IMS_PR_Road_Code>240631</IMS_PR_Road_Code>
+	</ByPassAgreement>
+		
+	<ByPassAgreement>
+		<Key>AgreementCode</Key>
+		<Value>155796</Value>
+		<IMS_PR_Road_Code>236470</IMS_PR_Road_Code>
+	</ByPassAgreement>
+	
+	<ByPassAgreement>
+		<Key>AgreementCode</Key>
+		<Value>155796</Value>
+		<IMS_PR_Road_Code>236471</IMS_PR_Road_Code>
+	</ByPassAgreement>
+	
+	<ByPassAgreement>
+		<Key>AgreementCode</Key>
+		<Value>155093</Value>
+		<IMS_PR_Road_Code>236386</IMS_PR_Road_Code>
+	</ByPassAgreement>
+	
+	<ByPassAgreement>
+		<Key>AgreementCode</Key>
+		<Value>155093</Value>
+		<IMS_PR_Road_Code>233657</IMS_PR_Road_Code>
+	</ByPassAgreement>
+	
+	<ByPassAgreement>
+		<Key>AgreementCode</Key>
+		<Value>155500</Value>
+		<IMS_PR_Road_Code>235800</IMS_PR_Road_Code>
+	</ByPassAgreement>
+	
+		
+	<ByPassAgreement>
+		<Key>AgreementCode</Key>
+		<Value>155216</Value>
+		<IMS_PR_Road_Code>236806</IMS_PR_Road_Code>
+	</ByPassAgreement>
+	
+	<ByPassAgreement>
+		<Key>AgreementCode</Key>
+		<Value>154999</Value>
+		<IMS_PR_Road_Code>236403</IMS_PR_Road_Code>
+	</ByPassAgreement>
+			
+	
+	<ByPassAgreement>
+		<Key>AgreementCode</Key>
+		<Value>155500</Value>
+		<IMS_PR_Road_Code>236636</IMS_PR_Road_Code>
+	</ByPassAgreement>
+	
+	<ByPassAgreement>
+		<Key>AgreementCode</Key>
+		<Value>154764</Value>
+		<IMS_PR_Road_Code>233721</IMS_PR_Road_Code>
+	</ByPassAgreement>
+	
+	<ByPassAgreement>
+		<Key>AgreementCode</Key>
+		<Value>154764</Value>
+		<IMS_PR_Road_Code>233718</IMS_PR_Road_Code>
+	</ByPassAgreement>
+	
+	<ByPassAgreement>
+		<Key>AgreementCode</Key>
+		<Value>163564</Value>
+		<IMS_PR_Road_Code>238567</IMS_PR_Road_Code>
+	</ByPassAgreement>
+	
+	<ByPassAgreement>
+		<Key>AgreementCode</Key>
+		<Value>163555</Value>
+		<IMS_PR_Road_Code>238558</IMS_PR_Road_Code>
+	</ByPassAgreement>
+	
+	<ByPassAgreement>
+		<Key>AgreementCode</Key>
+		<Value>164647</Value>
+		<IMS_PR_Road_Code>237928</IMS_PR_Road_Code>
+	</ByPassAgreement>
+	
+	<ByPassAgreement>
+		<Key>AgreementCode</Key>
+		<Value>164647</Value>
+		<IMS_PR_Road_Code>239596</IMS_PR_Road_Code>
+	</ByPassAgreement>
+	
+	<ByPassAgreement>
+		<Key>AgreementCode</Key>
+		<Value>164647</Value>
+		<IMS_PR_Road_Code>237929</IMS_PR_Road_Code>
+	</ByPassAgreement>
+	
+	<ByPassAgreement>
+		<Key>AgreementCode</Key>
+		<Value>154991</Value>
+		<IMS_PR_Road_Code>236408</IMS_PR_Road_Code>
+	</ByPassAgreement>
+	
+	<ByPassAgreement>
+		<Key>AgreementCode</Key>
+		<Value>155046</Value>
+		<IMS_PR_Road_Code>236795</IMS_PR_Road_Code>
+	</ByPassAgreement>
+		
+	<ByPassAgreement>
+		<Key>AgreementCode</Key>
+		<Value>154999</Value>
+		<IMS_PR_Road_Code>236401</IMS_PR_Road_Code>
+	</ByPassAgreement>
+	
+	<ByPassAgreement>
+		<Key>AgreementCode</Key>
+		<Value>154992</Value>
+		<IMS_PR_Road_Code>236414</IMS_PR_Road_Code>
+	</ByPassAgreement>
+	
+	<ByPassAgreement>
+		<Key>AgreementCode</Key>
+		<Value>107087</Value>
+		<IMS_PR_Road_Code>182220</IMS_PR_Road_Code>
+	</ByPassAgreement>
+	
+	<ByPassAgreement>
+		<Key>AgreementCode</Key>
+		<Value>155056</Value>
+		<IMS_PR_Road_Code>236763</IMS_PR_Road_Code>
+	</ByPassAgreement>
+	
+	<ByPassAgreement>
+		<Key>AgreementCode</Key>
+		<Value>155056</Value>
+		<IMS_PR_Road_Code>236764</IMS_PR_Road_Code>
+	</ByPassAgreement>
+	
+	<ByPassAgreement>
+		<Key>AgreementCode</Key>
+		<Value>165679</Value>
+		<IMS_PR_Road_Code>240181</IMS_PR_Road_Code>
+	</ByPassAgreement>
+	
+	<ByPassAgreement>
+		<Key>AgreementCode</Key>
+		<Value>165679</Value>
+		<IMS_PR_Road_Code>240182</IMS_PR_Road_Code>
+	</ByPassAgreement>
+	
+</Agreements>

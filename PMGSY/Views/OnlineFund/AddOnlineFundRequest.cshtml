@@ -1,0 +1,194 @@
+﻿@*
+    * Project Id    :
+    * Project Name  :   OMMAS II
+    * Name          :   AddOnlineFundRequest.cshtml
+    * Description   :   This View adds the requests for online fund transfer
+    * Author        :   Vikram Nandanwar
+    * Creation Date :   10/02/2015
+*@
+
+
+@model PMGSY.Models.OnlineFundRequest.OnlineFundRequestViewModel
+
+<script src="~/Scripts/custom/Generic.js"></script>
+<script src="~/Scripts/OnlineFundProcess/AddOnlineFundRequest.js"></script>
+
+<form id="frmAddRequest" style="width:99%">
+    @Html.AntiForgeryToken()
+    <div style="margin-left: 100px">
+        @Html.ValidationSummary(true)
+    </div>
+    <div style="height: 10px; width: 100%; text-align: left; padding-top: 0.6em; margin-top: 10px" class="ui-state-default ui-corner-all ui-state-header">
+        <a href="#" style="float: right;">
+            <img style="margin-right: 5px;margin-top:-5px" alt="Close" class="ui-icon ui-icon-closethick" id="imgCloseDetails" />
+        </a>
+    </div>
+    <table id="tbAddRevisedCostLength" cellpadding="3px" class="rowstyle" style="margin-top: 0px; text-align: left; border: ridge 0.1em #ccc; width: 100%; padding-top: 5px 5px 5px 5px;">
+        <tr>
+            <td style="width: 5%"></td>
+            <td style="width: 10%">
+                @Html.LabelFor(model => model.YEAR)<label style="color: red">*</label>
+            </td>
+            <td  style="width: 15%">
+                @Html.DropDownListFor(model => model.YEAR, new SelectList(Model.lstYears, "Value", "Text"), new { @id = "ddlAddYears", @title = "Please select Year", @tabindex = 2 })
+                @Html.ValidationMessageFor(model => model.YEAR)
+            </td>
+             <td style="width: 10%">
+                @Html.LabelFor(model => model.BATCH)<label style="color: red">*</label>
+            </td>
+            @if (Model.Operation == "A")
+            {
+                <td style="width: 15%">
+                    @Html.DropDownListFor(model => model.BATCH, new SelectList(Model.lstBatches, "Value", "Text"), new { @id = "ddlAddBatches" , @title = "Please select Batch", @tabindex = 3 })
+                    @Html.ValidationMessageFor(model => model.BATCH)
+                </td>
+            }
+            else
+            {
+                <td style="width: 15%">
+                    @Html.DropDownListFor(model => model.BATCH, new SelectList(Model.lstBatches, "Value", "Text"), new { @id = "ddlAddBatches",@title = "Please select Batch", @tabindex = 3 ,@disabled = "disabled" })
+                    @Html.ValidationMessageFor(model => model.BATCH)
+                    @Html.HiddenFor(model => model.BATCH)
+                </td>
+            }
+        </tr>
+        <tr>
+            <td style="width: 5%"></td>
+            <td style="width: 10%">
+                @Html.LabelFor(model => model.COLLABORATION)<label style="color: red">*</label>
+            </td>
+            @if (Model.Operation == "A")
+            {
+                <td style="width: 15%">
+                    @Html.DropDownListFor(model => model.COLLABORATION, new SelectList(Model.lstCollaborations, "Value", "Text"), new {@id = "ddlAddCollaborations", @title = "Please select Collaboration", @tabindex = 4 })
+                    @Html.ValidationMessageFor(model => model.COLLABORATION)
+                </td>
+            }
+            else
+            {
+                <td style="width: 15%">
+                    @Html.DropDownListFor(model => model.COLLABORATION, new SelectList(Model.lstCollaborations, "Value", "Text"), new {@id = "ddlAddCollaborations", @title = "Please select Collaboration", @tabindex = 4 ,@disabled = "disabled"})
+                    @Html.ValidationMessageFor(model => model.COLLABORATION)
+                    @Html.HiddenFor(model => model.COLLABORATION)
+                </td>
+            }
+            <td style="width: 10%">
+                @Html.LabelFor(model => model.PMGSY_SCHEME)<label style="color: red">*</label>
+            </td>
+            @if (Model.Operation == "A")
+            {
+                <td style="width: 15%">
+                    @Html.DropDownListFor(model => model.PMGSY_SCHEME, new SelectList(Model.lstSchemes, "Value", "Text"), new {@id = "ddlAddSchemes", @title = "Please select Scheme", @tabindex = 5 })
+                    @Html.ValidationMessageFor(model => model.PMGSY_SCHEME)
+                </td>
+            }
+            else
+            {
+                <td style="width: 20%">
+                    @Html.DropDownListFor(model => model.PMGSY_SCHEME, new SelectList(Model.lstSchemes, "Value", "Text"), new { @id = "ddlAddSchemes",@title = "Please select Scheme", @tabindex = 5 ,@disabled = "disabled"})
+                    @Html.ValidationMessageFor(model => model.PMGSY_SCHEME)
+                    @Html.HiddenFor(model => model.PMGSY_SCHEME)
+                </td>
+            }
+        </tr>
+        <tr>
+            <td></td>
+            <td style="width: 10%">
+                @Html.LabelFor(model=>model.AMOUNT)<label style="color: red">*</label>
+            </td>
+            <td style="width: 20%">
+                @Html.TextBoxFor(model => model.AMOUNT, new { @title = "Enter Request Amount", @placeholder = "Enter Request Amount...", @tabindex = 6 })
+                @Html.ValidationMessageFor(model => model.AMOUNT)
+            </td>
+            <td></td>
+            <td></td>
+        </tr>
+        <tr>
+            <td></td>
+            <td>
+                Total No. of Roads
+            </td>
+            <td>
+                <label id="lblRoads"></label>
+            </td>
+            <td>
+                Total No. of Bridges
+            </td>
+            <td>
+                <label id="lblBridges"></label>
+            </td>
+            
+        </tr>
+        <tr>
+            <td></td>
+            <td>
+                Total Pavement Length (in Km.)
+            </td>
+            <td>
+                <label id="lblPavLength"></label>
+            </td>
+            <td>
+                Total Length of Bridges (in Mtrs.)
+            </td>
+            <td>
+                <label id="lblBridgeLength"></label>
+            </td>
+        </tr>
+        <tr>
+            <td></td>
+            <td>
+                Total Mord Cost (in Cr.)
+            </td>
+            <td>
+                <label id="lblMordCost"></label>
+            </td>
+            <td>
+                Total State Cost (in Cr.)
+            </td>
+            <td>
+                <label id="lblStateCost"></label>
+            </td>
+        </tr>
+        <tr>
+            <td></td>
+            <td>
+                Total Sanction Cost (in Cr.)
+            </td>
+            <td>
+                <label id="lblSanctionCost"></label>
+            </td>
+            <td>
+                Total Maintenance Cost (in Cr.)
+            </td>
+            <td>
+                <label id="lblMaintenanceCost"></label>
+            </td>
+        </tr>
+        <tr>
+            <td colspan="5">
+                @if (Model.Operation == "A")
+                {
+                    <center>
+                        <table>
+                            <td>
+                                <input type="button" value="Save" name="btnAddRequest" id="btnAddRequest" class="jqueryButton" tabindex ="7" />
+                                <input type="reset" value="Reset" name="btnResetRequest" id="btnResetRequest" class="jqueryButton" tabindex="8"/>
+                            </td>
+                        </table>
+                    </center>
+                }
+                else
+                {
+                    <center>
+                        <table>
+                            <td>
+                            <input type="button" value="Update" name="btnUpdateRequest" id="btnUpdateRequest" class="jqueryButton" tabindex="7"/>
+                            <input type="reset" value="Cancel" name="btnCancelRequest" id="btnCancelRequest" class="jqueryButton" tabindex="8" />
+                            </td>
+                        </table>
+                    </center>
+                }
+            </td>
+        </tr>
+    </table>
+</form>

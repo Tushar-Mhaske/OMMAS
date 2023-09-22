@@ -1,0 +1,266 @@
+﻿@*
+    * Project Id    :
+    * Project Name  :   OMMAS II
+    * Name          :   AddLSBPhysicalProgress.cshtml
+    * Description   :   This View Adds the Physical LSB Progress Details to Road Proposal Execution
+    * Author        :   Vikram Nandanwar        
+    * Creation Date :   25/June/2013    
+*@
+
+@model PMGSY.Models.Execution.ExecutionLSBStatusViewModel
+
+@{
+    ViewBag.Title = "AddPhysicalLSBProgress";
+}
+
+<script src="~/Scripts/custom/Generic.js"></script>
+<script src="~/Scripts/jquery.ui.datepicker.js"></script>
+<script src="~/Scripts/Execution/AddLSBPhysicalDetails.js"></script>
+
+
+<div id="divAddPhysicalLSB" style="margin-top:0px">
+<form id="frmAddPhysicalLSB">
+<center>
+@Html.HiddenFor(model=>model.IMS_PR_ROAD_CODE)
+@Html.HiddenFor(model=>model.EncryptedLSBCode)
+@Html.HiddenFor(model=>model.CompleteStatus)
+@Html.HiddenFor(model=>model.Sanction_length)
+@Html.HiddenFor(model=>model.Bridge_Length)
+@Html.HiddenFor(model=>model.previousYear)
+@Html.HiddenFor(model=>model.previousMonth)
+@Html.HiddenFor(model=>model.Operation)
+@Html.HiddenFor(model=>model.AgreementDate)
+    @Html.HiddenFor(model=>model.changedLength)
+<div style="margin-left: 100px">
+    @Html.ValidationSummary(true)
+    @Html.AntiForgeryToken() 
+</div>            
+<div id="divError" class="ui-state-error ui-corner-all" style="text-align: left; display: none; width: 100%">
+        <span class="ui-icon ui-icon-alert" style="float: left;"></span>                   
+        <span></span>
+</div>
+<div style="height:20px; width: 100%; text-align:left; padding-top: 0.6em;" class="ui-state-default ui-corner-all" > 
+            &nbsp;<strong> Note :</strong>  Fields marked with * are mandatory.
+    <a href="#"  style="float: right;">
+                    <img style="margin-right:5px" alt="Close" src="" class="ui-icon ui-icon-closethick" id="imgCloseProgressDetails" /></a>
+</div>
+<table id="tbAddLSBDetails"  cellpadding="3px" class="rowstyle" style="margin-top:0px; text-align:left; border:ridge 0.1em #ccc; width:100%; padding-top:5px 5px 5px 5px;">
+    <tr>
+        <td style="width:5%">
+        </td>
+        <td style="width:10%">
+            @Html.LabelFor(model=>model.EXEC_PROG_MONTH)<label style="color:red">*</label>
+        </td>
+        <td style="width:20%">
+            @if(Model.Operation != "E")
+            {
+                @Html.DropDownListFor(model => model.EXEC_PROG_MONTH, ViewData["Month"] as IEnumerable<SelectListItem>, new { @id="ddlMonth",@title="Select Month",@tabindex = 1})
+                @Html.ValidationMessageFor(model=>model.EXEC_PROG_MONTH)
+            }
+            else
+            {
+                @Html.DropDownListFor(model => model.EXEC_PROG_MONTH, ViewData["Month"] as IEnumerable<SelectListItem>, new { @id="ddlMonth",@title="Select Month",@tabindex = 1,@disabled = "disabled"})
+                @Html.ValidationMessageFor(model=>model.EXEC_PROG_MONTH)
+                @Html.HiddenFor(model=>model.EXEC_PROG_MONTH)
+            }
+        </td>
+        <td style="width:10%">
+            @Html.LabelFor(model=>model.EXEC_PROG_YEAR)<label style="color:red">*</label>
+        </td>
+        <td style="width:20%">
+            @if(Model.Operation != "E")
+            {
+                @Html.DropDownListFor(model=>model.EXEC_PROG_YEAR,ViewData["Year"] as IEnumerable<SelectListItem>,new {@title="Select Year",@id="ddlYear",@tabindex = 2})
+                @Html.ValidationMessageFor(model=>model.EXEC_PROG_YEAR)
+            }
+            else
+            {
+                @Html.DropDownListFor(model=>model.EXEC_PROG_YEAR,ViewData["Year"] as IEnumerable<SelectListItem>,new {@title="Select Year",@id="ddlYear",@tabindex = 2,@disabled = "disabled"})
+                @Html.ValidationMessageFor(model=>model.EXEC_PROG_YEAR)
+                @Html.HiddenFor(model=>model.EXEC_PROG_YEAR)
+            }
+        </td>
+    </tr>
+    <tr>
+        <td></td>
+        <td>
+            @Html.LabelFor(model=>model.EXEC_ISCOMPLETED)<label style="color:red">*</label>
+        </td>
+        <td>
+            @Html.DropDownListFor(model => model.EXEC_ISCOMPLETED, ViewData["WorkStatus"] as IEnumerable<SelectListItem>, new {@id="ddlWorkStatus" ,@title="Select Work Status",@tabindex = 3})
+            @Html.ValidationMessageFor(model=>model.EXEC_ISCOMPLETED)
+        </td>
+        <td>
+            @Html.LabelFor(model=>model.EXEC_RAFT)
+        </td>
+        <td>
+            @Html.TextBoxFor(model => model.EXEC_RAFT, new {@title="Enter Cutoff/Raft/Individual footing",@tabindex = 3,@placeholder="Enter Cutoff/Raft",@maxlength=9 })
+            @Html.ValidationMessageFor(model=>model.EXEC_RAFT)
+        </td>
+    </tr>
+    <tr>
+        <td></td>
+        <td>
+            @Html.LabelFor(model=>model.EXEC_FLOOR_PROTECTION)
+        </td>
+        <td>
+            @Html.TextBoxFor(model => model.EXEC_FLOOR_PROTECTION, new { @title="Enter Floor Protection",@tabindex=4,@placeholder="Enter Floor Protection...",@maxlength=9})
+            @Html.ValidationMessageFor(model=>model.EXEC_FLOOR_PROTECTION)
+        </td>
+        <td>
+            @Html.LabelFor(model=>model.EXEC_SINKING)
+        </td>
+        <td>
+            @Html.TextBoxFor(model => model.EXEC_SINKING, new {@title="Enter Sinking",@placeholder="Enter Sinking...",@tabindex=5,@maxlength=9})
+            @Html.ValidationMessageFor(model=>model.EXEC_SINKING)
+        </td>
+    </tr>
+    <tr>
+        <td></td>
+        <td>
+            @Html.LabelFor(model=>model.EXEC_BOTTOM_PLUGGING)
+        </td>
+        <td>
+            @Html.TextBoxFor(model => model.EXEC_BOTTOM_PLUGGING, new { @title="Enter Bottom Pluggins",@placeholder="Enter Bottom Pluggings...",@tabindex=6,@maxlength=9})
+            @Html.ValidationMessageFor(model=>model.EXEC_BOTTOM_PLUGGING)
+        </td>
+        <td>
+            @Html.LabelFor(model=>model.EXEC_TOP_PLUGGING)
+        </td>
+        <td>
+            @Html.TextBoxFor(model => model.EXEC_TOP_PLUGGING, new { @title="Enter Top Pluggins",@placeholder="Enter Top Pluggings...",@tabindex=7,@maxlength=9})
+            @Html.ValidationMessageFor(model=>model.EXEC_TOP_PLUGGING)
+        </td>
+    </tr>
+    <tr>
+        <td></td>
+        <td>
+            @Html.LabelFor(model=>model.EXEC_WELL_CAP)
+        </td>
+        <td>
+            @Html.TextBoxFor(model=>model.EXEC_WELL_CAP,new {@title="Enter Well Caps",@placeholder="Enter Well Caps...",@tabindex=8 ,@maxlength=9})
+            @Html.ValidationMessageFor(model => model.EXEC_WELL_CAP)
+        </td>
+        <td>
+            @Html.LabelFor(model=>model.EXEC_PIER_SHAFT)
+        </td>
+        <td>
+            @Html.TextBoxFor(model => model.EXEC_PIER_SHAFT, new {@title="Enter Pier/Abutment Shaft",@placeholder="Enter Pier Shaft...",@tabindex=9 ,@maxlength=9})
+            @Html.ValidationMessageFor(model=>model.EXEC_PIER_SHAFT)
+        </td>
+    </tr>
+    <tr>
+        <td></td>
+        <td>
+            @Html.LabelFor(model=>model.EXEC_PIER_CAP)
+        </td>
+        <td>
+            @Html.TextBoxFor(model => model.EXEC_PIER_CAP, new { @title="Enter Pier/Abutment cap ",@placeholder="Enter Pier cap... ",@maxlength=9,@tabindex= 10})
+            @Html.ValidationMessageFor(model=>model.EXEC_PIER_CAP)
+        </td>
+        <td>
+            @Html.LabelFor(model=>model.EXEC_BEARINGS)
+        </td>
+        <td>
+            @Html.TextBoxFor(model=>model.EXEC_BEARINGS , new { @title="Enter Bearings ",@placeholder="Enter Bearings... ",@maxlength=9,@tabindex= 11})
+            @Html.ValidationMessageFor(model=>model.EXEC_BEARINGS)
+        </td>
+    </tr>
+    <tr>
+        <td></td>
+        <td>
+            @Html.LabelFor(model=>model.EXEC_DECK_SLAB)
+        </td>
+        <td>
+            @Html.TextBoxFor(model=>model.EXEC_DECK_SLAB, new { @title="Enter Deck Slab ",@placeholder="Enter Deck Slab... ",@maxlength=9,@tabindex= 12})
+            @Html.ValidationMessageFor(model=>model.EXEC_DECK_SLAB)
+        </td>
+        <td>
+            @Html.LabelFor(model=>model.EXEC_WEARING_COAT)
+        </td>
+        <td>
+            @Html.TextBoxFor(model=>model.EXEC_WEARING_COAT, new { @title="Enter Wearing Coat ",@placeholder="Enter Wearing Coat... ",@maxlength=9,@tabindex= 13})
+            @Html.ValidationMessageFor(model=>model.EXEC_WEARING_COAT)
+        </td>
+    </tr>
+    <tr>
+        <td></td>
+        <td>
+            @Html.LabelFor(model=>model.EXEC_POSTS_RAILING)
+        </td>
+        <td>
+            @Html.TextBoxFor(model=>model.EXEC_POSTS_RAILING, new { @title="Enter Posts & Railing ",@placeholder="Enter Posts & Railing... ",@maxlength=9,@tabindex= 14})
+            @Html.ValidationMessageFor(model=>model.EXEC_POSTS_RAILING)
+        </td>
+        <td>
+            @Html.LabelFor(model=>model.EXEC_APP_ROAD_WORK)
+        </td>
+        <td>
+            @Html.TextBoxFor(model=>model.EXEC_APP_ROAD_WORK, new { @title="Enter Road Work Completed ",@placeholder="Enter Road Work... ",@maxlength=9,@tabindex= 15})
+            @Html.ValidationMessageFor(model=>model.EXEC_APP_ROAD_WORK)
+        </td>
+    </tr>
+    <tr>
+        <td></td>
+        <td>
+            @Html.LabelFor(model=>model.EXEC_APP_CD_WORKS)
+        </td>
+        <td>
+            @Html.TextBoxFor(model=>model.EXEC_APP_CD_WORKS, new { @title="Enter CD Works ",@placeholder="Enter CD Works... ",@tabindex= 16,@maxlength=9})
+            @Html.ValidationMessageFor(model=>model.EXEC_APP_CD_WORKS)
+        </td>
+        <td>
+            @Html.LabelFor(model=>model.EXEC_APP_COMPLETED)<label style="color:red">*</label>
+        </td>
+        <td>
+            @Html.TextBoxFor(model=>model.EXEC_APP_COMPLETED, new { @title="Enter Approach Completed ",@placeholder="Enter Approach Work... ",@tabindex= 17,@maxlength=9})
+            @Html.ValidationMessageFor(model=>model.EXEC_APP_COMPLETED)
+        </td>
+    </tr>
+    <tr>
+        <td></td>
+        <td>
+            @Html.LabelFor(model=>model.EXEC_BRIDGE_COMPLETED)<label style="color:red">*</label>
+        </td>
+        <td>
+            @Html.TextBoxFor(model=>model.EXEC_BRIDGE_COMPLETED, new { @title="Enter Bridge Length Completed",@placeholder="Enter Bridge Length... ",@tabindex= 18,@maxlength=9})
+            @Html.ValidationMessageFor(model=>model.EXEC_BRIDGE_COMPLETED)
+        </td>
+         <td>
+            @Html.LabelFor(model => model.ExecutionCompleteDate, new { @id="lblCompletionDate"})<label id="lblRequired" style="color:red">*</label>
+        </td>
+        <td id="tdCompletionDate">
+            @Html.TextBoxFor(model=>model.ExecutionCompleteDate,new {@id="txtCompletionDate",@title="Enter Completion Date",@maxlength=10,@tabindex = 19,@placeholder="Enter Completion Date..." })
+            @Html.ValidationMessageFor(model => model.ExecutionCompleteDate,"" ,new { @id="msgDateValidation"})
+        </td>
+    </tr>
+    <tr>
+        <td colspan="5">
+            @if(Model.Operation == "A")
+            {
+            <center>
+            <table>
+                <td>
+                    <input type="button" value="Save" name="btnAddLSBDetails" id="btnAddLSBDetails" class="jqueryButton" tabindex="20"/>
+                    <input type="reset" value="Reset" name="btnResetLSBDetails" id="btnResetLSBDetails" class="jqueryButton" tabindex="20"/>
+                </td>
+            </table>
+            </center>
+            }
+            else
+            {
+            <center>
+            <table>
+                <td>
+                    <input type="button" value="Update" name="btnUpdateLSBDetails" id="btnUpdateLSBDetails" class="jqueryButton" tabindex="20"/>
+                    <input type="button" value="Cancel" name="btnCancelLSBDetails" id="btnCancelLSBDetails" class="jqueryButton" tabindex="20"/>
+                </td>
+            </table>
+            </center>
+            }
+        </td>
+    </tr>
+</table>
+</center>
+</form>
+</div>

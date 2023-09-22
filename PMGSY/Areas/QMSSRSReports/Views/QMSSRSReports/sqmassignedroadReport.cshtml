@@ -1,0 +1,15 @@
+﻿@model PMGSY.Areas.QMSSRSReports.Models.QualityReportsViewModel
+
+
+@using MvcReportViewer
+
+    @Html.MvcReportViewer("/PMGSYCitizen/QMScheduleRoad",
+     new
+     {
+        FMONTH =Model.FromMonth,
+        TMONTH =Model.ToMonth,
+        FYEAR=Model.FromYear,
+        TYEAR =Model.ToYear
+     },
+       new { Height = 600, Width = "100%", style = "border:none;" })
+

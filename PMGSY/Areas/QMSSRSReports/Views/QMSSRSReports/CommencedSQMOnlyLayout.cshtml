@@ -1,0 +1,21 @@
+﻿@model PMGSY.Areas.QMSSRSReports.Models.QualityReportsViewModel
+
+@if (Layout == null)
+{
+    Layout = Request.IsAjaxRequest() ? null : "~/Areas/AccountReports/Views/Account/_Layout.cshtml";
+}
+<script type="text/javascript" src="@Url.Content("~/Scripts/jquery.ui.dialog.js")"> </script>
+<script src="~/Areas/QMSSRSReports/Scripts/CommencedSQMOnlyLayout.js"></script>
+<script src="~/Scripts/custom/Generic.js"></script>
+
+<div id="dvhdCommencedSQMOnlyLayout" class="ui-corner-top ui-widget-header panelheader" style="text-align: left; height: 20px;">
+    <span class="ui-jqgrid-title" style="float: left">&nbsp;Works Inspected By SQM Only</span>
+    @*<span id="spCollapseIconCN" class="ui-icon ui-icon-circle-triangle-n" style="float: right"></span>*@
+</div>
+@*<div id="dvDistwiseInspectionLayout" class="ui-corner-bottom" style="display: block;">
+    <form id="frmDistwiseInspectionLayout">
+    </form>
+</div>*@
+<div id="dvLoadCommencedSQMOnlyReport"></div>
+
+

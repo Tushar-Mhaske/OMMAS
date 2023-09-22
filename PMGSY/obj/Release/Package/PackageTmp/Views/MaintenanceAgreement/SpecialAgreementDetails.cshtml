@@ -1,0 +1,223 @@
+﻿@*----------------------------------------------------------------------------------------
+
+ * Project Id:
+
+ * Project Name:OMMAS2
+
+ * File Name: SpecialAgreementDetails.cshtml
+
+ * Author : Vikram Nandanwar
+
+ * Creation Date :13/Jan/2015
+
+ * Desc : This is partial view for add/edit new maintenance agreement details.
+ * ---------------------------------------------------------------------------------------*@
+
+@model PMGSY.Models.MaintenanceAgreement.MaintenanceAgreementDetails
+
+<script src="@Url.Content("~/Scripts/custom/Generic.js")" type="text/javascript" ></script>
+<script src="@Url.Content("~/Scripts/jquery.ui.datepicker.js")" type="text/javascript" ></script>
+
+<script type="text/javascript">
+    var isNewEntry = '@ViewBag.IsNewEntry';
+</script>
+<script type="text/javascript" src="@Url.Content("~/Scripts/MaintenanceAgreement/SpecialAgreementDetails.js")"> </script>
+
+
+<div id="dvErrorMessage" class="ui-widget ui-state-error ui-corner-all" style="padding: 0.7em .7em; display: none; margin: 5px 0px 0px 0px; text-align: left">
+    <span class="ui-icon ui-icon-alert" style="float: left; margin-right: .3em;"></span>
+    <strong>Alert:</strong> <span id="message"></span>
+</div>
+
+<form id="frmAddAgreementDetails">
+    @Html.AntiForgeryToken()
+    @Html.HiddenFor(model => model.PMGSYScheme)
+    @Html.HiddenFor(model => model.CompletionMonth)
+    @Html.HiddenFor(model => model.CompletionYear)
+    @Html.Hidden("ExecutionCompleted",ViewBag.IsExecutionCompleted as string)
+    <center>
+            @Html.ValidationSummary(true)
+    </center>
+    <div id="dvNewAgreement" style="display: none;">
+        <table id="tblNewAgreement" style="width: 100%; border: 1px solid #808080; margin-top: 10px;" class="rowstyle ui-corner-all">
+            <tr style="display: none;">
+                <td colspan="2">
+                    @Html.HiddenFor(model => model.EncryptedIMSPRRoadCode)
+                    @Html.HiddenFor(model => model.EncryptedPRContractCode)
+                </td>
+                <td colspan="2"></td>
+            </tr>
+            @*<tr id="trContractorType">
+
+                <td id="tdIsNewContractor" style="text-align: left;" colspan="2">
+                    @Html.LabelFor(model => model.IsNewContractor)
+                    <label style="color: red; margin-right: 50px;">*</label>
+                    @if (Model.EncryptedPRContractCode == null)
+                    {    
+                        @Html.RadioButtonFor(model => model.IsNewContractor, true, new { id = "rdoIsNewContractorYes", @tabindex = 103 }) <label for="rdoIsNewContractorNew"> Yes</label> 
+                        @Html.RadioButtonFor(model => model.IsNewContractor, false, new { id = "rdoIsNewContractorNo", style = "margin-left:10px;" }) <label for="rdoIsNewContractorExisting">No</label>
+                    }
+                    else
+                    {
+                        @Html.RadioButtonFor(model => model.IsNewContractor, true, new { id = "rdoIsNewContractorYes", @tabindex = 103, @disabled = "disabled" }) <label> Yes</label> 
+                        @Html.RadioButtonFor(model => model.IsNewContractor, false, new { id = "rdoIsNewContractorNo", @disabled = "disabled", style = "margin-left:10px;" }) <label>No</label>
+                    }
+                    @Html.ValidationMessageFor(model => model.IsNewContractor)
+                </td>
+                <td id="tdlblProposalWork" style="display: none">
+                    @Html.LabelFor(model => model.IMS_WORK_CODE)<label style="color: red; margin-right: 50px;"> *</label>
+                </td>
+                <td id="tdddlProposalWork" style="display: none">
+                    @if (Model.EncryptedPRContractCode == null)
+                    {
+                        @Html.DropDownListFor(model => model.IMS_WORK_CODE, Model.ProposalWorks, new { @id = "ddlProposalWorks", @title = "Proposal Work", @tabindex = 100 }) 
+                    }
+                    else
+                    {
+                        @Html.DropDownListFor(model => model.IMS_WORK_CODE, Model.ProposalWorks, new { @id = "ddlProposalWorks", @title = "Proposal Work", @tabindex = 100, @disabled = "disabled" }) 
+                    }
+                    @Html.ValidationMessageFor(model => model.IMS_WORK_CODE)
+                </td>
+            </tr>*@
+            <tr>
+                <td style="text-align: left; width: 20%;">
+                    @Html.LabelFor(model => model.MAST_CON_ID)
+                    <label style="color: red;">*</label>
+                </td>
+                <td style="text-align: left; width: 30%;">
+                    <table>
+                        <tr>
+                            <td>
+                                @if (Model.EncryptedPRContractCode == null)
+                                {    
+                                    @Html.DropDownListFor(model => model.MAST_CON_ID, Model.Contractors, new { @id = "ddlContractors", @title = "Contractor", @tabindex = 100, @style = "width:250px;" }) 
+                                }
+                                else
+                                {
+                                    @Html.DropDownListFor(model => model.MAST_CON_ID, Model.Contractors, new { @id = "ddlContractors", @title = "Contractor", @tabindex = 100, @disabled = "disabled", @style = "width:250px;" }) 
+                                }
+                                @Html.ValidationMessageFor(model => model.MAST_CON_ID)
+                            </td>
+                            <td>
+                                @if (Model.EncryptedPRContractCode == null)
+                                {
+                                    <a href="#" class="ui-icon ui-icon-search" id="searchContractor">Search</a>
+                                }
+                            </td>
+                        </tr>
+                    </table>
+                </td>
+                <td style="text-align: left; width: 20%;" colspan="2"></td>
+            </tr>
+            <tr>
+                <td style="text-align: left; width: 20%;">
+                    @Html.LabelFor(model => model.MANE_AGREEMENT_NUMBER)
+                    <label style="color: red;">*</label>
+                </td>
+                <td style="text-align: left; width: 30%;">
+                    @Html.TextBoxFor(model => model.MANE_AGREEMENT_NUMBER, new { @title = "Agreement Number", @maxlength = 100, @tabindex = 101, @placeholder = "Enter Agreement Number..." })
+                    @Html.ValidationMessageFor(model => model.MANE_AGREEMENT_NUMBER)
+                </td>
+                @if (ViewBag.IsExecutionCompleted == "Y")
+                {
+                <td style="text-align: left; width: 20%;">
+                    @Html.LabelFor(model => model.MANE_CONSTR_COMP_DATE)
+                    <label style="color: red;">*</label>
+                </td>
+                <td>
+                    @Html.TextBoxFor(model => model.MANE_CONSTR_COMP_DATE, new { @title = "Construction Completion Date", @tabindex = 101, @placeholder = "dd/mm/yyyy..." })
+                    @Html.ValidationMessageFor(model => model.MANE_CONSTR_COMP_DATE)
+                </td>
+                }
+                else if (ViewBag.IsExecutionCompleted == "N")
+                {
+                    <td>@Html.HiddenFor(model=>model.MANE_CONSTR_COMP_DATE)</td>
+                    <td></td>
+                }
+            </tr>
+            <tr>
+                <td>
+                    @Html.LabelFor(model => model.MANE_AGREEMENT_DATE)
+                    <label style="color: red;">*</label>
+                </td>
+                <td id="tdAgreementDate">
+                    @Html.TextBoxFor(model => model.MANE_AGREEMENT_DATE, new { @title = "Agreement Date", @tabindex = 101, @placeholder = "dd/mm/yyyy..." })
+                    @Html.ValidationMessageFor(model => model.MANE_AGREEMENT_DATE)
+                </td>
+                <td>
+                    @Html.LabelFor(model => model.MANE_MAINTENANCE_START_DATE)
+                    <label style="color: red;">*</label>
+                </td>
+                <td>
+                    @Html.TextBoxFor(model => model.MANE_MAINTENANCE_START_DATE, new { @title = "Maintenance Start Date", @tabindex = 101, @placeholder = "dd/mm/yyyy..." })
+                    @Html.ValidationMessageFor(model => model.MANE_MAINTENANCE_START_DATE)
+                </td>
+            </tr>
+            <tr>
+                <td>
+                    @Html.LabelFor(model => model.MANE_MAINTENANCE_END_DATE)
+                </td>
+                <td>
+                    @Html.TextBoxFor(model => model.MANE_MAINTENANCE_END_DATE, new { @title = "Maintenance End Date", @tabindex = 101, @placeholder = "dd/mm/yyyy..." })
+                    @Html.ValidationMessageFor(model => model.MANE_MAINTENANCE_END_DATE)
+                </td>
+                <td>
+                    @Html.LabelFor(model => model.MANE_YEAR1_AMOUNT)
+                    <label style="color: red;">*</label>
+                </td>
+                <td>
+                    @Html.TextBoxFor(model => model.MANE_YEAR1_AMOUNT, new { @title = "Maintenance Cost Year1", @tabindex = 101, @placeholder = "Enter Maintenance Cost Year1..." })
+                    @Html.ValidationMessageFor(model => model.MANE_YEAR1_AMOUNT)
+                </td>
+            </tr>
+            <tr>
+                <td>
+                    @Html.LabelFor(model => model.MANE_HANDOVER_DATE)@* <label style="color:red;"> *</label>*@
+                </td>
+                <td>
+                    @Html.TextBoxFor(model => model.MANE_HANDOVER_DATE, new { @title = "Handover Date", @tabindex = 101, @placeholder = "dd/mm/yyyy..." })
+                    @Html.ValidationMessageFor(model => model.MANE_HANDOVER_DATE)
+                </td>
+                <td>
+                    @Html.LabelFor(model => model.MANE_HANDOVER_TO)@* <label style="color:red;"> *</label>*@
+                </td>
+                <td>
+                    @Html.TextAreaFor(model => model.MANE_HANDOVER_TO, new { @title = "Handover To", @maxlength = 250, @tabindex = 101, @placeholder = "Enter Handover To..." })
+                    @Html.ValidationMessageFor(model => model.MANE_HANDOVER_TO)
+                </td>
+            </tr>
+            <tr>
+                <td></td>
+                @if (Model.EncryptedPRContractCode == null)
+                {    
+                    <td style="text-align: right">
+                        <input type="button" id="btnSaveAgreementDetails" name="btnSaveAgreementDetails" value="Save" class="jqueryButton" title="Save Maintenance Agreement Details" tabindex="103" />
+                    </td>
+                    <td colspan="2">
+                        <input type="reset" id="btnResetAgreementDetails" name="btnResetAgreementDetails" value="Reset" class="jqueryButton" title="Reset" tabindex="104" />
+                    </td>
+                }
+                else
+                {
+                    <td style="text-align: right">
+                        <input type="button" id="btnUpdateAgreementDetails" name="btnUpdateAgreementDetails" value="Update" class="jqueryButton" title="Update Maintenance Agreement Details" tabindex="103" />
+                    </td>
+                    <td colspan="2">
+                        <input type="button" id="btnCancelAgreementDetails" name="btnCancelAgreementDetails" value="Cancel" class="jqueryButton" title="Cancel" tabindex="104" />
+                    </td>
+                }
+            </tr>
+            <tr>
+                <td colspan="4">
+                    <label style="border: none">
+                        [ Note: Fields marked
+                        <label style="color: red">*</label>
+                        are mandatory. ]
+                    </label>
+                </td>
+            </tr>
+        </table>
+    </div>
+    <div id="dvNewExistingAgreement"></div>
+    <div id="divPanSearch"></div>
+</form>

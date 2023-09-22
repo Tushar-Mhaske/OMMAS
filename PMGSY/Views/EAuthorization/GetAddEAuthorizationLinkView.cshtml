@@ -1,0 +1,101 @@
+﻿@model PMGSY.Models.EAuthorization.EAuthorizationAmountRequestModel
+@{
+    ViewBag.Title = "GetAddEAuthorizationLinkView";
+    
+}
+<script type="text/javascript">
+    var MAST_CONT_ID = '@ViewBag.MAST_CONT_ID';
+    var AGREEMENT_CODE = '@ViewBag.AGREEMENT_CODE';
+    var Bill_finalized = '@ViewBag.IMS_SANCTION_PACKAGE';
+    var AGREEMENT_AMOUNT = '@ViewBag.AGREEMENT_AMOUNT';
+       
+    </script>
+<script src="~/Scripts/EAuthorization/GetAddEAuthorizationLinkView.js"></script>
+<div>
+
+    <form id="frmlnkAddEAuthorizationDetails">
+        @Html.AntiForgeryToken()
+        @Html.HiddenFor(model => model.MAST_CONT_ID)
+        @Html.HiddenFor(model => model.AGREEMENT_CODE)
+        @Html.HiddenFor(model => model.IMS_SANCTION_PACKAGE)
+        @Html.HiddenFor(model => model.AGREEMENT_AMOUNT)
+
+        <table style="width: 800px !important; margin-top: 20px;" class="table-content ui-corner-all">
+
+            <tr style="vertical-align: top; height: 230px;">
+
+                <td style="width: 100%">
+                    <div id="" class="ui-corner-top ui-widget-header panelheader" style="text-align: left; height: 17px; width: 99%">
+                        <span>Add Payment Details</span>
+                    </div>
+
+                    <div id="" class="ui-corner-bottom" style="display: block; border: 1px solid #B5B8C8; height: 203px; width: 99% !important;">
+                        <table>
+                            <tr>
+                                <td style="width: 50%"><b>Contractor Name:</b> <b>@Model.Contractor_Name </b></td>
+
+
+                            </tr>
+                            <tr></tr>
+                            <tr></tr>
+
+                            <tr>
+                                <td><b>Agreement Number:</b> <b>@Model.Aggrement_Number </b></td>
+                            </tr>
+
+                            <tr></tr>
+                            <tr></tr>
+
+
+
+                            <tr>
+                                <td><b>Package Number:</b><b>@Model.Package_Number</b></td>
+                                <td></td>
+                            </tr>
+
+
+                            <tr></tr>
+                            <tr></tr>
+
+                            <tr>
+                                <td><b>Authorization As on date:</b><b> @Model.DateAsOnNow </b></td>
+                            </tr>
+
+                            <tr></tr>
+                            <tr></tr>
+
+                            <tr>
+                                <td style="width: 7%"><b>@Html.LabelFor(model => model.AUTHORIZATION_AMOUNT):</b>
+                                    <label style="color: red">*</label>
+                                    @Html.TextBoxFor(model => model.AUTHORIZATION_AMOUNT, new { Title = "Authorization Amount", tabindex = "6" })
+                                    @*@Html.TextBoxFor(model => model.AUTHORIZATION_AMOUNT, new { Title = "Authorization Amount", tabindex = "6", @style = "width:45%" })*@
+                                    <br />
+                                    </td>
+
+                                    <td>
+                                    @Html.ValidationMessageFor(model => model.AUTHORIZATION_AMOUNT, null, new { @id = "AuthorizationAmount" })
+                                        </td>
+                            </tr>
+
+                            <tr>
+                                <td>
+                                   @* <input type="button" class="jqueryButton" name="SaveAuthDetails " id="btnSavelnkEAuthorizationDetails" title="Click here to save details" value='Save' tabindex="2" style="margin-left: 100%; margin-top: 9%;" />*@
+                                    <button type="button" tabindex = "7" id="btnSavelnkEAuthorizationDetails" style="margin-left: 100%; margin-top: 9%;" >Save</button>
+
+                                </td>
+
+                            </tr>
+
+
+
+
+                        </table>
+                    </div>
+
+
+
+                </td>
+            </tr>
+        </table>
+    </form>
+</div>

@@ -1,0 +1,462 @@
+﻿@using PMGSY.Extensions.MvcJqGrid
+@using System.Collections.Generic
+@model IEnumerable<PMGSY.Models.IMS_SANCTIONED_PROJECTS>
+
+@{
+    ViewBag.Title = "Index";
+}
+<style type="text/css">
+    table, tr, td {
+        border:1px solid thin;
+    }
+
+</style>
+<h2>Index</h2>
+
+<p>
+    @Html.ActionLink("Create New", "Create")
+</p>
+<table id="tblTempData" border="1">
+    <tr> 
+        <th>
+            @Html.DisplayNameFor(model => model.IMS_LSB_BRIDGE_DETAIL.IMS_SC_FD_TYPE)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.IMS_YEAR)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.IMS_PACKAGE_ID)
+        </th>
+        
+        <th>
+            @Html.DisplayNameFor(model => model.MASTER_STATE.MAST_STATE_NAME)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.MASTER_DISTRICT.MAST_DISTRICT_NAME)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.MASTER_BLOCK.MAST_BLOCK_NAME)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.MASTER_AGENCY.MAST_AGENCY_NAME)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.PLAN_ROAD.PLAN_CN_ROAD_NUMBER)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.IMS_ROAD_NAME)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.IMS_ROAD_FROM)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.IMS_ROAD_TO)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.IMS_UPGRADE_CONNECT)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.MASTER_SURFACE.MAST_SURFACE_NAME)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.MASTER_STREAMS.MAST_STREAM_NAME)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.IMS_PAV_LENGTH)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.IMS_PAV_EST_COST)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.IMS_NO_OF_CDWORKS)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.IMS_CD_WORKS_EST_COST)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.IMS_PROTECTION_WORKS)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.IMS_OTHER_WORK_COST)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.IMS_STATE_SHARE)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.MASTER_MP_CONSTITUENCY.MAST_MP_CONST_NAME)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.MASTER_MLA_CONSTITUENCY.MAST_MLA_CONST_NAME)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.IMS_ZP_RESO_OBTAINED)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.IMS_PROPOSED_SURFACE)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.IMS_CARRIAGED_WIDTH)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.MASTER_TRAFFIC_TYPE.MAST_TRAFFIC_NAME)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.IMS_IS_STAGED)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.IMS_STAGE_PHASE)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.IMS_STAGED_YEAR)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.IMS_STAGED_PACKAGE_ID)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.IMS_STAGED_ROAD_ID)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.IMS_NO_OF_BRIDGEWRKS)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.IMS_BRIDGE_NAME)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.IMS_BRIDGE_LENGTH)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.IMS_BRIDGE_WORKS_EST_COST)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.IMS_BRIDGE_EST_COST_STATE)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.IMS_ISBENEFITTED_HABS)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.MASTER_REASON.MAST_REASON_NAME)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.IMS_MAINTENANCE_YEAR1)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.IMS_MAINTENANCE_YEAR2)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.IMS_MAINTENANCE_YEAR3)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.IMS_MAINTENANCE_YEAR4)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.IMS_MAINTENANCE_YEAR5)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.IMS_DPR_STATUS)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.IMS_REMARKS)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.IMS_CC_LENGTH)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.IMS_BT_LENGTH)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.STA_SANCTIONED)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.STA_SANCTIONED_BY)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.STA_SANCTIONED_DATE)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.MS_STA_REMARKS)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.IMS_SANCTIONED)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.MASTER_REASON1.MAST_REASON_NAME)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.IMS_CLEARANCE_DATE)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.IMS_SANCTIONED_BY)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.IMS_SANCTIONED_DATE)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.IMS_SANCTIONED_AMOUNT)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.IMS_PROG_REMARKS)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.IMS_OLD_PACKAGE_ID)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.IMS_OLD_ROAD_ID)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.IMS_VALUEOFWORK_DONE)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.IMS_PAYMENT_MADE)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.IMS_FINAL_PAYMENT_FLAG)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.IMS_FINAL_PAYMENT_DATE)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.IMS_ENTRY_DATE_FINANCIAL)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.IMS_ENTRY_DATE_PHYSICAL)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.IMS_ISCOMPLETED)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.IMS_LOCK_STATUS)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.IMS_FREEZE_STATUS)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.IMS_PROPOSAL_TYPE)
+        </th>
+        <th></th>
+    </tr>
+
+@foreach (var item in Model) {
+    <tr>
+        <td>
+            @Html.DisplayFor(modelItem => item.IMS_LSB_BRIDGE_DETAIL.IMS_SC_FD_TYPE)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.IMS_YEAR)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.IMS_PACKAGE_ID)
+        </td>
+
+        <td>
+            @Html.DisplayFor(modelItem => item.MASTER_STATE.MAST_STATE_NAME)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.MASTER_DISTRICT.MAST_DISTRICT_NAME)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.MASTER_BLOCK.MAST_BLOCK_NAME)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.MASTER_AGENCY.MAST_AGENCY_NAME)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.PLAN_ROAD.PLAN_CN_ROAD_NUMBER)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.IMS_ROAD_NAME)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.IMS_ROAD_FROM)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.IMS_ROAD_TO)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.IMS_UPGRADE_CONNECT)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.MASTER_SURFACE.MAST_SURFACE_NAME)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.MASTER_STREAMS.MAST_STREAM_NAME)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.IMS_PAV_LENGTH)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.IMS_PAV_EST_COST)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.IMS_NO_OF_CDWORKS)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.IMS_CD_WORKS_EST_COST)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.IMS_PROTECTION_WORKS)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.IMS_OTHER_WORK_COST)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.IMS_STATE_SHARE)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.MASTER_MP_CONSTITUENCY.MAST_MP_CONST_NAME)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.MASTER_MLA_CONSTITUENCY.MAST_MLA_CONST_NAME)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.IMS_ZP_RESO_OBTAINED)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.IMS_PROPOSED_SURFACE)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.IMS_CARRIAGED_WIDTH)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.MASTER_TRAFFIC_TYPE.MAST_TRAFFIC_NAME)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.IMS_IS_STAGED)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.IMS_STAGE_PHASE)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.IMS_STAGED_YEAR)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.IMS_STAGED_PACKAGE_ID)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.IMS_STAGED_ROAD_ID)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.IMS_NO_OF_BRIDGEWRKS)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.IMS_BRIDGE_NAME)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.IMS_BRIDGE_LENGTH)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.IMS_BRIDGE_WORKS_EST_COST)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.IMS_BRIDGE_EST_COST_STATE)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.IMS_ISBENEFITTED_HABS)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.MASTER_REASON.MAST_REASON_NAME)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.IMS_MAINTENANCE_YEAR1)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.IMS_MAINTENANCE_YEAR2)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.IMS_MAINTENANCE_YEAR3)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.IMS_MAINTENANCE_YEAR4)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.IMS_MAINTENANCE_YEAR5)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.IMS_DPR_STATUS)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.IMS_REMARKS)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.IMS_CC_LENGTH)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.IMS_BT_LENGTH)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.STA_SANCTIONED)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.STA_SANCTIONED_BY)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.STA_SANCTIONED_DATE)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.MS_STA_REMARKS)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.IMS_SANCTIONED)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.MASTER_REASON1.MAST_REASON_NAME)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.IMS_CLEARANCE_DATE)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.IMS_SANCTIONED_BY)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.IMS_SANCTIONED_DATE)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.IMS_SANCTIONED_AMOUNT)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.IMS_PROG_REMARKS)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.IMS_OLD_PACKAGE_ID)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.IMS_OLD_ROAD_ID)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.IMS_VALUEOFWORK_DONE)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.IMS_PAYMENT_MADE)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.IMS_FINAL_PAYMENT_FLAG)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.IMS_FINAL_PAYMENT_DATE)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.IMS_ENTRY_DATE_FINANCIAL)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.IMS_ENTRY_DATE_PHYSICAL)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.IMS_ISCOMPLETED)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.IMS_LOCK_STATUS)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.IMS_FREEZE_STATUS)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.IMS_PROPOSAL_TYPE)
+        </td>
+        <td>
+            @Html.ActionLink("Edit", "Edit", new {  id=item.IMS_PR_ROAD_CODE}) |
+            @Html.ActionLink("Details", "Details", new {  id=item.IMS_PR_ROAD_CODE }) |
+            @Html.ActionLink("Delete", "Delete", new {  id=item.IMS_PR_ROAD_CODE})
+        </td>
+    </tr>
+}
+
+</table>

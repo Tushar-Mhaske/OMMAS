@@ -1,0 +1,96 @@
+﻿@model PMGSY.Areas.AccountReports.Models.CBSingleModel
+@using PMGSY.Extensions
+@using PMGSY.Common
+
+@{ 
+    Layout = Request.IsAjaxRequest() ? null : "~/Areas/AccountReports/Views/Account/_Layout.cshtml";
+}
+
+<script src="~/Scripts/custom/Generic.js"></script>
+<script src="~/Areas/AccountReports/Scripts/CashBookReport.js"></script>
+ <center>
+<div class="ui-widget-header innerDivHeader" style="margin-bottom: 5px; width: 99%;text-align:left">Cash Book</div>
+@{
+    CommonFunctions objCommonFunction = new CommonFunctions();
+}
+<form id="frmCashBook">
+    @Html.ValidationSummary(true)
+
+    @Html.Hidden("levelId", PMGSYSession.Current.LevelId)
+    @Html.Hidden("AdminNdCode", PMGSYSession.Current.AdminNdCode)
+    @Html.Hidden("CashbookType")
+   
+
+<div id="loadFilters">
+<table class="table-content ui-corner-all" style="width: 99%; border: .1em solid gray" id="tblViewDetails">
+        <tr>
+            <td style="width:2%"></td>
+            
+            @if (PMGSYSession.Current.LevelId == 4 || PMGSYSession.Current.LevelId == 6)
+            {
+            <td style="text-align:right;width:8%">@Html.RadioButtonFor(model => model.SRRDA_DPIU, "S", new { @id = "rdoSRRDA", @title = "SRRDA", @checked = "checked" }) @Html.LabelFor(model => model.SRRDA):</td>            
+            <td style="width:15%">
+                
+                @if (PMGSYSession.Current.LevelId == 4)//login DPIU
+                {
+                    @Html.DropDownListFor(model => model.SRRDA, ViewBag.SRRDA as IEnumerable<SelectListItem>, new { @id = "ddlSRRDA", @title = "SRRDA", @disabled = "disabled" })
+                }
+                else
+                {
+                    @Html.DropDownListFor(model => model.SRRDA, ViewBag.SRRDA as IEnumerable<SelectListItem>, new { @id = "ddlSRRDA", @title = "SRRDA" })
+                }
+
+            </td>
+            <td style="width:8%;text-align:right">@Html.RadioButtonFor(model => model.SRRDA_DPIU, "D", new { @id = "rdoDPIU", @title = "DPIU" })  @Html.LabelFor(model => model.DPIU):</td>
+            <td style="width:15%">@Html.DropDownListFor(model => model.DPIU, ViewBag.DPIU as IEnumerable<SelectListItem>, new { @id = "ddlDPIU", @title = "DPIU" }) @Html.ValidationMessageFor(m=>m.DPIU)</td>
+            }
+            <td style="text-align:right; font-weight:bold; width:5%">@Html.LabelFor(m => m.Month)<label style="color:red;"> *</label>:</td>
+            <td style="width:15%">@Html.DropDownListFor(m => m.Month, ViewBag.ddlMonth as IEnumerable<SelectListItem>, new { @title = "Month" }) @Html.ValidationMessageFor(m => m.Month)</td>
+            <td style="text-align:right; font-weight:bold; width:5%">@Html.LabelFor(m => m.Year)<label style="color:red;"> *</label>:</td>
+            <td style="width:15%">@Html.DropDownListFor(m => m.Year, ViewBag.ddlYear as IEnumerable<SelectListItem>, new { @title = "Year" }) @Html.ValidationMessageFor(m => m.Year) </td>
+            <td style="width:5%"><input type="button" id="btnView" value="View Details" class="jqueryButton" title="View Details"></td>        
+        </tr>
+        <tr>     
+             @{int spn1 = (PMGSYSession.Current.LevelId == 4 || PMGSYSession.Current.LevelId == 6) ? 10 : 6; }
+            <td  colspan='@spn1.ToString()' ></td>            
+        </tr>
+        <tr>            
+
+            @{int spn = (PMGSYSession.Current.LevelId == 4 || PMGSYSession.Current.LevelId == 6) ? 10 : 6; }
+            <td colspan='@spn.ToString()'>
+                    <table id="cat_icon" style="width:99%;display:none">
+                          <tr>
+                            <td id="rec_ico" style="width:33%">
+                                <div class="ui-state-default ui-corner-all jqueryButton" title="Click here to view Receipt Details">
+                                    <span style="float:left" class="ui-icon ui-icon-circle-triangle-w"></span>
+                                    <span style="float:left; margin-right:5px">Go to Receipt Side</span>
+                                </div>
+                            </td>
+                            <td id="singleCB_ico" style="width:33%; text-align:center">
+                                <div class="ui-state-default ui-corner-all jqueryButton" title="Click here to view Single Cashbook Details">
+                                    <span style="float:left" class="ui-icon ui-icon-circle-triangle-s"></span>
+                                    <span style="float:left; margin-right:5px">Single Cashbook</span>
+                                    <span style="float:left" class="ui-icon ui-icon-circle-triangle-s"></span>
+                                </div>
+                            </td>
+                            <td id="pay_ico" style="width:33%; text-align:right">
+                                <div class="ui-state-default ui-corner-all jqueryButton" title="Click here to view Payment Details">
+                                    <span style="float:left; margin-right:5px">Go to Payment Side</span>
+                                    <span style="float:left" class="ui-icon ui-icon-circle-triangle-e"></span>
+                                </div>
+                            </td>
+                        </tr>
+                    </table>
+            </td>            
+        </tr>
+</table>
+
+</div>
+
+
+</center>
+</form>
+
+<div id="loadSingleCashBookReport" class="divLoadReport"></div>
+<div id="loadReceiptSideCashBookReport" class="divLoadReport" style="overflow: auto; display: none"></div>
+<div id="loadPaymentSideBookReport" class="divLoadReport" style="overflow: auto; display: none"></div>

@@ -1,0 +1,13 @@
+﻿@using MvcReportViewer
+
+@model PMGSY.Areas.ProposalSSRSReports.Models.CompletionPlanReportModel
+
+ @Html.MvcReportViewer("/PMGSYCitizen/CompletionPlan",
+     new
+     {
+         State = Model.State,
+         Year = Model.Year,
+         PMGSY = PMGSY.Extensions.PMGSYSession.Current.PMGSYScheme,
+         StateName = Model.StateName
+     },
+       new { Height = 600, Width = 1215, style = "border:none;" })

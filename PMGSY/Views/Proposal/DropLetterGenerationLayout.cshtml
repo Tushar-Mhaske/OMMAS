@@ -1,0 +1,26 @@
+﻿<script src="~/Scripts/custom/Generic.js"></script>
+<script src="~/Scripts/Proposal/DropLetterGenerationLayout.js"></script>
+
+<center>
+    </center>
+<form id="frmLetterGenerationLayout">
+    @Html.ValidationSummary(true)
+    @Html.AntiForgeryToken()
+
+    <div style="width: 100%">
+        <div style="height:25px;border:none; margin-top:5px;" class="ui-corner-top ui-widget-header panelheader" @*class="ui-state-default"*@>
+            <span class="ui-jqgrid-title" style="float: left">&nbsp;Letter Generation</span>
+            @*<span style="float:right;margin-right:2Px; margin-top:2px" id="idFilterDiv" class="ui-icon ui-icon-circle-triangle-n"></span>  *@
+        </div>
+        <div style="margin-top: 10px; width: 98%; margin-left: 10px;" class="ui-corner-all">
+            <table id="tblLetterRequest"></table>
+            <div id="dvPagerLetterRequest"></div>
+        </div>
+        <div style="margin-top: 10px; width: 98%; margin-left: 10px;" class="ui-corner-all">
+            <table id="tblLetterGen"></table>
+            <div id="dvPagerLetterGen"></div>
+        </div>
+    </div>
+</form>
+<div id="dvRequestLetter">
+</div>

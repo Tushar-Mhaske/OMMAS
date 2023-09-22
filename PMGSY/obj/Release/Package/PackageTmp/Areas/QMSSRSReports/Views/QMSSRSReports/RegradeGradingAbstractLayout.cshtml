@@ -1,0 +1,79 @@
+﻿@model PMGSY.Areas.QMSSRSReports.Models.QMRegradeGradingAbstractViewModel
+
+@*<script src="~/Areas/QMSSRSReports/Scripts/NQMGradingAbstractReport.js"></script>*@
+<script src="~/Scripts/custom/Generic.js"></script>
+
+<script type="text/javascript">
+    $(document).ready(function () {
+        $('#btnView').click(function () {
+            if ($('#frmRegradeAbstractLayout').valid()) {
+                $.ajax({
+                    url: "/QMSSRSReports/QMSSRSReports/RegradeGradingAbstractReport/",
+                    cache: false,
+                    type: "POST",
+                    async: false,
+                    data: $("#frmRegradeAbstractLayout").serialize(),
+                    success: function (data) {
+                        $("#loadRegradeAbstract").html('');
+                        $("#loadRegradeAbstract").html(data);
+                    },
+                    error: function () {
+                        alert("error");
+                    }
+                })
+            }
+        });
+
+        $('#btnView').trigger('click');
+    });
+</script>
+
+<div id="dvRegradeAbstractLayout">
+    <form id="frmRegradeAbstractLayout">
+        @Html.AntiForgeryToken()
+        @Html.ValidationSummary(true)
+
+        <div id="dvhdRegradeAbstractLayout" class="ui-corner-top ui-widget-header panelheader" style="text-align: left; height: 20px;">
+            <span class="ui-jqgrid-title" style="float: left; margin-left:5px;">Regraded Grading Abstract Layout</span>
+        </div>
+        <table style="width: 100%;" class="rowstyle ui-corner-all">
+            <tr style="display:none;">
+                <td style="width: 5%;"></td>
+                @* <td style="width: 5%; vertical-align: top">
+                    @Html.LabelFor(model => model.collaboration)
+                </td>
+                <td style="width: 10%; vertical-align: top">
+                    @Html.DropDownListFor(model => model.agency, new SelectList(Model.agencyList, "Value", "Text"), new { @title = "Agency", @id = "ddlAgency", @tabindex = 1 })
+                    <br />
+                    @Html.ValidationMessageFor(m => m.agency)
+                </td>
+
+                <td style="width: 5%; vertical-align: top">
+                    @Html.LabelFor(model => model.collaboration)
+
+                </td>
+                <td style="width: 10%; vertical-align: top">
+                    @Html.DropDownListFor(model => model.collaboration, new SelectList(Model.collabList, "Value", "Text"), new { @title = "Collaboration", @id = "ddlCollaboration", @tabindex = 2 })
+                    <br />
+                    @Html.ValidationMessageFor(m => m.collaboration)
+                </td>*@
+
+                <td style="width: 4%; vertical-align: top">
+                    @Html.Label("Monitor Type")
+                </td>
+                <td style="width: 10%; vertical-align: top">
+                    @Html.DropDownListFor(model => model.qmType, new SelectList(Model.qmTypeList, "Value", "Text"), new { @title = "QM Type", @id = "ddlQmType", @tabindex = 3 })
+                    <br />
+                    @Html.ValidationMessageFor(m => m.qmType)
+                </td>
+
+                <td style="width: 5%; text-align: center; vertical-align: top">
+                    <input type="button" class="button" value="View" id="btnView" title="View Details" tabindex="4" />
+                </td>
+                <td style="width: 5%;"></td>
+            </tr>
+        </table>
+    </form>
+</div>
+
+<div id="loadRegradeAbstract"></div>

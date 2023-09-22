@@ -1,0 +1,106 @@
+﻿@**
+        * Project Id    :
+        * Project Name  :   OMMAS II
+        * Name          :   QMFillObservations.cshtml
+        * Description   :   View for QMFillObservations
+        * Author        :   Shyam Yadav 
+        * Creation Date :   10/Jun/2013
+ **@
+
+
+
+
+<style>
+    .ui-datepicker td {
+        border: 1px solid #CCC;
+        padding: 0;
+    }
+</style>
+
+<script src="~/Scripts/custom/Generic.js"></script>
+<script src="~/Scripts/jquery.ui.datepicker.js"></script>
+<script type="text/javascript">
+
+
+    $(document).ready(function () {
+        var currentDate = $("#CURRENT_DATE").val().substr(0, 10);
+        //alert(currentDate);
+
+        $("#FromDate").addClass("pmgsy-textbox");
+
+        $("#FromDate").datepicker({
+            changeMonth: true,
+            changeYear: true,
+            dateFormat: "dd/mm/yy",
+            showOn: 'button',
+            buttonImage: '../../Content/images/calendar_2.png',
+            buttonImageOnly: true,
+            onClose: function () {
+                $(this).focus().blur();
+            }
+        }).attr('readonly', 'readonly');
+
+        $("#ToDate").addClass("pmgsy-textbox");
+
+        $("#ToDate").datepicker({
+            changeMonth: true,
+            changeYear: true,
+            dateFormat: "dd/mm/yy",
+            showOn: 'button',
+            buttonImage: '../../Content/images/calendar_2.png',
+            buttonImageOnly: true,
+            onClose: function () {
+                $(this).focus().blur();
+            }
+        }).attr('readonly', 'readonly');
+
+
+        //   $("#QM_INSPECTION_DATE").datepicker("option", "minDate", $("#SCHEDULE_MONTH_YEAR_START_DATE").val());
+        $("#FromDate").datepicker("option", "maxDate", currentDate);
+        $("#ToDate").datepicker("option", "maxDate", currentDate);
+
+        $("#FromDate").val(currentDate);
+        $("#ToDate").val(currentDate);
+        //alert(currentDate);
+
+
+        $("#btnView").click(function () {
+            var fromDate = $("#FromDate").val();
+            var toDate = $("#ToDate").val();
+            var date1 = new Date(fromDate);
+            var date2 = new Date(toDate);
+            var fbThrough = $("#ddlFBThrough option:selected").val();
+            /*  alert(date1 +":"+ date2);
+              if (date1 > date2) {
+                  alert("From Date can not be greater than than To Date.");
+              }
+              else{
+                  */
+            //alert("From Date: "+ fromDate+ "  To Date: "+ toDate);
+            $("#ReportContainer").load("/FeedbackReport/Feedback/StateWiseStatusReport", { fromDate: fromDate, toDate: toDate, fbThrough : fbThrough });
+            //   }
+        });
+    });
+</script>
+
+<form>
+    <input type="hidden" id="CURRENT_DATE" value="@DateTime.Now.Date" />
+    <table class="rowstyle" id="tblFillObsDetails" style="margin-top: 0px; text-align: left; border: ridge 0.1em #ccc; width: 100%; padding: 5px 5px 5px 5px;">
+        <tr>
+            <td style="text-align: left; width: 5%;"></td>
+            <td style="text-align: left; width: 30%;">Select From Date:@Html.Editor("FromDate")
+            </td>
+            <td style="text-align: left; width: 30%;">Select To Date:@Html.Editor("ToDate")
+            </td>
+            <td style="text-align: left; width: 30%;">Feedback Through:@Html.DropDownList("FBThrough", ViewBag.fbThroughList as IEnumerable<SelectListItem>, new { @id = "ddlFBThrough" })
+            </td>
+            <td style="text-align: left; width: 30%;">
+                <input type="button" value="View" class="jqueryButton" id="btnView" />
+
+            </td>
+            <td style="text-align: left; width: 5%;"></td>
+        </tr>
+
+    </table>
+    <div id="ReportContainer" style="Height: 600px; Width: 100%; border: none;"></div>
+</form>

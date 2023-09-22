@@ -1,0 +1,12 @@
+﻿@using MvcReportViewer
+
+@model PMGSY.Areas.ProposalSSRSReports.Models.AgreementAbstractViewModel
+
+@Html.MvcReportViewer("/PMGSYCitizen/Agreement_Abstract_Report",
+     new
+     {
+         MONTH = Model.Month,
+         YEAR = Model.Year,
+         PMGSY = Model.pmgsyScheme,
+     },
+       new { Height = 675, Width = "100%", style = "border:none;" })

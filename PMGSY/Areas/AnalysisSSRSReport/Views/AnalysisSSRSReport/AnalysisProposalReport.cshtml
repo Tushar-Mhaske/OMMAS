@@ -1,0 +1,34 @@
+﻿@using MvcReportViewer
+
+@model PMGSY.Areas.AnalysisSSRSReport.Models.AnalysisProposalModel
+
+
+
+<div id="Analysis_Proposal_Sanction_Report" style="width: 100%; height: 590px; overflow-x: hidden; overflow-y: hidden;">
+
+    @Html.MvcReportViewer("/PMGSYCitizen/Analysis_Proposal_Sanction_Report",
+     new
+     {
+         Level = Model.LevelCode,
+         Report = Model.ReportName,
+         State = Model.Mast_State_Code,
+         District = Model.Mast_District_Code,
+         Block = Model.Mast_Block_Code,
+         Year = Model.PhaseYear,
+         Collaboration = Model.FundingAgency,
+         Batch = Model.Batch,
+         Status = Model.Status,
+         PMGSY = PMGSY.Extensions.PMGSYSession.Current.PMGSYScheme,
+         StateName = Model.StateName,
+         DistrictName = Model.DistName,
+         BlockName = Model.BlockName,
+         BatchName = Model.BatchName,
+         CollabName = Model.FundingAgencyName,
+         YearName = Model.YearName,
+         StatusName = Model.StatusName
+
+     },
+      new { Height = 600, Width = 1215, style = "border:none;" })
+</div>
+
+

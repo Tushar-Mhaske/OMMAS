@@ -1,0 +1,169 @@
+﻿@model PMGSY.Models.NQMTourClaimModels.NQM_TOUR_CLAIM_MASTER_MODEL
+
+<style>
+    #divSummary, #divRemarks {
+        float: left;
+        width: 49.5%;
+        height: 700px;
+        /*border: 0.5px solid grey;*/
+        /*border-radius: 1rem;*/
+        overflow-y: auto;
+    }
+
+    #combineDiv {
+        border: 0.5px solid grey;
+        border-radius: 1rem;
+    }
+</style>
+
+<script src="~/Scripts/custom/Generic.js"></script>
+<script src="~/Scripts/jquery-ui.js"></script>
+<script src="~/Scripts/TourClaim/ViewEditTourFinance2.js"></script>
+<link href="~/Content/TourClaim/TourClaimCss.css" rel="stylesheet" />
+
+<div id="showApproveForwardFilter">
+
+    <div id="dvErrorMessage" class="ui-widget ui-state-error ui-corner-all" style="padding: 0.7em .7em; display: none; margin: 5px 5px 5px 5px; text-align: left">
+        <span class="ui-icon ui-icon-alert" style="float: left; margin-right: .3em; text-align: left"></span>
+        <strong>Alert:</strong> <span id="message"></span>
+    </div>
+
+    <form id="formApproveForwardFilter">
+        @Html.AntiForgeryToken()
+        <center>@Html.ValidationSummary(true)</center>
+        @Html.HiddenFor(m => m.TOUR_CLAIM_ID, new { @id = "tourClaimIdApproveForward" })
+        @Html.HiddenFor(m => m.ADMIN_SCHEDULE_CODE, new { @id = "scheduleCodeApproveForward" })
+
+        <table style="width: 100%; margin-top: 20px">
+
+            <tr>
+                @if (Model.finalizeFlag == 3)
+                {
+                    <td style="padding:1rem">
+                        @Html.Label("Assistant Director : ", new { style = "font-size:1.2rem" })
+                        @Html.TextAreaFor(model => model.ASSISTANT_DIRECTOR, new { @id = "assistantDirector", style = "width:30%;margin-left:2.5rem;font-size:1rem" })
+                        @Html.ValidationMessageFor(model => model.ASSISTANT_DIRECTOR)
+                    </td>
+
+                    <td>
+                        @Html.LabelFor(model => model.REMARK, new { style = "font-size:1.2rem" })
+                        @Html.TextAreaFor(model => model.REMARK, new { @id = "revertremark", style = "width:50%;margin-left:2.5rem;font-size:1rem" })
+                        @Html.ValidationMessageFor(model => model.REMARK)
+                    </td>
+
+                    <td>
+                        <input style="padding: 0.6rem; border: 1px solid black;" type="button" id="btnApproveFin2" name="btnSave" value="Approve Tour Claim" class="jqueryButton" title="Approve Tour Claim" tabindex="5" />
+                    </td>
+                }
+
+                @if (Model.ROUND_SEQUENCE != 1)
+                {
+                    <td>
+                        <input style="padding: 0.6rem; border: 1px solid black;" type="button" id="btnRevertToCQC" name="btnSave" value="Revert back To CQC" class="jqueryButton" title="Revert back To CQC" tabindex="5" />
+                    </td>
+                }
+
+                <td>
+                    <button style="padding: 0.6rem; border: 1px solid black;" class="jqueryButton" onclick="ViewEditFinance2($('#tourClaimIdApproveForward').val())">Back</button>
+                </td>
+
+            </tr>
+
+        </table>
+
+    </form>
+
+    @*<center>
+            @using MvcReportViewer
+
+            @Html.MvcReportViewer("/PMGSYCitizen/TOUR_CLAIM_PREVIEW_REPORT_FINANCE",
+            new
+            {
+                tourId = Model.TOUR_CLAIM_ID
+            },
+               new { Height = 600, Width = "50%", style = "border:none;" })
+        </center>*@
+
+    <div id="combineDiv">
+        <div id="divSummary" class="ui-state-default">
+
+            <center><h2><u>Summar Report</u></h2></center>
+
+            @using MvcReportViewer
+
+            @Html.MvcReportViewer("/PMGSYCitizen/TOUR_CLAIM_PREVIEW_REPORT_FINANCE",
+            new
+            {
+                tourId = Model.TOUR_CLAIM_ID
+            },
+               new { Height = 600, Width = "100%", style = "border:none;" })
+        </div>
+
+        <div id="divRemarks" style="margin-left:0.5rem; text-align:left;" class="ui-state-default">
+
+            <center><h2><u>Remarks Summary</u></h2></center>
+
+            @if (ViewBag.travelList.Count > 0)
+                {
+                    <h2 style="margin-left:0.5rem">Travel Claim</h2>
+
+                    <ol>
+                        @foreach (var item in ViewBag.travelList)
+                        {
+                            <li>@item</li>
+                        }
+                    </ol>
+                }
+
+                @if (ViewBag.lodgeList.Count > 0)
+                {
+                    <h2 style="margin-left:0.5rem">Lodge Details</h2>
+
+                    <ol>
+                        @foreach (var item in ViewBag.lodgeList)
+                        {
+                            <li>@item</li>
+                        }
+                    </ol>
+                }
+
+                @if (ViewBag.inspList.Count > 0)
+                {
+                    <h2 style="margin-left:0.5rem">Inspection of Road</h2>
+
+                    <ol>
+                        @foreach (var item in ViewBag.inspList)
+                        {
+                            <li>@item</li>
+                        }
+                    </ol>
+                }
+
+                @if (ViewBag.meetingList.Count > 0)
+                {
+                    <h2 style="margin-left:0.5rem">Meeting with PIU</h2>
+
+                    <ol>
+                        @foreach (var item in ViewBag.meetingList)
+                        {
+                            <li>@item</li>
+                        }
+                    </ol>
+                }
+
+                @if (ViewBag.misList.Count > 0)
+                {
+                    <h2 style="margin-left:0.5rem">Miscellaneous</h2>
+
+                    <ol>
+                        @foreach (var item in ViewBag.misList)
+                        {
+                            <li>@item</li>
+                        }
+                    </ol>
+                }
+
+        </div>
+    </div>
+
+</div>

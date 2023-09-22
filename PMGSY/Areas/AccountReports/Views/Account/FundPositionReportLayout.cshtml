@@ -1,0 +1,40 @@
+﻿@model PMGSY.Areas.AccountReports.Models.FundPostionModel
+
+<script src="~/Scripts/custom/Generic.js"></script>
+<script src="~/Areas/AccountReports/Scripts/FundPositionReport.js"></script>
+
+<div id="dvhdloadFilters" class="ui-corner-top ui-widget-header panelheader" style="text-align: left; height: 20px;">@*margin-left:0px;margin-right:0px;margin-top:0px; *@
+    <span class="ui-jqgrid-title" style="float: left">&nbsp;Fund Position Report</span>
+    @*<span id="spCollapseIconCN" class="ui-icon ui-icon-circle-triangle-n" style="float: right"></span>*@
+</div>
+
+<div id="loadFilters">
+    <form id="frmFundPosition">
+        <center>
+                       <table style="width:100%;" class="rowstyle">
+                           <tr id="trStateDPIU">
+                           <td style="width:10%"></td>
+                           <td style="width:10%;text-align:center">                              
+                               @Html.LabelFor(model => model.Year)
+                           </td>
+                           <td style="width:20%">
+                                @Html.DropDownListFor(model => model.Year, new SelectList(Model.YearList, "Value", "Text"), new { @id = "ddlfyear", @style = "width:40%;" })     
+                               <br />@Html.ValidationMessageFor(model => model.Year)
+                           </td>
+                             <td style="width:20%;text-align:left"> 
+                                <input type="button" value="View" id="btnViewFundPostionReport" class="buttonLink" title="View" />
+                           </td>
+                          @* <td style="width:25%">
+                             
+                           </td>*@
+                            <td style="width:10%;text-align:left">  
+                           </td>
+                       </tr>
+                       </table>
+                       </center>
+    </form>
+</div>
+
+<div id="loadfundpostionReport" class="divLoadReport"></div>
+
+

@@ -1,0 +1,62 @@
+﻿@model PMGSY.Models.QualityMonitoring.InspectionTargetModel
+@{
+    ViewBag.Title = "InspectionTargetLayout";
+}
+<script src="~/Scripts/custom/Generic.js"></script>
+<script src="~/Scripts/QualityMonitoring/InspectionTargetLayout.js"></script>
+
+<form id="frmQMInspectionTarget">
+
+    @Html.ValidationSummary(true)
+    @Html.AntiForgeryToken()
+
+    @Html.HiddenFor(m=>m.flg)
+
+    <div id="dvhdInspectionTarget" class="ui-corner-top ui-widget-header panelheader" style="text-align: left; height: 20px;">
+        <span class="ui-jqgrid-title" style="float: left">&nbsp;Inspection Target</span>
+    </div>
+    <div class="ui-corner-bottom" style="display: block; border: 1px solid #B5B8C8; width: 99.9%">
+        <table style="width: 100%;" class="rowstyle">
+            <tr>
+                <td style="width: 5%;"></td>
+                <td style="width: 10%;">
+                    @Html.Label("Month")
+                </td>
+                <td style="width: 25%;">
+                    @Html.DropDownListFor(model => model.MONTHID, new SelectList(Model.MONTH_LIST, "Value", "Text"), new { @id = "ddlMonth", style = "width:170px;", title = "Month" })
+                    <br />
+                    @Html.ValidationMessageFor(m => m.MONTHID)
+                </td>
+
+                <td style="width: 10%;">
+                    @Html.Label("Year")
+                </td>
+                <td style="width: 25%;">
+                    @Html.DropDownListFor(model => model.YEARID, new SelectList(Model.YEAR_LIST, "Value", "Text"), new { @id = "ddlYear", style = "width:170px;", title = "Year" })
+                    <br />
+                    @Html.ValidationMessageFor(m => m.YEARID)
+                </td>
+
+                <td style="text-align: left;" style="width: 5%;">
+                    <input type="button" id="btnView" value="View" class="jqueryButton" />
+                </td>
+                <td style="width: 5%;"></td>
+            </tr>
+        </table>
+    </div>
+</form>
+<br />
+@*Inspection target List*@
+<div style="width: 99%; margin-bottom: 12px; margin-left: 1px;" id="dvInspectionTargetGrid">
+    <table id="tblInspectionTargetGrid"></table>
+    <div id="divInspectionTargetPager"></div>
+</div>
+
+
+
+
+
+
+
+
+

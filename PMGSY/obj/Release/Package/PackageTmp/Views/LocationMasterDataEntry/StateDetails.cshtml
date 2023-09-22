@@ -1,0 +1,67 @@
+﻿@*@model IEnumerable<PMGSY.Models.MASTER_STATE>*@
+
+@using PMGSY.Models.MasterDataEntry
+
+@{
+    // ViewBag.Title = "State Details";
+}
+
+<script type="text/javascript">
+    $.blockUI({ message: '<img src="/Content/images/ajax-loader.gif"/>' });
+
+</script>
+<script src="@Url.Content("~/Scripts/custom/Generic.js")" type="text/javascript" ></script>
+<script type="text/javascript" src="@Url.Content("~/Scripts/MasterDataEntry/Master_ListState.js")"> </script>
+
+
+
+<center>
+
+
+
+
+
+     <div style="width:100%;  ">
+
+      <div id="dvStateDetails" style="display:none;">
+         @*   @Html.Partial("CreateState",new MASTER_STATE())*@
+          @*@{Html.RenderAction("CreateState", "LocationMasterDataEntry");}*@
+
+      </div>@* end of craete new div*@
+
+   <div id="dvSearchState" ></div>    
+<div id="dvStateList">
+<table id="tblAddNewButton" style="width:100%;">@* padding-top:1.5em; *@ 
+    <tr>  
+        
+        <td style="text-align:left">
+                     <div class="ui-state-default ui-corner-all jqueryButton" id="btnCreateNew" title="Add State" >
+                         <span style="float:left" class="ui-icon ui-icon-circle-plus"></span>
+                         <span style="float:left; margin-right:5px">Add State</span>
+                     </div>
+                  <div class="ui-state-default ui-corner-all jqueryButton" id="btnSearchView" title="Search State" style="display:none;">
+                      <span style="float:left" class="ui-icon ui-icon-search"></span>
+                      <span style="float:left; margin-right:5px">Search State</span>
+                  </div>
+            </td>
+        </tr> 
+    </table>
+
+
+    
+    <table id="tbStateList">
+
+    </table>
+
+    <div id="dvStateListPager">
+
+    </div>
+</div>
+
+     
+    </div>
+      </center>
+
+@section Scripts {
+    @Scripts.Render("~/bundles/jqueryval")
+}

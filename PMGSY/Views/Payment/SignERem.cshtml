@@ -1,0 +1,204 @@
+﻿@model PMGSY.Models.EremittnaceOrderModel
+@using Mvc.Mailer;
+@{
+    Layout = null;
+}
+<html>
+<head></head>
+<body>
+
+    <table style="width: 800px !important; height: 90%; margin-top: 10px; overflow-y: auto">
+        <tr style="vertical-align: top">
+            <td style="width: 50%">
+                <div id="" class="ui-corner-top ui-widget-header panelheader" style="text-align: left; height: 15px;">
+                    <span class="ui-jqgrid-title" style="float: none; text-align: left;">Sender Information </span>
+                </div>
+                <div id="" class="ui-corner-bottom" style="display: block; border: 1px solid #B5B8C8; border-top: none; height: 100%">
+                    <table>
+                        <tr>
+                            <td><b>State:</b>  @Model.EpayState </td>
+                        </tr>
+                        <tr>
+                            <td><b>DPIU:</b> @Model.EpayDPIU  ( <b>District</b> - @Model.DPIUName ) </td>
+                        </tr>
+                        <tr>
+                            <td><b>Bank Details:</b> @Model.Bankaddress</td>
+                        </tr>
+                        <tr>
+                            <td><b>Account Number:</b> @Model.BankAcNumber</td>
+                        </tr>
+                        <tr>
+                            <td><b>Authorise Signatory  Name:</b> @Model.AuthorisedSignName </td>
+                        </tr>
+                        <tr>
+                            <td><b>Authorise Signatory Contact No.:</b> @Model.AuthorisedSignMobile </td>
+                        </tr>
+                    </table>
+                </div>
+            </td>
+            <td style="width: 50%;">
+                <div class="ui-corner-top ui-widget-header panelheader" style="text-align: left; height: 15px;">
+                    <span class="ui-jqgrid-title" style="float: none; text-align: left;">Department Information </span>
+                </div>
+                <div id="" class="ui-corner-bottom" style="display: block; border: 1px solid #B5B8C8; border-top: none; height: 100%;">
+                    <table>
+                        <tr>
+                            <td>
+                                <b>Name:</b>  @Model.DepartmentNameFull
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>
+                                <b>Bank Account Number:</b> @Model.DepartmentAcNum
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>
+                                <b>TAN Number:</b> @Model.DPIUTANNumber
+                            </td>
+                        </tr>
+                    </table>
+                </div>
+            </td>
+        </tr>
+        <tr>
+            <td colspan="2">
+                <div class="ui-corner-top ui-widget-header panelheader" style="text-align: left; height: 15px;">
+                    <span class="ui-jqgrid-title" style="float: none; text-align: left;">E-Remittance Information </span>
+                </div>
+                <div id="" class="ui-corner-bottom" style="display: block; border: 1px solid #B5B8C8; border-top: none;">
+                    <table width="100%">
+                        <tr>
+                            <td style="width: 50%">
+                                <b>Date :</b> @Model.EmailDate
+                            </td>
+                            <td style="width: 50%">
+                                <b>Number :</b> @Model.EpayNumber
+                            </td>
+                        </tr>
+                        <tr>
+                            <td style="width: 50%">
+                                <b>Voucher Number:</b> @Model.EpayVNumber
+                            </td>
+                            <td style="width: 50%">
+                                <b>Voucher Date:</b> @Model.EpayVDate
+                            </td>
+                        </tr>
+                        @*  <tr>
+                            <td colspan="2">
+                                <b>Package(s):</b> @Model.EpayVPackages
+                            </td>
+                        </tr>*@
+                        <tr>
+                            <td colspan="2">
+                                <b>Net Amount (in Rs.):</b> <b> @Model.TotalAmount </b>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td colspan="2">
+                                <b>Net Amount (in words):</b> <b> @Model.EpayTotalAmountInWord </b>
+                            </td>
+                        </tr>
+                    </table>
+                </div>
+
+            </td>
+        </tr>
+        @if (PMGSY.Extensions.PMGSYSession.Current.FundType.Equals("P") || PMGSY.Extensions.PMGSYSession.Current.FundType.Equals("M"))
+        {
+            <tr>
+                <td colspan="2">
+                    <div class="ui-corner-top ui-widget-header panelheader" style="text-align: left; height: 15px">
+                        <span class="ui-jqgrid-title" style="float: none; text-align: left;">Contractor Details  </span>
+                    </div>
+                    <div id="divScroll" class="ui-corner-bottom" style="display: block; border: 1px solid #B5B8C8; border-top: none; height: 200px; overflow-y: scroll">
+
+                        <table class="rowstyle" style="width: 100%">
+                            @if (Model.ContractorList != null && Model.ContractorList.Count() != 0)
+                            {
+                                <tr>
+                                    <td style="width: 5%">
+                                        <div class="ui-widget-header" style="text-align: center">
+                                            Sr.<br />
+                                            No
+                                        </div>
+                                    </td>
+                                    <td style="width: 20%">
+                                        <div class="ui-widget-header" style="text-align: center">
+                                            Contractor(Company)<br />
+                                            Name
+                                        </div>
+                                    </td>
+                                    <td style="width: 20%">
+                                        <div class="ui-widget-header" style="text-align: center">
+                                            Contractor Bank
+                                        <br />
+                                            Name
+                                        </div>
+                                    </td>
+                                    <td style="width: 20%">
+                                        <div class="ui-widget-header" style="text-align: center">
+                                            Account
+                                        <br />
+                                            Number
+                                        </div>
+                                    </td>
+                                    <td style="width: 20%">
+                                        <div class="ui-widget-header" style="text-align: center">
+                                            Contractor
+                                        <br />
+                                            PAN No
+                                        </div>
+                                    </td>
+                                    <td style="width: 20%">
+                                        <div class="ui-widget-header" style="text-align: center">
+                                            Agreement
+                                        <br />
+                                            Number
+                                        </div>
+                                    </td>
+                                    <td style="width: 20%">
+                                        <div class="ui-widget-header" style="text-align: center">
+                                            Amount
+                                        <br />
+                                            (in Rs)
+                                        </div>
+                                    </td>
+                                </tr>
+                            }
+                            @{ int i = 1;}
+                            @foreach (var item in Model.ContractorList)
+                            {  <tr>
+                            <td style="text-align: center"><b>@i </b></td>
+
+                            <td id=""><b>@item.EpayConName </b></td>
+
+                            <td id=""><b>@item.EpayConBankName </b></td>
+                            <td id=""><b>@item.EpayConAcNum </b></td>
+
+
+                            <td id=""><b>@item.EpayConPanNumber </b></td>
+
+
+                            <td id=""><b>@item.EpayConAggreement </b></td>
+
+
+                            <td style="text-align: right"><b>@item.EpayAmount </b></td>
+
+                        </tr>
+                                i++;
+                            }
+
+                        </table>
+
+                    </div>
+                </td>
+            </tr>
+        }
+    </table>
+
+
+</body>
+</html>
+
+

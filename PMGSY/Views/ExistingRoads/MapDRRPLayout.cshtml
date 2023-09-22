@@ -1,0 +1,50 @@
+﻿<script src="~/Scripts/custom/Generic.js"></script>
+<script src="~/Scripts/jquery.ui.accordion.js"></script>
+<script src="~/Scripts/ExistingRoads/MapDRRPLayout.js"></script>
+
+<div style="width: 96%; height: 20px; border: none; margin-top: 5px; margin-bottom: -15px;" class="ui-state-default">
+    <span style="float: right; margin-right: 2Px; margin-top: 2px" id="idFilterDiv" @*class="ui-icon ui-icon-circle-triangle-n"*@></span>
+</div>
+<div style="width: 96%; border: none; margin-top: -15px; margin-bottom: 10px;" class="ui-state-default">
+    <div id="divFilterFormMapDRRP">
+        <form id="frmMapDRRPLayout">
+            <center>
+                @Html.AntiForgeryToken()
+                @Html.ValidationSummary(true)
+                    <table style="margin-top:10px; margin-bottom:5px">
+                        <tr>
+                            @Html.Hidden("PMGSYScheme", PMGSY.Extensions.PMGSYSession.Current.PMGSYScheme)
+                            @Html.Hidden("RoleCode", PMGSY.Extensions.PMGSYSession.Current.RoleCode)
+                            @Html.Hidden("blockCode", Convert.ToInt32(ViewData["blockCode"]))
+                            @Html.Hidden("RoadCode", Convert.ToInt32(ViewData["RoadCode"]))
+                            @Html.Hidden("EncrRoadCode", ViewData["EncryptedDRRPRoadCode"])
+                            
+                            @if (Convert.ToBoolean(ViewData["isMapped"]) == false)
+                            {
+                            <td style="vertical-align:top;">
+                             <td style="text-align:left;width:10%;"></td>
+                                 <td style="text-align:right;width:5%;">
+                                    @Html.Label("DRRP PMGSY-I Roads")
+                                 </td>
+                                 <td style="text-align:center; width:20%;">
+                                         @Html.DropDownList("ddlRoads", ViewData["Roads"] as IEnumerable<SelectListItem>, new { @id = "ddlRoads", @title = "Roads", @tabindex = 1 })
+                                 </td>
+                                
+                                 <td>
+                                        <input type="button" style="margin-left:5%;margin-right:10px;" class="jqueryButton" value="Map DRRP Road for PMGSY-I"  title="Map DRRP Road for PMGSY-I" id="btnMapDRRP" name ="btnMapDRRP"/>
+                                 </td>
+                                
+                            </td>
+                            }
+                            <td>
+                                <table id="tbmappedDRRPRoadList" >
+                               </table>
+                               <div id="mappedDRRPRoadPager">
+                               </div>
+                            </td>
+                            </tr>
+</table>
+</center>
+        </form>
+    </div>
+</div>

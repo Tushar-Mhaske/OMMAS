@@ -1,0 +1,55 @@
+﻿
+@model PMGSY.Models.EAuthorization.SRRDAeAuthorizationListModel
+@{
+    ViewBag.Title = "GetEAuthorizationDetailsViewAfterFinalize";
+}
+
+
+
+
+<html>
+<head>
+</head>
+<body>
+
+    <table style="width: 800px !important; height: 90%; margin-top: 10px;">
+
+        <tr style="vertical-align: top">
+
+            <td style="width: 50%">
+                <div id="" class="ui-corner-top ui-widget-header panelheader" style="text-align: left; height: 15px;">
+                    
+                </div>
+
+                <div id="" class="ui-corner-bottom" style="display: block; border: 1px solid #B5B8C8; border-top: none; height: 100%">
+                    <table>
+                        <tr>
+                            <td>e-Authorization Number: <b> @Model.EAUTH_NO </b></td><td></td> <td>e-Authorization Date: <b>@Model.EAUTH_DATE </b></td>
+                        </tr>
+                        
+                        <tr>
+                        </tr>
+                        
+                        <tr>
+                            <td>Fund Type:<b>@Model.FUND_TYPE</b></td>  <td></td> <td>Total e-Authorization Request Amount(In Rs.):<b> @Model.REQUEST_AMOUNT</b></td>
+                        </tr>
+                        
+                        
+                        <tr></tr>
+                        <tr>
+                            <td>Total Approved Amount(In Rs.):<b> @Model.TOTAL_APPROVE_AMOUNT </b></td>
+                        </tr>
+                        
+                    </table>
+                </div>
+
+
+
+            </td>
+        </tr>
+    </table>
+
+
+    
+</body>
+</html>

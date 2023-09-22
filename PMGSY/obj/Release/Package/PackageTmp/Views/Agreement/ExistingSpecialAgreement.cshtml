@@ -1,0 +1,309 @@
+﻿@*----------------------------------------------------------------------------------------
+
+ * Project Id:
+
+ * Project Name:OMMAS2
+
+ * File Name: ExistingAgreement.cshtml
+
+ * Author : Koustubh Nakate
+
+ * Creation Date :18/June/2013
+
+ * Desc : This is partial view for add/edit existing agreement details.
+ * ---------------------------------------------------------------------------------------*@
+
+@model PMGSY.Models.Agreement.ExistingSpecialAgreementDetails
+@using PMGSY.Common;
+<script src="@Url.Content("~/Scripts/custom/Generic.js")" type="text/javascript" ></script>
+<script type="text/javascript" src="@Url.Content("~/Scripts/Agreement/ExistingSpecialAgreement.js")"> </script>
+
+
+@{
+    Dictionary<string, string> decryptedParameters = null;
+    String[] encryptedParameters = null;
+    string proposalType = string.Empty;
+    string agreementType = string.Empty;
+
+    encryptedParameters = Model.EncryptedIMSPRRoadCode_Existing.Split('/');
+
+    if ((encryptedParameters.Length == 3))
+    {
+        decryptedParameters = URLEncrypt.DecryptParameters1(new String[] { encryptedParameters[0], encryptedParameters[1], encryptedParameters[2] });
+
+        proposalType = decryptedParameters["ProposalType"].ToString();
+    }
+
+
+
+    if (!string.IsNullOrEmpty(Session["EncryptedAgreementType"].ToString()))
+    {
+        encryptedParameters = null;
+        encryptedParameters = Session["EncryptedAgreementType"].ToString().Split('/');
+
+        decryptedParameters = URLEncrypt.DecryptParameters1(new String[] { encryptedParameters[0], encryptedParameters[1], encryptedParameters[2] });
+
+        agreementType = decryptedParameters["AgreementType"].ToString();
+
+
+    }
+    else
+    {
+        agreementType = "C";
+    }
+    
+
+}
+<form id="frmAddAgreementDetails_Existing">
+
+    <table id="tblExistingAgreement" style="width: 100%; border: 1px solid #808080; margin-top: 10px;" class="rowstyle ui-corner-all">
+        @Html.Hidden("ProposalType", proposalType)
+        @Html.HiddenFor(model => model.PMGSYScheme)
+        <tr>
+            <td>
+                @Html.LabelFor(model => model.TEND_DATE_OF_AGREEMENT)
+            </td>
+            <td colspan="3">
+                @Model.TEND_DATE_OF_AGREEMENT
+            </td>
+        </tr>
+        <tr>
+            <td style="text-align: left; width: 20%;">
+                @Html.LabelFor(model => model.TEND_AGREEMENT_START_DATE)
+            </td>
+            <td style="text-align: left; width: 30%;">
+                @Model.TEND_AGREEMENT_START_DATE
+            </td>
+            <td style="text-align: left; width: 20%;">
+                @Html.LabelFor(model => model.TEND_AGREEMENT_END_DATE)
+            </td>
+            <td style="text-align: left;">
+                @Model.TEND_AGREEMENT_END_DATE
+            </td>
+        </tr>
+        @if (PMGSY.Extensions.PMGSYSession.Current.PMGSYScheme == 2)
+        {
+            <tr>
+                <td>
+                    @Html.LabelFor(model => model.TEND_STATE_SHARE_Existing)
+                </td>
+                <td>
+                    @Model.TEND_STATE_SHARE_Existing
+                </td>
+                <td>
+                    @Html.LabelFor(model => model.TEND_MORD_SHARE_Existing) 
+                </td>
+                <td>
+                    @Model.TEND_MORD_SHARE_Existing
+                </td>
+            </tr> 
+        }
+        <tr>
+            <td>
+                @Html.LabelFor(model => model.TEND_TENDER_AMOUNT)
+            </td>
+            <td>
+                @Model.TEND_TENDER_AMOUNT
+            </td>
+            <td>
+                @Html.LabelFor(model => model.TEND_AGREEMENT_AMOUNT_Existing) @*<label style="color:red;"> *</label>*@
+            </td>
+            <td>
+                @Model.TEND_AGREEMENT_AMOUNT_Existing
+            </td>
+        </tr>
+        <tr>
+            <td>
+                @Html.LabelFor(model => model.TEND_DATE_OF_WORK_ORDER)@* <label style="color:red;"> *</label>*@
+            </td>
+            <td>
+                @Model.TEND_DATE_OF_WORK_ORDER
+            </td>
+            <td>
+                @Html.LabelFor(model => model.TEND_DATE_OF_AWARD_WORK)@* <label style="color:red;"> *</label>*@
+            </td>
+            <td>
+                @Model.TEND_DATE_OF_AWARD_WORK
+            </td>
+        </tr>
+        <tr>
+            <td>
+                @Html.LabelFor(model => model.TEND_DATE_OF_COMPLETION) @*<label style="color:red;"> *</label>*@
+            </td>
+            <td>
+                @Model.TEND_DATE_OF_COMPLETION
+            </td>
+            <td>
+                @Html.LabelFor(model => model.TEND_DATE_OF_COMMENCEMENT)@* <label style="color:red;"> *</label>*@
+            </td>
+            <td>
+                @Model.TEND_DATE_OF_COMMENCEMENT
+            </td>
+        </tr>
+    </table>
+
+
+
+    <table id="tblAddAgreementDetails_Existing" style="width: 100%; border: 1px solid #808080; margin-top: 10px;" class="rowstyle ui-corner-all">
+        <tr style="display: none">
+            <td colspan="2">
+                @Html.HiddenFor(model => model.EncryptedIMSPRRoadCode_Existing)
+            </td>
+            <td colspan="2">
+                @Html.HiddenFor(model => model.EncryptedTendAgreementCode_Existing)
+                @Html.HiddenFor(model => model.EncryptedTendAgreementID_Existing)
+            </td>
+        </tr>
+         <tr>
+            <td style="text-align: left; width: 20%;">
+                @Html.LabelFor(model => model.TEND_AGREEMENT_AMOUNT_NEW)
+                <label style="color: red;">*</label>
+            </td>
+            <td style="text-align: left; width: 30%;">
+                @Html.TextBoxFor(model => model.TEND_AGREEMENT_AMOUNT_NEW, new { @title = "Agreement Amount", @tabindex = 404, @placeholder = "Enter Agreement Amount..." })
+                @Html.ValidationMessageFor(model => model.TEND_AGREEMENT_AMOUNT_NEW)
+            </td>
+            <td style="text-align: left; width: 20%;"></td>
+            <td style="text-align: left;"></td>
+        </tr>
+        @if (PMGSY.Extensions.PMGSYSession.Current.PMGSYScheme == 2)
+        {
+             <tr>
+                        <td>
+                            Proposal State Share (%)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(model=>model.ProposalStateShare)
+                            @Html.HiddenFor(model=>model.ProposalStateShare)
+                        </td>
+                        <td>
+                            Proposal MoRD Share (%)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(model=>model.ProposalMordShare)
+                            @Html.HiddenFor(model=>model.ProposalMordShare)
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>
+                            Proposal State Cost (Rs. in lakhs)  
+                        </td>
+                        <td>
+                            @Html.DisplayFor(model=>model.ProposalStateCost)
+                            @Html.HiddenFor(model=>model.ProposalStateCost)
+                        </td>
+                        <td>
+                            Proposal MoRD Cost (Rs. in lakhs)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(model=>model.ProposalMordCost)
+                            @Html.HiddenFor(model=>model.ProposalMordCost)
+                        </td>
+                    </tr>
+            <tr>
+                <td>
+                    @Html.LabelFor(model => model.TEND_STATE_SHARE_NEW)
+                    <label style="color: red;">*</label>
+                </td>
+
+                <td>
+
+                    @Html.TextBoxFor(model => model.TEND_STATE_SHARE_NEW, new { @title = "State Share", @tabindex = 401, @placeholder = "State Share Cost ..." })
+                    @Html.ValidationMessageFor(model => model.TEND_STATE_SHARE_NEW)
+
+                </td>
+
+                <td>
+                    @Html.LabelFor(model => model.TEND_MORD_SHARE_NEW)<label style="color: red;"> *</label>
+                </td>
+
+                <td>
+
+                    @Html.TextBoxFor(model => model.TEND_MORD_SHARE_NEW, new { @title = "MoRD Cost", @tabindex = 402, @placeholder = "MoRD Cost..." })
+                    @Html.ValidationMessageFor(model => model.TEND_MORD_SHARE_NEW)
+
+                </td>
+            </tr>
+        }
+            <tr>
+                @if (Model.EncryptedTendAgreementID_Existing == null)
+                {
+                    <td id="tdlblProposalWork_Existing" style="display: none">
+                        @Html.LabelFor(model => model.IMS_WORK_CODE)
+                    </td>
+
+                    <td id="tdddlProposalWork_Existing" style="display: none">
+
+                        @Html.DropDownListFor(model => model.IMS_WORK_CODE, Model.ProposalWorks, new { @id = "ddlProposalWorks_Existing", @title = "Proposal Work", @tabindex = 411 })
+                        @Html.ValidationMessageFor(model => model.IMS_WORK_CODE)
+
+                    </td>
+                }
+
+                else
+                {
+                    <td>
+                        @Html.LabelFor(model => model.IMS_WORK_CODE)
+                    </td>
+
+                    <td>
+                        @Model.IMS_WORK_DESC
+                    </td>
+                }
+            </tr>     
+            @if (proposalType.Equals("P") && agreementType.Equals("C"))
+            {
+            <tr id="trChainage_Existing">
+                <td>
+                    @Html.LabelFor(model => model.TEND_START_CHAINAGE_Existing)
+                </td>
+
+                <td>
+
+                    @Html.TextBoxFor(model => model.TEND_START_CHAINAGE_Existing, new { @title = "Start Chainage", @tabindex = 412, @placeholder = "Enter Start Chainage..." })
+                    @Html.ValidationMessageFor(model => model.TEND_START_CHAINAGE_Existing)
+
+                </td>
+
+
+                <td>
+                    @Html.LabelFor(model => model.TEND_END_CHAINAGE_Existing)
+                </td>
+
+                <td>
+
+                    @Html.TextBoxFor(model => model.TEND_END_CHAINAGE_Existing, new { @title = "End Chainage", @tabindex = 413, @placeholder = "Enter End Chainage..." })
+                    @Html.ValidationMessageFor(model => model.TEND_END_CHAINAGE_Existing)
+                </td>
+            </tr> 
+            }
+        <tr>
+            <td></td>
+            @if (Model.EncryptedTendAgreementID_Existing == null)
+            {    
+                <td style="text-align: right">
+                    <input type="button" id="btnSaveAgreementDetails_Existing" name="btnSaveAgreementDetails_Existing" value="Save" class="jqueryButton" title="Save Agreement Details" tabindex="414" />
+                </td>
+                <td colspan="2">
+                    <input type="reset" id="btnResetAgreementDetails_Existing" name="btnResetAgreementDetails_Existing" value="Reset" class="jqueryButton" title="Reset" tabindex="415" />
+                </td>
+            }
+            else
+            {
+                <td style="text-align: right">
+                    <input type="button" id="btnUpdateAgreementDetails_Existing" name="btnUpdateAgreementDetails_Existing" value="Update" class="jqueryButton" title="Update Agreement Details" tabindex="414" />
+                </td>
+                <td colspan="2">
+                    <input type="button" id="btnCancelAgreementDetails_Existing" name="btnCancelAgreementDetails_Existing" value="Cancel" class="jqueryButton" title="Cancel" tabindex="415" />
+                </td>
+            }
+        </tr>
+        <tr>
+            <td colspan="4">
+                <label style="border: none">[ Note: 1. Fields marked
+                    <label style="color: red">*</label>
+                    are mandatory.  2. All Amounts are in Lakhs. ] </label>
+            </td>
+        </tr>
+    </table>
+</form>

@@ -1,0 +1,72 @@
+﻿@model PMGSY.Models.MIS.MISDetailModel
+
+@{
+    ViewBag.Title = "MISDSCBeneficiaryLayout";
+}
+
+<script>
+    
+
+    //DSC
+    var DSCStateNamestr = '@Model.DSCStateNamestr';
+    var DSCFinalizedstr = '@Model.DSCFinalizedstr';
+    var DSCVerifiedstr = '@Model.DSCVerifiedstr';
+    var sumDSCFinalized = '@Model.sumDSCFinalized';
+    var sumDSCVerified = '@Model.sumDSCVerified';
+    
+
+    //Beneficiary
+    var BeneficiaryStateNamestr = '@Model.BeneficiaryStateNamestr';
+    var BeneficiaryTotalstr = '@Model.BeneficiaryTotalstr';
+    var BeneficiaryFinalizedstr = '@Model.BeneficiaryFinalizedstr';
+    var BeneficiaryVerifiedstr = '@Model.BeneficiaryVerifiedstr';
+    var sumTotalBeneficiary = '@Model.sumTotalBeneficiary';
+    var sumBeneficiaryFinalized = '@Model.sumBeneficiaryFinalized';
+    var sumBeneficiaryVerified = '@Model.sumBeneficiaryVerified';
+</script>
+<script src="~/Scripts/MIS/MISDSCBeneficiaryLayout.js"></script>
+<link href="~/Content/Bootstrap/bootstrap.css" rel="stylesheet" />
+<br />
+
+<table style="border:solid;color:darkgoldenrod;display:none;" id="tblDSC">
+    <tr>
+        <td>
+            <div id="container5" style="min-width: 92%;"></div>
+        </td>
+    </tr>
+
+     <tr></tr>
+
+    <tr>
+        <td>
+            <table id="dataTableDSC" border="1" style="display:none;color:black;margin-left:0%;width:100%"></table>
+        </td>
+        
+    </tr>
+    <br />
+    <br />
+
+
+</table>
+<br />
+
+<table style="border:solid;color:darkgoldenrod;display:none;" id="tblBeneficiary">
+    <tr>
+        <td>
+            <div id="container6" style="min-width: 92%;"></div>
+        </td>
+    </tr>
+
+     <tr></tr>
+
+    <tr>
+        <td>
+            <table id="dataTableBeneficiary" border="1" style="display:none;color:black;margin-left:0%;width:100%;"></table>
+        </td>
+        
+    </tr>
+    @*<br />
+    <br />*@
+
+
+</table>

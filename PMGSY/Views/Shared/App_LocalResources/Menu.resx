@@ -1,0 +1,411 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<root>
+  <!-- 
+    Microsoft ResX Schema 
+    
+    Version 2.0
+    
+    The primary goals of this format is to allow a simple XML format 
+    that is mostly human readable. The generation and parsing of the 
+    various data types are done through the TypeConverter classes 
+    associated with the data types.
+    
+    Example:
+    
+    ... ado.net/XML headers & schema ...
+    <resheader name="resmimetype">text/microsoft-resx</resheader>
+    <resheader name="version">2.0</resheader>
+    <resheader name="reader">System.Resources.ResXResourceReader, System.Windows.Forms, ...</resheader>
+    <resheader name="writer">System.Resources.ResXResourceWriter, System.Windows.Forms, ...</resheader>
+    <data name="Name1"><value>this is my long string</value><comment>this is a comment</comment></data>
+    <data name="Color1" type="System.Drawing.Color, System.Drawing">Blue</data>
+    <data name="Bitmap1" mimetype="application/x-microsoft.net.object.binary.base64">
+        <value>[base64 mime encoded serialized .NET Framework object]</value>
+    </data>
+    <data name="Icon1" type="System.Drawing.Icon, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">
+        <value>[base64 mime encoded string representing a byte array form of the .NET Framework object]</value>
+        <comment>This is a comment</comment>
+    </data>
+                
+    There are any number of "resheader" rows that contain simple 
+    name/value pairs.
+    
+    Each data row contains a name, and value. The row also contains a 
+    type or mimetype. Type corresponds to a .NET class that support 
+    text/value conversion through the TypeConverter architecture. 
+    Classes that don't support this are serialized and stored with the 
+    mimetype set.
+    
+    The mimetype is used for serialized objects, and tells the 
+    ResXResourceReader how to depersist the object. This is currently not 
+    extensible. For a given mimetype the value must be set accordingly:
+    
+    Note - application/x-microsoft.net.object.binary.base64 is the format 
+    that the ResXResourceWriter will generate, however the reader can 
+    read any of the formats listed below.
+    
+    mimetype: application/x-microsoft.net.object.binary.base64
+    value   : The object must be serialized with 
+            : System.Runtime.Serialization.Formatters.Binary.BinaryFormatter
+            : and then encoded with base64 encoding.
+    
+    mimetype: application/x-microsoft.net.object.soap.base64
+    value   : The object must be serialized with 
+            : System.Runtime.Serialization.Formatters.Soap.SoapFormatter
+            : and then encoded with base64 encoding.
+
+    mimetype: application/x-microsoft.net.object.bytearray.base64
+    value   : The object must be serialized into a byte array 
+            : using a System.ComponentModel.TypeConverter
+            : and then encoded with base64 encoding.
+    -->
+  <xsd:schema id="root" xmlns="" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:msdata="urn:schemas-microsoft-com:xml-msdata">
+    <xsd:import namespace="http://www.w3.org/XML/1998/namespace" />
+    <xsd:element name="root" msdata:IsDataSet="true">
+      <xsd:complexType>
+        <xsd:choice maxOccurs="unbounded">
+          <xsd:element name="metadata">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" />
+              </xsd:sequence>
+              <xsd:attribute name="name" use="required" type="xsd:string" />
+              <xsd:attribute name="type" type="xsd:string" />
+              <xsd:attribute name="mimetype" type="xsd:string" />
+              <xsd:attribute ref="xml:space" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="assembly">
+            <xsd:complexType>
+              <xsd:attribute name="alias" type="xsd:string" />
+              <xsd:attribute name="name" type="xsd:string" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="data">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1" />
+                <xsd:element name="comment" type="xsd:string" minOccurs="0" msdata:Ordinal="2" />
+              </xsd:sequence>
+              <xsd:attribute name="name" type="xsd:string" use="required" msdata:Ordinal="1" />
+              <xsd:attribute name="type" type="xsd:string" msdata:Ordinal="3" />
+              <xsd:attribute name="mimetype" type="xsd:string" msdata:Ordinal="4" />
+              <xsd:attribute ref="xml:space" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="resheader">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1" />
+              </xsd:sequence>
+              <xsd:attribute name="name" type="xsd:string" use="required" />
+            </xsd:complexType>
+          </xsd:element>
+        </xsd:choice>
+      </xsd:complexType>
+    </xsd:element>
+  </xsd:schema>
+  <resheader name="resmimetype">
+    <value>text/microsoft-resx</value>
+  </resheader>
+  <resheader name="version">
+    <value>2.0</value>
+  </resheader>
+  <resheader name="reader">
+    <value>System.Resources.ResXResourceReader, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </resheader>
+  <resheader name="writer">
+    <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </resheader>
+  <data name="1" xml:space="preserve">
+    <value>Masters</value>
+  </data>
+  <data name="10" xml:space="preserve">
+    <value>Opening Balances</value>
+  </data>
+  <data name="102" xml:space="preserve">
+    <value>Lock / UnLock</value>
+  </data>
+  <data name="103" xml:space="preserve">
+    <value>Balance Sheet</value>
+  </data>
+  <data name="108" xml:space="preserve">
+    <value>Register Of Work</value>
+  </data>
+  <data name="109" xml:space="preserve">
+    <value>Inspection</value>
+  </data>
+  <data name="11" xml:space="preserve">
+    <value>Receipts</value>
+  </data>
+  <data name="110" xml:space="preserve">
+    <value>Habitation Connectivity</value>
+  </data>
+  <data name="111" xml:space="preserve">
+    <value>MP Proposal</value>
+  </data>
+  <data name="112" xml:space="preserve">
+    <value>MLA Proposal</value>
+  </data>
+  <data name="114" xml:space="preserve">
+    <value>Accounts and Reports</value>
+  </data>
+  <data name="115" xml:space="preserve">
+    <value>Register</value>
+  </data>
+  <data name="116" xml:space="preserve">
+    <value>Cheques Issued</value>
+  </data>
+  <data name="117" xml:space="preserve">
+    <value>DPIU Configuration</value>
+  </data>
+  <data name="118" xml:space="preserve">
+    <value>Annual Account</value>
+  </data>
+  <data name="119" xml:space="preserve">
+    <value>STA Payment</value>
+  </data>
+  <data name="12" xml:space="preserve">
+    <value>Payments</value>
+  </data>
+  <data name="120" xml:space="preserve">
+    <value>Transfer Entry Order</value>
+  </data>
+  <data name="121" xml:space="preserve">
+    <value>Bill Details</value>
+  </data>
+  <data name="122" xml:space="preserve">
+    <value>Imprest Settlement</value>
+  </data>
+  <data name="123" xml:space="preserve">
+    <value>List Proposals</value>
+  </data>
+  <data name="124" xml:space="preserve">
+    <value>List Core Networks</value>
+  </data>
+  <data name="125" xml:space="preserve">
+    <value>List Existing Roads</value>
+  </data>
+  <data name="126" xml:space="preserve">
+    <value>Quality Details</value>
+  </data>
+  <data name="13" xml:space="preserve">
+    <value>Transfer Entry Order</value>
+  </data>
+  <data name="130" xml:space="preserve">
+    <value>Quality Reports</value>
+  </data>
+  <data name="131" xml:space="preserve">
+    <value>Asset Entry</value>
+  </data>
+  <data name="135" xml:space="preserve">
+    <value>Contrctor Ledger</value>
+  </data>
+  <data name="136" xml:space="preserve">
+    <value>Asset Register</value>
+  </data>
+  <data name="137" xml:space="preserve">
+    <value>Authorized Signatory</value>
+  </data>
+  <data name="14" xml:space="preserve">
+    <value>Bank Authorization Request</value>
+  </data>
+  <data name="145" xml:space="preserve">
+    <value>Test Result</value>
+  </data>
+  <data name="15" xml:space="preserve">
+    <value>Monthly Closing</value>
+  </data>
+  <data name="157" xml:space="preserve">
+    <value>Abstract Bank Authorization</value>
+  </data>
+  <data name="16" xml:space="preserve">
+    <value>Monthly Account</value>
+  </data>
+  <data name="17" xml:space="preserve">
+    <value>Proposal</value>
+  </data>
+  <data name="178" xml:space="preserve">
+    <value>Income And Expenditure</value>
+  </data>
+  <data name="18" xml:space="preserve">
+    <value>User Manager</value>
+  </data>
+  <data name="19" xml:space="preserve">
+    <value>User Details</value>
+  </data>
+  <data name="2" xml:space="preserve">
+    <value>Accounting</value>
+  </data>
+  <data name="20" xml:space="preserve">
+    <value>Role Details</value>
+  </data>
+  <data name="21" xml:space="preserve">
+    <value>Menu Details</value>
+  </data>
+  <data name="22" xml:space="preserve">
+    <value>Create User</value>
+  </data>
+  <data name="23" xml:space="preserve">
+    <value>Update Rights</value>
+  </data>
+  <data name="24" xml:space="preserve">
+    <value>User List</value>
+  </data>
+  <data name="25" xml:space="preserve">
+    <value>Create Role</value>
+  </data>
+  <data name="26" xml:space="preserve">
+    <value>User Role Mapping</value>
+  </data>
+  <data name="27" xml:space="preserve">
+    <value>Role List</value>
+  </data>
+  <data name="28" xml:space="preserve">
+    <value>Create Menu</value>
+  </data>
+  <data name="29" xml:space="preserve">
+    <value>Role Menu Mapping</value>
+  </data>
+  <data name="3" xml:space="preserve">
+    <value>Home</value>
+  </data>
+  <data name="30" xml:space="preserve">
+    <value>Menu Level Mapping</value>
+  </data>
+  <data name="31" xml:space="preserve">
+    <value>Menu List</value>
+  </data>
+  <data name="32" xml:space="preserve">
+    <value>Execution</value>
+  </data>
+  <data name="33" xml:space="preserve">
+    <value>Bank</value>
+  </data>
+  <data name="34" xml:space="preserve">
+    <value>Cheque Book</value>
+  </data>
+  <data name="35" xml:space="preserve">
+    <value>Authorize Signatory</value>
+  </data>
+  <data name="36" xml:space="preserve">
+    <value>Chart Of Accounts</value>
+  </data>
+  <data name="37" xml:space="preserve">
+    <value>Cheque</value>
+  </data>
+  <data name="38" xml:space="preserve">
+    <value>Epayment</value>
+  </data>
+  <data name="39" xml:space="preserve">
+    <value>Cheque</value>
+  </data>
+  <data name="4" xml:space="preserve">
+    <value>Reports</value>
+  </data>
+  <data name="40" xml:space="preserve">
+    <value>Unlock Transactions</value>
+  </data>
+  <data name="41" xml:space="preserve">
+    <value>Bank Authorization Request</value>
+  </data>
+  <data name="43" xml:space="preserve">
+    <value>Existing Road</value>
+  </data>
+  <data name="44" xml:space="preserve">
+    <value>Core Network</value>
+  </data>
+  <data name="45" xml:space="preserve">
+    <value>Core Network List</value>
+  </data>
+  <data name="48" xml:space="preserve">
+    <value>Fund Allocation</value>
+  </data>
+  <data name="49" xml:space="preserve">
+    <value>Allocation</value>
+  </data>
+  <data name="5" xml:space="preserve">
+    <value>Acknowledgment</value>
+  </data>
+  <data name="50" xml:space="preserve">
+    <value>Release</value>
+  </data>
+  <data name="51" xml:space="preserve">
+    <value>Add Role</value>
+  </data>
+  <data name="6" xml:space="preserve">
+    <value>Cash Book</value>
+  </data>
+  <data name="61" xml:space="preserve">
+    <value>Add User</value>
+  </data>
+  <data name="66" xml:space="preserve">
+    <value>Freeze Unfreeze Proposal</value>
+  </data>
+  <data name="67" xml:space="preserve">
+    <value>Accounts and Reports</value>
+  </data>
+  <data name="69" xml:space="preserve">
+    <value>Maintenance</value>
+  </data>
+  <data name="7" xml:space="preserve">
+    <value>Ledgers</value>
+  </data>
+  <data name="70" xml:space="preserve">
+    <value>Agreement</value>
+  </data>
+  <data name="71" xml:space="preserve">
+    <value>Contractor</value>
+  </data>
+  <data name="72" xml:space="preserve">
+    <value>Other Road</value>
+  </data>
+  <data name="73" xml:space="preserve">
+    <value>Supplier</value>
+  </data>
+  <data name="74" xml:space="preserve">
+    <value>DPR</value>
+  </data>
+  <data name="75" xml:space="preserve">
+    <value>PCI Index</value>
+  </data>
+  <data name="79" xml:space="preserve">
+    <value>Work And Payments</value>
+  </data>
+  <data name="8" xml:space="preserve">
+    <value>Master Data Entry</value>
+  </data>
+  <data name="80" xml:space="preserve">
+    <value>Progress</value>
+  </data>
+  <data name="85" xml:space="preserve">
+    <value>2nd Tier</value>
+  </data>
+  <data name="86" xml:space="preserve">
+    <value>3rd Tier</value>
+  </data>
+  <data name="87" xml:space="preserve">
+    <value>Maintenance Contract</value>
+  </data>
+  <data name="89" xml:space="preserve">
+    <value>Quality Monitoring</value>
+  </data>
+  <data name="9" xml:space="preserve">
+    <value>Master Data Entry</value>
+  </data>
+  <data name="90" xml:space="preserve">
+    <value>Acknowledgment</value>
+  </data>
+  <data name="91" xml:space="preserve">
+    <value>NIT</value>
+  </data>
+  <data name="92" xml:space="preserve">
+    <value>Split Work</value>
+  </data>
+  <data name="93" xml:space="preserve">
+    <value>Revoke Closing</value>
+  </data>
+  <data name="94" xml:space="preserve">
+    <value>NIT</value>
+  </data>
+</root>

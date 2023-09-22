@@ -1,0 +1,28 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<stateList>
+	 
+	<stateUAT>
+		<statCode>20</statCode>
+		<adminNDCode>1063</adminNDCode>
+		<!--Madhya Pradesh SRRDA AdminNd Code-->
+	</stateUAT>
+	<stateUAT>
+		<statCode>4</statCode>
+		<adminNDCode>1080</adminNDCode>
+		<!--Assam SRRDA AdminNd Code-->
+	</stateUAT>
+	
+	<!--<stateUAT>
+		<statCode>20</statCode>
+		<adminNDCode>355</adminNDCode>
+		--><!--HOSHANGABAD DPIU AdminNd Code--><!--
+	</stateUAT>
+	<stateUAT>
+		<statCode>4</statCode>
+		<adminNDCode>451</adminNDCode>
+		--><!--KAMRUP DPIU AdminNd Code--><!--
+	</stateUAT>-->
+
+	 
+
+</stateList>

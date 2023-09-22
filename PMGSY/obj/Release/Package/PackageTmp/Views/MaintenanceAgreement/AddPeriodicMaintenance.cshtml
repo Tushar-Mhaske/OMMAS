@@ -1,0 +1,357 @@
+﻿@*----------------------------------------------------------------------------------------
+
+ * Project Id:
+
+ * Project Name:OMMAS2
+
+ * File Name: AddPeriodicMaintenance.cshtml
+
+ * Author : Pradip Patil
+
+ * Creation Date :25/April/2017
+
+ * Desc : Entry form for accepting periodic maintenance details.
+ * ---------------------------------------------------------------------------------------*@
+
+@model PMGSY.Models.MaintenanceAgreement.AddPeriodicMaintenanceModel
+@using PMGSY.Extensions
+<script src="@Url.Content("~/Scripts/custom/Generic.js")" type="text/javascript" ></script>
+<script src="~/Scripts/jquery-ui.js"></script>
+<script src="~/Scripts/MaintenanceAgreement/AddPeriodicMaintenanceDetails.js"></script>
+
+<div id="dvhdCreateNewMaintenanceDetails" class="ui-corner-top ui-widget-header panelheader" style="text-align: left; height: 20px; margin-top: 3%">
+
+
+    <span class="ui-jqgrid-title" style="float: left">&nbsp; Periodic Maintenance Details</span>
+
+</div>
+
+<div id="dvCreatePeriodicMaintenance" class="ui-corner-bottom" style="display: block; border: 1px solid #B5B8C8;">
+    <div id="dvErrorMessage" class="ui-widget ui-state-error ui-corner-all" style="padding: 0.7em .7em; display: none; margin: 5px 5px 5px 5px; text-align: left">
+        <span class="ui-icon ui-icon-alert" style="float: left; margin-right: .3em;"></span>
+        <strong>Alert:</strong> <span id="message"></span>
+    </div>
+
+    <form id="frmCreatePeriodicMaintenance">
+
+        <center>
+             @Html.ValidationSummary(true)
+             @Html.AntiForgeryToken()
+             @Html.HiddenFor(model => model.ImdRoadCode)
+            @Html.HiddenFor(model => model.Operation)
+            @Html.HiddenFor(model => model.intMaxValue)
+        </center>
+        <table style="width: 100%; margin-top: 10px;" class="rowstyle">
+            <tr>
+                <td colspan="5" style="text-align:center;">
+                    <label style="border: none; font-size:large;">
+                        <b>[ Note: 1.Fields marked with<label style="color: red;"> * </label>are mandatory.       2.All Cost(s) are in Lacs]</b></label>
+                    
+                </td>
+
+            </tr>
+            <tr>
+                <td></td>
+                <td>
+                    @Html.LabelFor(model => model.MANE_MAIN_YEAR)
+                    <label style="color: red;">*</label>
+                </td>
+
+                <td>
+                    @Html.DropDownListFor(model => model.MANE_MAIN_YEAR, Model.MANE_MAIN_YEAR_LIST, new { @id = "ddlMaintanenaceYeaelst", @title = " ", @tabindex = 1 })<br />
+                    @Html.ValidationMessageFor(model => model.MANE_MAIN_YEAR)
+                </td>
+                <td>@Html.LabelFor(model => model.MANE_MAIN_MONTH)
+                    <label style="color: red;">*</label>
+
+                </td>
+                <td>
+                    @Html.DropDownListFor(model => model.MANE_MAIN_MONTH, Model.MANE_MAIN_MONTH_LIST, new { @id = "ddlMaintanenaceMonthlst", @title = " ", @tabindex = 2 })<br />
+                    @Html.ValidationMessageFor(model => model.MANE_MAIN_MONTH)
+                </td>
+            </tr>
+            <tr>
+                <td></td>
+                <td>
+                    @Html.LabelFor(model => model.IsPerformaceIncentive)
+                    <label style="color: red;">*</label><br />
+                    <label>[Is periodic maintenance expenditure is from Performance incentive of GoI]</label>
+                </td>
+
+                <td>
+
+                    @Html.RadioButtonFor(model => model.IsPerformaceIncentive, "Y", new { @title = "Yes", id = "rdoIsPerIncentiveYes", @tabindex = 3 })
+                    <label for="rdoIsPerIncentiveYes">Yes</label>
+                    &nbsp;&nbsp;
+                      
+                    @Html.RadioButtonFor(model => model.IsPerformaceIncentive, "N", new { @title = "No", id = "rdoIsPerIncentiveNo", @tabindex = 4 })
+                    <label for="rdoIsPerIncentiveNo">No</label>
+
+                </td>
+
+                <td>
+                    @Html.LabelFor(model => model.PerformanceIntensiveYear, new { @id = "performanceIntYear", style = "display:none" })
+                </td>
+
+                <td>
+                    @Html.DropDownListFor(model => model.PerformanceIntensiveYear, Model.PerFormanceYearList, new { @id = "performanceIntYearList", style = "display: none", @title = "", @tabindex = 5 })<br />
+                    @Html.ValidationMessageFor(model => model.PerformanceIntensiveYear, "", new { @id = "errspnPerformanceyear" })
+                </td>
+
+            </tr>
+            <tr>
+                <td style="width: 8%"></td>
+                <td style="text-align: left; width: 15%;">
+                    @Html.LabelFor(model => model.Length)
+                </td>
+
+                <td id="ddlLength">
+                    @Html.DisplayFor(model => model.Length, new { @title = "Length" })
+                </td>
+
+                <td>
+                    @Html.LabelFor(model => model.Technology)<label id="lbTechnologyMand" style="color: red;">*</label>
+                </td>
+
+                <td>
+                    @Html.DropDownListFor(model => model.Technology, Model.TechnologyList, new { @id = "ddlTechnology", @title = "Technology", @tabindex = 6 })<br />
+                    @Html.ValidationMessageFor(model => model.Technology)
+                </td>
+            </tr>
+            <tr>
+                <td></td>
+                <td>
+                    @Html.LabelFor(model => model.StartChainage)
+                    <label style="color: red;">*</label>
+                </td>
+
+                <td>
+                    @Html.TextBoxFor(model => model.StartChainage, new { maxlength = 7, @title = "Start Chainage", @tabindex = 7 })<br />
+                    @Html.ValidationMessageFor(model => model.StartChainage)
+                </td>
+
+                <td>
+                    @Html.LabelFor(model => model.EndChainage)<label style="color: red;">*</label><br />
+                </td>
+
+                <td>
+                    @Html.TextBoxFor(model => model.EndChainage, new { maxlength = 7, @title = "End Chainage", @tabindex = 8 })<br />
+                    @Html.ValidationMessageFor(model => model.EndChainage)
+                </td>
+            </tr>
+            <tr>
+
+                <td></td>
+                <td>
+                    @Html.LabelFor(model => model.RenewalType)
+                    <label style="color: red;">*</label>
+                </td>
+
+                <td>
+                    @Html.DropDownListFor(model => model.RenewalType, Model.RenewalTypeList, new { @id = "ddlRenewalType", @title = "RenewalType", @tabindex = 9 })<br />
+                    @Html.ValidationMessageFor(model => model.RenewalType)
+                </td>
+                <td style="text-align: left; width: 15%;">
+                    @Html.LabelFor(model => model.ProfileCorrectionCost)
+                </td>
+
+                <td>
+                    @Html.TextBoxFor(model => model.ProfileCorrectionCost, new { @id = "profileCorrCost", @title = "Profile Correction Cost", @tabindex = 10 })<br />
+                    @Html.ValidationMessageFor(model => model.ProfileCorrectionCost)
+                </td>
+            </tr>
+
+            <tr>
+                <td></td>
+                <td>
+                    @Html.LabelFor(model => model.MaintanenaceCost)
+                    <label style="color: red;">*</label>
+                </td>
+
+                <td>
+                    @Html.TextBoxFor(model => model.MaintanenaceCost, new { @id = "ddlMaintanenaceCost", @title = "Periodic Maintenance Cost", @tabindex = 11 })<br />
+                    @Html.ValidationMessageFor(model => model.MaintanenaceCost)
+                </td>
+
+                <td>
+                    @Html.LabelFor(model => model.OtherCost)<br />
+                    [Cost of other items executed with periodic maintenance including Profile correction.]
+                </td>
+
+                <td>
+                    @Html.TextBoxFor(model => model.OtherCost, new { @id = "ddlOtherCost", @title = "OtherCost", @tabindex = 12 })<br />
+                    @Html.ValidationMessageFor(model => model.OtherCost)
+                </td>
+            </tr>
+            @*     <tr>
+                <td colspan="3"></td>
+ 
+                <td>
+                  
+                </td>
+
+                <td>
+                  
+                </td>
+            </tr>*@
+            <tr>
+                <td></td>
+                <td>
+                    @Html.LabelFor(model => model.TotalMaintenanceCost)
+                    <label style="color: red;">*</label>
+                </td>
+
+                <td>
+                    @Html.TextBoxFor(model => model.TotalMaintenanceCost, new { @readonly = "readonly", @title = "Total cost of first periodic maintenance", @tabindex = 13, placeholder = "" })<br />
+
+                    @Html.ValidationMessageFor(model => model.TotalMaintenanceCost)
+                </td>
+                <td colspan="2"></td>
+            </tr>
+            <tr>
+                <td></td>
+                <td>
+                    @Html.LabelFor(model => model.Iscompleted)
+                    <label style="color: red;">*</label><br />
+                </td>
+
+                <td>
+
+                    @Html.RadioButtonFor(model => model.Iscompleted, "Y", new { @title = "Yes", id = "rdoIsCompletedYes", @tabindex = 14 })
+                    <label for="rdoIsPerIncentiveYes">Yes</label>
+                    &nbsp;&nbsp;
+                      
+                    @Html.RadioButtonFor(model => model.Iscompleted, "N", new { @title = "No", id = "rdoIsCompletedNo", @tabindex = 15 })
+                    <label for="rdoIsPerIncentiveNo">No</label>
+
+                </td>
+
+                <td>
+                    @Html.LabelFor(model => model.MaintenanceCompleteDate, new { @id = "lblmaintenanceDate", style = "display:none" })
+                    <label id="lblrequired" style="color: red; display: none">*</label>
+                </td>
+
+                <td>
+                    @Html.TextBoxFor(model => model.MaintenanceCompleteDate, new { @readonly = "readonly", @id = "maintananceDate", style = "display:none", @tabindex = 16 })<br />
+                    @Html.ValidationMessageFor(model => model.MaintenanceCompleteDate, "", new { @id = "errspnmaintananceDate" })
+                </td>
+
+            </tr>
+
+            @if (Model.IsSecondPeriodic == "N")
+            {  
+                <tr style="display: none">
+                    <td></td>
+
+                    <td>
+                        @Html.LabelFor(model => model.MANE_YEAR1_AMOUNT)
+                        @* <label style="color: red;">*</label>*@
+                    </td>
+
+                    <td>
+                        @Html.TextBoxFor(model => model.MANE_YEAR1_AMOUNT, new { @id = "ddlMaintanenaceCostYr1", @title = "Maintanenace Cost year 1", @tabindex = 17 })<br />
+                        @Html.ValidationMessageFor(model => model.MANE_YEAR1_AMOUNT)
+                    </td>
+
+                    <td>
+                        @Html.LabelFor(model => model.MANE_YEAR2_AMOUNT)
+                        @* <label style="color: red;">*</label>*@
+                    </td>
+
+                    <td>
+                        @Html.TextBoxFor(model => model.MANE_YEAR2_AMOUNT, new { @id = "ddlMaintanenaceCostYr2", @title = "Maintanenace Cost year 2", @tabindex = 18 })<br />
+                        @Html.ValidationMessageFor(model => model.MANE_YEAR2_AMOUNT)
+                    </td>
+                </tr>
+
+                <tr style="display: none">
+                    <td></td>
+
+                    <td>
+                        @Html.LabelFor(model => model.MANE_YEAR3_AMOUNT)
+                        @*  <label style="color: red;">*</label>*@
+                    </td>
+
+                    <td>
+                        @Html.TextBoxFor(model => model.MANE_YEAR3_AMOUNT, new { @id = "ddlMaintanenaceCostYr3", @title = "Maintanenace Cost year 3", @tabindex = 14 })<br />
+                        @Html.ValidationMessageFor(model => model.MANE_YEAR3_AMOUNT)
+                    </td>
+
+                    <td>
+                        @Html.LabelFor(model => model.MANE_YEAR4_AMOUNT)
+                        @*  <label style="color: red;">*</label>*@
+                    </td>
+
+                    <td>
+                        @Html.TextBoxFor(model => model.MANE_YEAR4_AMOUNT, new { @id = "ddlMaintanenaceCostYr4", @title = "Maintanenace Cost year 4", @tabindex = 15 })<br />
+                        @Html.ValidationMessageFor(model => model.MANE_YEAR4_AMOUNT)
+                    </td>
+                </tr>
+
+                <tr style="display: none">
+                    <td></td>
+
+                    <td>
+                        @Html.LabelFor(model => model.MANE_YEAR5_AMOUNT)
+                        @*    <label style="color: red;">*</label>*@
+                    </td>
+
+                    <td>
+                        @Html.TextBoxFor(model => model.MANE_YEAR5_AMOUNT, new { @id = "ddlMaintanenaceCostYr5", @title = "Maintanenace Cost year5", @tabindex = 16 })<br />
+                        @Html.ValidationMessageFor(model => model.MANE_YEAR5_AMOUNT)
+                    </td>
+
+                    <td>
+                        @Html.LabelFor(model => model.MANE_TOTAL_AMOUNT)
+                        @*   <label style="color: red;">*</label>*@
+                    </td>
+
+                    <td>
+                        @Html.TextBoxFor(model => model.MANE_TOTAL_AMOUNT, new { @id = "ddlMaintanenaceTotalYr6", @readonly = "readonly", @title = "Total Maintanenace Cost after periodic renewal", @tabindex = 17 })<br />
+                        @Html.ValidationMessageFor(model => model.MANE_TOTAL_AMOUNT)
+                    </td>
+                </tr>
+            }
+
+            <tr>
+                <td></td>
+                <td></td>
+                @if (Model.Operation == "A")
+                {
+                    <td style="text-align: right">
+                        <input type="button" id="btnSave" name="btnSave" value="Save" class="jqueryButton" title="Save" tabindex="17" />
+
+
+                    </td>
+                    <td colspan="2">
+
+                        <input type="reset" id="btnReset" name="btnReset" value="Reset" class="jqueryButton" title="Reset" tabindex="18" />
+                    </td>
+                }
+                else
+                {
+
+                    <td style="text-align: right">
+                        <input type="button" id="btnUpdate" name="btnUpdate" value="Update" class="jqueryButton" title="Update" tabindex="17" />
+                    </td>
+                    <td colspan="2">
+
+                        <input type="button" id="btnCancel" name="btnCancel" value="Cancel" class="jqueryButton" title="Cancel" tabindex="18" />
+                    </td>
+                }
+
+
+            </tr>
+
+
+
+
+
+
+
+        </table>
+
+
+    </form>
+</div>
+

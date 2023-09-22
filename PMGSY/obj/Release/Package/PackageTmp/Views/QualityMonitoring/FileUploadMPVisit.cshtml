@@ -1,0 +1,43 @@
+﻿@*
+    * Project Id    :
+    * Project Name  :   OMMAS II
+    * Name          :   
+    * Description   :   
+    * Author        :         
+    * Creation Date :   
+*@
+
+@model PMGSY.Models.QualityMonitoring.QMMPVisitFileUploadViewModel
+<script src="~/Scripts/QualityMonitoring/MPVisitFileUpload.js"></script>
+
+
+<div>
+    &nbsp; &nbsp;
+    @*<b>@Html.LabelFor(model=>model.PIUName) :</b>
+    @Html.DisplayFor(model=>model.PIUName)
+    &nbsp; &nbsp;*@
+   <b> @Html.LabelFor(model=>model.DateOfVisit) :</b>
+    @Html.DisplayFor(model=>model.DateOfVisit)
+    &nbsp; &nbsp;
+    <b>@Html.LabelFor(model=>model.MPName) :</b>
+    @Html.DisplayFor(model=>model.MPName)
+    &nbsp; &nbsp;
+    <b>@Html.LabelFor(model=>model.MPHouse) :</b>
+    @Html.DisplayFor(model=>model.MPHouse)
+    &nbsp; &nbsp;
+</div>
+<div >
+    <center>
+    <input type="radio" name ="UploadType" value="P" id="rdoPdf" /> <strong>PDF</strong>
+    <input type="radio" name="UploadType" value="I" id="rdoImage" /><strong>Images </strong>  
+    </center> 
+ </div>
+@Html.HiddenFor(model => model.MP_VISIT_ID)
+
+<div id="divImageUpload" style="display:none; width:100%">
+
+</div>
+
+<div id="divPDF" style="display:none; width :100%">
+
+</div>

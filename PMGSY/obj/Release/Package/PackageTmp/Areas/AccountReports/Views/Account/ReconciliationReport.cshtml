@@ -1,0 +1,16 @@
+﻿@using MvcReportViewer
+@model PMGSY.Areas.AccountReports.Models.ReconciliationModel
+
+
+
+<div id="Reconciliation" style="width:100%;height:590px;overflow-x:hidden;overflow-y:hidden;">
+@Html.MvcReportViewer("/PMGSYCitizen/Reconciliation",
+     new {  AdminNDCode= Model.StateCode,             
+                YEAR = Model.Year,
+            MONTH=Model.Month,
+            StateName=Model.StateName,
+            FundType=PMGSY.Extensions.PMGSYSession.Current.FundType
+            
+        },
+     new { Height = 600, Width = 1220, style = "border:none;" })
+     </div>

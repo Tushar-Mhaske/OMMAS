@@ -1,0 +1,59 @@
+﻿<script src="~/Scripts/Ticket/TicketuploadFile.js"></script>
+<form id="frmfileupload">
+        <div style="margin-left: 100px">
+            @Html.AntiForgeryToken()
+            @Html.Hidden("TicketNo", ViewBag.TicketNo as String, new { @id="TicketNo"})
+        </div>
+
+        <div id="divError" class="ui-state-error ui-corner-all" style="text-align: left; display: none; width: 100%">
+            <span></span>
+            <span></span>
+        </div>
+ 
+    
+         <div style="height:20px; width: 100%; text-align:left; padding-top: 0.6em;" class="ui-state-default ui-corner-all" > 
+         &nbsp;&nbsp; &nbsp; &nbsp; 
+         &nbsp;( <strong> Note :</strong>  Fields marked with * are mandatory.) <span style="float:right;padding-right:5px;"><strong>Allowed File type:&nbsp;</strong> <b>jpeg,jpg,png,pdf&nbsp;</b>(Max size 4Mb)</span>
+        </div>
+
+        <table id="Table1" class="rowstyle ui-corner-all" style="margin-top:10px; text-align:left; border:ridge 0.1em #ccc; width:100%; padding-top:5px 5px 5px 5px;">
+        <tr></tr>
+          <tr>
+            <td style="width:8%;">
+           </td>
+            <td  style="text-align:left;width:8%;">
+                    @Html.Label("File  :")<label style="color:red"> *</label>
+                 
+            </td>
+            <td  style="width:32%;">
+                @Html.TextBox("TicketFile",null,new { type="file",@id="ticketfile"})
+            </td>
+            <td  style="text-align:left;width:10%;">
+                 
+            </td>
+            <td  style="width:32%;">
+            </td>
+         </tr>
+          <tr>
+                <td></td>
+                <td></td>
+                   <td  style="text-align:right;">
+                         <input type="button" id="btnUpload" name="btnUpload" value="Upload" class= "jqueryButton ui-button ui-widget ui-state-default ui-corner-all ui-button-text-only" title="Upload" tabindex="8"  /> 
+                         <input type="button" id="btnCancel" name="btnCancel" value="Cancel" class= "jqueryButton ui-button ui-widget ui-state-default ui-corner-all ui-button-text-only" title="Cancel" tabindex="9"  />
+                   </td> 
+                  <td></td>
+                  <td></td>
+            </tr>
+        </table>
+
+
+    
+</form>
+  <center>
+        <div id="FileWrapper" style="display: block;margin-top:30px;">
+                <div id="dvFileList" style="width: 91%; border: hidden grey 1px; margin-top: 25px; margin-bottom: 25px" class="side">
+                    <table id="tbFileList"></table>
+                    <div id="dvFilePager"></div>
+                </div>
+        </div>
+    </center>

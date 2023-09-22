@@ -1,0 +1,97 @@
+﻿@model PMGSY.Models.Execution.ExecutionRoadStatusViewModel
+
+@{
+    ViewBag.Title = "ListCDWorksDetails";
+}
+
+<script src="~/Scripts/custom/Generic.js"></script>
+<script src="~/Scripts/jquery.ui.accordion.js"></script>
+<script src="~/Scripts/Execution/ListTechnologyDetails.js"></script>
+<center>
+<div style="height: auto; width: 99%; text-align: left; padding-top: 0.6em;">@*class="ui-state-default ui-corner-all" > *@
+    <table class="rowstyle ui-corner-all" style="width: 100%; border: solid black 1px;">
+        <tr>
+            <td style="width: 5%"></td>
+            <td style="width: 12%; font-weight: bold">
+                <b>Block</b>
+            </td>
+            <td style="width: 15%">
+                @Model.BlockName
+            </td>
+            <td style="width: 12%; font-weight: bold">
+                <b>Package No.</b>
+            </td>
+            <td style="width: 15%">
+                @Model.Package
+            </td>
+        </tr>
+        <tr>
+            <td></td>
+            <td style="font-weight: bold">
+                <b>Road Name:</b>
+            </td>
+            <td>
+                @Model.RoadName
+            </td>
+            <td style="font-weight: bold">Agreement Date:
+            </td>
+            <td>
+                @Model.AgreementDate
+            </td>
+        </tr>
+        <tr>
+            <td></td>
+            <td style="font-weight: bold">
+                <b>Sanction Cost(Rs. in Lakh):</b>
+            </td>
+            <td>
+                @Model.Sanction_Cost
+            </td>
+            <td style="font-weight: bold">
+                <b>Sanction Length(in Km)</b>
+            </td>
+            <td>
+                @Model.Sanction_length
+            </td>
+        </tr>
+        <tr>
+            <td></td>
+            <td style="font-weight: bold">
+                <b>Agreement Cost(Rs. in Lakh):</b>
+            </td>
+            <td>
+                @Model.AgreementCost
+            </td>
+            <td style="font-weight: bold">
+                <b>Year</b>
+            </td>
+            <td>
+                @Model.SanctionYear
+            </td>
+        </tr>
+    </table>
+</div>
+   <br />
+<div id="divTechnologyProgressDetails" style="width:100%">
+    <table id="tbTechnologyList">
+    </table>
+    <div id="pagerTechnologyList">
+    </div>
+</div>
+<br />
+@*<div style="text-align:left">
+    <input type="button" class="jqueryButton" id="btnAddCDWorksProgress" value="Add CDWorks Details"/>
+</div>*@
+<br />
+@Html.HiddenFor(model => model.IMS_PR_ROAD_CODE, new { @id = "prRoadCode" })
+    <div id="accordion1" style="display:none;width:96%;margin-top:20px;margin-bottom:20px" >
+    <h3 style="text-align:left"><a id="" href="#" style=" font-size:.9em;" >Add Technology Progress Details</a>
+                <a href="#"  style="float: right;">
+                    <img src="" class="ui-icon ui-icon-closethick" onclick="CloseExecTechnologyDetails();" /></a>
+            </h3>
+    <div id="divAddTechProgressDetails" style="display:none; font-size:1em;">
+
+    </div>
+</div>
+
+</center>

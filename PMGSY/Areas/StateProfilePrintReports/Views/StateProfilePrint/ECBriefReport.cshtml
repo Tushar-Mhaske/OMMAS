@@ -1,0 +1,44 @@
+﻿@using MvcReportViewer
+
+@model PMGSY.Areas.StateProfilePrintReports.Models.ECBriefReportViewModel
+
+
+<div id="Id" style="width:100%;height:590px;overflow-x:hidden;overflow-y:hidden;">
+    
+    @Html.MvcReportViewer("/PMGSYCitizen/EC_Brief_Report_Citi",
+     new
+     {
+         
+         State = Model.StateCode,
+         District = Model.DistrictCode,
+         Level =(Model.DistrictCode==0?1:2),
+         Block = 0,
+         Agency = Model.AgencyCode,
+         Collaboration = Model.CollaborationCode,
+        // Year = Model.Year,
+        // Batch = Model.BatchCode,
+         PMGSY = PMGSY.Extensions.PMGSYSession.Current.PMGSYScheme,
+         
+         StateName = Model.StateName,
+         CollabName = Model.CollabName,
+         DistName = Model.DistName,
+         AgencyName = Model.AgencyName,
+         BlockName = "All Blocks"
+         
+
+     },
+       new { Height = 600, Width = "100%", style = "border:none;" })
+
+<div>
+
+
+
+
+
+
+
+
+
+
+
+

@@ -1,0 +1,86 @@
+﻿@model PMGSY.Areas.QMSSRSReports.Models.QMFilterViewModel
+
+
+<script src="~/Scripts/custom/Generic.js" type="text/javascript"></script>
+
+<script src="~/Areas/QMSSRSReports/Scripts/InspectionFrequencyMonitor.js"></script>
+<form id="frmQMInspectionFrequencyMonitor">
+     @Html.AntiForgeryToken()
+     @Html.HiddenFor(model=>model.RoleID)
+     @Html.HiddenFor(model => model.ADMIN_QM_CODE)
+    <div id="divFilter" class="ui-state-default ui-corner-all" style="text-align: center; width: 99%">
+            <table  style="margin-top:0px; text-align:center; border:ridge 0.1em #ccc; width:100%; padding:5px 5px 5px 5px;">                    
+                    <tr>
+                         <td style="width:25%;font-weight:bold;" >
+                             
+                        
+                            @if (Model.RoleID == 6 || Model.RoleID == 7)
+                            {
+                               
+                                 @Html.HiddenFor(model => model.QM_TYPE_CODE,new { @id = "ddlQMType"})
+                               
+                                
+                            }
+                            else
+                            {
+                                 @Html.LabelFor(model => model.QM_TYPE_CODE)                                                   
+                                @Html.DropDownListFor(model => model.QM_TYPE_CODE, new SelectList(Model.QM_TYPES, "value", "text"), new { @id = "ddlQMType"})
+                                @Html.ValidationMessageFor(model => model.QM_TYPE_CODE)
+                            }
+                           
+                        </td>
+                        <td style="width:25%;font-weight:bold;" >
+                            @Html.LabelFor(model => model.FROM_MONTH)
+                                                 
+                            @Html.DropDownListFor(model => model.FROM_MONTH, new SelectList(Model.FROM_MONTHS_LIST, "value", "text"), new { @id = "ddlFromMonth"})
+                        </td>
+                        <td style="width:25%;font-weight:bold;">
+                            @Html.LabelFor(model => model.FROM_YEAR)
+                                               
+                            @Html.DropDownListFor(model => model.FROM_YEAR, new SelectList(Model.FROM_YEARS_LIST, "value", "text"), new { @id = "ddlFromYear"})
+                        </td>
+                         <td style="width:25%;font-weight:bold;">
+                           
+                        </td>
+                        
+                    </tr>
+                <tr>
+                         
+                        <td style="font-weight:bold;">                           
+                        
+                            @if (Model.RoleID == 5)
+                            {
+                              <span id="spanState">
+                                 @Html.LabelFor(model => model.MAST_STATE_CODE)
+                               @Html.DropDownListFor(model => model.MAST_STATE_CODE, new SelectList(Model.STATES, "value", "text"), new { @id = "ddlState"})
+                                  </span>
+                                
+                            }
+                            else
+                            {
+                                
+                                 @Html.HiddenFor(model => model.MAST_STATE_CODE,new { @id = "ddlState"})
+                            }
+                           
+                        </td>
+                        <td style="font-weight:bold;">
+                            @Html.LabelFor(model => model.TO_MONTH)
+                                                 
+                            @Html.DropDownListFor(model => model.TO_MONTH, new SelectList(Model.TO_MONTHS_LIST, "value", "text"), new { @id = "ddlToMonth"})
+                        </td>
+                        <td style="font-weight:bold;">
+                            @Html.LabelFor(model => model.TO_YEAR)
+                       
+                            @Html.DropDownListFor(model => model.TO_YEAR, new SelectList(Model.TO_YEARS_LIST, "value", "text"), new { @id = "ddlToYear"})
+                        </td>
+                        <td style="font-weight:bold;text-align:left">
+                            <input type="button" id="btnViewInspectionDetails" value="View" class="jquerybutton"  style="margin-left:20px;"/>
+                        </td>
+            </table>
+    </div>
+    
+
+    <div id="dvInspectionFrequencyMonitorReport"></div>
+  
+ </form>
+

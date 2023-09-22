@@ -1,0 +1,45 @@
+﻿<script src="~/Scripts/jquery.ui.accordion.js"></script>
+<script src="~/Scripts/jquery.ui.tabs.js"></script>
+<script src="~/Scripts/custom/Generic.js"></script>
+<script src="~/Scripts/OnlineFundProcess/CompleteRequestDetails.js"></script>
+
+<div id="tabs" style="width: 99%">
+    @Html.Hidden("RequestId", @ViewBag.RequestId as string)
+    <ul>
+        <li><a href="#tabs-1" onclick="LoadRequestDetails()">Request Details</a></li>
+        <li><a href="#tabs-2" onclick="LoadProposalDetailsList()">Proposal Details</a></li>
+        <li><a href="#tabs-3" onclick="LoadDocumentDetails()">Upload Details</a></li>
+        <li><a href="#tabs-4" onclick="LoadObservationDetails()">Observation Details</a></li>
+        @if (ViewBag.IsReleaseNoGenerated == "Y")
+        {
+            <li><a href="#tabs-5" onclick="LoadReleaseDetails()">Release Observation Details</a></li>
+        }
+    </ul>
+    <div id="tabs-1">
+        <div id="dvRequestDetails" style="width: 100%; margin-top: 20px"></div>
+    </div>
+    <div id="tabs-2">
+        <div id="dvProposalDetails" style="margin-top: 20px; width: 100%">
+            <table style="width: 75%" id="tbProposalList"></table>
+            <div id="pgProposalList"></div>
+        </div>
+    </div>
+    <div id="tabs-3">
+        <div id="dvUploadDetails" style="width: 100%; margin-top: 20px">
+            <table style="width: 75%" id="tbUploadList"></table>
+            <div id="pgUploadList"></div>
+        </div>
+    </div>
+    <div id="tabs-4">
+        <div id="dvObservationDetails" style="width: 100%; margin-top: 20px">
+            <table style="width: 75%" id="tbObservationList"></table>
+            <div id="pgObservationList"></div>
+        </div>
+    </div>
+    @if (ViewBag.IsReleaseNoGenerated == "Y")
+    {
+        <div id="tabs-5">
+            <div id="dvReleaseDetails" style="width: 100%; margin-top: 20px"></div>
+        </div>
+        }
+</div>

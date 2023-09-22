@@ -1,0 +1,113 @@
+﻿<style>
+    .ui-datepicker td {
+        border: 1px solid #CCC;
+        padding: 0;
+    }
+</style>
+
+
+<script src="~/Scripts/QualityMonitoring/LabDetail.js"></script>
+
+<form id="frmCQCAddLab">
+    @Html.Hidden("agreementId")
+    @Html.Hidden("RoleCode", PMGSY.Extensions.PMGSYSession.Current.RoleCode)
+    <center>
+
+    <div id="PIULabDetailList" style="width:100%;display:none;">
+        <table id="tblQualityLab"> </table>
+        <div id="divPagertblQualityLab"> </div>
+       
+    </div>
+     @*  <div id="PIULabDetailCreate" style="width:100%;display:none;">
+      <table class="rowstyle" id="tblAddDistrict" style="margin-top: 10px; text-align: left; border: ridge 0.1em #ccc; width: 100%; padding: 5px 5px 5px 5px;">
+        
+           <tr>
+            <td style="width: 25%;text-align:right;" ><span >State:</span></td>
+            <td style="width: 25%">
+              
+                <span id="State" ></span>
+                           
+            </td>
+             <td style="width: 25%;text-align:right;" ><span >Sanction Year:</span></td>
+            <td style="width: 25%;text-align:left;">
+              
+                <span id="SanctionYear" ></span>                     
+            </td>
+            
+        </tr>
+          <tr>
+            <td style="width: 25%;text-align:right;" ><span >Package:</span></td>
+            <td style="width: 25%">
+              
+                <span id="Package" ></span>
+                           
+            </td>
+             <td style="width: 25%;text-align:right;" ><span >Date of Award:</span></td>
+            <td style="width: 25%;text-align:left;">
+              
+                <span id="AwardDate" ></span>                     
+            </td>
+            
+        </tr>
+         <tr>
+            <td style="width: 25%;text-align:right;" ><span >Commencement Date:</span></td>
+            <td style="width: 25%">              
+               
+                 <span id="CommencementDate" ></span>     
+                           
+            </td>
+             <td style="width: 25%;text-align:right;" ><span >Completed Date:</span></td>
+            <td style="width: 25%">
+                         <span id="CompletedDate" ></span>   
+            </td>
+            
+        </tr>
+            
+            <tr>
+            <td style="width: 50%;text-align:right;" colspan="2" ><span >Enter Lab Established Date:</span>  <span style="color: red">*</span></td>
+            <td style="width: 50%"  colspan="2">
+                @Html.Editor("LabEshtablishedDate")
+                           
+            </td>
+            
+        </tr>
+        
+           
+           
+        <tr>           
+            <td style="width: 100%; text-align:center;" colspan="4">
+                <input type="button" id="btnSaveLab" name="btnSaveLab" value="Save" class="jqueryButton" />
+                &nbsp;&nbsp;<input type="button" id="btnCancelAddDistrict" name="btnCancelAddDistrict" value="Cancel" class="jqueryButton" />
+            </td>
+        </tr>
+    </table>
+    </div>*@
+     <div id="accordionLabPhoto" style="display:none;width:100%;margin-top:10px;border:none;">            
+        <h3 style="text-align:left"><a id="" href="#" style=" font-size:.9em;" >Lab Photo</a>
+            <a href="#"  style="float: right;">
+                <img style="border:solid" class="ui-icon ui-icon-closethick" onclick="CloseLabPhoto();" /></a>
+        </h3>
+        <div id="divLabPhoto"></div>                     
+    </div>
+    <div id="accordionLabPositionMap" style="display:none;width:100%;margin-top:10px;border:none;">            
+        <h3 style="text-align:left"><a id="" href="#" style=" font-size:.9em;" >Lab Position in Google Map</a>
+            <a href="#"  style="float: right;">
+                <img style="border:solid" class="ui-icon ui-icon-closethick"  /></a>
+        </h3>
+        <div id="divLabPositionMap"></div>                
+    </div>
+
+    <div id="accordion" style="display:none;width:96%;margin-top:20px;margin-bottom:20px" >
+    <h3 style="text-align:left"><a id="" href="#" style=" font-size:.9em;" >Execution Details</a>
+                <a href="#"  style="float: right;">
+                    <img src="" class="ui-icon ui-icon-closethick" onclick="CloseExecutionDetails();" /></a>
+            </h3>
+    <div id="divAddExecution" style="display:none">
+
+    </div>
+        </div>
+</center>
+
+
+</form>
+

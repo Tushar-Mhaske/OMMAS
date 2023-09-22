@@ -1,0 +1,149 @@
+@model PMGSY.Models.Common.SendMailCustomFuncModel
+@{
+    Layout = null;
+}
+<html>
+<head>
+<style>
+    #dvPrintMailDetails {
+    background-color: #fff transparent;
+    color: #000;
+    font-size: 1.3em;
+    font-family: Trebuchet MS,Tahoma,Verdana,Arial,sans-serif;
+}
+
+    table td {
+        font-size: 1.3em;
+        font-family: Trebuchet MS,Tahoma,Verdana,Arial,sans-serif;
+        border:1px ridge #444;
+    }
+    table th {
+        font-size: 1.3em;
+        font-family: Trebuchet MS,Tahoma,Verdana,Arial,sans-serif;
+        border:1px ridge #444;
+    }
+    p {
+        text-align:justify;
+	font-size: 1.3em;
+    }
+</style>
+</head>
+<body>
+     <div id="dvPrintMailDetails">
+            <p>Dear @(Model.RecepientName)</p>
+                        
+            <br />
+            <p>
+                NRRDA has forwarded the feedbacks received on <b>"Meri Sadak – Citizen Feedback System"</b> of OMMAS under PMGSY, which are available under the SQC login.  
+                The interim & final reply to these complaints/ feedbacks are to be furnished in OMMAS within 07 & 60 days respectively, from their receipt in OMMAS. The status of feedbacks pertaining to your State, which require action from your side, are tabulated below: 
+            </p>
+            <br />
+            <p style="text-align:center;font-weight:bold;">
+                State Name : @Model.RecepientState
+            </p>
+            
+            <span style='background:#FFBB73;padding:5px;margin-bottom:5px;'><b>Mobile uploads</b></span><br />
+            @{var count = 1;}
+            <table style='margin-top:5px;'>
+                <tr>
+                    <th> Sr.No. </th>
+                    <th> Feedback No. </th>
+                    <th> Complainant Name </th>
+                    <th> Feedback Received Date </th>
+                    <th> Interim Reply Date </th>
+                    <th> Final Reply Submission Date </th>
+                </tr>
+                @if (Model.MobileWeeklyReportList != null)
+                {
+                    foreach (var item in Model.MobileWeeklyReportList)
+                    {
+                
+                        <tr>
+                            <td>
+                                @count
+                            </td>
+                            <td>
+                                @item.FEEDBACK_NUMBER
+                            </td>
+                            <td>
+                                @item.COMPLAINANT
+                            </td>
+                            <td>
+                                @item.FEEDBACK_RECEIVED_DATE
+                            </td>
+                            <td>
+                                @item.INTERIM_REPLY_DATE
+                            </td>
+                            <td>
+                                @item.FINAL_REPLY_SUBMISSION_DATE
+                            </td>
+                        </tr>
+                
+                        count++;
+                    }
+                }
+                else
+                {
+                    <tr>
+                        <td colspan="6"> No data available </td>
+                    </tr>
+                }
+            </table>
+            <br />
+	   <span style='background:#FFBB73;padding:5px;margin-bottom:5px;'><b>Web uploads</b></span><br />
+            @{var webcount = 1;}
+            <table style='margin-top:5px;'>
+                <tr>
+                    <th> Sr.No. </th>
+                    <th> Feedback No. </th>
+                    <th> Complainant Name </th>
+                    <th> Feedback Received Date </th>
+                    <th> Interim Reply Date </th>
+                    <th> Final Reply Submission Date </th>
+                </tr>
+                @if (Model.WebWeeklyReportList != null)
+                {
+                    foreach (var item in Model.WebWeeklyReportList)
+                    {
+                
+                        <tr>
+                            <td>
+                                @webcount
+                            </td>
+                            <td>
+                                @item.FEEDBACK_NUMBER
+                            </td>
+                            <td>
+                                @item.COMPLAINANT
+                            </td>
+                            <td>
+                                @item.FEEDBACK_RECEIVED_DATE
+                            </td>
+                            <td>
+                                @item.INTERIM_REPLY_DATE
+                            </td>
+                            <td>
+                                @item.FINAL_REPLY_SUBMISSION_DATE
+                            </td>
+                        </tr>
+                
+                        webcount++;
+                    }
+                }
+                else
+                {
+                    <tr>
+                        <td colspan="6"> No data available </td>
+                    </tr>
+                }
+            </table>
+
+            <p>Please take it on priority basis.</p><br />
+
+            <p>With Regards,<br />
+               <b> Director (P-III) & CQC </b>
+            </p>
+        </div> 
+      
+</body>
+</html>

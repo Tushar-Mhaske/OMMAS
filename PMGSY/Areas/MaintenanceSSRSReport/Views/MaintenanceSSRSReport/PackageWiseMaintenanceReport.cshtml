@@ -1,0 +1,41 @@
+﻿@using MvcReportViewer
+
+@model PMGSY.Areas.MaintenanceSSRSReport.Models.PackageWiseMaintenanceModel
+
+
+@if (Model.RoadWise == false)
+    {
+
+@Html.MvcReportViewer("/PMGSYCitizen/Maintenance_Pkgwise_Report",
+     new
+     {   
+         Level = Model.LevelCode,
+         State = Model.Mast_State_Code,
+         District = Model.Mast_District_Code,
+         Block = Model.Mast_Block_Code,         
+        PMGSY = PMGSY.Extensions.PMGSYSession.Current.PMGSYScheme,
+         Year=Model.PhaseYear,
+         StateName = Model.StateName,
+         DistrictName = Model.DistName,
+         BlockName = Model.BlockName
+     },
+     new { Height = 600, Width = "100%", style = "border:none;" })
+}
+else
+{
+    @Html.MvcReportViewer("/PMGSYCitizen/Maintenance_Pkgwise_SubReport",
+     new
+     {   
+         Level =Model.LevelCode,
+         State = Model.Mast_State_Code,
+         District = Model.Mast_District_Code,
+         Block = Model.Mast_Block_Code,   
+         Year=Model.PhaseYear,      
+         PMGSY = PMGSY.Extensions.PMGSYSession.Current.PMGSYScheme,        
+         StateName = Model.StateName,
+         DistrictName = Model.DistName,
+         BlockName = Model.BlockName
+     },
+     new { Height = 600, Width = "100%", style = "border:none;" })
+}
+

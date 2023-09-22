@@ -1,0 +1,116 @@
+﻿@model PMGSY.Areas.ProgressReport.Models.ProgressViewModel
+
+<div id="loadFilters">
+<form id="frmProgressPhoto" >
+    @Html.AntiForgeryToken()
+    @Html.ValidationSummary(true)
+    @Html.HiddenFor(model=>model.PhotoType)
+     <div id="dvhdrUtilizationCertificates" class="ui-widget-header innerDivHeader" style="margin-bottom: 05px; height: 20px;">
+              Progress Photographs 
+    </div>
+
+<table class="table-content ui-corner-all" style="width: 100%; border: .1em solid gray">
+    @* Mord User /SSRDA *@
+    
+         <tr>
+            
+            
+
+            <td style="text-align:right;font-weight:bold;  width:20%">
+                @* for MoRD *@
+               
+                @if (Model.Level == 6 || Model.Level == 3) 
+                {
+                      @Html.Label("State:")
+                   @Html.DropDownListFor(model => model.StateCode, new SelectList(Model.StateList, "Value", "Text"), new { @style = "width:200px", @title = "State" })
+                }
+                else
+                {
+                    @Html.HiddenFor(model=>model.StateCode);
+                }
+              
+            </td>
+             <td style="text-align:center;font-weight:bold;  width:20%">
+                @* for piu *@
+                
+                @if (Model.Level == 5) 
+                {
+                    @Html.HiddenFor(model=>model.DistrictCode);
+                }
+                else
+                {
+                      @Html.Label("District:")
+                    @Html.DropDownListFor(model => model.DistrictCode, new SelectList(Model.DistrictList, "Value", "Text"), new { @style = "width:200px", @title = "District"})
+                }
+              
+            </td>
+            <td style="text-align:right; font-weight:bold; width:20%">
+                 Year:@Html.DropDownListFor(model=>model.Year,new SelectList(Model.YearList,"Value","Text") , new { @style="width:200px",@title="Year"})
+            </td>
+             <td style="text-align:right; font-weight:bold; width:20%">
+                 Month:@Html.DropDownListFor(model=>model.Month,new SelectList(Model.MonthList,"Value","Text") , new { @style="width:200px",@title="Year"})
+            </td>
+            <td style="width:10%;text-align:left;">    
+                    <input type="button" class="jqueryButton" value="View" id="btnViewMonthlyAcount" />
+            </td>
+    </tr>
+</table>
+
+    </form>
+</div>
+
+<div id="loadProgressReport" style="width:90%"></div>
+
+<script type="text/javascript">
+    $(document).ready(function () {
+//        alert("Ready");
+        
+        $("#btnViewMonthlyAcount").click(function () {
+
+            var month=$("#Month").val();
+            var year = $("#Year").val();
+            
+            if (year == 0 || year == -1) {
+                alert("Select Year"); 
+            }
+        else if (month == 0 || month == -1) {
+            alert("Select Month");
+            }
+            else {
+                var param = $("#frmProgressPhoto").serialize();
+                $("#loadProgressReport").load("/ProgressReport/Progress/AppPhotoReport", param);
+            }
+        });
+        $("#StateCode").change(function () {
+            $("#DistrictCode").empty();
+            if ($("#StateCode").val() > 0) {
+
+                $.ajax({
+                    url: '/Progress/GetDistricts',
+                    type: 'POST',
+                    beforeSend: function () {
+                        blockPage();
+                    },
+                    data: { MAST_STATE_CODE: $("#StateCode").val(), value: Math.random() },
+                    success: function (jsonData) {
+                        var listDistrict;// = "<option value='0'>All District</option>";
+                        for (var i = 0; i < jsonData.length; i++) {
+
+                            listDistrict += "<option value='" + jsonData[i].Value + "'>" + jsonData[i].Text + "</option>";
+                        }
+                        $("#DistrictCode").append(listDistrict);
+
+                        unblockPage();
+                    },
+                    error: function (err) {
+                        alert("error " + err);
+                        unblockPage();
+                    }
+                });
+            }
+            else if ($("#StateCode").val() == 0) {
+                $("#DistrictCode").append("<option value='0'>All District</option>");
+            }
+        });
+    });
+</script>

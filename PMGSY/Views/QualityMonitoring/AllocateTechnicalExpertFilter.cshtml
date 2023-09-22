@@ -1,0 +1,270 @@
+﻿@{
+    ViewBag.Title = "AllocateTechnicalExpertFilter";
+}
+
+
+@model PMGSY.Models.QualityMonitoring.QMFilterViewModel
+
+<!DOCTYPE html>
+
+<html>
+<head>
+
+
+    <link href="~/Content/Chosen/chosen.min.css" rel="stylesheet" />
+    <script src="~/Scripts/chosen.jquery.min.js"></script>
+    <script src="~/Scripts/custom/Generic.js"></script>
+    <script src="~/Scripts/jquery.ui.tabs.js"></script>
+    <script src="~/Scripts/Bootstrap/bootstrap.min.js"></script>
+    <script src="~/Scripts/jquery-ui.js"></script>
+    <script src="~/Scripts/QualityMonitoring/AllocateTechnicalExpertFilter.js"></script>
+
+    @*Below style is added by Bhushan*@
+    <style type="text/css">
+        #preview {
+            border: 1px solid #ccc;
+            position: absolute;
+            background: #333;
+            padding: 5px;
+            display: none;
+            color: #fff;
+        }
+
+        td {
+            height: 20px;
+            text-align: left;
+        }
+
+        body {
+            text-align: left;
+        }
+    </style>
+
+
+</head>
+<body>
+
+    <div style="width: 99%; height: 20px; border: none; margin-top: 5px; margin-bottom: -15px;" class="ui-state-default">
+        <span style="float: right; margin-right: 2Px; margin-top: 2px" id="id3TierSQCInspFilterDiv" class="ui-icon ui-icon-circle-triangle-n"></span>
+    </div>
+
+    <div style="width: 99%; border: none; margin-top: -15px; margin-bottom: 10px;" class="ui-state-default">
+        <div id="div3TierSQCInspFilterForm">
+            <center>
+                <form id="3TierSQCInspFilterForm">
+                    @if (PMGSY.Extensions.PMGSYSession.Current.RoleCode == 81)
+                    {
+                        <table style="margin-top:10px; margin-bottom:5px; width:90%">
+                            <tr>
+                                <td> @Html.Hidden("RoleCode", PMGSY.Extensions.PMGSYSession.Current.RoleCode.ToString()) </td>
+                            </tr>
+                            <tr>
+
+                                <td style="width:5%;padding-left:25px;">
+                                    @Html.LabelFor(model => model.MAST_STATE_CODE)
+                                </td>
+                                <td style="width:8%">
+                                    @Html.DropDownListFor(model => model.MAST_STATE_CODE, new SelectList(Model.STATES, "Value", "Text"), new { @id = "stateCode3TierSQCInsp" })
+                                </td>
+
+                                <td style="width:5%;padding-left:25px;">
+                                    @Html.LabelFor(model => model.ADMIN_QM_CODE)
+                                </td>
+
+                                <td style="width:15%">
+                                    <div class="ui-widget">
+                                        @Html.DropDownListFor(model => model.ADMIN_QM_CODE, new SelectList(Model.MONITORS, "Value", "Text"), new { @id = "monitorCode3TierSQCInsp" })
+                                        @Html.ValidationMessageFor(model => model.ADMIN_QM_CODE)
+                                    </div>
+                                </td>
+
+                                <td style="text-align:left;width:5%;">
+                                    @Html.LabelFor(model => model.TO_MONTH)
+                                </td>
+                                <td style="width:8%">
+                                    @Html.DropDownListFor(model => model.TO_MONTH, new SelectList(Model.TO_MONTHS_LIST, "Value", "Text"), new { @id = "toMonth3TierSQCInsp" })
+                                </td>
+
+                                <td style="text-align:left;width:5%;padding-left:25px;">
+                                    @Html.LabelFor(model => model.TO_YEAR)
+                                </td>
+                                <td style="width:8%">
+                                    @Html.DropDownListFor(model => model.TO_YEAR, new SelectList(Model.TO_YEARS_LIST, "Value", "Text"), new { @id = "toYear3TierSQCInsp" })
+                                </td>
+
+                            </tr>
+                            <tr>
+                            </tr>
+                            <tr>
+                                <td colspan="12" style="text-align:center;">
+                                    <input type="button" class="jqueryButton" value="List Details" id="btnInspDetailsTEList" name="btnQMInspDetailsTEReviewList" />
+                                </td>
+                            </tr>
+                        </table>
+                    }
+                    else
+                    {
+                        <table style="margin-top:10px; margin-bottom:5px; width:90%">
+                            <tr>
+                                <td> @Html.Hidden("RoleCode", PMGSY.Extensions.PMGSYSession.Current.RoleCode.ToString()) </td>
+                            </tr>
+                            <tr>
+
+                                <td style="width:5%;padding-left:25px;">
+                                    @Html.LabelFor(model => model.MAST_STATE_CODE)
+                                </td>
+                                <td style="width:8%">
+                                    @Html.DropDownListFor(model => model.MAST_STATE_CODE, new SelectList(Model.STATES, "Value", "Text"), new { @id = "stateCode3TierSQCInsp" })
+                                </td>
+
+                                <td style="text-align:left;width:10%;padding-right:5px;">
+                                    Schedule From :
+                                </td>
+                                <td style="width:5%;">
+                                    @Html.LabelFor(model => model.FROM_MONTH)
+                                </td>
+                                <td style="width:8%">
+                                    @Html.DropDownListFor(model => model.FROM_MONTH, new SelectList(Model.FROM_MONTHS_LIST, "Value", "Text"), new { @id = "frmMonth3TierSQCInsp" })
+                                </td>
+                                <td style="width:5%;padding-left:25px;">
+                                    @Html.LabelFor(model => model.FROM_YEAR)
+                                </td>
+                                <td style="width:8%">
+                                    @Html.DropDownListFor(model => model.FROM_YEAR, new SelectList(Model.FROM_YEARS_LIST, "Value", "Text"), new { @id = "frmYear3TierSQCInsp" })
+                                </td>
+
+                                <td style="width: 8%; text-align: right; padding-right: 10px;">  @Html.Label("Scheme") </td>
+                                <td style="width:10%">
+                                    @Html.DropDownListFor(model => model.schemeType, new SelectList(Model.schemeList, "Value", "Text"), new { @id = "schemeType" })
+                                    <br />
+                                    @Html.ValidationMessageFor(m => m.schemeType)
+                                </td>
+
+                                <td style="text-align: right; padding-right: 10px; width: 8%;">
+                                    @Html.LabelFor(model => model.ROAD_STATUS)
+                                </td>
+                                <td style="width:10%;padding-left:0px;">
+                                    @Html.DropDownListFor(model => model.ROAD_STATUS, new SelectList(Model.ROAD_STATUS_LIST, "Value", "Text"))
+                                    @Html.ValidationMessageFor(model => model.ROAD_STATUS)
+                                </td>
+
+                                <td style="width: 8%; text-align: right; padding-right: 10px;">    @Html.LabelFor(model => model.qmType) </td>
+                                <td style="width:10%">
+                                    @Html.DisplayFor(model => model.qmType)
+                                    <br />
+                                    @Html.ValidationMessageFor(m => m.qmType)
+                                </td>
+
+                            </tr>
+                            <tr>
+                                <td style="width:5%;padding-left:25px;">
+                                    @Html.LabelFor(model => model.ADMIN_QM_CODE)
+                                </td>
+                                @if (PMGSY.Extensions.PMGSYSession.Current.RoleCode == 6)
+                                {
+                                    <td style="width:15%">
+                                        <div class="ui-widget">
+                                            @Html.HiddenFor(model => model.ADMIN_QM_CODE)
+                                            @Html.TextBoxFor(model => model.MONITOR_NAME, new { @id = "nqmMonitor", @readonly = "readonly" })
+                                        </div>
+                                    </td>
+                                }
+                                else
+                                {
+                                    <td style="width:15%">
+                                        <div class="ui-widget">
+                                            @Html.DropDownListFor(model => model.ADMIN_QM_CODE, new SelectList(Model.MONITORS, "Value", "Text"), new { @id = "monitorCode3TierSQCInsp" })
+                                            @Html.ValidationMessageFor(model => model.ADMIN_QM_CODE)
+                                        </div>
+                                    </td>
+                                }
+
+                                <td style="text-align:left;width:10%;padding-right:5px;">
+                                    Schedule To :
+                                </td>
+                                <td style="text-align:left;width:5%;">
+                                    @Html.LabelFor(model => model.TO_MONTH)
+                                </td>
+                                <td style="width:8%">
+                                    @Html.DropDownListFor(model => model.TO_MONTH, new SelectList(Model.TO_MONTHS_LIST, "Value", "Text"), new { @id = "toMonth3TierSQCInsp" })
+                                </td>
+                                <td style="text-align:left;width:5%;padding-left:25px;">
+                                    @Html.LabelFor(model => model.TO_YEAR)
+                                </td>
+                                <td style="width:8%">
+                                    @Html.DropDownListFor(model => model.TO_YEAR, new SelectList(Model.TO_YEARS_LIST, "Value", "Text"), new { @id = "toYear3TierSQCInsp" })
+                                </td>
+
+                                <td style="width: 8%; text-align: right; padding-right: 10px;">    @Html.LabelFor(model => model.roadOrBridge) </td>
+                                <td style="width:10%">
+                                    @Html.DropDownListFor(model => model.roadOrBridge, new SelectList(Model.roadOrBridgeList, "Value", "Text"), new { @id = "roadOrBridge3TierSQCInsp" })
+                                    <br />
+                                    @Html.ValidationMessageFor(m => m.roadOrBridge)
+                                </td>
+
+                                <td style="width: 8%; text-align: right; padding-right: 10px;">    @Html.LabelFor(model => model.gradeType) </td>
+                                <td style="width:10%">
+                                    @Html.DropDownListFor(model => model.gradeType, new SelectList(Model.gradeTypeList, "Value", "Text"), new { @id = "gradeType3TierSQCInsp" })
+                                    <br />
+                                    @Html.ValidationMessageFor(m => m.gradeType)
+                                </td>
+
+                            </tr>
+                            <tr>
+                                @if (PMGSY.Extensions.PMGSYSession.Current.RoleCode == 5 || PMGSY.Extensions.PMGSYSession.Current.RoleCode == 9)
+                                {
+                                    <td colspan="12" style="text-align:center;">
+                                        <input type="button" class="jqueryButton" value="List Details" id="btn3TierCQCAdminInspDetails" name="btn3TierCQCAdminInspDetails" />
+                                    </td>
+                                }
+                                else if (PMGSY.Extensions.PMGSYSession.Current.RoleCode == 6 || PMGSY.Extensions.PMGSYSession.Current.RoleCode == 81)
+                                {
+                                    <td colspan="12" style="text-align:center;">
+                                        <input type="button" class="jqueryButton" value="List Details" id="btnQMInspDetailsTEReviewList" name="btnQMInspDetailsTEReviewList" />
+                                    </td>
+                                }
+
+                            </tr>
+                        </table>
+                    }
+
+                </form>
+            </center>
+        </div>
+    </div>
+
+
+    <div id="div3TierPIUInspectionDetails" style="width: 100%; margin-top: 15px;">
+        <table id="tbInspList"></table>
+        <table id="tbInspList1"></table>
+
+        <div id="dvInspListPager"></div>
+
+        @if (PMGSY.Extensions.PMGSYSession.Current.RoleCode == 5 || PMGSY.Extensions.PMGSYSession.Current.RoleCode == 9)
+        {
+            <div id="dropdownTechExpert">
+
+                @Html.LabelFor(model => model.TechnicalExpertID, new { @style = "padding-right: 10px" })
+                @Html.DropDownListFor(model => model.TechnicalExpertID, new SelectList(Model.TechnicalExpertList, "Value", "Text"))
+                <input type='button' style='margin-left:5px' id='btnAssign' class='jqueryButton ui-button ui-widget ui-state-default ui-corner-all ui-button-text-only' onClick='GetDataInArray();return false;' value='Assign' />
+                @*Changed : 17/07/2023*@
+                <input type='button' style='margin-left:5px; float:right;' class='jqueryButton ui-button ui-widget ui-state-active ui-corner-all ui-button-text-only' onClick='addWorks();return false;' value='Finalize And Forward To Technical Expert' />
+            </div>
+        }
+
+    </div>
+
+    <div id="accordion3TierPIUInspection" style="display: none; width: 100%; margin-top: 10px;">
+        <h3 style="text-align: left">
+            <a id="" href="#" style="font-size: .9em;">Inspections Details</a>
+            <a href="#" style="float: right;">
+                <img style="border: none" class="ui-icon ui-icon-closethick" onclick="Close3TierPIUInspDetails();" />
+            </a>
+        </h3>
+        <div id="div3TierPIUInspDetails" style="display: none;"></div>
+    </div>
+
+
+</body>
+</html>
+

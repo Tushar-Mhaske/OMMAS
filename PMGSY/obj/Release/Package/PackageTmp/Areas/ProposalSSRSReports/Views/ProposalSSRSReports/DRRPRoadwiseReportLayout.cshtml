@@ -1,0 +1,102 @@
+﻿@model PMGSY.Areas.ProposalSSRSReports.Models.DRRPRoadwiseReportModel
+
+@if (ViewBag.ReportType != null)
+{
+    Layout = "~/Views/Shared/_ExternalLinkLayout.cshtml";
+}
+
+
+<script src="@Url.Content("~/Scripts/custom/Generic.js")" type="text/javascript" ></script>
+<script src="~/Areas/ProposalSSRSReports/Scripts/DRRPRoadwiseReport.js"></script>
+<div id="dvhdCreateNewReportDetails" class="ui-corner-top ui-widget-header panelheader" style="text-align: left; height: 20px;">@*margin-left:0px;margin-right:0px;margin-top:0px; *@
+    <span class="ui-jqgrid-title" style="float: left">&nbsp;DRRP Roadwise Report</span>
+
+    <span id="spCollapseIconCN" class="ui-icon ui-icon-circle-triangle-n" style="float: right"></span>
+</div>
+<div id="dvSearchParameter" class="ui-corner-bottom" style="display: block; border: 1px solid #B5B8C8;">
+    <form id="frmDRRPRoadwise">
+        @Html.ValidationSummary(true)
+        <table style="width: 100%;" class="rowstyle">
+            <tr>
+                <td style="width: 5%;"></td>
+                <td style="text-align: left; width: 7%;">
+                    @Html.LabelFor(model => model.StateCode)
+                </td>
+                <td style="width: 28%;">
+                    @if (Model.StateCode == 0)
+                    {
+                        @Html.DropDownListFor(model => model.StateCode, new SelectList(Model.StateList, "Value", "Text"), new { @title = "State", @tabindex = 1, @id = "ddlStates", @style = "width:150px" })
+                        @Html.ValidationMessageFor(m => m.StateCode)
+                        @Html.HiddenFor(model=>model.StateName)
+                    }
+                    else
+                    {
+                        @Html.DisplayFor(model => model.StateName) 
+                        @Html.HiddenFor(model=>model.StateName)
+                        @Html.Hidden("StateCode", Model.StateCode)                            
+                    }
+                </td>
+                <td style="text-align: left; width: 10%;">
+                    @Html.LabelFor(model => model.DistrictCode)
+                </td>
+                <td style="width: 28%;">
+                     @if (Model.DistrictCode == 0)
+                    {
+                        @Html.DropDownListFor(model => model.DistrictCode, new SelectList(Model.DistrictList, "Value", "Text"), new { @title = "District", @id = "ddlDistricts", @tabindex = 2, @style = "width:150px" })
+                        @Html.ValidationMessageFor(m => m.DistrictCode)
+                        @Html.HiddenFor(model=>model.DistrictName)
+                    }
+                    else
+                    {
+                        @Html.DisplayFor(model => model.DistrictName) 
+                         @Html.HiddenFor(model=>model.DistrictName)
+                        @Html.Hidden("DistrictCode", Model.DistrictCode)
+                    }
+                </td>
+                <td style="text-align: left; width: 4%;">
+                    @Html.LabelFor(model=>model.BlockCode)
+                </td>
+                <td style="width: 28%;">
+                    @Html.DropDownListFor(model => model.BlockCode, new SelectList(Model.BlockList, "Value", "Text"), new { @title = "Block", @id = "ddlBlocks", @tabindex = 3, @style = "width:150px" })
+                    @Html.ValidationMessageFor(m => m.BlockCode)
+                    @Html.HiddenFor(model=>model.BlockName)
+                </td>
+                <td style="text-align: left; width: 4%;">
+                    @Html.LabelFor(model=>model.CategoryCode)
+                </td>
+                <td style="width: 28%;">
+                    @Html.DropDownListFor(model => model.CategoryCode, new SelectList(Model.CategoryList, "Value", "Text"), new { @title = "Road Category", @id = "ddlRoadCategory", @tabindex = 4, @style = "width:150px" })
+                    @Html.ValidationMessageFor(m => m.CategoryCode)
+                    @Html.HiddenFor(model=>model.CategoryName)
+                </td>
+            </tr>
+            <tr>
+                <td></td>
+                <td>
+                    @Html.LabelFor(model=>model.SoilType)
+                </td>
+                <td>
+                    @Html.DropDownListFor(model => model.SoilType, new SelectList(Model.SoilTypeList, "Value", "Text"), new { @title = "Soil Type", @id = "ddlSoilTypes", @tabindex = 5, @style = "width:150px" })
+                    @Html.ValidationMessageFor(m => m.SoilType)
+                    @Html.HiddenFor(model=>model.SoilTypeName)
+                </td>
+                <td>
+                    @Html.LabelFor(model=>model.TerrainType)
+                </td>
+                <td>
+                    @Html.DropDownListFor(model => model.TerrainType, new SelectList(Model.TerrainTypeList, "Value", "Text"), new { @title = "Terrain Type", @id = "ddlTerrainTypes", @tabindex = 5, @style = "width:150px" })
+                    @Html.ValidationMessageFor(m => m.TerrainType)
+                    @Html.HiddenFor(model=>model.TerrainTypeName)
+                </td>
+                <td>
+                    <input type="button" id="btnViewPhysicalProgress" value="View" class="jqueryButton" title="View Detail" tabindex="7" />
+                </td>
+            </tr>
+        </table>
+    </form>
+</div>
+<div id="divCommonReport" class="modal" style="margin-top: 12px; float: right; margin-left: 915px">
+    <span id="spnCommonReport" class="close">X</span>
+    <span>Click on State/District/Block to view details</span>
+</div>
+<div id="loadDRRPRoadwise" class="divLoadReport"></div>

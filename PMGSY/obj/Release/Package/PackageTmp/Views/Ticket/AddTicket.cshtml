@@ -1,0 +1,108 @@
+﻿@model PMGSY.Models.Ticket.TicketViewModel
+<script src="~/Scripts/custom/Generic.js"></script>
+<script src="~/Scripts/Ticket/AddTicket.js"></script>
+
+
+ <form id="frmAddticket">
+        <div style="margin-left: 100px">
+            @Html.AntiForgeryToken()
+        </div>
+
+        <div id="divError" class="ui-state-error ui-corner-all" style="text-align: left; display: none; width: 100%">
+            <span></span>
+            <span></span>
+        </div>
+ 
+    <center>
+    <div style="height:20px; width: 100%; text-align:left; padding-top: 0.6em;" class="ui-state-default ui-corner-all" > 
+         &nbsp;&nbsp; &nbsp; &nbsp; 
+         &nbsp;( <strong> Note :</strong>  Fields marked with * are mandatory.)
+    </div>
+        <table id="Table1"  cellspacing="0" cellpadding="3px" class="rowstyle ui-corner-all" style="margin-top:10px; text-align:left; border:ridge 0.1em #ccc; width:100%; padding-top:5px 5px 5px 5px;">
+        <tr></tr>
+        <tr>
+            <td style="width:8%;">
+           </td>
+           <td  style="text-align:left;width:15%;">
+                    @Html.LabelFor(s => s.Name)<label style="color:red"> *</label>
+                 
+            </td>
+            <td  style="width:32%;">
+                    @Html.TextBoxFor(s => s.Name, new { @tabindex = 1 })
+                    @Html.ValidationMessageFor(s => s.Name)
+            </td>
+            <td  style="text-align:left;width:10%;">
+                    @Html.LabelFor(s => s.Contact)<label style="color:red"> *</label>
+                 
+            </td>
+            <td  style="width:32%;">
+                    @Html.TextBoxFor(s => s.Contact, new { @tabindex = 2 ,maxlength=10})
+                    @Html.ValidationMessageFor(s => s.Contact)
+            </td>
+         </tr>
+          <tr>
+                <td></td>
+                  <td  style="text-align:left;width:15%;">
+                    @Html.LabelFor(s => s.Email)<label style="color:red"> *</label>
+                 </td>
+                 <td  style="width:32%;">
+                    @Html.TextBoxFor(s => s.Email, new { @tabindex = 3 })
+                    @Html.ValidationMessageFor(s => s.Email)
+                 </td>
+          </tr>
+          <tr>
+                 <td></td>
+                  <td  style="text-align:left;width:15%;">
+                      @Html.LabelFor(s => s.ModuleID)<label style="color:red"> *</label>
+                  </td>
+                  <td  style="text-align:left;width:32%;">
+                          @Html.DropDownListFor(s => s.ModuleID, Model.LstModule, new { @id = "ddlModule", @tabindex = 4 })
+                          @Html.ValidationMessageFor(s => s.ModuleID)
+                  </td>
+                   <td  style="text-align:left;width:10%;" >
+                      @Html.LabelFor(s => s.Category)<label style="color:red"> *</label>
+                  </td>
+                  <td  style="text-align:left;width:32%;">
+                          @Html.DropDownListFor(s => s.Category, Model.lstCategory, new { @id = "ddlModule", @tabindex = 5 })
+                          @Html.ValidationMessageFor(s => s.Category)
+                  </td>
+          </tr>
+          <tr>
+                <td style="width:8%;">
+               </td>
+               <td  style="text-align:left;width:15%;">
+                        @Html.LabelFor(s => s.Subject)<label style="color:red"> *</label>
+                 
+                </td>
+                <td  style="width:32%;">
+                        @Html.TextBoxFor(s => s.Subject, new { @tabindex = 6, style="width:500px;"})
+                        @Html.ValidationMessageFor(s => s.Subject)
+                </td>
+                <td>
+                </td>
+                <td>
+                </td>
+           </tr>
+            <tr>
+                <td></td>
+                <td  style="text-align:left;width:15%;">
+                        @Html.LabelFor(s => s.Remarks)<label style="color:red"> *</label>
+                 
+                </td>
+                <td  style="width:32%;" colspan="3">
+                        @Html.TextAreaFor(s => s.Remarks, new { @tabindex = 7,style="width:500px;height:80px;resize:none" })
+                        @Html.ValidationMessageFor(s => s.Remarks)
+                </td>
+            </tr>
+              <tr>
+                <td></td>
+                <td></td>
+                   <td  style="text-align:right;">
+                         <input type="button" id="btnSubmit" name="btnSubmit" value="Submit" class= "jqueryButton" title="Submit" tabindex="8"  /> 
+                         <input type="reset" id="btnReset" name="btnSubmit" value="Reset" class= "jqueryButton" title="Reset" tabindex="9"  /></td> 
+                  <td></td>
+                  <td></td>
+            </tr>
+        </table>
+        </center>
+</form>

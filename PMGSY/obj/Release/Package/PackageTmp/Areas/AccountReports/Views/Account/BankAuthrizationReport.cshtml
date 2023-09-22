@@ -1,0 +1,15 @@
+﻿@using MvcReportViewer
+@model PMGSY.Areas.AccountReports.Models.BankAuthrizationViewModel
+
+
+<div id="AccBankAuthorizationIssued" style="width: 100%; height: 590px; overflow-x: hidden; overflow-y: hidden">
+@Html.MvcReportViewer("/PMGSYCitizen/AccBankAuthorizationIssued",
+     new {  
+         PrmFundType=PMGSY.Extensions.PMGSYSession.Current.FundType,
+         PrmMonth=Model.Month,
+         PrmYear=Model.Year,
+         PrmStateNDCode=Model.State,
+         PrmDPIUNDCode=Model.DPIU
+         },
+     new { Height = 600, Width = 1220, style = "border:none;" })
+</div>

@@ -1,0 +1,11 @@
+﻿@using MvcReportViewer
+@model PMGSY.Areas.AccountReports.Models.FundPostionModel
+
+@Html.MvcReportViewer("/PMGSYCitizen/Acc_Fund_Position_SRRDA",
+     new
+     {
+         FYEAR = Convert.ToInt32(Model.Year),
+         FundType = PMGSY.Extensions.PMGSYSession.Current.FundType
+     },
+     new { Height = 675, Width = "100%", style = "border:none;" })
+

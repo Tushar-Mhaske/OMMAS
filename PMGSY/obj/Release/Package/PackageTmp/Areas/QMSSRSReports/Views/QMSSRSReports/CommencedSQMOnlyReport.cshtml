@@ -1,0 +1,15 @@
+﻿@using MvcReportViewer
+
+@model PMGSY.Areas.QMSSRSReports.Models.QualityReportsViewModel
+
+    @Html.MvcReportViewer("/PMGSYCitizen/QM_Commenced_Insp_SQM_Only_Report",
+     new
+     {
+         level = Model.Level,
+         state = Model.State,
+         district = Model.District,
+         status = Model.Status,
+         qmtype = Model.qmType,
+         scheme = PMGSY.Extensions.PMGSYSession.Current.PMGSYScheme
+     },
+       new { Height = 600, Width = "100%", style = "border:none;" })

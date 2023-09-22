@@ -1,0 +1,51 @@
+﻿@using MvcReportViewer
+@model PMGSY.Models.EAuthorization.SRRDAeAuthorizationListModel
+@{
+    ViewBag.Title = "SRRDAReportLayout";
+}
+
+<html>
+    @*<head>
+        <style>
+                    .ui-widget-overlay {
+          opacity: 0.5;
+          filter: Alpha(Opacity=50);
+          background-color: black;
+        }
+        </style>
+    </head>*@
+
+
+
+
+<script>
+
+    var EncryptedEauthID = '@Model.EncryptedEAuthID';
+
+</script>
+    <script src="~/Scripts/EAuthorization/SRRDAReportLayout.js"></script>
+
+
+
+
+
+    <div id="divEAuth" style="width: 100%; height: 100%; overflow-x: hidden; overflow-y: hidden;background:none!important">
+
+        <input type="button" id="btnSendEmail" value="Finalize and Send Mail" class="jqueryButton" title="Click here to Send Mail" style="width: 8%; margin-left: 0%; text-align: center"><br /><br />
+
+        @Html.MvcReportViewer("/PMGSYCitizen/EAuthorization",
+     new
+     {
+         EauthID = Model.EAUTH_ID,
+         StateCode=Model.StateCode,
+         FundType=Model.FUND_TYPE,
+         PiuAdminNDCode=Model.PIU_ADMIN_ND_CODE,
+         EoAdminNDCode=Model.EO_ADMIN_ND_CODE
+
+     },
+     new { Height = 500, Width = 1800, style = "border:solid #E5E4E2 2px;" })
+    </div>
+
+    @*<input type="button" id="btnSendEmail" value="Finalize and Send Mail" class="jqueryButton" title="Click here to Send Mail" style="width: 8%; margin-left: 45%; text-align: center">*@
+
+    </html>

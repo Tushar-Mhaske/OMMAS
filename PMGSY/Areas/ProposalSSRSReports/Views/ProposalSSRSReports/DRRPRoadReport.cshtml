@@ -1,0 +1,18 @@
+﻿@using MvcReportViewer
+
+@model PMGSY.Areas.ProposalSSRSReports.Models.DRRPRoadwiseReportModel
+
+ @Html.MvcReportViewer("/PMGSYCitizen/DRRP_Road_Report",
+     new
+     {
+         Level = Model.StateCode == 0 ? 1 : ((Model.StateCode != 0 && Model.DistrictCode == 0) ? 2 :3),
+         State = Model.StateCode,
+         District = Model.DistrictCode,
+         Block = Model.BlockCode,
+         PMGSY = PMGSY.Extensions.PMGSYSession.Current.PMGSYScheme,
+         StateName = Model.StateName,
+         DistName = Model.DistrictName,
+         BlockName = Model.BlockName                 
+
+     },
+       new { Height = 650, Width = "100%", style = "border:none;" })

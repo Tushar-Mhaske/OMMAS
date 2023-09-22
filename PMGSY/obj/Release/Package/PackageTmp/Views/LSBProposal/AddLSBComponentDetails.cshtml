@@ -1,0 +1,70 @@
+﻿@*
+    * Project Id    :
+    * Project Name  :   OMMAS II
+    * Name          :   AddLSBComponentDetails.cshtml
+    * Description   :   This View Adds the LSB Component Details to LSB Proposal
+    * Author        :   Shyam Yadav
+    * Modified By   :   Shivkumar Deshmukh        
+    * Creation Date :   20-05-2013
+*@
+@model PMGSY.Models.Proposal.LSBComponentModel
+
+<script src="~/Scripts/custom/Generic.js"></script>
+<script src="~/Scripts/Proposal/AddLSBComponentDetails.js"></script>
+
+<form id="frmLSBComponentDetails">
+    @Html.HiddenFor(model => model.IMS_PR_ROAD_CODE)
+    @Html.HiddenFor(model => model.OPERATION)
+
+    
+    <table class="rowstyle" id="tblComponentDetails" style="margin-top:10px; text-align:left; border:ridge 0.1em #ccc; width:100%; padding:5px 5px 5px 5px;">
+        
+        <tr>
+            <td style="width:15%">@Html.LabelFor(model => model.IMS_COMPONENT_CODE)<span style="color:red">*</span></td>           
+            <td style="width:35%"> 
+                @if(Model.OPERATION.Equals("U"))
+                {
+                    @Html.HiddenFor(model => model.IMS_COMPONENT_CODE)
+                    @Html.DropDownListFor(model => model.IMS_COMPONENT_CODE, new SelectList(Model.COMPONENT_TYPE, "Value", "Text"), new { disabled="disabled" })
+                }
+               else
+               {
+                    @Html.DropDownListFor(model => model.IMS_COMPONENT_CODE, new SelectList(Model.COMPONENT_TYPE, "Value", "Text"), "Select Description")
+                }
+            </td>
+            <td style="width:15%">@Html.LabelFor(model => model.IMS_QUANTITY)<span style="color:red">*</span></td>
+            <td style="width:35%"> 
+                @Html.TextBoxFor(model => model.IMS_QUANTITY, new {@placeholder="Enter Quantity", @maxlength= "10"})
+            </td>
+        </tr>
+        <tr>
+            <td></td>
+            <td>@Html.ValidationMessageFor(model => model.IMS_COMPONENT_CODE)</td>
+            <td></td>
+            <td> @Html.ValidationMessageFor(model => model.IMS_QUANTITY)</td>
+        </tr>
+        <tr>
+            <td style="width:15%">@Html.LabelFor(model => model.IMS_TOTAL_COST)<span style="color:red">*</span></td>
+            <td style="width:35%"> 
+                @Html.TextBoxFor(model => model.IMS_TOTAL_COST, new {@placeholder="Enter Cost (in lakhs)", @maxlength= "10"})
+            </td>
+            <td style="width:15%">@Html.LabelFor(model => model.IMS_GRADE_CONCRETE)<span style="color:red">*</span></td>
+            <td style="width:35%"> 
+                @Html.TextBoxFor(model => model.IMS_GRADE_CONCRETE, new {@placeholder="Enter Grade Concrete (in lakhs)" , @maxlength= "10"})
+            </td>
+        </tr>
+         <tr>
+            <td></td>
+            <td>@Html.ValidationMessageFor(model => model.IMS_TOTAL_COST)</td>
+            <td></td>
+            <td>@Html.ValidationMessageFor(model => model.IMS_GRADE_CONCRETE)</td>
+        </tr>
+       <tr>
+         <td colspan="4" style="text-align:center">
+            <input type="button" id="btnSave" name="btnSave" value="Save" class="jqueryButton"/>
+             <input type="reset" id="btnReset" name="btnReset" value="Reset" class="jqueryButton" />
+          </td>
+      </tr>
+ </table>
+
+</form>

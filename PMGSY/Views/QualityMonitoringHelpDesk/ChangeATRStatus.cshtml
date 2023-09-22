@@ -1,0 +1,41 @@
+﻿
+<script>
+    function updateATR()
+    {
+        if (!($.isNumeric($("#txtObsId").val())))
+        {
+            alert("Please Enter Valid Numeric Value");
+            return false;
+        }
+        if ( parseInt($("#txtObsId").val()) <= 0 ) {
+            alert("Please Enter Observation Id Greater Than 0");
+            return false;
+        }
+
+        if (confirm("Are you sure to update ATR?"))
+        {
+            $.ajax({
+                url: '/QualityMonitoringHelpDesk/UpdateATRStatus/',
+                type: 'POST',
+                data: { obsId: $("#txtObsId").val(), value: Math.random() },
+                success: function (response) {
+                    if (response.Success) {
+                        alert("ATR Regraded successfully");
+                        $("#txtObsId").val(0);
+                    }
+                    else {
+                       alert(response.ErrorMessage);
+                    }
+                },
+                error: function (xhr, ajaxOptions, thrownError) {
+                    alert(xhr.status);
+                    alert(thrownError);
+                }
+            });
+        }
+    }
+</script>
+
+<label style="font-weight:bold;">Observation Id</label>
+<input type="text" id="txtObsId" />
+<input type="button" id="btnUpdateATR" value="Regrade ATR" onclick="updateATR();" />

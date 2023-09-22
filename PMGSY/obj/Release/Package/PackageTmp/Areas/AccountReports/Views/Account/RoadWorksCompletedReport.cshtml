@@ -1,0 +1,12 @@
+﻿@using MvcReportViewer
+@model PMGSY.Areas.AccountReports.Models.RoadWiseCompleted
+@Html.MvcReportViewer("/PMGSYCitizen/RoadWorksCompleted",
+     new
+     {
+         State = Model.Mast_State_Code,
+         District = Model.Mast_District_Code,
+         Block = Model.Mast_Block_Code,
+         PMGSY = Model.schemeCode,//PMGSY.Extensions.PMGSYSession.Current.PMGSYScheme,
+         COMYEAR = Model.Year,
+    },
+     new { Height = 600, Width = "100%", style = "border:none;" })

@@ -1,0 +1,65 @@
+﻿@**
+        * Project Id    :
+        * Project Name  :   OMMAS II
+        * Name          :   CQCLayout.cshtml
+        * Description   :   View for CQCLayout
+        * Author        :   Shyam Yadav 
+        * Creation Date :   10/Jun/2013
+ **@
+<!DOCTYPE html>
+
+<html>
+<head>
+<style type="text/css">
+    #preview {        
+        border: 1px solid #ccc;
+        position: absolute;
+        background: #333;
+        padding: 5px;
+        display: none;
+        color: #fff;
+    }
+    td {
+        height: 20px;
+        text-align:left;
+    }
+    body {
+        text-align:left;
+    }
+
+</style>
+
+
+<script src="~/Scripts/custom/Generic.js"></script>
+<script src="~/Scripts/jquery.ui.tabs.js"></script>
+<script src="~/Scripts/Bootstrap/bootstrap.min.js"></script>
+<script src="~/Scripts/jquery-ui.js"></script>
+<script src="~/Scripts/QualityMonitoring/CQCLayout.js"></script>
+
+</head>
+<body>
+
+    <div id="divCQCError" class="ui-state-error ui-corner-all" style="text-align: left; display: none; width: 99%">
+        <span class="ui-icon ui-icon-alert" style="float: left;"></span>
+        <span></span>
+    </div>    
+ 
+    <div id="divCQCLayout" style="width:98%;">
+         @{Html.RenderAction("CQCFilters", "QualityMonitoring");}
+        
+        <div id="divCQCScheduleListForNQM" style="width:100%;margin-top:15px;" >
+            <table id="tbMonitorsObsList"></table>
+            <div id="dvMonitorsObsListPager"></div>
+
+            <div id="accordionObsMonitors" style="display:none;width:100%;margin-top:10px;">            
+                    <h3 style="text-align:left"><a id="" href="#" style=" font-size:.9em;" >Observation Details</a>
+                        <a href="#"  style="float: right;">
+                            <img style="border:none" class="ui-icon ui-icon-closethick" onclick="closeMonitorsObsDetails();" /></a>
+                    </h3>
+                    <div id="divMonitorsObservationDetails" style="display:none;"></div>                     
+            </div>
+        </div>
+    </div>
+
+</body>
+</html>

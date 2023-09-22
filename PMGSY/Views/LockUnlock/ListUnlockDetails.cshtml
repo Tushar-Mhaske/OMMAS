@@ -1,0 +1,169 @@
+﻿<script src="~/Scripts/custom/Generic.js"></script>
+<script src="~/Scripts/jquery.multiselect.min.js"></script>
+<script src="~/Scripts/jquery.ui.accordion.js"></script>
+<link href="~/Content/jquery.multiselect.css" rel="stylesheet" />
+<script src="~/Scripts/LockUnlock/ListUnlockDetails.js"></script>
+
+@{
+    int roleCode = PMGSY.Extensions.PMGSYSession.Current.RoleCode;
+}
+
+@if (PMGSY.Extensions.PMGSYSession.Current.RoleCode != 36 && PMGSY.Extensions.PMGSYSession.Current.RoleCode != 47 && PMGSY.Extensions.PMGSYSession.Current.RoleCode != 56)
+{
+    <div style="margin-top: 10px; margin-bottom: 5px">
+        <div style="margin-left: 10px;" class="ui-state-default ui-corner-all jqueryButton" id="lblViewRecords">
+            <span style="float: left" class="ui-icon ui-icon-circle-triangle-w"></span><span style="float: left; margin-right: 5px">View Unlocked Records</span>
+        </div>
+        <div style="margin-left: 10px; display: none" class="ui-state-default ui-corner-all jqueryButton" id="lblUnlockRecords">
+            <span style="float: left" class="ui-icon ui-icon-circle-triangle-w"></span><span style="float: left; margin-right: 5px">Unlock Records</span>
+        </div>
+    </div>
+}
+@if (PMGSY.Extensions.PMGSYSession.Current.RoleCode == 36 || PMGSY.Extensions.PMGSYSession.Current.RoleCode == 56)
+{
+    <div id="dvhdLockUnlockRecords" class="ui-corner-top ui-widget-header panelheader" style="text-align: left; margin-left: 0px; margin-right: 0px; margin-top: 10px; height: 20px;">
+        <span class="ui-jqgrid-title" style="float: left">&nbsp;Lock/Unlock Records</span>
+
+        @*<span id="spCollapseIconS_LockUnlockRecords" class="ui-icon ui-icon-circle-triangle-n" style="float: right"></span>*@
+    </div>
+}
+<center>
+<div style="width: 99.9%; border:none; margin-top:0px; margin-bottom:5px; border: ridge 0.1em #ccc;" class="ui-corner-bottom">
+    
+    <div id="filterMenuForm" >
+    <form id="formModuleFilter">
+        <table style=" width:99%; margin-top:10px; margin-bottom:0px" class="rowstyle">
+            <tr>
+                @Html.Hidden("RoleCode", roleCode)
+                <td style="width:15%"></td>
+                <td>Module</td>
+                <td>@Html.DropDownList("ddlModule", ViewData["Module"] as IEnumerable<SelectListItem>, new { @id = "ddlModule", @title = "Select Module To Lock/Unlock Data." })</td>
+                <td>Level</td>
+                <td>@Html.DropDownList("ddlLevel", ViewData["Level"] as IEnumerable<SelectListItem>, new { @id = "ddlLevel", @title = "Select Level" })</td>
+                <td id="roleName">Role</td>
+                <td>@Html.DropDownList("ddlRole", ViewData["Role"] as IEnumerable<SelectListItem>, new { @id = "ddlRole", @title = "Select Role" })</td>
+                <td style="width:5%"></td>
+            </tr>
+        </table>
+        <div id="divFilterForm" style="margin-top:10px;margin-bottom:10px;display:none">
+        </div>
+        <div id="divAddState" style="display:none;margin-top:20px">
+            <table id="tblstState"></table>
+            <div id="pagerlistState"></div>
+        </div>
+        <div id="divAddDistrict" style="display:none;margin-top:20px">
+            <table id="tblstDistricts"></table>
+            <div id="pagerlistDistricts"></div>
+        </div>
+        <div id="divAddBlock" style="display:none;margin-top:20px">
+            <table id="tblstBlocks"></table>
+            <div id="pagerlistBlocks"></div>
+        </div>
+        <div id="divAddVillage" style="display:none;margin-top:20px">
+            <table id="tblstVillages"></table>
+            <div id="pagerlistVillages"></div>
+        </div>
+        <div id="divAddHabitation" style="display:none;margin-top:20px">
+            <table id="tblstHabs"></table>
+            <div id="pagerlistHabs"></div>
+        </div>
+        
+      @if (PMGSY.Extensions.PMGSYSession.Current.RoleCode == 36 || PMGSY.Extensions.PMGSYSession.Current.RoleCode == 47 || PMGSY.Extensions.PMGSYSession.Current.RoleCode == 56)
+      {
+            <div id="divAddProposalITNO">
+            <table id="tblstProposalITNO"></table>
+            <div id="pagerlistProposalITNO"></div>
+            </div>
+            <div style="margin-top:20px;" id="dvitnoProposalDetails">
+                <table id="tbItnoProposalList"></table>
+                <div id="pgItnoProposalList"></div>
+            </div>
+      }
+      else
+      {
+            <div id="divAddProposal">
+            <table id="tblstProposal"></table>
+            <div id="pagerlistProposal"></div>
+            </div> 
+      }
+        <div id="divAddExistingRoads">
+            <table id="tblstExistingRoads"></table>
+            <div id="pagerlistExistingRoads"></div>
+        </div>
+        <div id="divAddCoreNetwork">
+            <table id="tblstCoreNetwork"></table>
+            <div id="pagerlistCoreNetwork"></div>
+        </div>
+        <div id="divAddYears" style="margin-top:20px; width:96%">
+            <table id="tbPropYears"></table>
+            <div id="pagerPropYears"></div>
+        </div>
+        <div id="divAddBatches" style="margin-top:20px; width:96%">
+            <table id="tbPropBatches"></table>
+            <div id="pagerPropBatches"></div>
+        </div>
+        </form>
+</div>
+</div>
+<div id="accordion" style="display:none;width:98%" >
+    <h3 style="text-align:left"><a id="" href="#" style=" font-size:.9em;" >Add Unlock Details</a>
+                <a href="#"  style="float: right;">
+                    <img src="" class="ui-icon ui-icon-closethick" onclick="CloseLockDetails();" /></a>
+            </h3>
+    <div id="divAddUnlockDetails" style="display:none"></div>
+</div>
+@if (PMGSY.Extensions.PMGSYSession.Current.RoleCode != 36 && PMGSY.Extensions.PMGSYSession.Current.RoleCode != 47 && PMGSY.Extensions.PMGSYSession.Current.RoleCode != 56)
+{
+<div id="dvUnlockRecords" style="width: 98%; border:none; margin-top:15px; margin-bottom:10px;display:none">
+    <table style="margin-top:10px; margin-bottom:20px";>
+        <tr>
+            <td>State</td>
+            <td>@Html.DropDownList("State", ViewData["State"] as IEnumerable<SelectListItem>, new { @id = "ddlState", @title = "Select State To View Unlocked Data." })</td>
+            <td>
+                Module
+            </td>
+            <td>
+                @Html.DropDownList("FilterModule", ViewData["FilterModule"] as IEnumerable<SelectListItem>, new { @id = "ddlFilterModule", @title = "Select Module To View Unlocked Data." })
+            </td>
+        </tr>
+        <tr>
+            <td colspan="4">
+                <center>
+                    <input type="button" id="btnViewData" name="btnSubmit" value="View Unlock Records" class= "jqueryButton" title="View Unlock Records" style="text-align:center;margin-left:10px" /> 
+                </center>
+            </td>
+        </tr>
+    </table>
+    <div style="margin-top:20px">
+        <table id="tbUnlockRecordList"></table>
+        <div id="pgUnlockRecordList"></div>
+    </div>
+    
+</div>
+}
+<div id="dvLevelDetails" style="width:98%">
+    <div id="dvProposalDetails" style="display:none;margin-top:20px">
+        <table id="tblstPropView"></table>
+        <div id="dvpgDetails"></div>
+    </div>
+    <div id="dvCNDetails" style="display:none;margin-top:20px">
+        <table id="tblstCNView"></table>
+        <div id="dvpgCNDetails"></div>
+    </div>
+    <div id="dvDRRPDetails" style="display:none;margin-top:20px">
+        <table id="tblstDRRPView"></table>
+        <div id="dvpgDRRPDetails"></div>
+    </div>
+    <div id="dvVillageDetails" style="display:none;margin-top:20px">
+        <table id="tblstVillageView"></table>
+        <div id="dvpgVillageDetails"></div>
+    </div>
+    <div id="dvHabDetails" style="display:none;margin-top:20px">
+        <table id="tblstHabView"></table>
+        <div id="dvpgHabDetails"></div>
+    </div>
+</div>
+
+</center>
+
+

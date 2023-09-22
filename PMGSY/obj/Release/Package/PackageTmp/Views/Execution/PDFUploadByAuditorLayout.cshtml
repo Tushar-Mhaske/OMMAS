@@ -1,0 +1,227 @@
+﻿@**
+        * Project Id    :
+        * Project Name  :   OMMAS II
+        * Name          :  
+        * Description   :   
+        * Author        :     
+        * Creation Date :   
+ **@
+@model PMGSY.Models.Execution.FileUploadViewModelATR
+
+<link href="~/Content/Bootstrap/bootstrap.css" rel="stylesheet" />
+<link href="~/Content/Bootstrap/bootstrap-responsive.css" rel="stylesheet" />
+<link href="~/Content/jquery.fileupload-ui.css" rel="stylesheet" />
+
+<script src="~/Scripts/FileUpload/tmpl.js"></script>
+<script src="~/Scripts/FileUpload/load-image.js"></script>
+<script src="~/Scripts/FileUpload/canvas-to-blob.js"></script>
+<script src="~/Scripts/FileUpload/jquery.iframe-transport.js"></script>
+<script src="~/Scripts/FileUpload/jquery.fileupload.js"></script>
+<script src="~/Scripts/FileUpload/jquery.fileupload-fp.js"></script>
+<script src="~/Scripts/FileUpload/jquery.fileupload-ui.js"></script>
+
+<script src="~/Scripts/knockout-2.1.0.debug.js"></script>
+<script src="~/Scripts/knockout-2.1.0.js"></script>
+
+
+<script src="~/Scripts/Execution/PDFUploadAuditor.js"></script>
+<style type="text/css">
+    #preview {
+        
+        border: 1px solid #ccc;
+        position: absolute;
+        background: #333;
+        padding: 5px;
+        display: none;
+        color: #fff;
+    }
+</style>
+
+
+@if (Model.IsFinalized.Equals("Y"))
+{ 
+}
+else
+{
+<div>
+    <ul style="text-align: left">
+        <li>File Type Extenssion should be [*.pdf].
+        </li>
+        <li>Upload only 1 File. 
+        </li>
+        <li>Maximum Size of File must not be Greator than 4 MB.
+        </li>
+        @*<li>Click on File Symbol to View / Download File.
+         </li>*@
+    </ul>
+</div>
+}
+
+<div id="divImgUploadError" class="ui-state-error ui-corner-all" style="text-align: left; display: none; width: 100%">
+    <span class="ui-icon ui-icon-alert" style="float: left;"></span>
+    <span></span>
+</div>
+
+<div id="divSuccess" class="ui-state-default ui-corner-all" style="text-align: left; display: none; height: 25px">
+    <span class="" style="float: left; height: 25px; margin-top: 5px; margin-left: 5px;">File Uploaded Successfully.
+    </span>
+    <span></span>
+</div>
+<br />
+<form id="fileupload" action="@Url.Action("PDFUploadByAuditor")" method="POST" enctype="multipart/form-data" >
+     @Html.HiddenFor(model => model.ATRId)
+    @Html.HiddenFor(model => model.IMS_PR_ROAD_CODE)
+ 
+    @Html.HiddenFor(model => model.NumberofFiles)
+    @Html.HiddenFor(model => model.DocumentName)
+    @Html.HiddenFor(model => model.IsFinalized)
+
+    @Html.Hidden("hdnRoleImgUpload",PMGSY.Extensions.PMGSYSession.Current.RoleCode.ToString())
+    <!-- The fileupload-buttonbar contains buttons to add/delete files and start/cancel the upload -->
+    <center>
+
+        @if (Model.NumberofFiles != 20)
+        { 
+        <div class="row fileupload-buttonbar" style="text-align:left">
+        
+        <div style="text-align:left" class="span4">           
+        
+        <table>
+            <tr>
+                @if (Model.IsFinalized.Equals("Y"))
+{ 
+}
+else
+{
+                <td style="text-align:left">
+                    <!-- The fileinput-button span is used to style the file input field as button -->
+                    <span class="btn btn-success fileinput-button">
+                        <i class="icon-plus icon-white"></i>
+                        <span>Add Files</span>
+                        <input type="file" name="files">
+                    </span>
+                </td>
+
+                <td style="text-align:left; display:none;">           
+                     <button type="submit" class="btn btn-primary start">
+                        <i class="icon-upload icon-white"></i>
+                        <span>Upload All</span>
+                    </button>
+                </td>
+                }
+                <td>
+                    <button type="reset" id="btnCancelImageUpload" class="btn btn-warning cancel">
+                        <i class="icon-ban-circle icon-white"></i>
+                        <span>Cancel Upload</span>
+                    </button>
+                </td>
+            </tr>
+        </table>
+
+            
+@*            <button type="button" class="btn btn-danger delete">
+                <i class="icon-trash icon-white"></i>
+                <span>Delete</span>
+            </button>*@
+        </div>
+        
+        @*The global progress information*@
+        <div id="divGlobalProgress" class="span4 fileupload-progress fade">
+            <!-- The global progress bar -->
+            <div class="progress progress-success progress-striped active" role="progressbar" aria-valuemin="0" aria-valuemax="100">
+                <div class="bar" style="width:0%;"></div>
+            </div>
+            <!-- The extended global progress information -->
+            <div class="progress-extended" style="font-weight:bold; text-align:center">&nbsp;</div>
+        </div>
+    </div>
+        }
+    </center>
+    <!-- The loading indicator is shown during file processing
+    <div class="fileupload-loading"></div> -->
+    <br>
+    @*The table listing the files available for upload/download *@
+    <table id="tblPresentation" role="presentation" class="table table-striped">
+        <tbody class="files" data-toggle="modal-gallery" data-target="#modal-gallery"></tbody>
+    </table>
+</form>
+
+<!-- The template to display files available for upload -->
+<script id="template-upload" type="text/x-tmpl">
+<tr>
+    <td></td>
+    <td>Name</td>
+    <td>Size</td>
+    <td></td>
+    <td>Description<span style='color:red'></span></td>
+    <td></td>
+    <td></td>
+</tr>
+
+{% for (var i=0, file; file=o.files[i]; i++) { %}
+    
+    <tr class="template-upload fade">
+        <td class="preview"><span class="fade"></span></td>
+        <td class="name"><span>{%=file.name%}</span></td>
+        <td class="size"><span>{%=o.formatFileSize(file.size)%}</span></td>
+        {% if (file.error) { %}
+            <td class="error" colspan="2"><span class="label label-important">Error</span> {%=file.error%}</td>
+        {% } else if (o.files.valid && !i) { %}
+            <td>
+                <div class="progress progress-success progress-striped active" role="progressbar" aria-valuemin="0" aria-valuemax="100" aria-valuenow="0"><div class="bar" style="width:0%;"></div></div>
+            </td>
+            <td class="title"><label><input id='txtChainage' maxlength='8' name="chainageValue[]" style="display:none;"><textarea id='txtRemark' maxlength='250' name="remark[]" style='height: 50px' required> </textarea></label>
+            
+                    @Html.HiddenFor(model => model.IMS_PR_ROAD_CODE)
+                  
+            </td>
+
+            <td class="start">{% if (!o.options.autoUpload) { %}
+                <button class="btn btn-primary">
+                    <i class="icon-upload icon-white"></i>
+                    <span>Upload</span>
+                </button>
+            {% } %}</td>
+        {% } else { %}
+            <td colspan="2"></td>
+        {% } %}
+        <td class="cancel">{% if (!i) { %}
+            <button class="btn btn-warning">
+                <i class="icon-ban-circle icon-white"></i>
+                <span>Cancel</span>
+            </button>
+        {% } %}</td>
+    </tr>
+{% } %}
+</script>
+
+<script id="template-download" type="text/x-tmpl">
+{% for (var i=0, file; file=o.files[i]; i++) { %}
+    <tr class="template-download fade">
+        {% if (file.error) { %}
+            <td></td>
+            <td class="name"><span>{%=file.name%}</span></td>
+            <td class="size"><span>{%=o.formatFileSize(file.size)%}</span></td>
+            <td class="error" colspan="2"><span class="label label-important">File Uploading Failed.Please try again.</span></td>
+            <td class="delete">
+            <button class="btn btn-danger" data-type="{%=file.delete_type%}" data-url="{%=file.delete_url%}"{% if (file.delete_with_credentials) { %} data-xhr-fields='{"withCredentials":true}'{% } %}>
+                <i class="icon-trash icon-white"></i>
+                <span>Delete</span>
+            </button>            
+        </td>
+        {% } %}                    
+    </tr>
+{% } %}
+</script>
+
+
+
+
+<div id="dvFiles" style="margin-top: 0px; width: 100%">
+    <table id="tbFilesList"></table>
+    <div id="dvFilesListPager"></div>
+</div>
+
+@*Added by SAMMED A. PATIL on 27DEC2017 for Upload Missing Images*@
+<div id="dvQMImageUploadModal"></div>
+

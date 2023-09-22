@@ -1,0 +1,26 @@
+﻿@model PMGSY.Models.PFMS.PFMSDownloadXMLViewModel
+
+<script src="~/Scripts/custom/Generic.js"></script>
+<script src="~/Scripts/PFMS/DSCDetailsForDeregister.js"></script>
+
+<div id="dvhdDSCDetailsForDeregister" class="ui-corner-top ui-widget-header panelheader" style="text-align: left; height: 20px;">@*margin-left:0px;margin-right:0px;margin-top:0px; *@
+    <span class="ui-jqgrid-title" style="float: left">&nbsp;DSC Details to Deregister for PFMS</span>
+
+    @*<span id="spCollapseIconAddDropOrder" class="ui-icon ui-icon-circle-triangle-n" style="float: right"></span>*@
+</div>
+<div id="dvDSCDetailsForDeregister" class="ui-corner-bottom" style="display: block; border: 1px solid #B5B8C8;">
+    <form id="frmDSCDetailsForDeregister">
+        @Html.ValidationSummary(true)
+        @Html.AntiForgeryToken()
+
+
+        @if (PMGSY.Extensions.PMGSYSession.Current.AdminNdCode == Convert.ToInt32(System.Configuration.ConfigurationManager.AppSettings["PFMSDeregisterDSC"]))
+        {
+            <div style="margin-top: 10px; width: 98%; margin-left: 5px; margin-bottom: 5px;">
+                <table id="tblDSCDetailsForDeregister"></table>
+                <div id="dvPagerDSCDetailsForDeregister"></div>
+            </div>
+            <div id="containerDsc" style="margin-top: 20px"></div>
+        }
+    </form>
+</div>

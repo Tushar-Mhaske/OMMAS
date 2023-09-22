@@ -1,0 +1,154 @@
+﻿
+
+@model PMGSY.Models.PaymentMasterModel
+
+
+
+
+<script src="~/Scripts/jquery.ui.datepicker.js"></script>
+<script src="~/Scripts/custom/Generic.js"></script>
+<script src="~/Scripts/jquery.ui.dialog.js"></script>
+
+@*<script src="~/Scripts/Payment/TransferDeductionAmountToHoldAcc.js"></script>*@
+<script src="~/Scripts/Payment/TransferDeductionAmtDilogueBox.js"></script>
+
+<script type="text/javascript">
+
+    $(document).ready(function () {
+
+        $("#transfer").dialog({
+            autoOpen: false,
+            // height:550,
+            width: 1050,
+            modal: true,
+            title: 'Transfer Deduction Amount to Holding Account',
+            show: {
+                effect: "blind",
+                duration: 1000
+            },
+            hide: {
+                effect: "explode",
+                duration: 1000
+            }
+
+        });
+
+        $("#vDate").datepicker({
+            showOn: 'button',
+            buttonImage: '/Content/images/calendar_2.png',
+            buttonImageOnly: true,
+            changeMonth: true,
+            changeYear: true,
+            dateFormat: "dd/mm/yy",
+            maxDate: new Date(),
+            onClose: function () {
+                $(this).focus().blur();
+            }
+
+        });
+
+        $('#btnClose').click(function () {
+
+            $("#transfer").dialog('close');
+        });
+
+       
+    });
+
+
+
+
+
+</script>
+<div id="transfer">
+
+
+    <form id="tranferDeductionForm">
+        @Html.ValidationSummary(false, "", new { @class = "text-danger" })
+        @Html.HiddenFor(model => model.BILL_MONTH)
+
+        @Html.HiddenFor(Model => Model.BILL_DATE)
+        @*@Html.HiddenFor(model => model.BILL_YEAR);*@
+        @*    @Html.HiddenFor(model => model.PAYEE_NAME, new { id = "pName" })
+            @Html.HiddenFor(model => model.DEDUCTION_AMOUNT, new { id = "dAmt" })*@
+
+
+
+        <table id="formTable" class="ui-corner-all rowstyle" style="width: 98%; border: .1em solid gray; padding:1rem;" cellspacing="1px">
+            <tr>
+                <td>@Html.HiddenFor(model => model.BILL_ID)</td>
+                @*<td>@Html.HiddenFor(model => model.TextConcat)</td>*@
+                <td>@Html.HiddenFor(model => model.TextConcat, new { @id = "idTextConcat" })</td>
+
+
+            </tr>
+            <tr>
+
+                <td style="text-align: left; width: 15%">
+                    @Html.LabelFor(model => model.BILL_DATE)
+                    <label style="color: red">*</label>
+                </td>
+
+                <td style="text-align: left; width: 25%">
+                    @Html.TextBoxFor(model => model.BILL_DATE, new { @style = "width:80%;padding:0.2rem", @id = "vDate", @tabindex = "11", @title = "Voucher Date", @readonly = "readonly", })
+                    <br />
+                    @Html.ValidationMessageFor(model => model.BILL_DATE)
+                </td>
+
+
+                <td style="text-align: right; width: 15%">
+                    @Html.LabelFor(model => model.BILL_NO)<label style="color: red">*</label>
+                </td>
+                <td style="text-align: center; width: 25%">
+                    @Html.TextBoxFor(model => model.BILL_NO, new { @style = "padding:0.2rem", @tabindex = "10", @title = "Voucher Number", @readonly = "readonly" })
+                    <br />
+                    @Html.ValidationMessageFor(model => model.BILL_NO)
+
+                </td>
+
+            </tr>
+
+            <tr>
+
+                <td style="text-align: left; width: 15%">
+                    @Html.LabelFor(model => model.EPAY_NO, "Epay No")
+                    <label style="color: red">*</label>
+                </td>
+                <td style="text-align: left; width: 25%">
+                    @Html.TextBoxFor(model => model.EPAY_NO, new { @style = "width:80%;margin-top:0.5rem;padding:0.2rem", Title = "Epayment Number ", placeholder = "Enter Epayment Number", @readonly = "readonly", @tabindex = "17" })
+                    <br />
+                    @Html.ValidationMessageFor(model => model.EPAY_NO)
+                </td>
+
+                <td style="text-align: right; width: 15%">
+                    @Html.LabelFor(model => model.DEDUCTION_AMOUNT)
+                    <label style="color: red">*</label>
+                </td>
+                <td style="text-align: center; width: 25%">
+                    @Html.TextBoxFor(model => model.DEDUCTION_AMOUNT, new { @style = "margin-top:0.5rem;padding:0.2rem", @tabindex = "10", @readonly = "readonly", @title = "Deduction Amount", @class = "TAC" })
+                    <br />
+                    @Html.ValidationMessageFor(model => model.DEDUCTION_AMOUNT)
+                </td>
+
+
+                <td></td>
+            </tr>
+
+            <tr>
+                <td></td>
+                <td></td>
+                <td style="text-align:left">
+                    <input type="button" style="padding:0.3rem;margin-top:0.7rem" id="btnSubmitTransfer" value="Submit" class="jqueryButton" title="Close" tabindex="300" />
+                    <input type="button" style="padding:0.3rem;margin-top:0.7rem" id="btnClose" value="Close" class="jqueryButton" title="Close" tabindex="300" />
+                </td>
+                <td></td>
+                <td></td>
+            </tr>
+
+        </table>
+
+
+    </form>
+
+</div>
+

@@ -1,0 +1,39 @@
+﻿@model PMGSY.Models.Master.QualityMonitorFileUploadViewModel
+
+<script src="~/Scripts/Master/QualityMonitorFileUpload.js"></script>
+
+<div id="dvFileUploadOption">   
+
+    <div id="dvhdrChequeBookDetails" class="ui-state-default ui-corner-all" style="margin-bottom: 05px; height: 20px">
+        
+        <table>
+            <tr>
+                <td style="text-align:left;width:10%">
+                  <span style="font-weight:bolder;font-size:13px"> Name : </span>@Model.QMName
+                </td>
+                <td style="text-align:left;width:10%">
+                  <span style="font-weight:bolder;font-size:13px">Designation :</span> @Model.QMDesignation
+                </td>
+                <td style="text-align:left;width:05%">
+               <span style="font-weight:bolder;font-size:13px"> Type :</span> @Model.QMType
+                </td>
+                <td style="text-align:left;width:10%">
+                  <span style="font-weight:bolder;font-size:13px"> State : </span> @Model.QMState
+                </td>
+            </tr>
+        </table>        
+   </div>
+
+   
+    <div style="display:none;">
+         @*<input type="radio" name ="UploadType" value="P" id="rdoPdf"/> <strong>Upload PDF File </strong>*@
+        <input type="radio" name="UploadType" checked="checked" value="I" id="rdoImage"  /><strong>Upload Image File </strong>      
+    </div>
+      
+</div>
+        @Html.HiddenFor(model => model.ADMIN_QualityMonitor_CODE)
+<div id="divImageUpload"  width:100%">
+</div>
+
+@*<div id="divPDF" style="display:none; width :100%">
+</div>*@

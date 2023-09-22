@@ -1,0 +1,43 @@
+﻿
+@using PMGSY.Extensions
+
+@{
+    ViewBag.Title = "ListBankDetails";
+}
+
+
+
+<script src="~/Scripts/custom/Generic.js"></script>
+<script src="~/Scripts/Bank/ListBankDetails.js"></script>
+<center>
+    <br />
+    <div class="ui-widget-header innerDivHeader" style="text-align:left">
+        Bank
+    </div>
+  
+<div id="divAddBankDetails" style="margin-top:20px; width:98%">
+     
+</div>
+
+@*@if(@PMGSY.Extensions.PMGSYSession.Current.LevelId == 4)
+{
+*@<div id="divBankDetailsList" style="margin-top:20px; width:98%">
+    
+    <table id="tblAddNewButton" style="width: 100%;">
+        <tr>
+
+            <td style="text-align: left">
+
+                <div class="ui-state-default ui-corner-all jqueryButton" id="btnCreateNew" title="Add/Edit Bank Details">
+                    <span style="float: left" class="ui-icon ui-icon-circle-plus"></span>
+                    @if(PMGSY.Extensions.PMGSYSession.Current.LevelId!=5){ <span style="float: left; margin-right: 5px">Add/Edit Bank Details </span>}else{<span style="float: left; margin-right: 5px">View Bank Details </span>}
+                </div>
+                </td>
+            </tr>
+    </table> 
+    <table id="tbBankDetailsList"></table>
+    <div id="pagerBankList"></div>
+</div>
+@*}*@
+</center>
+

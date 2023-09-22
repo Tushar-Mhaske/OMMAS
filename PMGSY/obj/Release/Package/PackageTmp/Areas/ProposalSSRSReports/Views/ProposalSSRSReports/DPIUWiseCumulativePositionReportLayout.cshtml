@@ -1,0 +1,111 @@
+﻿@model PMGSY.Areas.ProposalSSRSReports.Models.DPIUWiseCumulativePositionModel
+<script src="@Url.Content("~/Scripts/custom/Generic.js")" type="text/javascript" ></script>
+<script src="~/Areas/ProposalSSRSReports/Scripts/DPIUCummulativeReport.js"></script>
+<div id="dvhdCreateNewReportDetails" class="ui-corner-top ui-widget-header panelheader" style="text-align: left; height: 20px;">@*margin-left:0px;margin-right:0px;margin-top:0px; *@
+    <span class="ui-jqgrid-title" style="float: left">&nbsp;SDCP: DPIU Wise Cumulative Position </span>
+
+    <span id="spCollapseIconCN" class="ui-icon ui-icon-circle-triangle-n" style="float: right"></span>
+</div>
+<div id="dvSearchParameter" class="ui-corner-bottom" style="display: block; border: 1px solid #B5B8C8;">
+    <form id="frmDPIUCummlative">
+        @Html.ValidationSummary(true)
+        @Html.ValidationSummary(true)
+        @Html.HiddenFor(model => model.Mast_State_Code)
+        @Html.HiddenFor(model => model.Mast_District_Code)
+        @Html.HiddenFor(model => model.Mast_Block_Code)
+        @Html.HiddenFor(model => model.StateName)
+        @Html.HiddenFor(model => model.DistName)
+        @Html.HiddenFor(model => model.BlockName)
+        @Html.HiddenFor(model => model.YearName)
+        @Html.HiddenFor(model => model.ReportName)
+        @Html.HiddenFor(model => model.StatusName)
+        @Html.HiddenFor(model => model.FundingAgencyName)
+        @Html.HiddenFor(model => model.BatchName)
+        @Html.HiddenFor(model => model.RoadWise)
+        <table style="width: 100%;" class="rowstyle">
+            <tr>
+                <td style="width: 2%;"></td>
+                <td style="text-align: left; width: 4%;">
+                    @Html.LabelFor(model => model.StateCode)
+                </td>
+
+                <td style="width: 28%;">
+                    @if (Model.Mast_State_Code == 0)
+                    {
+                        @Html.DropDownListFor(model => model.StateCode, new SelectList(Model.StateList, "Value", "Text"), new { @title = "State", @tabindex = 1, @id = "StateList_DPIUCummlativeDetail", @style = "width:150px" })
+                        @Html.ValidationMessageFor(m => m.StateCode)
+                    }
+                    else
+                    {
+                        @Html.DisplayFor(model => model.StateName) 
+                        @Html.Hidden("StateCode", Model.Mast_State_Code)                            
+                    }
+                </td>
+                <td style="text-align: left; width: 4%;">
+                    @Html.LabelFor(model => model.DistrictCode)
+                </td>
+                <td style="width: 23%;">
+                    @if (Model.Mast_District_Code == 0)
+                    {
+                        @Html.DropDownListFor(model => model.DistrictCode, new SelectList(Model.DistrictList, "Value", "Text"), new { @title = "District", @id = "DistrictList_DPIUCummlativeDetail", @tabindex = 2, @style = "width:150px" })
+                        @Html.ValidationMessageFor(m => m.DistrictCode)
+
+                    }
+                    else
+                    {
+                        @Html.DisplayFor(model => model.DistName)
+                        @Html.Hidden("DistrictCode", Model.Mast_District_Code)     
+                              
+                    }
+                </td>
+                <td style="text-align: left; width: 4%;">
+                    @Html.LabelFor(model => model.PhaseYear)
+                </td>
+                <td style="width: 23%;">
+                    @Html.DropDownListFor(model => model.PhaseYear, new SelectList(Model.PhaseYearList, "Value", "Text"), new { @title = "Year", @tabindex = 4, @id = "PhaseYearList_DPIUCummlativeDetail", @style = "width:150px" })
+                    @Html.ValidationMessageFor(m => m.PhaseYear)
+                </td>
+
+
+            </tr>
+            <tr>
+                <td style="width: 2%;"></td>
+
+                <td style="text-align: left; width: 4%;">
+                    @Html.LabelFor(model => model.Batch)
+                </td>
+                <td style="width: 28%;">
+
+                    @Html.DropDownListFor(model => model.Batch, new SelectList(Model.BatchList, "Value", "Text"), new { @title = "Batch", @id = "BatchList_DPIUCummlativeDetail", @tabindex = 5, @style = "width:150px" })
+                    @Html.ValidationMessageFor(m => m.Batch)
+                </td>
+
+                <td style="text-align: left; width: 4%;">
+                    @Html.LabelFor(model => model.FundingAgency)
+                </td>
+
+                <td style="width: 23%;">
+                    @Html.DropDownListFor(model => model.FundingAgency, new SelectList(Model.FundingAgencyList, "Value", "Text"), new { @title = "Collaboration", @id = "FundingAgencyList_DPIUCummlativeDetail", @tabindex = 6, @style = "width:150px" })
+                    @Html.ValidationMessageFor(m => m.FundingAgency)
+
+                </td>
+                <td>
+                    <input type="button" id="btnViewDPIUCummlativeDetail" value="View" class="jqueryButton" title="View Detail" tabindex="8" />
+
+                </td>
+                <td></td>
+            </tr>
+
+        </table>
+    </form>
+
+</div>
+<div id="divCommonReport" class="modal" style="margin-top: 12px; float: right; margin-left: 915px">
+    <span id="spnCommonReport" class="close">X</span>
+    <span>Click on State/District/Block to view details</span>
+</div>
+<div id="loadDPIUCummlative" class="divLoadReport"></div>
+
+
+
+

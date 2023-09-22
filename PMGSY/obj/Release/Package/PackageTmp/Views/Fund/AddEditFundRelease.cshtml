@@ -1,0 +1,197 @@
+﻿@model PMGSY.Models.Fund.FundReleaseViewModel
+
+
+@{
+    ViewBag.Title = "AddEditFundRelease";
+}
+
+<script src="~/Scripts/custom/Generic.js"></script>
+<script src="~/Scripts/jquery.ui.datepicker.js"></script>
+<script src="~/Scripts/Fund/AddEditFundRelease.js"></script>
+
+
+<form id="frmAddEditFundRelease">
+         <div style="margin-left: 100px">
+             @Html.ValidationSummary(true)             
+         </div>            
+         <div id="divError" class="ui-state-error ui-corner-all" style="text-align: left; display: none; width: 100%">
+                <span class="ui-icon ui-icon-alert" style="float: left;"></span>                   
+                <span></span>
+         </div>
+         <center>
+         <div style="height:20px; width: 100%; text-align:left; padding-top: 0.6em;" class="ui-state-default ui-corner-all" > 
+                   &nbsp; <strong> Note :</strong>  Fields marked with * are mandatory.
+                </div>
+         <table id="Table1" cellpadding="3px" class="rowstyle" style="margin-top:0px; text-align:left; border:ridge 0.1em #ccc; width:100%; padding-top:5px 5px 5px 5px;">
+            <tr></tr>
+            <tr>
+                   <td style="width:10%;">
+                       @Html.HiddenFor(model=>model.MAST_RELEASE_TYPE)
+                       @Html.HiddenFor(model=>model.EncryptedReleaseCode)
+                       @Html.HiddenFor(model=>model.TotalRelease)
+                       @Html.HiddenFor(model=>model.TotalAvailable)
+                       @Html.HiddenFor(model=>model.TotalAllocation)
+                       @if(Model.EncryptedReleaseCode != null)
+                       {
+                           @Html.HiddenFor(model=>model.transactionCountRelease)
+                           @Html.HiddenFor(model=>model.MAST_RELEASE_FILE)
+                       }
+                   </td>
+                   <td  style="text-align:left;width:15%;">@Html.LabelFor(model=>model.MAST_STATE_CODE)<label style="color:red">*</label></td>
+                   <td  style="width:30%;">
+                       @if(Model.EncryptedReleaseCode == null)
+                       {
+                           if(Model.MAST_RELEASE_TYPE == "C")
+                           {
+                                @Html.DropDownListFor(model => model.MAST_STATE_CODE, ViewData["State"] as IEnumerable<SelectListItem>, "--Select State--", new { @id="ddlState",@title="Select State Name",@tabindex = 1})
+                                @Html.ValidationMessageFor(model=>model.MAST_STATE_CODE)
+                           }
+                           else
+                           {
+                               @Html.DropDownListFor(model => model.MAST_STATE_CODE, ViewData["State"] as IEnumerable<SelectListItem>, "--Select State--", new { @id="ddlState",@title="Select State Name",@tabindex = 1,@disabled = "disabled"})
+                               @Html.HiddenFor(model=>model.MAST_STATE_CODE)
+                               @Html.ValidationMessageFor(model=>model.MAST_STATE_CODE)
+                           }
+                       }
+                       else
+                       {
+                           @Html.DropDownListFor(model => model.MAST_STATE_CODE, ViewData["State"] as IEnumerable<SelectListItem>, "--Select State--", new { @id="ddlState",@title="Select State Name",@tabindex = 1,@disabled = "disabled"})
+                           @Html.HiddenFor(model=>model.MAST_STATE_CODE)
+                           @Html.ValidationMessageFor(model=>model.MAST_STATE_CODE)
+                       }
+                   </td>
+                   <td style="width:12%">@Html.LabelFor(model=>model.MAST_FUND_TYPE)<label style="color:red">*</label></td>
+                   <td>
+                       @if(Model.EncryptedReleaseCode == null)
+                       {
+                           @Html.DropDownListFor(model => model.MAST_FUND_TYPE, ViewData["FundType"] as IEnumerable<SelectListItem>,  new {@id="ddlFundType",@title="Select Fund Type",@tabindex = 2 })
+                           @Html.ValidationMessageFor(model=>model.MAST_FUND_TYPE)
+                       }
+                       else
+                       {
+                           @Html.DropDownListFor(model => model.MAST_FUND_TYPE, ViewData["FundType"] as IEnumerable<SelectListItem>,  new {@id="ddlFundType",@title="Select Fund Type",@tabindex = 2 ,@disabled = "disabled"})
+                           @Html.HiddenFor(model=>model.MAST_FUND_TYPE)
+                           @Html.ValidationMessageFor(model=>model.MAST_FUND_TYPE)
+                       }
+                   </td>
+              </tr>
+             <tr>
+                 <td></td>
+                 <td>Phase<label style="color:red">*</label></td>
+                 <td>
+                     @if(Model.EncryptedReleaseCode == null)
+                     {
+                         @Html.DropDownListFor(model => model.MAST_YEAR, ViewData["Year"] as IEnumerable<SelectListItem>, "--Select Phase Year--", new {@id="ddlYearPhase",@title="Select Phase Year",@tabindex = 1 })
+                         @Html.ValidationMessageFor(model=>model.MAST_YEAR)
+                     }
+                     else
+                     {
+                         @Html.DropDownListFor(model => model.MAST_YEAR, ViewData["Year"] as IEnumerable<SelectListItem>, "--Select Phase Year--", new {@id="ddlYearPhase",@title="Select Phase Year",@tabindex = 1,@disabled = "disabled" })
+                         @Html.HiddenFor(model=>model.MAST_YEAR)
+                         @Html.ValidationMessageFor(model=>model.MAST_YEAR)
+                     }
+                 </td>
+                 <td>@Html.LabelFor(model=>model.MAST_RELEASE_YEAR)<label style="color:red">*</label></td>
+                 <td>
+                     @if(Model.EncryptedReleaseCode == null)
+                     {
+                         @Html.DropDownListFor(model => model.MAST_RELEASE_YEAR,ViewData["Year"] as IEnumerable<SelectListItem>, "--Select Release Year--", new { @id = "ddlYear", @title = "Select Release Year", @tabindex = 2 })
+                         @Html.ValidationMessageFor(model=>model.MAST_RELEASE_YEAR)
+                     }
+                     else
+                     {
+                         @Html.DropDownListFor(model => model.MAST_RELEASE_YEAR,ViewData["Year"] as IEnumerable<SelectListItem>, "--Select Release Year--", new { @id = "ddlYear", @title = "Select Release Year", @tabindex = 2,@disabled = "disabled" })
+                         @Html.HiddenFor(model=>model.MAST_RELEASE_YEAR)
+                         @Html.ValidationMessageFor(model=>model.MAST_RELEASE_YEAR)
+                     }
+                 </td>
+             </tr>
+             <tr>
+                 <td></td>
+                 <td>@Html.LabelFor(model=>model.ADMIN_NO_CODE)<label style="color:red">*</label></td>
+                 <td>
+                     @if(Model.EncryptedReleaseCode == null)
+                     {
+                         @Html.DropDownListFor(model => model.ADMIN_NO_CODE, ViewData["ExecutingAgency"] as IEnumerable<SelectListItem>, "--Select SRRDA--", new { @id="ddlExecutingAgency",@title="Select SRRDA",@tabindex=2})
+                         @Html.ValidationMessageFor(model=>model.ADMIN_NO_CODE)
+                     }
+                     else
+                     {
+                         @Html.DropDownListFor(model => model.ADMIN_NO_CODE, ViewData["ExecutingAgency"] as IEnumerable<SelectListItem>, "--Select SRRDA--", new { @id="ddlExecutingAgency",@title="Select SRRDA",@tabindex=2,@disabled = "disabled"})
+                         @Html.HiddenFor(model=>model.ADMIN_NO_CODE)
+                         @Html.ValidationMessageFor(model=>model.ADMIN_NO_CODE)
+                     }
+                 </td>
+                 <td>@Html.LabelFor(model=>model.MAST_FUNDING_AGENCY_CODE)<label style="color:red">*</label></td>
+                 <td>
+                     @if(Model.EncryptedReleaseCode == null)
+                     {
+                         @Html.DropDownListFor(model=>model.MAST_FUNDING_AGENCY_CODE,ViewData["FundingAgency"] as IEnumerable<SelectListItem>, "--Select Collaboration--", new { @id="ddlFundingAgency",@title="Select Collaboration",@tabindex=2})
+                         @Html.ValidationMessageFor(model=>model.MAST_FUNDING_AGENCY_CODE)
+                     }
+                     else
+                     {
+                         @Html.DropDownListFor(model=>model.MAST_FUNDING_AGENCY_CODE,ViewData["FundingAgency"] as IEnumerable<SelectListItem>, "--Select Collaboration--", new { @id="ddlFundingAgency",@title="Select Collaboration",@tabindex=2,@disabled = "disabled"})
+                         @Html.HiddenFor(model=>model.MAST_FUNDING_AGENCY_CODE)
+                         @Html.ValidationMessageFor(model=>model.MAST_FUNDING_AGENCY_CODE)
+                     }
+                 </td>
+             </tr>
+             @if(PMGSY.Extensions.PMGSYSession.Current.RoleCode == 25)
+             {
+             <tr>
+                 <td></td>
+                 <td>Total Release Amount (In Rs.)</td>
+                 <td><label id="totalRelease">@Model.TotalRelease</label> </td>
+                 <td>Available Amount (In Rs.)</td>
+                 <td><label id="availableAmount">@Model.TotalAvailable</label> Cr</td>
+             </tr>
+             <tr>
+                 <td></td>
+                 <td>Total Allocation (In Rs.)</td>
+                 <td><label id="totalAllocation">@Model.TotalAllocation</label></td>
+             </tr>
+             }
+             <tr>
+                 <td></td>
+                 <td>Release No.</td>
+                 <td><label id="releaseNo"></label></td>
+                 <td>@Html.LabelFor(model=>model.MAST_RELEASE_AMOUNT)<label style="color:red">*</label></td>
+                 <td>
+                     @Html.TextBoxFor(model => model.MAST_RELEASE_AMOUNT, new {@title="Enter Release Amount",@placeholder = "Enter Release Amount in Cr...",@tabindex=3 })
+                     @Html.ValidationMessageFor(model => model.MAST_RELEASE_AMOUNT, "", new { @id="msgReleaseTotal"})
+                 </td>
+             </tr>
+             <tr>
+                 <td></td>
+                 <td>@Html.LabelFor(model=>model.MAST_RELEASE_DATE)<label style="color:red">*</label></td>
+                 <td>
+                     @Html.TextBoxFor(model => model.MAST_RELEASE_DATE, new {@title="Enter Release Date",@placeholder="Enter Release Date...",@tabindex=4 })
+                     @Html.ValidationMessageFor(model=>model.MAST_RELEASE_DATE)
+                 </td>
+                 <td>@Html.LabelFor(model=>model.MAST_RELEASE_ORDER)<label style="color:red">*</label></td>
+                 <td>
+                     @Html.TextBoxFor(model => model.MAST_RELEASE_ORDER, new {@title="Enter Sanction Order",@maxlength = 255,@placeholder="Enter Sanction Order...",@tabindex=5 })
+                     @Html.ValidationMessageFor(model=>model.MAST_RELEASE_ORDER)
+                 </td>
+             </tr>
+             
+             <tr>
+                <td></td>
+                <td></td>
+                     @if(Model.EncryptedReleaseCode == null)
+                     {   
+                        <td  style="text-align:right;">
+                        <input type="button" id="btnSave" name="btnSave" value="Save Fund Details" class= "jqueryButton" title="Save Fund Release Details" tabindex="6"  /> </td> 
+                        <td colspan="2"><input type="reset" id="btnReset" name="btnReset" value="Reset" class= "jqueryButton" title="Reset" tabindex="7"  /></td> 
+                     }
+                    else
+                    {
+                         <td  style="text-align:right;">
+                         <input type="button" id="btnUpdate" name="btnUpdate" value="Update" class= "jqueryButton" title="Update Fund Release Details" tabindex="6"  /> </td> 
+                         <td colspan="2"><input type="button" id="btnCancel" name="btnCancel" value="Cancel" class= "jqueryButton" title="Cancel" tabindex="7"  /></td> 
+                     }
+            </tr>
+             </table>
+        </center>
+</form>

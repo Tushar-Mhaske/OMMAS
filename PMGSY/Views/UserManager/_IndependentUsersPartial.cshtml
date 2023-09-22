@@ -1,0 +1,84 @@
+﻿@model PMGSY.Models.UserManager.IndependentUsersModel
+<!DOCTYPE html>
+
+<html>
+<head>
+    <style>
+        .ui-autocomplete {
+            max-width: 180px;
+            max-height: 200px;
+            overflow-y: auto; /* prevent horizontal scrollbar */
+            overflow-x: hidden; /* add padding to account for vertical scrollbar */
+            z-index: 1000 !important;
+        }
+
+        .custom-combobox {
+            position: relative;
+            display: inline-block;
+            width: 200px;
+        }
+
+        .custom-combobox-toggle {
+            position: absolute;
+            top: 0;
+            bottom: 0;
+            margin-left: -1px;
+            padding: 0;
+            /* support: IE7 */
+            *height: 1.5em;
+            *top: 0.1em;
+        }
+
+        .custom-combobox-input {
+            margin: 0;
+            padding: 0.3em;
+            max-width: 110px;
+        }
+    </style>
+    
+    <script src="~/Scripts/UserManager/IndependentUsers.js"></script>
+     <script src="~/Scripts/custom/Generic.js"></script>   
+</head>
+
+
+<body>
+
+    <center>
+     
+<form id="independentUsersRoleForm">
+    @Html.ValidationSummary(true)
+    @Html.HiddenFor(model => model.UserID)
+    @Html.HiddenFor(model => model.UserRoleID)
+<div id="divError" class="ui-state-error ui-corner-all" style="text-align: left; display: none; width: 100%">
+    <span class="ui-icon ui-icon-alert" style="float: left;"></span>                   
+    <span></span>
+</div> 
+ <table id="Table1"  cellspacing="0" cellpadding="2" class="rowstyle" style="margin-top:10px; text-align:left; border:ridge 0.1em #ccc; width:100%; padding:5px 5px 5px 5px;">
+        
+    <tr>
+        <td style="font-weight:bold;width:10%">@Html.LabelFor(model => model.Mast_State)<span style="color:red">*</span></td>
+        <td>
+            @Html.DropDownListFor(model => model.Mast_State, new SelectList(Model.StateList, "Value", "Text"))
+            <br />
+             @Html.ValidationMessageFor(model=>model.Mast_State)
+        <td style="font-weight:bold;width:10%">@Html.LabelFor(model => model.UserProfileID)<span style="color:red">*</span></td>
+        <td>
+            @Html.DropDownListFor(model => model.UserProfileID, new SelectList(Model.UsersList, "Value", "Text"), "Select Monitor")
+            <br />
+             @Html.ValidationMessageFor(model=>model.UserProfileID)
+           
+        </td>
+        <td>
+             <input type="button" value="Map User" class="jqueryButton" id="btnSubmit"/>
+        </td>
+        <td></td>
+    </tr> 
+   
+</table>
+   </form>
+</center>
+
+</body>
+</html>
+
+

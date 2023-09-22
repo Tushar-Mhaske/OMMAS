@@ -1,0 +1,25 @@
+﻿@model PMGSY.Models.NewsDetails.NewsUpload
+@{
+    ViewBag.Title = "NewsUpload";
+}
+<script src="~/Scripts/NewsDetails/NewsUpload.js"></script>
+<form id="frmNewsUploadMain">
+    @Html.AntiForgeryToken()
+    @Html.ValidationSummary(true)
+    <div id="dvNewsUploadMain" style="text-align: center;">
+
+        @Html.HiddenFor(m => m.hdnnewsId)
+        @Html.RadioButton("rdbtnFile", "F", new { @id = "rdbtnFile" })
+        @Html.Label("Upload PDF")
+        @Html.RadioButton("rdbtnFile", "I", new { @id = "rdbtnImage" })
+        @Html.Label("Upload Images")
+        @*<input type="radio" name ="UploadType" value="P" id="rdoPdf"/> <strong> C Proforma (PDF)</strong>
+    <input type="radio" name="UploadType" value="I" id="rdoImage" /><strong>Images </strong>*@
+    </div>
+    @*@Html.HiddenFor(model => model.IMS_PR_ROAD_CODE)*@
+    <div id="dvNewsImageUpload" style="display: none; width: 100%">
+    </div>
+
+    <div id="dvNewsFile" style="display: none; width: 100%">
+    </div>
+</form>

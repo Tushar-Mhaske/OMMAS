@@ -1,0 +1,269 @@
+﻿@model PMGSY.Models.Master.ConnectivityStatusViewModel
+
+<script src="~/Scripts/Master/Form3ConnectivityStatus.js"></script>
+<script src="~/Scripts/custom/Generic.js" type="text/javascript"></script>
+<div style="width: 99%; height: 20px; border: none; margin-top: 0px; margin-bottom: -15px;" class="ui-state-default">
+    <span style="float: right; margin-right: 2Px; margin-top: 2px" id="spnFilterDiv" class="ui-icon ui-icon-circle-triangle-s"></span>
+</div>
+@*<div style="width: 98%; border: none; margin-top: -15px; margin-bottom: 10px;" class="ui-state-default">*@
+<div id="divConnectivityStatusFilter" style="width: 99%; border: none; margin-top: 15px; margin-bottom: 10px; margin-top:18px;" class="ui-widget-header innerDivHeader">
+    <form id="frmConnectivityStatus">
+        @Html.ValidationSummary(true)
+        @Html.HiddenFor(m => m.hdnStateCode)
+        @Html.HiddenFor(m => m.hdnDistCode)
+        @Html.HiddenFor(m => m.hdnflag)
+
+        @if (Model.flag.Trim() == "Y")
+        {
+            <div id="divConnectivityStatus1" class="rowstyle" style="width: 99%; padding: 10px 0px 20px 0px;">
+                <table style="border: 1px;">
+                    <tr>
+                        <td>
+                            @Html.Label("No records found")
+                        </td>
+                    </tr>
+                </table>
+            </div>
+        }
+        else
+        {
+            <div id="divConnectivityStatus2" class="rowstyle" style="width: 99%; padding: 10px 9px 0px 0px; border: 1px solid #CCC;">
+                <table style="width: 100%;margin-left:5px;margin-top:5px;">
+                    <tr>
+                        <td>
+                            @Html.LabelFor(m => m.Particulars)
+                        </td>
+                        <td>
+                            @Html.LabelFor(m => m.lb1000)
+                        </td>
+                        <td>
+                            @Html.LabelFor(m => m.lb500)
+                        </td>
+                        <td>
+                            @Html.Label("Eligible 499-250")
+                        </td>
+                        <td>
+                            @Html.Label("Eligible 249-100")
+                        </td>
+                        <td>
+                            @Html.LabelFor(m => m.lb250)
+                        </td>
+                        <td>
+                            @Html.LabelFor(m => m.lbless250)
+                        </td>
+                        <td>
+                            @Html.LabelFor(m => m.Total)
+                        </td>
+                    </tr>
+                    <tr>
+                        <td style="width:600px;height: 30px; vertical-align: top">
+                            @Html.LabelFor(m => m.TotalHabs)
+                        </td>
+                        <td style="width: 150px; height: 30px; vertical-align: top">
+                            @Html.TextBoxFor(m => m.t11, new { @id = "txtt11", @maxlength = "9", @style = "width:70px;", @disabled = "true" })
+                            <br />
+                            @Html.ValidationMessageFor(m => m.t11)
+                        </td>
+                        <td style="width: 150px; height: 30px; vertical-align: top">
+                            @Html.TextBoxFor(m => m.t12, new { @id = "txtt12", @maxlength = "9", @style = "width:70px;", @disabled = "true" })
+                            <br />
+                            @Html.ValidationMessageFor(m => m.t12)
+                        </td>
+                        <td style="width: 150px; height: 30px; vertical-align: top">
+                            @Html.TextBoxFor(m => m.t1El499, new { @id = "txtt1El499", @maxlength = "9", @style = "width:70px;", @disabled = "true" })
+                            <br />
+                            @Html.ValidationMessageFor(m => m.t1El499)
+                        </td>
+                        <td style="width: 150px; height: 30px; vertical-align: top">
+                            @Html.TextBoxFor(m => m.t1El249, new { @id = "txtt1El249", @maxlength = "9", @style = "width:70px;", @disabled = "true" })
+                            <br />
+                            @Html.ValidationMessageFor(m => m.t1El249)
+                        </td>
+                        <td style="width: 150px; height: 30px; vertical-align: top">
+                            @Html.TextBoxFor(m => m.t13, new { @id = "txtt13", @maxlength = "9", @style = "width:70px;", @disabled = "true" })
+                            <br />
+                            @Html.ValidationMessageFor(m => m.t13)
+                        </td>
+                        <td style="width: 150px; height: 30px; vertical-align: top">
+                            @Html.TextBoxFor(m => m.t14, new { @id = "txtt14", @maxlength = "9", @style = "width:70px;", @disabled = "true" })
+                            <br />
+                            @Html.ValidationMessageFor(m => m.t14)
+                        </td>
+                        <td style="width: 150px; height: 30px; vertical-align: top">
+                            @Html.TextBoxFor(m => m.t1Tot, new { @id = "txtt1Tot", @maxlength = "9", @style = "width:70px;", @disabled = "true" })
+                            <br />
+                            @Html.ValidationMessageFor(m => m.t1Tot)
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>
+                            @Html.LabelFor(m => m.Connected)
+                        </td>
+                        <td style="width: 150px; height: 30px; vertical-align: top">
+                            @Html.TextBoxFor(m => m.t21, new { @id = "txtt21", @maxlength = "9", @style = "width:70px;", @disabled = "true" })
+                            <br />
+                            @Html.ValidationMessageFor(m => m.t21)
+                        </td>
+                        <td style="width: 150px; height: 30px; vertical-align: top">
+                            @Html.TextBoxFor(m => m.t22, new { @id = "txtt22", @maxlength = "9", @style = "width:70px;", @disabled = "true" })
+                            <br />
+                            @Html.ValidationMessageFor(m => m.t22)
+                        </td>
+                        <td style="width: 150px; height: 30px; vertical-align: top">
+                            @Html.TextBoxFor(m => m.t2El499, new { @id = "txtt2El499", @maxlength = "9", @style = "width:70px;", @disabled = "true" })
+                            <br />
+                            @Html.ValidationMessageFor(m => m.t1El499)
+                        </td>
+                        <td style="width: 150px; height: 30px; vertical-align: top">
+                            @Html.TextBoxFor(m => m.t2El249, new { @id = "txtt2El249", @maxlength = "9", @style = "width:70px;", @disabled = "true" })
+                            <br />
+                            @Html.ValidationMessageFor(m => m.t2El249)
+                        </td>
+                        <td style="width: 150px; height: 30px; vertical-align: top">
+                            @Html.TextBoxFor(m => m.t23, new { @id = "txtt23", @maxlength = "9", @style = "width:70px;", @disabled = "true" })
+                            <br />
+                            @Html.ValidationMessageFor(m => m.t23)
+                        </td>
+                        <td style="width: 150px; height: 30px; vertical-align: top">
+                            @Html.TextBoxFor(m => m.t24, new { @id = "txtt24", @maxlength = "9", @style = "width:70px;", @disabled = "true" })
+                            <br />
+                            @Html.ValidationMessageFor(m => m.t24)
+                        </td>
+                        <td>
+                            @Html.TextBoxFor(m => m.t2Tot, new { @id = "txtt2Tot", @maxlength = "255", @style = "width:70px;", @disabled = "true" })
+                            <br />
+                            @Html.ValidationMessageFor(m => m.t2Tot)
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>
+                            @Html.LabelFor(m => m.UnConnected)
+                        </td>
+                        <td style="width: 150px; height: 30px; vertical-align: top">
+                            @Html.TextBoxFor(m => m.t31, new { @id = "txtt31", @maxlength = "9", @style = "width:70px;", @disabled = "true" })
+                            <br />
+                            @Html.ValidationMessageFor(m => m.t31)
+                        </td>
+                        <td style="width: 150px; height: 30px; vertical-align: top">
+                            @Html.TextBoxFor(m => m.t32, new { @id = "txtt32", @maxlength = "9", @style = "width:70px;", @disabled = "true" })
+                            <br />
+                            @Html.ValidationMessageFor(m => m.t32)
+                        </td>
+                        <td style="width: 150px; height: 30px; vertical-align: top">
+                            @Html.TextBoxFor(m => m.t3El499, new { @id = "txtt3El499", @maxlength = "9", @style = "width:70px;", @disabled = "true" })
+                            <br />
+                            @Html.ValidationMessageFor(m => m.t3El499)
+                        </td>
+                        <td style="width: 150px; height: 30px; vertical-align: top">
+                            @Html.TextBoxFor(m => m.t3El249, new { @id = "txtt3El249", @maxlength = "9", @style = "width:70px;", @disabled = "true" })
+                            <br />
+                            @Html.ValidationMessageFor(m => m.t3El249)
+                        </td>
+                        <td style="width: 150px; height: 30px; vertical-align: top">
+                            @Html.TextBoxFor(m => m.t33, new { @id = "txtt33", @maxlength = "9", @style = "width:70px;", @disabled = "true" })
+                            <br />
+                            @Html.ValidationMessageFor(m => m.t33)
+                        </td>
+                        <td style="width: 150px; height: 30px; vertical-align: top">
+                            @Html.TextBoxFor(m => m.t34, new { @id = "txtt34", @maxlength = "9", @style = "width:70px;", @disabled = "true" })
+                            <br />
+                            @Html.ValidationMessageFor(m => m.t34)
+                        </td>
+                        <td style="width: 150px; height: 30px; vertical-align: top">
+                            @Html.TextBoxFor(m => m.t3Tot, new { @id = "txtt3Tot", @maxlength = "9", @style = "width:70px;", @disabled = "true" })
+                            <br />
+                            @Html.ValidationMessageFor(m => m.t3Tot)
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>
+                            @Html.LabelFor(m => m.Connected2000)
+                        </td>
+                        <td style="width: 150px; height: 30px; vertical-align: top">
+                            @Html.TextBoxFor(m => m.t41, new { @id = "txtt41", @maxlength = "9", @style = "width:70px;", @disabled = "true" })
+                            <br />
+                            @Html.ValidationMessageFor(m => m.t41)
+                        </td>
+                        <td style="width: 150px; height: 30px; vertical-align: top">
+                            @Html.TextBoxFor(m => m.t42, new { @id = "txtt42", @maxlength = "9", @style = "width:70px;", @disabled = "true" })
+                            <br />
+                            @Html.ValidationMessageFor(m => m.t42)
+                        </td>
+                        <td style="width: 150px; height: 30px; vertical-align: top">
+                            @Html.TextBoxFor(m => m.t4El499, new { @id = "txtt4El499", @maxlength = "9", @style = "width:70px;", @disabled = "true" })
+                            <br />
+                            @Html.ValidationMessageFor(m => m.t4El499)
+                        </td>
+                        <td style="width: 150px; height: 30px; vertical-align: top">
+                            @Html.TextBoxFor(m => m.t4El249, new { @id = "txtt4El249", @maxlength = "9", @style = "width:70px;", @disabled = "true" })
+                            <br />
+                            @Html.ValidationMessageFor(m => m.t4El249)
+                        </td>
+                        <td style="width: 150px; height: 30px; vertical-align: top">
+                            @Html.TextBoxFor(m => m.t43, new { @id = "txtt43", @maxlength = "9", @style = "width:70px;", @disabled = "true" })
+                            <br />
+                            @Html.ValidationMessageFor(m => m.t43)
+                        </td>
+                        <td style="width: 150px; height: 30px; vertical-align: top">
+                            @Html.TextBoxFor(m => m.t44, new { @id = "txtt44", @maxlength = "9", @style = "width:70px;", @disabled = "true" })
+                            <br />
+                            @Html.ValidationMessageFor(m => m.t44)
+                        </td>
+                        <td style="width: 150px; height: 30px; vertical-align: top">
+                            @Html.TextBoxFor(m => m.t4Tot, new { @id = "txtt4Tot", @maxlength = "9", @style = "width:70px;", @disabled = "true" })
+                            <br />
+                            @Html.ValidationMessageFor(m => m.t4Tot)
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>
+                            @Html.LabelFor(m => m.Connected2001)
+                        </td>
+                        <td style="width: 150px; height: 30px; vertical-align: top">
+                            @Html.TextBoxFor(m => m.t51, new { @id = "txtt51", @maxlength = "9", @style = "width:70px;", @disabled = "true" })
+                            <br />
+                            @Html.ValidationMessageFor(m => m.t51)
+                        </td>
+                        <td style="width: 150px; height: 30px; vertical-align: top">
+                            @Html.TextBoxFor(m => m.t52, new { @id = "txtt52", @maxlength = "9", @style = "width:70px;", @disabled = "true" })
+                            <br />
+                            @Html.ValidationMessageFor(m => m.t52)
+                        </td>
+                        <td style="width: 150px; height: 30px; vertical-align: top">
+                            @Html.TextBoxFor(m => m.t5El499, new { @id = "txtt5El499", @maxlength = "9", @style = "width:70px;", @disabled = "true" })
+                            <br />
+                            @Html.ValidationMessageFor(m => m.t5El499)
+                        </td>
+                        <td style="width: 150px; height: 30px; vertical-align: top">
+                            @Html.TextBoxFor(m => m.t5El249, new { @id = "txtt5El249", @maxlength = "9", @style = "width:70px;", @disabled = "true" })
+                            <br />
+                            @Html.ValidationMessageFor(m => m.t5El249)
+                        </td>
+                        <td style="width: 150px; height: 30px; vertical-align: top">
+                            @Html.TextBoxFor(m => m.t53, new { @id = "txtt53", @maxlength = "9", @style = "width:70px;", @disabled = "true" })
+                            <br />
+                            @Html.ValidationMessageFor(m => m.t53)
+                        </td>
+                        <td style="width: 150px; height: 30px; vertical-align: top">
+                            @Html.TextBoxFor(m => m.t54, new { @id = "txtt54", @maxlength = "9", @style = "width:70px;", @disabled = "true" })
+                            <br />
+                            @Html.ValidationMessageFor(m => m.t54)
+                        </td>
+                        <td style="width: 150px; height: 30px; vertical-align: top">
+                            @Html.TextBoxFor(m => m.t5Tot, new { @id = "txtt5Tot", @maxlength = "9", @style = "width:70px;", @disabled = "true" })
+                            <br />
+                            @Html.ValidationMessageFor(m => m.t5Tot)
+                        </td>
+                    </tr>
+                    <tr>
+                        <td colspan="8" style="text-align: center;">
+                            <input type="button" id="btnSubmit" title="Submit" value="Submit" class="jqueryButton" style="display:none" />
+                            <input type="reset" id="btnReset" title="Reset" value="Reset" class="jqueryButton" style="display:none" />
+                            <input type="reset" id="btnCancel" title="Cancel" value="Cancel" class="jqueryButton" style="display:none" />
+                        </td>
+                    </tr>
+                </table>
+            </div>
+        }
+    </form>
+</div>

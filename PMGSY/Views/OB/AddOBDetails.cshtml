@@ -1,0 +1,142 @@
+﻿@model PMGSY.Models.OB.OBDetailsModel
+@using PMGSY.Extensions;
+<script type="text/javascript">var isTrans = '@ViewBag.IsTrans'; var billId = '@ViewBag.BillId'; var assetLib = '@ViewBag.AssetLib';</script>
+<script type="text/javascript" src="@Url.Content("~/Scripts/custom/Generic.js")"> </script>
+<script type="text/javascript" src="@Url.Content("~/Scripts/OB/AddOBDetails.js")"> </script>
+
+@{
+
+    string FundType = PMGSYSession.Current.FundType;
+}
+
+<form id="frmAddOBDetails" >
+    @Html.ValidationSummary(true)
+    @Html.AntiForgeryToken()
+
+<div class="ui-widget-header ui-corner-top" style="margin-left:0; margin-right:0; margin-bottom:0; text-align:left">Opening Balance Details Screen 
+    <span id="DivIcoDetailsOB" style="float:right" class="ui-icon ui-icon-circle-triangle-n"></span>
+</div>
+<table class="table-content ui-table-border" style="width: 100%" cellspacing="1px" id="tblOBDetails">
+   @* <tr>
+        <td colspan="3">
+            <div class="ui-jqgrid-titlebar ui-widget-header ui-corner-top ui-helper-clearfix">
+            <span class="ui-icon ui-icon-circle-plus" style="float: left"></span>
+            <span class="ui-jqgrid-title" style="float: left; font-weight: bold; height:20px">Opening Balance Details Screen</span>
+            </div>
+        </td>
+    </tr>*@
+    <tr>
+        <td colspan="3">
+            <div id="divOBDetailsError" class="ui-state-error ui-corner-all" style="text-align: left; display: none; width: 100%">
+                <span class="ui-icon ui-icon-alert" style="float: left;"></span>
+                <span></span>
+            </div>
+        </td>
+    </tr>
+    <tr>
+        <td style="width: 30%"></td>
+        <td style="width: 15%">@Html.LabelFor(model => model.CREDIT_DEBIT)<label style="color: red;"> *</label></td>
+        <td style="width: 55%">                                                             
+            @Html.RadioButtonFor(model => model.CREDIT_DEBIT, "D", new { @id = "rdoAsset" }) @Html.Label("Assets",new { @id = "lblAsset" }) &nbsp;
+            @Html.RadioButtonFor(model => model.CREDIT_DEBIT, "C", new { @id = "rdoLib" }) @Html.Label("Liabilities",new { @id = "lblLiabilities" })
+            @Html.ValidationMessageFor(model => model.CREDIT_DEBIT) 
+
+        </td>
+    </tr>
+    <tr>
+        <td style="width: 30%"></td>
+        <td style="width: 15%">@Html.LabelFor(model => model.TXN_ID)<label style="color: red;"> *</label></td>
+        <td style="width: 55%">@Html.DropDownListFor(model => model.TXN_ID, ViewBag.ddlTrans as IEnumerable<SelectListItem>, new { @id = "ddlTrans", @style="width:350px" }) @Html.ValidationMessageFor(model => model.TXN_ID) </td>
+    </tr>
+    <tr>
+        <td></td>
+        <td>@Html.LabelFor(model => model.SUB_TXN_ID)<label style="color: red;"> *</label></td>
+        <td>@Html.DropDownListFor(model => model.SUB_TXN_ID, ViewBag.ddlSubTrans as IEnumerable<SelectListItem>, new { @id = "ddlSubTrans", @style="width:350px" }) @Html.ValidationMessageFor(model => model.SUB_TXN_ID) </td>
+    </tr>
+    <tr id="trDetailsHeadDesc">
+        <td></td>
+        <td>Head Description:</td>
+        <td id="tdHeadDesc"></td>
+    </tr>
+    <tr id="trddlContractor" style="display: none;">
+        <td></td>
+        <td>@Html.LabelFor(model => model.MAST_CON_ID)<label style="color: red;"> *</label></td>
+        <td>@Html.DropDownListFor(model => model.MAST_CON_ID, ViewBag.ddlContractor as IEnumerable<SelectListItem>, new { @id = "ddlContractor", @style="width:200px" }) @Html.ValidationMessageFor(model => model.MAST_CON_ID) </td>
+    </tr>
+    <tr id="trddlDPIU" style="display: none">
+        <td></td>
+        <td>@Html.LabelFor(model => model.ADMIN_ND_CODE)<label style="color: red;"> *</label></td>
+        <td>@Html.DropDownListFor(model => model.ADMIN_ND_CODE, ViewBag.ddlDPIU as IEnumerable<SelectListItem>, new { @id = "ddlDPIU", @style="width:200px" }) @Html.ValidationMessageFor(model => model.ADMIN_ND_CODE)</td>
+    </tr> 
+    <tr id="trddlContractorName" style="display: none">
+        <td></td>
+        <td>Contractor Name</td>
+        <td style="height:22px">@Html.Label("contractor name", new { @id="tdContractorName"})</td>
+    </tr>
+    <tr id="trddlAgreement" style="display: none">
+        <td></td>
+        <td>@Html.LabelFor(model => model.IMS_AGREEMENT_CODE)<label style="color: red;"> *</label></td>
+        <td>@Html.DropDownListFor(model => model.IMS_AGREEMENT_CODE, ViewBag.ddlAgreement as IEnumerable<SelectListItem>,new { @id = "ddlAgreement", @style="width:200px" }) @Html.ValidationMessageFor(model => model.IMS_AGREEMENT_CODE) </td>
+    </tr>
+    <tr id="trddlSancYear" style="display:none">
+        <td></td>
+        <td>@Html.LabelFor(m=>m.SANC_YEAR)<label style="color: red;"> *</label></td>
+        <td>@Html.DropDownListFor(m=>m.SANC_YEAR, ViewBag.ddlSancYear as IEnumerable<SelectListItem>, new { @id = "ddlSancYear", @style="width:200px" })@Html.ValidationMessageFor(m=>m.SANC_YEAR)</td>
+    </tr>
+    <tr id="trddlPackage" style="display:none">
+        <td></td>
+        <td>@Html.LabelFor(m=>m.IMS_PACKAGE_ID)<label style="color: red;"> *</label></td>
+        <td>@Html.DropDownListFor(m=>m.IMS_PACKAGE_ID, ViewBag.ddlPackage as IEnumerable<SelectListItem>,new { @id = "ddlPackage", @style="width:200px" })@Html.ValidationMessageFor(m=>m.IMS_PACKAGE_ID)</td>
+    </tr>
+    <tr id="trddlRoad" style="display: none">
+        <td></td>
+        <td>@Html.LabelFor(model => model.IMS_PR_ROAD_CODE)<label style="color: red;"> *</label></td>
+        <td>@Html.DropDownListFor(model => model.IMS_PR_ROAD_CODE, ViewBag.ddlRoad as IEnumerable<SelectListItem>, new { @id = "ddlRoad", @style="width:200px" }) @Html.ValidationMessageFor(model => model.IMS_PR_ROAD_CODE)</td>
+    </tr>
+    <tr id="trIsFinalPay" style="display:none">
+        <td></td>
+        <td>@Html.LabelFor(m=>m.FINAL_PAYMENT)</td>
+        <td>@Html.CheckBoxFor(m => m.FINAL_PAYMENT, new { @id = "chkIsFinPay" })@Html.ValidationMessageFor(m=>m.FINAL_PAYMENT)</td>
+    </tr>
+    <tr>
+        <td></td>
+        <td>@Html.LabelFor(model => model.AMOUNT)<label style="color: red;"> *</label></td>
+        <td>@Html.TextBoxFor(model => model.AMOUNT, new{@placeholder="Max 11.2 decimal Allowed..."}) @Html.ValidationMessageFor(model => model.AMOUNT)</td>
+    </tr>
+    <tr>
+        <td></td>
+        <td>@Html.LabelFor(model => model.NARRATION, new {id="lblNARRATION" })<label style="color: red;"> *</label></td>
+        <td>@Html.TextAreaFor(model => model.NARRATION, new{@placeholder="Alphanumeric,Space,dash, slash and dot Allowed..."}) @Html.ValidationMessageFor(model => model.NARRATION) </td>
+    </tr>
+    <tr>
+       <td colspan="2">@Html.HiddenFor(model=>model.HDN_TXN_NO)      
+        @* <div class="ui-state-highlight ui-corner-all" style="text-align:left">
+               <span class="ui-icon ui-icon-info" style="float: left; margin-right: .3em;"></span>
+               <span>Sub Transaction marked in <font color="b83400" style="font-weight:bold">RED</font> not used for OB entry</span> 
+           </div>*@
+       </td>
+        @{
+           if (ViewBag.IsTrans == null)
+           {
+               <td><input type="button" value="Save" id="btnAddOBDetails" class="jqueryButton" />&nbsp;
+               <input type="reset" value="Reset" id="btnResetOBDetails" class="jqueryButton" /></td>
+            }
+            else
+            {
+                <td><input type="button" value="Update" id="btnEditOBDetails" class="jqueryButton" />&nbsp;
+                    <input type="button" value="Cancel" id="btnCancelOBDetails" class="jqueryButton" /></td>
+            }
+        }
+        
+    </tr>
+    <tr style="display:none">
+        <td colspan="3">
+
+            @Html.Hidden("FundType",FundType)
+        </td>
+    </tr>
+</table>
+</form>
+    @section Scripts {
+    @Scripts.Render("~/bundles/jqueryval")
+}

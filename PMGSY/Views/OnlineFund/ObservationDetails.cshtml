@@ -1,0 +1,100 @@
+﻿<script src="~/Scripts/jquery.ui.accordion.js"></script>
+<script src="~/Scripts/jquery.ui.tabs.js"></script>
+<script src="~/Scripts/custom/Generic.js"></script>
+<script src="~/Scripts/OnlineFundProcess/ObservationDetails.js"></script>
+
+<style type="text/css">
+    #request {
+        height: 50px;
+        width: 50px;
+        position: fixed;
+        bottom: 10%;
+        right:12%;
+        z-index: 999;
+        filter: progid:DXImageTransform.Microsoft.BasicImage(rotation=3);
+    }
+
+        #request span {
+            display: block;
+            background: #F2D5A5;
+            height: 15px;
+            width: 140px;
+            padding: 8px 16px;
+            color: #333;
+            font-family: Arial, sans-serif;
+            font-size: 12px;
+            font-weight: bold;
+            text-decoration: none;
+            /*border-bottom: solid 1px #333;
+            border-left: solid 1px #333;
+            border-right: solid 1px #fff;*/
+        }
+
+            #request span:hover {
+                cursor:pointer;
+                background: #F2D5A5;
+            }
+</style>
+<div id="tabs" style="width: 99%">
+    <ul>
+        <li><a href="#tabs-1" onclick="LoadActionRequiredDetailsList()">Pending</a></li>
+       @* @if(PMGSY.Extensions.PMGSYSession.Current.RoleCode == 25)
+        {*@
+
+        <li><a href="#tabs-2" onclick="LoadInprogressDetailsList()">In Progress</a></li>
+
+        @*}
+        
+        <li><a href="#tabs-3" onclick="LoadCompletedDetailsList()">Completed</a></li>*@
+
+        <li><a href="#tabs-4" onclick="LoadListForUONumberRequests()">Approved Requests</a></li>
+
+    </ul>
+    <div id="tabs-1">
+        <div id="dvActionRequiredDetails" style="width: 100%; margin-top: 20px">
+            <table  id="tbActionRequiredList"></table> <!-- style="width: 75%"-->
+            <div id="pgActionRequiredList"></div>
+        </div>
+    </div>
+
+   @*@if(PMGSY.Extensions.PMGSYSession.Current.RoleCode == 25)
+    {
+    *@
+    <div id="tabs-2">
+            <div id="dvInprogressDetails" style="margin-top: 20px; width: 100%">
+                <table  id="tbInprogressList"></table>
+                <div id="pgInprogressList"></div>
+            </div>
+        </div>
+   @* }
+    <div id="tabs-3">
+        <div id="dvCompletedDetails" style="width: 100%; margin-top: 20px">
+            <table style="width: 75%" id="tbCompletedList"></table>
+            <div id="pgCompletedList"></div>
+        </div>
+    </div>*@
+    <div id="tabs-4">
+        <div id="dvUODetails" style="width: 100%; margin-top: 20px">
+            <table   id="tbUOList"></table>
+            <div id="pgUOList"></div>
+        </div>
+    </div>
+    <center>
+    <div id="accordion" style="display: none; width: 97%; margin-top: 10px;">
+        <h3 style="text-align: left"><a id="" href="#" style="font-size: .9em;">Request Details</a>
+            <a href="#" style="float: right;">
+                <img style="border: none" class="ui-icon ui-icon-closethick" onclick="CloseObservationDetails();" /></a>
+        </h3>
+        <div id="divObservationDetails" style="display: none;">
+        </div>
+    </div>
+    </center>
+</div>
+<div id="draggable" style="width: 600px; height: 300px; display: none">
+</div>
+<div id="request">
+    <span>Request Notifications
+        <img style="height:10px;width:10px;text-align:center" src="~/Content/images/icon-arrow-up.png" />
+    </span>
+    @*<span class="ui-icon-arrowthick-1-n"></span>*@
+</div>

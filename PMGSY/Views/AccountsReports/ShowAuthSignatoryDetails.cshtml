@@ -1,0 +1,78 @@
+﻿@model PMGSY.Models.AccountsReports.AuthorisedSignatoryViewModel
+@using PMGSY.Models
+@using PMGSY.Extensions
+
+<style type="text/css">
+    div.AuthSignatoryHeader {
+        padding: 5px;
+        width: 98%;
+        display: inline-block;
+        cursor: default;
+        /*font:12px/14px Arial, Helvetica, sans-serif;*/
+        font-family: Trebuchet MS,Tahoma,Verdana,Arial,sans-serif;
+        color: #000;
+        background-color: #eee;
+        -moz-border-radius: 10px;
+        -webkit-border-radius: 10px;
+        -moz-box-shadow: #999 2px 0px 3px;
+        -webkit-box-shadow: #999 2px 0px 3px;
+    }
+</style>
+
+<link href="~/Content/demo_page.css" rel="stylesheet" />
+<link href="~/Content/demo_table_jui.css" rel="stylesheet" />
+<link href="~/Content/TableTools.css" rel="stylesheet" />
+<link href="~/Content/TableTools_JUI.css" rel="stylesheet" />
+<script src="~/Scripts/DataTables/jquery.dataTables.js"></script>
+<script src="~/Scripts/DataTables/ZeroClipboard.js"></script>
+<script src="~/Scripts/DataTables/TableTools.js"></script>
+<script src="~/Scripts/AccountsReports/AuthorizedSignatoryDetails/ShowAuthorizedSignatoryDetails.js"></script>
+
+<br />
+<div id="dvhdrAuthSignatoryDetails" class="ui-state-default ui-corner-all" style="margin-bottom: 05px; height: 20px"><span>@Html.Label("Name of SRRDA: ", new { @style="color:green"})</span> @Html.Label(PMGSYSession.Current.DepartmentName)  @*<span style="float: right; margin-right: 2Px; margin-top: 2px" id="spnAuthSignatoryDetails" class="ui-icon ui-icon-circle-triangle-n"></span>*@  </div>
+
+@Html.Hidden("totalRecords",Model.lstAuthSignatoryDetails.Count)
+
+<table id="tblAuthSignatoryDetails">
+    @{ 
+        <thead>
+            <tr>
+                <th>Sr. No.</th>
+                <th>Name Of DPIU</th>
+                <th>Name Of The Authorized Signatory</th>
+                <th>Authorized Signatory<br /> Start Date(In dd/mm/yyyy)</th>
+                <th>Authorized Signatory<br /> End Date(In dd/mm/yyyy)</th>
+                <th>Is Working</th>
+            </tr>
+        </thead>
+            
+        <tbody>
+            
+            @if (Model.lstAuthSignatoryDetails.Count > 0)
+            {
+                foreach (SP_ACC_RPT_LIST_AUTH_SIGNATORY_DETAILS_Result item in Model.lstAuthSignatoryDetails)
+                {                    
+                <tr>
+                    <td></td>
+                    <td>@item.AdminNDName</td>
+                    <td>@item.AuthSignatoryName</td>
+                    <td>@item.StartDate</td>
+                    <td>@item.EndDate</td>
+                    <td>@item.IsWorking</td>
+                </tr>   
+                }
+            }
+            else
+            {
+                <tr>
+                    <td></td>
+                    <td></td>                    
+                    <td></td>
+                    <td><b>No Records To Display</b></td>
+                    <td></td>
+                    <td></td>
+                </tr>
+            }
+        </tbody>            
+    }
+</table>

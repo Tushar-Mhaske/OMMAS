@@ -1,0 +1,13 @@
+﻿@using MvcReportViewer
+
+@model PMGSY.Areas.MaintenanceSSRSReport.Models.MaintenanceIncentiveLenExpViewModel
+
+@Html.MvcReportViewer("/PMGSYCitizen/Maintenance_Incentive_Len_Exp_State_Report",
+     new
+     {
+         Level = Model.Level,
+         state = Model.StateCode,
+         LocationName = Model.LocationName,
+
+     },
+       new { Height = 650, Width = "100%", style = "border:none;" })

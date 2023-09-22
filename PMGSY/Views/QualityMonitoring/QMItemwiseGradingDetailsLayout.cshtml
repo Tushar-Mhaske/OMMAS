@@ -1,0 +1,109 @@
+﻿@*
+    * Project Id    :
+    * Project Name  :   OMMAS II
+    * Name          :   QMItemwiseGradingDetailsLayout.cshtml
+    * Description   :   This View to view the filter screen
+    * Author        :   Deen Dayal Sharma    
+    * Creation Date :   03/Oct/2017  
+*@
+
+@model PMGSY.Models.QualityMonitoring.QMItemwiseGradingDetailsModel
+<script src="~/Scripts/custom/Generic.js"></script>
+<script src="~/Scripts/QualityMonitoring/QMItemwiseGradingDetailsLayout.js"></script>
+
+<div class="ui-corner-bottom" style="display: block; border: 1px solid #B5B8C8;">
+    <center>
+ <form id="frmloadreport" >
+      @Html.AntiForgeryToken()
+        <table class="rowstyle">
+            <tr>
+                <td style="width:10%"></td>
+                            <td style="width:17%">
+                                @Html.LabelFor(model => model.fromMonth)
+                                <span style="color:red">*</span>
+                            </td>
+                            <td style="width:32%">
+                                @Html.DropDownListFor(model => model.fromMonth, new SelectList(Model.monthList, "Value", "Text"), "Select From Month")
+                                @Html.ValidationMessageFor(model => model.fromMonth)                       
+                            </td>
+
+                            <td>
+                                @Html.LabelFor(model => model.fromYear)
+                                <span style="color:red">*</span>
+                            </td>
+                            <td style="width:34%">
+                                @Html.DropDownListFor(model => model.fromYear, new SelectList(Model.yearList, "Value", "Text"), "Select From Year")
+                                @Html.ValidationMessageFor(model => model.fromYear)       
+                            </td>
+                <td style="width:10%"></td>
+                   </tr>
+             <tr  >
+                 <td style="width:10%"></td>
+                            <td>
+                                @Html.LabelFor(model => model.toMonth)
+                                <span style="color:red">*</span>
+                            </td>
+                            <td >
+                                @Html.DropDownListFor(model => model.toMonth, new SelectList(Model.monthList, "Value", "Text"), "Select To Month")
+                                @Html.ValidationMessageFor(model => model.toMonth)                       
+                            </td>
+
+                            <td>
+                                @Html.LabelFor(model => model.toYear)
+                                <span style="color:red">*</span>
+                            </td>
+                            <td >
+                                  @Html.DropDownListFor(model => model.toYear, new SelectList(Model.yearList, "Value", "Text"), "Select To Year")
+                                  @Html.ValidationMessageFor(model => model.toYear)   
+                            </td>
+                 <td style="width:10%"></td>
+                   </tr>
+             <tr >
+                 <td style="width:10%"></td>
+                            <td>
+                                @Html.LabelFor(model => model.Grade_Code)
+                                <span style="color:red">*</span>
+                            </td>
+                            <td >
+                                  @Html.DropDownListFor(model => model.Grade_Code, new SelectList(Model.gradeList, "Value", "Text"))
+                                  @Html.ValidationMessageFor(model => model.Grade_Code)                   
+                            </td>
+
+                            <td>
+                                @Html.LabelFor(model => model.workType)
+                                <span style="color:red">*</span>
+                            </td>
+                            <td >                               
+                                  @Html.DropDownListFor(model => model.workType, new SelectList(Model.workTypeList, "Value", "Text"))
+                                  @Html.ValidationMessageFor(model => model.workType)   
+                            </td>
+                 <td style="width:10%"></td>
+                   </tr>
+           <tr>
+               
+               <td style="width:10%"></td>
+                             <td>
+                                    @Html.LabelFor(model => model.workStatus)
+                                    <span style="color:red">*</span>
+                            </td>
+                             <td >
+                                   @Html.DropDownListFor(model => model.workStatus, new SelectList(Model.workStatusList, "Value", "Text"))
+                                   @Html.ValidationMessageFor(model => model.workStatus)                       
+                             </td>             
+                             <td>
+                                       <input type="button" id="btnGetItemwiseReport" class="jqueryButton ui-button ui-widget ui-state-default ui-corner-all ui-button-text-only" value="Submit" /> 
+
+                             </td>
+                <td></td>
+               <td style="width:10%"></td>
+            </tr>
+                   
+
+              
+            </table>
+    </form>
+          </center>
+</div>
+
+
+<div id="loadItemwiseReport"></div>

@@ -1,0 +1,42 @@
+﻿@model PMGSY.Models.Proposal.AddDropOrderViewModel
+
+<script src="~/Scripts/Proposal/AddWorksforDropping.js"></script>
+
+<div id="dvhdAddDropOrder" class="ui-corner-top ui-widget-header panelheader" style="text-align: left; height: 20px;">@*margin-left:0px;margin-right:0px;margin-top:0px; *@
+    <span class="ui-jqgrid-title" style="float: left">&nbsp;Select Works for Dropping</span>
+
+    @*<span id="spCollapseIconAddDropOrder" class="ui-icon ui-icon-circle-triangle-n" style="float: right"></span>*@
+</div>
+<div id="dvAddDropOrder" class="ui-corner-bottom" style="display: block; border: 1px solid #B5B8C8;">
+    <form id="frmAddDropOrderLayout">
+        @Html.ValidationSummary(true)
+        @Html.AntiForgeryToken()
+        @Html.HiddenFor(model => model.encryptedRoadCode)
+        @Html.HiddenFor(model => model.expenditureIncurred)
+        <table style="margin-top: 10px; margin-bottom: 5px">
+            <tr>
+                <td>
+                    @Html.LabelFor(x => x.recoupAmt)<span style="color:red">*</span>
+                </td>
+                <td>
+                    @Html.TextBoxFor(model => model.recoupAmt, new { @id="txtRecoupAmt", @title = "Enter Recoup Amount", @tabindex = 1 })
+                    <br />
+                    @Html.ValidationMessageFor(model => model.recoupAmt)
+                </td>
+                <td>
+                    @Html.LabelFor(x => x.dropReason)<span style="color:red">*</span>
+                </td>
+                <td>
+                    @Html.DropDownListFor(model => model.dropReason, new SelectList(Model.lstDropReason, "Value", "Text"), new { @id = "ddlDropReason", @tabindex = 2 })
+                    <br />
+                    @Html.ValidationMessageFor(x => x.dropReason)
+                </td>
+            </tr>
+            <tr>
+                <td colspan="4" style="text-align:center;">
+                    <input type="button" class="jqueryButton" value="Add Dropped Works" title="Add Dropped Works" id="btnAddDroppedWorks" name ="btnAddDroppedWorks" tabindex="3"/>
+                </td>
+            </tr>
+        </table>
+    </form>
+</div>

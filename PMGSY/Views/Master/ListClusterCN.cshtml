@@ -1,0 +1,52 @@
+﻿@using PMGSY.Extensions
+
+@{
+    ViewBag.Title = "ListClusterDepartment";
+}
+<script type="text/javascript" src="@Url.Content("~/Scripts/jquery.ui.dialog.js")"> </script>
+<script src="~/Scripts/custom/Generic.js" type="text/javascript"></script>
+<script src="~/Scripts/Master/ListClusterCN.js" type="text/javascript"></script>
+
+
+
+<center>
+<div style="width:100%">
+    <div id="ClusterAddDetails" style="display:none">
+    </div>
+    <div id="ClusterSearchDetails" style="display:none">
+    </div>
+<div >
+
+  <table style="width:100%; padding-top:1.5em;">
+  
+        <tr id="trAddNewSearch">  
+        <td style="text-align:left">
+            <div class="ui-state-default ui-corner-all jqueryButton" id="btnAdd" title="Add Cluster">
+                <span style="float:left" class="ui-icon ui-icon-circle-plus"></span>
+                <span style="float:left; margin-right:5px">Add Cluster</span>
+            </div>
+          <div class="ui-state-default ui-corner-all jqueryButton" id="btnSearch" title="Search Cluster" style="display:none;">
+            <span style="float:left" class="ui-icon ui-icon-search"></span>
+            <span style="float:left; margin-right:5px">Search Cluster</span>
+        </div>           
+        </td>
+        </tr>    
+    </table>
+    <table id="tblCluster">
+    </table>
+    <div id="divClusterPager">
+    </div>
+</div>
+    <br />
+    <div id="dvEditCluster">
+        @* for Loding Edit Cluster Name in dialog panel POPUP*@
+</div>
+    <div id="dvViewClusterHabiationDetails" >
+
+</div>
+<div id="dvMappedAgencyDistrictsDetails" style="display:none;">
+</div>
+</div>
+</center>
+
+

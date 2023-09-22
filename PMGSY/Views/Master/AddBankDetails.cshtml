@@ -1,0 +1,160 @@
+﻿@model PMGSY.Models.Master.MasterContractorBankDetails
+
+@{
+    ViewBag.Title = "AddCdWorksType";
+}
+
+<script src="~/Scripts/custom/Generic.js" type="text/javascript"></script>
+<script type="text/javascript" src="@Url.Content("~/Scripts/jquery.ui.autocomplete.js")"> </script>
+<script src="~/Scripts/Master/AddBankDetails.js" type="text/javascript"></script>
+
+<div id="dvErrorMessage" class="ui-widget ui-state-error ui-corner-all" style="padding: 0.7em .7em; display: none; margin: 5px 5px 5px 5px; text-align: left">
+    <span class="ui-icon ui-icon-alert" style="float: left; margin-right: .3em; text-align: left"></span>
+    <strong>Alert:</strong> <span id="errmessage"></span>
+</div>
+
+<form id="frmBankDetails">
+    @Html.AntiForgeryToken()
+    <center>@Html.ValidationSummary(true)</center>
+    <table class="rowstyle" style="width: 100%; margin-top: 10px">
+        <tr style="display: none">
+            <td>@Html.HiddenFor(m => m.EncryptedAccountId)</td>
+            <td>@Html.Hidden("ContractorCode", ViewBag.ContractorCode as String)</td>
+            <td>@Html.Hidden("ContractorId", ViewBag.ContractorId as String)</td>
+            <td>@Html.Hidden("MAST_CON_ID", ViewBag.ContractorId as String)</td>
+        </tr>
+        <tr>
+            <td style="width: 8%;"></td>
+            <td style="text-align: left; width: 15%;">
+                @Html.LabelFor(model => model.Mast_State_Code)
+                <label style="color: red;">*</label>
+            </td>
+            <td style="width: 30%">
+                @if (Model.EncryptedAccountId == null)
+                {
+                    @Html.DropDownListFor(model => model.Mast_State_Code, ViewData["State"] as IEnumerable<SelectListItem>, new { @title = "State", @tabindex = 1 })
+                }
+                else
+                {
+                    @Html.DropDownListFor(model => model.Mast_State_Code, ViewData["State"] as IEnumerable<SelectListItem>, new { @title = "State", @tabindex = 1, @disabled = "disabled" })
+                }
+                @Html.ValidationMessageFor(model => model.Mast_State_Code)
+            </td>
+            <td style="text-align: left; width: 15%;">
+                @Html.LabelFor(model => model.MAST_DISTRICT_CODE)
+                <label style="color: red;">*</label>
+            </td>
+            <td style="width: 30%">
+                @if (Model.EncryptedAccountId == null)
+                {
+                    @Html.DropDownListFor(model => model.MAST_DISTRICT_CODE, ViewData["Districts"] as IEnumerable<SelectListItem>, new { @title = "Districts", @tabindex = 1 })
+                }
+                else
+                {
+                    @Html.DropDownListFor(model => model.MAST_DISTRICT_CODE, ViewData["Districts"] as IEnumerable<SelectListItem>, new { @title = "Districts", @tabindex = 1, @disabled = "disabled" })
+                }
+
+                @Html.ValidationMessageFor(model => model.MAST_DISTRICT_CODE)
+            </td>
+        </tr>
+        <tr>
+            <td style="width: 8%;"></td>
+
+            <td style="text-align: left; width: 15%;">
+                @Html.LabelFor(model => model.MAST_ACCOUNT_NUMBER)<label style="color: red;"> *</label>
+
+            </td>
+            <td>
+                @Html.TextBoxFor(model => model.MAST_ACCOUNT_NUMBER, new { maxlength = 18, @title = "Account Number", @placeholder = "Enter Account Number...", @tabindex = 2 })
+                @Html.ValidationMessageFor(model => model.MAST_ACCOUNT_NUMBER)
+            </td>
+            <td>
+                @Html.LabelFor(model => model.MAST_BANK_NAME)<label style="color: red">*</label>
+            </td>
+            <td>
+                @*@Html.TextBoxFor(model => model.MAST_BANK_NAME, new { maxlength = 100, @title = "Bank Name", @placeholder = "Enter Bank Name...", @tabindex = 3 })
+                @Html.ValidationMessageFor(model => model.MAST_BANK_NAME)*@
+                @Html.DropDownListFor(model => model.MAST_BANK_NAME, new SelectList(Model.lstBankNames, "Value", "Text"), new { @id = "ddlBankName", @tabindex = 3 })
+                <br />
+                @Html.ValidationMessageFor(x => x.MAST_BANK_NAME)
+            </td>
+        </tr>
+
+        <tr>
+            <td></td>
+
+            <td>
+                @Html.LabelFor(model => model.MAST_IFSC_CODE)<label style="color: red">*</label>
+                <br />
+                <label>(e.g.AAAA0123456/AAAA0ABCDEF)</label>
+            </td>
+            <td>
+                @Html.TextBoxFor(model => model.MAST_IFSC_CODE, new { maxlength = 11, @title = "IFSC Code", @placeholder = "Enter IFSC Code...", @tabindex = 4 })
+                <br />
+                @Html.ValidationMessageFor(model => model.MAST_IFSC_CODE)
+                @*@Html.DropDownListFor(model => model.MAST_IFSC_CODE, new SelectList(Model.lstIfscCodes, "Value", "Text"), new { @id = "ddlIfscCode", @tabindex = 3 })
+                <br />
+                @Html.ValidationMessageFor(x => x.MAST_IFSC_CODE)*@
+            </td>
+            @if (Model.EncryptedAccountId != null)
+            {
+                <td>
+                    <label>Is Active</label>
+                </td>
+                <td>
+                    @Html.RadioButtonFor(model => model.MAST_ACCOUNT_STATUS, "A", new { @id = "radioYes" })
+                    <label>Yes</label>
+                    @Html.RadioButtonFor(model => model.MAST_ACCOUNT_STATUS, "I", new { @id = "radioYes" })
+                    <label>No</label>
+                </td>
+            }
+            else
+            {
+                <td></td>
+                <td></td>
+            }
+        </tr>
+
+        <tr>
+            <td></td>
+            <td></td>
+            @if (Model.EncryptedAccountId == null)
+            {
+                <td style="text-align: right">
+                    <input type="button" id="btnSaveBankDetails" name="btnSave" value="Save" class="jqueryButton" title="Save Bank Details" tabindex="5" />
+                </td>
+                <td style="text-align: left" colspan="2">
+                    <input type="reset" id="btnResetBankDetails" name="btnReset" value="Reset" class="jqueryButton" title="Reset Bank Details" tabindex="6" /></td>
+            }
+            else
+            {
+                <td style="text-align: right">
+                    <input type="button" id="btnUpdateBankDetails" name="btnUpdate" value="Update" class="jqueryButton" title="Update Bank Details" tabindex="5" />
+                </td>
+                      
+                <td style="text-align: left" colspan="2">
+                    <input type="button" id="btnCancelBankDetails" name="btnCancel" value="Cancel" class="jqueryButton" title="Back" tabindex="6" /></td>
+            }
+        </tr>
+        @if (!string.IsNullOrEmpty(Model.pfmsErrorMessage))
+        {
+            <tr>
+                <td colspan="5" style="text-align:center;">
+                    <label style="color:red;">
+                        <b>*  @Model.pfmsErrorMessage</b>
+                    </label>
+                </td>
+            </tr>
+        }
+        <tr>
+            <td colspan="5">
+                <label style="border: none">
+                    [ Note: Fields marked with<label style="color: red;"> * </label>
+                    are mandatory.]</label>
+            </td>
+        </tr>
+    </table>
+
+</form>
+
+

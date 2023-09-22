@@ -1,0 +1,18 @@
+﻿@using MvcReportViewer
+
+@model PMGSY.Areas.OtherReports.Models.GepnicTenderReportModel
+
+  @Html.MvcReportViewer("/PMGSYCitizen/GepnicTenderDetailsReport",
+     new
+     {
+        STATE = Model.StateCode,
+        DISTRICT = Model.DistrictCode,
+        YEAR = Model.Year,
+        PMGSY = Model.SchemeCode,
+        StateName = Model.StateName,
+        DistrictName = Model.DistName,
+        YearLabel = Model.Year,
+
+     },
+       new { Height = 600, Width = "100%", style = "border:none;" })
+

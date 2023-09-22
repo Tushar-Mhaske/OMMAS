@@ -1,0 +1,83 @@
+﻿<script type="text/javascript">var finStatus = '@ViewBag.FinalizeStatus'; var AccountEntry = '@ViewBag.IsAccountEntry'; fundType = '@ViewBag.FundType';</script>
+<link href="~/Content/jqx.base.css" rel="stylesheet" />
+<script type="text/javascript" src="@Url.Content("~/Scripts/JQxChart/jqxcore.js")"> </script>
+<script type="text/javascript" src="@Url.Content("~/Scripts/JQxChart/jqxchart.js")"> </script>
+<script type="text/javascript" src="@Url.Content("~/Scripts/JQxChart/jqxdata.js")"> </script>
+<script type="text/javascript" src="@Url.Content("~/Scripts/custom/Generic.js")"> </script>
+<script type="text/javascript" src="@Url.Content("~/Scripts/OB/OpeningBalance.js")"> </script>
+<br />
+<div class="ui-widget-header innerDivHeader" style="margin-bottom:5px">Opening Balance</div>
+<center>
+    @{
+        
+    if(ViewBag.IsAccountEntry == "Y")
+    {
+        <div id="idAccountEntry" class="ui-state-default ui-corner-all" style="width:98%">
+            Opening Balance Entry Prohibited. Payment/ Receipt/ TEO/ Opening Balance details already present
+        </div>
+    }
+    else
+    {
+        <div id="divOBList" style="width:100%; margin-bottom:5px">
+    
+            <div style="text-align:left; width:98%">
+            <div id="AddOBMaster" class="ui-state-default ui-corner-all jqueryButton">
+            <span style="float:left;" class="ui-icon ui-icon-circle-plus"></span>
+            <span style="float:left; margin-right:5px">Add New Opening Balances </span>
+            </div>
+            </div>
+
+
+            <div style="width:98%" id="divOBMasterWrapper">
+            <table id="tblOBList"></table>
+            <div id="divOBListPager"></div>
+            </div>    
+
+        </div>
+        <div id="divOBEntry" style="width:100%; margin-bottom:5px">
+        <div style="text-align:left; display:none; width:98%" id="btnlblBackToList">
+        <div class="ui-state-default ui-corner-all jqueryButton" id="lblBackToList">
+            <span style="float:left" class="ui-icon ui-icon-circle-triangle-w"></span>
+            <span style="float:left; margin-right:5px">Go to List Page</span>
+        </div>
+        </div>
+
+
+        <center>
+        <div id="loadOBMaster" style="width:98%; margin-bottom:5px"></div>  
+
+        <div id="loadOBDetails" style="width:98%; margin-bottom:5px"></div>  
+
+        <div style="width:98%; margin-bottom:5px" id="divOBDetailsWrapper">
+            <table id="tblOBDetailsGrid"></table>
+            <div id="divOBDetailsPager"></div>
+        </div>
+
+        <div class="ui-widget-header ui-corner-top" style="text-align:left; width:98%; display:none" id="divOBChart">Opening Balance Transaction Details 
+            <span id="DivIcoOBTrans" style="float:right" class="ui-icon ui-icon-circle-triangle-n"></span>
+        </div>
+
+        <table class="ui-table-border" style="width: 98%; display:none" cellspacing="1px" id="tblOBChart">
+        <tr><td style="text-align:center">
+        <div id='chartContainer' style="width:900px; height:400px; vertical-align: top;  display:inline-block; padding: 10px;">
+
+        </div>
+
+        </td></tr>
+        </table>        
+            <br/>
+        <div class="ui-state-default ui-corner-all" style="width:98%; display:none" id="divFinalizeOB">
+            <input type="button" value="Finalize" id="btnFinalizeOB" class="jqueryButton" style="margin:2px 0 2px 0"/>
+        </div>    
+        </center>
+        </div>
+        <label id="lblDescChart" style="display:none">
+
+        </label>
+        
+        @Html.Hidden("EncryptedParam")
+        @Html.Hidden("TransNo")
+    }
+  }
+
+</center>

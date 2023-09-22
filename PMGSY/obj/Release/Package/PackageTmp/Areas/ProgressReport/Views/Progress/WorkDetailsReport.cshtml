@@ -1,0 +1,19 @@
+﻿@using MvcReportViewer
+
+@model PMGSY.Areas.ProgressReport.Models.WorkDetails
+
+@*@{ PMGSY.Common.FetchCookieData fetchCookieData = new PMGSY.Common.FetchCookieData(); }*@
+
+@Html.MvcReportViewer("/PMGSYCitizen/WorkDetails",
+     new
+     {
+         State = Model.StateCode,
+         Month = Model.Month,
+         Year = Model.Year,
+         proposalType=Model.ProposalTypeCode,
+         ConnectivityType=Model.ConnectivityCode,
+         PmgsyScheme=Model.SchemeCode
+     },
+     new { Height = 600, Width = "100%", style = "border:none;" })
+
+

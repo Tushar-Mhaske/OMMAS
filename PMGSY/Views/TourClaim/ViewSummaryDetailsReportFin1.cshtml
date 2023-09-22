@@ -1,0 +1,141 @@
+﻿@model PMGSY.Models.NQMTourClaimModels.NQM_TOUR_CLAIM_MASTER_MODEL
+
+@{
+    ViewBag.Title = "ViewSummaryDetailsReportFin1";
+}
+
+<style>
+    #divSummary, #divRemarks {
+        float: left;
+        width: 49.5%;
+        height: 700px;
+        /*border: 0.5px solid grey;*/
+        /*border-radius: 1rem;*/
+        overflow-y: auto;
+    }
+
+    #combineDiv {
+        border: 0.5px solid grey;
+        border-radius: 1rem;
+    }
+</style>
+
+<script src="~/Scripts/custom/Generic.js"></script>
+<script src="~/Scripts/jquery-ui.js"></script>
+<script src="~/Scripts/TourClaim/ViewEditTourFinance.js"></script>
+<script src="~/Scripts/TourClaim/ViewEditFinance.js"></script>
+
+@Html.HiddenFor(model => model.TOUR_CLAIM_ID, new { id = "tClaimId" })
+@Html.HiddenFor(model => model.ADMIN_SCHEDULE_CODE, new { id = "secCodeFin1" })
+@Html.HiddenFor(model => model.MONTH_OF_INSPECTION)
+@Html.HiddenFor(model => model.YEAR_OF_INSPECTION)
+@Html.HiddenFor(model => model.finalizeFlag)
+@Html.HiddenFor(model => model.ROUND_SEQUENCE)
+
+
+@if (Model.finalizeFlag == 2)
+{
+    @Html.Label("Office Assistant Finance : ", new { style = "font-size:1.2rem" }) @*margin-left:35rem;*@
+    @Html.TextAreaFor(model => model.OFFICE_ASSISTANT_FINANCE, new { @id = "officeAssistantFinance", style = "width:15%;margin-left:1rem;font-size:1rem" })
+
+    <button style="border-radius:0.5rem; padding:0.5rem; border:1px solid black; margin-left:1rem" onclick="ForwardToFin2($('#secCodeFin1').val() + '$' + $('#officeAssistantFinance').val())">Forward to Approver</button>
+    <button style="border-radius: 0.5rem; padding: 0.5rem; border: 1px solid black; margin-left: 1rem; width: 5%" onclick="ViewEditFinance($('#tClaimId').val())">Back</button>
+
+}
+else
+{
+    <button style="border-radius: 0.5rem; padding: 0.5rem; border: 1px solid black; margin-left: 1rem; width: 5%" onclick="ViewEditFinance($('#tClaimId').val())">Back</button>
+}
+
+@*<center>
+        @using MvcReportViewer
+
+        @Html.MvcReportViewer("/PMGSYCitizen/TOUR_CLAIM_PREVIEW_REPORT_FINANCE",
+        new
+        {
+            tourId = Model.TOUR_CLAIM_ID
+        },
+           new { Height = 600, Width = "50%", style = "border:none;" })
+</center>*@
+
+<div id="combineDiv">
+    <div id="divSummary" class="ui-state-default">
+
+        <center><h2><u>Summar Report</u></h2></center>
+
+        @using MvcReportViewer
+
+        @Html.MvcReportViewer("/PMGSYCitizen/TOUR_CLAIM_PREVIEW_REPORT_FINANCE",
+        new
+        {
+            tourId = Model.TOUR_CLAIM_ID
+        },
+           new { Height = 600, Width = "100%", style = "border:none;" })
+    </div>
+
+    <div id="divRemarks" style="margin-left:0.5rem; text-align:left" class="ui-state-default">
+
+        <center><h2><u>Remarks Summary</u></h2></center>
+
+        @if (ViewBag.travelList.Count > 0)
+        {
+            <h2 style="margin-left:0.5rem">Travel Claim</h2>
+
+            <ol>
+                @foreach (var item in ViewBag.travelList)
+                {
+                    <li>@item</li>
+                }
+            </ol>
+        }
+
+        @if (ViewBag.lodgeList.Count > 0)
+        {
+            <h2 style="margin-left:0.5rem">Lodge Details</h2>
+
+            <ol>
+                @foreach (var item in ViewBag.lodgeList)
+                {
+                    <li>@item</li>
+                }
+            </ol>
+        }
+
+        @if (ViewBag.inspList.Count > 0)
+        {
+            <h2 style="margin-left:0.5rem">Inspection of Road</h2>
+
+            <ol>
+                @foreach (var item in ViewBag.inspList)
+                {
+                    <li>@item</li>
+                }
+            </ol>
+        }
+
+        @if (ViewBag.meetingList.Count > 0)
+        {
+            <h2 style="margin-left:0.5rem">Meeting with PIU</h2>
+
+            <ol>
+                @foreach (var item in ViewBag.meetingList)
+                {
+                    <li>@item</li>
+                }
+            </ol>
+        }
+
+        @if (ViewBag.misList.Count > 0)
+        {
+            <h2 style="margin-left:0.5rem">Miscellaneous</h2>
+
+            <ol>
+                @foreach (var item in ViewBag.misList)
+                {
+                    <li>@item</li>
+                }
+            </ol>
+        }
+
+    </div>
+</div>

@@ -1,0 +1,115 @@
+﻿@{
+    ViewBag.Title = "CN4ReportDetails";
+}
+
+@model PMGSY.Models.CoreNetworkReports.CoreNetworkReportViewModel
+
+<script type="text/javascript" src="@Url.Content("~/Scripts/jquery.ui.dialog.js")"> </script>
+<script type="text/javascript" src="~/Scripts/CoreNetworkReports/CN4ReportDetails.js"></script>
+<script src="~/Scripts/custom/Generic.js"></script>
+<form id="frmCN4StateLevelReport">
+    @Html.Hidden("hdnLevelId", PMGSY.Extensions.PMGSYSession.Current.LevelId.ToString())
+
+    @if (PMGSY.Extensions.PMGSYSession.Current.StateCode != 0)
+    {           
+        @Html.Hidden("STATE_NAME", PMGSY.Extensions.PMGSYSession.Current.StateName.ToString())
+    }
+
+    @if (PMGSY.Extensions.PMGSYSession.Current.DistrictCode != 0)
+    {
+        @Html.Hidden("DISTRICT_NAME", PMGSY.Extensions.PMGSYSession.Current.DistrictName.ToString())   
+    }
+
+    @Html.HiddenFor(model => model.BLOCK_NAME)
+  @*  <div style="width: 98%">
+        <table class="ui-state-default ui-corner-all" style="width: 100%;">
+            <tr>
+                <td style="width: 2%;"></td>
+                <td style="text-align: left; width: 7%;">
+                    @Html.Label("Road Type") &nbsp;
+                </td>
+                 <td style="width: 2%;">
+                    @Html.DropDownList("RoadCategory_CN4Details", ViewData["RoadCategory"] as IEnumerable<SelectListItem>,new { @title = "Road Type" , @tabindex = 1 })
+                </td>
+                <td style="text-align: left; width: 5%;">
+                    @Html.Label("Route") &nbsp;
+                </td>
+                <td style="width: 15%;">
+                    @Html.DropDownList("Route_CN4Details", ViewData["Route"] as IEnumerable<SelectListItem>, new { @title = "Route", @tabindex = 1 })
+                </td>
+                <td style="width: 20%;margin-left:5px;">
+                    <input type="button" value="View" class="jqueryButton" id="btCN4Details" title="View Details" tabindex="2" />
+                </td>
+                <td style="width: 60%;"></td>
+            </tr>
+        </table>
+    </div>
+        <br />
+    *@
+
+    @if (PMGSY.Extensions.PMGSYSession.Current.LevelId == 6)     //Mord
+    {
+        <div id="CN4StateReport">
+            <table id="CN4StateReportTable"></table>
+        </div>
+        <div id="CN4StateReportPager"></div>
+        <br />
+
+        <div id="CN4DistrictReport">
+            <table id="CN4DistrictReportTable"></table>
+        </div>
+        <div id="CN4DistrictReportPager"></div>
+
+        <br />
+        <div id="CN4BlockReport">
+            <table id="CN4BlockReportTable"></table>
+        </div>
+        <div id="CN4BlockReportPager"></div>
+
+        <br />
+        <div id="CN4FinalReport">
+            <table id="CN4FinalReportTable"></table>
+        </div>
+        <div id="CN4FinalReportPager"></div>
+        
+    }
+
+    else if (PMGSY.Extensions.PMGSYSession.Current.LevelId == 4)     //State
+    {
+        @Html.HiddenFor(model => model.MAST_STATE_CODE)
+        <div id="CN4DistrictReport">
+            <table id="CN4DistrictReportTable"></table>
+        </div>
+        <div id="CN4DistrictReportPager"></div>
+
+        <br />
+        <div id="CN4BlockReport">
+            <table id="CN4BlockReportTable"></table>
+        </div>
+        <div id="CN4BlockReportPager"></div>
+
+        <br />
+        <div id="CN4FinalReport">
+            <table id="CN4FinalReportTable"></table>
+        </div>
+        <div id="CN4FinalReportPager"></div>
+    }
+    else if (PMGSY.Extensions.PMGSYSession.Current.LevelId == 5)     //District
+    {
+        @Html.HiddenFor(model => model.MAST_STATE_CODE)
+        @Html.HiddenFor(model => model.MAST_DISTRICT_CODE)
+        <div id="CN4BlockReport">
+            <table id="CN4BlockReportTable"></table>
+        </div>
+        <div id="CN4BlockReportPager"></div>
+
+        <br />
+        <div id="CN4FinalReport">
+            <table id="CN4FinalReportTable"></table>
+        </div>
+        <div id="CN4FinalReportPager"></div>
+    }
+</form>
+
+
+

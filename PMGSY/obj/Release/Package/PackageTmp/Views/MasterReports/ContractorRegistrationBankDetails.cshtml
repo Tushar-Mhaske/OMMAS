@@ -1,0 +1,61 @@
+﻿@{
+    ViewBag.Title = "ContractorRegistrationBankDetails";
+}
+@model PMGSY.Models.MasterReports.MasterReportsModel
+
+@Html.Hidden("hdnLevelId", PMGSY.Extensions.PMGSYSession.Current.LevelId.ToString())
+
+@if (PMGSY.Extensions.PMGSYSession.Current.StateCode != 0)
+{           
+    @Html.Hidden("STATE_NAME", PMGSY.Extensions.PMGSYSession.Current.StateName.ToString())
+}
+
+@if (PMGSY.Extensions.PMGSYSession.Current.DistrictCode != 0)
+{
+    @Html.Hidden("DISTRICT_NAME", PMGSY.Extensions.PMGSYSession.Current.DistrictName.ToString())   
+}
+
+
+@Html.HiddenFor(model => model.BLOCK_NAME)
+@Html.HiddenFor(model => model.MAST_STATE_CODE)
+@Html.HiddenFor(model => model.MAST_DISTRICT_CODE)
+<div style="width: 100%">
+    <table class="ui-state-default ui-corner-all" style="width: 100%;">
+        <tr>
+            <td style="width: 2%;"></td>
+            <td style="text-align: left; width: 4%;">
+                @Html.Label("State") 
+            </td>
+            <td style=" width: 15%;">
+                @Html.DropDownList("MAST_CON_Reg_Bank_State", ViewData["STATE"] as IEnumerable<SelectListItem>, new { @title = "State", @tabindex = 1 })
+
+            </td>
+            <td style="text-align: left; width: 12%;">
+                @Html.Label("Contract Supplier Flag") 
+
+            </td>
+            <td style=" width: 15%;">
+                @Html.DropDownList("MAST_Contr_Reg_Flag", ViewData["Contr_Sup_Flag"] as IEnumerable<SelectListItem>, new { @title = "Contract Supplier Flag", @tabindex = 2 })  
+
+            </td>
+            <td style="text-align: left; width: 8%;">
+                @Html.Label("Contract Status")
+            </td>
+            <td style=" width: 15%;">@Html.DropDownList("MAST_Contr_Reg_STATUS", ViewData["Contr_STATUS"] as IEnumerable<SelectListItem>, new { @title = "Contract Status", @tabindex = 3 })
+            </td>
+              <td style="text-align: center; width: 20%; margin-left: 5px;">
+                <input type="button" id="ContractorRegBankDetailsButton" value="View" class="jqueryButton" title="View Details" tabindex="4" />
+            </td>
+            <td style="width: 5%;"></td>           
+        </tr>
+
+    </table>
+</div>
+<br />
+<div id="ContractorRegistrationBankDetails">
+    <table id="ContractorRegistrationBankDetailsTable"></table>
+</div>
+<div id="ContractorRegistrationBankDetailsPager"></div>
+<script type="text/javascript" src="@Url.Content("~/Scripts/jquery.ui.dialog.js")"> </script>
+<script src="~/Scripts/custom/Generic.js"></script>
+<script src="~/Scripts/MasterReports/ContractorRegistrationBankDetails.js" type="text/javascript"></script>

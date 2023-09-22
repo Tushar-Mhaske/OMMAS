@@ -1,0 +1,146 @@
+﻿@model PMGSY.Models.Execution.ExecutionProgressViewModel
+
+
+<script src="~/Scripts/jquery.ui.tabs.js"></script>
+<script src="~/Scripts/custom/Generic.js"></script>
+<script src="~/Scripts/jquery.ui.accordion.js"></script>
+<script src="~/Scripts/Execution/ViewExecutionProgressDetails.js"></script>
+
+@Html.HiddenFor(model => model.IMS_PR_ROAD_CODE, new { @id="proposalCode"})
+@Html.HiddenFor(model => model.EXEC_PROGRESS_TYPE, new { @id="progressType"})
+
+<div style="height:auto; width: 99%; text-align:left; padding-top: 0.6em;"> 
+
+    <table class="rowstyle ui-corner-all" style="width:100%; border:solid black 1px;">
+        <tr>
+            <td style="width:5%"></td>
+            <td style="width:12%;font-weight:bold">
+                Block 
+            </td>
+            <td style="width:15%">
+                @Model.BlockName
+            </td>
+            <td style="width:12%;font-weight:bold">
+                Package No.
+            </td>
+            <td style="width:15%">
+                @Model.Package
+            </td>
+        </tr>
+        <tr>
+            <td></td>
+            <td style="font-weight:bold">
+                Road Name:
+            </td>
+            <td>
+                @Model.RoadName
+            </td>
+            <td style="font-weight:bold">
+                Agreement Date
+            </td>
+            <td>
+                @Model.AgreementDate
+            </td>
+        </tr>
+        <tr>
+            <td></td>
+            <td style="font-weight:bold">
+                Overall Cost(Rs. in Lakh):
+            </td>
+            <td>
+                @Model.AgreementCost@*<label id="lblView" onclick="ViewDetails()" style="color:blue;cursor:pointer">  (View Details)</label>*@
+            </td>
+            <td style="font-weight:bold">
+                Sanction Length(in Km)
+            </td>
+            <td>
+                @Model.Sanction_length
+            </td>
+        </tr>
+    </table>
+
+</div>
+<br />
+
+<div id="tabs">
+    <ul>
+        <li><a href="#tabs-1">CDWorks Details</a></li>
+        <li><a href="#tabs-2">Physical Details</a></li>
+        <li><a href="#tabs-8">Connected Habitations</a></li>
+        <li><a href="#tabs-3">Financial Details</a></li>
+        <li><a href="#tabs-4">Remarks Details</a></li>
+        <li><a href="#tabs-5">Image Details</a></li>
+        <li><a href="#tabs-6">Executing Officer Details</a></li>
+        <li><a href="#tabs-7">Technology Progress Details</a></li>
+        <li><a href="#tabs-9">Road Safety Details</a></li>
+        <li><a href="#tabs-10">Execution Technology Image Details</a></li>
+    </ul>
+    <div id="tabs-1" style="text-align:left">
+        <div id="divCdWorks" style="text-align:left;width:100%">
+            <table id="tbCDWorksList" style="width:95%"></table>
+            <div id="pagerCDWorksList"></div>
+        </div>
+    </div>
+    <div id="tabs-2" style="text-align:left">
+        <div id="divPhysicalProgress" style="text-align:left;width:100%">
+            <table id="tbPhysicalRoadList" style="width:95%"></table>
+            <div id="pagerPhysicalRoadList"></div>
+            <table id="tbLSBPhysicalRoadList" style="width:95%"></table>
+            <div id="pagerLSBPhysicalRoadList"></div>
+        </div>
+    </div>
+    <div id="tabs-8" style="text-align:left">
+        <div id="divHabitationProgress" style="text-align:left;width:100%">
+            <table id="tbHabitationRoadList" style="width:95%"></table>
+            <div id="pagerHabitationRoadList"></div>
+            @*<table id="tbLSBPhysicalRoadList" style="width:95%"></table>
+            <div id="pagerLSBPhysicalRoadList"></div>*@
+        </div>
+    </div>
+    <div id="tabs-3" style="text-align:left">
+        <div id="divFinancialProgress" style="text-align:left;width:100%">
+            <table id="tbFinancialList" style="width:95%"></table>
+            <div id="pagerFinancialList"></div>
+        </div>
+    </div>
+    <div id="tabs-4" style="text-align:left">
+        <div id="divRemarks" style="text-align:left;width:100%">
+            <table id="tbListRemarks" style="width:95%"></table>
+            <div id="pagerRemarks"></div>
+        </div>
+    </div>
+    <div id="tabs-5" style="text-align:left">
+        <div id="divImages" style="text-align:left;width:100%">
+            <table id="tbFilesList" style="width:95%"></table>
+            <div id="dvFilesListPager"></div>
+        </div>
+        <div id="divVideos" style="text-align:left;width:100%;margin-top:20px;display:none">
+            <table id="tbVideoFilesList" style="width:95%"></table>
+            <div id="dvVideoFilesListPager"></div>
+        </div>
+    </div>
+    <div id="tabs-6" style="text-align:left">
+        <div id="divExecutingOfficer" style="text-align:left;width:100%">
+            <table id="tbExecutingOfficerList" style="width:95%"></table>
+            <div id="pagerExecutingOfficerList"></div>
+        </div>
+    </div>
+    <div id="tabs-7" style="text-align:left">
+        <div id="dvTechnolofyProgress" style="text-align:left;width:100%">
+            <table id="tbTechnolofyProgressList" style="width:95%"></table>
+            <div id="pagerTechnolofyProgressList"></div>
+        </div>
+    </div>
+    <div id="tabs-9" style="text-align:left">
+        <div id="dvRoadSafety" style="text-align:left;width:100%">
+            <table id="tbRoadSafetyList" style="width:100%"></table>
+            <div id="pagerRoadSafetyList"></div>
+        </div>
+    </div>
+    <div id="tabs-10" style="text-align:left">
+        <div id="dvExecTechImage" style="text-align:left;width:100%">
+            <table id="tbExecTechImageList" style="width:100%"></table>
+            <div id="pagerExecTechImageList"></div>
+        </div>
+    </div>
+</div>

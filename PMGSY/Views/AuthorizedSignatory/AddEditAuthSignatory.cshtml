@@ -1,0 +1,378 @@
+﻿@model PMGSY.Models.AuthorizedSignatory.AuthorizedSignatoryModel
+
+@{
+    ViewBag.Title = "Add Edit Authorised Signatory";
+   
+}
+
+
+<script> var operation = '@ViewBag.isEdit' </script>
+<script src="~/Scripts/jquery.ui.datepicker.js"></script>
+<script src="~/Scripts/custom/Generic.js"></script>
+<script src="~/Scripts/AddEditAuthorisedSignatory.js"></script>
+
+
+<div class="ui-widget-header innerDivHeader">
+    @HttpContext.GetLocalResourceObject(@"~\Views\Shared\authorizedSignatory", "lblPageHeader", System.Globalization.CultureInfo.CurrentUICulture)
+</div>
+
+
+<div id="divError" style="margin-left: 10px; margin-right: 15px; margin-top: 10px; display: none" class="ui-state-error ui-corner-all">
+    <span class="ui-icon ui-icon-alert " style="float: left"></span>
+    <span id="errorSpan"></span>
+</div>
+
+<br />
+@*<div>
+    <a id ="lblBack" class="ui-icon ui-icon-circle-arrow-w" style="float:left">
+        Go Back
+    </a>
+</div>
+<br />*@
+
+
+<table style="margin-right: 15px">
+    <tbody>
+        <tr>
+            <td>
+
+                <div style="padding: 0pt 0.7em; cursor: pointer;" class="jqueryButton" id="lblBack">
+
+                    <span class="ui-icon ui-icon-circle-triangle-w" style="float: left; margin-right: 0.3em;"></span><strong>
+                        @HttpContext.GetLocalResourceObject(@"~\Views\Shared\authorizedSignatory", "lblGoBack", System.Globalization.CultureInfo.CurrentUICulture)
+                    </strong>
+                </div>
+
+            </td>
+
+        </tr>
+    </tbody>
+</table>
+
+
+
+
+
+<br />
+<form id="authSigForm">
+    @Html.ValidationSummary(true)
+
+    @Html.Hidden("encryptedNdCode")
+    @Html.Hidden("startDate")
+    @Html.Hidden("EndDate")
+    @Html.HiddenFor(m => m.CURRENT_DATE)
+    @Html.HiddenFor(s => s.IsDscDetailChanged);
+    <center>
+        <table class="rowstyle ui-corner-all" style="width:100%;border:.1em solid gray"> @*table-content*@
+            <tr>
+                <td class="ui-state-default" colspan="4" style="border:none;"> @* ui-state-default*@
+                    @HttpContext.GetLocalResourceObject(@"~\Views\Shared\authorizedSignatory", "lblPersonalDetails", System.Globalization.CultureInfo.CurrentUICulture)
+
+                    
+                </td>
+            </tr>
+            <tr>
+                <td colspan="4"></td>
+            </tr>
+
+            <tr>
+                <td style="width:14%;text-align:left">
+                       @HttpContext.GetLocalResourceObject(@"~\Views\Shared\authorizedSignatory", "lblName", System.Globalization.CultureInfo.CurrentUICulture) <font color="red">*</font>
+                   </td>
+                <td style="width:36%;text-align:left;vertical-align:middle">
+                       @Html.TextBoxFor(model => model.ADMIN_FNAME, new { maxlength = 25, @title = "First Name", placeholder = "First Name", @style = "Width:25%" })  &nbsp; &nbsp;  @Html.TextBoxFor(model => model.ADMIN_MNAME, new { maxlength = 25, title = "Middle Name", placeholder = "Middle Name", @style = "Width:25%" })  &nbsp; &nbsp;  @Html.TextBoxFor(model => model.ADMIN_LNAME, new { maxlength = 25, title = "Last Name", placeholder = "Last Name", @style = "Width:25%" })
+                   
+                        @Html.ValidationMessageFor(model => model.ADMIN_FNAME)   &nbsp;  @Html.ValidationMessageFor(model => model.ADMIN_MNAME)  &nbsp;  @Html.ValidationMessageFor(model => model.ADMIN_LNAME)
+                  
+                   </td>
+               
+                <td style="width:14% ;text-align:left">
+          
+            @Html.LabelFor(model => model.ADMIN_NO_DESIGNATION)<label style="color:red">*</label>
+          </td>
+                <td style="text-align:left" >
+               
+            @Html.DropDownList("ADMIN_NO_DESIGNATION", null, "-- Select --", new { title = "Designation" })
+           
+                     @*Html.EditorFor(model => model.ADMIN_DESIGNATION)*@
+                     <br />
+            @Html.ValidationMessageFor(model => model.ADMIN_NO_DESIGNATION)
+       
+                </td>
+
+
+            </tr>
+           
+             <tr>
+                <td colspan="4"  class="ui-state-default" style="border:none;"> @*ui-state-highlight*@ @HttpContext.GetLocalResourceObject(@"~\Views\Shared\authorizedSignatory", "lblAddressDetails", System.Globalization.CultureInfo.CurrentUICulture) </td>
+
+            </tr>
+            <tr>
+                <td style="text-align:left">
+                   
+                        @Html.LabelFor(model => model.ADMIN_ADDRESS1) <label style="color:red">*</label>
+                    </td>
+                 <td style="text-align:left">
+                        @Html.TextAreaFor(model => model.ADMIN_ADDRESS1, new { @style = "width:236px;height=10px", @placeholder = "Enter Address1..... ", @title = "Address 1" })
+                     <br />
+                        @Html.ValidationMessageFor(model => model.ADMIN_ADDRESS1)
+                   
+                </td>
+               <td style="text-align:left">
+                    
+                        @Html.LabelFor(model => model.ADMIN_ADDRESS2)
+                 </td> 
+                <td style="text-align:left">
+                        @Html.TextAreaFor(model => model.ADMIN_ADDRESS2, new { @style = "width:236px;height=10px", @placeholder = "Enter Address2..... ", @title = "Address 2" })
+                     <br />
+                        @Html.ValidationMessageFor(model => model.ADMIN_ADDRESS2)
+                   
+                </td>
+            </tr>
+
+            <tr>
+                 <td style="text-align:left">
+                   
+                        @Html.LabelFor(model => model.MAST_DISTRICT_CODE)
+                   
+                    </td>
+                 <td style="text-align:left">
+                          @Html.DropDownList("MAST_DISTRICT_CODE", null, "-- Select --", new { @title = "District" })
+                     <br />
+                        @Html.ValidationMessageFor(model => model.MAST_DISTRICT_CODE)
+                   
+                </td>
+
+               <td style="text-align:left">
+                                     
+                        @Html.LabelFor(model => model.ADMIN_PIN)
+                    </td>
+                 <td style="text-align:left">
+                        @Html.TextBoxFor(model => model.ADMIN_PIN, new { @style = "width:75px;", @placeholder = "Enter PIN Code..... ", @title = "Pin Code" })
+                      <br />
+                        @Html.ValidationMessageFor(model => model.ADMIN_PIN)
+                    
+                </td>
+            </tr>
+
+                        
+             <tr>
+              <td colspan="4"  class="ui-state-default" style="border:none;">   @*ui-state-highlight*@  @HttpContext.GetLocalResourceObject(@"~\Views\Shared\authorizedSignatory", "lblContactDetails", System.Globalization.CultureInfo.CurrentUICulture) </td>
+          </tr>
+
+            <tr>
+
+                <td style="text-align:left">
+                   @Html.LabelFor(model => model.ADMIN_RESIDENCE_PHONE)
+                       
+                  </td>
+                 <td style="text-align:left">
+                        @Html.TextBoxFor(model => model.ADMIN_RESIDENCE_STD, new { @style = "width:70px", @placeholder = "Enter STD Code..... ", @title = "STD Code" }) -
+                       @Html.TextBoxFor(model => model.ADMIN_RESIDENCE_PHONE, new { @placeholder = "Enter Residence Phone Number..... ", @title = "Residence Phone Number" }) 
+                      <br />
+                        @Html.ValidationMessageFor(model => model.ADMIN_RESIDENCE_STD)
+                     @Html.ValidationMessageFor(model => model.ADMIN_RESIDENCE_PHONE)
+
+                </td>
+                
+                 <td style="text-align:left">
+
+                     @Html.LabelFor(model => model.ADMIN_OFFICE_PHONE)
+                        
+                   </td> 
+                 <td style="text-align:left">
+                        @Html.TextBoxFor(model => model.ADMIN_OFFICE_STD, new { @style = "width:70px", @placeholder = "Enter STD Code..... ", @title = "STD Code" }) -
+                         @Html.TextBoxFor(model => model.ADMIN_OFFICE_PHONE, new { @placeholder = "Enter Office Number..... ", @title = "Office Phone Number" })
+                         <br />
+                        @Html.ValidationMessageFor(model => model.ADMIN_OFFICE_STD)
+                        @Html.ValidationMessageFor(model => model.ADMIN_OFFICE_PHONE)
+                  
+
+                </td>
+                </tr>
+            <tr>
+                 <td style="text-align:left">
+                    
+                        @Html.LabelFor(model => model.ADMIN_FAX)
+                       
+                    </td>
+                  <td style="text-align:left">
+                        @Html.TextBoxFor(model => model.ADMIN_STD_FAX, new { @style = "width:70px", @placeholder = "Enter STD Code..... ", @title = "STD Code" }) -
+                        @Html.TextBoxFor(model => model.ADMIN_FAX, new { @placeholder = "Enter FAX Number..... ", @title = "Fax Number" })
+                       <br />
+                        @Html.ValidationMessageFor(model => model.ADMIN_STD_FAX)
+                        @Html.ValidationMessageFor(model => model.ADMIN_FAX)
+                  
+                </td>
+                <td style="text-align:left">
+                  
+                        @Html.LabelFor(model => model.ADMIN_MOBILE) <label style="color:red">*</label>
+                     </td>
+                    <td style="text-align:left">
+                        @Html.TextBoxFor(model => model.ADMIN_MOBILE, new { @placeholder = "Enter Mobile Number..... ", @title = "Mobile Number" })
+                          <br />
+                        @Html.ValidationMessageFor(model => model.ADMIN_MOBILE)
+                   
+                </td>
+
+                </tr>
+                   
+            <tr>
+
+                 <td style="text-align:left">
+                   
+                        @Html.LabelFor(model => model.ADMIN_EMAIL) <label style="color:red">*</label>
+                  </td>
+                <td style="text-align:left">
+                        @Html.TextBoxFor(model => model.ADMIN_EMAIL, new { @placeholder = "Enter Email..... ", @title = "Email" })
+                      <br />
+                        @Html.ValidationMessageFor(model => model.ADMIN_EMAIL)
+                   
+                </td>
+                 <td style="text-align:left">
+                        @Html.LabelFor(model => model.ADMIN_REMARKS)
+                   </td>
+               <td style="text-align:left">
+                  
+                        @Html.TextAreaFor(model => model.ADMIN_REMARKS, new { @style = "width:236px", @placeholder = "Enter Remark..... ", @title = "Remarks" })
+                     <br />
+                        @Html.ValidationMessageFor(model => model.ADMIN_REMARKS)
+                   
+                </td>
+            </tr>
+           
+
+                <tr>
+               
+                <td style="text-align:left">
+                     
+                      
+                      @Html.LabelFor(model => model.START_DATE)<label style="color:red">*</label>
+                    </td>
+                <td style="text-align:left" >
+                        @Html.TextBoxFor(model => model.START_DATE, new { @placeholder = "Enter Start Date.....", @title = "Start Date" })
+                    <br />
+                        @Html.ValidationMessageFor(model => model.START_DATE)
+                   
+                </td>
+
+                       @if (ViewBag.isEdit == "A")
+                       {
+                         
+                         @*<td>@Html.LabelFor(m => m.ADMIN_AADHAR_NO)<label style="color:red">*</label></td>
+                         <td>
+                             @Html.TextBoxFor(m => m.ADMIN_AADHAR_NO, new { @placeholder = "Adhar Number...", @title = "Adhar Number",maxlength = 12 })  @Html.ValidationMessageFor(m => m.ADMIN_AADHAR_NO)
+                         </td>*@                           
+                            <td>@Html.RadioButtonFor(m => m.ADMIN_AADHAR_PAN_FLAG, "A", new { @id = "rdoAadhaarNo"}) @Html.Label("Aadhaar No")
+                                @Html.RadioButtonFor(m => m.ADMIN_AADHAR_PAN_FLAG, "P", new { @id = "rdoPanNo" }) @Html.Label("Pan No")
+                                 @Html.ValidationMessageFor(m => m.ADMIN_AADHAR_PAN_FLAG)
+                            </td>
+                         <td>
+                             <span id="spnAadharNumber"  style="display:none">
+                             @Html.TextBoxFor(m => m.ADMIN_AADHAR_NO, new { @placeholder = "Adhar Number...", @title = "Adhar Number", maxlength = 12 }) 
+                             @Html.ValidationMessageFor(m => m.ADMIN_AADHAR_NO)
+                             </span>
+                             <span id="spnPanNumber" style="display:none">
+                             @Html.TextBoxFor(m => m.ADMIN_PAN_NO, new { @placeholder = "Pan Number...", @title = "Pan Number", maxlength = 10 }) 
+                             @Html.ValidationMessageFor(m => m.ADMIN_PAN_NO)
+                             </span>
+                         </td>             
+                       }
+                       else
+                       {
+                            <td style="text-align:left" >
+                    
+                        @Html.LabelFor(model => model.END_DATE)
+                  </td> 
+                <td style="text-align:left">
+                 
+                        @Html.TextBoxFor(model => model.END_DATE, new { @placeholder = "Enter End Date..... ", @title = "End Date" })
+                      <br />
+                        @Html.ValidationMessageFor(model => model.END_DATE)
+                   
+
+                </td>
+                       }
+            </tr>  
+            
+          @if (ViewBag.isEdit != "A")
+          {
+            <tr>
+               @* <td>@Html.LabelFor(m => m.ADMIN_AADHAR_NO)<label style="color:red">*</label></td>
+                <td>
+                    @Html.TextBoxFor(m => m.ADMIN_AADHAR_NO, new { @placeholder = "Adhar Number...", @title = "Adhar Number", maxlength = 12 })  @Html.ValidationMessageFor(m => m.ADMIN_AADHAR_NO)
+                </td>*@
+                             <td>                                 
+                                 @Html.RadioButtonFor(m => m.ADMIN_AADHAR_PAN_FLAG, "A", new { @id = "rdoAadhaarNo" }) @Html.Label("Aadhaar No")
+                                 @Html.RadioButtonFor(m => m.ADMIN_AADHAR_PAN_FLAG, "P", new { @id = "rdoPanNo" }) @Html.Label("Pan No")
+
+                                 @Html.ValidationMessageFor(m => m.ADMIN_AADHAR_PAN_FLAG)
+                            </td>
+                         <td>
+                            
+                             <span id="spnAadharNumber" style="display:none">
+                             @Html.TextBoxFor(m => m.ADMIN_AADHAR_NO, new { @placeholder = "Adhar Number...", @title = "Adhar Number", maxlength = 12 }) 
+                             @Html.ValidationMessageFor(m => m.ADMIN_AADHAR_NO)
+                             </span>
+                            
+                             <span id="spnPanNumber" style="display:none">
+                             @Html.TextBoxFor(m => m.ADMIN_PAN_NO, new { @placeholder = "Pan Number...", @title = "Pan Number", maxlength = 10 }) 
+                             @Html.ValidationMessageFor(m => m.ADMIN_PAN_NO)
+                             </span>
+                            
+                         </td>  
+
+                <td></td>
+                <td></td>
+            </tr>
+          }
+
+          
+             @if (ViewBag.isEdit != "V")
+             {
+              <tr >
+
+                <td></td>
+                
+                <td style="text-align:right;">
+                    @if (ViewBag.isEdit == "A")
+                    {
+                    <input type="button" id="btnSubmit" value=" @HttpContext.GetLocalResourceObject(@"~\Views\Shared\authorizedSignatory", "lblSave", System.Globalization.CultureInfo.CurrentUICulture)"  class="jqueryButton" title= "@HttpContext.GetLocalResourceObject(@"~\Views\Shared\authorizedSignatory", "lblClickSave", System.Globalization.CultureInfo.CurrentUICulture) "/>
+                    }
+                    else
+                    {
+                         <input type="button" id="btnUpdate" value=" @HttpContext.GetLocalResourceObject(@"~\Views\Shared\authorizedSignatory", "lblUpdate", System.Globalization.CultureInfo.CurrentUICulture)"  class="jqueryButton" title= "@HttpContext.GetLocalResourceObject(@"~\Views\Shared\authorizedSignatory", "lblClickUpdate", System.Globalization.CultureInfo.CurrentUICulture)" />
+                    }
+                </td>
+                 <td style="text-align:left;"  >
+                     <input type="button" id="btnCancel" value=" @HttpContext.GetLocalResourceObject(@"~\Views\Shared\authorizedSignatory", "lblCancel", System.Globalization.CultureInfo.CurrentUICulture)"  class="jqueryButton" title=" @HttpContext.GetLocalResourceObject(@"~\Views\Shared\authorizedSignatory", "lblclickGoBack", System.Globalization.CultureInfo.CurrentUICulture) "/>
+
+                </td>
+                     <td></td>
+                 
+            </tr>
+
+             }
+
+            @*<tr>
+                <td colspan="4">
+
+                     <div class="ui-state-default" style="margin-left:0; margin-right:0; margin-bottom:0; text-align:left">
+          <span style="color:#b83400; float:left"><b>Note:&nbsp;</b><font color="#1C94C4">Bank Details required to enter Authorised Signatory Details.</font></span>
+            
+        </div>  
+
+                </td>
+
+            </tr>*@
+        </table>
+
+      
+       
+</center>
+
+
+</form>
+
+
+

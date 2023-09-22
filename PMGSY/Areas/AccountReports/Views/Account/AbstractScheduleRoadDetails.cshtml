@@ -1,0 +1,16 @@
+﻿@using MvcReportViewer
+@model PMGSY.Areas.AccountReports.Models.AbstractSheduleOfRoads
+<div id="dvRoadDetailsReport" style="width: 95%; ">
+    @Html.MvcReportViewer("/PMGSYCitizen/AbstractScheduleOfRoads",
+         new
+         {
+             AdminNDCode = Model.AdminNdCode,
+             Month = Model.Month,             
+             Year=Model.Year,
+             FundType=PMGSY.Extensions.PMGSYSession.Current.FundType,
+             LvlID=5,
+             HeadID=Model.HeadId,
+             MonthlyYearly=Model.MonthlyYearly                          
+         },
+         new { Height = 600, Width = 1200, style = "border:none;" })
+</div>

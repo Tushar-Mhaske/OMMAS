@@ -1,0 +1,25 @@
+﻿@using MvcReportViewer
+
+@model PMGSY.Areas.ProposalSSRSReports.Models.ProposalListViewModel
+
+
+    
+    @Html.MvcReportViewer("/PMGSYCitizen/Proposal_Sanction_Report",
+     new
+     {
+         Level = Model.Level,
+         Year = Model.Year,
+         State = Model.State,
+         District = Model.District,
+         Block = Model.Block,
+         Collaboration = Model.Collaboration,
+         Batch = Model.Batch,
+         Status = Model.Status,
+         PMGSY = PMGSY.Extensions.PMGSYSession.Current.PMGSYScheme,
+         StateName = Model.StateName,
+         DistName = Model.DistrictName,
+         BlockName = Model.BlockName,
+         CollabName = Model.CollabName,
+         StatusName = Model.StatusName,
+     },
+       new { Height = 600, Width = "100%", style = "border:none;" })

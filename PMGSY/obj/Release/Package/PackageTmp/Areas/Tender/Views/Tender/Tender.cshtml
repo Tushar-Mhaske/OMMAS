@@ -1,0 +1,32 @@
+﻿
+
+
+
+
+<script src="~/Scripts/custom/Generic.js"></script>
+
+ <form id="frmstateprofile">
+      @Html.ValidationSummary(true)
+
+<table id="tblDataEntry">
+
+</table>
+      </form>
+
+<div id="divLoadSPDetails" style="width: 99.8%;">
+
+@using MvcReportViewer
+
+@model PMGSY.Areas.Tender.Models.TenderViewModel
+
+@Html.MvcReportViewer("/PMGSYCitizen/TenderPremiumBalance",
+     new
+     {
+        LEVEL=1,
+        STATE=0
+     },
+       new { Height = 600, Width = "100%", style = "border:none;" })
+
+</div>
+
+

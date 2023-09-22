@@ -1,0 +1,71 @@
+﻿<script src="~/Scripts/custom/Generic.js"></script>
+<script src="~/Scripts/jquery.ui.accordion.js"></script>
+<script src="~/Scripts/jquery.ui.tabs.js"></script>
+<script src="~/Scripts/MPMLAProposal/ListMPProposedRoads.js"></script>
+
+<center>
+        <div style="width:96%; height:20px;border:none; margin-top:5px; margin-bottom:-15px; " class="ui-state-default">
+            <span style="float:right;margin-right:2Px; margin-top:2px" id="idFilterDiv" class="ui-icon ui-icon-circle-triangle-n"></span>     
+        </div>
+        <div style="width: 96%; border:none; margin-top:-15px; margin-bottom:10px;" class="ui-state-default">      
+        <div id="divFilterForm">
+            <form id="FilterForm">                     
+                <center>
+                    <table style="margin-top:10px; margin-bottom:5px">
+                        <tr>
+                             <td style="text-align:left;width:17%">
+                            </td>
+                            <td style="text-align:left;width:2%">
+                                @Html.Label("Year")
+                            </td>
+                            <td style="text-align:left;width:11%">
+                                @Html.DropDownList("ddlYear", ViewData["yearList"] as IEnumerable<SelectListItem>, new { @id = "ddlYear", @title = "Year", @tabindex = 1 })
+                            </td>  
+                               
+                             <td style="text-align:left;width:2%">
+                                @Html.Label("Constituency")
+                            </td>
+                            <td style="text-align:left;width:2%">
+                                @Html.DropDownList("ddlConstituency", ViewData["constituencyList"] as IEnumerable<SelectListItem>, new { @id = "ddlConstituency", @title = "Constituency", @tabindex = 2 })
+                            </td>
+                            <td style="text-align:left;width:17%">
+                            </td>
+                        </tr>
+                        <tr>
+                            <td colspan="6">
+                                <center>
+                                <table>
+                                    <td>
+                                        <input type="button" class="jqueryButton" value="MP Proposed Road List"  title="Click here to view MP Proposed Road list" id="btnMPProposedRoadList" name ="btnMPProposedRoadList"/>
+                                    </td>
+                                    <td>
+                                        <input type="button" value="Add Proposed Road" class="jqueryButton" title="Click here to add proposed road" id="btnAddMPProposedRoad" name="btnAddMPProposedRoad"/>                        
+                                    </td>
+                                </table>
+                                    </center>
+                            </td>
+               
+                        </tr>
+                    </table>                           
+                </center>
+            </form>  
+        </div>
+        </div>
+    
+    <div id="dvMPProposedRoads" style="margin-top:20px; width:96%">
+        <table id="tbMPProposedRoadList"></table>
+        <div id="dvMPProposedRoadListPager"></div>
+    </div>
+    <br />
+    <br />
+        <div id="accordion" style="display:none;width:96%">            
+               <h3 style="text-align:left"><a id="" href="#" style=" font-size:.9em;" >Add MP Proposed Road  Details</a>
+             <a href="#" style="float: right;">
+                    <img src="" class="ui-icon ui-icon-closethick" onclick="CloseMPProposedRoadDetails();" /></a>
+            </h3>
+                        
+            <div id="divMPProposedRoadForm" style="display:none;">
+            </div>
+       </div>
+</center>
+

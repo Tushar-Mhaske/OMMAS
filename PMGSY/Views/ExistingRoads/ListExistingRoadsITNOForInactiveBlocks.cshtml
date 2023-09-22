@@ -1,0 +1,151 @@
+﻿@*@model PMGSY.Models.Proposal.ProposalFilterViewModel
+*@
+
+<script src="~/Scripts/custom/Generic.js"></script>
+<script src="~/Scripts/ExistingRoads/ERShift.js"></script>
+@*<script src="~/Scripts/Proposal/ListProposal.js"></script>*@
+<script src="~/Scripts/jquery.ui.accordion.js"></script>
+<script src="~/Scripts/jquery.ui.tabs.js"></script>
+
+<center>    
+
+    @{if (PMGSY.Extensions.PMGSYSession.Current.PMGSYScheme == 2 || PMGSY.Extensions.PMGSYSession.Current.PMGSYScheme == 1)
+      {
+        <div style="width:96%; height:20px;border:none; margin-top:5px; margin-bottom:-15px; " class="ui-state-default">
+            <span style="float:right;margin-right:2Px; margin-top:2px" id="idFilterDiv" class="ui-icon ui-icon-circle-triangle-n"></span>     
+        </div>
+        <div style="width: 96%; border:none; margin-top:-15px; margin-bottom:10px;" class="ui-state-default">      
+        <div id="divFilterForm">
+            <form id="FilterForm">                     
+                <center>
+                    <table style="margin-top:10px; margin-bottom:5px">
+                        <tr>
+                            @Html.Hidden("PMGSYScheme", PMGSY.Extensions.PMGSYSession.Current.PMGSYScheme)
+                            @Html.Hidden("RoleCode", PMGSY.Extensions.PMGSYSession.Current.RoleCode)
+                            @Html.Hidden("isPMGSY3", Convert.ToString(ViewData["isPMGSY3"]))
+                             <td style="text-align:left;width:17%">
+                             @if (PMGSY.Extensions.PMGSYSession.Current.RoleCode == 25 || PMGSY.Extensions.PMGSYSession.Current.RoleCode == 53 || PMGSY.Extensions.PMGSYSession.Current.RoleCode == 65 || PMGSY.Extensions.PMGSYSession.Current.RoleCode == 36)//Changes by SAMMED A. PATIL for mordviewuser
+                             {
+                                 <td style="text-align:right;width:5%">
+                                    @Html.Label("State")
+                                 </td>
+                                 <td style="text-align:center;width:20%">
+                                         @Html.DropDownList("ddlState", ViewData["States"] as IEnumerable<SelectListItem>, new { @id = "ddlStates", @title = "States", @tabindex = 1 })
+                                 </td>
+                                 <td style="text-align:right;width:5%">
+                                    @Html.Label("District")
+                                 </td>
+                                 <td style="text-align:center;width:20%">
+                                         @Html.DropDownList("ddlDistrict", ViewData["Districts"] as IEnumerable<SelectListItem>, new { @id = "ddlDistricts", @title = "Districts", @tabindex = 2 })
+                                 </td>
+                             }
+                             else if (PMGSY.Extensions.PMGSYSession.Current.RoleCode == 2)
+                             {
+                                 <td style="text-align:right;width:5%">
+                                    @Html.Label("District")
+                                 </td>
+                                 <td style="text-align:center;width:20%">
+                                         @Html.DropDownList("ddlDistrict", ViewData["Districts"] as IEnumerable<SelectListItem>, new { @id = "ddlDistricts", @title = "Districts", @tabindex = 3 })
+                                 </td>
+                     
+                             }
+                                <td style="text-align:left;width:5%">
+                                    @Html.Label("Block")
+                                </td>
+                                <td style="text-align:left;width:11%">
+                                     @Html.DropDownList("ddlBlocks", ViewData["blockList"] as IEnumerable<SelectListItem>, new { @id = "ddlBlocks", @title = "Block", @tabindex = 4 })                                                                     
+                                </td> 
+                               
+                             <td style="text-align:left;width:5%">
+                                @Html.Label("Scheme")
+                            </td>
+                            <td style="text-align:left;width:2%">
+                                @Html.DropDownList("ddlScheme", ViewData["SchemeListViewBag"] as IEnumerable<SelectListItem>, new { @id = "ddlScheme", @title = "Scheme", @tabindex = 5 })                                                                   
+                            </td>   
+                            <td style="text-align:left;width:17%">
+                                
+                            </td>
+                        </tr>
+                        <tr>
+                            <td colspan="10">
+                                <center>
+                                <table>
+                                    <td>
+                                        <input type="button" class="jqueryButton" value="List Existing Roads"  title="Click here to view existing road list" id="btnListExistingRoads" name ="btnListExistingRoads"/>
+                                    </td>
+                                    @if (PMGSY.Extensions.PMGSYSession.Current.RoleCode == 22 || PMGSY.Extensions.PMGSYSession.Current.RoleCode == 36)
+                                    {
+                                        if (Convert.ToInt32(ViewData["isUnlocked"]) > 0
+                                                && ((Convert.ToInt32(ViewData["isPMGSY3"]) == 0 && PMGSY.Extensions.PMGSYSession.Current.PMGSYScheme == 2) || PMGSY.Extensions.PMGSYSession.Current.PMGSYScheme == 1)
+                                            )
+                                        {
+                                    <td>
+                                        @*<input type="button" value="Add Existing Road" class="jqueryButton" title="Click here to add existing road" id="btnAddExistingRoad" name="btnAddExistingRoad"/>*@
+                                    </td>
+                                        }
+                                        else
+                                        {
+                                        <td>
+                                        @*<input type="button" value="Add Existing Road" class="jqueryButton" title="Click here to add existing road" id="btnAddExistingRoad" name="btnAddExistingRoad"/>*@
+                                    </td>
+                                        }
+                                    }
+                                    else if (PMGSY.Extensions.PMGSYSession.Current.RoleCode == 25)
+                                    {
+                                        <td>
+                                       @* <input type="button" value="Add Existing Road" class="jqueryButton" title="Click here to add existing road" id="btnAddExistingRoad" name="btnAddExistingRoad"/>*@
+                                    </td>
+                                    }
+                                </table>
+                                    </center>
+                            </td>
+               
+                        </tr>
+                    </table>                           
+                </center>
+            </form>  
+        </div>
+    
+        </div>
+
+
+    <div id="dvExistingRoads" style="margin-top:20px; width:96%">
+        <table id="tbExistingRoadsList"></table>
+        <div id="dvExistingRoadsListPager"></div>
+    </div>
+    <br />
+    <br />
+
+
+        <div id="accordion" style="display:none;width:96%">            
+               <h3 style="text-align:left"><a id="" href="#" style=" font-size:.9em;" >Add Existing Roads Details</a>
+             <a href="#"  style="float: right;">
+                    <img src="" class="ui-icon ui-icon-closethick" onclick="CloseExistingRoadsDetails();" /></a>
+            </h3>
+
+            <div id="divExistingRoadsForm" style="display:none;">
+            </div>                     
+       </div>
+      }
+      else
+      {
+        <table class="rowstyle">
+        <tr>
+            <td style="width: 5%;"></td>
+            <td style="width: 25%;">
+                <strong>
+                        <label>Existing Roads details are available only for PMGSY I  and PMGSY II Schemes.</label>
+                </strong>
+            </td>
+            <td style="width: 5%;"></td>
+            <td style="width: 15%;"></td>
+        </tr>
+    </table>
+      }
+    }
+    
+</center>
+
+    <div id="dvShiftVillage" style="margin-top:20px; width:96%">
+       
+    </div>

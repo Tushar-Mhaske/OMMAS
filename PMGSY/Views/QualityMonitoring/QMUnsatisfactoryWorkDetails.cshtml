@@ -1,0 +1,162 @@
+﻿@*
+    * Project Id    :
+    * Project Name  :   OMMAS II
+    * Name          :   QMUnsatisfactoryWorkDetails.cshtml
+    * Description   :   View for HTML report for Unsatisfactory works
+    * Author        :   Shyam Yadav
+    * Creation Date :   23/July/2014
+*@
+
+@model PMGSY.Models.QualityMonitoring.QMUnsatisfactoryWorkModel
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html>
+<head>
+    <script src="~/Scripts/ExportHtmlToXLS.js"></script>
+    <script src="~/Scripts/QualityMonitoring/QMUnsatisfactoryWorkDetails.js"></script>
+</head>
+<body>
+<div id="divUnsatisfactoryPrint">
+    <div class="ui-state-default">
+        <table style="width:100%;padding:10px;">
+            <tr>
+                <td style="font-weight:bold;width:5%;">State : </td>
+                <td style="width:10%;">@Model.STATE_NAME</td>
+
+                <td style="font-weight:bold;width:5%;">CEO : </td>
+                <td style="width:15%;">@Model.CEO_NAME</td>
+
+                <td style="font-weight:bold;width:7%;">Telephone : </td>
+                <td style="width:12%;">@( Model.CEO_PHONE == null || Model.CEO_PHONE.Equals(string.Empty) ? "NA" : Model.CEO_PHONE)</td>
+
+                 <td style="font-weight:bold;width:4%;">SQC : </td>
+                <td style="width:15%;">@Model.QC_NAME</td>
+
+                <td style="font-weight:bold;width:7%;">Telephone : </td>
+                <td style="width:12%;">@( Model.QC_PHONE == null || Model.QC_PHONE.Equals(string.Empty) ? "NA" : Model.QC_PHONE)</td>
+
+                <td style="text-align:right;width:2%;padding-top:5px;">
+                    <a href="#" title="Export to XLS" onClick="tableToExcel('divUnsatisfactoryPrint', 'Unsatisfactory Work Details');"> <img src="~/Content/images/Excel.gif" /> </a>
+                </td>
+                <td style="text-align:right;width:2%;">
+                    <span style="float:right;margin-right:2Px; margin-top:2px" id="spnHideUnsatisfactoryWorks" class="ui-icon ui-icon-circle-triangle-n"></span>
+                </td>
+                
+            </tr>
+        </table>
+    </div>
+    <div id="divUnsatisfactoryWorksTbl" class="dataTable" style="width:100%;">
+        <table class="head">
+           <tr>
+               <th style="width:30px;"> Sr. No.</th>
+               <th style="width:80px;"> Package </th>
+               <th style="width:140px;"> Road Name </th>
+               <th style="width:60px;"> Sanction Year </th>
+               <th style="width:60px;"> District </th>
+               <th colspan="5" style="text-align:center;width:320px;border-right:none;padding-left:0px;padding-right:0px;"> Observation Details 
+                        <table style="border-top:1px solid #CCC;">
+                           <tr>
+                                <th style="width:120px;border-bottom:none;">Monitor</th>
+                                <th style="width:50px;border-bottom:none;">Type</th>
+                                <th style="width:70px;border-bottom:none;">Inspection Date</th>
+                                <th style="width:65px;border-bottom:none;">Status</th>
+                                <th style="width:80px;border-bottom:none;">Grade</th>
+                                <th style="width:50px;border-right:none;border-bottom:none;">View</th>
+                            <tr>
+                        </table> 
+               </th>
+               <th style="width:15px;"></th>
+      </tr>
+      </table>
+
+        <div id="divToPrint" class="innerTable" style="height: 560px;">
+         <table style="width:99.5%;">
+            @{
+                var srNo = 1;
+             }
+
+            @if (Model.ERROR != null)
+            {
+                 <tr>
+                    <td colspan="11" style="color:#FF0000;">
+                        @Model.ERROR
+                    </td>
+                </tr>
+            }
+            else if (Model.ROAD_LIST != null && Model.ROAD_LIST.Count > 0)
+            {
+                foreach (var roadItem in Model.ROAD_LIST)
+                {
+                        <tr>
+                            <td style="width:30px;text-align:center;">@srNo</td>
+                            
+                            <td style="width:80px;">@roadItem.IMS_PACKAGE_ID</td>
+                            <td style="width:140px;">@roadItem.IMS_ROAD_NAME</td>
+                            <td style="width:60px;">@roadItem.IMS_YEAR</td>
+                            <td style="width:60px;">@roadItem.DISTRICT_NAME</td>
+                            <td  style="width:320px;height:100%;padding-left:0px;padding-right:0px;">
+                                <table style="width:100%;height:100%;border-bottom:none;">
+                                    @{ var recordCnt = Model.OBS_LIST.Where(c => c.IMS_PR_ROAD_CODE == roadItem.IMS_PR_ROAD_CODE).Count();
+                                       var srCnt = 1;
+                                     }
+                                    @foreach (var obsItem in Model.OBS_LIST.Where(c => c.IMS_PR_ROAD_CODE == roadItem.IMS_PR_ROAD_CODE))
+                                    {
+                                        if (recordCnt > 1 && srCnt < recordCnt)
+                                        {
+                                            <tr style="height:100%;">
+                                                <td style="width:118px;text-align:left;">@obsItem.MONITOR_NAME</td>  
+                                                <td style="width:49px;text-align:center;">@obsItem.ADMIN_QM_TYPE</td>  
+                                                <td style="width:68px;text-align:center;">@obsItem.QM_INSPECTION_DATE</td> 
+                                                <td style="width:63px;text-align:left;">@obsItem.IMS_ISCOMPLETED</td>    
+                                                <td style="width:80px;text-align:left;">@obsItem.OVERALL_GRADE</td>
+                                                <td style="width:50px;text-align:center;">@Html.Raw(obsItem.OBS_LINK)</td>
+                                            </tr>
+                                        }
+                                        else
+                                        {
+                                            <tr style="height:100%;">
+                                                <td style="width:118px;text-align:left;border-bottom:none;">@obsItem.MONITOR_NAME</td>
+                                                <td style="width:49px;text-align:center;border-bottom:none;">@obsItem.ADMIN_QM_TYPE</td>    
+                                                <td style="width:68px;text-align:center;border-bottom:none;">@obsItem.QM_INSPECTION_DATE</td> 
+                                                <td style="width:63px;text-align:left;border-bottom:none;">@obsItem.IMS_ISCOMPLETED</td>    
+                                                <td style="width:80px;text-align:left;border-bottom:none;">@obsItem.OVERALL_GRADE</td>
+                                                <td style="width:50px;text-align:center;border-bottom:none;">@Html.Raw(obsItem.OBS_LINK)</td>
+                                            </tr>
+                                        }
+                                        srCnt++;
+                                    }
+                                 </table>
+                            </td>
+                            @if(Model.ROAD_LIST.Count < 15)
+                            {
+                                <td style="width:5px;"></td>
+                            }
+                        </tr>
+                
+                                    srNo++;
+                }
+            }
+            else
+            {
+                <tr>
+                    <td colspan="11">
+                        No records found
+                    </td>
+                </tr>
+            }
+        </table>
+        </div>
+    </div>
+</div>
+
+<div id="accordionUnsatisfactoryWorks" style="display:none;width:100%;margin-top:10px;">            
+    <h3 style="text-align:left"><a id="" href="#" style=" font-size:.9em;" >Inspections Details</a>
+        <a href="#"  style="float: right;">
+            <img style="border:none" class="ui-icon ui-icon-closethick" onclick="CloseUnsatisfactoryWorksObsDetails();" /></a>
+    </h3>
+    <div id="divUnsatisfactoryWorksObsDetails" style="display:none;"></div>                     
+</div>
+     
+
+</body>
+</html>

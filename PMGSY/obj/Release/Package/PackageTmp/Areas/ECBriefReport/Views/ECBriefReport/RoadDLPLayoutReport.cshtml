@@ -1,0 +1,26 @@
+﻿@using MvcReportViewer
+
+@model PMGSY.Areas.ECBriefReport.Models.RoadProgress
+
+
+    
+    @Html.MvcReportViewer("/PMGSYCitizen/Road_Under_DLP",
+     new
+     {
+         statename=Model.StateName,
+         districtname=Model.DistName,
+         blockname=Model.BlockName,
+
+         State = Model.StateCode,
+        // Level = 1,
+         District = Model.DistrictCode,
+         Block = Model.BlockCode,
+         //Month=Model.Month,
+         //Year=Model.Year,
+         //Collaboration = Model.CollaborationCode,
+         Scheme = Model.schemeCode
+         //AGENCY = Model.AgencyCode,
+        
+
+     },
+       new { Height = 600, Width = "100%", style = "border:none;" })

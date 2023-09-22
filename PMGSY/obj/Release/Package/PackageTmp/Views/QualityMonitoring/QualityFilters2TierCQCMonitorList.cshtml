@@ -1,0 +1,49 @@
+﻿@*
+    * Project Id    :
+    * Project Name  :   OMMAS II
+    * Name          :   QualityFilters2TierCQCMonitorList.cshtml
+    * Description   :   Render View for QualityFilters2TierCQCMonitorList.
+    * Author        :   Shyam Yadav
+    * Creation Date :   14/Jan/2015
+*@
+
+@model PMGSY.Models.QualityMonitoring.QMFilterViewModel
+@{ Layout = null; }
+
+<!DOCTYPE html>
+
+<html>
+<head>
+
+    <script src="~/Scripts/QualityMonitoring/QualityFilters2TierCQCMonitorList.js"></script>
+
+</head>
+<body>
+    <div id="dvSearchParameter" class="ui-corner-bottom" style="display: block; border: 1px solid #B5B8C8;">@*margin-left: 10px; margin-right: 10px;*@
+        <form id="frmSearchQualityMonitor">
+            <table style="width: 100%;" class="rowstyle">
+                <tr>
+                    <td style="text-align: left; width: 10%;">
+                        @Html.LabelFor(model => model.MAST_STATE_CODE)
+                    </td>
+                    <td style="width: 20%;">
+                        @Html.DropDownListFor(model => model.MAST_STATE_CODE, new SelectList(Model.STATES, "Value", "Text"), new { @id = "ddlSearchStates", @title = "State" })
+                    </td>
+                    <td style="text-align: left; width: 10%;">
+                        @Html.LabelFor(model => model.IsEmpanelled)
+                    </td>
+                    <td style="width: 20%;">
+                        @Html.DropDownListFor(model => model.IsEmpanelled, new SelectList(Model.EmpanelledList, "Value", "Text"), new { @id = "ddlSearchEmpanelled", @title = "Empanelled" })
+                    </td>
+                    <td>
+                        <input type="button" id="btnSearch" name="btnSearch" value="View" class="jqueryButton" title="Search Quality Monitor" />
+                    </td>
+                </tr>
+            </table>
+        </form>
+    </div>
+
+    <div id="dvQualityMonitorDetails" style="display: none;">
+    </div>
+</body>
+</html>

@@ -1,0 +1,99 @@
+﻿@model PMGSY.Models.QualityMonitoring.ProficiencyTestScoreModel
+
+@{
+    ViewBag.Title = "TestScoreDetailedReport";
+}
+
+<script src="~/Scripts/custom/Generic.js"></script>
+<script src="~/Scripts/jquery-ui.js"></script>
+<script src="~/Scripts/jquery.validate.min.js"></script>
+<script src="~/Scripts/jquery.validate.unobtrusive.min.js"></script>
+<link href="~/Content/Chosen/chosen.min.css" rel="stylesheet" />
+<script src="~/Scripts/chosen.jquery.min.js"></script>
+<script src="~/Scripts/QualityMonitoring/TestScoreDetailedReport.js"></script>
+
+<center>
+    <form id="formViewReport">
+        @Html.AntiForgeryToken()
+        <center>@Html.ValidationSummary(true)</center>
+        <div id="divAddScore" class="ui-corner-top ui-widget-header panelheader" style="text-align: center; margin-top: 20px; height: 20px; width: 100%">
+            <span class="ui-jqgrid-title" id="inspOperation" style="float: left">&nbsp;&nbsp;Upload Proficiency Test Score</span>
+            <span id="spCollapseIconCQC" class="ui-icon ui-icon-circle-close" style="float: right"></span>
+        </div>
+        <table class="rowstyle" style="width: 100%; margin-top: 0px; border: 1px solid grey; border-radius:0.5rem; padding: 0.5%">
+
+            <tr>
+                <td>@Html.Hidden("RoleCode", PMGSY.Extensions.PMGSYSession.Current.RoleCode)</td>
+            </tr>
+
+            <tr>
+                <td style="width: 20%">
+                    @Html.LabelFor(model => model.NQM_SQM)<label style="color: red">*</label>
+                </td>
+                <td>
+                    @Html.DropDownListFor(model => model.NQM_SQM, new SelectList(Model.NQM_SQM_LIST, "Value", "Text"), new { @id = "monitorTypeD" })
+                </td>
+
+                @if (PMGSY.Extensions.PMGSYSession.Current.RoleCode == 8 || PMGSY.Extensions.PMGSYSession.Current.RoleCode == 48 || PMGSY.Extensions.PMGSYSession.Current.RoleCode == 69)
+                {
+                    <td>
+                        <span class="stateRow">
+                            @Html.Label("State Name") <span style="color:red">*</span>
+                        </span>
+                    </td>
+
+                    <td>
+                        <span class="stateRow">
+                            @Html.DropDownListFor(model => model.STATE_CODE, new SelectList(Model.STATE_LIST, "Value", "Text"), new { @id = "stateListId" })
+                            @Html.ValidationMessageFor(model => model.STATE_CODE)
+                        </span>
+                    </td>
+                }
+                else
+                {
+                    <td>
+                        <span style="display:none" class="stateRow">
+                            @Html.Label("State Name") <span style="color:red">*</span>
+                        </span>
+                    </td>
+
+                    <td>
+                        <span style="display:none;" class="stateRow">
+                            @Html.DropDownListFor(model => model.STATE_CODE, new SelectList(Model.STATE_LIST, "Value", "Text"), new { @id = "stateListId" })
+                            @Html.ValidationMessageFor(model => model.STATE_CODE)
+                        </span>
+                    </td>
+                }
+
+
+
+                <td>
+                    @Html.LabelFor(model => model.MONITOR_NAME)<label style="color: red">*</label>
+                </td>
+
+                <td>
+                    @Html.DropDownListFor(model => model.MONITOR_NAME, new SelectList(Model.MONITORS_LIST, "Value", "Text"), new { style = "width:60%", @id = "monitorListD" })
+                    @Html.ValidationMessageFor(model => model.MONITOR_NAME)
+                </td>
+
+
+            </tr>
+
+            <tr>
+                <td style="width:50rem; text-align:center" colspan="6">
+                    <input type="button" id="btnViewReport" name="btnSave" value="Search" class="jqueryButton" title="Search Details" tabindex="5" />
+                </td>
+            </tr>
+
+        </table>
+
+    </form>
+
+    <br />
+    <br />
+
+    <div id="viewReport"></div>
+
+
+</center>
+

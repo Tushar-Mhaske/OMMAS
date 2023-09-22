@@ -1,0 +1,66 @@
+﻿
+@model PMGSY.Models.Master.MasterComponentTypeViewModel
+
+<script src="~/Scripts/custom/Generic.js"></script>
+<script src="~/Scripts/Master/Master_CreateComponentType.js"></script>
+
+<div id="dvhdCreateNewComponentDetails" class="ui-corner-top ui-widget-header panelheader" style="text-align: left; height: 20px;">
+    <span class="ui-jqgrid-title" style="float: left">&nbsp;Component Details</span>
+    <span id="spCollapseIconCN" class="ui-icon ui-icon-circle-close" style="float: right"></span>
+</div>
+
+<div id="dvCreateNewComponentDetails" style="display: block; border: 1px solid #B5B8C8;">
+    <div id="dvErrorMessage" class="ui-widget ui-state-error ui-corner-all" style="padding: 0.7em .7em; display: none; margin: 5px 5px 5px 5px; text-align: left">
+        <span class="ui-icon ui-icon-alert" style="float: left; margin-right: .3em;"></span>
+        <strong>Alert:</strong> <span id="message"></span>
+    </div>
+
+    <form id="frmMasterComponentType">
+        @Html.AntiForgeryToken()
+        <center>@Html.ValidationSummary(true)</center>
+        <table style="width: 100%; margin-top: 10px;" class="rowstyle">
+            <tr style="display: none">
+                <td colspan="3">
+                    @Html.HiddenFor(model => model.EncryptedStateCode)
+                    @Html.HiddenFor(model => model.MAST_COMPONENT_CODE)
+                </td>
+            </tr>
+
+            <tr>
+                <td style="width: 30%;"></td>
+                <td style="text-align: left; width: 15%;">
+                    @Html.LabelFor(model => model.MAST_COMPONENT_NAME)
+                    <label style="color: red;">*</label>
+                </td>
+                <td>
+                    @Html.TextBoxFor(model => model.MAST_COMPONENT_NAME, new { maxlength = 100, @title = "Component Name", @tabindex = 1, placeholder = "Enter Component Name.." })
+                    @Html.ValidationMessageFor(model => model.MAST_COMPONENT_NAME)
+                </td>
+            </tr>
+
+            <tr>
+                <td></td>
+                <td></td>
+                <td>
+                    @if (Model.EncryptedStateCode == null)
+                    {
+                        <input type="button" id="btnSave" name="btnSave" value="Save" class="jqueryButton" title="Save Component Details" tabindex="2" /> 
+                        <input type="reset" id="btnReset" name="btnReset" value="Reset" class="jqueryButton" title="Reset" tabindex="3" />
+                    }
+                    else
+                    {
+                        <input type="button" id="btnUpdate" name="btnUpdate" value="Update" class="jqueryButton" title="Update Component Details" tabindex="2" /> 
+                        <input type="button" id="btnCancel" name="btnCancel" value="Cancel" class="jqueryButton" title="Cancel" tabindex="3" />
+                    }
+
+                </td>
+            </tr>
+
+            <tr>
+                <td colspan="5">
+                    <label style="border:none">[ Note: Fields marked with<label style="color: red;"> * </label>are mandatory.]</label>
+                </td>
+            </tr>
+        </table>
+    </form>
+</div>

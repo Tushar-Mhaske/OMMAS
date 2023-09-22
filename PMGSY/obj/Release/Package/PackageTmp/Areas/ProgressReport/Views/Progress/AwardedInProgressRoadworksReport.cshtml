@@ -1,0 +1,17 @@
+﻿@{
+    ViewBag.Title = "AwardedInProgressRoadworksReport";
+}
+
+@using MvcReportViewer
+
+@model PMGSY.Areas.ProgressReport.Models.AwardedInProgressRoadworksViewModel
+
+@Html.MvcReportViewer("/PMGSYCitizen/AwardedInProgressRoadwor​ks",
+         new
+         {
+             LEVEL = Model.Level,
+             state =  Model.StateCode,
+             PMGSY = Model.SchemeCode,
+             Phase = Model.PhaseCode
+         },
+     new { Height = 700, Width = "100%", style = "border:none;" })

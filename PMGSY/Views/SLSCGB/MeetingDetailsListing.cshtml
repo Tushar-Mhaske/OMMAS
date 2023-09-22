@@ -1,0 +1,14 @@
+﻿@using MvcReportViewer
+
+@model PMGSY.Areas.MeetingReport.MeetingModel
+
+@Html.MvcReportViewer("/PMGSYCitizen/MeetingReport",
+     new
+     {
+        LEVEL=Model.level,
+        STATE=Model.StateCode,
+        MTYPE=Model.MeetingType
+     },
+     new { Height = 675, Width = 1170, style = "border:0.75px;" })
+
+

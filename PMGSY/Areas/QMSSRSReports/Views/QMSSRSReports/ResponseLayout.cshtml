@@ -1,0 +1,112 @@
+﻿@model PMGSY.Areas.QMSSRSReports.Models.ResponseSheet
+
+@if (Layout == null)
+{
+    Layout = Request.IsAjaxRequest() ? null : "~/Areas/AccountReports/Views/Account/_Layout.cshtml";
+}
+<script type="text/javascript" src="@Url.Content("~/Scripts/jquery.ui.dialog.js")"></script>
+
+<!--#Added For Searchable Dropdown for Monitor on 25-01-2023-->
+<link href="~/Content/Chosen/chosen.min.css" rel="stylesheet" />
+<script src="~/Scripts/chosen.jquery.min.js"></script>
+
+<script src="~/Areas/QMSSRSReports/Scripts/ResponseSheet.js"></script>
+<script src="~/Scripts/custom/Generic.js"></script>
+
+<div id="dvhdQMItemwiseInspectionsLayout" class="ui-corner-top ui-widget-header panelheader" style="text-align: left; height: 20px;">
+    <span class="ui-jqgrid-title" style="float: left">&nbsp; Quick Response Sheet for NQMs</span>
+    <span id="spCollapseIconCN" class="ui-icon ui-icon-circle-triangle-n" style="float: right"></span>
+</div>
+<div id="dvQMItemwiseInspectionsLayout" class="ui-corner-bottom" style="display: block;">
+    <form id="frmQMItemwiseInspectionsLayout">
+        @Html.AntiForgeryToken()
+        @Html.ValidationSummary(true)
+        @Html.Hidden("hdnRole", PMGSY.Extensions.PMGSYSession.Current.RoleCode.ToString())
+        @Html.HiddenFor(m => m.StateName)
+        @Html.HiddenFor(m => m.DistName)
+
+        <table class="rowstyle" style="margin-top: 0px; text-align: center; border: ridge 0.1em #ccc; width: 100%;">
+
+            <tr>
+                <td style="width: 15%; font-weight: bold; text-align: left;">
+                    @Html.LabelFor(model => model.State)
+                </td>
+                <td style="width: 10%">
+                    @if (PMGSY.Extensions.PMGSYSession.Current.RoleCode == 8)
+                    {
+                        @*@Html.DropDownListFor(model => model.STATE, new SelectList(Model.STATE_LIST, "value", "text"), new { @id = "ddlStatesItemwiseInspections", @disabled = "disabled" })*@
+                        @Html.DropDownListFor(model => model.State, new SelectList(Model.StateList, "Value", "Text"), new { @id = "ddlStatesItemwiseInspections", @title = "State", @tabindex = 1, @disabled = "disabled" })
+                        <br />
+                        @Html.ValidationMessageFor(m => m.State)
+                    }
+                    else
+                    {
+                        @*@Html.DropDownListFor(model => model.STATE, new SelectList(Model.STATE_LIST, "value", "text"), new { @id = "ddlStatesItemwiseInspections" })*@
+                        @Html.DropDownListFor(model => model.State, new SelectList(Model.StateList, "Value", "Text"), new { @id = "ddlStatesItemwiseInspections", @title = "State", @tabindex = 1 })
+                        <br />
+                        @Html.ValidationMessageFor(m => m.State)
+                    }
+                </td>
+
+                <td style="width: 15%; font-weight: bold; text-align: left;">
+                    @Html.LabelFor(model => model.District)
+                </td>
+                <td style="width: 10%">
+                    @Html.DropDownListFor(model => model.District, new SelectList(Model.DistrictList, "Value", "Text"), new { @id = "ddlDistrictsItemwiseInspections", @title = "Item", @tabindex = 2 })
+                    <br />
+                    @Html.ValidationMessageFor(m => m.District)
+                </td>
+
+                <td style="width: 15%; font-weight: bold; text-align: left;">
+                    @Html.LabelFor(model => model.FromMonth)
+                </td>
+                <td style="width: 10%">
+
+                    @Html.DropDownListFor(model => model.FromMonth, new SelectList(Model.FromMonthList, "Value", "Text"), new { @id = "ddlFromMonthItemwiseInspections", @title = "From Month", @tabindex = 3 })
+                    <br />
+                    @Html.ValidationMessageFor(m => m.FromMonth)
+                </td>
+                <td style="width: 15%; font-weight: bold; text-align: left;">
+                    @Html.LabelFor(model => model.FromYear)
+                </td>
+                <td style="width: 10%">
+
+                    @Html.DropDownListFor(model => model.FromYear, new SelectList(Model.FromYearList, "Value", "Text"), new { @id = "ddlFromYearItemwiseInspections", @title = "From Year", @tabindex = 4 })
+                    <br />
+                    @Html.ValidationMessageFor(m => m.FromYear)
+                </td>
+            </tr>
+            <tr>
+                <td style="width: 15%; font-weight: bold; text-align: left;">
+
+                    @Html.LabelFor(model => model.Monitor)
+
+                </td>
+                <td style="width: 10%">
+
+                    @Html.DropDownListFor(model => model.Monitor, new SelectList(Model.MonitorList, "Value", "Text"), new { @id = "ddlMonitor", @title = "Monitor", @tabindex = 5 })
+                    <br />
+                    @Html.ValidationMessageFor(m => m.Monitor)
+
+                </td>
+
+                <td style="width: 15%; font-weight: bold; text-align: left;">
+                    @Html.LabelFor(model => model.SchemeCode)
+                </td>
+                <td style="width: 10%">
+                    @Html.DropDownListFor(model => model.SchemeCode, new SelectList(Model.SchemeList, "Value", "Text"), new { @id = "ddlScheme", @title = "Scheme", @tabindex = 6 })
+                    <br />
+                    @Html.ValidationMessageFor(m => m.SchemeCode)
+                </td>
+                <td style="width: 15%; font-weight: bold; text-align: left;">
+                    <input type="button" id="btnViewItemwiseInspectionsDetails" value="View Details" class="jquerybutton" style="margin-left: 20px;" />
+                </td>
+                <td style="width: 10%">
+                </td>
+                <td colspan="4" style="text-align: left;">
+                </td>
+            </tr>
+        </table>
+    </form>
+</div>
+<div id="dvLoadItemwiseInspectionsReport"></div>

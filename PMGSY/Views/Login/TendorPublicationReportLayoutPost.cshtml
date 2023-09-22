@@ -1,0 +1,34 @@
+﻿@using MvcReportViewer
+
+@model PMGSY.Models.TendorPublicationReportModel
+
+  @Html.MvcReportViewer("/PMGSYCitizen/TendorPublicationReport",
+     new
+     {
+         //Level = Model.LevelCode,
+         state = Model.StateCode,
+         DISTRICT = Model.DistrictCode,
+         //Block = Model.BlockCode,
+         //AGENCY = Model.AgencyCode,
+         //COLLAB = Model.CollaborationCode,
+         IMSYEAR = Model.Year,
+         IMSBATCH = Model.BatchCode,
+         COLLAB = Model.CollaborationCode,
+         AGENCY = Model.AgencyCode,
+         SCHEME = Model.SchemeCode,
+         StateName = Model.StateName,
+         DistrictName = Model.DistName,
+         Collaboration = Model.CollabName,
+         AgencyName = Model.AgencyName,
+         BatchName = Model.BatchName,
+       
+         //StateName = Model.StateName,
+         //DistName = Model.DistName,
+         //BlockName = Model.BlockName,
+         ////BatchName = Model.BatchName,
+         //CollabName = Model.CollabName,
+         //AgencyName = Model.AgencyName,
+         ////StatusName = Model.StatusName
+
+     },
+       new { Height = 600, Width = "100%", style = "border:none;" })

@@ -1,0 +1,27 @@
+﻿
+@using PMGSY.Models
+@using PMGSY.Models.Report
+@model PMGSY.Models.AccountReports.AccountBillViewModel
+@using PMGSY.Extensions
+
+<script src="~/Scripts/custom/Generic.js"></script>
+
+<script src="~/Scripts/AccountsReports/TransactionDetails.js"></script>
+
+
+
+@Html.HiddenFor(m=>m.BillId)
+@Html.Hidden("hdnBillType",Model.BillType)
+
+
+
+
+<div id="dvTransactionView">
+   
+    <table id="tblTransactionDetails">
+
+    </table>
+    <div id="pagrTransactionDetails">
+
+    </div>
+</div>

@@ -1,0 +1,79 @@
+﻿<script src="~/Scripts/jquery.ui.accordion.js"></script>
+<script src="~/Scripts/jquery.ui.tabs.js"></script>
+<script src="~/Scripts/custom/Generic.js"></script>
+<script src="~/Scripts/OnlineFundProcess/ViewRequestDetails.js"></script>
+
+
+
+@Html.Hidden("EncryptedRequestId",ViewBag.EncryptedId as string)
+<div id="requesttabs" style="width:99%">
+    <div style="height:auto; width: 99%; text-align:left; padding-top: 0.6em;" >@*class="ui-state-default ui-corner-all" > *@
+    <table class="rowstyle ui-corner-all" style="width:100%; border:solid black 1px;">
+        <tr>
+            <td style="width:5%"></td>
+            <td style="width:12%;font-weight:bold">
+                <b>State</b>
+            </td>
+            <td style="width:15%">
+                @ViewBag.State
+            </td>
+            <td style="width:12%;font-weight:bold">
+                <b>Agency</b>
+            </td>
+            <td style="width:15%">
+                @ViewBag.Agency
+            </td>
+        </tr>
+        <tr>
+            <td></td>
+            <td>
+                <b>Installment</b>
+            </td>
+            <td>
+                @ViewBag.Installment
+            </td>
+            <td>
+               <b> Year</b>
+            </td>
+            <td>
+                @ViewBag.Year
+            </td>
+        </tr>
+        <tr>
+            <td></td>
+            <td>
+                <b>Batch</b>
+            </td>
+            <td>
+                @ViewBag.Batch
+            </td>
+            <td>
+                <b>Collaboration</b>
+            </td>
+            <td>
+                @ViewBag.Collaboration
+            </td>
+        </tr>
+    </table>
+</div>
+    <ul>
+        <li><a href="#tabs-1" onclick="LoadRequestDetails()">Request Details</a></li>
+        <li><a href="#tabs-2" onclick="LoadDocumentDetails()">Document Details</a></li>
+        <li><a href="#tabs-3" onclick="LoadObservationDetails()">Observation Details</a></li>
+    </ul>
+    <div id="tabs-1">
+        <div id="dvRequestDetails">
+
+        </div>
+    </div>
+    <div id="tabs-2">
+        <div id="dvDocumentDetails">
+
+        </div>
+    </div>
+    <div id="tabs-3">
+        <div id="dvObservationDetails">
+
+        </div>
+    </div>
+</div>

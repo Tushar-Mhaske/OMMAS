@@ -1,0 +1,211 @@
+﻿@model PMGSY.Models.UserManager.User_Master
+@{
+    ViewBag.Title = "Create";
+}
+<script src="~/Scripts/custom/Generic.js"></script>
+<script src="~/Scripts/Login/md5.js"></script>
+@*<script src="~/Scripts/UserManager/UserManager.js"></script>*@
+<script src="~/Scripts/UserManager/CreateUser.js"></script>
+<script type="text/javascript">
+    $(document).ready(function () {
+        if ('@ViewBag.Operation' == 'A') {
+            $("#btnSubmit").attr('value', 'Save');
+            $('#btnResetCreateUser').show();
+            $('#btnCancel').hide();
+            $("#UserName").removeAttr('disabled');
+            if ($('#RoleID').val() == 7) {
+                $("input,select").removeClass("input-validation-error");
+                $('.field-validation-error').html('');
+                $('tr.sqmUser').show();
+                $('tr.onlyUser').hide();
+            } else {
+                $("input,select").removeClass("input-validation-error");
+                $('.field-validation-error').html('');
+                $('tr.sqmUser').hide();
+                $('tr.onlyUser').show();
+            }
+        }
+        else if ('@ViewBag.Operation' == 'U') {
+                $("#btnSubmit").attr('value', 'Update');
+                $('#btnResetCreateUser').hide();
+                $("#Role").hide();
+                $('#btnCancel').show();
+                $("#UserName").attr('disabled', 'disabled');
+                if ($('#RoleID').val() == 7) {
+                    $("input,select").removeClass("input-validation-error");
+                    $('.field-validation-error').html('');
+                    $('tr.sqmUser').show();
+                    $('tr.onlyUser').hide();
+                } else {
+                    $("input,select").removeClass("input-validation-error");
+                    $('.field-validation-error').html('');
+                    $('tr.sqmUser').hide();
+                    $('tr.onlyUser').show();
+                }
+            }
+
+    });
+</script>
+
+
+@using (Html.BeginForm("create", "UserManager", FormMethod.Post, new { @id = "frmCreateUser" }))
+{
+  @Html.Hidden("hdnOperationType", "U")
+    @Html.HiddenFor(model => model.hiddenSQMId)
+<center>
+
+<div id="divError" class="ui-state-error ui-corner-all" style="text-align: left; display: none; width: 100%">
+                <span class="ui-icon ui-icon-alert" style="float: left;"></span>                   
+                <span></span>
+</div>       
+<table cellspacing="0" cellpadding="2" class="rowstyle" style="margin-top:10px; text-align:left; border:ridge 0.1em #ccc; width:100%; padding:5px 5px 5px 5px;">
+    <tr>
+         <td class="editor-label">
+               <b> @Html.LabelFor(model => model.LevelID)</b><span style="color:red">*</span>
+            </td>
+            <td class="editor-field" colspan="3">
+                 @Html.DropDownListFor( model => model.LevelID , new SelectList(Model.LevelList,"Value","Text"),"Select Level")                  
+                  @Html.ValidationMessageFor(model => model.LevelID)            
+            </td>
+
+    </tr> 
+     <tr>
+            <td class="editor-label">
+               <b>@Html.LabelFor(model => model.Mast_State_Code)</b>
+            </td>
+            <td class="editor-field">
+                @Html.DropDownListFor( model => model.Mast_State_Code , new SelectList(Model.StateList,"Value","Text"))
+            </td>
+            <td class="editor-label">
+              <b>@Html.LabelFor(model => model.Mast_District_Code)</b>
+            </td>
+            <td class="editor-field">
+                 @Html.DropDownListFor( model => model.Mast_District_Code , new SelectList(Model.DistrictList,"Value","Text"))
+            </td>
+        </tr>
+        <tr>
+            <td></td>
+            <td>@Html.ValidationMessageFor(model => model.Mast_State_Code)</td>
+            <td></td>
+            <td>@Html.ValidationMessageFor(model => model.Mast_District_Code)</td>
+        </tr> 
+      <tr>
+            <td class="editor-label">
+              <b>  @Html.LabelFor(model => model.Admin_ND_Code) </b>
+            </td>
+            <td  class="editor-field">
+                @*@Html.DropDownList("Admin_ND_Code")*@
+                @Html.DropDownListFor( model => model.Admin_ND_Code , new SelectList(Model.DepartmentList,"Value","Text"),"Select Department")
+               @* @Html.ValidationMessageFor(model => model.Admin_ND_Code)*@
+            </td>
+           <td class="editor-label">
+                <b> @Html.Label("Role")</b><span style="color:red">*</span>
+            </td>
+            <td class="editor-field">
+                 @if(ViewBag.Operation.ToString() == "U")
+                 {
+                    @Html.HiddenFor(model => model.UserID, new { @id = "hidUserId" })
+                }
+
+                @Html.DropDownListFor( model => model.RoleID , new SelectList(Model.RoleList,"Value","Text"),"Select Role")
+             </td>
+        </tr>  
+     <tr>
+            <td></td>
+            <td>@Html.ValidationMessageFor(model => model.Admin_ND_Code)</td>
+            <td></td>
+            <td>@Html.ValidationMessageFor(model => model.RoleID)</td>
+        </tr> 
+  
+    <tr  class="onlyUser">
+            <td class="editor-label">
+                <b>@Html.LabelFor(model => model.UserName)</b><span style="color:red">*</span>
+            </td>
+            <td class="editor-field" colspan="3">
+                  @Html.TextBoxFor(model => model.UserName, new { @maxlength = "30" })
+                  @Html.ValidationMessageFor(model => model.UserName)
+            </td>
+        </tr>
+        <tr class="onlyUser">
+            <td></td>
+            <td colspan="3"></td>
+        </tr>  
+       <tr class="sqmUser">
+           
+            <td class="editor-label">
+              <b>@Html.LabelFor(model => model.SQMID)</b> <span style="color:red">*</span>
+            </td>
+            <td class="editor-field">
+                 @Html.DropDownListFor( model => model.SQMID , new SelectList(Model.SQMList,"Value","Text"))
+            </td>
+            <td class="editor-label">
+                   <b>@Html.LabelFor(model => model.UserName)</b><span style="color:red">*</span>
+            </td>
+            <td class="editor-field">
+                @Html.TextBoxFor(model => model.UserName, new { @maxlength = "30",@disabled=true,@id="txtUserName" })
+            </td>
+        </tr>
+        <tr class="sqmUser" style="display:none;">
+            <td></td>
+            <td>@Html.ValidationMessageFor(model => model.SQMID)</td>
+            <td></td>
+            <td>@Html.ValidationMessageFor(model => model.UserName)</td>
+        </tr>    
+        <tr>
+            <td class="editor-label">
+             <b>   @Html.LabelFor(model => model.PreferedLanguageID) </b><span style="color:red">*</span>
+            </td>
+            <td class="editor-field">
+                 @Html.DropDownListFor( model => model.PreferedLanguageID , new SelectList(Model.LanguageList,"Value","Text"))
+            </td>
+             <td class="editor-label">
+              <b>  @Html.LabelFor(model => model.PreferedCssID)</b><span style="color:red">*</span>
+            </td>
+            <td class="editor-field">
+                 @Html.DropDownListFor( model => model.PreferedCssID , new SelectList(Model.CSSList,"Value","Text"))
+            </td>
+        </tr>
+        <tr>
+            <td></td>
+            <td>@Html.ValidationMessageFor(model => model.PreferedLanguageID)</td>
+            <td></td>
+            <td> @Html.ValidationMessageFor(model => model.PreferedCssID)</td>
+        </tr>
+        <tr>
+            <td class="editor-label">
+              <b>  @Html.LabelFor(model => model.MaxConcurrentLoginsAllowed)</b><span style="color:red">*</span>
+            </td>
+            <td class="editor-field">
+                @Html.EditorFor(model => model.MaxConcurrentLoginsAllowed)
+            </td>
+             <td class="editor-label">
+             <b>   @Html.LabelFor(model => model.Remarks)</b>
+            </td>
+            <td class="editor-field">
+                @Html.TextBoxFor(model => model.Remarks, new { @maxlength = "50" })
+            </td>
+        </tr>
+        <tr>
+            <td></td>
+            <td> @Html.ValidationMessageFor(model => model.MaxConcurrentLoginsAllowed)</td>
+            <td></td>
+            <td>@Html.ValidationMessageFor(model => model.Remarks)</td>
+        </tr>
+        <tr>
+            <td></td>
+            <td colspan="3" style="text-align:left">
+                <input type="button" value="Create" class="jqueryButton" id="btnSubmit"/>
+                <input type="Reset" value="Reset" class="jqueryButton" id="btnResetCreateUser"/>
+                <input type="button" class="jqueryButton" value="Cancel" id="btnCancel" style="display:none;"/>
+            </td>
+        </tr>
+
+        </table>
+</center>
+   
+}
+
+
+@section Scripts {
+    @Scripts.Render("~/bundles/jqueryval")
+}

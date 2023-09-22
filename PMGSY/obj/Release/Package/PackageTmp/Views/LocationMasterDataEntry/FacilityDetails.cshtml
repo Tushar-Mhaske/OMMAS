@@ -1,0 +1,95 @@
+﻿@model PMGSY.Models.MasterDataEntry.FacilitySearch
+@{
+    ViewBag.Title = "Index";
+}
+
+<script type="text/javascript" src="@Url.Content("~/Scripts/jquery.ui.dialog.js")"> </script>
+<script src="@Url.Content("~/Scripts/custom/Generic.js")" type="text/javascript" ></script>
+@*<script type="text/javascript" src="@Url.Content("~/Scripts/MasterDataEntry/ListFacilityDetails.js")"> </script>*@
+<script type="text/javascript" src="~/Scripts/MasterDataEntry/SwitchForms.js"></script>
+
+
+
+ 
+<div style="width:100%;">
+<div id="dvPanchayatDetails">  
+
+</div>
+<div id="divSearchFacilityForm" class="ui-corner-bottom" style="display: block; border: 1px solid #B5B8C8;">
+    <div id="dvhdSearchFacilityDetails" class="ui-corner-top ui-widget-header panelheader" style="text-align:left;  height:20px;"> @*margin-left:10px;margin-right:10px;margin-top:10px;*@ 
+         <span class="ui-jqgrid-title" style="float:left">&nbsp;Search Facility</span>
+     
+          <span  id="spCollapseIconCN" class="ui-icon ui-icon-circle-triangle-n" style="float:right"></span>
+    </div>
+
+    <div id="dvSearchPanchayat" >
+       
+    </div>
+</div>
+
+
+<div id="dvPanchyatList" >
+
+
+      <table style="width:100%; padding-top:1.5em;">
+    <tr id="trAddNewSearch">  
+        <td  style="text-align:left">
+            
+            @if (Model.RoleName.Equals("ITNO"))
+            {
+                <div class="ui-state-default ui-corner-all jqueryButton" id="btnSearchNewForDefinalization" title="Search Facility">
+    <span style="float:left" class="ui-icon ui-icon-circle-plus"></span>
+    <span style="float:left; margin-right:5px">Search Facility for Definalization</span>
+</div>
+            }
+            else
+            { 
+            <div class="ui-state-default ui-corner-all jqueryButton" id="btnCreateNew" title="Add Facility">
+    <span style="float:left" class="ui-icon ui-icon-circle-plus"></span>
+    <span style="float:left; margin-right:5px">Add Facility</span>
+</div>
+
+<div class="ui-state-default ui-corner-all jqueryButton" id="btnSearchNew" title="Search Facility">
+    <span style="float:left" class="ui-icon ui-icon-circle-plus"></span>
+    <span style="float:left; margin-right:5px">Search Facility</span>
+</div>
+            }
+
+
+
+            </td>
+        </tr>
+  
+    </table>
+
+    <table id="tbPanchyatList">
+
+    </table>
+
+    <div id="dvPanchyatListPager"></div>
+</div>
+<br />
+<div id="dvMapPanchayatHabitationsDetails" style="display:none; ">
+</div>
+
+<div id="dvMappedPanchayatHabitationDetails" style="display:none;">
+
+
+</div>
+
+        </div>
+     </center>
+
+<div id="dvShiftPanchayat">
+</div>
+
+<div id="divDisplayFacilityDetails" style="display: none;"></div>
+
+<div id="accordionMonitorsInspection"  style="display: none; width: 98%; margin-top: 10px;">
+    <h3 style="text-align: left" class="ui-accordion-header ui-helper-reset ui-state-default ui-accordion-header-active ui-state-active ui-corner-top"><a id="" href="#" style="font-size: .9em;">Inspection Details</a>
+        <a href="#" style="float: right;">
+            <img style="border: none" class="ui-icon ui-icon-closethick" onclick="closeMonitorsInspectionDetails();" /></a>
+    </h3>
+</div>
+<div id="divDisplayPhotographUploadView"  style="display: none; text-align :center ; width:98%" class="ui-accordion-content ui-helper-reset ui-widget-content ui-corner-bottom ui-accordion-content-active">
+</div>

@@ -1,0 +1,38 @@
+﻿
+<script src="~/Areas/Feedback/Scripts/lineclearedThree.js"></script>
+@model PMGSY.Areas.Feedback.Models.FeedbackModel
+<div id="loadFilters">
+    <form id="frmFinancial">
+        @Html.ValidationSummary(true)
+
+        <table style="width: 100%;">
+            <tr>
+                <td style="width: 2%;"></td>
+             
+                <td style="text-align: left; width: 5%;">
+                    @Html.LabelFor(model => model.Year)
+                </td>
+                <td style="width: 25%;">
+                    @Html.DropDownListFor(model => model.Year, new SelectList(Model.YearList, "Value", "Text"), new { @title ="Year", @tabindex = 2, @id = "YearList_FinancialDetails", @style = "width:150px" })
+                    @Html.ValidationMessageFor(model => model.Year)
+                </td>
+
+
+                <td style="text-align: left; width: 1%;">
+                    @Html.LabelFor(model => model.Month)
+                </td>
+                <td style="width: 25%">
+                    @Html.DropDownListFor(model => model.Month, new SelectList(Model.MonthList, "Value", "Text"), new { @title = "Month", @tabindex = 3, @id = "MonthList_FinancialDetails", @style = "width:150px" })
+                    @Html.ValidationMessageFor(model => model.Month)
+                    &nbsp;&nbsp;
+                   <input type="button" id="btnView" value="View" class="button" title="View" tabindex="4" />
+
+                </td>
+
+            </tr>
+        </table>
+
+    </form>
+</div>
+
+<div id="loadReport" class="divLoadReport"></div>

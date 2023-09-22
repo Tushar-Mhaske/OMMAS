@@ -1,0 +1,75 @@
+﻿@model PMGSY.Models.QualityMonitoring.AllocateRoadsToNQMModel
+@{
+    ViewBag.Title = "AllocateRoadsToNQMLayout";
+}
+
+
+<link href="~/Content/Bootstrap/bootstrap.min.css" rel="stylesheet" />
+<script src="~/Scripts/Bootstrap/bootstrap.min.js"></script>
+<br />
+<script src="~/Scripts/QualityMonitoring/AllocateRoadsToNQMLayout.js"></script>
+
+<div class="ui-widget-header innerDivHeader" style="margin-bottom: 5px">Allocate Roads to NQM</div>
+
+<form id="frmAllocateRoadsToNqm">
+
+    @Html.ValidationSummary(true)
+    @Html.AntiForgeryToken()
+
+
+    <center>
+         <table class="ui-state-default ui-corner-all" style="border:0.1em solid gray; width:98%; margin-bottom:5px" id="tblAllocateRoadsViewDetails">
+
+             <tr>
+                 <td style="text-align:right; width:05%">@Html.LabelFor(m => m.STATEID)<span style="color:red"> *</span></td>
+                 <td style="width:25%">
+                     @Html.DropDownListFor(m => m.STATEID, new SelectList(Model.STATE_LIST, "Value", "Text"), new { @style = "width:50%", @tabindex = "1",@id = "ddlState", @title = "State" })
+                     </td>
+
+                  <td style="text-align:right; width:05%">@Html.LabelFor(m => m.MONTHID)<span style="color:red"> *</span></td>
+                 <td style="width:15%">
+                     @Html.DropDownListFor(m => m.MONTHID, new SelectList(Model.MONTH_LIST, "Value", "Text"), new {@style = "width:60%", @tabindex = "2", @id = "ddlMonth", @title = "Month" })
+                     </td>
+
+
+                  <td style="text-align:right; width:05%">@Html.LabelFor(m => m.YEARID)<span style="color:red"> *</span></td>
+                 <td style="width:15%">
+                     @Html.DropDownListFor(m => m.YEARID, new SelectList(Model.YEAR_LIST, "Value", "Text"), new {@style = "width:60%", @tabindex = "3", @id = "ddlYear", @title = "Year" })
+                     </td>
+
+                 <td style="width:25%; text-align:center"><input type="button" id="btnViewAllocateRoadsToNQM" value="View Details" class="jqueryButton" title="Click here to view details" tabindex="4"></td>        
+
+
+              </tr>
+
+             <tr>
+                 <td></td>
+                 <td>@Html.ValidationMessageFor(m => m.STATEID)</td>
+
+                 <td></td>
+                 <td>@Html.ValidationMessageFor(m => m.MONTHID)</td>
+
+
+                 <td></td>
+                 <td>@Html.ValidationMessageFor(m => m.YEARID)</td>
+
+
+
+             </tr>
+         </table>
+
+        </center>
+</form>
+
+
+<form>
+    @Html.AntiForgeryToken()
+<div style="width: 98%; margin-bottom: 12px" id="dvAllocateRoadsToNQMGrid">
+    <table id="tblAllocateRoadsToNQMGrid"></table>
+    <div id="divAllocateRoadsToNQMPager"></div>
+</div>
+    </form>
+
+
+
+

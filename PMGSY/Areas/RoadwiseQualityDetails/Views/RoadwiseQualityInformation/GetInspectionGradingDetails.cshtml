@@ -1,0 +1,158 @@
+﻿@{
+    ViewBag.Title = "GetInspectionGradingDetails";
+}
+
+<style>
+    #dvInspectionDetailMain {
+        font-size:13px;
+    }
+
+    .image {
+        position: inherit;
+        width: 100px;
+        vertical-align: middle;
+        display: inline-block;
+        overflow: hidden;
+        z-index: 1;
+        height: 100px;
+    }
+</style>
+<script type="text/javascript">
+
+    //function init_resizeables() {
+    xOffset = 10;
+    yOffset = 10;
+    var Mx = 1000;// $(document).width();
+    var My = 600;// $(document).height();
+    $('#dvImageDetails img').hover(
+        function () {
+            $(this).stop().animate({
+                'width': '200px',
+                'height': '200px'
+            }, {
+                duration: 234
+            }).css({
+                'x-index': '999',
+                'position': 'inherit',
+                'top': '10',
+                'left': '10'
+            });
+        },
+        function () {
+            $(this).stop().animate({
+                'width': '100px',
+                'height': '100px'
+            }, {
+                duration: 345
+            }).css({
+                'z-index': '1'
+            });
+        });
+    //}
+
+    $('#hrefHeaderQMGrading').click(function () {
+        collapseExpandTbl('hrefHeaderQMGrading', 'divContentQMGrading', 'spnHeaderQMGrading0', 'spnHeaderQMGrading1');
+    });
+
+    $(".inspGradingDetails").click(function () {
+        //Find the box parent
+        var box = $(this).parents(".box").first();
+        //Find the body and the footer
+        var bf = box.find(".box-body, .box-footer");
+        if (!box.hasClass("collapsed-box")) {
+            box.addClass("collapsed-box");
+            //Convert minus into plus
+            $(this).children(".fa-minus").removeClass("fa-minus").addClass("fa-plus");
+            bf.slideUp();
+        } else {
+            box.removeClass("collapsed-box");
+            //Convert plus into minus
+            $(this).children(".fa-plus").removeClass("fa-plus").addClass("fa-minus");
+            bf.slideDown();
+        }
+    });
+</script>
+<script src="~/Areas/RoadwiseQualityDetails/Scripts/InspectionGradingDetails.js"></script>
+
+<div id="dvInspectionDetailMain" class="ui-corner-all" style="display: block; border: 1px solid #B5B8C8; margin-top: 10px;">
+    @Html.Hidden("ObservationId", ViewBag.ObservationId as string)
+    <div class="ui-corner-top ui-widget-header panelheader" style="text-align: left; height: 20px;">
+        <b>
+            <span id="spnHeaderSummarysrchFB1" class="ui-jqgrid-title" style="float: left;margin:5px"> Quality Grading Details </span>
+            <span id="spnHeaderSummarysrchFB2" class="ui-icon ui-icon-circle-close" onclick="closeCurrentDiv('dvInspectionDetailMain','Quality Grading Details');" style="float: right"></span>
+        </b>
+        <div class="box-tools pull-right">  </div>
+    </div>
+
+    <div class="row">
+        <div class="col-md-12 col-sm-12">
+            <div class="pad">
+
+                <div id="divContentQMGrading" class="tblContent dataTable">
+                    <table style="width: 100%">
+                        <tr>
+                            <th style="width: 10%"> Sr No. </th>
+                            <th style="width: 70%"> Item Description </th>
+                            <th style="width: 20%"> Grade </th>
+                        </tr>
+                        @{int i = 0;}
+                        @foreach (var item in ViewBag.InspectionDetails)
+                        {  
+                            <tr>
+                                <td style="text-align: center"> @(++i) </td>
+                                <td style="font-weight: bold"> @item.MAST_ITEM_NAME </td>
+                                <td> @item.MAST_GRADE_NAME </td>
+                            </tr>
+                        }
+                    </table>
+                </div>
+
+                <div id="dvImageDetails" style="margin-top: 20px;" class="dataTable">
+                    <table style="width: 99%">
+                        <tr>
+                            <td style="width: 50%; overflow: scroll;">
+                                <table>
+                                    <tr>
+                                        <th> Image </th>
+                                        <th> Description </th>
+                                    </tr>
+                                    @foreach (var item in ViewBag.FileDetails)
+                                    {
+                                        <tr>
+                                            <td>
+                                                <img src="@item.Key" style="width:100px;height:100px" />
+                                            </td>
+                                            <td>@item.Value</td>
+                                        </tr>
+
+                                    }
+                                </table>
+                            </td>
+                            <td style="width: 50%; margin-top: 0px">
+                                @if (ViewBag.IsMarkerAvailable == "Y")
+                                {
+                                    <div>
+                                        <table style='width: 100%; margin-left: 10px;'>
+                                            <tr>
+                                                <td style="width: 20%;">
+                                                    <input type="button" id="btnDisplayRoadPath" value="Trace Route" style="float: left;" />
+                                                </td>
+                                                <td style="width: 80%;">
+                                                    <span id="spnDistanceGMap"></span>
+                                                </td>
+                                            </tr>
+                                        </table>
+                                    </div>
+                                    <div id='gmapView' style='width: 100%; height: 500px; margin-top: 5px;'>Location Map  </div>
+                                    <div id='gmapDivRoadPath' style='width: 100%; height: 500px; margin-top: 5px;'>Location Map  </div>
+                                }
+                            </td>
+                        </tr>
+                    </table>
+                </div>
+
+            </div>
+        </div>
+    </div><!-- /.col -->
+
+</div><!-- /.row -->

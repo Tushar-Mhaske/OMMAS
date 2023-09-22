@@ -1,0 +1,603 @@
+﻿@model PMGSY.Models.IMS_SANCTIONED_PROJECTS
+
+@{
+    ViewBag.Title = "Edit";
+}
+
+<h2>Edit</h2>
+
+@using (Html.BeginForm()) {
+    @Html.ValidationSummary(true)
+
+    <fieldset>
+        <legend>IMS_SANCTIONED_PROJECTS</legend>
+
+        <div class="editor-label">
+            @Html.LabelFor(model => model.IMS_PR_ROAD_CODE, "IMS_LSB_BRIDGE_DETAIL")
+        </div>
+        <div class="editor-field">
+            @Html.DropDownList("IMS_PR_ROAD_CODE", String.Empty)
+            @Html.ValidationMessageFor(model => model.IMS_PR_ROAD_CODE)
+        </div>
+
+        <div class="editor-label">
+            @Html.LabelFor(model => model.IMS_YEAR)
+        </div>
+        <div class="editor-field">
+            @Html.EditorFor(model => model.IMS_YEAR)
+            @Html.ValidationMessageFor(model => model.IMS_YEAR)
+        </div>
+
+        <div class="editor-label">
+            @Html.LabelFor(model => model.IMS_PACKAGE_ID)
+        </div>
+        <div class="editor-field">
+            @Html.EditorFor(model => model.IMS_PACKAGE_ID)
+            @Html.ValidationMessageFor(model => model.IMS_PACKAGE_ID)
+        </div>
+
+        <div class="editor-label">
+            @Html.LabelFor(model => model.IMS_ROAD_ID)
+        </div>
+        <div class="editor-field">
+            @Html.EditorFor(model => model.IMS_ROAD_ID)
+            @Html.ValidationMessageFor(model => model.IMS_ROAD_ID)
+        </div>
+
+        <div class="editor-label">
+            @Html.LabelFor(model => model.MAST_STATE_CODE, "MASTER_STATE")
+        </div>
+        <div class="editor-field">
+            @Html.DropDownList("MAST_STATE_CODE", String.Empty)
+            @Html.ValidationMessageFor(model => model.MAST_STATE_CODE)
+        </div>
+
+        <div class="editor-label">
+            @Html.LabelFor(model => model.MAST_DISTRICT_CODE, "MASTER_DISTRICT")
+        </div>
+        <div class="editor-field">
+            @Html.DropDownList("MAST_DISTRICT_CODE", String.Empty)
+            @Html.ValidationMessageFor(model => model.MAST_DISTRICT_CODE)
+        </div>
+
+        <div class="editor-label">
+            @Html.LabelFor(model => model.MAST_BLOCK_CODE, "MASTER_BLOCK")
+        </div>
+        <div class="editor-field">
+            @Html.DropDownList("MAST_BLOCK_CODE", String.Empty)
+            @Html.ValidationMessageFor(model => model.MAST_BLOCK_CODE)
+        </div>
+
+        <div class="editor-label">
+            @Html.LabelFor(model => model.MAST_AGENCY_CODE, "MASTER_AGENCY")
+        </div>
+        <div class="editor-field">
+            @Html.DropDownList("MAST_AGENCY_CODE", String.Empty)
+            @Html.ValidationMessageFor(model => model.MAST_AGENCY_CODE)
+        </div>
+
+        <div class="editor-label">
+            @Html.LabelFor(model => model.PLAN_CN_ROAD_CODE, "PLAN_ROAD")
+        </div>
+        <div class="editor-field">
+            @Html.DropDownList("PLAN_CN_ROAD_CODE", String.Empty)
+            @Html.ValidationMessageFor(model => model.PLAN_CN_ROAD_CODE)
+        </div>
+
+        <div class="editor-label">
+            @Html.LabelFor(model => model.IMS_ROAD_NAME)
+        </div>
+        <div class="editor-field">
+            @Html.EditorFor(model => model.IMS_ROAD_NAME)
+            @Html.ValidationMessageFor(model => model.IMS_ROAD_NAME)
+        </div>
+
+        <div class="editor-label">
+            @Html.LabelFor(model => model.IMS_ROAD_FROM)
+        </div>
+        <div class="editor-field">
+            @Html.EditorFor(model => model.IMS_ROAD_FROM)
+            @Html.ValidationMessageFor(model => model.IMS_ROAD_FROM)
+        </div>
+
+        <div class="editor-label">
+            @Html.LabelFor(model => model.IMS_ROAD_TO)
+        </div>
+        <div class="editor-field">
+            @Html.EditorFor(model => model.IMS_ROAD_TO)
+            @Html.ValidationMessageFor(model => model.IMS_ROAD_TO)
+        </div>
+
+        <div class="editor-label">
+            @Html.LabelFor(model => model.IMS_UPGRADE_CONNECT)
+        </div>
+        <div class="editor-field">
+            @Html.EditorFor(model => model.IMS_UPGRADE_CONNECT)
+            @Html.ValidationMessageFor(model => model.IMS_UPGRADE_CONNECT)
+        </div>
+
+        <div class="editor-label">
+            @Html.LabelFor(model => model.MAST_EXISTING_SURFACE_CODE, "MASTER_SURFACE")
+        </div>
+        <div class="editor-field">
+            @Html.DropDownList("MAST_EXISTING_SURFACE_CODE", String.Empty)
+            @Html.ValidationMessageFor(model => model.MAST_EXISTING_SURFACE_CODE)
+        </div>
+
+        <div class="editor-label">
+            @Html.LabelFor(model => model.IMS_COLLABORATION, "MASTER_STREAMS")
+        </div>
+        <div class="editor-field">
+            @Html.DropDownList("IMS_COLLABORATION", String.Empty)
+            @Html.ValidationMessageFor(model => model.IMS_COLLABORATION)
+        </div>
+
+        <div class="editor-label">
+            @Html.LabelFor(model => model.IMS_PAV_LENGTH)
+        </div>
+        <div class="editor-field">
+            @Html.EditorFor(model => model.IMS_PAV_LENGTH)
+            @Html.ValidationMessageFor(model => model.IMS_PAV_LENGTH)
+        </div>
+
+        <div class="editor-label">
+            @Html.LabelFor(model => model.IMS_PAV_EST_COST)
+        </div>
+        <div class="editor-field">
+            @Html.EditorFor(model => model.IMS_PAV_EST_COST)
+            @Html.ValidationMessageFor(model => model.IMS_PAV_EST_COST)
+        </div>
+
+        <div class="editor-label">
+            @Html.LabelFor(model => model.IMS_NO_OF_CDWORKS)
+        </div>
+        <div class="editor-field">
+            @Html.EditorFor(model => model.IMS_NO_OF_CDWORKS)
+            @Html.ValidationMessageFor(model => model.IMS_NO_OF_CDWORKS)
+        </div>
+
+        <div class="editor-label">
+            @Html.LabelFor(model => model.IMS_CD_WORKS_EST_COST)
+        </div>
+        <div class="editor-field">
+            @Html.EditorFor(model => model.IMS_CD_WORKS_EST_COST)
+            @Html.ValidationMessageFor(model => model.IMS_CD_WORKS_EST_COST)
+        </div>
+
+        <div class="editor-label">
+            @Html.LabelFor(model => model.IMS_PROTECTION_WORKS)
+        </div>
+        <div class="editor-field">
+            @Html.EditorFor(model => model.IMS_PROTECTION_WORKS)
+            @Html.ValidationMessageFor(model => model.IMS_PROTECTION_WORKS)
+        </div>
+
+        <div class="editor-label">
+            @Html.LabelFor(model => model.IMS_OTHER_WORK_COST)
+        </div>
+        <div class="editor-field">
+            @Html.EditorFor(model => model.IMS_OTHER_WORK_COST)
+            @Html.ValidationMessageFor(model => model.IMS_OTHER_WORK_COST)
+        </div>
+
+        <div class="editor-label">
+            @Html.LabelFor(model => model.IMS_STATE_SHARE)
+        </div>
+        <div class="editor-field">
+            @Html.EditorFor(model => model.IMS_STATE_SHARE)
+            @Html.ValidationMessageFor(model => model.IMS_STATE_SHARE)
+        </div>
+
+        <div class="editor-label">
+            @Html.LabelFor(model => model.MAST_MP_CONST_CODE, "MASTER_MP_CONSTITUENCY")
+        </div>
+        <div class="editor-field">
+            @Html.DropDownList("MAST_MP_CONST_CODE", String.Empty)
+            @Html.ValidationMessageFor(model => model.MAST_MP_CONST_CODE)
+        </div>
+
+        <div class="editor-label">
+            @Html.LabelFor(model => model.MAST_MLA_CONST_CODE, "MASTER_MLA_CONSTITUENCY")
+        </div>
+        <div class="editor-field">
+            @Html.DropDownList("MAST_MLA_CONST_CODE", String.Empty)
+            @Html.ValidationMessageFor(model => model.MAST_MLA_CONST_CODE)
+        </div>
+
+        <div class="editor-label">
+            @Html.LabelFor(model => model.IMS_ZP_RESO_OBTAINED)
+        </div>
+        <div class="editor-field">
+            @Html.EditorFor(model => model.IMS_ZP_RESO_OBTAINED)
+            @Html.ValidationMessageFor(model => model.IMS_ZP_RESO_OBTAINED)
+        </div>
+
+        <div class="editor-label">
+            @Html.LabelFor(model => model.IMS_PROPOSED_SURFACE)
+        </div>
+        <div class="editor-field">
+            @Html.EditorFor(model => model.IMS_PROPOSED_SURFACE)
+            @Html.ValidationMessageFor(model => model.IMS_PROPOSED_SURFACE)
+        </div>
+
+        <div class="editor-label">
+            @Html.LabelFor(model => model.IMS_CARRIAGED_WIDTH)
+        </div>
+        <div class="editor-field">
+            @Html.EditorFor(model => model.IMS_CARRIAGED_WIDTH)
+            @Html.ValidationMessageFor(model => model.IMS_CARRIAGED_WIDTH)
+        </div>
+
+        <div class="editor-label">
+            @Html.LabelFor(model => model.IMS_TRAFFIC_TYPE, "MASTER_TRAFFIC_TYPE")
+        </div>
+        <div class="editor-field">
+            @Html.DropDownList("IMS_TRAFFIC_TYPE", String.Empty)
+            @Html.ValidationMessageFor(model => model.IMS_TRAFFIC_TYPE)
+        </div>
+
+        <div class="editor-label">
+            @Html.LabelFor(model => model.IMS_IS_STAGED)
+        </div>
+        <div class="editor-field">
+            @Html.EditorFor(model => model.IMS_IS_STAGED)
+            @Html.ValidationMessageFor(model => model.IMS_IS_STAGED)
+        </div>
+
+        <div class="editor-label">
+            @Html.LabelFor(model => model.IMS_STAGE_PHASE)
+        </div>
+        <div class="editor-field">
+            @Html.EditorFor(model => model.IMS_STAGE_PHASE)
+            @Html.ValidationMessageFor(model => model.IMS_STAGE_PHASE)
+        </div>
+
+        <div class="editor-label">
+            @Html.LabelFor(model => model.IMS_STAGED_YEAR)
+        </div>
+        <div class="editor-field">
+            @Html.EditorFor(model => model.IMS_STAGED_YEAR)
+            @Html.ValidationMessageFor(model => model.IMS_STAGED_YEAR)
+        </div>
+
+        <div class="editor-label">
+            @Html.LabelFor(model => model.IMS_STAGED_PACKAGE_ID)
+        </div>
+        <div class="editor-field">
+            @Html.EditorFor(model => model.IMS_STAGED_PACKAGE_ID)
+            @Html.ValidationMessageFor(model => model.IMS_STAGED_PACKAGE_ID)
+        </div>
+
+        <div class="editor-label">
+            @Html.LabelFor(model => model.IMS_STAGED_ROAD_ID)
+        </div>
+        <div class="editor-field">
+            @Html.EditorFor(model => model.IMS_STAGED_ROAD_ID)
+            @Html.ValidationMessageFor(model => model.IMS_STAGED_ROAD_ID)
+        </div>
+
+        <div class="editor-label">
+            @Html.LabelFor(model => model.IMS_NO_OF_BRIDGEWRKS)
+        </div>
+        <div class="editor-field">
+            @Html.EditorFor(model => model.IMS_NO_OF_BRIDGEWRKS)
+            @Html.ValidationMessageFor(model => model.IMS_NO_OF_BRIDGEWRKS)
+        </div>
+
+        <div class="editor-label">
+            @Html.LabelFor(model => model.IMS_BRIDGE_NAME)
+        </div>
+        <div class="editor-field">
+            @Html.EditorFor(model => model.IMS_BRIDGE_NAME)
+            @Html.ValidationMessageFor(model => model.IMS_BRIDGE_NAME)
+        </div>
+
+        <div class="editor-label">
+            @Html.LabelFor(model => model.IMS_BRIDGE_LENGTH)
+        </div>
+        <div class="editor-field">
+            @Html.EditorFor(model => model.IMS_BRIDGE_LENGTH)
+            @Html.ValidationMessageFor(model => model.IMS_BRIDGE_LENGTH)
+        </div>
+
+        <div class="editor-label">
+            @Html.LabelFor(model => model.IMS_BRIDGE_WORKS_EST_COST)
+        </div>
+        <div class="editor-field">
+            @Html.EditorFor(model => model.IMS_BRIDGE_WORKS_EST_COST)
+            @Html.ValidationMessageFor(model => model.IMS_BRIDGE_WORKS_EST_COST)
+        </div>
+
+        <div class="editor-label">
+            @Html.LabelFor(model => model.IMS_BRIDGE_EST_COST_STATE)
+        </div>
+        <div class="editor-field">
+            @Html.EditorFor(model => model.IMS_BRIDGE_EST_COST_STATE)
+            @Html.ValidationMessageFor(model => model.IMS_BRIDGE_EST_COST_STATE)
+        </div>
+
+        <div class="editor-label">
+            @Html.LabelFor(model => model.IMS_ISBENEFITTED_HABS)
+        </div>
+        <div class="editor-field">
+            @Html.EditorFor(model => model.IMS_ISBENEFITTED_HABS)
+            @Html.ValidationMessageFor(model => model.IMS_ISBENEFITTED_HABS)
+        </div>
+
+        <div class="editor-label">
+            @Html.LabelFor(model => model.IMS_HABS_REASON, "MASTER_REASON")
+        </div>
+        <div class="editor-field">
+            @Html.DropDownList("IMS_HABS_REASON", String.Empty)
+            @Html.ValidationMessageFor(model => model.IMS_HABS_REASON)
+        </div>
+
+        <div class="editor-label">
+            @Html.LabelFor(model => model.IMS_MAINTENANCE_YEAR1)
+        </div>
+        <div class="editor-field">
+            @Html.EditorFor(model => model.IMS_MAINTENANCE_YEAR1)
+            @Html.ValidationMessageFor(model => model.IMS_MAINTENANCE_YEAR1)
+        </div>
+
+        <div class="editor-label">
+            @Html.LabelFor(model => model.IMS_MAINTENANCE_YEAR2)
+        </div>
+        <div class="editor-field">
+            @Html.EditorFor(model => model.IMS_MAINTENANCE_YEAR2)
+            @Html.ValidationMessageFor(model => model.IMS_MAINTENANCE_YEAR2)
+        </div>
+
+        <div class="editor-label">
+            @Html.LabelFor(model => model.IMS_MAINTENANCE_YEAR3)
+        </div>
+        <div class="editor-field">
+            @Html.EditorFor(model => model.IMS_MAINTENANCE_YEAR3)
+            @Html.ValidationMessageFor(model => model.IMS_MAINTENANCE_YEAR3)
+        </div>
+
+        <div class="editor-label">
+            @Html.LabelFor(model => model.IMS_MAINTENANCE_YEAR4)
+        </div>
+        <div class="editor-field">
+            @Html.EditorFor(model => model.IMS_MAINTENANCE_YEAR4)
+            @Html.ValidationMessageFor(model => model.IMS_MAINTENANCE_YEAR4)
+        </div>
+
+        <div class="editor-label">
+            @Html.LabelFor(model => model.IMS_MAINTENANCE_YEAR5)
+        </div>
+        <div class="editor-field">
+            @Html.EditorFor(model => model.IMS_MAINTENANCE_YEAR5)
+            @Html.ValidationMessageFor(model => model.IMS_MAINTENANCE_YEAR5)
+        </div>
+
+        <div class="editor-label">
+            @Html.LabelFor(model => model.IMS_DPR_STATUS)
+        </div>
+        <div class="editor-field">
+            @Html.EditorFor(model => model.IMS_DPR_STATUS)
+            @Html.ValidationMessageFor(model => model.IMS_DPR_STATUS)
+        </div>
+
+        <div class="editor-label">
+            @Html.LabelFor(model => model.IMS_REMARKS)
+        </div>
+        <div class="editor-field">
+            @Html.EditorFor(model => model.IMS_REMARKS)
+            @Html.ValidationMessageFor(model => model.IMS_REMARKS)
+        </div>
+
+        <div class="editor-label">
+            @Html.LabelFor(model => model.IMS_CC_LENGTH)
+        </div>
+        <div class="editor-field">
+            @Html.EditorFor(model => model.IMS_CC_LENGTH)
+            @Html.ValidationMessageFor(model => model.IMS_CC_LENGTH)
+        </div>
+
+        <div class="editor-label">
+            @Html.LabelFor(model => model.IMS_BT_LENGTH)
+        </div>
+        <div class="editor-field">
+            @Html.EditorFor(model => model.IMS_BT_LENGTH)
+            @Html.ValidationMessageFor(model => model.IMS_BT_LENGTH)
+        </div>
+
+        <div class="editor-label">
+            @Html.LabelFor(model => model.STA_SANCTIONED)
+        </div>
+        <div class="editor-field">
+            @Html.EditorFor(model => model.STA_SANCTIONED)
+            @Html.ValidationMessageFor(model => model.STA_SANCTIONED)
+        </div>
+
+        <div class="editor-label">
+            @Html.LabelFor(model => model.STA_SANCTIONED_BY)
+        </div>
+        <div class="editor-field">
+            @Html.EditorFor(model => model.STA_SANCTIONED_BY)
+            @Html.ValidationMessageFor(model => model.STA_SANCTIONED_BY)
+        </div>
+
+        <div class="editor-label">
+            @Html.LabelFor(model => model.STA_SANCTIONED_DATE)
+        </div>
+        <div class="editor-field">
+            @Html.EditorFor(model => model.STA_SANCTIONED_DATE)
+            @Html.ValidationMessageFor(model => model.STA_SANCTIONED_DATE)
+        </div>
+
+        <div class="editor-label">
+            @Html.LabelFor(model => model.MS_STA_REMARKS)
+        </div>
+        <div class="editor-field">
+            @Html.EditorFor(model => model.MS_STA_REMARKS)
+            @Html.ValidationMessageFor(model => model.MS_STA_REMARKS)
+        </div>
+
+        <div class="editor-label">
+            @Html.LabelFor(model => model.IMS_SANCTIONED)
+        </div>
+        <div class="editor-field">
+            @Html.EditorFor(model => model.IMS_SANCTIONED)
+            @Html.ValidationMessageFor(model => model.IMS_SANCTIONED)
+        </div>
+
+        <div class="editor-label">
+            @Html.LabelFor(model => model.IMS_REASON, "MASTER_REASON1")
+        </div>
+        <div class="editor-field">
+            @Html.DropDownList("IMS_REASON", String.Empty)
+            @Html.ValidationMessageFor(model => model.IMS_REASON)
+        </div>
+
+        <div class="editor-label">
+            @Html.LabelFor(model => model.IMS_CLEARANCE_DATE)
+        </div>
+        <div class="editor-field">
+            @Html.EditorFor(model => model.IMS_CLEARANCE_DATE)
+            @Html.ValidationMessageFor(model => model.IMS_CLEARANCE_DATE)
+        </div>
+
+        <div class="editor-label">
+            @Html.LabelFor(model => model.IMS_SANCTIONED_BY)
+        </div>
+        <div class="editor-field">
+            @Html.EditorFor(model => model.IMS_SANCTIONED_BY)
+            @Html.ValidationMessageFor(model => model.IMS_SANCTIONED_BY)
+        </div>
+
+        <div class="editor-label">
+            @Html.LabelFor(model => model.IMS_SANCTIONED_DATE)
+        </div>
+        <div class="editor-field">
+            @Html.EditorFor(model => model.IMS_SANCTIONED_DATE)
+            @Html.ValidationMessageFor(model => model.IMS_SANCTIONED_DATE)
+        </div>
+
+        <div class="editor-label">
+            @Html.LabelFor(model => model.IMS_SANCTIONED_AMOUNT)
+        </div>
+        <div class="editor-field">
+            @Html.EditorFor(model => model.IMS_SANCTIONED_AMOUNT)
+            @Html.ValidationMessageFor(model => model.IMS_SANCTIONED_AMOUNT)
+        </div>
+
+        <div class="editor-label">
+            @Html.LabelFor(model => model.IMS_PROG_REMARKS)
+        </div>
+        <div class="editor-field">
+            @Html.EditorFor(model => model.IMS_PROG_REMARKS)
+            @Html.ValidationMessageFor(model => model.IMS_PROG_REMARKS)
+        </div>
+
+        <div class="editor-label">
+            @Html.LabelFor(model => model.IMS_OLD_PACKAGE_ID)
+        </div>
+        <div class="editor-field">
+            @Html.EditorFor(model => model.IMS_OLD_PACKAGE_ID)
+            @Html.ValidationMessageFor(model => model.IMS_OLD_PACKAGE_ID)
+        </div>
+
+        <div class="editor-label">
+            @Html.LabelFor(model => model.IMS_OLD_ROAD_ID)
+        </div>
+        <div class="editor-field">
+            @Html.EditorFor(model => model.IMS_OLD_ROAD_ID)
+            @Html.ValidationMessageFor(model => model.IMS_OLD_ROAD_ID)
+        </div>
+
+        <div class="editor-label">
+            @Html.LabelFor(model => model.IMS_VALUEOFWORK_DONE)
+        </div>
+        <div class="editor-field">
+            @Html.EditorFor(model => model.IMS_VALUEOFWORK_DONE)
+            @Html.ValidationMessageFor(model => model.IMS_VALUEOFWORK_DONE)
+        </div>
+
+        <div class="editor-label">
+            @Html.LabelFor(model => model.IMS_PAYMENT_MADE)
+        </div>
+        <div class="editor-field">
+            @Html.EditorFor(model => model.IMS_PAYMENT_MADE)
+            @Html.ValidationMessageFor(model => model.IMS_PAYMENT_MADE)
+        </div>
+
+        <div class="editor-label">
+            @Html.LabelFor(model => model.IMS_FINAL_PAYMENT_FLAG)
+        </div>
+        <div class="editor-field">
+            @Html.EditorFor(model => model.IMS_FINAL_PAYMENT_FLAG)
+            @Html.ValidationMessageFor(model => model.IMS_FINAL_PAYMENT_FLAG)
+        </div>
+
+        <div class="editor-label">
+            @Html.LabelFor(model => model.IMS_FINAL_PAYMENT_DATE)
+        </div>
+        <div class="editor-field">
+            @Html.EditorFor(model => model.IMS_FINAL_PAYMENT_DATE)
+            @Html.ValidationMessageFor(model => model.IMS_FINAL_PAYMENT_DATE)
+        </div>
+
+        <div class="editor-label">
+            @Html.LabelFor(model => model.IMS_ENTRY_DATE_FINANCIAL)
+        </div>
+        <div class="editor-field">
+            @Html.EditorFor(model => model.IMS_ENTRY_DATE_FINANCIAL)
+            @Html.ValidationMessageFor(model => model.IMS_ENTRY_DATE_FINANCIAL)
+        </div>
+
+        <div class="editor-label">
+            @Html.LabelFor(model => model.IMS_ENTRY_DATE_PHYSICAL)
+        </div>
+        <div class="editor-field">
+            @Html.EditorFor(model => model.IMS_ENTRY_DATE_PHYSICAL)
+            @Html.ValidationMessageFor(model => model.IMS_ENTRY_DATE_PHYSICAL)
+        </div>
+
+        <div class="editor-label">
+            @Html.LabelFor(model => model.IMS_ISCOMPLETED)
+        </div>
+        <div class="editor-field">
+            @Html.EditorFor(model => model.IMS_ISCOMPLETED)
+            @Html.ValidationMessageFor(model => model.IMS_ISCOMPLETED)
+        </div>
+
+        <div class="editor-label">
+            @Html.LabelFor(model => model.IMS_LOCK_STATUS)
+        </div>
+        <div class="editor-field">
+            @Html.EditorFor(model => model.IMS_LOCK_STATUS)
+            @Html.ValidationMessageFor(model => model.IMS_LOCK_STATUS)
+        </div>
+
+        <div class="editor-label">
+            @Html.LabelFor(model => model.IMS_FREEZE_STATUS)
+        </div>
+        <div class="editor-field">
+            @Html.EditorFor(model => model.IMS_FREEZE_STATUS)
+            @Html.ValidationMessageFor(model => model.IMS_FREEZE_STATUS)
+        </div>
+
+        <div class="editor-label">
+            @Html.LabelFor(model => model.IMS_PROPOSAL_TYPE)
+        </div>
+        <div class="editor-field">
+            @Html.EditorFor(model => model.IMS_PROPOSAL_TYPE)
+            @Html.ValidationMessageFor(model => model.IMS_PROPOSAL_TYPE)
+        </div>
+
+        <p>
+            <input type="submit" value="Save" />
+        </p>
+    </fieldset>
+}
+
+<div>
+    @Html.ActionLink("Back to List", "Index")
+</div>
+
+@section Scripts {
+    @Scripts.Render("~/bundles/jqueryval")
+}

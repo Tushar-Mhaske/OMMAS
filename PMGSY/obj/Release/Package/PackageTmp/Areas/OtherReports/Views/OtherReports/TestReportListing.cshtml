@@ -1,0 +1,22 @@
+﻿@using MvcReportViewer
+
+@model PMGSY.Areas.OtherReports.Models.TestModel
+<style>
+    .ui-widget-content {
+    background-color:white;
+    }
+</style>
+@Html.MvcReportViewer("/PMGSYCitizen/TestResultReport",
+     new
+     {
+        LEVEL=Model.Level,
+        STATE=Model.StateCode,
+        DISTRICT=Model.DistrictCode,
+        BLOCK = Model.BlockCode,
+        YEAR=Model.Year
+     },
+     new { Height = 600, Width = "100%", style = "border:0.75px;" })
+
+
+
+

@@ -1,0 +1,102 @@
+﻿@{
+    ViewBag.Title = "SearchCluster";
+}
+@model PMGSY.Models.Master.MasterClusterSearchModel
+<script src="~/Scripts/custom/Generic.js"></script>
+<script src="~/Scripts/Master/SearchCluster.js"></script>
+<form id="frmSearchCluster">
+    <div id="PIUList" style="width: 100%">
+        <div id="dvhdSearch" class="ui-corner-top ui-widget-header panelheader" style="text-align: left; height: 20px;">
+            @*margin-left:10px;margin-right:10px;margin-top:10px;*@
+            <span class="ui-jqgrid-title" style="float: left">&nbsp;Search</span>
+            <span id="spCollapseIconS" class="ui-icon ui-icon-circle-triangle-n" style="float: right"></span>
+        </div>
+        <div id="dvSearchParameter" class="ui-corner-bottom" style="display: block; border: 1px solid #B5B8C8;">
+
+            @Html.ValidationSummary(true)
+            @Html.HiddenFor(model => model.Mast_State_Code)
+            @Html.HiddenFor(model => model.Mast_District_Code)
+            @Html.HiddenFor(model => model.Mast_Block_Code)
+            @Html.HiddenFor(model => model.StateName)
+            @Html.HiddenFor(model => model.DistName)
+            @Html.HiddenFor(model => model.BlockName)
+
+            <table style="width: 100%;" class="rowstyle">
+                <tr>
+                    <td style="width: 2%;"></td>
+                    <td style="text-align: left; width: 6%;">
+                        @Html.LabelFor(model => model.StateCode)
+                        <label style="color: red;">*</label>
+                    </td>
+
+                    <td style="width: 20%;">
+                        @if (Model.Mast_State_Code == 0)
+                        {
+                            @Html.DropDownListFor(model => model.StateCode, new SelectList(Model.StateList, "Value", "Text"), new { @title = "State", @tabindex = 1, @id = "StateList_ClusterDetails", @style = "width:150px" })
+                        }
+                        else
+                        {
+                            @Html.DropDownListFor(model => model.StateCode, new SelectList(Model.StateList, "Value", "Text"), new { @title = "State", @tabindex = 1, @id = "StateList_ClusterDetails", @style = "width:150px", @disabled = "disabled" })
+                                                 
+                        }
+                        <br />
+                        @Html.ValidationMessageFor(m => m.StateCode)
+
+                    </td>
+                    <td style="text-align: left; width: 7%;">
+                        @Html.LabelFor(model => model.DistrictCode)
+                        <label style="color: red;">*</label>
+                    </td>
+                    <td style="width: 20%;">
+                        @if (Model.Mast_District_Code == 0)
+                        {
+                            @Html.DropDownListFor(model => model.DistrictCode, new SelectList(Model.DistrictList, "Value", "Text"), new { @title = "District", @id = "DistrictList_ClusterDetails", @tabindex = 2, @style = "width:150px" })
+                     
+                        }
+                        else
+                        {
+                            @Html.DropDownListFor(model => model.DistrictCode, new SelectList(Model.DistrictList, "Value", "Text"), new { @title = "District", @id = "DistrictList_ClusterDetails", @tabindex = 2, @style = "width:150px", @disabled = "disabled" })
+                       
+                        }
+                     @*   <br />
+                        @Html.ValidationMessageFor(m => m.DistrictCode)*@
+                    </td>
+                    <td style="text-align: left; width: 6%;">
+                        @Html.LabelFor(model => model.BlockCode)
+                        <label style="color: red;">*</label>
+                    </td>
+
+                    <td style="width: 20%;">
+                        @if (Model.Mast_Block_Code == 0)
+                        {
+                            @Html.DropDownListFor(model => model.BlockCode, new SelectList(Model.BlockList, "Value", "Text"), new { @title = "Block", @id = "BlockList_ClusterDetails", @tabindex = 3, @style = "width:150px" })
+                        }
+                        else
+                        {
+                            @Html.DropDownListFor(model => model.BlockCode, new SelectList(Model.BlockList, "Value", "Text"), new { @title = "Block", @id = "BlockList_ClusterDetails", @tabindex = 3, @style = "width:150px", @disabled = "disabled" })
+                     
+                        }
+                  @*      <br />
+                        @Html.ValidationMessageFor(m => m.BlockCode)*@
+                    </td>
+                     <td style="text-align: left; width: 7%;display:none" >
+                        @Html.LabelFor(model => model.Status)
+                        <label style="color: red;">*</label>
+                    </td>
+
+                    <td style="width: 18%;display:none">                       
+                            @Html.DropDownListFor(model => model.Status, new SelectList(Model.StatusList, "Value", "Text"), new { @title = "Status", @id = "StatusList_ClusterDetails", @tabindex = 4, @style = "width:150px" })
+                                              
+                        <br />
+                        @Html.ValidationMessageFor(m => m.Status)
+                    </td>
+                    <td style="width: 8%;">
+                        <input type="button" id="btnClusterSearch" value="Search" class="jqueryButton" title="Search Cluster" tabindex="4" />
+                    </td>
+                </tr>
+            </table>
+        </div>
+    </div>
+</form>
+
+

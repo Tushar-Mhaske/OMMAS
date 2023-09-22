@@ -1,0 +1,95 @@
+﻿@model PMGSY.Models.Accounts.ObservationModel
+
+<script src="~/Scripts/Accounts/ObservationDetails.js"></script>
+<center>
+<div id="dvhdBankDetails" class="ui-corner-top ui-widget-header panelheader" style="text-align: left; height: 20px; width: 76%">
+    <span class="ui-jqgrid-title" id="bgOperation" style="float: left">&nbsp;&nbsp;Add Observation</span>
+    <span id="spCollapseIconCN" class="ui-icon ui-icon-closethick" style="float: right"></span>  <!-- Close icon removed-->
+</div>
+<div id="dvBankDetails" class="ui-corner-bottom" style="display: block; border: 1px solid #B5B8C8; width: 76%">
+    <div id="dvErrorMessage" class="ui-widget ui-state-error ui-corner-all" style="padding: 0.7em .7em; display: none; margin: 5px 5px 5px 5px; text-align: left">
+        <span class="ui-icon ui-icon-alert" style="float: left; margin-right: .3em;"></span>
+        <strong>Alert:</strong> <span id="message"></span>
+    </div>
+<form id="frmObservationDetails" >
+    @Html.ValidationSummary(true)
+    @Html.AntiForgeryToken()
+    
+      @Html.Hidden("RoleCode", PMGSY.Extensions.PMGSYSession.Current.RoleCode)
+      @Html.HiddenFor(x => x.ParentId)
+      @Html.HiddenFor(x => x.hdnMasterObId)
+       
+   
+ <table class="table-content ui-state-default ui-corner-bottom " style="width: 100%; border: .1em solid gray;height:50px;"  id="tblATRDetails">
+             <tr><td></td><td></td></tr>
+             <tr>
+               <td  style="text-align:left;width:8%;padding-left:38px;">
+                     @Html.LabelFor(model => model.Subject)<span style="color:red">*</span>:
+                </td>
+                <td style="width:15%"> 
+                    @Html.TextBoxFor(model => model.Subject, new { @title = "Observation Status", style = "width: 80%;" ,@tabindex=5 })<br />
+                    @Html.ValidationMessageFor(model => model.Subject)
+                 </td>
+            </tr>
+
+             <tr> 
+                 <td   style="text-align:left;width:8%;padding-left:38px;"> 
+                  @Html.LabelFor(model => model.Observation)<span style="color:red">*</span>:
+                 </td>            
+                <td style="width:15%">
+                     @Html.TextAreaFor(model => model.Observation, new { @title = "Observation", style = "width: 80%;",@tabindex=6 })<br />
+                     @Html.ValidationMessageFor(model => model.Observation)
+                </td>
+            </tr>
+           @if(PMGSY.Extensions.PMGSYSession.Current.RoleCode != 2)
+           {
+             <tr>
+                <td style="width:8%;text-align:left;padding-left:38px;" >
+                     @Html.LabelFor(model => model.NonConforfance)<span style="color:red">*</span>:
+                </td>
+                <td style="width:10%">
+                    @Html.RadioButtonFor(model => model.NonConforfance, "N", new { @title = "Yes", id = "rdoIsNonConforfanceYes", @tabindex =7 })
+                    <label for="rdoIsNonConforfanceYes">Yes</label>
+                    &nbsp;&nbsp;
+                      
+                    @Html.RadioButtonFor(model => model.NonConforfance, "Y", new { @title = "No", id = "rdoIsNonConforfanceNo", @tabindex = 8 })
+                    <label for="rdoIsNonConforfanceNo">No</label>
+                </td>
+                </tr>
+           }
+               <tr>
+                <td style="width:8%;text-align:left;padding-left:38px;" ></td> 
+                   <td style="width:5%;padding-left:38px;">
+                       <input type="button" id="btnSave" value="Submit" class="jqueryButton ui-corner-all" title="Submit" tabindex="9">
+                       <input style="margin-left:10px;" type="reset" id="btnReset" value="Reset" class="jqueryButton ui-corner-all" title="Reset" tabindex="10">
+                   </td>     
+                        
+                </tr>
+            <tr>
+               <td  style="text-align:left;width:8%;padding-left:38px;">
+                    @Html.Hidden("masterObId")
+                    @Html.Hidden("masterObIdforFileList")
+                     @Html.Label("File ")<span style="color:red">*</span>:
+                </td>
+                <td style="width:15%"> 
+                    @Html.TextBox("ATRFile", null, new { @title = "File", type = "file", style = "width: 80%;" ,@tabindex = 11 })<br />
+                    <span id="errfilespn"></span>
+
+                   
+                 </td>
+                
+            </tr>
+             <tr>
+                <td style="width:8%;text-align:left;padding-left:38px;" ></td>
+                <td style="width:5%;"><input type="button" id="btnUpload" style="margin-top:10px;"  value="Upload" class="jqueryButton ui-corner-all" title="Upload" tabindex="12">
+                     <br /><br />
+                    <span style="margin-left: -197px;"><strong style="color:green">Note</strong>:Upload only pdf file upto 4 MB.</span>
+                </td>
+                 
+             </tr>
+            
+</table>
+ 
+</form>
+</div>
+ </center>

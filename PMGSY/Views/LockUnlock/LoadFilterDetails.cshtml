@@ -1,0 +1,76 @@
+﻿@model PMGSY.Models.LockUnlock.FilterDetailsViewModel
+
+@{
+    ViewBag.Title = "LoadFilterDetails";
+}
+
+<script src="~/Scripts/custom/Generic.js"></script>
+<script src="~/Scripts/LockUnlock/LoadFilterDetails.js"></script>
+
+@{
+    int roleCode = PMGSY.Extensions.PMGSYSession.Current.RoleCode;
+}
+
+
+<form id="searchFilter">
+    <table style="width: 100%; margin-top: 2px; margin-bottom: 0px; text-align: left; border: ridge 0.1em #ccc;" class="rowstyle">
+        <tr>
+            <td style="width: 96%; text-align: left; border: ridge 0.1em #ccc;">
+                @*<div style="width: 96%; border:none; margin-top:0px; margin-bottom:10px;" class="ui-state-default">*@
+                <div>
+                    <center>
+        <table style="margin-top:10px; margin-bottom:5px;">
+            <tr>
+                @Html.Hidden("RoleCode", roleCode)
+                <td><label id="lblState">State</label></td>
+                @*Changes for RCPLWE*@
+                @if (PMGSY.Extensions.PMGSYSession.Current.RoleCode != 36 && PMGSY.Extensions.PMGSYSession.Current.RoleCode != 47 && PMGSY.Extensions.PMGSYSession.Current.RoleCode != 56)
+                {
+                    <td>@Html.DropDownListFor(model => model.State, new SelectList(Model.ddlState, "Value", "Text"), new { @id = "ddlStateSearch", title = "Please Select State", @tabindex = 2, @style = "width:120px" })</td>
+                }
+                else
+                {
+                    <td>@Html.DropDownListFor(model => model.State, new SelectList(Model.ddlState, "Value", "Text"), new { @id = "ddlStateSearch", title = "Please Select State", @tabindex = 2, disabled = "disabled", @style = "width:120px" })</td>
+                }
+                <td><label id="lblDistrict">District</label></td>
+                <td>@Html.DropDownListFor(model => model.District, new SelectList(Model.ddlDistrict, "Value", "Text"), new { @id = "ddlDistrictSearch", title = "Please Select District", @tabindex = 2, @style = "width:120px" })</td>
+                <td><label id="lblBlock">Block</label></td>
+                <td>@Html.DropDownListFor(model => model.Block, new SelectList(Model.ddlBlock, "Value", "Text"), new { @id = "ddlBlockSearch", title = "Please Select Block", @tabindex = 2, @style = "width:120px" })</td>
+                <td><label id="lblVillage">Village</label></td>
+                <td>@Html.DropDownListFor(model => model.Village, new SelectList(Model.ddlVillage, "Value", "Text"), new { @id = "ddlVillageSearch", title = "Please Select Village", @tabindex = 2, @style = "width:100px" })</td>
+                <td><label id="lblHabitation">Habitation</label></td>
+                <td>@Html.DropDownListFor(model => model.Habitation, new SelectList(Model.ddlHabitation, "Value", "Text"), new { @id = "ddlHabSearch", title = "Please Select Habitation", @tabindex = 2, @style = "width:100px" })</td>
+                <td><label id="lblYear">Year</label></td>
+                @*<td>@Html.DropDownListFor(model => model.Year, new SelectList(Model.ddlYear, "Value", "Text"), new { @id = "ddlYearSearch", title = "Please Select Year", @tabindex = 2, @style = "width:100px" })</td>*@
+                @* Added to unlock Proposal Technology Details*@
+                <td>@Html.DropDownListFor(model => model.Year, new SelectList(Model.ddlYear, "Value", "Text"), new { @id = "ddlYearSearch", title = "Please Select Year", @tabindex = 2, @style = "width:100px" }) 
+                    @Html.ValidationMessageFor(model => model.Year)
+                </td>
+                <td><label id="lblBatch">Batch</label></td>
+                <td>@Html.DropDownListFor(model => model.Batch, new SelectList(Model.ddlBatch, "Value", "Text"), new { @id = "ddlBatchSearch", title = "Please Select Batch", @tabindex = 2, @style = "width:80px; display:none;" })</td>
+                <td><label id="lblCollaboration">Collaboration</label></td>
+                <td>@Html.DropDownListFor(model => model.Collaboration, new SelectList(Model.lstCollaboration, "Value", "Text"), new { @id = "ddlCollaboration", title = "Please Select Collaboration", @tabindex = 2, @style = "width:120px" })</td>
+                <td><label id="lblPackage">Package</label></td>
+                <td>@Html.DropDownListFor(model => model.Package, new SelectList(Model.ddlPackage, "Value", "Text"), new { @id = "ddlPackageSearch", title = "Please Select Package", @tabindex = 2, @style = "width:100px" })</td>
+                <td><label id="lblProposalType">Proposal Type</label></td>
+                <td>@Html.DropDownListFor(model => model.ProposalType, new SelectList(Model.lstProposalTypes, "Value", "Text"), new { @id = "ddlPropTypeSearch", title = "Please Select Proposal Type", @tabindex = 2, @style = "width:100px" })</td>
+                @*@if (PMGSY.Extensions.PMGSYSession.Current.RoleCode != 36 && PMGSY.Extensions.PMGSYSession.Current.RoleCode != 47)
+        {
+                *@
+                <td><label id="lblType">Type</label></td>
+                <td>@Html.DropDownListFor(model => model.Type, new SelectList(Model.lstSanction, "Value", "Text"), new { @id = "ddlTypeSearch", title = "Please Select Type", @tabindex = 2, @style = "width:120px" })</td>
+                @* }*@
+                <td><label id="lblScheme">Scheme</label></td>
+                <td>@Html.DropDownListFor(model => model.PMGSYScheme, new SelectList(Model.lstSchemes, "Value", "Text"), new { @id = "ddlSchemeSearch", title = "Please Select Scheme", @tabindex = 2, @style = "width:80px" })@Html.ValidationMessageFor(model => model.PMGSYScheme)</td>
+            </tr>
+            <tr>
+                <td colspan="22"><center><input type="button" class="jqueryButton" value="View" id="btnListDetails" name ="btnListDetails" title="Click here to list Details" style="text-align:center"/></center></td>
+            </tr>
+            </table>
+            </center>
+                </div>
+            </td>
+        </tr>
+    </table>
+</form>
+

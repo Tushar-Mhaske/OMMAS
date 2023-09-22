@@ -1,0 +1,384 @@
+﻿@*
+    * Project Id    :
+    * Project Name  :   OMMAS II
+    * Name          :   StaSactionProposal.cshtml
+    * Description   :   This View is Provided to STA For Scrutinize Road Proposal
+    * Author        :   Shivkumar Deshmukh        
+    * Creation Date :   30/May/2013    
+*@
+
+@model PMGSY.Models.Proposal.StaSanctionViewModel
+<script src="~/Scripts/custom/Generic.js"></script>
+<script src="~/Scripts/jquery.ui.datepicker.js"></script>
+<script type="text/javascript">
+$(document).ready(function () {
+
+    $("#trUnscrutinyRemark").hide();
+    $("#trUnscrutinyDate").hide();
+
+        if ($("#STA_SANCTIONED").val() == "N") {
+            
+        }
+        else if ($("#STA_SANCTIONED").val() == "Y") {
+            $("#trUnscrutinyRemark").hide();
+            $("#trUnscrutinyDate").hide();
+        }
+
+
+        $(function () {
+            $("#txtScrutinyDate").datepicker(
+            {
+                dateFormat: "dd-M-yy",
+                changeMonth: true,
+                changeYear: true,
+                maxDate: "+0M +0D",
+                showOn: 'button',
+                buttonImage: '../../Content/images/calendar_2.png',
+                buttonImageOnly: true,
+                onClose: function () {
+                    $(this).focus().blur();
+                }
+            });
+
+            $("#txtScrutinyDate").datepicker().attr('readonly', 'readonly');
+            $("#txtScrutinyDate").datepicker("option", "maxDate", new Date());
+
+
+
+            $("#txtUnScrutinyDate").datepicker(
+            {
+                dateFormat: "dd-M-yy",
+                changeMonth: true,
+                changeYear: true,
+                maxDate: "+0M +0D",
+                showOn: 'button',
+                buttonImage: '../../Content/images/calendar_2.png',
+                buttonImageOnly: true,
+                onClose: function () {
+                    $(this).focus().blur();
+                }
+            });
+
+            $("#txtUnScrutinyDate").datepicker().attr('readonly', 'readonly');
+            $("#txtUnScrutinyDate").datepicker("option", "maxDate", new Date());
+
+        });
+
+
+        
+       
+
+        $("#btnScrutinize").click(function (evt) {
+            
+            var ProceedFurtherExecution = false;
+
+            if ($("#STA_SANCTIONED").val() != "N") {
+                if (!$("#trScrutinyRemark").is(":visible")) {
+                    $("#trScrutinyRemark").show('slow');
+                    $("#trScrutinyDate").show("slow");
+                    
+                    $("#MS_STA_REMARKS").empty();
+                    return false;
+                }
+                else {
+                    ProceedFurtherExecution = true; 
+                }
+            }
+            else {
+                ProceedFurtherExecution = true;
+            }
+            
+            if (ProceedFurtherExecution) {
+
+                $("#STA_SANCTIONED_DATE").val($("#txtScrutinyDate").val());
+
+                $.validator.unobtrusive.parse($('frmSTAScrutiny'));
+                evt.preventDefault();
+                if ($('#frmSTAScrutiny').valid()) {
+                    $.ajax({
+                        url: '/Proposal/STAFinalizeRoadProposal',
+                        type: "POST",
+                        cache: false,
+                        asynch: false,
+                        data: $("#frmSTAScrutiny").serialize(),
+                        beforeSend: function () {
+                            blockPage();
+                        },
+                        error: function (xhr, status, error) {
+                            unblockPage();
+                            Alert("Request can not be processed at this time,please try after some time!!!");
+                            return false;
+                        },
+                        success: function (response) {
+                            if (response.Success == "true") {
+                                alert("Proposal Scrutinized Succesfully.");
+                                clearForm();
+                                $("#MS_STA_REMARKS").val("");
+                                unblockPage();
+                                CloseProposalDetails();
+                                $("#tbStaProposalList").trigger("reloadGrid");
+                            }
+                            else {
+                                alert(response.errorMessage);
+                                $("#divError").show("slow");
+                                $("#divError span:eq(1)").html('<strong>Alert: </strong>' + response.ErrorMessage);
+                                unblockPage();
+                            }
+                            unblockPage();
+                        }
+                    });
+                }
+            }
+
+        });
+
+        $("#btnUnScrutinize").click(function (evt) {
+
+            if ( $("#MS_STA_UnScrutinised_REMARKS").is(":visible") == false) {
+
+                if (confirm("Are You Sure to UnScrutinize Proposal ?")) {
+
+                    $("#trUnscrutinyDate").show("slow");
+                    $("#trUnscrutinyRemark").show("slow");
+                    
+                }
+                else {
+                    return false;
+                }
+            }
+            else {
+                UnFinaliseProposal();
+            }
+
+        });
+
+    });
+
+    function UnFinaliseProposal() {
+        
+        $.validator.unobtrusive.parse($('frmSTAScrutiny'));
+
+        if ($('#frmSTAScrutiny').valid()) {
+
+            $.ajax({
+                url: '/Proposal/STAUnFinalizeRoadProposal',
+                type: "POST",
+                cache: false,
+                data: $("#frmSTAScrutiny").serialize(),
+                beforeSend: function () {
+                    blockPage();
+                },
+                error: function (xhr, status, error) {
+                    unblockPage();
+                    Alert("Request can not be processed at this time,please try after some time!!!");
+                    return false;
+                },
+                success: function (response) {
+                    if (response.Success) {
+                        alert("Proposal Un-Scrutinized Succesfully.");
+                        clearForm();
+                        $("#MS_STA_REMARKS").val("");
+                        unblockPage();
+                        CloseProposalDetails();
+
+                        $("#tbStaProposalList").trigger("reloadGrid");
+
+                    }
+                    else {
+                        alert(response.ErrorMessage);
+                        $("#divError").show("slow");
+                        $("#divError span:eq(1)").html('<strong>Alert: </strong>' + response.ErrorMessage);
+                        unblockPage();
+                    }
+                    unblockPage();
+                }
+            });
+
+        }
+    }
+
+    function clearForm() {
+        $("#frmSTAScrutiny  ").find(':input').each(function () {
+            switch (this.type) {
+                case 'text':
+                    $(this).val('');
+            }
+        });
+    }
+
+</script>
+<form id="frmSTAScrutiny">
+    @Html.HiddenFor(model=> model.IMS_PR_ROAD_CODE)
+    @Html.HiddenFor(model => model.STA_SANCTIONED)
+    @if (Model.STA_SANCTIONED == "N" )
+    {                    
+        <table class="rowstyle ui-corner-all" style="border:ridge 0.1em #ccc; padding:5px 5px 5px 5px;width:100%">
+        <tr>
+            <td style="width:18%; text-align:left; font-weight:bold ">
+                @Html.LabelFor(model=> model.STA_SANCTIONED_BY)
+                <span style="color:red">*</span>
+            </td>
+            <td style="text-align:left;width:80%">
+                @*@Html.TextBoxFor(model => model.STA_SANCTIONED_BY, new { @maxlength = 50 })*@
+                @Html.DisplayFor(model => model.STA_SANCTIONED_BY)
+                @Html.ValidationMessageFor(model => model.STA_SANCTIONED_BY)
+            </td>
+        </tr>
+        <tr>
+            <td style=" text-align:left; font-weight:bold ">
+                @Html.LabelFor(model=> model.STA_SANCTIONED_DATE)
+                <span style="color:red">*</span>
+            </td>
+            <td style="text-align:left;">
+                @Html.TextBoxFor(model => model.STA_SANCTIONED_DATE, new { @id = "txtScrutinyDate" })
+                @Html.ValidationMessageFor(model=> model.STA_SANCTIONED_DATE)
+            </td>
+        </tr>
+        <tr>
+            <td style="text-align:left; font-weight:bold;">
+                @Html.LabelFor(model=> model.MS_STA_REMARKS)
+                <span style="color:red">*</span>
+            </td>
+            <td style="text-align:left">
+                @Html.TextAreaFor(model=> model.MS_STA_REMARKS,new {@maxlength = 255 , @style = "width: 330px;"}) 
+                @Html.ValidationMessageFor(model => model.MS_STA_REMARKS)                                
+            </td>
+        </tr>
+        <tr>
+            <td>
+            </td>
+             @if(PMGSY.Extensions.PMGSYSession.Current.PMGSYScheme == 3 || PMGSY.Extensions.PMGSYSession.Current.PMGSYScheme == 4){
+            <td style="text-align:left">
+                <input type="button" id="btnScrutinize" name="btnScrutinize" class="jqueryButton" value="Scrutinize" /> 
+            </td>
+             }
+            else{}
+        </tr>
+
+    </table>                
+    }   
+    else if(Model.STA_SANCTIONED == "Y" || Model.STA_SANCTIONED == "U")
+    {
+       <table class="rowstyle"  style="border:ridge 0.1em #ccc; padding:5px 5px 5px 5px;width:100%">
+        
+        @if(Model.STA_SANCTIONED == "Y" )
+        {
+            <tr>
+                <td colspan="2" style="text-align :left">
+                    <div class="ui-corner-all ui-state-default" style="height:20px; padding-top:5px; padding-left:5px">
+                        Proposal has been Scrutinized by STA.
+                    </div>                    
+                </td>                    
+            </tr>
+        }
+        else if (Model.STA_SANCTIONED == "U")
+        {
+            <tr>
+                <td colspan="2" style="text-align :left">
+                    <div class="ui-corner-all ui-state-default" style="height:20px; padding-top:5px; padding-left:5px">
+                        Proposal has been Un-Scrutinized by STA.
+                    </div>                    
+                </td>                    
+            </tr>            
+        }
+        <tr>
+            <td style="width:15%; text-align:left; font-weight:bold ">
+                @Html.LabelFor(model => model.STA_SANCTIONED_BY)
+            </td>
+            <td style="text-align:left;width:85%">
+                @Html.DisplayFor(model => model.STA_SANCTIONED_BY)
+                @Html.HiddenFor(model => model.STA_SANCTIONED_BY)
+            </td>
+        </tr>
+
+        <tr>
+            <td style="width:15%; text-align:left; font-weight:bold ">
+                @Html.LabelFor(model => model.STA_SANCTIONED_DATE)
+            </td>
+            <td style="text-align:left;width:85%">               
+                @Html.DisplayFor(model => model.STA_SANCTIONED_DATE)
+                @Html.HiddenFor(model => model.STA_SANCTIONED_DATE)
+            </td>
+        </tr>
+
+        <tr>
+            <td style="text-align:left; font-weight:bold;">
+                @Html.LabelFor(model => model.MS_STA_REMARKS)
+            </td>
+            <td style="text-align:left">
+                @Html.DisplayFor(model => model.MS_STA_REMARKS)
+                @*@Html.HiddenFor(model => model.MS_STA_REMARKS)*@
+            </td>
+        </tr>
+        
+
+        
+        <tr id="trScrutinyDate"  style="display:none">
+            <td style=" text-align:left; font-weight:bold ">
+                @Html.LabelFor(model=> model.STA_SANCTIONED_DATE)
+                <span style="color:red">*</span>
+            </td>
+            <td style="text-align:left;">
+                @Html.TextBoxFor(model => model.STA_SANCTIONED_DATE, new { @id = "txtScrutinyDate" })
+                @Html.ValidationMessageFor(model=> model.STA_SANCTIONED_DATE)
+            </td>
+        </tr>
+
+        <tr id="trUnscrutinyDate"  style="display:none">
+            <td style=" text-align:left; font-weight:bold ">
+                @Html.LabelFor(model=> model.STA_UNSCRUTINY_DATE)
+                <span style="color:red">*</span>
+            </td>
+            <td style="text-align:left;">
+                @Html.TextBoxFor(model => model.STA_UNSCRUTINY_DATE, new { @id = "txtUnScrutinyDate" })
+                @Html.ValidationMessageFor(model=> model.STA_UNSCRUTINY_DATE)
+            </td>
+        </tr>
+
+        <tr id="trScrutinyRemark" style="display:none">
+            <td style="text-align:left; font-weight:bold;">
+                @Html.LabelFor(model => model.MS_STA_REMARKS)
+                <span style="color:red">*</span>
+            </td>
+            <td style="text-align:left">
+                @Html.TextAreaFor(model => model.MS_STA_REMARKS, new { @maxlength = 250, @style = "width: 400px;", @value = "" }) 
+                @Html.ValidationMessageFor(model => model.MS_STA_REMARKS)                                                
+            </td>            
+        </tr>
+        
+        <tr id="trUnscrutinyRemark" style="display:none">
+            <td style="text-align:left; font-weight:bold;">
+                @Html.LabelFor(model => model.MS_STA_REMARKS)
+                <span style="color:red">*</span>
+            </td>
+            <td style="text-align:left">
+                @Html.TextAreaFor(model => model.MS_STA_UnScrutinised_REMARKS, new { @maxlength = 250, @style = "width: 400px;" }) 
+                @Html.ValidationMessageFor(model => model.MS_STA_UnScrutinised_REMARKS)                                                
+            </td>            
+        </tr>
+           @if (PMGSY.Extensions.PMGSYSession.Current.RoleCode == 3 && (Model.IMS_ISCOMPLETED == "D" || Model.IMS_ISCOMPLETED == "S") && Model.STA_SANCTIONED == "Y")
+           {               
+                <tr>
+                    <td>
+                    </td>
+                    <td style="text-align:left">
+                       <input type="button" id="btnUnScrutinize" name="btnUnScrutinize" class="jqueryButton" value="Un-Scrutinize" />
+                    </td>
+                </tr>
+           }
+           else  if (PMGSY.Extensions.PMGSYSession.Current.RoleCode == 3 && Model.IMS_ISCOMPLETED == "S" && Model.STA_SANCTIONED == "U")
+           {    
+                <tr>
+                    <td>
+                    </td>
+                     @if(PMGSY.Extensions.PMGSYSession.Current.PMGSYScheme == 3 || PMGSY.Extensions.PMGSYSession.Current.PMGSYScheme == 4){
+                    <td style="text-align:left">
+                       <input type="button" id="btnScrutinize" name="btnScrutinize" class="jqueryButton" value="Scrutinize" />
+                    </td>  
+                     }
+                    else{}                  
+                </tr>
+           }
+       </table>
+       }
+</form>

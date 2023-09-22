@@ -1,0 +1,141 @@
+﻿@model PMGSY.Models.ARRR.MachineryMasterViewModel
+
+<script src="~/Scripts/custom/Generic.js"></script>
+<script src="~/Scripts/ARRR/MachineryMasterLayout.js"></script>
+
+
+
+<div id="dvMachineryMaster">
+    <div id="dvhdMachineryMaster" class="ui-corner-top ui-widget-header panelheader" style="text-align: left; height: 20px;">
+        Machinery Master<span style="float: right; margin-right: 2Px; margin-top: 2px" id="idFilterDiv" class="ui-icon ui-icon-circle-triangle-n"></span>
+    </div>
+    <form id="frmMachineryMaster">
+        @Html.AntiForgeryToken()
+        @Html.ValidationSummary(true)
+        @Html.HiddenFor(m => m.User_Action)
+        @Html.HiddenFor(m => m.lmmCode)
+        @Html.HiddenFor(m => m.lmmType)
+        @Html.HiddenFor(m => m.flag)
+        <table class="rowstyle" style="width: 100%; margin-bottom: 5px; border: 1px solid #B5B8C8;">
+            @*<tr>
+                <td style="width: 2%;"></td>
+                <td style="width: 5%;">
+                    <label>Item Description defined</label><label style="color: red;"> *</label></td>
+                <td style="width: 10%;">
+                    @Html.RadioButtonFor(model => model.flag, "Y", new { @id = "rdbYes", @name = "rdbYes", @checked = "checked", @tabindex = 1 })
+                    <label>Yes</label>
+
+                    @Html.RadioButtonFor(model => model.flag, "N", new { @id = "rdbNo", @name = "rdbNo", @tabindex = 2 })
+                    <label>No</label>
+                    <br />
+                    @Html.ValidationMessageFor(m => m.flag)
+                </td>
+                <td style="width: 5%"></td>
+            </tr>*@
+            <tr>
+                <td style="width: 2%;"></td>
+                <td style="width: 5%;">
+                    <label>Machinery Name</label><label style="color: red;"> *</label></td>
+                <td style="width: 10%;">
+                    @Html.TextBoxFor(m => m.Description, new { @id = "txtDesc", @maxlength = "50", placeholder = "Please enter Description", @style = "width:300px;", @tabindex = 3 })
+                    <br />
+                    @Html.ValidationMessageFor(m => m.Description)
+                </td>
+                <td style="width: 5%"></td>
+            </tr>
+            <tr>
+                <td style="width: 2%;"></td>
+                <td style="width: 5%;">
+                    <label> Activity Description</label><label style="color: red;"> *</label></td>
+                <td style="width: 10%;">
+                    @Html.TextBoxFor(m => m.Activity, new { @id = "txtActivity", @maxlength = "50", placeholder = "Please enter Activity", @style = "width:300px;", @tabindex = 4 })
+                    <br />
+                    @Html.ValidationMessageFor(m => m.Activity)
+                </td>
+                <td style="width: 5%"></td>
+            </tr>
+            <tr>
+                <td style="width: 2%;"></td>
+                <td style="width: 5%;">
+                    <label>Output Unit</label><label style="color: red;"> *</label></td>
+                <td style="width: 10%;">
+                    @Html.DropDownListFor(model => model.OutputUnit, new SelectList(Model.OutputUnitList, "Value", "Text"), new { @title = "Output Unit", @id = "ddlOutputUnit", @style = "width:300px;", @tabindex = 5 })
+                    <br />
+                    @Html.ValidationMessageFor(m => m.OutputUnit)
+                </td>
+                <td style="width: 5%"></td>
+            </tr>
+            <tr>
+                <td style="width: 2%;"></td>
+                <td style="width: 5%;">
+                    <label>Output Rate</label><label style="color: red;"> *</label></td>
+                <td style="width: 10%;">
+                    @Html.TextBoxFor(m => m.OutputRate, new { @id = "txtOutputRate", @maxlength = "13", placeholder = "Please enter Output Rate", @tabindex = 6 })
+                    <br />
+                    @Html.ValidationMessageFor(m => m.OutputRate)
+                </td>
+                <td style="width: 5%"></td>
+            </tr>
+            <tr>
+                <td style="width: 2%;"></td>
+                <td style="width: 5%;">
+                    <label>Usage Unit</label><label style="color: red;"> *</label></td>
+                <td style="width: 10%;">
+                    @Html.DropDownListFor(model => model.UsageUnit, new SelectList(Model.UsageUnitList, "Value", "Text"), new { @title = "Usage Unit", @id = "ddlUsageUnit", @style = "width:300px;", @tabindex = 7 })
+                    <br />
+                    @Html.ValidationMessageFor(m => m.UsageUnit)
+                </td>
+                <td style="width: 5%"></td>
+            </tr>
+             <tr>
+                <td style="width: 2%;"></td>
+                <td style="width: 5%;">
+                    <label>Code</label><label style="color: red;"> *</label></td>
+                <td style="width: 10%;">
+                    @Html.TextBoxFor(m => m.lCode, new { @id = "txtLmmCode", @maxlength = "6", placeholder = "Please enter valid Code", @tabindex = 8 })
+                    <br />
+                    @Html.ValidationMessageFor(m => m.lCode)
+                </td>
+                <td style="width: 5%"></td>
+            </tr>
+            <tr>
+                <td style="width: 2%;"></td>
+                <td style="width: 5%;">
+                    <label>Category</label><label style="color: red;"> *</label></td>
+                <td style="width: 10%;">
+                    @Html.DropDownListFor(model => model.Category, new SelectList(Model.CategoryList, "Value", "Text"), new { @title = "Category", @id = "ddlCategory", @style = "width:300px;", @tabindex = 8 })
+                    <br />
+                    @Html.ValidationMessageFor(m => m.Category)
+                </td>
+                <td style="width: 5%"></td>
+            </tr>
+                @*<tr>
+                <td style="width: 2%;"></td>
+                <td style="width: 5%;">
+                    <label>Activity Details</label><label style="color: red;"> *</label></td>
+                <td style="width: 10%;">
+                    @Html.TextBoxFor(m => m.Activity, new { @id = "txtAct", @maxlength = "50", placeholder = "Please enter Activity Details.", @style = "width:300px;", @tabindex = 3 })
+                    <br />
+                    @Html.ValidationMessageFor(m => m.Activity)
+                </td>
+                <td style="width: 5%"></td>
+            </tr>*@
+            <tr style="text-align: center;">
+                <td colspan="5">
+                    @if (Model.User_Action == null)
+                    {
+                        <input type="button" id="btnSave" name="Save" value="Save" class="jqueryButton" title="Save" tabindex="8" />
+                    }
+                    else
+                    {
+                        <input type="button" id="btnUpdate" name="Update" value="Update" class="jqueryButton" title="Save" tabindex="8" />
+                    }
+                    <input type="reset" id="btnReset" name="Reset" value="Reset" class="jqueryButton" title="Reset" tabindex="9" />
+                    <input type="button" id="btnCancel" name="Cancel" value="Cancel" class="jqueryButton" title="Cancel" tabindex="10" />
+
+                </td>
+            </tr>
+        </table>
+    </form>
+</div>
+

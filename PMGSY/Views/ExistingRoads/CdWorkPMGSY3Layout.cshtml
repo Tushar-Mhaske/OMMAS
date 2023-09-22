@@ -1,0 +1,159 @@
+﻿@model PMGSY.Models.ExistingRoads.CdWorksViewModel
+
+<script src="~/Scripts/custom/Generic.js"></script>
+
+<script src="~/Scripts/ExistingRoads/CDWorksPMGSY3Layout.js"></script>
+
+<center>
+
+
+     @*<div style="height:20px; width: 92%; text-align:left; padding-top: 0.6em;" class="ui-state-default ui-corner-all" > 
+                   &nbsp; 
+                   <strong> @Html.LabelFor(model=>model.RoadNumber) :</strong> @Html.DisplayFor(model => model.RoadNumber)&nbsp;  &nbsp;  &nbsp;  &nbsp;  &nbsp;  &nbsp;  &nbsp; 
+                 <strong> @Html.LabelFor(model=> model.RoadName) :</strong> @Html.DisplayFor(model => model.RoadName)                
+     </div>*@
+    <div id="divCDWorks" style="width:96%">
+        <table id="tbCdWorks"></table>
+        <div id="dvCdWorksPager"></div>
+    </div>
+
+    <br />
+
+    <div id="divCdWorks">
+        <form id="frmCdWorks">
+            @Html.AntiForgeryToken()
+        @Html.HiddenFor(model => model.MAST_ER_ROAD_CODE)
+        @Html.HiddenFor(model => model.EncryptedCdWorksCode)
+        @Html.HiddenFor(model => model.Operation)
+        @Html.HiddenFor(model => model.MAST_CD_NUMBER)
+
+
+        <div id="divError" class="ui-state-error ui-corner-all" style="text-align: left; display: none; width: 90%">
+                <span class="ui-icon ui-icon-alert" style="float: left;"></span>                   
+                <span></span>
+         </div>
+            <div style="height:20px; width: 90%; text-align:left; padding-top: 0.6em;" class="ui-state-default ui-corner-all" > 
+                   &nbsp; <strong> Note :</strong>  Fields marked with * are mandatory.
+         </div>
+          
+           <table id="Table1"  cellspacing="0" cellpadding="3" class="rowstyle" style="margin-top:0px; text-align:left; border:ridge 0.1em #ccc; width:90%; padding-top:5px; padding-left:5px; padding-right:5px; padding-bottom:5px;">
+
+
+
+               <tr>
+              <td  style="width:15%">
+                    @Html.LabelFor(model => model.MAST_CDWORKS_CODE)
+                    <span style="color:red">*</span>
+                </td>
+                <td  style="width:30%">
+                  @Html.DropDownListFor(model => model.MAST_CDWORKS_CODE, Model.CDWorkTypes, new { @title = "Please Select CD Works Type", @tabindex = 1 })
+                  @Html.ValidationMessageFor(model => model.MAST_CDWORKS_CODE)
+                </td>
+                <td  style="width:15%">
+                    @Html.LabelFor(model => model.MAST_CD_LENGTH)
+                      <span style="color:red">*</span>
+                </td>
+                <td style="width:30%">
+                    @Html.TextBoxFor(model => model.MAST_CD_LENGTH, new { @maxlength = "6", @title = "Enter Length", @tabindex = 2, @placeholder = "Enter Length" })
+                     @Html.ValidationMessageFor(model => model.MAST_CD_LENGTH)
+                </td>
+
+               </tr>
+
+               <tr>
+                 <td>
+                    @Html.LabelFor(model => model.MAST_CD_DISCHARGE)
+                       <span style="color:red">*</span>
+                </td>
+                <td>
+                    @Html.TextBoxFor(model => model.MAST_CD_DISCHARGE, new { @maxlength = "6", @title = "Enter Discharge", @tabindex = 3, @placeholder = "Enter Discharge" })
+                    @Html.ValidationMessageFor(model => model.MAST_CD_DISCHARGE)
+                </td>
+                   <td>
+                    @Html.LabelFor(model => model.MAST_CD_CHAINAGE)
+                         <span style="color:red">*</span>
+                </td>
+                <td>
+                    @Html.TextBoxFor(model => model.MAST_CD_CHAINAGE, new { @maxlength = "11", @title = "Enter Chainage", @tabindex = 4, @placeholder = "Enter Chainage" })
+                    @Html.ValidationMessageFor(model => model.MAST_CD_CHAINAGE)
+                </td>
+
+               </tr>
+
+               <tr>
+                
+                <td>
+                       @Html.LabelFor(model => model.MAST_CONSTRUCT_YEAR)
+                       @if (PMGSY.Extensions.PMGSYSession.Current.PMGSYScheme != 2)
+                       {
+                           <span style="color:red">*</span>
+                       }
+                </td>
+                    <td>
+                            @Html.DropDownListFor(model => model.MAST_CONSTRUCT_YEAR, Model.RoadYears, new { @title = "Select the year in which road was constructed", @tabindex = 5 })                           
+                        @Html.ValidationMessageFor(model => model.MAST_CONSTRUCT_YEAR, "", new { id = "roadConstructionYear" })
+                  </td>
+                        <td>
+                            @Html.LabelFor(model => model.MAST_REHAB_YEAR)
+                           @if (PMGSY.Extensions.PMGSYSession.Current.PMGSYScheme != 2)
+                           {
+                           <span style="color:red">*</span>
+                           }
+                        </td>
+                        <td >
+                            @Html.DropDownListFor(model => model.MAST_REHAB_YEAR, Model.RoadYears, new { @title = "Select the Road Rehabilitation year", @tabindex = 6 })                           
+                            @Html.ValidationMessageFor(model => model.MAST_REHAB_YEAR, "", new { id = "roadRehabilitationYear" })
+                        </td>
+               </tr>
+
+            <tr>
+
+                <td>
+                    @Html.LabelFor(model => model.MAST_ER_SPAN)
+                      <span style="color:red">*</span>
+                </td>
+                <td>
+                    @Html.TextBoxFor(model => model.MAST_ER_SPAN, new { @maxlength = "8", @title = "Enter Span", @tabindex = 7, @placeholder = "Enter Span" })
+                    @Html.ValidationMessageFor(model => model.MAST_ER_SPAN)
+                </td>
+                 
+                 <td>
+                    @Html.LabelFor(model => model.MAST_CARRIAGE_WAY)
+                       <span style="color:red">*</span>
+                </td>
+                <td>
+                    @Html.TextBoxFor(model => model.MAST_CARRIAGE_WAY, new { @maxlength = "8", @title = "Enter Carriage-way", @tabindex = 8, @placeholder = "Enter Carriage-way" })
+                    @Html.ValidationMessageFor(model => model.MAST_CARRIAGE_WAY)
+                </td>
+            </tr>  
+
+               <tr>
+                  <td>
+                       @Html.LabelFor(model => model.MAST_IS_FOOTPATH)<span style="color:red">*</span>
+                 </td>
+                <td colspan="3">
+                     @Html.RadioButtonFor(model => model.MAST_IS_FOOTPATH, "Y", new { @title = "Yes", @tabindex = 9, @checked = true })@Html.Label("Yes")
+                     @Html.RadioButtonFor(model => model.MAST_IS_FOOTPATH, "N", new { @title = "No", @tabindex = 10 })@Html.Label("No")                      
+                 </td>
+               </tr>
+
+            <tr id="rowAdd">
+                <td colspan="6" style="text-align:center">
+                    <input type="button" value="Save" class="jqueryButton" id="btnSave3" name="btnSave" title="Save CD Works Details" tabindex="11"/>
+                    <input type="button" value="Reset" class="jqueryButton" id="btnReset" name="btnReset"  title="Reset" tabindex="12"/>
+                </td>            
+            </tr>
+            <tr id="rowUpdate" style="display:none">
+                <td colspan="6" style="text-align:center">
+                   <input type="button" value="Update" class="jqueryButton" id="btnUpdate" name="btnUpdate" title="Update CD Works Details" tabindex="11"/>
+                   <input type="button" value="Cancel" class="jqueryButton" id="btnCancel" name="btnCancel"  title="Cancel" tabindex="12"/>
+                </td>            
+            </tr>
+        </table>
+        </form>
+    </div>
+
+</center>
+
+
+

@@ -1,0 +1,80 @@
+﻿@model PMGSY.Models.Payment.HoldingSDALayoutModel
+@using PMGSY.Extensions;
+@{
+    Layout = null;
+}
+
+@*<script src="~/Scripts/jquery-1.9.1.min.js"></script>*@
+<script src="~/Scripts/custom/Generic.js"></script>
+<script src="~/Scripts/jquery.jqGrid.min.js"></script>
+<script src="~/Scripts/grid.locale-en.js"></script>
+<script src="~/Scripts/jquery-ui.js"></script>
+<script src="~/Scripts/Payment/HoldSDATransanction.js"></script>
+<script src="~/Scripts/jquery.validate.min.js"></script>
+<script src="~/Scripts/jquery.validate.unobtrusive.min.js"></script>
+
+<center>
+    <div class="ui-widget-header innerDivHeader" style="margin-bottom: 5px; width: 99%;text-align:left">Holding & SDA Transaction</div>
+
+    <form id="frmSDAholding">
+        @Html.ValidationSummary(true)
+
+        <div id="loadFilters">
+
+            <table class="ui-state-default ui-corner-all" style="border:0.1em solid gray; width:99%;margin-left: 5px;" id="tblSearch">
+                <tr id="secondRow">
+
+                    <td style="text-align: center; width: 5%">
+                        Month <label style="color:red">*</label>
+
+                    </td>
+                    <td style="text-align: center; width: 20%">
+                        @Html.DropDownListFor(model => model.MONTH, new SelectList(Model.MONTH_LIST, "Value", "Text"), new { Title = "Voucher Month", @id = "ddlmonth", tabindex = "1", @class = "dropdown" })
+                        @Html.ValidationMessageFor(model => model.MONTH)
+                    </td>
+                    <td style="text-align: center; width:5%">
+                        Year <label style="color:red">*</label>
+                    </td>
+                    <td style="text-align: center; width: 20%">
+
+                        @Html.DropDownListFor(model => model.YEAR, new SelectList(Model.YEAR_LIST, "Value", "Text"), new { Title = "Voucher Year", @id = "ddlyear", tabindex = "2", @class = "dropdown" })
+                        @Html.ValidationMessageFor(model => model.YEAR)
+                    </td>
+                    <td style="text-align: center; width:5%">
+                        DPIU <label style="color:red">*</label>
+                    </td>
+                    <td style="text-align: center; width: 20%">
+
+                        @Html.DropDownListFor(model => model.ADMIN_ND_CODE, new SelectList(Model.Dpiu_List, "Value", "Text"), new { Title = "dPIU", @id = "ddlDPIU", tabindex = "3", @class = "dropdown" })
+                        @Html.ValidationMessageFor(model => model.ADMIN_ND_CODE)
+                    </td>
+                    <td style="text-align: center; width:5%">
+                        Txn Type <label style="color:red">*</label>
+                    </td>
+                    <td style="text-align: center; width: 20%">
+
+                        @Html.DropDownListFor(model => model.ACCOUNT_TYPE, new SelectList(Model.ACCOUNT_TYPE_LIST, "Value", "Text"), new { Title = "dTxnList", @id = "ddlTxn", tabindex = "4", @class = "dropdown" })
+                        @Html.ValidationMessageFor(model => model.ACCOUNT_TYPE)
+                    </td>
+                    <td style="text-align: center;">
+                        <input type="button" class="jqueryButton"
+                               name="btnView" id="btnView" title="" value='View Details' />
+                    </td>
+                </tr>
+            </table>
+        </div>
+    </form>
+</center>
+
+<div id="divListHoldingSDAList" style="margin-top:20px; width:100%">
+    <table id="tbHoldingList"></table>
+    <div id="pager"></div>
+</div>
+
+@*<br />
+    <br />
+
+    <input type="button" value="Auto Transaction at SRRDA" onclick="getSelectedRows()" />
+    <br />
+    <br />*@
+

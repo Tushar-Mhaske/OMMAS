@@ -1,0 +1,14 @@
+﻿@using MvcReportViewer
+
+@model PMGSY.Areas.PFMSReports.Models.DSCReportModel
+
+@Html.MvcReportViewer("/PMGSYCitizen/PFMS_DSC_DETAILS",
+     new
+     {
+         State = Model.StateCode,
+         District = Model.DistrictCode,
+         StateName = Model.StateName,
+         DistrictName = Model.DistrictName
+     },
+     new { Height = 675, Width = "100%", style = "border:none;" })
+

@@ -1,0 +1,70 @@
+﻿@*
+    * Project Id    :
+    * Project Name  :   OMMAS II
+    * Name          :   DefectiveGradingReport.cshtml
+    * Description   :   Render View for DefectiveGradingReport.
+    * Author        :   Shyam Yadav
+    * Creation Date :   08/Dec/2014
+*@
+
+
+@model PMGSY.Models.QualityMonitoring.DefectiveGraphFiltersModel
+@{Layout = null;}
+
+<!DOCTYPE html>
+<html>
+<head>
+<script src="~/Scripts/QualityMonitoring/DefectiveGradingReport.js"></script>
+</head>
+<body>
+    
+   <div style="width: 99%; border:none; margin-top:10px; margin-bottom:10px;" class="ui-state-default">      
+        <div id="divDefectiveGradingReportForm">
+            <center>
+                <form id="qmDefectiveGradingReportForm">  
+                    <table style="margin-top:10px; margin-bottom:5px; width:80%">
+                        <tr>
+                            <td style="width:10%;padding-left:10px;">
+                              @Html.LabelFor(model => model.StateCode)
+                            </td>
+                            <td style="width:10%;">
+                                @Html.DropDownListFor(model => model.StateCode, new SelectList(Model.StateList, "Value", "Text"), new { @id = "ddlViewDefectiveGradingState" })
+                            </td>
+                            <td style="width:10%;padding-left:10px;">
+                              @Html.LabelFor(model => model.Year)
+                            </td>
+                            <td style="width:10%;">
+                                @Html.DropDownListFor(model => model.Year, new SelectList(Model.YearList, "Value", "Text"), new { @id = "ddlViewDefectiveGradingYear" })
+                            </td>
+                            <td style="width:15%;padding-left:10px;">
+                              @Html.LabelFor(model => model.RdStatus)
+                            </td>
+                            <td style="width:10%;">
+                                @Html.DropDownListFor(model => model.RdStatus, new SelectList(Model.RdStatusList, "Value", "Text"), new { @id = "ddlViewDefectiveGradingRdStatus" })
+                            </td>
+                            <td style="width:10%;padding-left:10px;">
+                                 @Html.RadioButtonFor(model => model.ValueType, "V", new { @id = "rdoValue" }) Value
+                            </td>
+                            <td style="width:20%;">
+                               @Html.RadioButtonFor(model => model.ValueType, "P", new { @id = "rdoPercent" }) Percentage
+                            </td>
+                            <td style="width:5%;padding-left:10px;">
+                                <input type="button" class="jqueryButton" value="View" id="btnViewReport" name ="btnViewReport"/>
+                            </td>
+                       </tr>
+                    </table>
+                </form>  
+            </center>
+    </div>
+    <div style="overflow: auto; margin-left: -5px; margin-top: 10px; margin-bottom: 5px; height: 98%; width: 98%; float: right" class="ui-corner-all">
+        <div id="" class="ui-corner-all" style="display: block; border: 1px solid #B5B8C8; height:100%">
+            <div id="divDefectiveGradingLineChart" style="width: 95%; height:450px; padding:10px 10px 0px 0px;" >
+                           
+            </div>
+        </div>
+     </div>
+</div>
+
+
+</body>
+</html>

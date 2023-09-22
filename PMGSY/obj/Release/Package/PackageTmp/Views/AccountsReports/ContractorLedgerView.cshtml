@@ -1,0 +1,101 @@
+﻿
+@model PMGSY.Models.AccountsReports.ContractorLedgerModel
+@using PMGSY.Extensions
+
+<script src="~/Scripts/custom/Generic.js"></script>
+
+
+<script src="~/Scripts/AccountsReports/ContractorLedgerDetails.js"></script>
+
+
+@Html.HiddenFor(m=>m.AggrementId)
+@Html.HiddenFor(m=>m.ContractorId)
+@Html.HiddenFor(m=>m.PIUCode)
+@Html.HiddenFor(m=>m.FundType)
+
+<style type="text/css">
+
+div.CBHeader{
+			padding:5px;
+            width:98%;
+			display:inline-block;
+			cursor:default;
+			/*font:12px/14px Arial, Helvetica, sans-serif;*/
+            font-family: Trebuchet MS,Tahoma,Verdana,Arial,sans-serif;
+			color:#000;
+			background-color:#eee;
+			-moz-border-radius:10px;
+			-webkit-border-radius:10px;
+			-moz-box-shadow:#999 2px 0px 3px;
+			-webkit-box-shadow:#999 2px 0px 3px;
+		}
+</style>
+<div class="CBHeader ui-corner-all" style="width:99%">
+
+<table class="ui-state-default ui-corner-all" style="border: 0.1em solid gray; width: 100%; margin-top: 1px" id="tblFilter">
+     
+    <tr>
+        <td colspan="2" style="text-align:right;color:green">@Html.DisplayFor(m=>m.ReportNumber)</td>
+    </tr>
+    <tr>
+        <td colspan="2" style="text-align:center;color:green">@Html.DisplayFor(m=>m.FundName)</td>
+    </tr>
+    <tr>
+        <td colspan="2" style="text-align:center;color:green">
+            @Html.DisplayFor(m=>m.ReportName)
+        </td>
+    </tr>
+    <tr>
+        <td colspan="2" style="text-align:center;color:green">
+            @Html.DisplayFor(m=>m.ReportPara)
+        </td>
+    </tr>
+       
+    <tr>
+        <td style="color:green;width:20%">
+            @Html.Label("Name Of DPIU"):
+        </td>
+        @if(PMGSYSession.Current.LevelId==4)
+        {
+        <td>
+            @Html.DisplayFor(m=>m.PIUName)
+        </td>
+        }
+        else if (PMGSYSession.Current.LevelId == 5)
+        {
+          <td>@Html.Label(PMGSYSession.Current.DepartmentName)</td>
+        }
+        </tr>
+    <tr>
+        <td style="color:green;width:20%">
+            @Html.Label("Contractor Company Name"):
+        </td>
+        <td>
+            @Html.DisplayFor(m=>m.ContCmpName)
+        </td>
+        </tr>
+    <tr>
+        <td style="color:green;width:20%">
+            @Html.Label("Aggrement Number"):
+        </td>
+        <td>
+            @Html.DisplayFor(m=>m.AggrementNo)
+        </td>
+    </tr>
+
+
+</table>
+</div>
+<br/>  
+
+
+
+<div id="dvContLedgerView">
+   
+    <table id="tblContLedgerDetails">
+
+    </table>
+    <div id="pagrContLedgerDetails">
+
+    </div>
+</div>

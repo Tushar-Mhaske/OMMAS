@@ -1,0 +1,183 @@
+﻿@model PMGSY.Models.MaintenanceAgreement.TerminatedAgreementDetails
+
+<script src="@Url.Content("~/Scripts/custom/Generic.js")" type="text/javascript" ></script>
+<script src="@Url.Content("~/Scripts/jquery.ui.datepicker.js")" type="text/javascript" ></script>
+
+   <div id ="ViewDataDiv">
+
+         <table width="100%" class="rowstyle">
+        <tr >
+            <td style="width:5%; text-align:left">
+                  @Html.Label("Year")
+            </td>
+            <td style="width:8%;text-align:left ">
+                 @if (!(string.IsNullOrEmpty(ViewBag.SanctionedYear)))
+                    {
+                      @Html.Label("SanctionedYear", ViewBag.SanctionedYear as String)   
+                    }
+                    else
+                    {
+                       @Html.Label("SanctionedYear","NA")   
+                    }
+            </td>
+
+              <td style="width:5%; text-align:left">
+                  @Html.Label("Package")
+            </td>
+
+             <td style="width:8%;text-align:left ">
+                 @if (!(string.IsNullOrEmpty(ViewBag.Package)))
+                    {
+                   @Html.Label("Package", ViewBag.Package as String)   
+                    }
+                    else
+                    {
+                     @Html.Label("Package","NA")  
+                    }
+            </td>
+            <td style="width:5%;text-align:left ">
+                  @Html.Label("Road Name")
+
+            </td>
+
+             <td style="width:12%;text-align:left "> 
+                   @if (!(string.IsNullOrEmpty(ViewBag.RoadName)))
+                    {
+                     @Html.Label("RoadName", ViewBag.RoadName as String)   
+                    }
+                    else
+                    {
+                       @Html.Label("RoadName","NA")  
+                    }
+
+            </td>
+
+            <td style="width:8%;text-align:left ">
+            @Html.Label("Road Length (In Kms)")
+
+            </td>
+
+             <td style="width:10%;text-align:left "> 
+                   @if (!(string.IsNullOrEmpty(ViewBag.RoadLength)))
+                    {
+                      @Html.Label("RoadLength", ViewBag.RoadLength as String)  
+                    }
+                    else
+                    {
+                       @Html.Label("RoadLength","NA")   
+                    }
+
+            </td>
+           
+           
+        </tr>
+    </table>
+
+        <table style="width: 100%; border: 1px solid #808080; margin-top: 10px;" class="rowstyle ui-corner-all">
+             <tr>
+                <td style="text-align: left; width: 20%;">
+                    @Html.LabelFor(model => model.ContractorName)
+                </td>
+                <td style="text-align: left; width: 30%;">
+                    @Html.Label(Model.ContractorName)                   
+                </td>
+                <td style="text-align: left; width: 20%;">
+                    @Html.LabelFor(model => model.ContractorPAN)
+                </td>
+                <td>
+                    @Html.Label(Model.ContractorPAN)
+                </td>
+            </tr>
+
+             <tr>
+                <td style="text-align: left; width: 20%;">
+                    @Html.LabelFor(model => model.MANE_AGREEMENT_NUMBER)
+                </td>
+                <td style="text-align: left; width: 30%;">
+                    @Html.Label(Model.MANE_AGREEMENT_NUMBER)                                     
+                </td>
+                <td style="text-align: left; width: 20%;">
+                    @Html.LabelFor(model => model.MANE_AGREEMENT_DATE)
+                </td>
+                <td>
+                    @Html.Label(Model.MANE_AGREEMENT_DATE)
+                </td>
+            </tr>
+
+             <tr>
+                <td style="text-align: left; width: 20%;">
+                    @Html.LabelFor(model => model.MANE_MAINTENANCE_START_DATE)
+                </td>
+                <td style="text-align: left; width: 30%;">
+                    @Html.Label(Model.MANE_MAINTENANCE_START_DATE)                                     
+                </td>
+                <td style="text-align: left; width: 20%;">
+                    @Html.LabelFor(model => model.MANE_MAINTENANCE_END_DATE)
+                </td>
+                <td>
+                    @Html.Label(Model.MANE_MAINTENANCE_END_DATE)
+                </td>
+            </tr>
+
+            <tr>
+                <td style="text-align: left; width: 20%;">
+                    @Html.LabelFor(model => model.MANE_CONSTR_COMP_DATE)
+                </td>
+                <td style="text-align: left; width: 30%;">
+                    @Html.Label(Model.MANE_CONSTR_COMP_DATE)                                     
+                </td>
+                <td style="text-align: left; width: 20%;">
+                    @Html.LabelFor(model => model.MANE_YEAR1_AMOUNT)
+                </td>
+                <td>
+                    @ViewBag.MANE_YEAR1_AMOUNT
+                </td>
+            </tr>
+
+            <tr>
+                <td style="text-align: left; width: 20%;">
+                    @Html.LabelFor(model => model.MANE_YEAR2_AMOUNT)
+                </td>
+                <td style="text-align: left; width: 30%;">
+                    @ViewBag.MANE_YEAR2_AMOUNT                                     
+                </td>
+                <td style="text-align: left; width: 20%;">
+                    @Html.LabelFor(model => model.MANE_YEAR3_AMOUNT)
+                </td>
+                <td>
+                    @ViewBag.MANE_YEAR3_AMOUNT
+                </td>
+            </tr>
+
+            <tr>
+                <td style="text-align: left; width: 20%;">
+                    @Html.LabelFor(model => model.MANE_YEAR4_AMOUNT)
+                </td>
+                <td style="text-align: left; width: 30%;">
+                    @ViewBag.MANE_YEAR4_AMOUNT                                   
+                </td>
+                <td style="text-align: left; width: 20%;">
+                    @Html.LabelFor(model => model.MANE_YEAR5_AMOUNT)
+                </td>
+                <td>
+                    @ViewBag.MANE_YEAR5_AMOUNT
+                </td>
+
+                <tr>
+                <td style="text-align: left; width: 20%;">
+                    @Html.LabelFor(model => model.MANE_HANDOVER_DATE)
+                </td>
+                <td style="text-align: left; width: 30%;">
+                    @Html.Label(Model.MANE_HANDOVER_DATE)                                     
+                </td>
+                <td style="text-align: left; width: 20%;">
+                    @Html.LabelFor(model => model.MANE_HANDOVER_TO)
+                </td>
+                <td>
+                    @Html.Raw(Model.MANE_HANDOVER_TO)
+                </td>
+            </tr>
+            </tr>
+        </table>      
+    </div>
+ 

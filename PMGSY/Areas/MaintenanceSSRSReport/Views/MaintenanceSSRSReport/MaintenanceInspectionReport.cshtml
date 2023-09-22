@@ -1,0 +1,27 @@
+﻿@using MvcReportViewer
+
+@model PMGSY.Areas.MaintenanceSSRSReport.Models.MaintenanceInspectionModel
+
+
+@Html.MvcReportViewer("/PMGSYCitizen/Maintenence_Inspection_Report",
+     new
+     {   
+        // Level = Model.LevelCode,
+         State = Model.Mast_State_Code,
+         District = Model.Mast_District_Code,
+         Block = Model.Mast_Block_Code,  
+         Year=Model.PhaseYear,
+         Batch=Model.Batch,       
+         Collaboration=Model.FundingAgency,
+         Type=Model.Type,
+         PMGSY = PMGSY.Extensions.PMGSYSession.Current.PMGSYScheme,
+         StateName = Model.StateName,
+         DistName = Model.DistName,
+         BlockName = Model.BlockName,
+         //BatchName=Model.BatchName,
+         CollabName=Model.FundingAgencyName
+     },
+     new { Height = 600, Width = "100%", style = "border:none;" })
+
+
+

@@ -1,0 +1,11 @@
+﻿@using MvcReportViewer
+
+@model PMGSY.Areas.QMSSRSReports.Models.QualityReportsViewModel
+
+    @Html.MvcReportViewer("/PMGSYCitizen/QMCompletedWorksReport",
+     new
+     {
+         frmDate = Model.FROM_DATE,
+         toDate = Model.TO_DATE,
+     },
+       new { Height = 600, Width = "100%", style = "border:none;" })

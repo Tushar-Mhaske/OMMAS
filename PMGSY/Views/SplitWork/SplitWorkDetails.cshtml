@@ -1,0 +1,363 @@
+﻿@*----------------------------------------------------------------------------------------
+
+ * Project Id:
+
+ * Project Name:OMMAS2
+
+ * File Name: SplitWorkDetails.cshtml
+
+ * Author : Koustubh Nakate
+
+ * Creation Date :01/July/2013
+
+ * Desc : This is partial view for add/edit split work details.
+ * ---------------------------------------------------------------------------------------*@
+
+@model PMGSY.Models.SplitWork.SplitWorkDetails
+
+<script src="@Url.Content("~/Scripts/custom/Generic.js")" type="text/javascript" ></script>
+<script src="@Url.Content("~/Scripts/jquery.ui.datepicker.js")" type="text/javascript" ></script>
+<script type="text/javascript" src="@Url.Content("~/Scripts/SplitWork/SplitWorkDetails.js")"> </script>
+
+<div id="dvErrorMessage" class="ui-widget ui-state-error ui-corner-all" style="padding: 0.7em .7em; display: none; margin: 5px 0px 0px 0px; text-align: left">
+    <span class="ui-icon ui-icon-alert" style="float: left; margin-right: .3em;"></span>
+    <strong>Alert:</strong> <span id="ermessage"></span>
+</div>
+
+<form id="frmAddSplitWorkDetails">
+    @Html.AntiForgeryToken()
+    @Html.ValidationSummary(true)
+    @Html.HiddenFor(model=>model.PMGSYScheme)
+    @Html.HiddenFor(model=>model.SharePercent)
+    <div id="dvNewSplitWorkDetails" style="display: none;">
+        @if (!string.IsNullOrEmpty(Model.SanctionedCostDetails))
+        {
+            <table id="tblWorkCostDetails" class="ui-corner-all" style="width: 100%; border: 1px solid #808080; margin-top: 10px; margin-bottom: 5px;">
+                <tr style="color: #EB8F00">
+                    @*ui-state-hover*@
+                    <th rowspan="2" style="width: 10%;"></th>
+                    <th rowspan="2" style="width: 10%; text-align: center;">Pavement Cost</th>
+                    <th rowspan="2" style="width: 10%; text-align: center;">CD Works Cost</th>
+                    <th rowspan="2" style="width: 10%; text-align: center;">Protection Cost</th>
+                    <th rowspan="2" style="width: 10%; text-align: center;">Other Works Cost</th>
+                    @if (PMGSY.Extensions.PMGSYSession.Current.PMGSYScheme == 2)
+                    {
+                        <th rowspan="2" style="width: 10%; text-align: center;">Furniture Cost</th>
+                        <th rowspan="2" style="width: 10%; text-align: center;">Higher Specification Cost</th>
+                    }
+                    <th rowspan="2" style="width: 10%; text-align: center;">State Share</th>
+                    @*@if (PMGSY.Extensions.PMGSYSession.Current.PMGSYScheme == 2)
+                    {
+                        <th rowspan="2" style="width: 10%; text-align: center;">MoRD Share</th>
+                    }*@
+                    <th rowspan="2" style="width: 10%; text-align: center;">MoRD Share</th>
+                    <th rowspan="2" style="width: 10%; text-align: center;">Total State Share</th>
+                    <th colspan="6" style="text-align: center;">Maintenance Cost</th>
+                </tr>
+                <tr style="color: #EB8F00;">
+                    <th>Year1</th>
+                    <th>Year2</th>
+                    <th>Year3</th>
+                    <th>Year4</th>
+                    <th>Year5</th>
+                    @*Changes for RCPLWE*@
+                    @if (PMGSY.Extensions.PMGSYSession.Current.PMGSYScheme == 2 || PMGSY.Extensions.PMGSYSession.Current.PMGSYScheme == 3)
+                    {
+                        <th>Year6</th>
+                    }
+                </tr>
+                @Html.Raw(Model.SanctionedCostDetails)
+            </table>
+        }
+        <table id="tblNewSplitWorkDetails" style="width: 100%; border: 1px solid #808080; margin-top: 10px;" class="rowstyle ui-corner-all">
+            <tr style="display: none;">
+                <td colspan="2">
+                    @Html.HiddenFor(model => model.EncryptedIMSPRRoadCode)
+                </td>
+                <td colspan="2">
+                    @Html.HiddenFor(model => model.EncryptedIMSWorkCode)
+                </td>
+            </tr>
+            <tr>
+                <td style="text-align: left; width: 20%;">
+                    @Html.LabelFor(model => model.IMS_WORK_DESC)
+                    <label style="color: red;">*</label>
+                </td>
+                <td colspan="3">
+                    @Html.TextBoxFor(model => model.IMS_WORK_DESC, new { @title = "Work Name", @tabindex = 101, @placeholder = "Enter Work Name...", @maxlength = 255 })
+                    @Html.ValidationMessageFor(model => model.IMS_WORK_DESC)
+                </td>
+            </tr>
+            <tr>
+                <td style="text-align: left; width: 20%;">
+                    @Html.LabelFor(model => model.IMS_START_CHAINAGE)
+                    <label style="color: red;">*</label>
+                </td>
+                <td style="text-align: left; width: 30%;">
+                    @Html.TextBoxFor(model => model.IMS_START_CHAINAGE, new { @title = "Start Chainage", @tabindex = 101, @placeholder = "Enter Start Chainage..." })
+                    @Html.ValidationMessageFor(model => model.IMS_START_CHAINAGE)
+                </td>
+                <td style="text-align: left; width: 20%;">
+                    @Html.LabelFor(model => model.IMS_END_CHAINAGE)
+                    <label style="color: red;">*</label>
+                </td>
+                <td>
+                    @Html.TextBoxFor(model => model.IMS_END_CHAINAGE, new { @title = "End Chainage", @tabindex = 101, @placeholder = "Enter End Chainage..." })
+                    @Html.ValidationMessageFor(model => model.IMS_END_CHAINAGE)
+                </td>
+            </tr>
+            <tr>
+                <td>
+                    @Html.LabelFor(model => model.IMS_PAV_LENGTH) @*<label style="color:red;"> *</label>*@
+                </td>
+                <td id="tdPavLength">
+                    @if (Model.IMS_PAV_LENGTH != null)
+                    {
+                        @Model.IMS_PAV_LENGTH.ToString()
+                    }
+                    else
+                    {
+                        @Html.Label("-")
+                    }
+                </td>
+                <td>
+                    @Html.LabelFor(model => model.IMS_PAV_EST_COST)
+                    <label style="color: red;">*</label>
+                </td>
+                <td>
+                    @Html.TextBoxFor(model => model.IMS_PAV_EST_COST, new { @title = "Pavement Cost", @tabindex = 101, @placeholder = "Enter Pavement Cost..." })
+                    @Html.ValidationMessageFor(model => model.IMS_PAV_EST_COST)
+                </td>
+            </tr>
+            <tr>
+                <td>
+                    @Html.LabelFor(model => model.IMS_CD_WORKS_EST_COST)
+                    <label style="color: red;">*</label>
+                </td>
+                <td>
+                    @Html.TextBoxFor(model => model.IMS_CD_WORKS_EST_COST, new { @title = "CD Works Cost", @tabindex = 101, @placeholder = "Enter CD Works Cost..." })
+                    @Html.ValidationMessageFor(model => model.IMS_CD_WORKS_EST_COST)
+                </td>
+                <td>
+                    @Html.LabelFor(model => model.IMS_PROTECTION_WORKS)
+                    <label style="color: red;">*</label>
+                </td>
+                <td>
+                    @Html.TextBoxFor(model => model.IMS_PROTECTION_WORKS, new { @title = "Protection Works Cost", @tabindex = 101, @placeholder = "Enter Protection Works Cost..." })
+                    @Html.ValidationMessageFor(model => model.IMS_PROTECTION_WORKS)
+                </td>
+            </tr>
+            <tr>
+                <td>
+                    @Html.LabelFor(model => model.IMS_OTHER_WORK_COST)
+                    <label style="color: red;">*</label>
+                </td>
+                <td>   
+                    @Html.TextBoxFor(model => model.IMS_OTHER_WORK_COST, new { @title = "Other Works Cost", @tabindex = 101, @placeholder = "Enter Other Works Cost..." })
+                    @Html.ValidationMessageFor(model => model.IMS_OTHER_WORK_COST)
+                </td>
+                @if (PMGSY.Extensions.PMGSYSession.Current.PMGSYScheme == 1 || PMGSY.Extensions.PMGSYSession.Current.PMGSYScheme == 4)
+                {
+                <td>
+                    @Html.LabelFor(model => model.IMS_STATE_SHARE)
+                    <label style="color: red;">*</label>
+                </td>
+                <td>
+                    @Html.TextBoxFor(model => model.IMS_STATE_SHARE, new { @title = "State Share", @tabindex = 101, @placeholder = "Enter State Share..." })
+                    @Html.ValidationMessageFor(model => model.IMS_STATE_SHARE)
+                </td>
+                }
+            </tr>
+            @if (PMGSY.Extensions.PMGSYSession.Current.PMGSYScheme == 2)
+            {
+                <tr>
+                    <td>
+                        @Html.LabelFor(model => model.IMS_HIGHER_SPECIFICATION_COST)
+                        <label style="color: red;">*</label>
+                    </td>
+
+                    <td>
+                        @Html.TextBoxFor(model => model.IMS_HIGHER_SPECIFICATION_COST, new { @title = "Higher Specification Cost", @tabindex = 101, @placeholder = "Enter Higher Specification Cost..." })
+
+                        @Html.ValidationMessageFor(model => model.IMS_HIGHER_SPECIFICATION_COST)
+                    </td>
+                    <td>
+                        @Html.LabelFor(model => model.IMS_FURNITURE_COST)
+                        <label style="color: red;">*</label>
+                    </td>
+
+                    <td>
+                        @Html.TextBoxFor(model => model.IMS_FURNITURE_COST, new { @title = "Furniture Cost", @tabindex = 101, @placeholder = "Enter Furniture Cost..." })
+
+                        @Html.ValidationMessageFor(model => model.IMS_FURNITURE_COST)
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        State Share Cost
+                    </td>
+                    <td>
+                        <label id="lblStateShare"></label>
+                    </td>
+                    <td>
+                        MoRD Share Cost
+                    </td>
+                    <td>
+                        <label id="lblMoRDShare"></label>
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        Total Cost (Including Higher Specification)
+                    </td>
+                    <td>
+                        <label id="lblTotalCost"></label>
+                    </td>
+                    <td>
+                        Total Cost (Excluding Higher Specification)
+                    </td>
+                    <td>
+                        <label id="lblTotalCostExHS"></label>
+                    </td>
+                </tr>
+            }
+
+@*  <tr>
+                 
+
+
+                     <td >
+                    @Html.LabelFor(model => model.IMS_BRIDGE_WORKS_EST_COST) 
+                </td >
+               
+                   <td > 
+                       @Html.TextBoxFor(model => model.IMS_BRIDGE_WORKS_EST_COST, new { @title = "Bridge Estimated Cost", @tabindex = 101 ,@placeholder="Enter Bridge Estimated Cost..."})
+                    
+                      @Html.ValidationMessageFor(model => model.IMS_BRIDGE_WORKS_EST_COST)
+                </td>
+                 <td >
+                     @Html.LabelFor(model => model.IMS_BRIDGE_EST_COST_STATE) 
+                 </td>
+                 <td>
+
+                      @Html.TextBoxFor(model => model.IMS_BRIDGE_EST_COST_STATE, new { @title = "Bridge State Share", @tabindex = 101 ,@placeholder="Enter Bridge State Share..."})
+                    
+                      @Html.ValidationMessageFor(model => model.IMS_BRIDGE_EST_COST_STATE)
+                 </td>
+                 
+                 
+            </tr>*@
+            <tr>
+                <td>
+                    @Html.LabelFor(model => model.IMS_MAINTENANCE_YEAR1)
+                    <label style="color: red;">*</label>
+                </td>
+                <td>
+                    @Html.TextBoxFor(model => model.IMS_MAINTENANCE_YEAR1, new { @title = "Maintenance Cost Year1", @tabindex = 101, @placeholder = "Enter Maintenance Cost Year1..." })
+                    @Html.ValidationMessageFor(model => model.IMS_MAINTENANCE_YEAR1)
+                </td>
+                <td>
+                    @Html.LabelFor(model => model.IMS_MAINTENANCE_YEAR2)
+                    <label style="color: red;">*</label>
+                </td>
+                <td>
+                    @Html.TextBoxFor(model => model.IMS_MAINTENANCE_YEAR2, new { @title = "Maintenance Cost Year2", @tabindex = 101, @placeholder = "Enter Maintenance Cost Year2..." })
+                    @Html.ValidationMessageFor(model => model.IMS_MAINTENANCE_YEAR2)
+                </td>
+            </tr>
+            <tr>
+                <td>
+                    @Html.LabelFor(model => model.IMS_MAINTENANCE_YEAR3)
+                    <label style="color: red;">*</label>
+                </td>
+                <td>
+                    @Html.TextBoxFor(model => model.IMS_MAINTENANCE_YEAR3, new { @title = "Maintenance Cost Year3", @tabindex = 101, @placeholder = "Enter Maintenance Cost Year3..." })
+                    @Html.ValidationMessageFor(model => model.IMS_MAINTENANCE_YEAR3)
+                </td>
+                <td>
+                    @Html.LabelFor(model => model.IMS_MAINTENANCE_YEAR4)
+                    <label style="color: red;">*</label>
+                </td>
+                <td>
+                    @Html.TextBoxFor(model => model.IMS_MAINTENANCE_YEAR4, new { @title = "Maintenance Cost Year4", @tabindex = 101, @placeholder = "Enter Maintenance Cost Year4..." })
+                    @Html.ValidationMessageFor(model => model.IMS_MAINTENANCE_YEAR4)
+                </td>
+            </tr>
+            <tr>
+                <td>
+                    @Html.LabelFor(model => model.IMS_MAINTENANCE_YEAR5)<label style="color: red;"> *</label>
+                </td>
+                <td>
+                    @Html.TextBoxFor(model => model.IMS_MAINTENANCE_YEAR5, new { @title = "Maintenance Cost Year5", @tabindex = 101, @placeholder = "Enter Maintenance Cost Year5..." })
+                    @Html.ValidationMessageFor(model => model.IMS_MAINTENANCE_YEAR5)
+                </td>
+                @*Changes for RCPLWE*@
+                @if (PMGSY.Extensions.PMGSYSession.Current.PMGSYScheme == 2 || PMGSY.Extensions.PMGSYSession.Current.PMGSYScheme == 3)
+                {
+                    <td>
+                        @Html.LabelFor(model => model.IMS_MAINTENANCE_YEAR6)<label style="color: red;"> *</label>
+                    </td>
+                    <td>
+                        @Html.TextBoxFor(model => model.IMS_MAINTENANCE_YEAR6, new { @title = "Renewal Cost Year6", @tabindex = 101, @placeholder = "Enter Renewal Cost Year6..." })
+                        @Html.ValidationMessageFor(model => model.IMS_MAINTENANCE_YEAR6)
+                    </td>
+                }
+
+
+            </tr>
+
+            <tr>
+
+                <td></td>
+                @if (Model.EncryptedIMSWorkCode == null)
+                {    
+                      
+                    <td style="text-align: right">
+                        <input type="button" id="btnSaveSplitWorkDetails" name="btnSaveSplitWorkDetails" value="Save" class="jqueryButton" title="Save Split Work Details" tabindex="103" />
+
+
+                    </td>
+                    <td colspan="2">
+
+                        <input type="reset" id="btnResetSplitWorkDetails" name="btnResetSplitWorkDetails" value="Reset" class="jqueryButton" title="Reset" tabindex="104" />
+                    </td>
+                }
+                else
+                {
+
+                    <td style="text-align: right">
+                        <input type="button" id="btnUpdateSplitWorkDetails" name="btnUpdateSplitWorkDetails" value="Update" class="jqueryButton" title="Update Split Work Details" tabindex="103" />
+
+                    </td>
+                    <td colspan="2">
+
+                        <input type="button" id="btnCancelSplitWorkDetails" name="btnCancelSplitWorkDetails" value="Cancel" class="jqueryButton" title="Cancel" tabindex="104" />
+                    </td>
+                }
+
+
+            </tr>
+
+
+            <tr>
+                <td colspan="4">
+                    <label style="border: none">
+                        [ Note: 1.Fields marked
+                        <label style="color: red">*</label>
+                        are mandatory. 2.All Amounts are in Lakhs 3.All Lengths are in Kms]
+                    </label>
+                    @*class="ui-state-default"*@
+                </td>
+
+            </tr>
+
+
+
+
+        </table>
+
+
+    </div>
+
+
+</form>

@@ -1,0 +1,88 @@
+﻿@model PMGSY.Models.MASTER_DISTRICT
+
+@{
+    ViewBag.Title = "Delete";
+}
+
+<h2>Delete</h2>
+
+<h3>Are you sure you want to delete this?</h3>
+<fieldset>
+    <legend>MASTER_DISTRICT</legend>
+
+    <div class="display-label">
+         @Html.DisplayNameFor(model => model.MAST_DISTRICT_CODE)
+    </div>
+    <div class="display-field">
+        @Html.DisplayFor(model => model.MAST_DISTRICT_CODE)
+    </div>
+
+    <div class="display-label">
+         @Html.DisplayNameFor(model => model.MAST_DISTRICT_NAME)
+    </div>
+    <div class="display-field">
+        @Html.DisplayFor(model => model.MAST_DISTRICT_NAME)
+    </div>
+
+    <div class="display-label">
+         @Html.DisplayNameFor(model => model.MASTER_STATE.MAST_STATE_NAME)
+    </div>
+    <div class="display-field">
+        @Html.DisplayFor(model => model.MASTER_STATE.MAST_STATE_NAME)
+    </div>
+
+    <div class="display-label">
+         @Html.DisplayNameFor(model => model.MAST_PMGSY_INCLUDED)
+    </div>
+    <div class="display-field">
+        @Html.DisplayFor(model => model.MAST_PMGSY_INCLUDED)
+    </div>
+
+    <div class="display-label">
+         @Html.DisplayNameFor(model => model.MAST_IAP_DISTRICT)
+    </div>
+    <div class="display-field">
+        @Html.DisplayFor(model => model.MAST_IAP_DISTRICT)
+    </div>
+
+    <div class="display-label">
+         @Html.DisplayNameFor(model => model.MAST_DISTRICT_ACTIVE)
+    </div>
+    <div class="display-field">
+        @Html.DisplayFor(model => model.MAST_DISTRICT_ACTIVE)
+    </div>
+
+    <div class="display-label">
+         @Html.DisplayNameFor(model => model.MAST_NIC_STATE_CODE)
+    </div>
+    <div class="display-field">
+        @Html.DisplayFor(model => model.MAST_NIC_STATE_CODE)
+    </div>
+
+    <div class="display-label">
+         @Html.DisplayNameFor(model => model.MAST_NIC_DISTRICT_CODE)
+    </div>
+    <div class="display-field">
+        @Html.DisplayFor(model => model.MAST_NIC_DISTRICT_CODE)
+    </div>
+
+    <div class="display-label">
+         @Html.DisplayNameFor(model => model.DUMMY_STATE_CODE)
+    </div>
+    <div class="display-field">
+        @Html.DisplayFor(model => model.DUMMY_STATE_CODE)
+    </div>
+
+    <div class="display-label">
+         @Html.DisplayNameFor(model => model.DUMMY_DISTRICT_CODE)
+    </div>
+    <div class="display-field">
+        @Html.DisplayFor(model => model.DUMMY_DISTRICT_CODE)
+    </div>
+</fieldset>
+@using (Html.BeginForm()) {
+    <p>
+        <input type="submit" value="Delete" /> |
+        @Html.ActionLink("Back to List", "Index")
+    </p>
+}

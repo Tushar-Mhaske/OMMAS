@@ -1,0 +1,75 @@
+﻿@model PMGSY.Areas.AccountReports.Models.RunningAccountViewModel
+@using PMGSY.Extensions
+@{
+    ViewBag.Title = "RunningAccount";
+}
+@{
+    Layout = Request.IsAjaxRequest() ? null : "~/Areas/AccountReports/Views/Account/_Layout.cshtml";
+}
+
+<script src="~/Scripts/custom/Generic.js"></script>
+@*<script src="~/Scripts/Report/RunningAccount.js"></script>*@
+<script src="~/Areas/AccountReports/Scripts/RunningAccount.js"></script>
+<div id="dvHeader" class="ui-widget-header innerDivHeader" style="margin-bottom: 0px; margin-top:0px;height: 20px;">
+         <label style="margin-left:5px">Running Account Details</label> 
+        <span style="float: right; margin-right: 2Px; margin-top: 2px" id="spnMonthlyStateSRRDA" class="ui-icon ui-icon-circle-triangle-n"></span>
+</div>
+<center>
+<form id="frmRunningAccount">
+    @Html.AntiForgeryToken()
+    @Html.Hidden("CurMonth",Model.MonthName)
+    @Html.Hidden("PreMonth",Model.PreviousMonthName)
+    <div class="CBHeader ui-state-default ui-corner-all" style ="background:none;" id="dvFilterForm">
+        <table class="ui-state-default ui-corner-all" style="border:0.1em solid gray; background:none; width:100%; margin-top:1px" id="tblFilter">
+            @if(PMGSY.Extensions.PMGSYSession.Current.LevelId == 4)
+            {
+            <tr>
+                @*<td></td>*@
+                <td>Report Type:</td>
+                <td>
+                    @Html.RadioButtonFor(model => model.ReportType, "S", new { @id="rdState",@checked="checked"})
+                </td>
+                <td>SRRDA</td>
+                <td>
+                    @Html.RadioButtonFor(model => model.ReportType, "D", new { @id="rdDistrict"})
+                </td>
+                <td>DPIU</td>
+                <td>
+                    <span id="ddlPIU" style="display:none">
+                        @Html.DropDownListFor(model => model.DPIUCode, new SelectList(Model.ddlDPIU, "Value", "Text"), new { @id="ddlDPIU"})
+                    </span>
+                </td>
+                <td></td>
+            </tr>
+            }
+            <tr>
+                @*<td style="width:5%"></td>*@
+                <td style="width:15%">Report Duration:</td>
+                <td style="width:5%">@Html.LabelFor(model => model.Year, new {@style="margin-right:0px" })<label style="color:red">*</label></td>
+                <td style="width:10%">@Html.DropDownListFor(model => model.Year, new SelectList(Model.ddlYear, "Value", "Text"), new { @id="ddlYear",@placeholder="Select Year"})@Html.ValidationMessageFor(model=>model.Year)</td>
+                <td style="width:5%">@Html.LabelFor(model=>model.Month)<label style="color:red">*</label></td>
+                <td style="width:10%">@Html.DropDownListFor(model => model.Month, new SelectList(Model.ddlMonth, "Value", "Text"), new { @id="ddlMonth",@placeholder="Select Month"})@Html.ValidationMessageFor(model=>model.Month)</td>
+                <td style="margin-left:10px;text-align:center">Balance Type<label style="color:red">*</label></td>
+                <td>@Html.DropDownListFor(model=>model.Balance,new SelectList(Model.ddlBalance,"Value","Text",new {@id="ddlBalance",@placeholder="Select Balance Type" }))@Html.ValidationMessageFor(model=>model.Balance)&nbsp;&nbsp;
+                    <input type="button" value="View" id="btnView" class="jqueryButton" title="View Running Account" style="text-align:center"></input>
+                </td>
+                @* <td >
+                    <center><input type="button" value="View Details" id="btnView" class="jqueryButton" title="View Running Account" style="text-align:center"></input></center>
+                </td>*@
+            </tr>
+            <tr>
+                <td></td>
+            </tr>
+            @*<tr>
+                <td colspan="8">
+                    <center><input type="button" value="View Details" id="btnView" class="jqueryButton" title="View Running Account" style="text-align:center"></input></center>
+                </td>
+            </tr>*@
+        </table>
+    </div>
+</form>
+<div style="margin-top:1px;width:100%" id="LoadDiv" >
+    
+</div>
+
+</center>

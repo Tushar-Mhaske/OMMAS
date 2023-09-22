@@ -1,0 +1,396 @@
+﻿@model IEnumerable<PMGSY.Areas.PMIS.Models.AddActualsViewModel>
+@{
+    ViewBag.Title = "AddBridgeActuals";
+}
+
+<script src="~/Scripts/custom/Generic.js"></script>
+<script src="~/Scripts/jquery.ui.datepicker.js" type="text/javascript"></script>
+@*<script src="~/Scripts/jquery.ui.css" type="text/javascript"></script>*@
+<script src="~/Areas/PMIS/Scripts/AddBridgeActual.js"></script>
+
+<form id="frmAddActuals">
+    <div style="margin-left: 100px">
+        @Html.ValidationSummary(true)
+        @Html.AntiForgeryToken()
+    </div>
+
+    <div id="divError" class="ui-state-error ui-corner-all" style="text-align: left; display: none; width: 100%">
+        <span></span>
+        <span></span>
+    </div>
+
+
+    <table class="rowstyle ui-corner-all" id="tblAddActuals" style="width:100%; border:solid black 1px;">
+        <tr style="height:20px;text-align:left">
+
+            <td>Sanction Year : </td>
+            <td>
+                <strong>
+                    @ViewBag.SanctionedYear
+                </strong>
+                <input type="hidden" id="RoadCode" value="@ViewBag.IMS_PR_ROAD_CODE" />
+            </td>
+            <td style="width:15%">Sanctioned Length : </td>
+            <td>
+                <strong>
+                    @ViewBag.SanctionedLength Km
+                </strong>
+            </td>
+            <td>Baseline No :</td>
+            <td>
+                <strong>
+                    @ViewBag.CurrentRoadPlaneVersion
+                </strong>
+            </td>
+            <td>
+                Bridge Name :
+            </td>
+            <td style="width:15%">
+                <strong>
+                    @ViewBag.RoadName
+                </strong>
+            </td>
+            <td style="width:15%">State Share(Rs. Lakhs) :</td>
+            <td><strong>@ViewBag.StateShare</strong></td>
+
+        </tr>
+
+        <tr style="height:20px;text-align:left">
+
+            <td>Package No: </td>
+            <td>
+                <strong>
+                    @ViewBag.PackageNo
+                </strong>
+            </td>
+
+            <td>District : </td>
+            <td>
+                <strong>
+                    @PMGSY.Extensions.PMGSYSession.Current.DistrictName
+                </strong>
+            </td>
+            <td>Agreement Value (Rs. Lakhs) :</td>
+            <td>
+                <strong>
+                    @ViewBag.AgreementValue
+                </strong>
+            </td>
+            <td> MoRD Share(Rs. Lakhs) :</td>
+            <td style="width:15%"><strong> @ViewBag.MordShare</strong></td>
+
+            <td></td>
+
+
+        </tr>
+
+        <tr style="height:20px;text-align:left">
+
+
+            <td></td>
+            <td> </td>
+            <td>Total Sanctioned Cost(Rs. lakhs) :</td>
+            <td>
+                <strong>
+                    @ViewBag.TotalSanctionedCost
+                </strong>
+            </td>
+
+            <td style="width:15%; color:darkviolet ;">Date of Progress Entry :<span style="font-size: 1.5em;color: red;">*</span></td>
+            <td style="width:15%">
+                @Html.TextBox("progessEntryDate", TempData["Date_of_progress_entry"], "{0:d}", new { @id = "progessEntryDate", @title = "ProgressEntryDate", @type = "text", @placeholder = "dd/mm/yy", @class = "EPD", @align = "center" }) @*,"{0:d}",  new { @title = "StartedDate",@type = "text", @placeholder = "dd/mm/yy", @class = "TPS",@id = "progessEntryDate"  ,  @align = "center" })                          *@
+            </td>
+            <td colspan="3" style="text-align:left;font-size:1em;width: 7%">
+                <span style="color: forestgreen"><strong>[Note : Progress Date is mandatory]</strong></span>
+            </td>
+            <td>
+            </td>
+            <td> </td>
+            <td style="width:15%"><strong> </strong></td>
+            <td style="width:15%"></td>
+            <td>
+            </td>
+
+
+
+        </tr>
+
+        <tr style="text-align:left;height:25px">
+            <td colspan="10" class="ui-widget-header">
+                <strong>Add / Edit Actuals </strong>
+            </td>
+        </tr>
+
+        <tr style="text-align:left;height:20px">
+            <td class="ui-jqgrid-sortable" style="text-align:center;">
+                <strong>Activity</strong>
+            </td>
+            <td class="ui-jqgrid-sortable" style="text-align:center;">
+                <strong>Unit</strong>
+            </td>
+            <td class="ui-jqgrid-sortable" style="text-align:center;">
+                <strong>Planned Quantity</strong>
+            </td>
+            <td class="ui-jqgrid-sortable" style="text-align:center;">
+                <strong>Quantity executed as on date</strong>
+            </td>
+            <td class="ui-jqgrid-sortable" style="text-align:center;">
+                <strong>Agreement Cost(Rs. Lakhs)</strong>
+            </td>
+            <td class="ui-jqgrid-sortable" style="text-align:center;">
+                <strong>Planned Start</strong>
+            </td>
+
+            <td class="ui-jqgrid-sortable" style="text-align:center;">
+                <strong>Planned Completion</strong>
+            </td>
+            <td class="ui-jqgrid-sortable" style="text-align:center;">
+                <strong>Actual Start</strong>
+            </td>
+            <td class="ui-jqgrid-sortable" style="text-align:center;">
+                <strong>Actual Completion</strong>
+            </td>
+            <td class="ui-jqgrid-sortable" style="text-align:center;">
+                <strong>Schedule</strong>
+            </td>
+        </tr>
+
+        @{ int i = 0;
+            foreach (var item in Model)
+            {
+                <tr id="@item.ACTIVITY_DESC">
+                    <td style="text-align:left">
+                        @item.ACTIVITY_DESC
+                    </td>
+                    <td style="text-align:center">
+                        @item.ACTIVITY_UNIT
+                    </td>
+                    @if (item.QUANTITY_APPL.Equals("Y"))
+                    {
+                        <td style="text-align:center">
+                            @Html.TextBoxFor(model => item.QUANTITY, new { @readonly = "readonly", @title = "Quantity", @disabled = "disabled", @id = "quantity" + i, @onkeypress = "return isNumericKeyStroke(event)", @align = "center" })
+                        </td>
+                    }
+                    else
+                    {
+                        <td style="text-align:center">
+                            @Html.HiddenFor(model => item.QUANTITY, new { @readonly = "readonly", @title = "Quantity", @id = "quantity" + i, @onkeypress = "return isNumericKeyStroke(event)", @align = "center" })
+                        </td>
+
+                    }
+                    @if (@item.QUANTITY_APPL.Equals("Y") && (@item.ACTIVITY_DESC.Equals("CD Works") || @item.ACTIVITY_DESC.Equals("Protection Works") || @item.ACTIVITY_DESC.Equals("Road Furniture")))
+                    {
+                        <td style="text-align:center">
+                            @Html.TextBoxFor(model => item.ACTUAL_QUANTITY, new { @class = "AQTY", @title = "ActualQuantity", @id = "actquantity" + i, @maxlength = "10", @onkeypress = "return isNumericKeyStroke(event)", @placeholder = "Input(ActualQty in No.)", @align = "center" })
+                        </td>
+                    }
+                    else if (@item.QUANTITY_APPL.Equals("Y") && @item.ACTIVITY_DESC.Equals("Longitudinal Drains"))
+                    {
+                        <td style="text-align:center">
+                            @Html.TextBoxFor(model => item.ACTUAL_QUANTITY, new { @class = "AQTY", @title = "ActualQuantity", @id = "actquantity" + i, @maxlength = "10", @onkeypress = "return isNumericKeyStroke(event)", @placeholder = "Input(ActualQty in m)", @align = "center" })
+                        </td>
+                    }
+                    else if (item.QUANTITY_APPL.Equals("Y"))
+                    {
+                        <td style="text-align:center">
+                            @Html.TextBoxFor(model => item.ACTUAL_QUANTITY, new { @class = "AQTY", @title = "ActualQuantity", @id = "actquantity" + i, @maxlength = "10", @onkeypress = "return isNumericKeyStroke(event)", @placeholder = "Input(ActualQty in Km)", @align = "center" })
+                        </td>
+                    }
+                    else
+                    {
+                        <td style="text-align:center">
+                            @Html.HiddenFor(model => item.ACTUAL_QUANTITY, new { @class = "AQTY", @title = "ActualQuantity", @id = "actquantity" + i, @maxlength = "10", @onkeypress = "return isNumericKeyStroke(event)", @placeholder = "Input(ActualQty)", @align = "center" })
+                        </td>
+                    }
+                    @if (item.AGRCOST_APPL.Equals("Y"))
+                    {
+                        <td style="text-align:center">
+                            @Html.TextBoxFor(model => item.AGREEMENT_COST, new { @readonly = "readonly", @class = "TAC", @disabled = "disabled", @title = "Cost" + i, @id = "cost", @maxlength = "10", @align = "center" })
+                        </td>
+                    }
+                    else
+                    {
+                        <td style="text-align:center">
+                            @Html.HiddenFor(model => item.AGREEMENT_COST, new { @readonly = "readonly", @class = "TAC", @title = "Cost" + i, @id = "cost", @maxlength = "10", @align = "center" })
+                        </td>
+                    }
+                    @if (item.PLANNED_START_DATE_APPL.Equals("Y"))
+                    {
+                        <td style="text-align:center">
+                            @Html.TextBoxFor(model => item.PLANNED_START_DATE, "{0:d}", new { @readonly = "readonly", @disabled = "disabled", @id = "StartDate" + i, @title = "Planned Start Date", @align = "center" })
+                        </td>
+                    }
+                    else
+                    {
+                        <td style="text-align:center">
+                            @Html.HiddenFor(model => item.PLANNED_START_DATE, new { @readonly = "readonly", @id = "StartDate" + i, @title = "Planned Start Date", @align = "center" })
+                        </td>
+
+                    }
+                    @if (item.PLANNED_COMPLETION_DATE_APPL.Equals("Y"))
+                    {
+                        <td style="text-align:center">
+                            @Html.TextBoxFor(model => item.PLANNED_COMPLETION_DATE, "{0:d}", new { @readonly = "readonly", @disabled = "disabled", @title = "Completion Date", @id = "completionDate" + i, @align = "center" })
+                        </td>
+
+                    }
+                    else
+                    {
+                        <td style="text-align:center">
+                            @Html.HiddenFor(model => item.PLANNED_COMPLETION_DATE, new { @readonly = "readonly", @title = "Completion Date", @id = "completionDate" + i, @align = "center" })
+                        </td>
+
+                    }
+                    @if (item.PLANNED_START_DATE_APPL.Equals("Y"))
+                    {
+                        <td style="text-align:right">
+                            @Html.TextBoxFor(model => item.STARTED_DATE, "{0:d}", new { @title = "StartedDate", @type = "text", @placeholder = "dd/mm/yy", @class = "TPS", @id = "startedDate" + i, @align = "center" })
+                        </td>
+
+                    }
+                    else
+                    {
+                        <td style="text-align:center">
+                            @Html.HiddenFor(model => item.STARTED_DATE, new { @readonly = "readonly", @title = "Started Date", @id = "startedDate" + i, @align = "center" })
+                        </td>
+
+                    }
+                    @if (item.PLANNED_COMPLETION_DATE_APPL.Equals("Y"))
+                    {
+                        <td style="text-align:right">
+                            @Html.TextBoxFor(model => item.FINISHED_DATE, "{0:d}", new { @title = "FinishedDate", @type = "text", @placeholder = "dd/mm/yy", @class = "TCD", @id = "finishedDate" + i, @align = "center" })
+                        </td>
+                    }
+                    else
+                    {
+                        <td style="text-align:center">
+                            @Html.HiddenFor(model => item.FINISHED_DATE, new { @readonly = "readonly", @title = "FinishedDate", @id = "finishedDate" + i, @align = "center" })
+                        </td>
+                    }
+                    @if (item.PLANNED_COMPLETION_DATE_APPL.Equals("Y") && item.PLANNED_START_DATE_APPL.Equals("Y"))
+                    {
+                        <td style="text-align:center">
+                            @Html.TextBoxFor(model => item.SCHEDULE, new { @readonly = "readonly", @disabled = "disabled", @title = "Schedule", @id = "schedule" + i, @value = 0, @align = "center" })
+                        </td>
+                    }
+                    else
+                    {
+                        <td style="text-align:center">
+                            @Html.HiddenFor(model => item.SCHEDULE, new { @readonly = "readonly", @title = "Schedule", @id = "schedule" + i, @align = "center" })
+                        </td>
+                    }
+                </tr>
+                i++;
+            }
+
+        }
+        <tr style="text-align:left;height:20px">
+            <td class="ui-jqgrid-sortable">
+                <strong>TOTAL</strong>
+            </td>
+            <td></td>
+            <td>Agreement Value (Rs. Lakhs):</td>
+            <td> <strong> Rs. @ViewBag.AgreementValue</strong></td>
+
+            <td style="text-align:center">
+                @Html.TextBox("Total Cost", ViewBag.TotalAgreementCost as Decimal?, new { @id = "txtTotalAgreementCost", @value = 0, @title = "Total Cost", @readonly = "true", @placeholder = "AutoCal", @align = "center" })
+            </td>
+            <td style="text-align:center">
+                @Html.TextBox("Total Start Date", ViewBag.TotalPlannedStartDate as DateTime?, "{0:d}", new { @id = "txtTotalPlannedStartDate", @readonly = "true", @placeholder = "AutoCal", @align = "center" })
+            </td>
+
+            <td style="text-align:center">
+                @Html.TextBox("Total Completion Date", ViewBag.TotalPlannedCompletion as DateTime?, "{0:d}", new { @id = "txtTotalPlannedCompletion", @readonly = "true", @placeholder = "AutoCal", @align = "center" })
+            </td>
+            @*<td style ="text-align:center">
+                    @Html.TextBox("Total Started", ViewBag.TotalStarted as DateTime?,"{0:d}", new { @id = "txtTotalStarted", @title = "Total Started",@readonly = "true" , @placeholder = "AutoCal" ,  @align = "center" })
+                </td>
+                 <td style ="text-align:center">
+                    @Html.TextBox("Total Finished", ViewBag.TotalFinished as DateTime?,"{0:d}", new { @id = "txtTotalFinished", @title = "Total Finished",@readonly = "true" , @placeholder = "AutoCal" ,  @align = "center" })
+                </td>*@
+        </tr>
+
+        <tr style="height:10px;">
+        </tr>
+        <tr style="text-align:left;height:20px">
+            <td colspan="2" style="text-align:left;width : 20%">
+                Completed Length (Cumulative) :<span style="font-size: 1.5em;color: red;">*</span>
+            </td>
+            <td style="text-align:left">
+                @* @Html.TextBoxFor(model => model.Select(x => x.CompletedRoadLength), new { @title = "ActualQuantity",@id = "quantity", @maxlength = "10", @onkeypress = "return isNumericKeyStroke(event)", @placeholder = "Input(ActualQty)", @width = "50px", @align = "center" })*@
+                @Html.TextBox("Completed Road length", TempData["CompletedRoadLength"], new { @id = "txtCompletedRoadLength", @value = 0, @title = "Completed Road length", @placeholder = "RoadLength", @maxlength = "10", @onkeypress = "return isNumericKeyStroke(event)", @width = "50px", @align = "center" })
+            </td>
+            <td>Total Completed Length (m):</td>
+            <td> <strong> @ViewBag.TotalCompLength</strong></td>
+            <td></td>
+            <td style="text-align:right">
+                Project Status:<span style="font-size: 1.5em;color: red;">*</span>
+            </td>
+            @if (@ViewBag.ProjectStatus == null)
+            {
+                <td style="text-align:center">
+                    @Html.DropDownList("ProjectStatus", new List<SelectListItem>
+                        {
+                           new SelectListItem{ Text="-Select-", Value = "0" },
+                           new SelectListItem{ Text="In Progress", Value = "P" },
+                           new SelectListItem{ Text="Completed", Value = "C" },
+                           new SelectListItem{ Text="Pending: Land Acquisition", Value = "L" },
+                           new SelectListItem{ Text="Pending: Forest Clearance", Value = "F" },
+                           new SelectListItem{ Text="Pending:Legal Cases", Value = "A" },
+                           new SelectListItem{ Text="In Progress: Without Hindrance", Value = "W" },
+                           new SelectListItem{ Text="In Progress: With Hindrance", Value = "H" },
+                           new SelectListItem{ Text="Pending: Others", Value = "O" },
+
+                        })
+                    @*  @Html.DropDownListFor(model => model.Select(x => x.ProjectStatus), new SelectList(Model.Select(x => x.ProjectStatus), "Value", "Text"), new { @id = "ddlProjectStatus", @title = "ProjectStatus",@style = "width:200px;"})
+                             <br />
+                        @Html.ValidationMessageFor(m =>m.Select(x => x.ProjectStatus)) *@
+                </td>
+            }
+            @if (@ViewBag.ProjectStatus != null)
+            {
+                <td style="text-align:center">
+                    @Html.DropDownList("ProjectStatus", new List<SelectListItem>
+                        {
+                           new SelectListItem{ Text="-Select-", Value = "0" },
+                           new SelectListItem{ Text="In Progress", Value = "P" },
+                           new SelectListItem{ Text="Completed", Value = "C" },
+                           new SelectListItem{ Text="Pending: Land Acquisition", Value = "L" },
+                           new SelectListItem{ Text="Pending: Forest Clearance", Value = "F" },
+                           new SelectListItem{ Text="Pending:Legal Cases", Value = "A" },
+                           new SelectListItem{ Text="In Progress: Without Hindrance", Value = "W" },
+                           new SelectListItem{ Text="In Progress: With Hindrance", Value = "H" },
+                           new SelectListItem{ Text="Pending: Others", Value = "O" },
+
+                        }, new { @value = @ViewBag.ProjectStatus })
+                </td>
+            }
+            <td id="reasonLabel" style="text-align:center;"><strong>@Html.Label("Specify Reason:")</strong></td>
+            <td style="text-align:left">
+                @Html.TextArea("Reason", new { @style = "width: 100%;display:none;", @maxlength = "255", @placeholder = "Enter Reasons", @id = "remarks" })
+            </td>
+        </tr>
+        <tr style="text-align:right;">
+            <td colspan="2"></td>
+            <td colspan="3" style="text-align:right">
+                @if (TempData["Date_of_progress_entry"] == null)
+                {
+                    <input type="button" value="Submit" class="jqueryButton" id="btnSumit" />
+                }
+                else
+                {
+                    <input type="button" value="Update" class="jqueryButton" id="btnSave" />
+                }
+            </td>
+            <td colspan="3" style="text-align:left">
+                <input type="button" class="jqueryButton" value="Cancel" id="btnCancel" name="btnCancel" />
+            </td>
+            <td colspan="3" style="text-align:left;font-size:1em;width: 7%">
+                <span style="color: forestgreen"><strong>[Note : Fields marked with <label style="font-size: 1.5em;color: red;">*</label> are mandatory]</strong></span>
+            </td>
+            <td></td>
+            <td></td>
+        </tr>
+    </table>
+
+</form>

@@ -1,0 +1,90 @@
+﻿@model PMGSY.Areas.AccountReports.Models.SheduleReportModel
+@{ 
+    Layout = Request.IsAjaxRequest() ? null : "~/Areas/AccountReports/Views/Account/_Layout.cshtml";
+}
+<script src="~/Scripts/custom/Generic.js"></script>
+<script src="~/Areas/AccountReports/Scripts/CurrentLiabilitiesReport.js"></script>
+<div id="loadFilters">
+    @Html.HiddenFor(m => m.LevelId)
+    <form id="frmScheduleFilter">
+        <div class="ui-widget-header innerDivHeader" style="margin-bottom: 0px; margin-top: 0px; height: 20px;">
+            <label style="margin-left: 5px">Current Liabilities</label>
+            <span style="float: right; margin-right: 2Px; margin-top: 2px" id="spnCurrentLiabilities" class="ui-icon ui-icon-circle-triangle-n"></span>
+        </div>
+        <div id="dvError" class="ui-state-error ui-corner-all" style="text-align: left; display: none; width: 99%;">
+            <span class="ui-icon ui-icon-alert" style="float: left;"></span>
+            <span></span>
+        </div>
+
+
+        <div id="dvFilterForm">
+            <table class="table-content ui-corner-all" style="border: 0.1em solid gray; width: 100%; margin-top: 1px" id="tblFilter" align="center">
+                @if (Model.LevelId != 5)
+            {
+                    <tr>
+                        <td style="text-align: left; font-weight: bold; width: 350px">
+                            @Html.Label("Report Level:")
+                            <span id="spanState">
+                            @Html.RadioButtonFor(model => model.ReportLevel, 4, new { @id = "rdbState", style = "margin-left:20px;", @tabindex = 101, @class = "rdbClassReportLevel", @title = "State" ,@checked = "checked" })
+                            <label for="rdbState">State</label>
+                        </span>
+                            <span id="spanSrrda">
+                                @Html.RadioButtonFor(model => model.ReportLevel, 1, new { @id = "rdbSrrda", @tabindex = 101, @class = "rdbClassReportLevel", @title = "SRRDA"})
+                                <label for="rdbSrrda">SRRDA</label>
+                            </span>
+                            <span id="spanDPIU">
+                                @Html.RadioButtonFor(model => model.ReportLevel, 2, new { @id = "rdbPiu", @tabindex = 101, @class = "rdbClassReportLevel", @title = "DPIU" })
+                                <label for="rdbPiu">DPIU</label>
+                            </span>
+                        </td>
+                        <td style="text-align: left; font-weight: bold; width: 600px">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                @Html.Label("Select Agency:")
+                            @Html.DropDownListFor(m => m.Agency, Model.ListAgency, new { @title = "Agency" ,@tabindex=102})
+                            @Html.ValidationMessageFor(m => m.Agency)
+
+                            <span id="spanPIU" style="display: none">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                 @Html.Label("Select DPIU:")
+                                @Html.DropDownListFor(m => m.Piu, Model.ListPiu, new { @title = "DPIU",@tabindex=103 })
+                            </span>
+                        </td>
+                        <td>&nbsp;</td>
+                    </tr>
+            }
+                <tr>
+                    <td style="text-align: left; font-weight: bold; width: 300px">
+                        @Html.Label("Report Type:")
+                        @Html.RadioButtonFor(model => model.ReportType, 1, new { @id = "rdbAnnual", style = "margin-left:20px;", @tabindex = 104, @class = "rdbClassReportType", @title = "Annual" })
+                        <label for="rdbAnnual">Annual</label>
+                        @Html.RadioButtonFor(model => model.ReportType, 2, new { @id = "rdbMonth", @tabindex = 105, @class = "rdbClassReportType", @title = "Monthly" })
+                        <label for="rdbMonth">Monthly</label>
+
+                    </td>
+                    <td style="text-align: left; font-weight: bold; width: 800px">
+                        <span id="spanMonth" style="width: 400px">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                    @Html.Label("Select Month:")
+                            @Html.DropDownListFor(m => m.Month, Model.ListMonth, new { @title = "Month",@tabindex=106 })
+                            @Html.ValidationMessageFor(m => m.Month)
+                        </span>
+
+                        <span id="spanYear" style="display: inline-block; width: 400px">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                    @Html.Label("Select Year:")
+                            @Html.DropDownListFor(m => m.Year, Model.ListYear, new { @title = "Year",@tabindex=107 })
+                            @Html.ValidationMessageFor(m => m.Year)
+                        </span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;               
+                    </td>
+                    <td></td>
+                </tr>
+                <tr>
+                    <td id="tdOtherBthViewDetails" style="text-align: center;" colspan="3">
+                        <input type="button" id="btnView" value="View Details" class="jqueryButton" title="View Details" tabindex="108"></td>
+                </tr>
+
+            </table>
+        </div>
+
+    </form>
+</div>
+
+@* Display SSRS report *@
+<div id="dvLoadReport" style="width: 100%;">
+</div>

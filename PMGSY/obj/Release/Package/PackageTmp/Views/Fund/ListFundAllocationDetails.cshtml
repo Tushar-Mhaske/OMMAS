@@ -1,0 +1,80 @@
+﻿@model PMGSY.Models.Fund.FundAllocationFilterViewModel
+
+<script src="~/Scripts/jquery.ui.accordion.js"></script>
+<script src="~/Scripts/custom/Generic.js"></script>
+<script src="~/Scripts/Fund/ListFundAllocationDetails.js"></script>
+
+<center>
+<div style="width:98%; height:20px;border:none; margin-top:5px; margin-bottom:-15px; " class="ui-state-default">
+    <span style="float:right;margin-right:2Px; margin-top:2px" id="idFilterDiv" class="ui-icon ui-icon-circle-triangle-n"></span>     
+</div>
+
+<div id="searchForm">
+   <form id="frmSearchFundAllocation">
+       @Html.HiddenFor(model=>model.UrlParameter)
+       @Html.ValidationSummary(true) 
+         <table style="margin-top:10px; margin-bottom:5px">
+          <tr></tr>
+              @if (PMGSY.Extensions.PMGSYSession.Current.RoleCode == 2)
+              {
+                 <tr>@Html.HiddenFor(model=>model.State)
+                 <td><span style="display:none">@Html.DropDownListFor(model=>model.State, ViewData["State"] as IEnumerable<SelectListItem>,new {@id="ddlStateSearch", @title = "Select State", @tabindex = 1 }) </span></td>
+                 <td style="text-align:right;width:8%">@Html.Label("Fund Type")</td>
+                 <td style="text-align:center;width:10%">@Html.DropDownListFor(model=>model.FundType, ViewData["FundType"] as IEnumerable<SelectListItem>,new {@id="ddlFundTypeSearch", @title = "Select Fund Type", @tabindex = 1 })</td>
+                 <td style="text-align:right;width:5%">@Html.Label("Phase")</td>
+                 <td style="text-align:center;width:10%">@Html.DropDownListFor(model=>model.Year, ViewData["Year"] as IEnumerable<SelectListItem>,"--All--",new {@id="ddlYearSearch", @title = "Select Year", @tabindex = 1 })</td>
+                 <td style="text-align:right;width:5%">@Html.Label("Collaboration")</td>
+                 <td style="text-align:center;width:10%">@Html.DropDownListFor(model=>model.Collaboration, ViewData["FundingAgency"] as IEnumerable<SelectListItem>,"--All--",new {@id="ddlFundingAgencySearch",@title="Select Funding Agency",@tabindex=1 })</td>
+                 <td></td>
+                </tr>
+             }
+             else
+             {
+             <tr>
+                 <td style="text-align:right;width:8%">@Html.Label("State")</td>
+                 <td style="text-align:center;width:15%">@Html.DropDownList("ddlState", ViewData["State"] as IEnumerable<SelectListItem>,new {@id="ddlStateSearch", @title = "Select State", @tabindex = 1 })</td>
+                 <td style="text-align:right;width:8%">@Html.Label("Fund Type")</td>
+                 <td style="text-align:center;width:15%">@Html.DropDownList("ddlFundType", ViewData["FundType"] as IEnumerable<SelectListItem>,new {@id="ddlFundTypeSearch", @title = "Select Fund Type", @tabindex = 1 })</td>
+                 <td style="text-align:right;width:8%">@Html.Label("Phase")</td>
+                 <td style="text-align:center;width:15%">@Html.DropDownList("ddlYear", ViewData["Year"] as IEnumerable<SelectListItem>,"--All--",new {@id="ddlYearSearch", @title = "Select Year", @tabindex = 1 })</td>
+                 <td style="text-align:right;width:8%">@Html.Label("Collaboration")</td>
+                 <td style="text-align:center;width:15%">@Html.DropDownList("ddlFundingAgency", ViewData["FundingAgency"] as IEnumerable<SelectListItem>,"--All--",new {@id="ddlFundingAgencySearch",@title="Select Funding Agency",@tabindex=1 })</td>
+             </tr>
+             }
+             <tr>
+             <td colspan="8">
+                <center>
+                <table>
+                    @if(PMGSY.Extensions.PMGSYSession.Current.RoleCode == 25)
+                    {
+                    <tr>
+                    <td><input type="button" class="jqueryButton" value="List Fund Allocation Details" id="btnListFundDetails" name ="btnListNetworks" title="Click here to list Fund Allocation Details"/></td>
+                    <td><input type="button" value="Add Fund Allocation Details" class="jqueryButton" title="Click here to add fund allocation details" id="btnAddFundDetails" name="btnAddFundDetails"/></td>
+                    </tr>
+                    }
+                    else
+                    {
+                        <tr>
+                            <td><input type="button" class="jqueryButton" value="List Fund Allocation Details" id="btnListFundDetails" name ="btnListNetworks" title="Click here to list Fund Allocation Details"/></td>
+                        </tr>
+                    }
+                </table>
+                </center>
+            </td>
+           </tr>
+         </table>
+        
+   </form>
+</div>
+<div id="divFundAllocationList" style="margin-top:20px; width:98%">
+    <table id="tbFundAllocationList"></table>
+    <div id="pagerFundAllocation"></div>
+</div>
+<br />
+<div id="accordion" style="display:none;width:98%" >
+    <h3 style="text-align:left"><a id="" href="#" style=" font-size:.9em;" >Add Fund Allocation Details</a>
+    <a href="#"  style="float: right;"><img class="ui-icon ui-icon-closethick" onclick="CloseFundAllocationDetails();" /></a>
+    </h3>
+    <div id="divAddFundAllocationForm" style="display:none"></div>
+</div>
+</center>

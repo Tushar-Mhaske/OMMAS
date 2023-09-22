@@ -1,0 +1,148 @@
+﻿@**
+        * Project Id    :
+        * Project Name  :   OMMAS II
+        * Name          :   QMCreateSchedule.cshtml
+        * Description   :   View for QMCreateSchedule
+        * Author        :   Shyam Yadav 
+        * Creation Date :   10/Jun/2013
+ **@
+
+@model PMGSY.Models.QualityMonitoring.QMScheduleViewModel
+
+<!DOCTYPE html>
+<html>
+<head>
+
+    <link href="~/Content/Multiselect/multi-select.css" rel="stylesheet" />
+    <script src="~/Scripts/custom/Generic.js"></script>
+    <script src="~/Scripts/Multiselect/jquery.multi-select.js"></script>
+
+    <!--#Added For Searchable Dropdown for Monitor on 25-01-2023-->
+    <link href="~/Content/Chosen/chosen.min.css" rel="stylesheet" />
+    <script src="~/Scripts/chosen.jquery.min.js"></script>
+
+    <script src="~/Scripts/QualityMonitoring/QMCreateSchedule.js"></script>
+
+</head>
+<body>
+    <form id="frmCreateSchedule">
+        @Html.HiddenFor(model => model.OPERATION)
+        @Html.HiddenFor(model => model.ASSIGNED_DISTRICT_LIST)
+        @Html.Hidden("hdnRoleCode", PMGSY.Extensions.PMGSYSession.Current.RoleCode.ToString())
+        <div id="divError" class="ui-state-error ui-corner-all" style="text-align: left; display: none; width: 100%">
+            <span class="ui-icon ui-icon-alert" style="float: left;"></span>
+            <span></span>
+        </div>
+        <div style="margin-left: 100px">
+            @Html.ValidationSummary(true)
+        </div>
+
+        <center>
+               <table  id="tblCreateSchedule" style="margin-top:10px; text-align:left;  width:100%; ">
+                   <tr>
+                       <td style="width:50%; border:ridge 0.1em #ccc;padding:5px 5px 5px 5px;" >
+                           <table class="rowstyle">
+                                    <tr>
+                                        <td style="width:13%;">
+                                             @Html.LabelFor(model => model.ADMIN_IM_MONTH)<span style="color:red">*</span>
+                                        </td>
+                                        <td style="width:12%;">
+                                            @Html.DropDownListFor(model => model.ADMIN_IM_MONTH, new SelectList(Model.MONTHS_LIST, "Value", "Text"))
+                                            @Html.ValidationMessageFor(model => model.ADMIN_IM_MONTH)
+                                        </td> 
+                                   </tr>
+                                    <tr>
+                                        <td style="width:13%;">
+                                             @Html.LabelFor(model => model.ADMIN_IM_YEAR)<span style="color:red">*</span>
+                                        </td>
+                                        <td>
+                                            @Html.DropDownListFor(model => model.ADMIN_IM_YEAR, new SelectList(Model.YEARS_LIST, "Value", "Text"))
+                                            @Html.ValidationMessageFor(model => model.ADMIN_IM_YEAR)
+                                        </td>
+                                    </tr>
+                                    @*@if (PMGSY.Extensions.PMGSYSession.Current.RoleCode == 5)*@
+                               @if (PMGSY.Extensions.PMGSYSession.Current.RoleCode == 9 || PMGSY.Extensions.PMGSYSession.Current.RoleCode == 5)
+                               {
+                                           <tr style="text-align:left;">
+                                                <td style="width:13%;">
+                                                    @Html.LabelFor(model => model.ADMIN_QM_CODE)<span style="color:red">*</span>
+                                                </td>
+                                                <td colspan="4" style="width:100%; text-align:left;">
+                                                    <div class="ui-widget"  style="text-align:left;">
+                                                        @Html.DropDownListFor(model => model.ADMIN_QM_CODE, new SelectList(Model.MONITORS, "Value", "Text"), "Select Monitor", new { @id = "createSchMonitorCode", style = "width:210px;" })
+                                                        @Html.ValidationMessageFor(model => model.ADMIN_QM_CODE)
+                                                    </div>
+                                                </td>
+                                           </tr>
+                                           <tr>
+                                                <td style="width:13%;">
+                                                        @Html.LabelFor(model => model.MAST_STATE_CODE)<span style="color:red">*</span>
+                                                </td>
+                                                <td colspan="3">
+                                                    @Html.DropDownListFor(model => model.MAST_STATE_CODE, new SelectList(Model.STATES, "Value", "Text"), "Select State", new { @id = "stateCode", style = "width:210px;" })
+                                                    @Html.ValidationMessageFor(model => model.MAST_STATE_CODE)
+                                                </td> 
+                                           </tr>
+                                    <tr>
+                                      <td colspan="2"><b>Note: </b> Monitors are available for scheduling whose age is less than 67 years</td>
+                                  </tr>
+                                        
+                               }
+                               else if (PMGSY.Extensions.PMGSYSession.Current.RoleCode == 8 || PMGSY.Extensions.PMGSYSession.Current.RoleCode == 69 || PMGSY.Extensions.PMGSYSession.Current.RoleCode == 48)
+                               {
+                                        
+                                             <tr>
+                                                <td style="width:13%;">
+                                                        @Html.LabelFor(model => model.MAST_STATE_CODE)<span style="color:red">*</span>
+                                                </td>
+                                                <td colspan="3">
+                                                    @Html.HiddenFor(model => model.MAST_STATE_CODE)
+                                                    @PMGSY.Extensions.PMGSYSession.Current.StateName
+                                                </td> 
+                                           </tr>
+                                            <tr style="text-align:left;">
+                                                <td style="width:13%;">
+                                                    @Html.LabelFor(model => model.ADMIN_QM_CODE)<span style="color:red">*</span>
+                                                </td>
+                                                <td colspan="4" style="width:100%; text-align:left;">
+                                                    <div class="ui-widget"  style="text-align:left;">
+                                                        @Html.DropDownListFor(model => model.ADMIN_QM_CODE, new SelectList(Model.MONITORS, "Value", "Text"), "Select Monitor", new { @id = "createSchMonitorCode", style = "width:210px;" })
+                                                        @Html.ValidationMessageFor(model => model.ADMIN_QM_CODE)
+                                                    </div>
+                                                </td>
+                                           </tr>
+                                    <tr>
+                                        @if (PMGSY.Extensions.PMGSYSession.Current.RoleCode == 9 || PMGSY.Extensions.PMGSYSession.Current.RoleCode == 5)
+                                        {
+                                            <td colspan="2"><b>Note: </b> National Quality Monitors are available for scheduling whose age is less than 70 years</td> 
+                                        }
+                                        else if (PMGSY.Extensions.PMGSYSession.Current.RoleCode == 8 || PMGSY.Extensions.PMGSYSession.Current.RoleCode == 69 || PMGSY.Extensions.PMGSYSession.Current.RoleCode == 48)
+                                        {
+                                            <td colspan="2"><b>Note: </b> State Quality Monitors are available for scheduling whose age is less than 80 years</td>
+                                        }
+                                      @*<td colspan="2"><b>Note: </b> Monitors are available for scheduling whose age is less than 70 years</td>*@
+                                  </tr>
+                               }
+                                 @* <tr>
+                                      <td colspan="2"><b>Note: </b> Monitors are available for scheduling whose age is less than 70 years</td>
+                                  </tr>*@  
+                           </table>
+                       </td>
+                       <td  style="text-align:justify; padding-left:100px;width:50%; border:ridge 0.1em #ccc;padding:5px 5px 5px 5px;">
+                                    @Html.DropDownListFor(model => model.DISTRICT_LIST, new SelectList(Model.DISTRICTS, "Value", "Text"))
+                                    <span id="showDistrictError"> @Html.ValidationMessage("showDistrictError")</span>
+                       </td>
+                   </tr>
+                   <tr>
+                        <td colspan="2" style="text-align:center;">
+                            <input type="button" value="Create" class="jqueryButton" id="btnCreate"/>
+                            &nbsp;&nbsp;<input type="button" value="Cancel" class="jqueryButton" id="btnCancel"/>
+                        </td>
+                   </tr>
+                   
+            </table>       
+     </center>
+
+    </form>
+</body>
+</html>

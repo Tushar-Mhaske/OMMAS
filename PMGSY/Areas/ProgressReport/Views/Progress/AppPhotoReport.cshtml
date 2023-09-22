@@ -1,0 +1,15 @@
+﻿@using MvcReportViewer
+@model PMGSY.Areas.ProgressReport.Models.ProgressViewModel
+
+@Html.MvcReportViewer("/PMGSYCitizen/ExecAppPhoto",
+     new
+     {
+         TYPE = Model.PhotoType,
+         STATE = Model.StateCode,
+         DISTRICT=Model.DistrictCode,
+         MONTH=Model.Month,
+         YEAR=Model.Year
+         
+     },
+     new { Height = 575, Width = "100%", style = "border:none;" })
+

@@ -1,0 +1,47 @@
+﻿@*
+    * Project Id    :
+    * Project Name  :   OMMAS II
+    * Name          :   AddRepackagingDetails.cshtml
+    * Description   :   This View updates the PIU of proposal.
+    * Author        :   Vikram Nandanwar
+    * Creation Date :   02/09/2014
+*@
+
+
+@model PMGSY.Models.Proposal.ProposalUpdateBlockViewModel
+
+<script src="~/Scripts/custom/Generic.js"></script>
+<script src="~/Scripts/Proposal/ProposalUpdateBlock.js"></script>
+
+
+<form id="frmBlockDetails">
+    <table>
+        <tr>
+            <td style="width: 5%"></td>
+
+            <td style="width: 25%">
+                @Html.HiddenFor(model => model.ProposalArray)
+                @Html.Label("District")
+            </td>
+            <td style="width: 40%">
+                @Html.DisplayFor(x => x.DistrictName)
+            </td>
+            <td style="width: 25%">
+                @Html.LabelFor(model => model.BlockCode)
+            </td>
+            <td style="width: 40%">
+                @Html.DropDownListFor(model => model.BlockCode, new SelectList(Model.lstBlock, "Value", "Text"), new { @id = "ddlBlock", @title = "Please select Block", @tabindex = 1 })
+                @Html.ValidationMessageFor(model => model.BlockCode)
+            </td>
+        </tr>
+        <tr>
+            <td></td>
+            <td colspan="2">
+                <center>
+                <input type="button" id="btnUpdateBlock" name="btnUpdateBlock" value="Update Details" class="jqueryButton" title="Update Proposal Block Details" tabindex="2" />
+                </center>
+            </td>
+        </tr>
+    </table>
+</form>
+

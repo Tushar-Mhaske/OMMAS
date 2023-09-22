@@ -1,0 +1,16 @@
+﻿@using MvcReportViewer
+
+@model PMGSY.Areas.ProposalSSRSReports.Models.PendingWorksViewModel
+
+
+    
+    @Html.MvcReportViewer("/PMGSYCitizen/Pending_Works_Report",
+     new
+     {
+         State = Model.State,
+         Reason = Model.Reason,
+         PMGSY = PMGSY.Extensions.PMGSYSession.Current.PMGSYScheme,
+         StateName = Model.StateName,
+         ReasonName = Model.ReasonName,
+     },
+       new { Height = 600, Width = "100%", style = "border:none;" })

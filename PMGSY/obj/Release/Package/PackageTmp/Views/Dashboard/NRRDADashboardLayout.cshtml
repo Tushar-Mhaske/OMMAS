@@ -1,0 +1,146 @@
+﻿@model PMGSY.Models.Dashboard.NRRDADashboardFilterViewModel
+
+<html>
+<head>
+
+    <link href="~/Content/jquery.multiselect.css" rel="stylesheet" />
+    <script src="~/Scripts/HighChart/highcharts.js"></script>
+    <script src="~/Scripts/highcharts-export.js"></script>
+    <script src="~/Scripts/Dashboard/html2canvas.js"></script>
+    <script src="~/Scripts/Dashboard/canvas2image.js"></script>
+    <script src="~/Scripts/jquery.multiselect.min.js"></script>
+    <script src="~/Scripts/custom/Generic.js"></script>
+    <script src="~/Scripts/Dashboard/NRRDADashboardLayout.js"></script>
+    <style type="text/css">
+        #floatButton {
+            height: 60px;
+            width: 60px;
+            position: fixed;
+            top: 20%;
+            z-index: 999;
+        }
+
+        .scrollup {
+            background: transparent url(/Content/images/arrow_up.png) no-repeat top left;
+            padding: 7px;
+            background-color: white;
+            border: 1px solid #CCC;
+            position: fixed;
+            background-position: 50% 50%;
+            width: 20px;
+            height: 20px;
+            opacity: 0.7;
+            right:55px;
+            white-space: nowrap;
+            cursor: pointer;
+        }
+
+        .scrolldown {
+            background: transparent url(/Content/images/arrow_down.png) no-repeat top left;
+            padding: 7px;
+            background-color: white;
+            border: 1px solid #CCC;
+            position: fixed;
+            background-position: 50% 50%;
+            width: 20px;
+            height: 20px;
+            opacity: 0.7;
+            top:260px;
+            right:55px;
+            white-space: nowrap;
+            cursor: pointer;
+        }
+
+        .print {
+            background: transparent url(/Content/images/print_icon.png) no-repeat top left;
+            padding: 7px;
+            background-color: white;
+            border: 1px solid #CCC;
+            /*position: fixed;*/
+            background-position: 50% 50%;
+            width: 10px;
+            height: 10px;
+            opacity: 0.7;
+            left:30px;
+            white-space: nowrap;
+            cursor: pointer;
+        }
+
+    </style>
+</head>
+<body>
+    <div style="overflow:hidden;height:auto">
+        <form id="frmFilterDetails">
+            <div style="margin-top: 10px; margin-bottom: 10px;height:auto" class="ui-corner-all ui-state-default">
+                <table style="width: 100%">
+                    <tr>
+                        <td style="width: 10%"></td>
+                        <td style="width: 10%">
+                            @Html.LabelFor(model => model.State)
+                        </td>
+                        <td style="width: 20%">
+                            @Html.ListBox("STATE_CODES")
+                            @Html.ValidationMessageFor(model => model.State)
+                        </td>
+                        <td style="width: 10%">
+                            Select Finanacial Year Upto
+                        </td>
+                        <td style="width: 20%">
+                            @Html.DropDownListFor(model => model.Year, new SelectList(Model.lstYears, "Value", "Text"), new { @id = "ddlYears", @title = "Please select Financial Year", @placeholder = 2 })
+                            @Html.ValidationMessageFor(model => model.Year)
+                        </td>
+                    </tr>
+                    <tr>
+                        <td></td>
+                        <td>
+                            @Html.LabelFor(model=>model.Collaboration)
+                        </td>
+                        <td>
+                            @Html.DropDownListFor(model => model.Collaboration, new SelectList(Model.lstCollaborations, "Value", "Text"), new { @id = "ddlCollaborations", @title = "Please select Collaboration", @placeholder = 3 })
+                            @Html.ValidationMessageFor(model => model.Collaboration)
+                        </td>
+                        <td>
+                            @Html.LabelFor(model=>model.Agency)
+                        </td>
+                        <td>
+                            @Html.DropDownListFor(model => model.Agency, new SelectList(Model.lstAgency, "Value", "Text"), new { @id = "ddlAgencies", @title = "Please select Agency", @placeholder = 4 })
+                            @Html.ValidationMessageFor(model => model.Agency)
+                        </td>
+                    </tr>
+                    <tr>
+                        <td colspan="5">
+                            <center><input type="button" class="jqueryButton" value="View Details" id="btnViewDetails" name ="btnViewDetails"/></center>
+                        </td>
+                    </tr>
+                </table>
+            </div>
+        </form>
+        @*<div id="printButton" class="print"></div>*@
+        <div id="floatButton" style="margin-left: 1130px;margin-top:20px">
+            <table>
+                <tr>
+                    <td>
+                        <div id="btnup" class="scrollup" title="Click here to go to previous chart"></div>
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        <div id="btnDown" class="scrolldown" title="Click here to go to next chart"></div>
+                    </td>
+                </tr>
+            </table>
+        </div>
+        <div class="charts" id="charts" style="margin-top:40px">
+            <div id="dvTableSanctioned" style="margin-left: 1000px"></div>
+            <div id="dvChartContainerSanctioned" style="width: 95%; height: 600px"></div>
+            <div id="dvTableCompleted" style="margin-left: 1000px"></div>
+            <div id="dvChartContainerCompleted" style="width: 95%; height: 600px; margin-top: 20px"></div>
+            <div id="dvTableExpenditure" style="margin-left: 1000px"></div>
+            <div id="dvChartContainerExpenditure" style="width: 95%; height: 600px; margin-top: 20px"></div>
+            <div id="dvHabDetails" style="width: 98%; margin-top: 30px"></div>
+            <div id="dvMaintenanceDetails" style="width: 98%; margin-top: 30px"></div>
+            <div id="dvPieChartContainerSanctioned" style="width: 95%; height: 600px; margin-top: 20px"></div>
+        </div>
+    </div>
+</body>
+</html>

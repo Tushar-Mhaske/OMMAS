@@ -1,0 +1,86 @@
+﻿@model PMGSY.Models.PFMS.PFMSDownloadXMLViewModel
+
+<script src="~/Scripts/custom/Generic.js"></script>
+<script src="~/Scripts/PFMS/DownloadBeneficiaryOtherStateXMLLayout.js"></script>
+
+<div id="dvhdPFMSDownloadXMLLayout" class="ui-corner-top ui-widget-header panelheader" style="text-align: left; height: 20px;">@*margin-left:0px;margin-right:0px;margin-top:0px; *@
+    <span class="ui-jqgrid-title" style="float: left">&nbsp;Download XML for PFMS</span>
+
+    @*<span id="spCollapseIconAddDropOrder" class="ui-icon ui-icon-circle-triangle-n" style="float: right"></span>*@
+</div>
+<div id="dvPFMSDownloadXMLLayout" class="ui-corner-bottom" style="display: block; border: 1px solid #B5B8C8;">
+    <form id="frmPFMSDownloadOtherStateXMLLayout">
+        @Html.ValidationSummary(true)
+        @Html.AntiForgeryToken()
+
+        @Html.HiddenFor(model => model.Level)
+
+        <table style="margin-top: 0px; margin-bottom: 0px; width: 100%;" class="rowstyle">
+            <tr>
+                <td style="width: 5%"></td>
+                <td>
+                    @Html.Label("State")<span style="color: red">*</span>
+                </td>
+                <td>
+                    @Html.DropDownListFor(model => model.stateCode, new SelectList(Model.lstState, "Value", "Text"), new { @id = "ddlState", @tabindex = 1 })
+                    <br />
+                    @Html.ValidationMessageFor(model => model.stateCode)
+                </td>
+                <td>
+                    @Html.Label("District")<span style="color: red">*</span>
+                </td>
+                <td>
+                    @Html.DropDownListFor(model => model.districtCode, new SelectList(Model.lstDistrict, "Value", "Text"), new { @id = "ddlDistrict", @tabindex = 1 })
+                    <br />
+                    @Html.ValidationMessageFor(model => model.districtCode)
+                </td>
+                <td>
+                    @Html.Label("Agency")<span style="color: red">*</span>
+                </td>
+                <td>
+                    @Html.DropDownListFor(model => model.agencyCode, new SelectList(Model.lstAgency, "Value", "Text"), new { @id = "ddlAgency", @tabindex = 2 })
+                    <br />
+                    @Html.ValidationMessageFor(x => x.agencyCode)
+                </td>
+                @if (PMGSY.Extensions.PMGSYSession.Current.RoleCode == 17)
+                {
+                    <td style="width: 11%">
+                        @Html.Label("Generate Xml for All Contractors")
+                    </td>
+                    <td>
+                        @Html.CheckBoxFor(model => model.isAllContractors, new { @id = "cbAllContractors", @tabindex = 3 })
+                        <br />
+                        @Html.ValidationMessageFor(x => x.isAllContractors)
+                    </td>
+                }
+                <td>
+                    @*<input type="button" class="jqueryButton" value="Download XML" title="Download XML" id="btnDownloadXML" name="btnDownloadXML" tabindex="3" />*@
+                    <input type="button" class="jqueryButton" value="Get beneficiary List" title="Get beneficiary List" id="btnGetBeneficiaryList" name="btnGetBeneficiaryList" tabindex="3" />
+                </td>
+                <td style="width: 5%"></td>
+            </tr>
+            @*<tr>
+                <td></td>
+                <td>
+                    <input type="file" name="file" id="PFMSFile" tabindex="4" />
+                    <label id="lblPFMSxml"></label>
+                    <img id="imgPFMSxml" style="display: none; margin-left: 5px; cursor: pointer;" title="Click here to clear file" src="~/Content/images/close-icon.png" />
+                </td>
+                <td>
+                    <input type="button" class="jqueryButton" value="Get Node Value" title="Get Node Value" id="btnGetNodeValue" name="btnGetNodeValue" tabindex="5" />
+                </td>
+                <td>
+                    <label id="lbNodeValue"></label>
+                </td>
+                <td></td>
+            </tr>*@
+        </table>
+
+        <div style="margin-top: 10px; width: 98%; margin-left: 5px; margin-bottom: 5px;">
+            <table id="tblContractorsList"></table>
+            <div id="dvPagerContractorsList"></div>
+        </div>
+    </form>
+</div>
+
+

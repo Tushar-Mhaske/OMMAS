@@ -1,0 +1,26 @@
+﻿@using MvcReportViewer
+
+@model PMGSY.Areas.OtherReports.Models.ComponentModel
+<style>
+    .ui-widget-content {
+    background-color:white;
+    }
+</style>
+@Html.MvcReportViewer("/PMGSYCitizen/SANCTION_COMPONENT_COST",
+     new
+     {
+       
+        STATE=Model.StateCode,
+        DISTRICT=Model.DistrictCode,
+        BLOCK = Model.BlockCode,
+        YEAR=Model.Year,
+        BATCH=@Model.BatchCode,
+        SCHEME=Model.schemeCode,
+        STASTATUS = Model.STAStatus
+        
+     },
+     new { Height = 600, Width = "100%", style = "border:0.75px;" })
+
+
+
+

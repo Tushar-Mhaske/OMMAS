@@ -1,0 +1,51 @@
+﻿@model PMGSY.Models.UserManager.ProposalUpdateViewModel
+
+<script src="~/Scripts/custom/Generic.js"></script>
+<script type="text/javascript" src="@Url.Content("~/Scripts/jquery.ui.dialog.js")"> </script>
+<script src="~/Scripts/UserManager/ListDistrictUsers.js"></script>
+
+
+<center>
+<div id="filterMenuForm" >
+    <form id="formModuleFilter">
+        <table style="margin-top:10px; margin-bottom:0px";>
+            <tr>
+                <td>State</td>
+                <td>@Html.DropDownListFor(model=>model.State,Model.lstStates as IEnumerable<SelectListItem>, new { @id = "ddlStates", @title = "Select State." })</td>
+                <td>District</td>
+                <td>@Html.DropDownListFor(model=>model.District,Model.lstDistricts as IEnumerable<SelectListItem>, new { @id = "ddlDistricts", @title = "Select District." })</td>
+                <td>Agency</td>
+                <td>@Html.DropDownListFor(model=>model.Agency,Model.lstAgencies as IEnumerable<SelectListItem>, new { @id = "ddlAgencies", @title = "Select Agency.",@style="width:200px" })</td>
+                <td>
+                    <center>
+                        <input type="button" id="btnSubmit" name="btnSubmit" value="View" class= "jqueryButton" title="View Details" tabindex="4" style="text-align:center" /> 
+                    </center>
+                </td>
+            </tr>
+        </table>
+    </form>
+</div>
+<div style="margin-top:20px;width:98%">
+    <table id="tbUserList"></table>
+    <div id="dvpgUserList"></div>
+</div>
+<div style="margin-top:20px;width:98%">
+    <table id="tbUserProposalList"></table>
+    <div id="dvpgUserProposalList"></div>
+</div>
+<div id="dvPIU">
+    <table style="margin-top:10px; margin-bottom:0px";>
+            <tr>
+                <td style="width:40%;text-align:right">Select PIU</td>
+                <td style="width:60%;text-align:center">@Html.DropDownListFor(model=>model.PIUCode,Model.lstPIU as IEnumerable<SelectListItem>, new { @id = "ddlPIU", @title = "Select PIU." })</td>
+            </tr>
+            <tr>
+                <td colspan="2">
+                    <center>
+                        <input type="button" id="btnChange" name="btnChange" value="Change" class= "jqueryButton" title="Change PIU" tabindex="4" style="text-align:center" /> 
+                    </center>
+                </td>
+            </tr>
+    </table>
+</div>
+</center>

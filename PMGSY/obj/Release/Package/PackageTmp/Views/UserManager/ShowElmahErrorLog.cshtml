@@ -1,0 +1,53 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <script src="~/Scripts/custom/Generic.js"></script>
+    <script src="~/Scripts/UserManager/UserManager.js"></script>
+</head>
+<body>
+
+    <center>
+      <div style="text-align:left;margin-left:5px;margin-bottom:5px;">
+          <table  style="width: 100%;">
+        <tr>
+            <td style="width: 5%;"></td>
+           
+            <td style="text-align: left; width: 5%;">
+                @Html.Label("Year")
+            </td>
+            <td style="width: 20%;">
+                @Html.DropDownList("ddYear_UserErrorDetails", ViewData["YEAR"] as IEnumerable<SelectListItem>, new { @title = "Year", @tabindex = 1 })
+            </td>
+            <td style="text-align: left; width: 5%;">
+                @Html.Label("Month")
+            </td>
+            <td style="width: 20%;">
+                @Html.DropDownList("ddMonth_UserErrorDetails", ViewData["MONTH"] as IEnumerable<SelectListItem>, new { @title = "Month", @tabindex = 2 })
+            </td>
+            <td>
+                <input type="button" value="View" title="View Details" class="jqueryButton" id="btnViewErrorDetails" tabindex="3"/>
+            </td>
+        </tr>
+       
+
+    </table>
+        
+    </div>
+    
+    <table id="tblErrorList" class="scroll">
+    
+    </table>
+    <div id="divLogErrorPager"></div>    
+        <br />
+
+        <div id="dvDeleteButtons">
+            <tr>
+                <td>
+            <input type="Button" id="btnDelete" value="Delete" title="Click here to delete selected records" class="jquerybutton" />
+                    </td>
+                </tr>
+        </div>
+  
+</center>
+</body>
+</html>

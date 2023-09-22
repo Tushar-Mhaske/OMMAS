@@ -1,0 +1,111 @@
+﻿@model PMGSY.Models.UserManager.RoleHomePageModel
+
+<!DOCTYPE html>
+
+<html>
+<head>
+    <script src="~/Scripts/custom/Generic.js"></script>
+    <script src="~/Scripts/UserManager/UserManager.js"></script>
+    <script type="text/javascript">
+        $(document).ready(function () {
+            if ('@ViewBag.Operation' == 'A') {
+                $("#btnAddHomePage").attr('value', 'Save');
+                $('#btnReseHomePage').show('fast');
+                $("#btnDisplayHomePageFrm").hide('fast');
+        }
+        else if ('@ViewBag.Operation' == 'U') {
+            $("#btnAddHomePage").attr('value', 'Update');
+            $('#btnReseHomePage').hide('fast');
+            $("#btnDisplayHomePageFrm").show('fast');
+            
+        }
+    });
+</script>
+</head>
+<body>
+ 
+
+<form id="frmRoleHomePageMapping">
+     
+      @if(ViewBag.Operation == "U"){
+        @Html.HiddenFor(model => model.ID, new { @id = "hidId" })
+      }
+
+    @Html.ValidationSummary(true)
+     <div id="divError" class="ui-state-error ui-corner-all" style="text-align: left; display: none; width: 100%">
+                <span class="ui-icon ui-icon-alert" style="float: left;"></span>                   
+                <span></span>
+    </div>
+    <table id="Table1"  cellspacing="0" cellpadding="2" class="rowstyle" style="margin-top:10px; text-align:left; border:ridge 0.1em #ccc; width:100%; padding:5px 5px 5px 5px;">
+            
+            <tr>
+                <td width="55%" align="left" valign="center">
+                        <table id="tblRoleHomePageList" ></table>
+                        <div id="divRoleHomePagePager"></div>
+                </td>
+                <td Width="45%" align="left" valign="top">
+                    <table id="tblRoleHomePageMapping"class="rowstyle"  width="100%">
+                        <tr>
+                            <td align="right" style="width: 15%">
+                               <b>@Html.LabelFor(model => model.RoleID)<span style="color:red">*</span></b>
+                            </td>
+                            <td align="left" style="width: 20%">
+                                @Html.DropDownListFor(model => model.RoleID, new SelectList(Model.RoleList, "Value", "Text" ), "Select Role")
+                            </td>
+                        </tr>
+                         <tr>
+                            <td ></td>
+                            <td align="left">
+                                @Html.ValidationMessageFor(model => model.RoleID)
+                            </td>
+                        </tr>
+                        <tr>
+                            <td align="right" style="width: 15%">
+                                <b>@Html.LabelFor(model => model.ModuleID)<span style="color:red">*</span></b>
+                            </td>
+                            <td align="left" style="width: 20%">
+                                 @Html.DropDownListFor(model => model.ModuleID, new SelectList( Model.ModuleList, "Value", "Text" ), "Select Module")
+                            </td>
+                         </tr> 
+                         <tr>
+                            <td ></td>
+                            <td align="left">
+                                @Html.ValidationMessageFor(model => model.ModuleID)
+                            </td>
+                        </tr>
+                         <tr>          
+                            <td align="right" style="width: 15%">
+                                <b>@Html.LabelFor(model => model.SubModuleID)<span style="color:red">*</span></b>
+                            </td>
+                            <td align="left" style="width: 20%">
+                                 @Html.DropDownListFor(model => model.SubModuleID, new SelectList( Model.SubModuleList, "Value", "Text" ), "Select Sub Module")
+                            </td>
+                        </tr>
+                        <tr>
+                            <td ></td>
+                            <td align="left">
+                                @Html.ValidationMessageFor(model => model.SubModuleID)
+                            </td>
+                        </tr>
+                        <tr>
+                            <td></td>
+                            <td colspan="3" style="text-align:left">
+                                <input type="button" value="Save" class="jqueryButton" id="btnAddHomePage"/>
+                                <input type="Reset" value="Reset" class="jqueryButton" id="btnReseHomePage"/>
+                                <input type="button" value="Map New" class="jqueryButton" id="btnDisplayHomePageFrm"/>
+                            </td>
+                        </tr>
+                    </table>
+            </td>
+        </tr>
+        
+        
+ </table>
+
+
+
+</form>
+
+</body>
+</html>
+

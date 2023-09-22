@@ -1,0 +1,14 @@
+﻿@using MvcReportViewer
+
+@model PMGSY.Models.QualityMonitoring.AllocateDistrictsToNQMViewModel
+
+@Html.MvcReportViewer("/PMGSYCitizen/NQM_AutoScheduled_Work_Details_Report",
+     new
+     {
+         StateCode = Model.stateCode,
+         Month = Model.Month,
+         Year = Model.Year,
+         StateName = Model.StateName,
+         
+     },
+       new { Height = 675, Width = "100%", style = "border:none;" })

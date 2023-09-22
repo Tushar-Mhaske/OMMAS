@@ -1,0 +1,98 @@
+﻿@using PMGSY.Models
+@using PMGSY.Models.ProposalReports
+@model PMGSY.Models.ProposalReports.MRDProposalModel
+@using PMGSY.Extensions
+@using PMGSY.Common
+
+<style type="text/css">
+    div.CBHeader {
+        padding: 5px;
+        width: 98%;
+        display: inline-block;
+        cursor: default;
+        /*font:12px/14px Arial, Helvetica, sans-serif;*/
+        font-family: Trebuchet MS,Tahoma,Verdana,Arial,sans-serif;
+        color: #000;
+        background-color: #eee;
+        -moz-border-radius: 10px;
+        -webkit-border-radius: 10px;
+        -moz-box-shadow: #999 2px 0px 3px;
+        -webkit-box-shadow: #999 2px 0px 3px;
+    }
+</style>
+
+
+<script src="~/Scripts/custom/Generic.js"></script>
+
+<link href="~/Content/demo_page.css" rel="stylesheet" />
+<link href="~/Content/demo_table_jui.css" rel="stylesheet" />
+<link href="~/Content/TableTools.css" rel="stylesheet" />
+<link href="~/Content/TableTools_JUI.css" rel="stylesheet" />
+
+<script src="~/Scripts/DataTables/jquery.dataTables.js"></script>
+<script src="~/Scripts/DataTables/ZeroClipboard.js"></script>
+<script src="~/Scripts/DataTables/TableTools.js"></script>
+
+
+@{
+    CommonFunctions objCommonFunction = new CommonFunctions();
+}
+
+<div class="ui-widget-header innerDivHeader" style="width: 98%; text-align: center; margin-bottom: 5px">Categorywise Abstract of Habitations</div>
+
+<table class="ui-state-default ui-corner-all" style="border: 0.1em solid gray; margin-top: 1px; width: 98%" id="tblMRDPropHabCovg">
+    <thead>
+        <tr style="vertical-align:top">
+            <th style="border: 0.1em solid white;"><b>Category</b></th>
+            <th style="border: 0.1em solid white;">><b>1000</b></th>
+            <th style="border: 0.1em solid white;"><b>999-500</b></th>
+            <th style="border: 0.1em solid white;"><b>Eligible 499-250</b></th>
+            <th style="border: 0.1em solid white;"><b>Total Eligible</b></th>
+            <th style="border: 0.1em solid white;"><b>Total 499-250</b></th>
+            <th style="border: 0.1em solid white;"><b>Eligible 249-100</b></th>
+            <th style="border: 0.1em solid white;"><b>Less Than 250</b></th>
+            <th style="border: 0.1em solid white;"><b>Grand Total</b></th>
+        </tr>
+    </thead>
+    <tbody>
+        @if (Model.lstMRDProposalHab.Count > 0)
+        {
+
+            foreach (var itm in Model.lstMRDProposalHab)
+            {
+            <tr>
+                <td style="text-align: left; border: 0.1em solid white;"><b>Total Habitations</b></td>
+                <td style="text-align: right; border: 0.1em solid white;">@objCommonFunction._IndianFormatNumber(itm.POP1000 == null ? "0" : itm.POP1000.ToString())</td>
+                <td style="text-align: right; border: 0.1em solid white;">@objCommonFunction._IndianFormatNumber(itm.POP999 == null ? "0" : itm.POP999.ToString())</td>
+                <td style="text-align: right; border: 0.1em solid white;">@objCommonFunction._IndianFormatNumber(itm.POPELJ499 == null ? "0" : itm.POPELJ499.ToString())</td>
+                <td style="text-align: right; border: 0.1em solid white;">@objCommonFunction._IndianFormatNumber(itm.POP_TOT == null ? "0" : itm.POP_TOT.ToString())</td>
+                <td style="text-align: right; border: 0.1em solid white;">@objCommonFunction._IndianFormatNumber(itm.POP499 == null ? "0" : itm.POP499.ToString())</td>
+                <td style="text-align: right; border: 0.1em solid white;">@objCommonFunction._IndianFormatNumber(itm.POPELJ249 == null ? "0" : itm.POPELJ249.ToString())</td>
+                <td style="text-align: right; border: 0.1em solid white;">@objCommonFunction._IndianFormatNumber(itm.POP250 == null ? "0" : itm.POP250.ToString())</td>
+                <td style="text-align: right; border: 0.1em solid white;">@objCommonFunction._IndianFormatNumber(itm.TOTAL == null ? "0" : itm.TOTAL.ToString())</td>
+                </tr>
+            <tr>
+                <td style="text-align: left; border: 0.1em solid white;"><b>Total Population</b></td>
+                <td style="text-align: right; border: 0.1em solid white;">@objCommonFunction._IndianFormatNumber(itm.TPOP1000 == null ? "0" : itm.TPOP1000.ToString())</td>
+                <td style="text-align: right; border: 0.1em solid white;">@objCommonFunction._IndianFormatNumber(itm.TPOP999 == null ? "0" : itm.TPOP999.ToString())</td>
+                <td style="text-align: right; border: 0.1em solid white;">@objCommonFunction._IndianFormatNumber(itm.TPOPELJ499 == null ? "0" : itm.TPOPELJ499.ToString())</td>
+                <td style="text-align: right; border: 0.1em solid white;">@objCommonFunction._IndianFormatNumber(itm.TPOP_TOT == null ? "0" : itm.TPOP_TOT.ToString())</td>
+                <td style="text-align: right; border: 0.1em solid white;">@objCommonFunction._IndianFormatNumber(itm.TPOP499 == null ? "0" : itm.TPOP499.ToString())</td>
+                <td style="text-align: right; border: 0.1em solid white;">@objCommonFunction._IndianFormatNumber(itm.TPOPELJ249 == null ? "0" : itm.TPOPELJ249.ToString())</td>
+                <td style="text-align: right; border: 0.1em solid white;">@objCommonFunction._IndianFormatNumber(itm.TPOP250 == null ? "0" : itm.TPOP250.ToString())</td>
+                <td style="text-align: right; border: 0.1em solid white;">@objCommonFunction._IndianFormatNumber(itm.TTOTAL == null ? "0" : itm.TTOTAL.ToString())</td>
+
+            </tr>
+        
+            }
+        }
+        else
+        {
+            <tr>
+                <td colspan="19" style="text-align: center;">No Data</td>
+            </tr>
+        }
+    </tbody>
+
+</table>
+

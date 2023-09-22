@@ -1,0 +1,19 @@
+﻿@using MvcReportViewer
+
+@model PMGSY.Areas.MPR.Models.MPR1Model
+
+@*@{ PMGSY.Common.FetchCookieData fetchCookieData = new PMGSY.Common.FetchCookieData(); }*@
+
+@Html.MvcReportViewer("/PMGSYCitizen/AspirationalDistrictsHabitationDetails",
+     new
+     {
+      
+         STATE = Model.StateCode,
+         Month = Model.Month, 
+         Year = Model.Year,                 
+         PMGSY = PMGSY.Extensions.PMGSYSession.Current.PMGSYScheme,      
+         StateName = Model.StateName, 
+         LocalizationValue = "en"       
+     },
+     new { Height = 600, Width = "100%", style = "border:none;" })
+

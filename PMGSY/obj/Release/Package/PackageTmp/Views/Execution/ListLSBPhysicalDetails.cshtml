@@ -1,0 +1,109 @@
+﻿@model PMGSY.Models.Execution.ExecutionLSBStatusViewModel
+
+@{
+    ViewBag.Title = "ListLSBPhysicalDetails";
+}
+
+<script src="~/Scripts/custom/Generic.js"></script>
+<script src="~/Scripts/Execution/ListLSBPhysicalDetails.js"></script>
+
+<div style="height:auto; width: 99%; text-align:left; padding-top: 0.6em;"> 
+
+    <table class="rowstyle ui-corner-all" style="width:100%; border:solid black 1px;">
+        <tr>
+            <td style="width:5%"></td>
+            <td style="width:12%;font-weight:bold">
+                Block 
+            </td>
+            <td style="width:15%">
+                @Model.BlockName
+            </td>
+            <td style="width:12%;font-weight:bold">
+                Package No.
+            </td>
+            <td style="width:15%">
+                @Model.Package
+            </td>
+        </tr>
+        <tr>
+            <td></td>
+            <td style="font-weight:bold">
+                Bridge Name:
+            </td>
+            <td>
+                @Model.RoadName
+            </td>
+            <td style="font-weight:bold">
+                Agreement Date:
+            </td>
+            <td>
+                @Model.AgreementDate
+            </td>
+        </tr>
+        <!--<tr>
+            <td></td>
+            <td style="font-weight:bold">
+                Sanction Cost(Rs. in Lakh):
+            </td>
+            <td colspan="3">
+                @Model.Sanction_Cost
+            </td>
+            @*<td style="font-weight:bold"> 
+                Sanction Length(in Km)
+            </td>
+            <td>
+                @Model.Sanction_length
+            </td>*@
+        </tr> -->
+        <tr>
+            <td></td>
+            <td style="font-weight:bold">
+                Bridge Length(in mtrs)
+            </td>
+            <td>
+                @Model.Bridge_Length
+            </td>
+            <td style="font-weight:bold">
+                Bridge Cost(Rs. in Lakh)
+            </td>
+            <td>
+                @Model.Bridge_Cost
+            </td>
+        </tr>
+        @*LSB Changes 05NOV2019*@
+        @if (Model.changedLength > 0)
+        {
+            <tr>
+                <td></td>
+                <td style="font-weight: bold">
+                    <b>Approved Length for Execution (in Mtrs):</b>
+                </td>
+                <td>
+                    @Model.changedLength
+                </td>
+                <td style="font-weight: bold"></td>
+                <td></td>
+            </tr>
+        }
+    </table>
+
+</div>
+@Html.HiddenFor(model=>model.IMS_PR_ROAD_CODE, new {@id="prRoadCode" })
+<br />
+<div id="divLSBPhysicalDetails">
+    <table id="tbLSBPhysicalRoadList">
+
+    </table>
+    <div id="pagerLSBPhysicalRoadList">
+
+    </div>
+</div>
+
+<br />
+@*<div style="text-align:left">
+    <input type="button" class="jqueryButton" id="btnAddLSBProgress" value="Add Road Progress Details"/>
+</div>*@
+<div id="divAddLSBProgress">
+
+</div>
+

@@ -1,0 +1,94 @@
+﻿
+
+@*----------------------------------------------------------------------------------------
+
+ * Project Id:
+
+ * Project Name:OMMAS2
+
+ * File Name: TEOAddMasterForTOB.cshtml
+
+ * Author : Koustubh Nakate
+
+ * Creation Date :28/Aug/2013
+
+ * Desc :This is partial view which consist add TEO master view 
+ * ---------------------------------------------------------------------------------------*@
+
+
+@model PMGSY.Models.TransferEntryOrder.TeoMasterModel
+
+
+<script type="text/javascript" src="@Url.Content("~/Scripts/custom/Generic.js")"> </script>
+<script type="text/javascript" src="@Url.Content("~/Scripts/TransferEntryOrder/TEOAddMasterForTOB.js")"> </script>
+
+<form id="frmTEOAddMaster">
+    @Html.AntiForgeryToken()
+    @Html.ValidationSummary(true)
+    @Html.HiddenFor(m=>m.CURRENT_DATE)
+    <input type="hidden" id="hdnBillid" value="@ViewBag.BILL_ID"/>
+<table class="ui-state-default ui-corner-all" style="border:0.1em solid gray; width:100%; margin-bottom:5px" id="tblViewDetails">
+        <tr>
+            <td style="width:15%">@Html.LabelFor(model => model.BILL_MONTH)<label style="color:red;"> *</label></td>
+            <td style="width:35%">@Html.DropDownListFor(m => m.BILL_MONTH, ViewBag.ddlMonth as IEnumerable<SelectListItem>, new { @title = "Month" })&nbsp;@Html.ValidationMessageFor(model => model.BILL_MONTH)</td>
+            <td style="width:10%">@Html.LabelFor(model => model.BILL_YEAR)<label style="color:red;"> *</label></td>
+            <td style="width:20%">@Html.DropDownListFor(m=>m.BILL_YEAR,ViewBag.ddlYear as IEnumerable<SelectListItem>,new { @title = "Year" })&nbsp;@Html.ValidationMessageFor(model => model.BILL_YEAR)</td>            
+        </tr>
+</table>
+
+<table class="ui-state-default ui-corner-all" style="border:0.1em solid gray; width:100%" id="tblTEOMaster">
+    <tr>
+        <td colspan="4">
+            <div id="divTEOMasterError" class="ui-state-error ui-corner-all" style="text-align: left; display: none; width: 100%">
+                <span class="ui-icon ui-icon-alert" style="float: left;"></span>
+                <span></span>
+            </div>
+        </td>
+    </tr>
+    <tr>
+        <td style="width: 15%;text-align:left">@Html.LabelFor(model => model.BILL_NO)<label style="color: red;"> *</label></td>
+        <td style="width: 35%;text-align:left">@Html.TextBoxFor(model => model.BILL_NO, new { @placeholder="Max 50 characters allowed...", @title = "TEO Number", @maxlength=50})
+           <br /> @Html.ValidationMessageFor(model => model.BILL_NO)</td>
+        <td style="width: 10%;text-align:left">@Html.LabelFor(model => model.BILL_DATE)<label style="color: red;"> *</label></td>
+        <td style="width: 40%;text-align:left" colspan="2">@Html.TextBoxFor(model => model.BILL_DATE, new { @placeholder="dd/MM/yyyy format", @title = "TEO Date" })
+        @*@Html.EditorFor(model=>model.BILL_DATE,"0:dd/MM/yyyy",Model.BILL_DATE)*@
+          <br />  @Html.ValidationMessageFor(model => model.BILL_DATE)</td>
+    </tr>
+     <tr>
+        <td style="text-align:left">@Html.LabelFor(model => model.TXN_ID)<label style="color: red;"> *</label></td>
+        <td  style="text-align:left">@Html.DropDownListFor(model => model.TXN_ID, ViewBag.ddlMasterTrans as IEnumerable<SelectListItem>, new { @id = "ddlTransMaster",@title = "Transaction Type", @style="width:250px" })
+            <br/>@Html.ValidationMessageFor(model => model.TXN_ID)</td>
+        <td  style="text-align:left">@Html.LabelFor(model => model.GROSS_AMOUNT)<label style="color: red;"> *</label></td>
+        <td  style="text-align:left">@Html.TextBoxFor(model => model.GROSS_AMOUNT, new{@placeholder="Max 11.2 decimal allowed...",@title = "Amount"})
+           <br /> @Html.ValidationMessageFor(model => model.GROSS_AMOUNT)</td>
+    </tr>  
+    <tr id="trddlSubTrans" style="display:none">
+        <td>@Html.LabelFor(model => model.SUB_TXN_ID, new { @id="lblSubTrans"})</td>
+        <td>@Html.DropDownListFor(model => model.SUB_TXN_ID, ViewBag.ddlSubTrans as IEnumerable<SelectListItem>, new { @id = "ddlSubTrans",@title = "Sub Transaction Type", @style="width:250px" })
+            <br />@Html.ValidationMessageFor(model => model.SUB_TXN_ID)</td>        
+        <td>Head Description:</td>
+        <td><span id="trDetailsHeadDesc" style="color:black; font-weight:normal"></span></td>
+    </tr>
+    <tr>
+        <td style="width: 15%;text-align:left">
+        <td style="width: 35%; text-align:right;">
+            @Html.HiddenFor(m=>m.OB_DATE) 
+            @Html.HiddenFor(m=>m.GROSS_AMOUNT) 
+            @{if (ViewBag.BILL_ID == null){
+            <input type="button" id="btnSaveTEOMaster" value="Save" class="jqueryButton" title="Save TEO">
+          }else { <input type="button" id="btnEditTEOMaster" value="Update" class="jqueryButton" title="Update TEO"> } }
+        </td>
+        <td colspan="2" style="text-align:left">
+             @{if (ViewBag.BILL_ID == null){
+             <input type="reset" id="btnResetTEOMaster" value="Reset" class="jqueryButton" title="Reset">
+             }else { <input type="button" id="btnCancelTEOMaster" value="Cancel" class="jqueryButton" title="Cancel"> } }
+        </td>
+         
+         
+    </tr>
+    </table>
+</form>
+
+@section Scripts {
+    @Scripts.Render("~/bundles/jqueryval")
+}

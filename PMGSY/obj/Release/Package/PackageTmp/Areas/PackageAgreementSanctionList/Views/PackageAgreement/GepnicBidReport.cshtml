@@ -1,0 +1,15 @@
+﻿@using MvcReportViewer
+@model PMGSY.Areas.PackageAgreementSanctionList.Models.GepnicBidModel
+
+@Html.MvcReportViewer("/PMGSYCitizen/GepnicBidFinTechOpenVal",
+     new
+     {
+         
+         State = Model.Mast_State_Code,
+         Year = Model.Year,
+         Batch = @Model.Batch,
+         Scheme = Model.SchemeCode
+       
+       
+     },
+     new { Height = 600, Width = "100%", style = "border:none;" })

@@ -1,0 +1,23 @@
+﻿@using MvcReportViewer
+@model PMGSY.Areas.PackageAgreementSanctionList.Models.PackageAgreementViewModel
+
+
+
+
+@Html.MvcReportViewer("/PMGSYCitizen/PackagewiseAgreement",
+     new
+     {
+      
+         State = Model.Mast_State_Code,
+         District = Model.Mast_District_Code,
+         Block = Model.Mast_Block_Code,
+         Year = @Model.Year,
+       
+         PMGSY = PMGSY.Extensions.PMGSYSession.Current.PMGSYScheme,
+    
+         LocationName = Model.StateName,
+         DistrictName = Model.DistName,
+         BlockName = Model.BlockName,
+        
+     },
+     new { Height = 600, Width = "100%", style = "border:none;" })

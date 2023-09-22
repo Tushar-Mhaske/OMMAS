@@ -1,0 +1,88 @@
+﻿@model PMGSY.Models.AccountsReports.ReportHeader
+@using PMGSY.Models
+<style type="text/css">
+
+div.CBHeader{
+			padding:5px;
+            width:98%;
+			display:inline-block;
+			cursor:default;
+			/*font:12px/14px Arial, Helvetica, sans-serif;*/
+            font-family: Trebuchet MS,Tahoma,Verdana,Arial,sans-serif;
+			color:#000;
+			background-color:#eee;
+			-moz-border-radius:10px;
+			-webkit-border-radius:10px;
+			-moz-box-shadow:#999 2px 0px 3px;
+			-webkit-box-shadow:#999 2px 0px 3px;
+		}
+</style>
+
+
+<div class="CBHeader ui-corner-all">
+
+<table class="ui-state-default ui-corner-all" style="border: 0.1em solid gray; width: 100%; margin-top: 1px" id="tblFilter">
+    
+ @*  @foreach (SP_ACC_Get_Report_Header_Information_Result item in Model.lstReportHeader)
+   {
+    <tr>
+        <td style="text-align:right;color:black;font-size:medium">
+           @item.REPORT_FORM_NO
+        </td>
+
+    </tr>
+    
+    <tr>
+        
+        <td style="color:black;font-size:larger;text-align:center">
+           @item.REPORT_NAME
+        </td>
+        
+    </tr>
+
+      <tr>
+         
+        <td style="color:black;font-size:medium;text-align:center">
+            @item.REPORT_PARAGRAPH_NAME
+        </td>
+         
+    </tr>
+   }*@
+
+        
+ 
+  
+    <tr>
+        <td style="text-align:right;color:black;font-size:medium">
+         @Html.Label("lblForm",ViewBag.FormNo as String)
+        </td>
+
+    </tr>
+    
+    <tr>
+        
+        <td style="color:black;font-size:larger;text-align:center">
+          @Html.Label("lblForm",ViewBag.ReportName as String)
+        </td>
+        
+    </tr>
+
+      <tr>
+         
+        <td style="color:black;font-size:medium;text-align:center">
+            @Html.Label("lblForm",ViewBag.RptParaName as String)
+        </td>
+         
+    </tr>
+  
+
+
+
+</table>
+
+
+
+
+
+
+</div>

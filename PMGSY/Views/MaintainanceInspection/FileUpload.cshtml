@@ -1,0 +1,15 @@
+﻿@model PMGSY.Models.MaintainanceInspection.FileUploadViewModel
+<script src="~/Scripts/MainatinanceInspection/FileUpload.js"></script>
+<div>   
+    @*<input type="radio" name ="UploadType" value="P" id="rdoVideo"/> <strong> Videos</strong>*@
+    <input type="radio" name="UploadType" value="I" id="rdoImage" /><strong>Images </strong>        
+</div>
+        @Html.HiddenFor(model => model.IMS_PR_ROAD_CODE)
+@Html.HiddenFor(model => model.Urlparameter)
+<div id="divImageUpload" style="width:100%">
+
+</div>
+
+<div id="divVideoUpload" style="display:none; width :100%">
+
+</div>

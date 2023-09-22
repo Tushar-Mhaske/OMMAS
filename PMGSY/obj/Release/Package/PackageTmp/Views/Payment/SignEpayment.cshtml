@@ -1,0 +1,180 @@
+﻿@model PMGSY.Models.EpaymentOrderModel
+@using Mvc.Mailer;
+@using PMGSY.Extensions;
+
+@{
+    Layout = null;
+    Response.Cache.SetCacheability(HttpCacheability.NoCache);
+    Response.Cache.SetExpires(DateTime.UtcNow.AddHours(-1));
+    Response.Cache.SetNoStore();
+}
+<html>
+<head>
+</head>
+<body>
+
+    <table style="width: 800px !important; height: 90%; margin-top: 10px;">
+
+
+        <tr style="vertical-align: top">
+            <td style="width: 50%">
+                <div id="" class="ui-corner-top ui-widget-header panelheader" style="text-align: left; height: 15px;">
+                    <span class="ui-jqgrid-title" style="float: none; text-align: left;">Sender Information </span>
+                </div>
+                <div id="" class="ui-corner-bottom" style="display: block; border: 1px solid #B5B8C8; border-top: none; height: 100%">
+                    <table>
+                        <tr>
+                            <td><b>State:</b>  @Model.EpayState </td>
+                        </tr>
+                        <tr>
+                            @* Modify td on 18-11-2021 to categosride between DPIU and SRRDA
+                             @*<td><b>DPIU:</b> @Model.EpayDPIU  ( <b>District</b> - @Model.DPIUName ) </td>*@
+                            @if(PMGSYSession.Current.LevelId==4)
+                            {
+                                <td><b>SRRDA:</b> @Model.EpayDPIU </td>
+                            }
+                            else
+                            {
+                                <td><b>DPIU:</b> @Model.EpayDPIU  ( <b>District</b> - @Model.DPIUName ) </td>   
+                            }
+                        </tr>
+                        <tr>
+                            <td><b>Bank Details:</b> @Model.Bankaddress</td>
+                        </tr>
+                        <tr>
+                            <td><b>Account Number:</b> @Model.BankAcNumber</td>
+                        </tr>
+                        <tr>
+                            <td><b>Authorise Signatory Name:</b> @Model.AuthorisedSignName </td>
+                        </tr>
+                        <tr>
+                            <td><b>Authorise Signatory Contact No.:</b> @Model.AuthorisedSignMobile </td>
+                        </tr>
+                    </table>
+                </div>
+            </td>
+
+            <td style="width: 50%;">
+                <div class="ui-corner-top ui-widget-header panelheader" style="text-align: left; height: 15px;">
+                    <span class="ui-jqgrid-title" style="float: none; text-align: left;">Contractor/Supplier Information </span>
+                </div>
+                <div id="" class="ui-corner-bottom" style="display: block; border: 1px solid #B5B8C8; border-top: none; height: 100%;">
+                    <table>
+                        <tr>
+                            <td>
+                                <b>Name:</b>@Model.EpayConName
+                            </td>
+                        </tr>
+                        @if (Model.IsAccountInactive)
+                        {
+                            <tr>
+                                <td><label style="color: red;">Bank Account Details are inactive or not finalised</label></td>
+                            </tr>
+                            <tr>
+                                <td>&nbsp;</td>
+                            </tr>
+                            <tr>
+                                <td>&nbsp;</td>
+                            </tr>
+                        }
+                        else if (Model.IsConAgency)
+                        {
+                            <tr>
+                                <td><label style="color: red;">Bank Account Details are not accepted by PFMS for - @PMGSY.Extensions.PMGSYSession.Current.MastAgencyName</label></td>
+                            </tr>
+                            <tr>
+                                <td>&nbsp;</td>
+                            </tr>
+                            <tr>
+                                <td>&nbsp;</td>
+                            </tr>
+                        }
+                        else
+                        { 
+                            <tr>
+                                <td>
+                                    <b>Bank Name:</b> @Model.EpayConBankName
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>
+                                    <b>Account Number:</b>  @Model.EpayConAcNum
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>
+                                    <b>IFSC Code:</b>@Model.EpayConBankIFSCCode
+                                </td>
+                            </tr>
+                        }
+                        <tr>
+                            <td>&nbsp;</td>
+                        </tr>
+                        <tr>
+                            <td>&nbsp;</td>
+                        </tr>
+                        <tr>
+                            <td>&nbsp;</td>
+                        </tr>
+                    </table>
+                </div>
+            </td>
+        </tr>
+
+
+        <tr>
+            <td colspan="2">
+                <div class="ui-corner-top ui-widget-header panelheader" style="text-align: left; height: 15px;">
+                    <span class="ui-jqgrid-title" style="float: none; text-align: left;">Epayment Information </span>
+                </div>
+                <div id="" class="ui-corner-bottom" style="display: block; border: 1px solid #B5B8C8; border-top: none;">
+                    <table width="100%">
+                        <tr>
+                            <td style="width: 50%">
+                                <b>Date :</b> @Model.EmailDate
+                            </td>
+                            <td style="width: 50%">
+                                <b>Number :</b> @Model.EpayNumber
+                            </td>
+                        </tr>
+
+                        <tr>
+                            <td style="width: 50%">
+                                <b>Voucher Number:</b> @Model.EpayVNumber
+                            </td>
+                            <td style="width: 50%">
+                                <b>Voucher Date:</b> @Model.EpayVDate
+                            </td>
+                        </tr>
+
+                        <tr>
+                            <td colspan="2">
+                                <b>Package(s):</b> @Model.EpayVPackages
+                            </td>
+                        </tr>
+                        <tr>
+                            <td colspan="2">
+                                <b>Agreement Number.</b> @Model.AgreementNumber
+                            </td>
+                        </tr>
+                        <tr>
+                            <td colspan="2">
+                                <b>Net Amount (in Rs.):</b> @Model.EpayAmount
+                            </td>
+                        </tr>
+                        <tr>
+                            <td colspan="2">
+                                <b>Net Amount (in words):</b> @Model.EpayAmountInWord
+                            </td>
+                        </tr>
+
+
+                    </table>
+                </div>
+
+            </td>
+        </tr>
+
+    </table>
+</body>
+</html>

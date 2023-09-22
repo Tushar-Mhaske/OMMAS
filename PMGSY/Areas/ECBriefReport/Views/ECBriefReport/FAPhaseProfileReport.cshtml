@@ -1,0 +1,27 @@
+﻿@using MvcReportViewer
+
+@model PMGSY.Areas.ECBriefReport.Models.FAPhaseProfileReportViewModel
+
+
+    
+    @Html.MvcReportViewer("/PMGSYCitizen/FA_Phase_Profile_Report",
+     new
+     {
+         Level = Model.LevelCode,
+         State = Model.StateCode,
+         District = Model.DistrictCode,
+         Block = Model.BlockCode,
+         Agency = Model.AgencyCode,
+         Collaboration = Model.CollaborationCode,
+         
+         PMGSY = PMGSY.Extensions.PMGSYSession.Current.PMGSYScheme,
+         StateName = Model.StateName,
+         DistrictName = Model.DistName,
+         BlockName = Model.BlockName,
+         //BatchName = Model.BatchName,
+         CollabName = Model.CollabName,
+         AgencyName = Model.AgencyName,
+         //StatusName = Model.StatusName
+
+     },
+       new { Height = 600, Width = "100%", style = "border:none;" })

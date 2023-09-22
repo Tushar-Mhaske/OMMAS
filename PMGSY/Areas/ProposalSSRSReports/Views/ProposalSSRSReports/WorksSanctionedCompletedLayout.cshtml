@@ -1,0 +1,43 @@
+﻿@model PMGSY.Areas.ProposalSSRSReports.Models.WorksSanctionedCompletedViewModel
+
+<script src="~/Scripts/custom/Generic.js"></script>
+<script src="~/Areas/ProposalSSRSReports/Scripts/WorksSanctionedCompletedLayout.js"></script>
+<div id="loadFilters">
+    
+
+    <form id="frmWorksSanctionedCompletedLayout">
+        @Html.AntiForgeryToken()
+        @Html.ValidationSummary(true)
+        <table style="width: 100%;" class=" ui-state-default ui-corner-bottom">
+            <tr style="height: 40px;">
+                <td style="width: 2%;"></td>
+                <td style="text-align: left; width: 8%;">
+                    @Html.LabelFor(model => model.Month)
+                </td>
+
+                <td style="width: 25%;">
+
+                    @Html.DropDownListFor(model => model.Month, new SelectList(Model.MonthList, "Value", "Text"), new { @tabindex = 1, @id = "MonthList", @style = "width:150px" })
+                    @Html.ValidationMessageFor(m => m.Month)
+
+                </td>
+                <td style="text-align: left; width: 5%;">
+                    @Html.LabelFor(model => model.Year)
+                </td>
+                <td style="width: 25%;">
+
+                    @Html.DropDownListFor(model => model.Year, new SelectList(Model.YearList, "Value", "Text"), new { @id = "YearList", @tabindex = 2, @style = "width:150px" })
+                    @Html.ValidationMessageFor(m => m.Year)
+                </td>
+                <td style="width: 25%;">
+
+                    <input type="button" id="btnView" class="button" title="View" value="View" tabindex="3" />
+                </td>
+            </tr>
+        </table>
+    </form>
+</div>
+
+<div id="dvloadReport">
+
+</div>

@@ -1,0 +1,60 @@
+﻿@{
+    ViewBag.Title = "MonitorProficiencyTestScore";
+}
+
+<script src="~/Scripts/custom/Generic.js"></script>
+<script src="~/Scripts/QualityMonitoring/MonitorProficiencyTestScore.js"></script>
+<script src="~/Scripts/jquery-ui.js"></script>
+<script src="~/Scripts/jquery.validate.min.js"></script>
+<script src="~/Scripts/jquery.validate.unobtrusive.min.js"></script>
+
+@Html.Hidden("isUserEnableProficiencyTest", (String)ViewData["isUserEnableProficiencyTest"])
+
+@if ((String)ViewData["isUserEnableProficiencyTest"] == "Y")
+{
+
+    <table style="margin-right: 15px; margin-top: 10px; margin-bottom: 10px">
+        <tbody>
+            <tr>
+                <td>
+                    <div style="padding: 0.3rem; cursor: pointer; width:100%" class="jqueryButton" id="AddScore">
+                        <span class="ui-icon ui-icon-circle-plus" style="float: left; margin-right: 0.3em;"></span><strong>
+                            Add Score
+                        </strong>
+                    </div>
+                </td>
+
+                <td>
+                    <div style="padding: 0.3rem; cursor: pointer; width:100%; margin-left: 2rem" class="jqueryButton" id="DownloadTemplate">
+                        <span class="ui-icon ui-icon-circle-plus" style="float: left; margin-right: 0.3em"></span><strong>
+                            Download Template Sheet
+                        </strong>
+                    </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+
+    <center>
+
+        <div id="formScore"></div>
+
+        <div id="divListScore" style="margin-top:20px; width:100%">
+            <table id="tbScoreList"></table>
+            <div id="pagerScore"></div>
+        </div>
+
+        <div id="divListScoreDetails" style="margin-top:20px; width:100%">
+            <table id="tbScoreListDetails"></table>
+            <div id="pagerScoreDetails"></div>
+        </div>
+    </center>
+}
+else
+{
+    <div style="padding: 10px; font-size: 15px;"> Access to this menu is restricted for current user !! </div>
+}
+
+
+
+

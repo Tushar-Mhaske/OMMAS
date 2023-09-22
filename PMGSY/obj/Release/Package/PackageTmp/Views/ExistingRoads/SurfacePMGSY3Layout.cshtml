@@ -1,0 +1,199 @@
+﻿@model PMGSY.Models.ExistingRoads.SurfaceTypeViewModel
+<script src="~/Scripts/custom/Generic.js"></script>
+
+<script src="~/Scripts/ExistingRoads/SurfacePMGSY3Layout.js"></script>
+<center>
+
+    <div id="divSurfaceType">
+        <form id="frmSurfaceType">
+            @Html.AntiForgeryToken()
+        @Html.HiddenFor(model => model.MAST_ER_ROAD_CODE)
+        @Html.HiddenFor(model => model.EncryptedRoadCode)
+        @Html.HiddenFor(model => model.Operation)
+        @Html.HiddenFor(model => model.MAST_ER_STR_CHAIN)
+        @Html.HiddenFor(model => model.SumOfAllSurfaceLength)
+        @Html.HiddenFor(model => model.StartChainageOfRoad)
+        @Html.HiddenFor(model => model.MAST_SURFACE_SEG_NO)
+        @Html.HiddenFor(model => model.EditModeEndChainage)
+        @if (Model.Operation == "U")
+        { 
+            @Html.HiddenFor(model => model.MAST_ER_END_CHAIN)
+                            
+        }
+        @Html.ValidationSummary(true)
+
+             <div id="divError" class="ui-state-error ui-corner-all" style="text-align: left; display: none; width: 90%">
+                <span class="ui-icon ui-icon-alert" style="float: left;"></span>                   
+                <span></span>
+         </div>
+                     
+            <div style="height:20px; width: 90%; text-align:left; padding-top: 0.6em;" class="ui-state-default ui-corner-all" > 
+                   &nbsp; <strong> Note :</strong>  Fields marked with * are mandatory.
+         </div>
+
+
+            <table id="Table1"  cellspacing="0" cellpadding="3" class="rowstyle" style="margin-top:0px; text-align:left; border:ridge 0.1em #ccc; width:90%; padding-top:5px; padding-left:5px; padding-right:5px; padding-bottom:5px;">
+           
+               <tr>
+                <td style="width:15%">
+                    @Html.LabelFor(model => model.MAST_SURFACE_CODE)<span style="color:red">*</span>
+                </td>
+                <td style="width:25%">  @*@Html.ValidationMessageFor(model => model.MAST_SURFACE_CODE)*@
+                   @Html.DropDownListFor(model => model.MAST_SURFACE_CODE, Model.SurfaceType, new { @title = "Please Select Surface Type", @tabindex = 1 })
+                    @Html.ValidationMessageFor(model => model.MAST_SURFACE_CODE)
+                   </td>
+                <td  style="width:15%">
+                       @Html.LabelFor(model => model.MAST_ER_SURFACE_CONDITION)<span style="color:red">*</span>
+                </td>
+                <td colspan="3">@*@Html.ValidationMessageFor(model => model.MAST_ER_SURFACE_CONDITION, "")*@
+                   @Html.DropDownListFor(model => model.MAST_ER_SURFACE_CONDITION, Model.RoadCondition, new { @title = "Please Select Road Condition", @tabindex = 2 })
+                    @Html.ValidationMessageFor(model => model.MAST_SURFACE_CODE)
+                </td>
+               
+            </tr>
+
+
+                <tr>
+                    <td>
+                    </td>
+                <td>
+                   @if (Model.Operation == "A")
+                   {
+                  @*@Html.ValidationMessageFor(model => model.MAST_SURFACE_CODE)
+                    *@}
+               </td>
+                    <td>                       
+                    </td>
+                <td>                   
+                   @*@Html.ValidationMessageFor(model => model.MAST_ER_SURFACE_CONDITION, "")*@
+                </td>
+                <td>
+                </td>
+                <td>
+                </td>
+            </tr>
+
+
+                <tr>
+                     <td>
+                     @Html.LabelFor(model => model.MAST_ER_STR_CHAIN)
+                </td>
+                <td>
+                @if (Model.Operation == "A")
+                {
+               <strong>
+                   <span id="spnStartChainnage" style="text-align:right"></span>
+                  @* @Html.DisplayFor(model=>model.MAST_ER_STR_CHAIN)
+                   @Html.HiddenFor(model=>model.MAST_ER_STR_CHAIN)*@
+               </strong> 
+                }
+                else
+                {
+                
+                  @Html.DisplayFor(model => model.MAST_ER_STR_CHAIN)
+                }
+                </td>
+
+                <td>
+                    @Html.LabelFor(model => model.MAST_ER_END_CHAIN)<span style="color:red">*</span>
+                </td>
+                <td> @* @Html.ValidationMessageFor(model => model.MAST_ER_END_CHAIN, "",new { id="errMsgEndChain"})*@
+                  @if (Model.Operation == "A")
+                  {
+                    <span id="showEndchainage">
+                    @Html.TextBoxFor(model => model.MAST_ER_END_CHAIN, new { @maxlength = "8", @title = "Enter End Chainage", @tabindex = 3, @placeholder = "Enter End Chainage" })
+                        @Html.ValidationMessageFor(model => model.MAST_ER_END_CHAIN)
+                    
+                    </span>
+                  }
+                  else
+                  {
+                    <span id="hideEndchainage">
+                        @Html.DisplayFor(model => model.MAST_ER_END_CHAIN)
+
+                    </span>                    
+                  }
+               </td>
+                <td>
+                    @Html.LabelFor(model => model.MAST_ER_SURFACE_LENGTH)
+                  @Html.HiddenFor(model => model.MAST_ER_SURFACE_LENGTH)
+                </td>
+                <td colspan="3">
+                      @if (Model.Operation == "A")
+                      {
+                     <span id="spnSurfaceLEngth" style="font-weight:bold"></span>
+                      }
+                      else
+                      {
+                     @Html.DisplayFor(m => m.MAST_ER_SURFACE_LENGTH)
+                      }
+                </td>
+            </tr>
+  <tr>
+                <td  style="colspan="3">
+                </td>
+                
+                <td colspan="4">
+                  @if (Model.Operation == "A")
+                  {
+                    <span id="showEndchainage">
+                    @Html.ValidationMessageFor(model => model.MAST_ER_END_CHAIN, "", new { id = "errMsgEndChain" })
+                    </span>
+                  }
+               </td>
+                
+            </tr>
+       <tr>
+             <td >
+                    @Html.LabelFor(model => model.SumOfAllSurfaceLength)
+            </td>
+           <td> 
+                    @*@Html.DisplayFor(model=>model.SumOfAllSurfaceLength)*@
+               <label>@Model.SumOfAllSurfaceLength</label>  Kms.
+           </td>
+           
+
+            <td>
+                @Html.LabelFor(model => model.SurfaceLenghEntered)
+            </td>            
+            <td >
+                <span class="spanPavementLength" style="font-weight:bold">
+                   @*@Html.DisplayFor(model=>model.SurfaceLenghEntered,new {id="lblEnteredLength"})*@
+                    @Model.SurfaceLenghEntered
+                   @Html.HiddenFor(model => model.SurfaceLenghEntered)
+                </span> Kms.
+            </td>
+
+             <td>
+                    @Html.LabelFor(model => model.Remaining_Length)
+                    @Html.HiddenFor(model => model.Remaining_Length)
+                </td>
+                 <td colspan="6">
+                    <span id="spanRemainingLength" style="font-weight:bold">
+                    @*@Html.DisplayFor(model => model.Remaining_Length,  new { @id="lblRemainingLength"})*@
+                    @Model.Remaining_Length
+                 </span> Kms.
+                </td>
+        </tr>
+                    
+            <tr id="rowAdd">
+                <td colspan="6" style="text-align:center">
+                    <input type="button" value="Save" class="jqueryButton" id="btnSave" name="btnSave" title="Save Surface Details" tabindex="5"/>
+                    <input type="reset" value="Reset" class="jqueryButton" id="btnReset" name="btnReset"  title="Reset" tabindex="6"/>
+                </td>            
+            </tr>
+
+            <tr id="rowUpdate" style="display:none">
+                <td colspan="6" style="text-align:center">
+                   <input type="button" value="Update" class="jqueryButton" id="btnUpdate" name="btnUpdate" title="Update Surface Details" tabindex="5"/>
+                   <input type="button" value="Cancel" class="jqueryButton" id="btnCancel" name="btnCancel"  title="Cancel" tabindex="6"/>
+                </td>            
+            </tr>
+        </table>
+        </form>
+    </div>
+
+</center>
+
+
+

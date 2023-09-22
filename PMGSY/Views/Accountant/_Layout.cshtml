@@ -1,0 +1,146 @@
+﻿@using MVCHtmlHelper.Helpers;
+@using PMGSY.Extensions;
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <META Http-Equiv="Cache-Control" Content="no-cache"/>
+    <META Http-Equiv="Pragma" Content="no-cache"/>
+    <META Http-Equiv="Expires" Content="0"/>
+
+    <meta charset="utf-8" />
+    <title>PMGSY</title>
+    <link href="~/favicon.ico" rel="shortcut icon" type="image/x-icon" />
+    <meta name="viewport" content="width=device-width" />
+    @Styles.Render("~/Content/css")
+    @RenderSection("styles", required: false)
+    @Scripts.Render("~/bundles/jquery")
+    @Scripts.Render("~/bundles/menubar")
+    @* @Scripts.Render("~/bundles/jqgrid")*@
+    @Scripts.Render("~/bundles/plugins")
+    @* @Scripts.Render("~/bundles/jqueryval")*@
+    @Scripts.Render("~/bundles/jqueryBlockUI")
+
+
+    <script src="~/Scripts/jquery.validate.js"></script>
+    <script src="~/Scripts/jquery.validate.unobtrusive.min.js"></script>
+    @*        <script src="~/Scripts/i18n/grid.locale-en.min.js"></script>
+        <script src="~/Scripts/i18n/jquery.jqGrid.src.min.js"></script>*@
+    <script src="~/Scripts/i18n/grid.locale-en.min.js"></script>
+    <script src="~/Scripts/i18n/jquery.jqGrid.src.js"></script>
+    <script src="~/Scripts/HighChart/highcharts.js"></script>
+    <script src="~/Scripts/Layout.js" type="text/javascript"></script>
+</head>
+   
+<body id="mainbody">
+    @Html.Hidden("PMGSY2StateCode",PMGSYSession.Current.StateCode)
+    <div id="header" class="ui-corner-all" style="border: solid #CCC 1px; margin-top: 5px; height: 5%;">
+         <div id="UserLogin" style="cursor:pointer;font-size: 10.5px; color: #7D0000; float: right; padding: 2px 2px 3px 2px; margin-bottom: 1px; margin-right:170px; border: none; border-radius: 8px;">
+            <table>
+                <tr>
+                    <td> <span> <img src="~/Content/images/User-yellow-icon.png" /> </span> </td>
+                    <td>
+                            @if (PMGSYSession.Current.UserName != null)
+                            {
+                                @Html.Hidden("hdnRoleHomePage", PMGSYSession.Current.HomePageURL.ToString())
+                                <span style=" border-radius: 8px;padding-bottom:5px;">&nbsp;&nbsp;Welcome <b>@PMGSYSession.Current.UserName</b></span>
+                            }
+                            @if (PMGSYSession.Current.RoleName != null)
+                            {
+                                <span style="padding-bottom:5px;"> ( @PMGSYSession.Current.RoleName ) </span>
+                            }
+
+                            @if (PMGSYSession.Current.ModuleName != null)
+                            {
+                                <span style="padding-bottom:5px;">&nbsp;<b class="verticalSeparator"></b>&nbsp;&nbsp;</span><span id="spnModuleName" style="padding-bottom:2px;border-radius: 8px;">@PMGSYSession.Current.ModuleName</span>
+                            }
+                            &nbsp;<b class="verticalSeparator"></b>&nbsp;
+                            <span><b>Data Entry</b></span>
+                            @if (PMGSYSession.Current.PMGSYScheme != null)
+                            {
+                                 <b class="verticalSeparator"></b>
+                                 <span id="spnScheme" style="padding-bottom:5px;">&nbsp;&nbsp;<b>PMGSY-</b>@PMGSYSession.Current.PMGSYScheme  </span>
+                            }
+                    </td>
+                </tr>
+            </table>
+        </div>
+        
+    </div>
+  
+    <br />
+
+
+    <div class="demo" style="margin-top: 0px;">
+
+        @{ if (PMGSYSession.Current.UserId != 0)
+           {
+            @Html.Raw(Html.Menu())
+           }}
+
+    </div>
+
+    <br />
+
+  
+    <div id="mainDiv">
+        @RenderBody()
+    </div>
+
+        
+    <strong>
+        <hr class="ui-corner-all" style="background-color:#feddba;border:none;height:3px;width:100%;" />
+    </strong>     
+    <footer id="footer" style="margin-top:-4px;" class="ui-corner-all">
+        <div class="content-wrapper" style="vertical-align:middle;">
+            <table style="font-size:10.5px;width:100%;color: #2e2d2d;vertical-align:middle;">
+                <tr>
+                    <td style="width:73.5%;text-align:left;">
+                        <table style="margin-top:-5px;">
+                            <tr>
+                                <td style="/*display:none*/">
+                                    @if (PMGSYSession.Current.StateName != null)
+                                    {
+                                        <span><b>&nbsp;&nbsp;State :  @PMGSYSession.Current.StateName</b></span>
+                                    }
+                                    @if (PMGSYSession.Current.DistrictName != null)
+                                    {
+                                        <span><b>|&nbsp;District :  @PMGSYSession.Current.DistrictName</b></span>
+                                    }
+                                    @if (PMGSYSession.Current.DepartmentName != null)
+                                    {
+                                        <span><b>|&nbsp;Department : @PMGSYSession.Current.DepartmentName</b></span>
+                                    }
+                                    @if (!string.IsNullOrEmpty(PMGSYSession.Current.FundType))
+                                    {
+                                        <span><b>|&nbsp;Fund Type : 
+                                                                    @if (PMGSYSession.Current.FundType.Equals("P"))
+                                                                    {
+                                                                        <label>Programme Fund</label>
+                                                                    }
+                                                                    else if (PMGSYSession.Current.FundType.Equals("A"))
+                                                                    {
+                                                                        <label>Administrative Fund</label>
+                                                                    }
+                                                                    else if (PMGSYSession.Current.FundType.Equals("M"))
+                                                                    {
+                                                                        <label>Maintenance Fund</label>
+                                                                    }
+                                        </b></span>
+                                    }
+                                </td>
+                            </tr>
+                        </table>
+                    </td>
+                    <td class="verticalLine"> </td>
+                    <td rowspan="2" style="width:26.5%;padding-left:10px;text-align:right;padding-right:10px;vertical-align:top;">
+                        <span>&copy; @DateTime.Now.Year NRRDA. All rights reserved.</span>
+                    </td>
+                </tr>
+            </table>
+        </div>
+    </footer>
+
+
+    @RenderSection("scripts", required: false)
+</body>
+</html>

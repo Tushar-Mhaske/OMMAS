@@ -1,0 +1,138 @@
+﻿@model PMGSY.Areas.PMIS.Models.PMISDataCorrectionModel
+
+@{
+    ViewBag.Title = "PMISDataDeletion";
+}
+
+<style>
+    .preview img {
+        max-width: 450px;
+    }
+
+    .img {
+        border-width: 0;
+    }
+</style>
+
+<script src="~/Scripts/custom/Generic.js"></script>
+<script src="~/Scripts/jquery.ui.datepicker.js"></script>
+<script src="~/Scripts/jquery.ui.accordion.js"></script>
+<script src="~/Scripts/jquery.ui.tabs.js"></script>
+<script src="~/Scripts/Bootstrap/bootstrap.min.js"></script>
+<script src="~/Areas/PMIS/Scripts/PMISDataCorrection.js"></script>
+
+<center>    
+    @{
+        <div style="width:100%; height:20px;border:none; margin-top:5px; margin-bottom:-15px; " class="ui-state-default">
+            <span style="float:right;margin-right:2Px; margin-top:2px" id="idFilterDiv" class="ui-icon ui-icon-circle-triangle-n"></span>     
+        </div>
+        
+        <div style="width: 100%; border:none; margin-top:-15px; margin-bottom:10px;" class="ui-state-default">      
+        <div id="divFilterForm">
+            <form id="FilterForm">                     
+                <center>
+                    <table style="margin-top:10px; margin-bottom:5px">
+                        <tr>
+                           
+                           @*  <td style="text-align:left;width:5%">*@
+                            
+                                 <td style="text-align:right;width:4%">
+                                    @Html.Label("State")<label style="color: red;"> *</label> 
+                                 </td>
+                                 <td style="text-align:center;width:15%">
+                                     @Html.DropDownListFor(model => model.StateCode, new SelectList(Model.StateList, "Value", "Text"), new { @id = "ddlState", @title = "State", @style = "width:200px;", @tabindex = 1 })                 
+                                        <br />
+                                     @Html.ValidationMessageFor(m => m.StateCode)                 
+                                 </td>
+                                 <td style="text-align:right;width:4%">
+                                     @Html.Label("District")<label style="color: red;"> *</label> 
+                                 </td>
+                                 <td style="text-align:center;width:15%">
+                                        @Html.DropDownListFor(model => model.DistrictCode, new SelectList(Model.DistrictList, "Value", "Text"), new { @id = "ddlDistrict", @title = "District", @style = "width:200px;", @tabindex = 2 })                 
+                                        <br />
+                                     @Html.ValidationMessageFor(m => m.DistrictCode)                            
+                                 </td>
+                             <td style="text-align:right;width:4%">
+                                     @Html.Label("Block")
+                                 </td>
+                                 <td style="text-align:center;width:15%">
+                                        @Html.DropDownListFor(model => model.BlockCode, new SelectList(Model.BlockList, "Value", "Text"), new { @id = "ddlBlock", @title = "Block", @style = "width:200px;", @tabindex = 3 })                 
+                                        <br />
+                                     @Html.ValidationMessageFor(m => m.BlockCode)                            
+                                 </td>
+                             <td style="text-align:right;width:5%">
+                                     @Html.Label("Sanction Year")
+                                 </td>
+                                 <td style="text-align:center;width:15%">
+                                        @Html.DropDownListFor(model => model.Sanction_Year, new SelectList(Model.Sanction_Year_List, "Value", "Text"), new { @id = "ddlYear", @title = "Year", @style = "width:150px;", @tabindex = 4 })                 
+                                        <br />
+                                     @Html.ValidationMessageFor(m => m.Sanction_Year)                            
+                                 </td>
+
+                              <td style="text-align:right;width:4%">
+                                     @Html.Label("Batch")
+                                 </td>
+                                 <td style="text-align:center;width:15%">
+                                        @Html.DropDownListFor(model => model.Batch, new SelectList(Model.BatchList, "Value", "Text"), new { @id = "ddlBatch", @title = "Batch", @style = "width:150px;", @tabindex = 5 })                 
+                                        <br />
+                                     @Html.ValidationMessageFor(m => m.Batch)                            
+                                 </td>
+                            <td style="text-align:right;width:4%">
+                                     @Html.Label("Work Type")
+                                 </td>
+                                 <td style="text-align:center;width:15%">
+                                        @Html.DropDownListFor(model => model.ListType, new SelectList(Model.ListTypeList, "Value", "Text"), new { @id = "ddlListType", @title = "ListType", @style = "width:150px;", @tabindex = 6 })                 
+                                        <br />
+                                     @Html.ValidationMessageFor(m => m.ListType)                            
+                                 </td>
+                        </tr>
+                        <tr>
+                            <td colspan="12">
+                                <center>
+                                <table>
+                                    <td style ="flex-align:center; margin-top:10px;">
+                                        <input type="button" style ="margin-top:10px;" class="jqueryButton" value="View Details"  title="Click here to view PMIS data deletion list" id="btnPMISDataDetail" name ="btnPMISDataDetail"/>
+                                    </td>
+                                </table>
+                                    </center>
+                            </td>              
+                        </tr>
+                    </table>                           
+                </center>
+            </form>  
+        </div>  
+        </div>
+
+    <div id="dvPMISDataCorrection" style="margin-top:20px; width:100%; margin-bottom:20px;">
+        <table id="tbPMISDataCorrectionList"></table>
+        <div id="dvPMISDataCorrectionListPager"></div>
+    </div>
+    <br />
+    <br />
+         <div id="dvPMISDataDeleteProgressPlan" style="margin-top:20px; width:40%; border:1px inset grey; border-radius:5px">
+        <h4 style="text-align:left;margin:2px; height:30px; background-color:#ffcc65"><span style="margin-top:5px;">&nbsp;&nbsp; Plans and Progress List</span>
+            <a href="#"  style="float: right; height:5px; width:5px; margin-right:20px; margin-top:5px;"> <img src=""  class="ui-icon ui-icon-closethick" onclick="CloseDataDeletePlanProgress();" /></a>
+        </h4>       
+            <table id="tbPMISDataDeleteProgressPlan"></table>
+        <div id="dvPMISDataDeleteProgressPlanPager"></div>
+        <br />
+        <br />
+    </div>
+        
+        
+        
+     // update road detail form page
+    <div id="dvPMISDataDeleteUpdateDetails" style="margin-top:20px; width:40%; border:1px inset grey; border-radius:5px">
+        <h4 style="text-align:left;margin:2px; height:30px; background-color:#ffcc65"><span style="margin-top:5px;">&nbsp;&nbsp; Update Details</span>
+            <a href="#"  style="float: right; height:5px; width:5px; margin-right:20px; margin-top:5px;"> <img src=""  class="ui-icon ui-icon-closethick" onclick="CloseDataDeleteUpdateForm();" /></a>
+            
+        </h4>       
+          <div id="dvPMISDataDeleteUpdateForm"></div>
+        <br />
+        <br />
+    </div>     
+        
+        
+        
+    }
+</center>

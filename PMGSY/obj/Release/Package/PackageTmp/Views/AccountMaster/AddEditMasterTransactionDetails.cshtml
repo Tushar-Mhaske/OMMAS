@@ -1,0 +1,222 @@
+﻿@model PMGSY.Models.AccountMaster.MasterTransactionViewModel
+
+<script src="~/Scripts/AccountMaster/MasterTransaction.js"></script>
+<div id="divError" style="text-align: left; margin-left: 10px; margin-right: 15px; margin-top: 5px; margin-bottom: 5px; display: none" class="ui-state-error ui-corner-all">
+    <span class="ui-icon ui-icon-alert " style="float: left"></span>
+    <span id="errorSpan"></span>
+</div>
+
+<form id="AccountMasterTransactionForm">
+    @Html.ValidationSummary(true)
+    @Html.HiddenFor(m => m.EncryptedTxnID)
+    <table id="tblOptions" class="table-content ui-corner-all" style="width: 98%; border: .1em solid gray; margin-top: 5px">
+        <tr>
+            <td colspan="8">
+                @if (Model.IsParentTransaction)
+                {
+                    @Html.RadioButtonFor(m => m.ParentSubTransaction, "P", new { @id = "rdoParentTransaction", @tabindex = "1", @title = "Parent Transaction", @checked = "checked" }) @Html.Label("Parent")
+                    @Html.RadioButtonFor(m => m.ParentSubTransaction, "S", new { @id = "rdoSubTransaction", @tabindex = "1", @title = "Sub Transaction" }) @Html.Label("Sub Transaction")
+                }
+                else
+                {
+                    @Html.RadioButtonFor(m => m.ParentSubTransaction, "P", new { @id = "rdoParentTransaction", @tabindex = "1", @title = "Parent Transaction" }) @Html.Label("Parent")
+                    @Html.RadioButtonFor(m => m.ParentSubTransaction, "S", new { @id = "rdoSubTransaction", @tabindex = "1", @title = "Sub Transaction", @checked = "checked" }) @Html.Label("Sub Transaction")
+                }
+                @Html.ValidationMessageFor(model => model.ParentSubTransaction)
+            </td>
+            @Html.HiddenFor(m => m.FUND_TYPE)
+        </tr>
+
+        @if (Model.IsParentTransaction)
+        {
+
+            <tr class="trParentTransaction">
+                @* <td style="text-align: left; width: 10%">@Html.LabelFor(m => m.FUND_TYPE) :<label style="color: red">*</label></td>
+                <td style="text-align: left; width: 15%">
+                    @Html.DropDownListFor(model => model.FUND_TYPE, Model.PopulateFundType, new { Title = "Fund Type", tabindex = "2", @id = "ddlFundType" })
+                    @Html.ValidationMessageFor(model => model.FUND_TYPE)
+                </td>*@
+                <td style="text-align: left; width: 10%">@Html.LabelFor(m => m.OP_LVL_ID) :<label style="color: red">*</label></td>
+                <td style="text-align: left; width: 15%">
+                    @if (Model.EncryptedTxnID == null)
+                    {
+                        @Html.DropDownListFor(model => model.OP_LVL_ID, Model.PopulateLevel, new { Title = "Level", tabindex = "2", @id = "ddlLevel" })
+                    }
+                    else
+                    {
+                        @Html.DropDownListFor(model => model.OP_LVL_ID, Model.PopulateLevel, new { Title = "Level", tabindex = "2", @id = "ddlLevel", @disabled = "disabled" })
+                    }
+                    
+                    @Html.ValidationMessageFor(model => model.OP_LVL_ID)
+                </td>
+                <td style="text-align: left; width: 10%">@Html.LabelFor(m => m.CASH_CHQ) :<label style="color: red">*</label></td>
+                <td style="text-align: left; width: 15%">
+                    @Html.DropDownListFor(model => model.CASH_CHQ, Model.PopulateCashCheque, new { Title = "Cash Cheque", tabindex = "2", @id = "ddlCashCheque" })
+                    @Html.ValidationMessageFor(model => model.CASH_CHQ)
+                </td>
+
+                <td style="text-align: left; width: 10%">@Html.LabelFor(m => m.BILL_TYPE) :<label style="color: red">*</label></td>
+                <td style="text-align: left; width: 15%">
+                    @Html.DropDownListFor(model => model.BILL_TYPE, Model.PopulateBillType, new { Title = "Bill Type", tabindex = "2", @id = "ddlBillType" })
+                    @Html.ValidationMessageFor(model => model.BILL_TYPE)
+                </td>
+
+
+            </tr>
+            
+            <tr class="trParentTransaction">
+
+                <td style="text-align: left;">@Html.LabelFor(m => m.TXN_DESC) :<label style="color: red">*</label></td>
+                <td style="text-align: left;">
+                    @Html.TextAreaFor(m => m.TXN_DESC, new { @title = "Description", @tabindex = "4", @maxlength = "255", @style = "height: 29px; width: 225px;" })
+                    @Html.ValidationMessageFor(model => model.TXN_DESC)
+                </td>
+                <td>
+                    @Html.LabelFor(m => m.IS_OPERATIONAL):<label style="color: red">*</label>
+                </td>
+
+                <td style="text-align: left;">
+
+                    @if (Model.EncryptedTxnID == null)
+                    {
+                        @Html.RadioButtonFor(m => m.IS_OPERATIONAL, false, new { @id = "rdoOperationalNo", @tabindex = "12", @title = "No", @disabled = "disabled" })@Html.Label("No")
+                        @Html.RadioButtonFor(m => m.IS_OPERATIONAL, true, new { @checked = true, @id = "rdoOperationalYes", @tabindex = "12", @title = "Yes" })                     @Html.Label("Yes")
+                    }
+                    else
+                    {
+                        @Html.RadioButtonFor(m => m.IS_OPERATIONAL, false, new { @id = "rdoOperationalNo", @tabindex = "12", @title = "No" })@Html.Label("No")      
+                        @Html.RadioButtonFor(m => m.IS_OPERATIONAL, true, new { @id = "rdoOperationalYes", @tabindex = "12", @title = "Yes" })                     @Html.Label("Yes")
+                    }
+                    @Html.ValidationMessageFor(model => model.IS_OPERATIONAL)
+                    @Html.Hidden("IS_OPERATIONAL", true)
+
+                </td>
+
+                @*<td>
+                    @Html.LabelFor(m => m.IS_REQ_AFTER_PORTING):<label style="color: red">*</label>
+                </td>*@
+
+                <td style="text-align: left;" colspan="2">
+                    @Html.LabelFor(m => m.IS_REQ_AFTER_PORTING):<label style="color: red">*</label>
+                    @Html.RadioButtonFor(m => m.IS_REQ_AFTER_PORTING, false, new { @id = "rdoIsReqAfterPortingNo", @tabindex = "12", @title = "No" })@Html.Label("No")
+                    @Html.RadioButtonFor(m => m.IS_REQ_AFTER_PORTING, true, new { @checked = true, @id = "rdoIsReqAfterPortingYes", @tabindex = "12", @title = "Yes" })                     @Html.Label("Yes")
+                    @Html.ValidationMessageFor(model => model.IS_REQ_AFTER_PORTING)
+                </td>
+            </tr>
+        }
+        else
+        {
+            <tr class="trSubTransaction">
+                @*<td style="text-align: left; width: 05%"></td>*@
+
+                <td style="text-align: left; width: 10%">@Html.LabelFor(m => m.TXN_PARENT_ID) :<label style="color: red">*</label>
+                </td>
+                <td style="text-align: left; width: 15%">
+                    @if (Model.EncryptedTxnID == null)
+                    {
+                        @Html.DropDownListFor(model => model.TXN_PARENT_ID, Model.PopulateParentTxn, new { Title = "Parent Transaction", tabindex = "2", @id = "ddlParentTxn" })
+                    }
+                    else
+                    {
+                        @Html.DropDownListFor(model => model.TXN_PARENT_ID, Model.PopulateParentTxn, new { Title = "Parent Transaction", tabindex = "2", @id = "ddlParentTxn", @disabled = "disabled" })
+                    }
+                    @Html.ValidationMessageFor(model => model.TXN_PARENT_ID)
+                </td>
+
+                @* <td style="text-align: left; width: 10%">@Html.LabelFor(m => m.FUND_TYPE) :<label style="color: red">*</label></td>
+                <td style="text-align: left; width: 15%">
+                    @Html.DropDownListFor(model => model.FUND_TYPE, Model.PopulateFundType, new { Title = "Fund Type", tabindex = "2", @id = "ddlFundType" })
+                    @Html.ValidationMessageFor(model => model.FUND_TYPE)
+                </td>*@
+                <td style="text-align: left; width: 10%">@Html.LabelFor(m => m.OP_LVL_ID) :<label style="color: red">*</label></td>
+                <td style="text-align: left; width: 15%">
+                    @Html.DropDownListFor(model => model.OP_LVL_ID, Model.PopulateLevel, new { Title = "Level", tabindex = "2", @id = "ddlLevel", @disabled = "disabled" })
+                    @Html.ValidationMessageFor(model => model.OP_LVL_ID)
+                </td>
+                <td style="text-align: left; width: 10%">@Html.LabelFor(m => m.CASH_CHQ) :<label style="color: red">*</label></td>
+                <td style="text-align: left; width: 15%">
+                    @Html.DropDownListFor(model => model.CASH_CHQ, Model.PopulateCashCheque, new { Title = "Cash Cheque", tabindex = "2", @id = "ddlCashCheque" })
+                    @Html.ValidationMessageFor(model => model.CASH_CHQ)
+                </td>
+
+                <td style="text-align: left; width: 10%">@Html.LabelFor(m => m.BILL_TYPE) :<label style="color: red">*</label></td>
+                <td style="text-align: left; width: 15%">
+                    @Html.DropDownListFor(model => model.BILL_TYPE, Model.PopulateBillType, new { Title = "Bill Type", tabindex = "2", @id = "ddlBillType" })
+                    @Html.ValidationMessageFor(model => model.BILL_TYPE)
+                </td>
+
+
+            </tr>
+            
+            <tr class="trSubTransaction">
+
+                <td style="text-align: left;">@Html.LabelFor(m => m.TXN_DESC) :<label style="color: red">*</label></td>
+                <td style="text-align: left;">
+                    @Html.TextAreaFor(m => m.TXN_DESC, new { @title = "Description", @tabindex = "4", @maxlength = "255", @style = "height: 29px; width: 225px;" })
+                    @Html.ValidationMessageFor(model => model.TXN_DESC)
+                </td>
+
+                <td style="text-align: left;">@Html.LabelFor(m => m.TXN_NARRATION) :</td>
+                <td style="text-align: left;">
+                    @Html.TextAreaFor(m => m.TXN_NARRATION, new { @title = "Narration", @tabindex = "4", @maxlength = "255", @style = "height: 29px; width: 225px;" })
+                    @Html.ValidationMessageFor(model => model.TXN_NARRATION)
+                </td>
+                <td>
+                    @Html.LabelFor(m => m.IS_OPERATIONAL):<label style="color: red">*</label>
+                </td>
+
+                <td style="text-align: left;">
+
+                    @if (Model.EncryptedTxnID == null)
+                    {
+                        @Html.RadioButtonFor(m => m.IS_OPERATIONAL, false, new { @id = "rdoOperationalNo", @tabindex = "12", @title = "No", @disabled = "disabled" })@Html.Label("No")
+                        @Html.RadioButtonFor(m => m.IS_OPERATIONAL, true, new { @checked = true, @id = "rdoOperationalYes", @tabindex = "12", @title = "Yes" })                     @Html.Label("Yes")
+                    }
+                    else
+                    {
+                        @Html.RadioButtonFor(m => m.IS_OPERATIONAL, false, new { @id = "rdoOperationalNo", @tabindex = "12", @title = "No" })@Html.Label("No")      
+                        @Html.RadioButtonFor(m => m.IS_OPERATIONAL, true, new { @id = "rdoOperationalYes", @tabindex = "12", @title = "Yes" })                     @Html.Label("Yes")
+                    }
+                    @Html.ValidationMessageFor(model => model.IS_OPERATIONAL)
+                    @Html.Hidden("IS_OPERATIONAL", true)
+
+                </td>
+
+                @*<td>
+                    @Html.LabelFor(m => m.IS_REQ_AFTER_PORTING):<label style="color: red">*</label>
+                </td>*@
+
+                <td style="text-align: left;" colspan="2">
+                    @Html.LabelFor(m => m.IS_REQ_AFTER_PORTING):<label style="color: red">*</label>
+                    @Html.RadioButtonFor(m => m.IS_REQ_AFTER_PORTING, false, new { @id = "rdoIsReqAfterPortingNo", @tabindex = "12", @title = "No" })@Html.Label("No")
+                    @if (Model.EncryptedTxnID == null)
+                    {
+                        @Html.RadioButtonFor(m => m.IS_REQ_AFTER_PORTING, true, new { @checked = true, @id = "rdoIsReqAfterPortingYes", @tabindex = "12", @title = "Yes" })             }
+                    else
+                    {                    
+                        @Html.RadioButtonFor(m => m.IS_REQ_AFTER_PORTING, true, new { @id = "rdoIsReqAfterPortingYes", @tabindex = "12", @title = "Yes" })            
+                    }
+                    @Html.Label("Yes")
+                    @Html.ValidationMessageFor(model => model.IS_REQ_AFTER_PORTING)
+                </td>
+            </tr>
+          
+        }
+        <tr>
+            <th colspan="8" style="text-align: center">
+                @if (Model.EncryptedTxnID == null)
+                {
+                    <input type="button" id="btnSave" value="Save" class="jqueryButton ui-button ui-widget ui-state-default ui-corner-all ui-button-text-only Add" title="Save" tabindex="13" />
+                    <input type="reset" class="jqueryButton ui-button ui-widget ui-state-default ui-corner-all ui-button-text-only Add" name="btnReset" id="btnReset" title="Click here to reset" value='Reset' tabindex="14" />
+                }
+                else
+                {
+                    <input type="button" id="btnUpdate" value="Update" class="jqueryButton ui-button ui-widget ui-state-default ui-corner-all ui-button-text-only Update" title="Update" tabindex="13" />
+                    <input type="button" id="btnCancel" value="Cancel" class="jqueryButton ui-button ui-widget ui-state-default ui-corner-all ui-button-text-only Update" title="Cancel" tabindex="14" />
+                }
+            </th>
+        </tr>
+    </table>
+
+</form>
+

@@ -1,0 +1,65 @@
+﻿@*
+    * Project Id    :
+    * Project Name  :   OMMAS II
+    * Name          :   SanctionOrderView.cshtml
+    * Description   :   This View Adds the Sanction Order Details
+    * Author        :   Vikram Nandanwar
+    * Creation Date :   30/04/2014
+*@
+
+@model PMGSY.Models.Proposal.SanctionOrderViewModel
+
+
+<script src="~/Scripts/jquery.ui.datepicker.js"></script>
+<script src="~/Scripts/custom/Generic.js"></script>
+<script src="~/Scripts/Proposal/AddSanctionOrder.js"></script>
+
+<form id="frmAddEditSanctionOrder">
+    <div style="margin-left: 100px">
+        @Html.ValidationSummary(true)
+        @Html.AntiForgeryToken()
+    </div>
+    <div id="divError" class="ui-state-error ui-corner-all" style="text-align: left; display: none; width: 100%">
+        <span class="ui-icon ui-icon-alert" style="float: left;"></span>
+        <span></span>
+    </div>
+    <div style="height: 20px; width: 100%; text-align: left; padding-top: 0.6em;" class="ui-state-default ui-corner-all">
+        &nbsp; <strong>Note :</strong>  Fields marked with * are mandatory.
+    </div>
+    <table id="tb" cellpadding="3px" class="rowstyle" style="margin-top: 10px; text-align: left; border: ridge 0.1em #ccc; width: 100%; padding-top: 5px 5px 5px 5px;">
+        <tr></tr>
+        <tr>
+            <td style="width:10%">
+                @Html.HiddenFor(model=>model.StateCode)
+                @Html.HiddenFor(model=>model.YearCode)
+                @Html.HiddenFor(model=>model.StreamCode)
+                @Html.HiddenFor(model=>model.BatchCode)
+                @Html.HiddenFor(model=>model.PMGSYScheme)
+                @Html.HiddenFor(model=>model.Agency)
+            </td>
+            <td style="width: 10%;">
+                @Html.LabelFor(model=>model.IMS_ORDER_NUMBER)<label style="color:red">*</label>
+            </td>
+            <td style="width: 30%;">
+                @Html.TextBoxFor(model => model.IMS_ORDER_NUMBER, new { @id="txtOrderNumber",@placeholder = "Enter Order No...",@title="Enter Order Number",@maxlength=100})
+                @Html.ValidationMessageFor(model=>model.IMS_ORDER_NUMBER)
+            </td>
+            <td style="width: 10%;">
+                @Html.LabelFor(model=>model.IMS_ORDER_DATE)<label style="color:red">*</label>
+            </td>
+            <td style="width: 30%;">
+                @Html.TextBoxFor(model => model.IMS_ORDER_DATE, new { @id="txtOrderDate",@placeholder = "Enter Order Date...",@title="Enter Order Date"})
+                @Html.ValidationMessageFor(model=>model.IMS_ORDER_DATE)
+            </td>
+        </tr>
+         <tr>
+            <td colspan="5">
+                <center>
+                <input type="button" id="btnSave" name="btnSave" value="Save" class= "jqueryButton" title="Save Sanction Order Details" tabindex="6"  />  
+                <input type="reset" id="btnReset" name="btnReset" value="Reset" class= "jqueryButton" title="Reset" tabindex="7"  />
+                </center>
+            </td>
+        </tr>
+    </table>
+</form>
+

@@ -1,0 +1,187 @@
+﻿@*@model PMGSY.Models.Habi*@
+@model PMGSY.Models.HabitationConnectivity.HabitationConnectivityViewModel
+<script src="~/Scripts/custom/Generic.js"></script>
+
+<script src="~/Scripts/jquery.ui.tabs.js"></script>
+<script src="~/Scripts/jquery.ui.accordion.js"></script>
+<script src="~/Scripts/HabitationConnectivity/ListStateLogins.js"></script>
+
+
+
+<style type="text/css">
+    td {
+        height: 20px;
+    }
+</style>
+
+
+
+
+
+<center>
+    
+      <div style="height:20px;border:none; margin-top:5px; margin-bottom:-15px;width:96% " class="ui-state-default">
+            <span style="float:right;margin-right:2Px; margin-top:2px" id="spCollapseIconS" class="ui-icon ui-icon-circle-triangle-n"></span>     
+        </div>
+
+    <div id="dvSearchParameter" class="ui-state-default ui-corner-all" style=" border:none;width:96% "> 
+   <form id="frmSearchState">
+
+         <table style="width:100%" >
+                  <tr>
+                      <td style ="width:10%"></td>
+                
+                      <td style="text-align:left;width:5%;"  >
+                   @* @Html.Label("State")*@
+@*                          @Html.LabelFor(m=>m.State)*@
+                         @Html.Hidden("PMGSYSCHEME", PMGSY.Extensions.PMGSYSession.Current.PMGSYScheme)
+                </td>
+            
+                
+               @* <td style="width:20%;">
+                                          
+                    @Html.DropDownListFor(m=>m.State, ViewData["State"] as IEnumerable<SelectListItem>, new { @id = "ddlState", @title = "State" })
+                                     
+                </td>*@
+                           
+                <td style="text-align:left;width:5%;"  >
+                  @*  @Html.Label("Districts")*@
+                     @Html.LabelFor(m => m.District)
+                </td>
+            
+                
+                <td style="width:20%;">
+                                          
+                     @Html.DropDownListFor(m => m.District, ViewData["District"] as IEnumerable<SelectListItem>, new { @id = "ddlDistricts", @title = "District" })
+                                     
+                </td>
+
+                                 
+                <td style="width:5%;">
+                  @*  @Html.Label("Block")*@
+                     @Html.LabelFor(m => m.Block)
+                </td>
+            
+                
+                <td style="width:20%;" >
+                                          
+                     @Html.DropDownListFor(m => m.Block, ViewData["Blocks"] as IEnumerable<SelectListItem>, new { @id = "ddlBlocks", @title = "Block" })
+                                     
+                </td>
+            
+
+                      <td style="text-align:left"><input type="button" id="btnSearch" name="btnSearch" value="View" class= "jqueryButton" title="Search Habitation " /> 
+
+                      </td>
+            </tr>
+             <tr>
+                  <td style ="width:10%"></td>
+                 <td></td>
+                @* <td>
+                     @Html.ValidationMessageFor(model=>model.State)
+                 </td>*@
+                 <td></td>
+                 <td>
+                     @Html.ValidationMessageFor(model => model.District)
+                 </td>
+                 <td></td>
+                 <td>
+                     @Html.ValidationMessageFor(model => model.Block)
+                 </td>
+
+
+             </tr>
+         
+            
+         </table>
+
+   </form>
+    </div>
+
+
+<br />
+
+ <div id="dvHabitationDetails" style="width:96%" >
+
+ 
+    <table id="tbHabitationList">
+
+    </table>
+
+    <div id="dvHabitationPager"></div>
+
+
+</div>
+    </center>
+<br />
+<br />
+
+<center>
+    <div id="accordion" style="display: none;width:96%">
+        <h3 style="text-align: left"><a id="" href="#" style="font-size: .9em;">Habitations Details</a>
+            <a href="#" style="float: right;">
+                <img  class="ui-icon ui-icon-closethick" onclick="CloseHabitationDetails();" /></a>
+        </h3>
+
+       
+
+       <div id="details">
+           <div id="dvNote"style="height:20px; width: 100%; text-align:left; padding-top: 0.6em;" class="ui-state-default ui-corner-all" > 
+            &nbsp;<strong> Note :</strong> 1. Click on 'Change Status' Tab to change the status of habitation. 2. Only Unconnected Habitation not mapped with any proposal.
+          
+ </div>
+        <div id="tabs" >
+            <ul>
+                <li><a href="#tabs-1"><span id="spnHabsTitle"></span></a></li>
+                <li><a href="#tabs-2">Change Status</a></li>
+
+            </ul>
+            
+            <div id="tabs-1">
+              
+                <div id="existHabsDetails" style="text-align:left;">
+                    <table id="tbExistHabsList">
+                    </table>
+                    <div id="dvExistHabsListPager">
+                    </div>
+                    <br />
+                    <center>
+                           <input type="button" id="btnHabStatus" name="btnHabStatus" value="Update Status as per Census" class= "jqueryButton" title="Click Here To Change Habitation Status As Per Census 2001"  />  
+             
+                    </center>
+                </div>
+                
+            </div>
+            <div id="tabs-2" >
+                <div id="dvStateLoginList" style="text-align:left">
+                    <table id="tbStateLoginList">
+                    </table>
+                    <div id="dvStateLoginPager">
+                    </div>
+                    <br />
+                    <center>
+                      <input type="button" id="btnNotFeasible" name="btnNotFeasible" value="Not Feasible" class= "jqueryButton" title="Click Here To Change Habitation Status As Not Feasible "   /> 
+                     <input type="button" id="btnStateConnected" name="btnStateConnected" value="State Connected" class= "jqueryButton" title="Click Here To Change Habitation Status As State Connected"   /> 
+                      <input type="button" id="btnUnconnected" name="btnUnconnected" value="Unconnected" class= "jqueryButton" title="Click Here To Change Habitation Status As Unconnected" style="display:none"  />  
+                    </center>
+                </div>
+            </div>
+                 
+           @*  <div id="StatusCheck" style="display:none">
+            <center>*@
+                
+      @*  </center>*@
+
+        </div>
+           </div>
+       
+
+
+       </div>
+        
+    
+
+
+</center>
+
+

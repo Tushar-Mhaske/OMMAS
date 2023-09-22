@@ -1,0 +1,226 @@
+﻿@*
+    * Project Id    :
+    * Project Name  :   OMMAS II
+    * Name          :   QMTourDetails.cshtml
+    * Description   :   Render View for QMTourDetails.
+    * Author        :   Shyam Yadav
+    * Creation Date :   02/Feb/2014
+*@
+
+@model PMGSY.Models.QualityMonitoring.QMTourViewModel
+@{ Layout = null; }
+
+<!DOCTYPE html>
+
+<html>
+<head>
+    <link href="~/Content/jquery.ui.timepicker.css" rel="stylesheet" />
+    <script src="~/Scripts/jquery.ui.timepicker.js"></script>
+    <script src="~/Scripts/QualityMonitoring/QMTourDetails.js"></script>
+
+</head>
+<body>
+    @if (Model.Operation.Equals("C") && Model.IsAlreadyEntered)
+    {
+        <div style="width: 100%; border: none; margin-top: -15px; margin-bottom: 10px;">
+            <div id="divTourDetailsForm">
+                <table class="rowstyle" style="margin-top: 10px; margin-bottom: 5px; width: 70%">
+                    @*<tr>
+                    <td colspan="4"><b>Note : </b>The time is shown, using a 24-hour clock from 00 to 23.</td>
+                </tr>*@
+                    <tr>
+                        <td style="font-weight: bold; width: 100px;">
+                            @Html.LabelFor(model => model.MonitorName)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(m => m.MonitorName)
+                        </td>
+
+                        @* <td style="font-weight:bold;padding-left:20px;">
+                        @Html.LabelFor(model => model.InspMonthYear)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(m => m.InspMonthYear)
+                    </td>*@
+                    </tr>
+                    @*<tr>
+                    <td style="font-weight:bold;">
+                        @Html.LabelFor(model => model.StateName)
+                    </td>
+                    <td colspan="3">
+                        @Html.DisplayFor(m => m.StateName)
+                    </td>
+                </tr>
+                <tr>
+                    <td style="font-weight:bold;">
+                        @Html.LabelFor(model => model.FlightArrivalDate)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(m => m.FlightArrivalDate)
+                    </td>
+                    <td style="font-weight:bold;padding-left:20px;">
+                        @Html.LabelFor(model => model.FlightArrivalTime)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(m => m.FlightArrivalTime)
+                    </td>
+                </tr>
+                <tr>
+                    <td style="font-weight:bold;" >
+                        @Html.LabelFor(model => model.FlightDepartureDate)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(m => m.FlightDepartureDate)
+                    </td>
+                    <td style="font-weight:bold;padding-left:20px;">
+                        @Html.LabelFor(model => model.FlightDepartureTime)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(m => m.FlightDepartureTime)
+                    </td>
+                </tr>*@
+                </table>
+            </div>
+        </div>
+    }
+    else
+    {
+        <div style="width: 99%; border: none; margin-top: 15px; margin-bottom: 10px;">
+            <div id="divTourDetailsError" class="ui-state-error ui-corner-all" style="text-align: left; display: none; width: 100%">
+                <span class="ui-icon ui-icon-alert" style="float: left;"></span>
+                <span></span>
+                <span style="float: right;"><a style="float: right;" href="#">
+                    <img class="ui-icon ui-icon-closethick" onclick="closeDivError();" style="border: none; color: red; border-width: 0;">
+                </a></span>
+            </div>
+            <div id="divTourDetailsForm">
+                <center>
+                <form id="tourDetailsForm">
+                    @Html.HiddenFor(model => model.AdminScheduleCode)  
+                    @Html.HiddenFor(model => model.ScheduleMonthYearStartDate)
+                    @Html.HiddenFor(model => model.CurrentDate)   
+                    <table class="rowstyle" style="margin-top:10px; margin-bottom:5px; width:70%">
+                         <tr>
+                            <td style="font-weight:bold;">
+                                @Html.LabelFor(model => model.MonitorName)
+                            </td>
+                            <td>
+                                @Html.DisplayFor(m => m.MonitorName)
+                            </td>
+                            <td style="font-weight:bold;padding-left:20px;">
+                                @Html.LabelFor(model => model.InspMonthYear)
+                            </td>
+                            <td>
+                                @Html.DisplayFor(m => m.InspMonthYear)
+                            </td>
+                        </tr>
+                        <tr>
+                            <td style="font-weight:bold;">
+                                @Html.LabelFor(model => model.StateName)
+                            </td>
+                            <td colspan="3">
+                                @Html.DisplayFor(m => m.StateName)
+                            </td>
+                        </tr>
+                        <tr>
+                            <td style="font-weight:bold;" >
+                                @Html.LabelFor(model => model.FlightArrivalDate)
+                                <span style="color:red">*</span>
+                            </td>
+                            <td>
+                                @Html.EditorFor(m => m.FlightArrivalDate, String.Format("{0:dd/MM/yyyy}", Model.FlightArrivalDate))
+                                @Html.ValidationMessageFor(model => model.FlightArrivalDate) 
+                            </td>
+                            <td style="font-weight:bold;" >
+                                @Html.LabelFor(model => model.FlightArrivalTime)
+                                <span style="color:red">*</span>
+                            </td>
+                            <td>
+                                @Html.TextBoxFor(m => m.FlightArrivalTime, new { @placeholder = "hh:mm", @readonly = "readonly" })
+                                <img  id="tmArrival" class="ui-datepicker-trigger" src="/Content/Images/Sidebar_Search_Icon_16.png" alt="Click Here" title="Click Here for Arrival Time">
+                                @Html.ValidationMessageFor(model => model.FlightArrivalTime) 
+                            </td>
+                        </tr>
+                        <tr>
+                            <td style="font-weight:bold;" >
+                                @Html.LabelFor(model => model.FlightDepartureDate)
+                                <span style="color:red">*</span>
+                            </td>
+                            <td>
+                                @Html.EditorFor(m => m.FlightDepartureDate, String.Format("{0:dd/MM/yyyy}", Model.FlightDepartureDate))
+                                @Html.ValidationMessageFor(model => model.FlightDepartureDate) 
+                            </td>
+                            <td style="font-weight:bold;" >
+                                @Html.LabelFor(model => model.FlightDepartureTime)
+                                <span style="color:red">*</span>
+                            </td>
+                            <td>
+                                @Html.TextBoxFor(m => m.FlightDepartureTime, new { @placeholder = "hh:mm", @readonly = "readonly" })
+                                <img  id="tmDeparture" class="ui-datepicker-trigger" src="/Content/Images/Sidebar_Search_Icon_16.png" alt="Click Here" title="Click Here for Departure Time">
+                                @Html.ValidationMessageFor(model => model.FlightDepartureTime) 
+                            </td>
+                        </tr>
+                        @if (Model.Operation.Equals("U"))
+                        {
+                        <tr>
+                            <td style="font-weight:bold;" >
+                                @*@Html.Label("Expenditure (Rs.)")*@
+                                <label>Expenditure (Rs.)</label>
+                                <span style="color:red">*</span>
+                            </td>
+                            <td>
+                                @Html.TextBoxFor(m => m.totExpenditure, new { @id = "txtExpenditure" })
+                                @Html.ValidationMessageFor(model => model.totExpenditure) 
+                            </td>
+                            <td style="font-weight:bold;" >
+                                @Html.Label("Submission Date")
+                                <span style="color:red">*</span>
+                            </td>
+                            <td>
+                                @Html.EditorFor(m => m.tourSubmissionDate, String.Format("{0:dd/MM/yyyy}", Model.tourSubmissionDate, new { @id = "txtSubmissionDt" }))
+                                <br />
+                                @Html.ValidationMessageFor(model => model.tourSubmissionDate) 
+                            </td>
+                        </tr>
+                        
+                        <tr>
+                            <td style="text-align: left; width: 15%;font-weight:bold;">
+                    @Html.Label("Tour Report (pdf)")
+                                <span style="color:red">*</span>
+                </td>
+                <td style="width: 20%;">
+                    <input type="file" name="file" id="TourReport" tabindex="26" />
+                    <label id="lblTourReport"></label>
+                    <img id="imgTourReport" style="display: none; margin-left: 5px; cursor: pointer;" title="Click here to clear file" src="~/Content/images/close-icon.png" />
+                </td>
+                        </tr>
+                        }
+                        <tr>
+                            <td></td>
+                            <td  colspan="3" style="text-align:left;">
+                                @if (Model.Operation.Equals("C"))
+                                {
+                                    <input type="button" class="jqueryButton" value="Save" id="btnSaveTourDetails" name ="btnSaveTourDetails"/>
+                                }
+                                else if (Model.Operation.Equals("U"))
+                                {
+                                    @Html.HiddenFor(m => m.TourId)
+                                    <input type="button" class="jqueryButton" value="Update" id="btnUpdateTourDetails" name ="btnUpdateTourDetails"/>
+                                }
+                                <input type="button" class="jqueryButton" value="Cancel" id="btnCancelTourDetails" name ="btnCancelTourDetails"/>
+                            </td>
+                        </tr>
+                    </table>
+                </form>  
+            </center>
+            </div>
+        </div>
+    }
+
+    <div>
+        <table id="tbTourList"></table>
+        <div id="dvTourListPager"></div>
+    </div>
+
+</body>
+</html>

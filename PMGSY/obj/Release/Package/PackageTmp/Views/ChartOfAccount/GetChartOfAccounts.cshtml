@@ -1,0 +1,71 @@
+﻿@{
+    ViewBag.Title = "Chart Of Accounts ";
+}
+<!DOCTYPE html>
+
+<html>
+<head>
+
+<script src="~/Scripts/ChartOfAccounts.js"></script>
+<style>
+    .ui-jqgrid-bdiv
+    {
+        overflow-x : hidden !important;
+    }
+     th.ui-th-column div {
+            white-space: normal !important;
+            height: auto !important;
+            padding: 2px;
+        }
+
+        .ui-jqgrid .ui-jqgrid-resize {
+            height: 100% !important;
+        }
+
+</style>
+</head>
+<body style="width:100%">
+    <br />
+<div class="ui-widget-header innerDivHeader">    
+   Chart Of Account
+</div>
+<br />
+@*<center>
+<table  class="ui-widget-content ui-corner-all">
+    <tr >
+        <td>
+           <input type="radio" id="program" name="fund"  value="P" checked="checked"/> 
+            <label for="program">Program Fund </label>
+        </td>
+        <td>
+           <input type="radio" id="Admin" name="fund" value="A"/>  <label for="Admin">Admin Fund   </label> 
+        </td>
+          <td>
+           <input type="radio" id="maintain" name="fund" value="M" /><label for="maintain">Maintenance Fund  </label>  
+        </td>
+    </tr>
+</table>
+
+</center>
+<br />
+<table>
+
+    <tr>
+
+    </tr>
+
+</table>*@
+ <center>
+ <div style="width:98%">
+<table id="ChartOfAccount" ></table>
+<div id="ChartOfAccountpager"></div></div>
+</center>
+ </body>
+</html>
+
+
+
+    @* <div  style="height:auto; width:auto">
+        <iframe src="~/Content/Reports/ChartOfAccounts/ReportChartOfAccount.aspx"  frameborder="0"  scrolling="yes" seamless="seamless" width="1200" height="650" style="align-content:center"></iframe>
+    </div>*@
+

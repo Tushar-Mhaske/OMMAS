@@ -1,0 +1,227 @@
+﻿@model PMGSY.Models.RevokeClosing.RevokeClosingModel
+@using PMGSY.Extensions
+@using PMGSY.Common
+@{
+    ViewBag.Title = "RevokeClosing";
+}
+<style type="text/css">
+    div.CBHeader {
+        padding: 5px;
+        width: 98%;
+        display: inline-block;
+        cursor: pointer;
+        /*font:12px/14px Arial, Helvetica, sans-serif;*/
+        font-family: Trebuchet MS,Tahoma,Verdana,Arial,sans-serif;
+        color: #000;
+        background-color: #eee;
+        -moz-border-radius: 10px;
+        -webkit-border-radius: 10px;
+        -moz-box-shadow: #999 2px 0px 3px;
+        -webkit-box-shadow: #999 2px 0px 3px;
+    }
+</style>
+
+
+
+
+@*    @Styles.Render("~/Content/css")    
+    @Scripts.Render("~/bundles/menubar")
+    @Scripts.Render("~/bundles/jqgrid")
+    @Scripts.Render("~/bundles/jquery")
+    @Scripts.Render("~/bundles/plugins")*@
+
+@*@Scripts.Render("~/bundles/jqueryval")*@
+
+@*  @Scripts.Render("~/bundles/jqueryBlockUI")*@
+<script src="~/Scripts/custom/Generic.js"></script>
+<script src="~/Scripts/RevokeClosing/RevokeClosing.js"></script>
+
+
+<br />
+<div class="ui-widget-header innerDivHeader" style="margin-bottom: 5px">Accounts Revoking</div>
+
+<form id="frmRevoke">
+    @Html.ValidationSummary(true)
+    
+    @Html.Hidden("levelId", PMGSYSession.Current.LevelId)
+    @Html.Hidden("AdminNdCode", PMGSYSession.Current.AdminNdCode)
+
+    @Html.Hidden("lvlID", PMGSY.Extensions.PMGSYSession.Current.LevelId)
+    <table style="width: 100%" id="rptMAAnnex">
+        <tr>
+            <td style="width: 90%; color: green; font-weight: bold">
+                 @Html.Hidden("MonthClosed",Model.MonthClosed)
+                <span id="spnMonthClosedDetailsUsingAjax"></span>
+
+            </td>
+        </tr>
+        <tr>
+            <td>
+               
+                <div id="divRevokeError"  style="text-align: left; width: 100%">
+                     @Html.ValidationMessageFor(m => m.SRRDA_CODE, null, new { @id = "spnSRRDA" })                                      
+                    <span></span>
+                </div>
+                 <div>
+
+                      @Html.ValidationMessageFor(m => m.DPIU_CODE, null, new { @id = "spnDPIU" })
+
+                </div>
+                 <div>
+
+                       @Html.ValidationMessageFor(m => m.StartMonth)
+
+                </div>
+                 <div>
+
+                       @Html.ValidationMessageFor(m => m.StartYear)
+
+                </div>
+                 <div>
+
+                     @Html.ValidationMessageFor(m => m.ToMonth)
+
+                </div>
+                 <div>
+
+                     @Html.ValidationMessageFor(m => m.ToYear)
+
+                </div>
+                  <div>
+
+                     @Html.ValidationMessageFor(m => m.Remark)
+
+                </div>
+            </td>
+        </tr>
+    </table>
+
+    <table class="ui-state-default ui-corner-all" style="border: 0.1em solid gray; width: 100%; margin-top: 1px" id="tblFilter">
+              <tr>
+                <td style="width:9%">
+                    @if (PMGSYSession.Current.LevelId == 4)
+                    {
+                      @Html.RadioButtonFor(m => m.OwnDPIUFlag, "O", new { @id = "rdOwn",  @tabindex = "1" ,   @disabled = "disabled" })
+                    }
+                    else
+                    {
+                         @Html.RadioButtonFor(m => m.OwnDPIUFlag, "O", new { @id = "rdOwn", @checked = "checked", @tabindex = "1" })
+                    }
+                    
+                      <label for="rdOwn">SRRDA</label>
+                </td>
+                <td style="width:11%">
+                        
+
+                           @if (PMGSYSession.Current.LevelId == 4)//login DPIU
+                            {
+                              
+                                 @Html.DropDownListFor(model => model.SRRDA_CODE, new SelectList(Model.SRRDA_LIST, "Value", "Text"), new { Title = "SRRDA", tabindex = "2", @id = "ddlSRRDA" ,  @disabled = "disabled" })
+                            }
+                            else
+                            {
+                               @Html.DropDownListFor(model => model.SRRDA_CODE, new SelectList(Model.SRRDA_LIST, "Value", "Text"), new { Title = "SRRDA", tabindex = "2", @id = "ddlSRRDA" })
+                               
+                            }
+
+                </td>
+                <td style="width:9%">
+                     @Html.RadioButtonFor(m => m.OwnDPIUFlag, "D", new { @id = "rdDPIU", @tabindex = "3",@style="margin-left:20%;" })                       
+                     <label for="rdDPIU">DPIU</label>
+                     </td>
+                <td style="width:11%">
+                        @Html.DropDownListFor(model => model.DPIU_CODE, new SelectList(Model.DPIU_LIST, "Value", "Text"), new { Title = "DPIU", tabindex = "4", @id = "ddlDPIU", @style = "display:none" })
+                </td>
+                <td style="width:12%">
+                    @Html.RadioButtonFor(m => m.durationFlag, "M", new {@id="monthClosing", @tabindex = "5" ,@style="margin-left:20%;",@class="btn_radio_type" })
+                      <label for="rkMonthly">Monthly</label>
+                </td>
+                 <td style="width:11%">
+                    @if (!(PMGSYSession.Current.LevelId == 4))
+                    {
+                       @Html.RadioButtonFor(m => m.durationFlag, "P", new { @id="periodicClosing",@tabindex = "6",@class="btn_radio_type" })
+                       <label for="rkPeriodically">Periodically</label>
+                    }
+                 </td>
+                
+                 <td style="width:7%">
+                </td>
+                 <td style="width:10%">
+                </td>
+                 <td style="width:10%">
+                </td>
+                 <td style="width:10%">
+                </td>
+                 
+                </tr>
+            
+              <tr id="monthClosingRow" style="display:none">
+                <td >
+                </td >
+                 <td >
+                </td>
+                 <td >
+                </td>
+                 <td>
+                </td>
+                 <td style="text-align: center; font-weight: bold;"><label>Month</label><label style="color: red;"> *</label>:</td>
+                 <td>@Html.DropDownListFor(m => m.StartMonth, ViewBag.ToMonth as IEnumerable<SelectListItem>, new { @tabindex = "7", @style = "width:120px" })
+                   
+                </td>
+                <td style="text-align: center; font-weight: bold; width: 5%"><label>Year</label><label style="color: red;"> *</label>:</td>
+                <td >@Html.DropDownListFor(m => m.StartYear, ViewBag.ToYear as IEnumerable<SelectListItem>, new { @tabindex = "8", @style = "width:120px" })
+                   
+                </td>
+                 
+                 <td>
+                    @Html.LabelFor(m => m.Remark)<label style="color: red;"> *</label>:</td>
+                 
+                <td>
+                    @Html.TextAreaFor(m => m.Remark, new { @cols = 5, @rows = 1, maxlength = 255, @tabindex = "10", @title = "Remark", @style = "height: 18px; width: 217px;" })
+                  
+                </td>
+                <td>
+                    <input type="button" id="btnView_Monthly" value="Revoke" class="jqueryButton" tabindex="11"></td>
+             
+            </tr>
+            
+              <tr id="yearClosingRow" style="display:none" >
+                 <td style="text-align: left; font-weight: bold;"><label>Start Month</label><label style="color: red;"> *</label>:</td>
+                 <td>@Html.DropDownListFor(m => m.StartMonth, ViewBag.ddlMonth as IEnumerable<SelectListItem>, new {@id="pStartMonth", @tabindex = "7", @style = "width:149px" })
+                   
+                </td>
+                 <td style="text-align: justify; font-weight: bold; width: 5%"><label>Start Year</label><label style="color: red;"> *</label>:</td>
+                <td >@Html.DropDownListFor(m => m.StartYear, ViewBag.ddlYear as IEnumerable<SelectListItem>, new {@id="pStartYear", @tabindex = "8", @style = "width:149px;" })
+                   
+                </td>
+     
+                 <td style="text-align: center; font-weight: bold;"><label>To Month</label><label style="color: red;"> *</label>:</td>
+                 <td>@Html.DropDownListFor(m => m.ToMonth, ViewBag.ddlMonth as IEnumerable<SelectListItem>, new { @tabindex = "9", @style = "width:120px" })
+                   
+                </td>
+                <td style="text-align: left; font-weight: bold; width: 10%"><label>To Year</label><label style="color: red;"> *</label>:</td>
+                <td >@Html.DropDownListFor(m => m.ToYear, ViewBag.ddlYear as IEnumerable<SelectListItem>, new { @tabindex = "10", @style = "width:120px" })
+                   
+                </td>
+                
+                 <td style="width:3%;text-align: center;">
+                    @Html.LabelFor(m => m.Remark)<label style="color: red; "> *</label>:</td>
+                 
+                <td>
+                    @Html.TextAreaFor(m => m.Remark, new { @cols = 5, @rows = 1, maxlength = 255, @tabindex = "11",@id="pRemarkId", @title = "Remark", @style = "height: 18px; width: 217px;" })
+                 
+                </td>
+                <td>
+                    <input type="button" id="btnView_Periodic" value="Revoke" class="jqueryButton" tabindex="11"></td>
+            
+            </tr>
+        <tr id="yearClosingMessage">
+            <td>
+            </td>
+        </tr>
+     </table>
+</form>
+      <div id="divPeriodicMessage" class="ui-state-error ui-corner-all" style="text-align: left; width: 99.6%">
+          <span class="ui-icon ui-icon-alert" style="float: left;"></span>
+          <span style="color:green">Note: To Revoke accounts for example period April to August Start Month should be August and To Month should be April.</span>
+  </div>

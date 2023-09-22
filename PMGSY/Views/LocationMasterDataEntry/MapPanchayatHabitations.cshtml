@@ -1,0 +1,170 @@
+﻿<style type="text/css">
+    .ui-autocomplete {
+        max-height: 400px;
+        overflow-y: scroll;
+        overflow-x: hidden;
+    }
+</style>
+
+
+<script type="text/javascript" src="@Url.Content("~/Scripts/jquery.ui.autocomplete.js")"> </script>
+<script src="@Url.Content("~/Scripts/custom/Generic.js")" type="text/javascript" ></script>
+<script type="text/javascript" src="@Url.Content("~/Scripts/MasterDataEntry/Master_MapPanchayatHabitations.js")"> </script>
+
+
+<div id="dvhdSearch_Map" class="ui-corner-top ui-widget-header panelheader" style="text-align: left; margin-left: 0px; margin-right: 0px; margin-top: 10px; height: 20px;">
+    <span class="ui-jqgrid-title" style="float: left">&nbsp;Map Habitations </span>
+
+    <span id="spCollapseIconS_Map" class="ui-icon ui-icon-circle-triangle-n" style="float: right"></span>
+</div>
+
+<div id="dvSearchParameter_Map" class="ui-corner-bottom" style="margin-left: 0px; margin-right: 0px; display: block; border: 1px solid #B5B8C8;">
+
+    <form id="frmSearchMapPanchayatHabitation">
+        @Html.Hidden("EncryptedHabCodes")
+        @if (!(string.IsNullOrEmpty(ViewBag.EncryptedBlockCode)))
+        {
+            @Html.Hidden("EncryptedBlockCode", ViewBag.EncryptedBlockCode as String)     
+        }
+        <table style="width: 100%;" class="rowstyle">
+
+            <tr>
+                <td  style="width: 2%;"></td>
+
+                <td style="width:10%;" >
+                    @Html.Label("State Name")
+
+                </td>
+                <td  style="width: 20%;">
+                    @if (!(string.IsNullOrEmpty(ViewBag.StateName)))
+                    {
+                        <b>@Html.Label("StateName", ViewBag.StateName as String)   </b>
+                    }
+                    else
+                    {
+                        <b>@Html.Label("StateName", "NA")   </b>
+                    }
+
+                </td>
+
+                <td  style="width: 10%;">
+                    @Html.Label("District Name")
+
+                </td>
+                <td  style="width: 20%;">
+                    @if (!(string.IsNullOrEmpty(ViewBag.DistrictName)))
+                    {
+                        <b>@Html.Label("DistrictName", ViewBag.DistrictName as String)   </b>
+                    }
+                    else
+                    {
+                        <b>@Html.Label("DistrictName", "NA")   </b>
+                    }
+
+                </td>
+
+            </tr>
+            <tr>
+                <td  style="width: 2%;"></td>
+                <td  style="width: 10%;">
+                    @Html.Label("Block Name")
+
+                </td>
+                <td  style="width: 20%;">
+                    @if (!(string.IsNullOrEmpty(ViewBag.BlockName)))
+                    {
+                        <b>@Html.Label("BlockName", ViewBag.BlockName as String)   </b>
+                    }
+                    else
+                    {
+                        <b>@Html.Label("BlockName", "NA")   </b>
+                    }
+
+                </td>
+
+
+                <td  style="width: 10%;">
+                    @Html.Label("Panchayat Name")
+
+                </td>
+                <td  style="width: 20%;">
+                    @if (!(string.IsNullOrEmpty(ViewBag.PanchayatName)))
+                    {
+                        <b>@Html.Label("PanchayatName", ViewBag.PanchayatName as String)   </b>
+                    }
+                    else
+                    {
+                        <b>@Html.Label("PanchayatName", "NA")   </b>
+                    }
+
+                </td>
+
+            </tr>
+
+
+            <tr>
+                <td  style="width: 2%;"></td>
+                <td style="text-align: left; width: 10%;">
+                    @Html.Label("Village")
+                </td>
+
+
+                <td style="width: 20%;">
+
+                    @Html.TextBox("txtSearchVillage", string.Empty, new { @id = "txtSearchVillage", @title = "Village Name", @tabindex = 4, autocomplete = "on", @style = "width:130px;", @placeholder = "Enter Village Name..." })
+
+                </td>
+                <td style="text-align: left; width: 10%;">
+                    @Html.Label("Habitation")
+                </td>
+
+                <td style="width: 20%;">
+
+                    @Html.TextBox("txtSearchHabitation", string.Empty, new { @id = "txtSearchHabitation", @title = "Habitation Name", @tabindex = 4,autocomplete = "on", @style = "width:130px;", @placeholder = "Enter Habitation Name..." })
+
+                </td>
+
+            </tr>
+            <tr>
+               
+                <td colspan="5">
+                    <center>
+                    <input type="button" id="btnSearch_Map" name="btnSearch_Map" value="Search" class="jqueryButton" title="Search Habitation" tabindex="101" />
+                     </center>
+                </td>
+
+            </tr>
+        </table>
+
+    </form>
+
+
+
+
+    <br />
+    <div style="width: 95%;">
+        <table id="tbMapPanchayatHabitationList">
+        </table>
+
+        <div id="dvMapPanchayatHabitationListPager"></div>
+
+    </div>
+
+    <br />
+
+    <table style="width: 100%;" class="rowstyle">
+
+        <tr></tr>
+
+        <tr>
+            <td style="text-align: center">
+
+                <input type="button" id="btnMapHabitation" name="btnMapHabitation" value="Map Habitations" class="jqueryButton" title="Map Habitations" tabindex="102" />
+                <input type="button" id="btnMapCancel" name="btnMapCancel" value="Back" class="jqueryButton" title="Back" tabindex="4" />
+            </td>
+        </tr>
+        <tr></tr>
+    </table>
+
+
+</div>

@@ -1,0 +1,133 @@
+﻿@model System.Web.Mvc.HandleErrorInfo
+
+@Scripts.Render("~/bundles/jquery")
+
+<script type="text/javascript">
+    $(document).ready(function () {
+        var maskHeight = $(document).height();
+        var maskWidth = $(window).width();
+        $('#mask').css({ 'width': maskWidth, 'height': maskHeight });
+        $('#mask').fadeIn(500);
+        $('#mask').fadeTo("slow", 0.8);
+        var winH = $(window).height();
+        var winW = $(window).width();
+        $("#dialog").css('top', winH / 2 - $("#dialog").height() / 2);
+        $("#dialog").css('left', winW / 2 - $("#dialog").width() / 2);
+        $("#dialog").fadeIn(500);
+    });
+</script>
+
+<style type="text/css">
+    h1
+    {
+        font-size: 180%;
+        font-weight: normal;
+    }
+    h2
+    {
+        font-size: 160%;
+        font-weight: normal;
+    }
+    h3
+    {
+        font-size: 140%;
+        font-weight: normal;
+    }
+    img
+    {
+        border: none;
+    }
+    pre
+    {
+        display: block;
+        font: 12px "Courier New" , Courier, monospace;
+        padding: 10px;
+        border: 1px solid #bae2f0;
+        background: #e3f4f9;
+        margin: .5em 0;
+        width: 300px;
+    }
+    /* Easy Slider */#slider ul, #slider li
+    {
+        margin: 0;
+        padding: 0;
+        list-style: none;
+    }
+    #slider, #slider li
+    {
+        width: 300px;
+        height: 220px;
+        overflow: hidden;
+    }
+    span#prevBtn
+    {
+    }
+    span#nextBtn
+    {
+    	
+    }
+    /* // Easy Slider */a
+    {
+        color: #333;
+        text-decoration: none;
+    }
+    a:hover
+    {
+        color: #ccc;
+        text-decoration: none;
+    }
+    #mask
+    {
+        position: absolute;
+        left: 0;
+        top: 0;
+        z-index: 9000;
+        background-color: #000;
+        display: none;
+        cursor: wait;
+    }
+    #boxes .window
+    {
+        position: absolute;
+        left: 0;
+        top: 0;
+        width: 450px;
+        height: 300px;
+        display: none;
+        z-index: 200000000;
+        padding: 20px;
+        -moz-border-radius: 6px 6px 6px 6px;
+       -webkit-border-radius: 6px;  
+       border-radius: 6px 6px 6px 6px;
+    }
+    #boxes #dialog
+    {
+        width: 300px;
+        height: 420px;
+        padding: 10px;
+        background-color: #ffffff;
+    }
+    #boxes #editdialog
+    {
+        width: 550px;
+        height: auto;
+        padding: 10px;
+        background-color: #ffffff;
+    }
+</style>
+
+
+<div id="boxes">
+       <input type="hidden" id="ajaxErrorPage">  
+        <!-- #customize your modal window here -->
+        <div id="dialog" class="window" style="height: auto">
+         <span style="font-weight:bold"> 
+                An error occurred while processing your request. Please  <a href="#" style="color:red; text-decoration:none;" onclick="history.go(-1)">click here</a> to go back.
+             @*@Html.ActionLink("Click here.", "Logout", "Login", new object(), new { style="color:blue" })*@
+         </span>
+        </div>
+      
+        <div id="mask">
+        </div>
+    </div>
+    

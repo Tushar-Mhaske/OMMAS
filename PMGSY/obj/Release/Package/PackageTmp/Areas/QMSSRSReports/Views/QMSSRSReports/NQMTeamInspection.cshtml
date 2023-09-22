@@ -1,0 +1,71 @@
+﻿@model PMGSY.Areas.QMSSRSReports.Models.QMTeamFilterModel
+
+
+
+<div id="dvTeamScheduleReportHeader" class="ui-corner-top ui-widget-header panelheader" style="text-align: left; height: 20px;">
+    <span class="ui-jqgrid-title" style="float: left">&nbsp;List of NQM Team Schedule List</span>
+</div>
+<div id="dvContractorInspectionReportFilter" class="ui-corner-bottom" style="display: block;">
+    <form id="frmDvTeamFilter" action="">
+        @Html.AntiForgeryToken()
+        <table id="tblTeamReport" class="rowstyle" style="margin-top: 0px; text-align: center; border: ridge 0.1em #ccc; width: 100%;">
+            <tr>
+                <td style="width:22%;text-align:right;">
+                   @Html.LabelFor(model => model.StateCode): &nbsp;
+                    @Html.DropDownListFor(model => model.StateCode, new SelectList(Model.StateList, "Value", "Text"), new { @title = "Schedule State", @tabindex = 1})
+                    <br />
+                    @Html.ValidationMessageFor(m => m.StateCode)
+                </td>
+                <td style="width: 22%;text-align:right; font-weight: bold;">
+                    @Html.LabelFor(model => model.MonitorCode): &nbsp;
+                    @Html.DropDownListFor(model => model.MonitorCode, new SelectList(Model.MonitorList, "Value", "Text"), new { @title = "Monitor", @tabindex = 1})
+                    <br />
+                    @Html.ValidationMessageFor(m => m.MonitorCode)                   
+                </td>
+                <td style="width: 22%;text-align:right;">
+                    @Html.LabelFor(model => model.ScheduleYear): &nbsp;
+                    @Html.DropDownListFor(model => model.ScheduleYear, new SelectList(Model.ScheduleYearList, "Value", "Text"), new { @title = "Schedule Year", @tabindex = 1})
+                    <br />
+                    @Html.ValidationMessageFor(m => m.ScheduleYear)                   
+ 
+                </td>
+                <td style="width: 22%; text-align:right;font-weight: bold;">
+                    @Html.LabelFor(model => model.ScheduleMonth): &nbsp;
+                    @Html.DropDownListFor(model => model.ScheduleMonth, new SelectList(Model.ScheduleMonthList, "Value", "Text"), new { @title = "Schedule Month", @tabindex = 1})
+                    <br />
+                    @Html.ValidationMessageFor(m => m.ScheduleMonth)                   
+
+                </td>
+                
+                <td style="width:12%;text-align:left;">
+                    <input type="button" class="jqueryButton" value="View" id="btnViewReport"/>
+                </td>
+                
+            </tr>
+          
+        </table>
+    </form>
+</div>
+<div id="dvTeamScheduleReport"></div>
+
+<script type="text/javascript">
+
+    $(document).ready(function () {
+        
+        $("#btnViewReport").click(function () {
+            $('#frmDvTeamFilter').submit();
+        });
+        
+        $('#frmDvTeamFilter').submit(function (e) {
+            e.preventDefault();
+            var data = $('#frmDvTeamFilter').serialize();
+            $("#dvTeamScheduleReport").load("/QMSSRSReports/QMSSRSReports/NQMTeamInspectionReport", data);
+                
+        });
+    });
+
+</script>
+
+
+
+

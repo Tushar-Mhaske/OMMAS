@@ -1,0 +1,18 @@
+﻿@using MvcReportViewer
+
+@Html.MvcReportViewer("/PMGSYCitizen/MprBookletNew",
+         new
+         {
+             Month = ViewData["Month"],
+             Year = ViewData["Year"],
+             award = ViewData["award"],
+             Level = 1,
+             Block = 0,
+             District = 0,
+             PMGSY = 1,
+             PINTFACode=0,
+             PINTPMGSYVersion=0,
+			 stateCode = 0,
+			 districtCode = 0
+         },
+     new { Height = 600, Width = "100%", style = "border:none;" })

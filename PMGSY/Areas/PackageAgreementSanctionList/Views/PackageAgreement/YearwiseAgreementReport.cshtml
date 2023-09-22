@@ -1,0 +1,11 @@
+﻿@using MvcReportViewer
+@model PMGSY.Areas.PackageAgreementSanctionList.Models.MonthwiseAgreement
+
+@Html.MvcReportViewer("/PMGSYCitizen/WorksUnawardedYearwise",
+     new
+     {
+         STATE = Model.Mast_State_Code,
+         DISTRICT = Model.Mast_District_Code,
+         PMGSY = @Model.SchemeCode       
+     },
+     new { Height = 600, Width = "100%", style = "border:none;" })

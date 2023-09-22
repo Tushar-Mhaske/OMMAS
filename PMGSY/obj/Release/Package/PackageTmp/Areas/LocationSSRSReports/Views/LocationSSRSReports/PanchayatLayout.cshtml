@@ -1,0 +1,75 @@
+﻿@model PMGSY.Areas.LocationSSRSReports.Models.LocationMasterReports
+
+@if (Layout == null)
+{
+    Layout = Request.IsAjaxRequest() ? null : "~/Areas/AccountReports/Views/Account/_Layout.cshtml";
+}
+
+<script src="~/Areas/LocationSSRSReports/Scripts/PanchayatLayout.js"></script>
+<script src="~/Scripts/custom/Generic.js"></script>
+
+<div id="dvhdVillageLayout" class="ui-corner-top ui-widget-header panelheader" style="text-align: left; height: 20px;">
+    <span class="ui-jqgrid-title" style="float: left">Panchayat</span>
+    <span id="spCollapseIconCN" class="ui-icon ui-icon-circle-triangle-n" style="float: right"></span>
+</div>
+<div id="dvPanchayatLayout" class="ui-corner-bottom" style="display: block; border: 1px solid #B5B8C8;">
+    <form id="frmPanchayatLayout">
+        @Html.ValidationSummary(true)
+        @Html.AntiForgeryToken()
+        @Html.HiddenFor(m=>m.Mast_State_Code)
+        @Html.HiddenFor(m=>m.Mast_District_Code)
+        @Html.HiddenFor(m=>m.StateName)
+        @Html.HiddenFor(m=>m.DistName)
+        @Html.HiddenFor(m=>m.BlockName)
+        @Html.HiddenFor(m=>m.ActiveFlagName)
+        <table class="rowstyle" style="width: 100%;">
+            <tr>
+                <td style="width: 2%;"></td>
+                <td style="text-align: left; width: 5%;">
+                    @Html.Label("State")
+                </td>
+                <td style="width: 15%;">
+                    @*@Html.DropDownList("StateList_PanchayatDetails", ViewData["STATE"] as IEnumerable<SelectListItem>, new { @title = "State", @tabindex = 1 })*@
+                    @Html.DropDownListFor(model => model.State, new SelectList(Model.StateList, "Value", "Text"), new { @id = "StateList_PanchayatDetails", @title = "State", @tabindex = 1 })
+                    <br />
+                    @Html.ValidationMessageFor(m => m.State)
+                </td>
+                <td style="text-align: left; width: 5%;">
+                    @Html.Label("District")
+                </td>
+                <td style="width: 15%;">
+                    @*@Html.DropDownList("DistrictList_PanchayatDetails", ViewData["DISTRICT"] as IEnumerable<SelectListItem>, new { @title = "District", @tabindex = 2 })*@
+                    @Html.DropDownListFor(model => model.District, new SelectList(Model.DistrictList, "Value", "Text"), new { @id = "DistrictList_PanchayatDetails", @title = "District", @tabindex = 2 })
+                    <br />
+                    @Html.ValidationMessageFor(m => m.District)
+                </td>
+                <td style="text-align: left; width: 5%;">
+                    @Html.Label("Block")
+                </td>
+                <td style="width: 15%;">
+                    @*@Html.DropDownList("BlockList_PanchayatDetails", ViewData["BLOCK"] as IEnumerable<SelectListItem>, new { @title = "Block", @tabindex = 3 })*@
+                    @Html.DropDownListFor(model => model.Block, new SelectList(Model.BlockList, "Value", "Text"), new { @id = "BlockList_PanchayatDetails", @title = "Block", @tabindex = 3 })
+                    <br />
+                    @Html.ValidationMessageFor(m => m.Block)
+                </td>
+                <td style="text-align: left; width: 5%;">
+                    @Html.Label("Active")
+                </td>
+                <td style="width: 15%;">
+                    @*@Html.DropDownList("ActiveType_PanchayatDetails", ViewData["Active_TYPE"] as IEnumerable<SelectListItem>, new { @title = "Active", @tabindex = 4 })*@
+                    @Html.DropDownListFor(model => model.ActiveFlag, new SelectList(Model.ActiveFlagList, "Value", "Text"), new { @id = "ActiveType_PanchayatDetails", @title = "Active", @tabindex = 4 })
+                    <br />
+                    @Html.ValidationMessageFor(m => m.ActiveFlag)
+                </td>
+                <td style="text-align: center; width: 5%; margin-left: 5px;">
+                    <input type="button" id="PanchayatDetailsButton" value="View" class="jqueryButton" title="View Details" tabindex="5" />
+                </td>
+            </tr>
+
+        </table>
+    </form>
+</div>
+
+<div id="dvLoadPanchayatReport"></div>
+
+

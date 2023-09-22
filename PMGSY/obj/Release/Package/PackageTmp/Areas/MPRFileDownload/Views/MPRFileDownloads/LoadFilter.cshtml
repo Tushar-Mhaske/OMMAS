@@ -1,0 +1,43 @@
+﻿@model PMGSY.Areas.MPRFileDownload.Models.MPRFileUploadViewModel
+
+<script src="~/Scripts/custom/Generic.js"></script>
+<script src="~/Areas/MPRFileDownload/Scripts/MPRFileUpload.js"></script>
+
+
+ <form id="frmstateprofile">
+      @Html.ValidationSummary(true)
+
+<table id="tblDataEntry">
+    <tr>
+        
+        <td style="width: 25%;">
+           @Html.Label("State : ")&nbsp&nbsp&nbsp&nbsp
+        @*</td>
+        <td style="width: 15%;">*@
+            @Html.DropDownListFor(model => model.StateId, new SelectList(Model.StateList, "Value", "Text"), new { @id = "ddlSPState", style = "width:170px;",title="State" })&nbsp&nbsp&nbsp&nbsp
+            <input type="button" id="btnViewSPDetails" value="View Details" class="button" />
+        </td>
+     
+   
+        <td style="width: 23%; text-align: left;">
+            
+        </td>
+    </tr>
+</table>
+      </form>
+
+<div id="divLoadSPDetails" style="width: 99.8%;"></div>
+
+
+@*<table id="tblList">
+</table>
+<div id="PagerList"></div>*@
+
+
+<div style="margin-top:20px">
+
+    <table id="tblList"></table>
+    <div id="PagerList" ></div>
+</div>
+
+

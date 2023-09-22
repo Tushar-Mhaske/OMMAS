@@ -1,0 +1,69 @@
+﻿@using MvcReportViewer
+
+@model PMGSY.Areas.OtherReports.Models.TechnologyModel
+<style>
+    .ui-widget-content {
+        background-color: none;
+    }
+</style>
+@*@if (Model.LevelCode == 4)
+{
+    @Html.MvcReportViewer("/PMGSYCitizen/RndTagretsAchievementLVLReport",
+     new
+     {
+        LEVEL= Model.LevelCode,
+        STATE=Model.StateCode,
+        District=Model.DistrictCode,
+        Block=Model.BlockCode,
+        YEAR=Model.Year,
+        Batch=Model.Batch,
+        Collaboration=Model.FundingAgency,
+        Connectivity=Model.ConnectivityCode,
+        Rpt="S",
+        PMGSY=PMGSY.Extensions.PMGSYSession.Current.PMGSYScheme,
+        TechCode=0,
+        WorkStatus=Model.RoadStatus
+     },
+     new { Height = 600, Width = "100%", style = "border:0.75px;" })
+
+}
+else
+{
+@Html.MvcReportViewer("/PMGSYCitizen/R_DTargetAchievement",
+     new
+     {
+        LEVEL= Model.LevelCode,
+        STATE=Model.StateCode,
+        District=Model.DistrictCode,
+        Block=Model.BlockCode,
+        YEAR=Model.Year,
+        Batch=Model.Batch,
+        Collaboration=Model.FundingAgency,
+        Connectivity=Model.ConnectivityCode,
+        Rpt="S",
+        PMGSY=PMGSY.Extensions.PMGSYSession.Current.PMGSYScheme,
+        TechCode=0,
+        WorkStatus=Model.RoadStatus
+     },
+     new { Height = 600, Width = "100%", style = "border:0.75px;" })
+}*@
+
+@Html.MvcReportViewer("/PMGSYCitizen/R_DTargetAchievement_Abstract",
+     new
+     {
+         State = Model.StateCode,
+         District = Model.DistrictCode,
+         Block = Model.BlockCode,
+         Batch = Model.Batch,
+         Year = Model.Year,
+         Collaboration = Model.FundingAgency,
+         TechType = "%",
+         STAStatus = "%",
+         MRDStatus = "Y",
+         Connectivity = Model.ConnectivityCode,
+         Rpt = "S",
+         PMGSY = PMGSY.Extensions.PMGSYSession.Current.PMGSYScheme,
+         TechCode = 0,
+         WorkStatus = Model.RoadStatus,
+     },
+     new { Height = 600, Width = "100%", style = "border:0.75px;" })

@@ -1,0 +1,198 @@
+﻿@model PMGSY.Areas.GPSVTSInstallationDetails.Models.GPSVTS_FiltersModel
+@{
+    Layout = null;
+}
+
+<script src="~/Scripts/custom/Generic.js"></script>
+<script src="~/Scripts/jquery.ui.datepicker.js"></script>
+<script src="~/Scripts/jquery.ui.accordion.js"></script>
+<script src="~/Scripts/jquery.ui.tabs.js"></script>
+<script src="~/Scripts/Bootstrap/bootstrap.min.js"></script>
+<script src="~/Scripts/Bootstrap/bootstrap.min.js"></script>
+<link href="~/Content/Bootstrap/bootstrap.min.css" rel="stylesheet" />
+@*<script src="~/Scripts/jquery.validate.unobtrusive.js"></script>*@
+<script src="~/Areas/GPSVTSInstallationDetails/Scripts/GPSVTSLayout.js"></script>
+<center>
+    @{
+        <div style="width:100%; height:20px;border:none; margin-top:5px; margin-bottom:-15px; " class="ui-state-default">
+            <span style="float:right;margin-right:2Px; margin-top:2px" id="idFilterDiv" class="ui-icon ui-icon-circle-triangle-n"></span>
+        </div>
+
+        <div style="width: 100%; border:none; margin-top:-15px; margin-bottom:10px;" class="ui-state-default">
+            <div id="divFilterForm">
+                <form id="FilterForm">
+                    <center>
+                        <table style="margin-top:10px; margin-bottom:5px">
+                            <tr>
+
+                                <td style="text-align:left;width:5%">
+
+                                <td style="text-align: left; width: 5%">
+                                    @Html.LabelFor(model => model.StateCode)<label style="color: red;"> *</label>
+                                </td>
+                                <td style="text-align: left; width: 15%">
+                                    @Html.DropDownListFor(model => model.StateCode, new SelectList(Model.StateList, "Value", "Text"), new { @id = "ddlState", @title = "State", @style = "width:200px;", @tabindex = 1 })
+                                    <br />
+                                    @Html.ValidationMessageFor(m => m.StateCode)
+                                </td>
+                                <td style="text-align: left; width: 5%">
+                                    @Html.LabelFor(model => model.DistrictCode)<label style="color: red;"> *</label>
+                                </td>
+                                <td style="text-align: left; width: 15%">
+                                    @Html.DropDownListFor(model => model.DistrictCode, new SelectList(Model.DistrictList, "Value", "Text"), new { @id = "ddlDistrict", @title = "District", @style = "width:200px;", @tabindex = 2 })
+                                    <br />
+                                    @Html.ValidationMessageFor(m => m.DistrictCode)
+                                </td>
+                                <td style="text-align: left; width: 5%">
+                                    @Html.LabelFor(model => model.BlockCode)
+                                </td>
+                                <td style="text-align: left; width: 15%">
+                                    @Html.DropDownListFor(model => model.BlockCode, new SelectList(Model.BlockList, "Value", "Text", Model.ProposalType), new { @id = "ddlBlock", @title = "Block", @style = "width:200px;", @tabindex = 3 })
+                                    <br />
+                                    @Html.ValidationMessageFor(m => m.BlockCode)
+                                </td>
+
+                            </tr>
+
+                            <tr>
+                                <td style="text-align:left;width:5%">
+
+                                <td style="text-align: left; width: 7%">
+                                    @Html.LabelFor(model => model.Sanction_Year)
+                                </td>
+                                <td style="text-align: left; width: 15%">
+                                    @Html.DropDownListFor(model => model.Sanction_Year, new SelectList(Model.Sanction_Year_List, "Value", "Text"), new { @id = "ddlYear", @title = "Year", @style = "width:150px;", @tabindex = 4 })
+                                    <br />
+                                    @Html.ValidationMessageFor(m => m.Sanction_Year)
+                                </td>
+
+                                <td style="text-align: left; width: 5%">
+                                    @Html.LabelFor(model => model.Batch)
+                                </td>
+                                <td style="text-align: left; width: 15%">
+                                    @Html.DropDownListFor(model => model.Batch, new SelectList(Model.BatchList, "Value", "Text"), new { @id = "ddlBatch", @title = "Batch", @style = "width:150px;", @tabindex = 5 })
+                                    <br />
+                                    @Html.ValidationMessageFor(m => m.Batch)
+                                </td>
+
+                                <td style="text-align: left; width: 5%">
+                                    @Html.LabelFor(model => model.ProposalType)
+                                </td>
+                                <td style="text-align: left; width: 15%">
+                                    @Html.DropDownListFor(model => model.ProposalType, new SelectList(Model.ProposalTypeList, "Value", "Text"), new { @id = "ddlProposalType", @title = "Work Type", @style = "width:150px;", @tabindex = 5 })
+                                    <br />
+                                    @Html.ValidationMessageFor(m => m.ProposalType)
+                                </td>
+                            </tr>
+                            <tr style="display: none;">
+
+                                <td style="text-align:left;width:5%">
+                                <td style="text-align: left; width: 5%">
+                                    @Html.LabelFor(model => model.WorkStatus)
+                                </td>
+                                <td style="text-align: left; width: 15%;">
+                                    @Html.DropDownListFor(model => model.WorkStatus, new SelectList(Model.WorkStatusList, "Value", "Text"), new { @id = "ddlWorkStatus", @title = "Work Status", @style = "width:150px;", @tabindex = 5 })
+                                    <br />
+                                    @Html.ValidationMessageFor(m => m.WorkStatus)
+                                </td>
+                            </tr>
+                            <tr style="height: 40px;">
+                                <td colspan="7" style="text-align:center;">
+                                    <input type="button" style="border: 2px solid #989898;" class="jqueryButton" value="List Roads" title="Click here to view existing Road list" id="btnRoadList" name="btnLRoadList" />
+                                </td>
+                            </tr>
+
+                            <tr>
+                                <td colspan="7" style="color:green;padding-left:25px;font-size:16px;">
+                                        <b> Note: </b> <p>
+                                        Works are freezed due to non-mapping of GPS/VTS details. To un-freeze these works, a letter is to be sent by the State to DG, NRIDA enclosing screen shots of OMMAS of GPS/VTS mapping and analytics. In the letter, State to certify that GPS/VTS is installed in all machineries and being monitored through analytics uploaded on OMMAS. Analytics of GPS/VTS is satisfactory to ensure quality of roads being constructed.
+                                    </p>
+                                </td>
+                            </tr>
+                        </table>
+                    </center>
+                </form>
+            </div>
+        </div>
+
+        <div id="dvGPSVTSRoadList" style="margin-top:20px; width:80%">
+            <table id="tbGPSVTSRoadList"></table>
+            <div id="dvGPSVTSRoadListPager"></div>
+        </div>
+        <br />
+        <br />
+        <div style="display: none; border: 2.5px solid #f6bd05; color: black; width: 95%; border-radius:1%" class="AddViewMainDiv">
+            <!-- Close button -->
+            <h3 style="text-align: left;">
+                <!-- The content will be generated by jQuery -->
+            </h3>
+            <div id="dvGPSVTSSavedDetails" style="margin-top:20px; width:80%">
+                <table id="tbGPSVTSSavedDetails"></table>
+                <div id="dvGPSVTSSavedDetailsPager"></div>
+
+            </div>
+            <br />
+            <br />
+            <div id="BtnAddVehicleDetails">
+
+            </div>
+            @*}
+                </center>*@
+
+            @*<div id="accordion" style="display:none;width:70%;margin-top:10px;">
+            <h3 style="text-align:left">
+                <a id="" href="#" style=" font-size:.9em;">GPS/VTS Road Details</a>
+                <a href="#" style="float: right;">
+                    <img style="border:none" src="" class="ui-icon ui-icon-closethick" onclick="CloseGPSVTSRoadDetails();" />
+                </a>
+            </h3>
+            <div id="divGPSVTSRoadListForm" style="display: none; width: 95%;">
+            </div>
+            <div id="divProposalForm" style="display:none;">
+            </div>
+        </div>*@
+            <div id="accordion" style="display:none;width:70%;margin-top:10px;">
+                <h3 style="text-align:left">
+                    <a id="" href="#" style=" font-size:.9em;">GPS/VTS Road Details</a>
+                    <a href="#" style="float: right;">
+                        <img style="border:none" src="" class="ui-icon ui-icon-closethick" onclick="CloseGPSVTSRoadDetails();" />
+                    </a>
+                </h3>
+                <div id="divGPSVTSRoadListForm" style="display: none; width: 95%;">
+                </div>
+            </div>
+            <div id="accordion_Upload" style="display:none;width:73%;margin-top:5px;" class="ui-widget-content">
+                @*<h3 style="text-align:left">
+                    <a id="" href="#" style=" font-size:.9em;">GPS/VTS Road Details</a>
+                    <a href="#" style="float: right;">
+                        <img style="border:none" src="" class="ui-icon ui-icon-closethick" onclick="CloseGPSVTSRoadDetails();" />
+                    </a>
+                </h3>*@
+               
+                <div id="divProposalForm" style="display:none; width:95%; margin-top:1%; margin-bottom:1%" >
+                </div>
+            </div>
+
+            <br />
+            <br />
+        </div>
+        <div style="height:50px">
+
+        </div>
+        <!-- Add the following HTML for the pop-up dialog box -->
+        @*<div id="customDialog" class="dialog" style="display: none;">
+            <div class="dialog-content">
+                <span class="close">&times;</span>
+                <div id="dialogResult" style="text-align:center"></div>
+            </div>
+        </div>*@
+
+        @*<div id="dvGPSVTSSavedDetails" style="margin-top:20px; width:80%">
+                <table id="tbGPSVTSSavedDetails"></table>
+                <div id="dvGPSVTSSavedDetailsPager"></div>
+            </div>
+            <br />
+            <br />*@
+
+    }
+</center>

@@ -1,0 +1,18 @@
+﻿@using MvcReportViewer
+
+@model PMGSY.Areas.ECBriefReport.Models.ECBriefReportViewModel
+
+
+    
+    @Html.MvcReportViewer("/PMGSYCitizen/NSP_EC_CheckList_Report",
+     new
+     {
+         State = Model.StateCode,
+         Agency = Model.AgencyCode,
+         Year = Model.Year,
+         Batch = Model.BatchCode,
+         PMGSY = PMGSY.Extensions.PMGSYSession.Current.PMGSYScheme,
+         StateName = Model.StateName,
+         AgencyName = Model.AgencyName
+     },
+       new { Height = 600, Width = 1215, style = "border:none;" })

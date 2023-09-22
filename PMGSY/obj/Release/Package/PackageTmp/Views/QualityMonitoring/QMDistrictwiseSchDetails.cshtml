@@ -1,0 +1,27 @@
+﻿@**
+        * Project Id    :
+        * Project Name  :   OMMAS II
+        * Name          :   QMDistrictwiseSchDetails.cshtml
+        * Description   :   View for QMDistrictwiseSchDetails
+        * Author        :   Shyam Yadav 
+        * Creation Date :   10/Jun/2013
+ **@
+
+@model PMGSY.Models.QualityMonitoring.QMDistrictwiseSchDetailsModel
+
+<script src="~/Scripts/custom/Generic.js"></script>
+<script src="~/Scripts/QualityMonitoring/QMDistrictwiseSchDetails.js"></script>
+
+<form id="frmQMDistrictwiseSchDetails">
+    <div id="divError" class="ui-state-error ui-corner-all" style="text-align: left; display: none; width: 100%">
+        <span class="ui-icon ui-icon-alert" style="float: left;"></span>
+        <span></span>
+    </div>
+    @Html.Hidden("hdnRoleCodeDistwiseSch",PMGSY.Extensions.PMGSYSession.Current.RoleCode.ToString())
+    @Html.HiddenFor(model => model.ADMIN_SCHEDULE_CODE)
+     @Html.HiddenFor(model => model.INSP_STATUS_FLAG)
+   <div id="dvDistrictwiseSchDetailsId" style="width:100%">
+    <table id="tbDistrictwiseSchList"></table>
+    <div id="dvDistrictwiseSchListPager"></div>
+    </div> 
+</form>

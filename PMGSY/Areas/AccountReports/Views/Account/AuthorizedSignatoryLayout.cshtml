@@ -1,0 +1,62 @@
+﻿
+@model PMGSY.Areas.AccountReports.Models.AuthorizedSignatoryModel
+@using PMGSY.Extensions;
+@{
+    Layout = Request.IsAjaxRequest() ? null : "~/Areas/AccountReports/Views/Account/_Layout.cshtml";
+}
+<style type="text/css">
+    div.Header {
+        padding: 5px;
+        width: 98%;
+        display: inline-block;
+        cursor: default;
+        font-family: Trebuchet MS,Tahoma,Verdana,Arial,sans-serif;
+        color: #000;
+        background-color: #eee;
+        -moz-border-radius: 10px;
+        -webkit-border-radius: 10px;
+        -moz-box-shadow: #999 2px 0px 3px;
+        -webkit-box-shadow: #999 2px 0px 3px;
+    }
+</style>
+
+<link href="~/Content/demo_page.css" rel="stylesheet" />
+<link href="~/Content/demo_table_jui.css" rel="stylesheet" />
+<link href="~/Content/TableTools.css" rel="stylesheet" />
+<link href="~/Content/TableTools_JUI.css" rel="stylesheet" />
+<script src="~/Scripts/custom/Generic.js"></script>
+<script src="~/Scripts/DataTables/jquery.dataTables.js"></script>
+<script src="~/Scripts/DataTables/TableTools.js"></script>
+@*<script src="~/Scripts/AccountsReports/AuthorizedSignatoryDetails/AuthorizedSignatoryDetails.js"></script>*@
+<script src="~/Areas/AccountReports/Scripts/AuthorizedSignatoryDetails.js"></script>
+
+@if (PMGSYSession.Current.LevelId == 4)
+{
+    <form id="frmAuthSignatoryDetails">
+        <br />
+        <div id="dvhdrViewChequeBookDetails" class="ui-widget-header innerDivHeader" style="margin-bottom: 05px; height: 20px">
+            Authorized Signatory Details
+        @*<span style="float: right; margin-right: 2Px; margin-top: 2px" id="SpnListAuthSignatoryDetails" class="ui-icon ui-icon-circle-triangle-n"></span>*@
+        </div>
+
+        <div class="Header ui-corner-all" id="dvAuthSignatoryDetails">
+            <table class="ui-state-default ui-corner-all" style="border: 0.1em solid gray; width: 100%; margin-top: 1px" id="tblViewAuthSignatoryDetails">
+                <tr>
+                    <td style="width: 30%"></td>
+                    <td style="width: 08%;">
+                        @Html.LabelFor(model => model.DPIU)
+                    </td>
+                    <td style="width: 20%; font-weight: bold;">
+                        @Html.DropDownListFor(model => model.DPIU, Model.ListDPIU as IEnumerable<SelectListItem>, new { @id = "ddlDPIU", @title = "DPIU", @tabindex = 1 })
+                    </td>
+                    <td>
+                        <input type="button" value="View Details" class="jqueryButton" id="btnViewDetails" name="btnCreate" title="View Details" tabindex="2" />
+                    </td>
+                </tr>
+            </table>
+        </div>
+    </form>
+
+    <div id="dvShowAuthSignatoryDetails">
+    </div>
+}              

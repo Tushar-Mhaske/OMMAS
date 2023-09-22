@@ -1,0 +1,52 @@
+﻿@model PMGSY.Models.QualityMonitoring.AutoScheduleViewModel
+
+<script src="~/Scripts/custom/Generic.js"></script>
+<script src="~/Scripts/QualityMonitoring/QMAutoScheduleDetailsLayout.js"></script>
+
+<form id="frmQMAutoScheduleDetailsLayout">
+
+    @Html.ValidationSummary(true)
+    @Html.AntiForgeryToken()
+
+    @*@Html.HiddenFor(model => model.ASSIGNED_lstAdminQmCode)*@
+
+    <div id="dvhdNQMNAForInspectionLayout" class="ui-corner-top ui-widget-header panelheader" style="text-align: left; height: 20px;">
+        <span class="ui-jqgrid-title" style="float: left">&nbsp;Add NQM Auto Schedule Details</span>
+    </div>
+    <div class="ui-corner-bottom" style="display: block; border: 1px solid #B5B8C8; width: 99.9%">
+        <table style="margin-top: 0px; text-align: left; width: 100%;" class="rowstyle">
+            <tr>
+                <td style="width: 10%;"></td>
+                <td style="width: 10%; text-align: center;">
+                    @Html.Label("Month")<label style="color: red">*</label>
+                </td>
+                <td style="width: 20%;">
+                    @Html.DropDownListFor(model => model.Month, new SelectList(Model.lstMonth, "Value", "Text"), new { @id = "ddlMonth", style = "width:170px;", title = "Month" })
+                    <br />
+                    @Html.ValidationMessageFor(m => m.Month)
+                </td>
+                <td style="width: 10%;"></td>
+
+                <td style="width: 10%; text-align: center;">
+                    @Html.Label("Year")<label style="color: red">*</label>
+                </td>
+                <td style="width: 20%;">
+                    @Html.DropDownListFor(model => model.Year, new SelectList(Model.lstYear, "Value", "Text"), new { @id = "ddlYear", style = "width:170px;", title = "Year" })
+                    <br />
+                    @Html.ValidationMessageFor(m => m.Year)
+                </td>
+                <td style="width: 10%;"></td>
+                <td colspan="4" style="text-align: center;">
+                    <input type="button" id="btnAddNQMDetails" value="Add Details" class="jqueryButton" />
+                </td>
+            </tr>
+        </table>
+        @* </td>
+            </tr>
+        </table>*@
+
+
+
+
+    </div>
+</form>

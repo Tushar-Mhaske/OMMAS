@@ -1,0 +1,136 @@
+﻿@*
+    * Project Id    :
+    * Project Name  :   OMMAS II
+    * Name          :   QualityMaintenanceATRFilters.cshtml
+    * Description   :   Render View for QualityMaintenanceATRFilters.
+    * Author        :   Deen Dayal Sharma
+    * Creation Date :   19/Dec/2017
+*@
+
+@model PMGSY.Models.QualityMonitoring.QMFilterViewModel
+@{ Layout = null; }
+
+<!DOCTYPE html>
+
+<html>
+<head>
+
+    <script src="~/Scripts/QualityMonitoring/QualityMaintenanceATRFilters.js"></script>
+
+</head>
+<body>
+
+    <div style="width: 99%; height: 20px; border: none; margin-top: 5px; margin-bottom: -15px;" class="ui-state-default">
+        <span style="float: right; margin-right: 2Px; margin-top: 2px" id="id2TierATRFilterDiv" class="ui-icon ui-icon-circle-triangle-n"></span>
+    </div>
+
+    <div style="width: 99%; border: none; margin-top: -15px; margin-bottom: 10px;" class="ui-state-default">
+        <div id="div2TierATRFilterForm">
+            <center>
+                        <form id="2TierATRFilterForm">     
+                            <table style="margin-top:10px; margin-bottom:5px; width:85%">
+                                <tr>
+                                    
+                                  <td style="width:12%;padding-left:25px;">
+                                      @Html.LabelFor(model => model.MAST_STATE_CODE) 
+                                     
+                                    </td>
+                                    <td style="width:10%">
+                                 
+                                        @if (PMGSY.Extensions.PMGSYSession.Current.RoleCode == 5 || PMGSY.Extensions.PMGSYSession.Current.RoleCode == 9)
+                                        {
+                                            @Html.DropDownListFor(model => model.MAST_STATE_CODE, new SelectList(Model.STATES, "Value", "Text"), new { @id = "stateCodeATR" })
+                                        
+                                        }
+                                        else if (PMGSY.Extensions.PMGSYSession.Current.RoleCode == 8 || PMGSY.Extensions.PMGSYSession.Current.RoleCode == 22 || PMGSY.Extensions.PMGSYSession.Current.RoleCode == 54 || PMGSY.Extensions.PMGSYSession.Current.RoleCode == 69 || PMGSY.Extensions.PMGSYSession.Current.RoleCode == 48)
+                                        {
+                                            @Html.HiddenFor(model => model.MAST_STATE_CODE)
+                                            @PMGSY.Extensions.PMGSYSession.Current.StateName
+                                        }          
+                                                           
+                                    </td> 
+                                     
+                                    <td style="text-align:left;width:15%;padding-right:20px;">
+                                        Schedule From : 
+                                    </td>
+                                    <td style="width:15%;">
+                                        @Html.LabelFor(model => model.FROM_MONTH)
+                                    </td>
+                                    <td style="width:10%">
+                                        @Html.DropDownListFor(model => model.FROM_MONTH, new SelectList(Model.FROM_MONTHS_LIST, "Value", "Text"), new { @id = "frmMonthATR" })
+                                    </td>
+                                    <td style="width:15%;padding-left:25px;">
+                                        @Html.LabelFor(model => model.FROM_YEAR)
+                                    </td>
+                                    <td style="width:10%">
+                                        @Html.DropDownListFor(model => model.FROM_YEAR, new SelectList(Model.FROM_YEARS_LIST, "Value", "Text"), new { @id = "frmYearATR" })
+                                    </td>
+                                 </tr>
+                                 <tr>
+                                       <td style="width:12%;padding-left:25px;">
+                                            @Html.LabelFor(model => model.ADMIN_QM_CODE)
+                                       </td>
+                                       <td style="width:20%">
+                                            <div class="ui-widget">
+                                                @*@Html.TextBoxFor(model => model.ADMIN_QM_CODE)*@
+                                                @Html.DropDownListFor(model => model.ADMIN_QM_CODE, new SelectList(Model.MONITORS, "Value", "Text"), new { @id = "monitorCodeATR" })
+                                                @Html.ValidationMessageFor(model => model.ADMIN_QM_CODE)
+                                            </div>
+                                       </td>
+                                        <td style="text-align:left;width:15%;padding-right:20px;">
+                                        Schedule To : 
+                                        </td>
+                                        <td style="text-align:left;width:15%;">
+                                            @Html.LabelFor(model => model.TO_MONTH)
+                                        </td>
+                                        <td style="width:10%">
+                                            @Html.DropDownListFor(model => model.TO_MONTH, new SelectList(Model.TO_MONTHS_LIST, "Value", "Text"), new { @id = "toMonthATR" })
+                                        </td>
+                                        <td style="text-align:left;width:15%;padding-left:25px;">
+                                            @Html.LabelFor(model => model.TO_YEAR)
+                                        </td>
+                                        <td style="width:10%">
+                                            @Html.DropDownListFor(model => model.TO_YEAR, new SelectList(Model.TO_YEARS_LIST, "Value", "Text"), new { @id = "toYearATR" })
+                                        </td>
+                                 </tr>
+                                <tr>
+                                       <td style="width:12%;padding-left:25px;">
+                                            @Html.LabelFor(model => model.ATR_STATUS)
+                                       </td>
+                                       <td style="width:20%">
+                                            <div class="ui-widget">
+                                                @*@Html.TextBoxFor(model => model.ADMIN_QM_CODE)*@
+                                                @Html.DropDownListFor(model => model.ATR_STATUS, new SelectList(Model.ATR_STATUS_LIST, "Value", "Text"), new { @id = "atrStatus" })
+                                                @Html.ValidationMessageFor(model => model.ATR_STATUS)
+                                            </div>
+                                       </td>
+                                        <td style="text-align:left;width:10%;"></td>
+                                        <td style="text-align:left;width:10%;">
+                                               @* @Html.LabelFor(model => model.ROAD_STATUS)*@
+                                        </td>
+                                        <td style="width:10%;padding-left:0px;">
+                                               @* @Html.DropDownListFor(model => model.ROAD_STATUS, new SelectList(Model.ROAD_STATUS_LIST, "Value", "Text"), new { @id = "rdStatusATR" })
+                                                @Html.ValidationMessageFor(model => model.ROAD_STATUS)*@
+                                        </td>
+                                        <td style="width:10%;padding-left:25px;"></td>
+                                        <td style="width:10%"></td>
+                                 </tr>
+                                  <tr>
+                                    <td colspan="8" style="text-align:center;">
+                                        <input type="button" class="jqueryButton" value="List Details" id="btn2TierListATRDetails" name ="btn2TierListATRDetails"/>
+                                        @*@if (PMGSY.Extensions.PMGSYSession.Current.RoleCode == 5)*@
+                                           @* @if (PMGSY.Extensions.PMGSYSession.Current.RoleCode == 8)
+                                            {
+                                          <span>&nbsp;</span><input type='button' style='margin-left:1px' id='btnBulk2TierATRRegrade' class='jqueryButton' value='Regrade ATR'/>
+                                            }*@
+                                    </td>
+                                 </tr>                            
+                            </table>
+                        </form>  
+                    </center>
+        </div>
+    </div>
+
+
+</body>
+</html>

@@ -1,0 +1,99 @@
+﻿@model PMGSY.Areas.LocationSSRSReports.Models.LocationMasterReports
+
+@if (Layout == null)
+{
+    Layout = Request.IsAjaxRequest() ? null : "~/Areas/AccountReports/Views/Account/_Layout.cshtml";
+}
+
+<script src="~/Areas/LocationSSRSReports/Scripts/VillageLayout.js"></script>
+<script src="~/Scripts/custom/Generic.js"></script>
+
+<div id="dvhdVillageLayout" class="ui-corner-top ui-widget-header panelheader" style="text-align: left; height: 20px;">
+    <span class="ui-jqgrid-title" style="float: left">Village</span>
+    <span id="spCollapseIconCN" class="ui-icon ui-icon-circle-triangle-n" style="float: right"></span>
+</div>
+<div id="dvVillageLayout" class="ui-corner-bottom" style="display: block; border: 1px solid #B5B8C8;">
+    <form id="frmVillageLayout">
+        @Html.ValidationSummary(true)
+        @Html.HiddenFor(model => model.Mast_State_Code)
+        @Html.HiddenFor(model => model.Mast_District_Code)
+        @Html.HiddenFor(model => model.Block)
+        @Html.HiddenFor(model => model.ActiveFlag)
+        @Html.HiddenFor(model => model.ActiveFlag)
+        @Html.HiddenFor(model => model.CensusYear)
+        @Html.HiddenFor(model => model.Schedule)
+        @Html.HiddenFor(model => model.StateName)
+        @Html.HiddenFor(model => model.DistName)
+        @Html.HiddenFor(model => model.BlockName)
+        <table class="rowstyle" style="width: 100%;">
+            <tr>
+                <td style="width: 2%;"></td>
+                <td style="text-align: left; width: 5%;">
+                    @Html.Label("State")
+                </td>
+                <td style="width: 15%;">
+                    @*@Html.DropDownList("StateList_VillageDetails", ViewData["STATE"] as IEnumerable<SelectListItem>, new { @title = "State", @tabindex = 1 })*@
+                    @Html.DropDownListFor(model => model.State, new SelectList(Model.StateList, "Value", "Text"), new { @id = "StateList_VillageDetails", @title = "State", @tabindex = 1 })
+                    <br />
+                    @Html.ValidationMessageFor(m => m.State)
+                </td>
+                <td style="text-align: left; width: 7%;">
+                    @Html.Label("District")
+                </td>
+                <td style="width: 15%;">
+                    @*@Html.DropDownList("DistrictList_VillageDetails", ViewData["DISTRICT"] as IEnumerable<SelectListItem>, new { @title = "District", @tabindex = 2 })*@
+                    @Html.DropDownListFor(model => model.District, new SelectList(Model.DistrictList, "Value", "Text"), new { @id = "DistrictList_VillageDetails", @title = "District", @tabindex = 2 })
+                    <br />
+                    @Html.ValidationMessageFor(m => m.District)
+                </td>
+                <td style="text-align: left; width: 5%;">
+                    @Html.Label("Block")
+                </td>
+                <td style="width: 15%;">
+                    @*@Html.DropDownList("BlockList_VillageDetails", ViewData["BLOCK"] as IEnumerable<SelectListItem>, new { @title = "Block", @tabindex = 3 })*@
+                    @Html.DropDownListFor(model => model.Block, new SelectList(Model.BlockList, "Value", "Text"), new { @id = "BlockList_VillageDetails", @title = "Block", @tabindex = 3 })
+                    <br />
+                    @Html.ValidationMessageFor(m => m.Block)
+                </td>
+                <td style="width: 15%;"></td>
+            </tr>
+            <tr>
+                <td style="width: 2%;"></td>
+                <td style="text-align: left; width: 5%;">
+                    @Html.Label("Is Schedule5")
+                </td>
+                <td style="width: 15%;">
+                    @*@Html.DropDownList("IS_SCHEDULE5_VillageDetails", ViewData["IS_SCHEDULE5"] as IEnumerable<SelectListItem>, new { @title = "Is Schedule5", @tabindex = 4 })*@
+                    @Html.DropDownListFor(model => model.Schedule, new SelectList(Model.ScheduleList, "Value", "Text"), new { @id = "IS_SCHEDULE5_VillageDetails", @title = "Is Schedule5", @tabindex = 4 })
+                    <br />
+                    @Html.ValidationMessageFor(m => m.Schedule)
+                </td>
+                <td style="text-align: left; width: 7%;">
+                    @Html.Label("Census Year")
+                </td>
+                <td style="width: 15%;">
+                    @*@Html.DropDownList("CENSUS_YEAR_VillageDetails", ViewData["CENSUS_YEAR"] as IEnumerable<SelectListItem>, new { @title = "Census Year", @tabindex = 5 })*@
+                    @Html.DropDownListFor(model => model.CensusYear, new SelectList(Model.CensusYearList, "Value", "Text"), new { @id = "CENSUS_YEAR_VillageDetails", @title = "Census Year", @tabindex = 5 })
+                    <br />
+                    @Html.ValidationMessageFor(m => m.CensusYear)
+                </td>
+                <td style="text-align: left; width: 5%;">
+                    @Html.Label("Active")
+                </td>
+                <td style="width: 15%;">
+                    @*@Html.DropDownList("ActiveType_VillageDetails", ViewData["Active_TYPE"] as IEnumerable<SelectListItem>, new { @title = "Active", @tabindex = 6 })*@
+                    @Html.DropDownListFor(model => model.ActiveFlag, new SelectList(Model.ActiveFlagList, "Value", "Text"), new { @id = "ActiveType_VillageDetails", @title = "Active", @tabindex = 6 })
+                    <br />
+                    @Html.ValidationMessageFor(m => m.ActiveFlag)
+                </td>
+                <td style="text-align: left; width: 15%; margin-left: 5px;">
+                    <input type="button" id="VillageDetailsButton" value="View" class="jqueryButton" title="View Details" tabindex="7" />
+                </td>
+
+            </tr>
+        </table>
+    </form>
+</div>
+<div id="dvLoadVillageReport"></div>
+
+

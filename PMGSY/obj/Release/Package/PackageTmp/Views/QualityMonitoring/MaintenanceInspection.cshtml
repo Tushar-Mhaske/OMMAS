@@ -1,0 +1,130 @@
+﻿@model PMGSY.Models.QualityMonitoring.MaintenanceInspectionViewModel
+
+
+<style>
+    .ui-datepicker td {
+    border: 1px solid #CCC;
+    padding: 0;
+}
+</style>
+<script src="~/Scripts/jquery.ui.datepicker.js"></script>
+<script src="~/Scripts/custom/Generic.js"></script>
+<script src="~/Scripts/QualityMonitoring/MaintenanceInspection.js"></script>
+
+ <form id="frmMaintenanceInspection">
+    <div id="divMaintenanceError" class="ui-state-error ui-corner-all" style="text-align: left; display: none; width: 100%">
+        <span class="ui-icon ui-icon-alert" style="float: left;"></span>
+        <span></span>
+        <span style="float: right;"><a style="float: right;" href="#">
+            <img class="ui-icon ui-icon-closethick" onclick="closeDivError();" style="border:none;color:red;border-width: 0;">
+        </a></span>
+    </div>
+     <center>
+         <table class="rowstyle" id="tblFillObsDetails" style="margin-top:0px; text-align:left; border:ridge 0.1em #ccc; width:100%; padding:5px 5px 5px 5px;">
+                    <tr style="text-align:left;">
+                        <td style="width:5%"></td>
+                        <td style="width:5%;" >
+                            @Html.LabelFor(model => model.State)<label style="color:red">*</label>
+                            @Html.HiddenFor(model=>model.IMS_PAV_LENGTH)
+                            @Html.HiddenFor(model=>model.MaxInspectionDate)
+                        </td>
+                        <td style="width:10%">                            
+                            @Html.DropDownListFor(model => model.State, Model.lstStates, new {@id="ddlStates" , @placeholder = "Please select State" ,@tabindex = 1 })
+                            @Html.ValidationMessageFor(model=>model.State)
+                        </td>
+                        <td style="width:5%;" >
+                            @Html.LabelFor(model => model.District)<label style="color:red">*</label>
+                        </td>
+                         <td style="width:10%">                            
+                            @Html.DropDownListFor(model => model.District, Model.lstDistricts, new {@id="ddlDistricts" , @placeholder = "Please select District" ,@tabindex = 2 })
+                            @Html.ValidationMessageFor(model=>model.District)
+                        </td>
+                    </tr>
+                    <tr>
+                        <td></td>
+                        <td>                            
+                            @Html.LabelFor(model => model.SanctionYear)<label style="color:red">*</label>
+                        </td>
+                        <td>
+                            @Html.DropDownListFor(model => model.SanctionYear, Model.lstYears, new {@id="ddlYears" , @placeholder = "Please select Sanction Year" ,@tabindex = 3 })
+                            @Html.ValidationMessageFor(model=>model.SanctionYear)
+                        </td>
+                        @*<td>                            
+                            @Html.LabelFor(model => model.ProposalType)<label style="color:red">*</label>
+                        </td>
+                        <td>
+                            @Html.DropDownListFor(model => model.ProposalType, Model.lstProposalType, new {@id="ddlProposalType" , @placeholder = "Please select Proposal Type" ,@tabindex = 4 })
+                            @Html.ValidationMessageFor(model=>model.ProposalType)
+                        </td>*@
+                        <td>                            
+                            @Html.LabelFor(model => model.PackageId)<label style="color:red">*</label>
+                        </td>
+                        <td>
+                            @Html.DropDownListFor(model => model.PackageId, Model.lstPackages, new {@id="ddlPackages" , @placeholder = "Please select Package" ,@tabindex = 4 })
+                            @Html.ValidationMessageFor(model=>model.PackageId)
+                        </td>
+                    </tr>
+                    <tr>
+                        <td></td>
+                        <td>                            
+                            @Html.LabelFor(model => model.ProposalCode)<label style="color:red">*</label>
+                        </td>
+                        <td>
+                            @Html.DropDownListFor(model => model.ProposalCode, Model.lstProposals, new {@id="ddlProposals" , @placeholder = "Please select Proposal" ,@tabindex = 5 })
+                            @Html.ValidationMessageFor(model=>model.ProposalCode)
+                        </td>
+                        <td>                            
+                            @Html.LabelFor(model => model.MonitorCode)<label style="color:red">*</label>
+                        </td>
+                        <td>
+                            @Html.DropDownListFor(model => model.MonitorCode, Model.lstMonitors, new {@id="ddlMonitors" , @placeholder = "Please select NQM" ,@tabindex = 6 })
+                            @Html.ValidationMessageFor(model=>model.MonitorCode)
+                        </td>
+                    </tr>
+                    <tr>
+                        <td></td>
+                        <td>                            
+                            @Html.LabelFor(model => model.FromChainage)<label style="color:red">*</label>
+                        </td>
+                        <td>
+                            @Html.TextBoxFor(model => model.FromChainage, new {@id="txtFromChainage" , @placeholder = "Please Enter From Chainage" ,@tabindex = 7 })
+                            @Html.ValidationMessageFor(model=>model.FromChainage)
+                        </td>
+                        <td>                            
+                            @Html.LabelFor(model => model.ToChainage)<label style="color:red">*</label>
+                        </td>
+                        <td>
+                            @Html.TextBoxFor(model => model.ToChainage, new {@id="txtToChainage" , @placeholder = "Please Enter To Chainage" ,@tabindex = 8 })
+                            @Html.ValidationMessageFor(model=>model.ToChainage)
+                        </td>
+                    </tr>
+                    <tr>
+                        <td></td>
+                        <td>                            
+                            @Html.LabelFor(model => model.InspectionDate)<label style="color:red">*</label>
+                        </td>
+                        <td>
+                            @Html.TextBoxFor(model => model.InspectionDate, new {@id="txtInspectionDate" , @placeholder = "Please Enter Inspection Date" ,@tabindex = 9 })
+                            @Html.ValidationMessageFor(model=>model.InspectionDate)
+                        </td>
+                        
+                        <td>                            
+                            @Html.LabelFor(model => model.OverallGrade)<label style="color:red">*</label>
+                        </td>
+                        <td>
+                            @Html.DropDownListFor(model => model.OverallGrade,Model.lstGrades, new {@id="ddlGrades" , @placeholder = "Please Select Grade" ,@tabindex = 10 })
+                            @Html.ValidationMessageFor(model=>model.OverallGrade)
+                        </td>
+                    </tr>
+                    <tr>
+                        <td colspan="5">
+                            <center>
+                            <input type="button" class="jqueryButton" id="btnSubmit" value="Save" tabindex ="11"/>
+                            <input type="reset" class="jqueryButton" id="btnReset" value="Reset" tabindex ="12"/>
+                            </center>
+                        </td>
+                    </tr>
+             </table>
+         </center>
+        
+         </form>

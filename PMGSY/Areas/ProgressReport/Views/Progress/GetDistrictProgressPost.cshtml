@@ -1,0 +1,15 @@
+﻿@using MvcReportViewer
+@model PMGSY.Areas.ProgressReport.Models.DistricProgressViewModel
+
+@Html.MvcReportViewer("/PMGSYCitizen/PMGSY3_Progress_Report",
+     new
+     {
+         LEVEL = Model.LevelCode,
+         STATE = Model.Mast_State_Code,
+         DISTRICT = Model.Mast_District_Code,
+         BLOCK = Model.Mast_Block_Code,
+         STATENAME = Model.StateName,
+         DISTRICTNAME = Model.DistName,
+         BLOCKNAME = Model.BlockName
+     },
+     new { Height = 600, Width = "100%", style = "border:none;" })

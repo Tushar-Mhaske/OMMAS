@@ -1,0 +1,179 @@
+﻿@*
+    * Project Id    :
+    * Project Name  :   OMMAS II
+    * Name          :   TestResultDetails.cshtml
+    * Description   :   This View Adds the Test Result Details to Road Proposal
+    * Author        :   Abhishek Kamble       
+    * Creation Date :   19/Sep/2013    
+*@
+
+@model PMGSY.Models.Proposal.TestResultViewModel
+@using PMGSY.Extensions
+
+<script src="~/Scripts/custom/Generic.js"></script>
+<script src="~/Scripts/Proposal/TestResultDetails.js"></script>
+
+
+
+<style type="text/css">
+    td {
+        text-align:left
+    }
+</style>
+
+@if(Model.RoadStatus==true)
+{
+<center>
+   
+    <div id="divError" class="ui-state-error ui-corner-all" style="text-align: left; display: none; width: 90%">
+                <span class="ui-icon ui-icon-alert" style="float: left;"></span>                   
+                <span></span>
+    </div>     
+      
+    
+    <form id="frmTestResult">
+@Html.AntiForgeryToken()
+    <div style="margin-left: 100px">
+            @Html.ValidationSummary(true)             
+    </div>            
+
+    @*@Html.HiddenFor(model => model.IMS_PR_ROAD_CODE)
+    @Html.HiddenFor(model => model.Operation)
+    @Html.HiddenFor(model => model.RoadLength)
+    @Html.HiddenFor(model => model.IMS_SEGMENT_NO)
+         
+    @Html.HiddenFor(model => model.RoadLength, new { @id="TotalRoadLength"})
+    @Html.Hidden("AvailableRoadLength")*@
+
+
+       @* @if (PMGSYSession.Current.RoleCode == 36 || PMGSYSession.Current.RoleCode==47)   //RoleCod=36 ITNO and RoleCode=47 ITNOOA
+        {*@
+             <div class="ui-corner-all ui-state-highlight" style="border: solid 1px black; text-align: left;width:90%">
+                <table style="width: 100%">
+                <tr>
+                    <td style="text-align: right; width: 10%; font-weight: bold">@Html.LabelFor(model => model.IMS_YEAR):</td>
+                    <td style="text-align: left;width:7%;">@Html.DisplayFor(model => model.IMS_YEAR) - @Convert.ToInt32(Model.IMS_YEAR + 1)  </td>
+
+                    <td style="text-align: right; font-weight: bold;width:7%;">@Html.LabelFor(model => model.IMS_BATCH):</td>
+                    <td style="text-align: left;width:10%;">Batch @Html.DisplayFor(model => model.IMS_BATCH)</td>
+
+                    <td style="text-align: right; font-weight: bold;width:10%;">@Html.LabelFor(model => model.IMS_PACKAGE_ID):</td>
+                    <td style="text-align: left;width:5%;">@Html.DisplayFor(model => model.IMS_PACKAGE_ID)</td>
+
+                    <td style="text-align: right; font-weight: bold; width:10%">@Html.LabelFor(model => model.IMS_ROAD_NAME):</td>
+                    <td style="text-align: left;width:15%;">@Html.DisplayFor(model => model.IMS_ROAD_NAME)</td>
+
+                    <td style="text-align: right; font-weight: bold; width:10%">@Html.LabelFor(model => model.IMS_PAV_LENGTH):</td>
+                    <td style="text-align: left;width:10%">@Html.DisplayFor(model => model.IMS_PAV_LENGTH)&nbsp;Kms.</td>
+                </tr>
+            </table>
+            </div> 
+        @*}*@ 
+
+    <div style="height:20px;width:90%;text-align:left; padding-top: 0.6em;" class="ui-state-default ui-corner-all;" > 
+        &nbsp;<strong> Note: </strong> Fields marked with * are mandatory.
+    </div>
+
+        @Html.HiddenFor(model=>model.EncryptedResultCode)
+        @Html.HiddenFor(model=>model.hidden_ims_pr_road_code)
+        @Html.Hidden("RoleID",PMGSYSession.Current.RoleCode)
+
+
+    <table class="rowstyle" id="tblTestResultDetails" style="border:ridge 0.1em #ccc; padding:5px 5px 5px 5px;width:90%;">
+        <tr>
+            <td style="width:5%" ></td>
+            
+            <td style="font-weight:bold;width:08%">
+                @Html.LabelFor(model => model.IMS_SAMPLE_ID)<span style="color:red">*</span>
+            </td>
+            <td style="table-layout:fixed;width:15%">
+                @Html.DropDownListFor(model=>model.IMS_SAMPLE_ID,Model.Samples,new {@id="ddlSamples",@tabindex="1"})  
+                @Html.ValidationMessageFor(model=>model.IMS_SAMPLE_ID)
+            </td>
+
+            <td style="font-weight:bold;width:10%">
+                @Html.LabelFor(model=>model.IMS_CHAINAGE)<span style="color:red">*</span>                
+            </td>
+            <td style="width:15%">
+                @Html.TextBoxFor(model => model.IMS_CHAINAGE,new { @placeholder="Enter Chainage",@tabindex="2"})
+                @Html.ValidationMessageFor(model=>model.IMS_CHAINAGE)
+            </td>
+        </tr>
+                
+        <tr>
+            <td style="width:5%" ></td>
+            <td style="font-weight:bold">           
+                @Html.LabelFor(model => model.IMS_TEST_CODE)<span style="color:red">*</span>
+            </td>
+            <td style="font-weight:bold">
+                @Html.DropDownListFor(model=>model.IMS_TEST_CODE,Model.TestNames,new {@id="ddlTestNames",@tabindex="3"})  
+                @Html.ValidationMessageFor(model=>model.IMS_TEST_CODE)
+            </td>
+
+
+            <td style="font-weight:bold">
+                @Html.LabelFor(model=>model.IMS_TEST_RESULT1)<span style="color:red">*</span>                
+            </td>
+            <td>
+                @Html.TextBoxFor(model => model.IMS_TEST_RESULT1,new { @placeholder="Enter Value",@tabindex="4"})
+                @Html.ValidationMessageFor(model=>model.IMS_TEST_RESULT1)
+            </td>
+        </tr>
+
+
+        @if (Model.EncryptedResultCode == null)
+        { 
+             <td colspan="5" style="text-align:center">
+                <input type="button" id="btnSave" name="btnSave" value="Save" class="jqueryButton" tabindex="5" />
+                <input type="reset" id="btnReset" name="btnSave" value="Reset" class="jqueryButton" tabindex="6"/>
+            </td>    
+        }
+        else
+        {
+            <td colspan="6" style="text-align:center">
+                <input type="button" id="btnUpdate" name="btnUpdate" value="Update" class="jqueryButton" tabindex="5" />
+                <input type="button" id="btnCancel" name="btnCancel" value="Cancel" class="jqueryButton" tabindex="6"/>
+            </td>            
+        }
+
+         
+   @*     <tr id="rowAdd">
+            <td colspan="6" style="text-align:center">
+                <input type="button" id="btnSave" name="btnSave" value="Save" class="jqueryButton" />
+                <input type="button" id="btnReset" name="btnSave" value="Reset" class="jqueryButton" />
+            </td>            
+        </tr>
+
+        <tr id="rowUpdate" style="display:none">
+            <td colspan="6" style="text-align:center">
+                <input type="button" id="btnUpdate" name="btnUpdate" value="Update" class="jqueryButton" />
+            </td>            
+        </tr>*@
+
+
+        </table>
+
+        <div style="margin-top:10px">
+                <div id="divTestResultList">                
+                    <table id="tbTestResultList"></table>
+                    <div id="dvTestResultListPager"></div>
+                </div>
+        </div>
+
+        <div style="margin-top:10px">
+                <div id="divTestResultSampleList">                
+                    <table id="tbTestResultSampleList"></table>
+                    <div id="dvTestResultSampleListPager"></div>
+                </div>
+        </div>
+
+    </form>
+</center>
+}
+else
+{     
+     <div id="divRoadStatus" class="ui-state-error ui-corner-all" style="text-align: left; width: 90%">
+                <span class="ui-icon ui-icon-alert" style="float: left;"></span>                   
+                <span> Can not add Test Result Details because Proposal is not finalize by DPIU or Proposal is Sanctioned.</span>
+    </div>        
+}

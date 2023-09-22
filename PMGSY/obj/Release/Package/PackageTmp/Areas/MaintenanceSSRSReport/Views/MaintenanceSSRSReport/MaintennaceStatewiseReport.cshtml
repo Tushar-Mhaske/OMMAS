@@ -1,0 +1,22 @@
+﻿@using MvcReportViewer
+
+@model PMGSY.Areas.MaintenanceSSRSReport.Models.MaintenanceStatewise
+
+
+@Html.MvcReportViewer("/PMGSYCitizen/MainetenanceStatewise",
+     new
+     {   
+         Level =  Model.LevelCode,
+         state = Model.StateCode,
+         LocationName = Model.StateName,
+     },
+     new { Height = 600, Width = "100%", style = "border:none;" })
+
+
+
+
+
+
+
+
+

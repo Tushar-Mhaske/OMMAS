@@ -1,0 +1,23 @@
+﻿@using MvcReportViewer
+
+@model PMGSY.Areas.MaintenanceSSRSReport.Models.DLPExpenditureModel
+
+
+
+@Html.MvcReportViewer("/PMGSYCitizen/DLPExp",
+     new
+     {   
+         SCHEME=Model.schemeCode,
+         STATE=Model.StateCode,
+         LEVEL=0,
+         DISTRICT=0,
+         BLOCK=0,
+         
+         //STATENAME=Model.StateName,
+        // Month =Model.MonthCode,
+         YEAR=Model.PhaseYear
+          
+         
+     },
+     new { Height = 600, Width = "100%", style = "border:none;" })
+

@@ -1,0 +1,90 @@
+﻿@model PMGSY.Areas.QMSSRSReports.Models.QMGradingAbstract
+
+<script src="~/Areas/QMSSRSReports/Scripts/NQMGradingAbstractReport.js"></script>
+<div id="loadFilters">
+    <form id="frmNQMGrAbs">
+        @Html.ValidationSummary(true)
+        @*@{
+            System.Globalization.CultureInfo CultureInfo = null;
+            CultureInfo = new System.Globalization.CultureInfo(Request.Cookies["language"] == null ? "en" : Request.Cookies["language"].Value.ToString());
+        }*@
+        <div id="dvhdLabLayout" class="ui-corner-top ui-widget-header panelheader" style="text-align: left; height: 20px;">
+            <span class="ui-jqgrid-title" style="float: left">Quality Grading Abstract</span>
+        </div>
+        <table style="width: 100%;">
+            <tr class="ui-state-hover">
+                <td style="width: 5%;"></td>
+                <td style="width: 5%; vertical-align: top">
+                    @Html.HiddenFor(m => m.localizedValue)
+                    @Html.HiddenFor(m => m.StateCode)                   
+                    @Html.LabelFor(model => model.FrmMonth)
+                    @Html.HiddenFor(model => model.FromMonthName)
+                    @Html.HiddenFor(model => model.FromYearName)
+                    @Html.HiddenFor(model => model.ToMonthName)
+                    @Html.HiddenFor(model => model.ToYearName)
+                </td>
+                <td style="width: 10%; vertical-align: top">
+                    @Html.DropDownListFor(model => model.FrmMonth, new SelectList(Model.FrmMonthList, "Value", "Text"), new { @title = "From Month", @id = "ddlFrmMonthNQMGradingAbstract", @tabindex = 1 })
+                    <br />
+                    @Html.ValidationMessageFor(m => m.FrmMonth)
+                </td>
+
+                <td style="width: 5%; vertical-align: top">
+                    @Html.LabelFor(model => model.FrmYear)
+
+                </td>
+                <td style="width: 10%; vertical-align: top">
+                    @Html.DropDownListFor(model => model.FrmYear, new SelectList(Model.FrmYearList, "Value", "Text"), new { @title = "From Year", @id = "ddlFrmYearNQMGradingAbstract", @tabindex = 2 })
+                    <br />
+                    @Html.ValidationMessageFor(m => m.FrmYear)
+                </td>              
+                <td style="width: 4%; vertical-align: top">
+                    @Html.LabelFor(model => model.qmtype)
+                </td>
+                <td style="width: 10%; vertical-align: top">
+                    @Html.DropDownListFor(model => model.qmtype, new SelectList(Model.qmTypeList, "Value", "Text"), new { @title = "Monitor Type", @id = "ddlQMTypeNQMGradingAbstract", @tabindex = 5 })
+                    <br />
+                    @Html.ValidationMessageFor(m => m.qmtype)
+                </td>                             
+                <td style="width: 5%;"></td>
+            </tr>
+            <tr class="ui-state-hover">
+                 <td style="width: 5%;"></td>
+                  <td style="width: 4%; vertical-align: top">
+                    @Html.LabelFor(model => model.ToMonth)
+                </td>
+                <td style="width: 10%; vertical-align: top">
+                    @Html.DropDownListFor(model => model.ToMonth, new SelectList(Model.ToMonthList, "Value", "Text"), new { @title = "To Month", @id = "ddlToMonthNQMGradingAbstract", @tabindex = 3 })
+                    <br />
+                    @Html.ValidationMessageFor(m => m.ToMonth)
+                </td>
+
+                <td style="width: 4%; vertical-align: top">
+                    @Html.LabelFor(model => model.ToYear)
+                </td>
+                <td style="width: 10%; vertical-align: top">
+                    @Html.DropDownListFor(model => model.ToYear, new SelectList(Model.ToYearList, "Value", "Text"), new { @title = "To Year", @id = "ddlToYearNQMGradingAbstract", @tabindex = 4 })
+                    <br />
+                    @Html.ValidationMessageFor(m => m.ToYear)
+                </td>
+                  <td style="width: 4%; vertical-align: top">
+                    @Html.LabelFor(model => model.schemeType)
+                </td>
+                <td style="width: 10%; vertical-align: top">
+                    @Html.DropDownListFor(model => model.schemeType, new SelectList(Model.schemeList, "Value", "Text"), new { @title = "Scheme", @id = "ddlSchemeNQMGradingAbstract", @tabindex = 6 })
+                    <br />
+                    @Html.ValidationMessageFor(m => m.schemeType)
+                </td>
+                  <td style="width: 5%; text-align: center; vertical-align: top">
+                        <input type="button" class="button" value="View" id="btnViewNQMGradingAbstractReport" title="View Details" tabindex="5" />
+                  </td>
+            </tr>
+           
+        </table>
+    </form>
+</div>
+@*<div id="divCompRoads" class="modal" style="margin-top: 12px; float: right; margin-left: 870px;">
+        <span id="spnCompRoads" class="close">X</span>
+        <span>@HttpContext.GetLocalResourceObject(@"~\Views\Shared\CommonFilters", "lblNoteDrillDown", CultureInfo)</span>
+    </div>*@
+<div id="loadReport" class="divLoadReport"></div>

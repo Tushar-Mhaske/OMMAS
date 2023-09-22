@@ -1,0 +1,47 @@
+﻿@using MvcReportViewer
+
+@model PMGSY.Areas.ProposalSSRSReports.Models.PhysicalProgressReportModel
+
+@if (Model.ProposalType == "P")
+{
+    @Html.MvcReportViewer("/PMGSYCitizen/ExecutionPhysicalProgressRoad",
+     new
+     {
+         State = Model.StateCode,
+         District = Model.DistrictCode,
+         Block = Model.BlockCode,
+         Year = Model.PhaseYear,
+         Batch = Model.Batch,
+         Collaboration = Model.FundingAgency,
+         PMGSY = PMGSY.Extensions.PMGSYSession.Current.PMGSYScheme,
+         Type = Model.ProposalType,
+         StateName = Model.StateName,
+         DistrictName = Model.DistrictName,
+         BlockName = Model.BlockName,
+         CollaborationName = Model.CollaborationName,
+         BatchName = Model.BatchName
+     },
+       new { Height = 600, Width = 1200, style = "border:none;" })
+}
+else
+{
+    @Html.MvcReportViewer("/PMGSYCitizen/ExecutionPhysicalProgressBridge",
+     new
+     {
+         State = Model.StateCode,
+         District = Model.DistrictCode,
+         Block = Model.BlockCode,
+         Year = Model.PhaseYear,
+         Batch = Model.Batch,
+         Collaboration = Model.FundingAgency,
+         PMGSY = PMGSY.Extensions.PMGSYSession.Current.PMGSYScheme,
+         Type = Model.ProposalType,
+         StateName = Model.StateName,
+         DistrictName = Model.DistrictName,
+         BlockName = Model.BlockName,
+         CollaborationName = Model.CollaborationName,
+         BatchName = Model.BatchName
+     },
+       new { Height = 600, Width = 1200, style = "border:none;" })
+        
+}

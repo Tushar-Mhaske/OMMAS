@@ -1,0 +1,15 @@
+﻿@{
+    ViewBag.Title = "TourDetailsReport";
+}
+
+@using MvcReportViewer
+
+@model PMGSY.Areas.QMSSRSReports.Models.QualityReportsViewModel
+
+@Html.MvcReportViewer("/PMGSYCitizen/NQMTourProgram",
+         new
+         {
+             Month = Model.Month,
+             Year =  Model.Year
+         },
+     new { Height = 700, Width = "100%", style = "border:none;" })

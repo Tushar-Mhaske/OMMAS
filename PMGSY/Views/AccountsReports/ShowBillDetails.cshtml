@@ -1,0 +1,865 @@
+﻿
+@using PMGSY.Models
+@using PMGSY.Models.Report
+@model PMGSY.Models.AccountReports.AccountBillViewModel
+@using PMGSY.Extensions
+@using System.Globalization
+@using PMGSY.Common
+<style type="text/css">
+
+div.CBHeader{
+			padding:5px;
+            width:98%;
+			display:inline-block;
+			cursor:default;
+			/*font:12px/14px Arial, Helvetica, sans-serif;*/
+            font-family: Trebuchet MS,Tahoma,Verdana,Arial,sans-serif;
+			color:#000;
+			background-color:#eee;
+			-moz-border-radius:10px;
+			-webkit-border-radius:10px;
+			-moz-box-shadow:#999 2px 0px 3px;
+			-webkit-box-shadow:#999 2px 0px 3px;
+		}
+</style>
+
+<link href="~/Content/demo_page.css" rel="stylesheet" />
+<link href="~/Content/demo_table_jui.css" rel="stylesheet" />
+<link href="~/Content/TableTools.css" rel="stylesheet" />
+<link href="~/Content/TableTools_JUI.css" rel="stylesheet" />
+
+
+<script src="~/Scripts/custom/Generic.js"></script>
+<script src="~/Scripts/DataTables/jquery.dataTables.js"></script>
+<script src="~/Scripts/DataTables/ZeroClipboard.js"></script>
+<script src="~/Scripts/DataTables/TableTools.js"></script>
+@*<script src="~/Scripts/AccountsReports/AnnualReport.js"></script>*@
+<script src="~/Scripts/AccountsReports/ShowBillDetails.js"></script>
+
+@{
+   CommonFunctions objCommonFunction = new CommonFunctions();
+   
+}
+<div class="CBHeader ui-corner-all">
+        
+        @if(Model.lstAccountBillDetails==null)
+        {    
+            <div id="divValidationMessages">
+            @Html.ValidationSummary(true)              
+            @Html.ValidationMessageFor(m=>m.DPIU) 
+            <br />            
+            @Html.ValidationMessageFor(m=>m.BillType)    
+            <br />            
+            @Html.ValidationMessageFor(m => m.Month) @Html.ValidationMessageFor(m => m.StartDate)                       
+            <br />
+            @Html.ValidationMessageFor(m=>m.Year)    @Html.ValidationMessageFor(m => m.EndDate)
+            </div>
+        }
+    <table class="ui-state-default ui-corner-all" style="border: 0.1em solid gray; width: 100%; margin-top: 1px" id="tblFilter">
+        
+        @Html.HiddenFor(m=>m.FundType)
+        @Html.HiddenFor(m=>m.BillType)
+        @Html.HiddenFor(m=>m.TotalRecords)
+
+        @* Modified By Abhishek Kamble *@
+        
+        @if(Model.lstAccountBillDetails!=null)
+        {
+            @Html.Hidden("TotalRecord",Model.lstAccountBillDetails.Count)
+        }        
+
+        <tr>
+            <td style="font-weight: bold; width: 10%;color:green">@Html.Label("Nodal Agency",new { style="font-weight:bold"}) :</td>
+            @if(PMGSYSession.Current.LevelId==5)
+            {
+                <td style="width:15%">@Html.DisplayFor(m => m.NodalAgency)</td>
+            }
+            else
+            {
+                <td style="width:15%">@Html.Label(PMGSYSession.Current.DepartmentName)</td>
+            }
+            <td style="font-weight: bold; width: 10%;color:green">@Html.Label("Name Of DPIU",new { style="font-weight:bold"}) :</td>
+            @if (Model.DPIUName != null)
+            {
+                <td style="width:15%">@Html.DisplayFor(m => m.DPIUName)</td>
+            }
+            else if(Model.DPIUBySRRDA !=null)
+            {
+                <td style="width:15%">@Html.DisplayFor(m=>m.DPIUBySRRDA)</td>
+            }
+            else
+            {
+                <td style="width:15%">@Html.Label("-")</td>
+            }
+            <td style="font-weight: bold;width: 10%;color:green">@Html.Label("State",new { style="font-weight:bold"}) :</td>
+            <td style="width: 10%;">@Html.Label("lblState", PMGSYSession.Current.StateName)</td>
+        </tr>      
+        <tr>
+            <td style="font-weight: bold; width: 10%;color:green">@Html.Label("Bill Type Selection",new { style="font-weight:bold"}) :</td>
+            <td>
+                @if (Model.rType == "M")
+                {
+                    
+                    <label>Monthly</label>
+                }
+                else if(Model.rType=="Y")
+                {
+                    
+                    <label>Yearly</label>
+                }
+                else 
+                {
+                    
+                    <label>Periodic</label>
+                }
+
+            </td>
+             <td style="font-weight: bold;color:green">
+                @Html.Label("Bill Type",new { style="font-weight:bold"}) :
+            </td>
+            <td>
+                @Html.DisplayFor(model=>model.BilltypeName)
+            </td>
+
+             @if (Model.rType == "M")
+             {
+                 <td style="font-weight: bold;color: green">
+                     @Html.Label("Month-Year",new { style="font-weight:bold"}) :
+                 </td>
+                 <td>
+                     @Html.DisplayFor(model => model.MonthName)- @Html.DisplayFor(model => model.Year)
+                 </td>
+             }
+             else if (Model.rType == "Y")
+             {
+                 <td style="color: green;font-weight: bold;">
+                     @Html.Label("Year",new { style="font-weight:bold"}) :
+                 </td>
+                 <td>
+                     @Html.DisplayFor(model => model.Year)
+                 </td>
+              }
+             else
+             {
+                 <td style="color: green;font-weight: bold">
+                     @Html.Label("Start Date-End Date",new { style="font-weight:bold"}) :
+                 </td>
+                 <td>
+                     @Html.DisplayFor(model => model.StartDate)- @Html.DisplayFor(model => model.EndDate)
+                 </td>
+             }
+            
+        </tr>         
+        
+    </table>
+</div>
+<br />
+
+<div>
+
+</div>
+
+
+@if ((Model.BillType == "P" && PMGSYSession.Current.FundType == "P") || PMGSYSession.Current.FundType == "M")
+{
+
+if (Model.lstAccountBillDetails != null)
+{
+    <table id="tblBillDetails">
+        @{ 
+            <thead>
+                <tr>
+                    <th>Sr. No.</th>               
+                    <th>Voucher Type</th>  
+                    <th>Voucher Number</th>   
+                    <th>Voucher Date</th>   
+                    <th>Cheque/ePay No.</th>   
+                    <th>Cheque/ePay Date</th>   
+                    <th>Cheque/ePay Amount<br />(In Rs.)</th>   
+                    <th>Cash Amount<br />(In Rs.)</th>   
+                    <th>Gross Amount<br />(In Rs.)</th>   
+                    <th>Company Name</th>   
+                    <th>Agreement Number</th>   
+                    <th>Finalize</th>   
+                    <th>View</th>                              
+                </tr>               
+                         
+            </thead>
+            
+        <tbody> 
+            @{
+                decimal TotalChequeAmount=0;
+                decimal TotalCashAmount=0;
+                decimal TotalGrossAmount=0;
+            }
+                        
+                @if (Model.lstAccountBillDetails.Count > 0)
+                {
+
+                    foreach (SP_ACC_RPT_DISPALY_Bill_DETAILS_Result item in Model.lstAccountBillDetails)
+                    {
+                        <tr>
+                            <td></td>                            
+                            <td>@item.Voucher_type</td>
+                            <td>@item.Voucher_No</td>
+                            <td>@item.Voucher_Date</td>
+                            <td>@item.Cheque_No</td>
+                            <td>@item.Cheque_Date</td>       
+                            <td style="text-align:right">
+                            @{ 
+                                    @objCommonFunction._IndianFormatAmount(item.Cheque_Amount==null?"0":item.Cheque_Amount.ToString());
+                            }
+                            </td>
+                            <td style="text-align:right">
+                                @{ 
+                                    @objCommonFunction._IndianFormatAmount(item.Cash_Amount==null?"0":item.Cash_Amount.ToString());
+                                }
+                            </td>
+                            <td style="text-align:right">
+                                @{ 
+                                    @objCommonFunction._IndianFormatAmount(item.Gross_Amount==null?"0":item.Gross_Amount.ToString());
+                                }
+                            </td>
+                            <td>@item.Contractor_Company</td>
+                            <td>@item.Agreement_Number</td>
+                           @*<td>@(item.Finalized=="Y"?Html.Label("",new {@class="ui-icon-ui-icon-locked"}):Html.Label("",new {@class="ui-icon-ui-icon-unlocked"}))</td>*@
+                            <td>
+                                @if(item.Finalized=="Y")
+                                {                                  
+                                    <span class="ui-icon ui-icon-locked"></span>
+                                }else
+                                {                                  
+                                    <span class="ui-icon ui-icon-unlocked"></span>
+                                }
+                                </td>
+                            @{
+                              //  String separator = ",";
+
+                        //Html.Hidden(item.BILL_TYPE.ToString() + "$" + item.BILL_ID.ToString() , "BillIdType");
+                        //var ParamID = item.BILL_ID.ToString() + "," +"'" +item.BILL_TYPE.ToString()+"'";
+                                //string ParamID =@item.BILL_TYPE+"$"+ @item.BILL_ID.ToString();
+                                                                 
+                             }
+                            <td><a href="#" onclick="transactionDetails( '@item.BILL_ID','@item.BILL_TYPE' )" class="ui-icon ui-icon-zoomin" title="Click to view transaction details"></a></td>
+                        </tr>
+                        TotalChequeAmount = TotalChequeAmount + @item.Cheque_Amount;
+                        TotalCashAmount = TotalCashAmount + @item.Cash_Amount;
+                        TotalGrossAmount = TotalGrossAmount + @item.Gross_Amount;
+                     
+                    }                         
+                 } 
+                                        
+                 else
+                 {
+                        <tr> 
+                            <td></td>
+                            <td></td>     
+                            <td></td>     
+                            <td></td>     
+                            <td></td>                         
+                            <td></td>
+                            <td> No Records To Display</td>
+                            <td></td>
+                            <td></td>
+                            <td></td>
+                            <td></td>                               
+                            <td></td>
+                            <td></td>
+
+                        </tr>
+                            
+                 }     
+    </tbody>
+     if(Model.lstAccountBillDetails.Count>0)
+     {
+             <tfoot>              
+                <tr>                   
+                    <td></td>
+                    <td style="font-weight:bold;font-size:13px"></td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                    <td style="font-weight:bold;text-align:right;font-size:12px">Total Cheque/ePay:<br /> @String.Format(new CultureInfo("en-IN"), "{0:C}",TotalChequeAmount==null?0:TotalChequeAmount) </td>
+                    <td style="font-weight:bold;text-align:right;font-size:12px">Total Cash:<br /> @String.Format(new CultureInfo("en-IN"), "{0:C}",TotalCashAmount==null?0:TotalCashAmount)</td>
+                    <td style="font-weight:bold;text-align:right;font-size:12px">Total Gross:<br /> @String.Format(new CultureInfo("en-IN"), "{0:C}",TotalGrossAmount==null?0:TotalGrossAmount)</td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                    <td></td>                    
+                </tr>                
+            </tfoot>
+    }
+    }
+    </table>
+}
+}
+else if (Model.BillType == "P" && PMGSYSession.Current.FundType == "A")
+{
+
+if (Model.lstAccountBillDetails != null)
+{
+    <table id="tblBillDetails">
+        @{ 
+            <thead>
+                <tr>
+                    <th>SR No.</th>              
+                    <th>Voucher Type</th>  
+                    <th>Voucher Number</th>   
+                    <th>Voucher Date</th>   
+                    <th>Cheque/ePay No.</th>   
+                    <th>Cheque/ePay Date</th>   
+                    <th>Cheque/ePay Amount<br />(In Rs.)</th>   
+                    <th>Cash Amount<br />(In Rs.)</th>   
+                    <th>Gross Amount<br />(In Rs.)</th>   
+                    <th>Finalize</th> 
+                    <th>Action</th>                   
+                </tr>                  
+            </thead>
+            
+        <tbody> 
+            @{
+                decimal TotalChequeAmount=0;
+                decimal TotalCashAmount=0;
+                decimal TotalGrossAmount=0;
+            }
+                        
+                @if (Model.lstAccountBillDetails.Count > 0)
+                {
+
+                    foreach (SP_ACC_RPT_DISPALY_Bill_DETAILS_Result item in Model.lstAccountBillDetails)
+                    {
+                        <tr>
+                            <td></td>
+                            <td>@item.Voucher_type</td>
+                            <td>@item.Voucher_No</td>
+                            <td>@item.Voucher_Date</td>
+                            <td>@item.Cheque_No</td>
+                            <td>@item.Cheque_Date</td>
+                            <td style="text-align:right">
+                                @{ 
+                                    @objCommonFunction._IndianFormatAmount(item.Cheque_Amount==null?"0":item.Cheque_Amount.ToString());
+                                }
+                            </td>
+                            <td style="text-align:right">
+                                @{ 
+                                    @objCommonFunction._IndianFormatAmount(item.Cash_Amount==null?"0":item.Cash_Amount.ToString());
+                                }
+                            </td>
+                            <td style="text-align:right">
+                                @{ 
+                                    @objCommonFunction._IndianFormatAmount(item.Gross_Amount==null?"0":item.Gross_Amount.ToString());
+                                }
+                            </td>
+                           <td>
+                                @if(item.Finalized=="Y")
+                                {                                
+                                    <span class="ui-icon ui-icon-locked"></span>
+                                }else
+                                {                                  
+                                    <span class="ui-icon ui-icon-unlocked"></span>
+                                }
+                                </td>
+                            <td><a href="#" onclick="transactionDetails('@item.BILL_ID','@item.BILL_TYPE')" class="ui-icon ui-icon-zoomin" title="Click to view transaction details"></a></td>
+                            
+                            
+
+                        </tr>
+                        TotalChequeAmount = TotalChequeAmount + @item.Cheque_Amount;
+                        TotalCashAmount = TotalCashAmount + @item.Cash_Amount;
+                        TotalGrossAmount = TotalGrossAmount + @item.Gross_Amount;
+                    }                         
+                 }                          
+                 else
+                 {
+                        <tr>                                 
+                            <td></td>     
+                            <td></td>     
+                            <td></td>                         
+                            <td></td>
+                            <td> No Records To Display</td>
+                            <td></td>
+                            <td></td>
+                            <td></td>
+                            <td></td>                               
+                            <td></td>
+                            <td></td>
+                        </tr>                           
+                 }     
+    </tbody>
+            if(Model.lstAccountBillDetails.Count>0)
+            {
+            <tfoot>
+                <tr>
+                    <td></td>     
+                     <td style="font-weight:bold;font-size:13px"></td>     
+                     <td></td>                         
+                     <td></td>
+                     <td></td>
+                     <td></td>
+                     <td style="font-weight:bold;font-size:13px">Total Cheque/ePay: @String.Format(new CultureInfo("en-IN"), "{0:C}",TotalChequeAmount==null?0:TotalChequeAmount)</td>
+                     <td style="font-weight:bold;font-size:13px">Total Cash: @String.Format(new CultureInfo("en-IN"), "{0:C}",TotalCashAmount==null?0:TotalCashAmount)</td>
+                     <td style="font-weight:bold;font-size:13px">Total Gross: @String.Format(new CultureInfo("en-IN"), "{0:C}",TotalGrossAmount==null?0:TotalGrossAmount)</td>                               
+                     <td></td>
+                     <td></td>
+                </tr>
+            </tfoot>
+        }
+    }
+    </table>
+}
+}
+else if(Model.BillType=="R")
+{
+
+if (Model.lstAccountBillDetails != null)
+{
+    <table id="tblBillDetails">
+        @{ 
+            <thead>
+                <tr>
+                    <th>SR No.</th>                  
+                    <th>Receipt Type</th>  
+                    <th>Receipt Number</th>   
+                    <th>Receipt Date</th>   
+                    <th>Cheque/ePay No.</th>   
+                    <th>Cheque/ePay Date</th>   
+                    <th>Cheque/ePay Amount<br />(In Rs.)</th>   
+                    <th>Cash Amount<br />(In Rs.)</th>   
+                    <th>Gross Amount<br />(In Rs.)</th>   
+                    <th>Finalize</th> 
+                    <th>Action</th>                             
+                </tr>                  
+            </thead>           
+        <tbody> 
+             @{
+                decimal TotalChequeAmount=0;
+                decimal TotalCashAmount=0;
+                decimal TotalGrossAmount=0;
+            }
+                        
+                @if (Model.lstAccountBillDetails.Count > 0)
+                {
+
+                    foreach (SP_ACC_RPT_DISPALY_Bill_DETAILS_Result item in Model.lstAccountBillDetails)
+                    {
+                        <tr>
+                            <td></td>
+                            <td>@item.Voucher_type</td>
+                            <td>@item.Voucher_No</td>
+                            <td>@item.Voucher_Date</td>
+                            <td>@item.Cheque_No</td>
+                            <td>@item.Cheque_Date</td>
+                            <td style="text-align:right">
+                                @{ 
+                                    @objCommonFunction._IndianFormatAmount(item.Cheque_Amount==null?"0":item.Cheque_Amount.ToString());
+                                }
+                            </td>
+                            <td style="text-align:right">
+                                @{ 
+                                    @objCommonFunction._IndianFormatAmount(item.Cash_Amount==null?"0":item.Cash_Amount.ToString());
+                                }
+                            </td>
+                            <td style="text-align:right">
+                                @{ 
+                                    @objCommonFunction._IndianFormatAmount(item.Gross_Amount==null?"0":item.Gross_Amount.ToString());
+                                }
+                            </td>
+                            
+                            <td>
+                                @if(item.Finalized=="Y")
+                                {                                   
+                                    <span class="ui-icon ui-icon-locked"></span>
+                                }else
+                                {                                   
+                                    <span class="ui-icon ui-icon-unlocked"></span>
+                                }
+                                </td>
+                            <td><a href="#" onclick="transactionDetails('@item.BILL_ID','@item.BILL_TYPE')" class="ui-icon ui-icon-zoomin" title="Click to view transaction details"></a></td>
+                    
+
+                        </tr>
+                                TotalChequeAmount = TotalChequeAmount + @item.Cheque_Amount;
+                                TotalCashAmount = TotalCashAmount + @item.Cash_Amount;
+                                TotalGrossAmount = TotalGrossAmount + @item.Gross_Amount;
+                    }                         
+                 }                          
+                 else
+                 {
+                        <tr>                           
+                            <td></td>     
+                            <td></td>     
+                            <td></td>                         
+                            <td></td>
+                            <td> No Records To Display</td>
+                            <td></td>
+                            <td></td>
+                            <td></td>
+                            <td></td>                               
+                            <td></td>
+                            <td></td>
+                        </tr>
+                            
+                 }     
+    </tbody>
+            if(Model.lstAccountBillDetails.Count>0)
+            {
+            <tfoot>
+                <tr>
+                    <td></td>     
+                    <td style="font-weight:bold;font-size:13px"></td>     
+                    <td></td>                         
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                    <td style="text-align:right;font-size:13px;">Total Cheque/ePay: @String.Format(new CultureInfo("en-IN"), "{0:C}",TotalChequeAmount==null?0:TotalChequeAmount)</td>
+                    <td style="text-align:right;font-size:13px;">Total Cash: @String.Format(new CultureInfo("en-IN"), "{0:C}",TotalCashAmount==null?0:TotalCashAmount)</td>
+                    <td style="text-align:right;font-size:13px;">Total Gross: @String.Format(new CultureInfo("en-IN"), "{0:C}",TotalGrossAmount==null?0:TotalGrossAmount)</td>                               
+                    <td></td>
+                    <td></td>
+                </tr>
+            </tfoot>
+          }
+    }
+    </table>
+}
+}
+else if ((Model.BillType == "J" && PMGSYSession.Current.FundType == "P") || PMGSYSession.Current.FundType == "M")
+{
+
+if (Model.lstAccountBillDetails != null)
+{
+    <table id="tblBillDetails">
+        @{ 
+            <thead>
+                <tr>
+                    <th>SR No.</th>                  
+                    <th>TEO Type</th>  
+                    <th>TEO Number</th>   
+                    <th>TEO Date</th>                   
+                    <th>Cash Amount<br />(In Rs.)</th>   
+                    <th>Gross Amount<br />(In Rs.)</th>   
+                    <th>Company Name</th>   
+                    <th>Agreement Number</th>   
+                    <th>Finalize</th> 
+                    <th>Action</th>  
+                                     
+                                    
+                </tr>
+                
+                         
+            </thead>
+            
+        <tbody> 
+                @{
+               
+                decimal TotalCashAmount=0;
+                decimal TotalGrossAmount=0;
+            }         
+                @if (Model.lstAccountBillDetails.Count > 0)
+                {
+
+                    foreach (SP_ACC_RPT_DISPALY_Bill_DETAILS_Result item in Model.lstAccountBillDetails)
+                    {
+                        <tr>
+                            <td></td>
+                            <td>@item.Voucher_type</td>
+                            <td>@item.Voucher_No</td>
+                            <td>@item.Voucher_Date</td>                           
+                            <td style="text-align:right">
+                                @{ 
+                                    @objCommonFunction._IndianFormatAmount(item.Cash_Amount==null?"0":item.Cash_Amount.ToString());
+                                }
+                            </td>
+                            <td style="text-align:right">
+                                @{ 
+                                    @objCommonFunction._IndianFormatAmount(item.Gross_Amount==null?"0":item.Gross_Amount.ToString());
+                                }
+                            </td>
+                            <td>@item.Contractor_Company</td>
+                            <td>@item.Agreement_Number</td>
+                          <td>
+                                @if(item.Finalized=="Y")
+                                {
+                                     <span class="ui-icon ui-icon-locked"></span>
+                                }else
+                                {
+                                     <span class="ui-icon ui-icon-unlocked"></span>
+                                }
+                                </td>
+                            <td><a href="#" onclick="transactionDetails('@item.BILL_ID','@item.BILL_TYPE')" class="ui-icon ui-icon-zoomin" title="Click to view transaction details"></a></td>
+                        </tr>                              
+                                TotalCashAmount = TotalCashAmount + @item.Cash_Amount;
+                                TotalGrossAmount = TotalGrossAmount + @item.Gross_Amount;
+                    }                         
+                 }                          
+                 else
+                 {
+                        <tr>                           
+                            <td></td>     
+                            <td></td>                         
+                            <td></td>
+                            <td> No Records To Display</td>
+                            <td></td>
+                            <td></td>
+                            <td></td>
+                            <td></td>                               
+                            <td></td>
+                            <td></td>
+                        </tr>
+                            
+                 }     
+    </tbody>
+            if(Model.lstAccountBillDetails.Count>0)
+            {
+            <tfoot>
+                <tr>
+                     <td></td>                  
+                     <td style="font-weight:bold;font-size:13px"></td>
+                     <td></td>
+                     <td></td>
+                     <td style="text-align:right;font-weight:bold;font-size:13px">Total Cash: @String.Format(new CultureInfo("en-IN"), "{0:C}",TotalCashAmount==null?0:TotalCashAmount)</td>                               
+                     <td style="text-align:right;font-weight:bold;font-size:13px">Total Gross: @String.Format(new CultureInfo("en-IN"), "{0:C}",TotalGrossAmount==null?0:TotalGrossAmount)</td>
+                     <td></td>
+                     <td></td>
+                     <td></td>
+                     <td></td>
+                </tr>
+            </tfoot>
+        }
+    }
+    </table>
+}
+}
+else if (Model.BillType == "J" && PMGSYSession.Current.FundType == "A")
+{
+
+if (Model.lstAccountBillDetails != null)
+{
+    <table id="tblBillDetails">
+        @{ 
+            <thead>
+                <tr>
+                    <th>SR No.</th>                 
+                    <th>TEO Type</th>  
+                    <th>TEO Number</th>   
+                    <th>TEO Date</th>                   
+                    <th>Cash Amount<br />(In Rs.)</th>   
+                    <th>Gross Amount<br />(In Rs.)</th>                   
+                    <th>Finalize</th>   
+                    <th>Action</th>                              
+                </tr>                    
+            </thead>
+            
+        <tbody> 
+             @{
+               
+                decimal TotalCashAmount=0;
+                decimal TotalGrossAmount=0;
+            }
+                        
+                @if (Model.lstAccountBillDetails.Count > 0)
+                {
+
+                    foreach (SP_ACC_RPT_DISPALY_Bill_DETAILS_Result item in Model.lstAccountBillDetails)
+                    {
+                        <tr>
+                            <td></td>
+                            <td>@item.Voucher_type</td>
+                            <td>@item.Voucher_No</td>
+                            <td>@item.Voucher_Date</td>                           
+                            <td style="text-align:right">
+                                @{ 
+                                    @objCommonFunction._IndianFormatAmount(item.Cash_Amount==null?"0":item.Cash_Amount.ToString());
+                                }
+                            </td>
+                            <td style="text-align:right">
+                                @{ 
+                                    @objCommonFunction._IndianFormatAmount(item.Gross_Amount==null?"0":item.Gross_Amount.ToString());
+                                }
+                            </td>
+                           
+                           <td>
+                                @if(item.Finalized=="Y")
+                                {
+                                   <span class="ui-icon ui-icon-locked"></span>
+                                }else
+                                {
+                                   <span class="ui-icon ui-icon-unlocked"></span>
+                                }
+                                </td>
+                            <td><a href="#" onclick="transactionDetails('@item.BILL_ID','@item.BILL_TYPE')" class="ui-icon ui-icon-zoomin" title="Click to view transaction details"></a></td>
+                    
+
+                        </tr>      
+                               
+                                TotalCashAmount = TotalCashAmount + @item.Cash_Amount;
+                                TotalGrossAmount = TotalGrossAmount + @item.Gross_Amount;
+                    }                         
+                     
+                 }                         
+                                           
+                 else
+                 {
+                        <tr>                                           
+                            <td></td>
+                            <td> </td>
+                            <td></td>
+                            <td>No Records To Display</td>
+                            <td></td>
+                            <td></td>                               
+                            <td></td>
+                            <td></td>
+                        </tr>
+                            
+                 }     
+    </tbody>
+            if(Model.lstAccountBillDetails.Count >0)
+            {
+            <tfoot>
+                <tr>
+                     <td></td>
+                      <td style="font-weight:bold;font-size:13px"></td>
+                      <td></td>
+                      <td></td>                                                  
+                      <td style="text-align:right;font-weight:bold;font-size:13px">Total Cash: @String.Format(new CultureInfo("en-IN"), "{0:C}",TotalCashAmount==null?0:TotalCashAmount)</td>
+                      <td style="text-align:right;font-weight:bold;font-size:13px">Total Gross: @String.Format(new CultureInfo("en-IN"), "{0:C}",TotalGrossAmount==null?0:TotalGrossAmount)</td>
+                      <td></td>
+                      <td></td>   
+               </tr>
+            </tfoot>
+           }
+    }
+    </table>
+}
+}
+else if (Model.BillType == "0")
+{
+
+if (Model.lstAccountBillDetails != null)
+{
+    <table id="tblBillDetails">
+        @{ 
+            <thead>
+                <tr>
+                    <th>Sr. No.</th>               
+                    <th>Voucher Type</th>  
+                    <th>Voucher Number</th>   
+                    <th>Voucher Date</th>   
+                    <th>Cheque/ePay No.</th>   
+                    <th>Cheque/ePay Date</th>   
+                    <th>Cheque/ePay Amount<br />(In Rs.)</th>   
+                    <th>Cash Amount<br />(In Rs.)</th>   
+                    <th>Gross Amount<br />(In Rs.)</th>   
+                    <th>Company Name</th>   
+                    <th>Agreement Number</th>   
+                    <th>Finalize</th>   
+                    <th>View</th>                              
+                </tr>               
+                         
+            </thead>
+            
+        <tbody> 
+            @{
+                decimal TotalChequeAmount=0;
+                decimal TotalCashAmount=0;
+                decimal TotalGrossAmount=0;
+            }
+                        
+                @if (Model.lstAccountBillDetails.Count > 0)
+                {
+
+                    foreach (SP_ACC_RPT_DISPALY_Bill_DETAILS_Result item in Model.lstAccountBillDetails)
+                    {
+                        <tr>
+                            <td></td>                            
+                            <td>@item.Voucher_type</td>
+                            <td>@item.Voucher_No</td>
+                            <td>@item.Voucher_Date</td>
+                            <td>@item.Cheque_No</td>
+                            <td>@item.Cheque_Date</td>       
+                            <td style="text-align:right">
+                            @{ 
+                                    @objCommonFunction._IndianFormatAmount(item.Cheque_Amount==null?"0":item.Cheque_Amount.ToString());
+                            }
+                            </td>
+                            <td style="text-align:right">
+                                @{ 
+                                    @objCommonFunction._IndianFormatAmount(item.Cash_Amount==null?"0":item.Cash_Amount.ToString());
+                                }
+                            </td>
+                            <td style="text-align:right">
+                                @{ 
+                                    @objCommonFunction._IndianFormatAmount(item.Gross_Amount==null?"0":item.Gross_Amount.ToString());
+                                }
+                            </td>
+                            <td>@item.Contractor_Company</td>
+                            <td>@item.Agreement_Number</td>
+                           @*<td>@(item.Finalized=="Y"?Html.Label("",new {@class="ui-icon-ui-icon-locked"}):Html.Label("",new {@class="ui-icon-ui-icon-unlocked"}))</td>*@
+                            <td>
+                                @if(item.Finalized=="Y")
+                                {                                  
+                                    <span class="ui-icon ui-icon-locked"></span>
+                                }else
+                                {                                  
+                                    <span class="ui-icon ui-icon-unlocked"></span>
+                                }
+                                </td>
+                            <td><a href="#" onclick="transactionDetails('@item.BILL_ID','@item.BILL_TYPE')" class="ui-icon ui-icon-zoomin" title="Click to view transaction details"></a></td>
+                            
+                        </tr>
+                        TotalChequeAmount = TotalChequeAmount + @item.Cheque_Amount;
+                        TotalCashAmount = TotalCashAmount + @item.Cash_Amount;
+                        TotalGrossAmount = TotalGrossAmount + @item.Gross_Amount;
+                     
+                    }                         
+                 } 
+                                        
+                 else
+                 {
+                        <tr> 
+                            <td></td>
+                            <td></td>     
+                            <td></td>     
+                            <td></td>     
+                            <td></td>                         
+                            <td></td>
+                            <td> No Records To Display</td>
+                            <td></td>
+                            <td></td>
+                            <td></td>
+                            <td></td>                               
+                            <td></td>
+                            <td></td>
+
+                        </tr>
+                            
+                 }     
+    </tbody>
+     if(Model.lstAccountBillDetails.Count>0)
+     {
+             <tfoot>              
+                <tr>                   
+                    <td></td>
+                    <td style="font-weight:bold;font-size:13px"></td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                    <td style="font-weight:bold;text-align:right;font-size:12px">Total Cheque/ePay:<br /> @String.Format(new CultureInfo("en-IN"), "{0:C}",TotalChequeAmount==null?0:TotalChequeAmount) </td>
+                    <td style="font-weight:bold;text-align:right;font-size:12px">Total Cash:<br /> @String.Format(new CultureInfo("en-IN"), "{0:C}",TotalCashAmount==null?0:TotalCashAmount)</td>
+                    <td style="font-weight:bold;text-align:right;font-size:12px">Total Gross:<br /> @String.Format(new CultureInfo("en-IN"), "{0:C}",TotalGrossAmount==null?0:TotalGrossAmount)</td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                    <td></td>                    
+                </tr>                
+            </tfoot>
+    }
+    }
+    </table>
+}
+}
+
+
+

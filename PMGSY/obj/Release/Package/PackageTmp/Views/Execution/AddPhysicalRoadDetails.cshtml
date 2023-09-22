@@ -1,0 +1,165 @@
+﻿@*
+    * Project Id    :
+    * Project Name  :   OMMAS II
+    * Name          :   AddPhysicalRoadDetails.cshtml
+    * Description   :   This View Adds the Physical Road Progress Details to Road Proposal Execution
+    * Author        :   Vikram Nandanwar        
+    * Creation Date :   25/June/2013    
+*@
+
+
+@model PMGSY.Models.Execution.ExecutionRoadStatusViewModel
+
+@{
+    ViewBag.Title = "AddPhysicalRoadDetails";
+}
+
+<script src="~/Scripts/custom/Generic.js"></script>
+<script src="~/Scripts/Execution/AddPhysicalRoadDetails.js"></script>
+
+<center>
+<form id="frmAddPhysicalRoad">
+<div style="margin-left: 100px">
+    @Html.ValidationSummary(true)
+    @Html.HiddenFor(x=>x.changed_SanctionedLength)
+</div>            
+<div id="divError" class="ui-state-error ui-corner-all" style="text-align: left; display: none; width: 100%">
+        <span class="ui-icon ui-icon-alert" style="float: left;"></span>                   
+        <span></span>
+</div>
+<div style="height:20px; width: 100%; text-align:left; padding-top: 0.6em;" class="ui-state-default ui-corner-all" > 
+            &nbsp;<strong> Note :</strong>  Fields marked with * are mandatory.
+</div>
+<table id="tbAddRoadDetails"  cellpadding="3px" class="rowstyle" style="margin-top:0px; text-align:left; border:ridge 0.1em #ccc; width:100%; padding-top:5px 5px 5px 5px;">
+    <tr>
+        <td style="width:5%">
+        </td>
+        <td style="width:10%">
+            @Html.LabelFor(model=>model.EXEC_PROG_MONTH)<label style="color:red">*</label>
+        </td>
+        <td style="width:20%">
+            @Html.DropDownListFor(model => model.EXEC_PROG_MONTH, ViewData["Month"] as IEnumerable<SelectListItem>, new { @id="ddlMonth",@title="Select Month",@tabindex = 1})
+            @Html.ValidationMessageFor(model=>model.EXEC_PROG_MONTH)
+        </td>
+        <td style="width:10%">
+            @Html.LabelFor(model=>model.EXEC_PROG_YEAR)<label style="color:red">*</label>
+        </td>
+        <td style="width:20%">
+            @Html.DropDownListFor(model=>model.EXEC_PROG_YEAR,ViewData["Year"] as IEnumerable<SelectListItem>,new {@title="Select Year",@id="ddlYear",@tabindex = 2})
+            @Html.ValidationMessageFor(model=>model.EXEC_PROG_YEAR)
+        </td>
+    </tr>
+    <tr>
+        <td></td>
+        <td>
+            @Html.LabelFor(model=>model.EXEC_ISCOMPLETED)<label style="color:red">*</label>
+        </td>
+        <td>
+            @Html.DropDownListFor(model => model.EXEC_ISCOMPLETED, ViewData["WorkStatus"] as IEnumerable<SelectListItem>, new {@id="ddlWorkStatus" ,@title="Select Work Status",@tabindex = 3})
+            @Html.ValidationMessageFor(model=>model.EXEC_ISCOMPLETED)
+        </td>
+        <td>
+            @Html.LabelFor(model=>model.EXEC_PREPARATORY_WORK)
+        </td>
+        <td>
+            @Html.TextBoxFor(model=>model.EXEC_PREPARATORY_WORK, new {@title="Select Work Status",@tabindex = 3})
+            @Html.ValidationMessageFor(model=>model.EXEC_PREPARATORY_WORK)
+        </td>
+    </tr>
+    <tr>
+        <td></td>
+        <td>
+            @Html.LabelFor(model=>model.EXEC_EARTHWORK_SUBGRADE)
+        </td>
+        <td>
+            @Html.TextBoxFor(model=>model.EXEC_EARTHWORK_SUBGRADE)
+            @Html.ValidationMessageFor(model=>model.EXEC_EARTHWORK_SUBGRADE)
+        </td>
+        <td>
+            @Html.LabelFor(model=>model.EXEC_SUBBASE_PREPRATION)
+        </td>
+        <td>
+            @Html.TextBoxFor(model=>model.EXEC_SUBBASE_PREPRATION)
+            @Html.ValidationMessageFor(model=>model.EXEC_SUBBASE_PREPRATION)
+        </td>
+    </tr>
+    <tr>
+        <td></td>
+        <td>
+            @Html.LabelFor(model=>model.EXEC_BASE_COURSE)
+        </td>
+        <td>
+            @Html.TextBoxFor(model=>model.EXEC_BASE_COURSE)
+            @Html.ValidationMessageFor(model=>model.EXEC_BASE_COURSE)
+        </td>
+        <td>
+            @Html.LabelFor(model=>model.EXEC_SURFACE_COURSE)
+        </td>
+        <td>
+            @Html.TextBoxFor(model=>model.EXEC_SURFACE_COURSE)
+            @Html.ValidationMessageFor(model=>model.EXEC_SURFACE_COURSE)
+        </td>
+    </tr>
+    <tr>
+        <td></td>
+        <td>
+            @Html.LabelFor(model=>model.EXEC_SIGNS_STONES)
+        </td>
+        <td>
+            @Html.TextBoxFor(model=>model.EXEC_SIGNS_STONES)
+            @Html.ValidationMessageFor(model=>model.EXEC_SIGNS_STONES)
+        </td>
+        <td>
+            @Html.LabelFor(model=>model.EXEC_CD_WORKS)
+        </td>
+        <td>
+            @Html.TextBoxFor(model=>model.EXEC_CD_WORKS)
+            @Html.ValidationMessageFor(model=>model.EXEC_CD_WORKS)
+        </td>
+    </tr>
+    <tr>
+        <td></td>
+        <td>
+            @Html.LabelFor(model=>model.EXEC_LSB_WORKS)
+        </td>
+        <td>
+            @Html.TextBoxFor(model=>model.EXEC_LSB_WORKS)
+            @Html.ValidationMessageFor(model=>model.EXEC_LSB_WORKS)
+        </td>
+        <td>
+            @Html.LabelFor(model=>model.EXEC_COMPLETED)
+        </td>
+        <td>
+            @Html.TextBoxFor(model=>model.EXEC_COMPLETED)
+            @Html.ValidationMessageFor(model=>model.EXEC_COMPLETED)
+        </td>
+    </tr>
+    <tr>
+        <td colspan="5">
+            @if(Model.Operation == "A")
+            {
+            <center>
+            <table>
+                <td>
+                    <input type="button" value="Add Road Details" name="btnAddRoadDetails" id="btnAddRoadDetails" class="jqueryButton" />
+                    <input type="reset" value="Reset" name="btnResetRoadDetails" id="btnResetRoadDetails" class="jqueryButton" />
+                </td>
+            </table>
+            </center>
+            }
+            else
+            {
+            <center>
+            <table>
+                <td>
+                <input type="button" value="Update Road Details" name="btnUpdateRoadDetails" id="btnUpdateRoadDetails" class="jqueryButton" />
+                <input type="reset" value="Cancel Road Details" name="btnCancelRoadDetails" id="btnCancelRoadDetails" class="jqueryButton" />
+                </td>
+            </table>
+            </center>
+            }
+        </td>
+    </tr>
+</table>
+</form>
+</center>

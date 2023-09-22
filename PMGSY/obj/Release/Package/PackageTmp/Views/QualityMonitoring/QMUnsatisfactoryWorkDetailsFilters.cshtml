@@ -1,0 +1,38 @@
+﻿@*
+    * Project Id    :
+    * Project Name  :   OMMAS II
+    * Name          :   QMUnsatisfactoryWorkDetailsFilters.cshtml
+    * Description   :   Renders View & Filters for Unsatisfactory Work Details
+    * Author        :   Shyam Yadav
+    * Creation Date :   23/July/2014
+*@
+
+@model PMGSY.Models.QualityMonitoring.QMReportsViewModel
+
+
+<script src="~/Scripts/QualityMonitoring/QMUnsatisfactoryWorkDetailsFilters.js"></script>
+
+    <div>
+            <table id="tblUnsatisfactoryFilters" style="margin-top:0px; text-align:center;  width:100%; padding:5px 5px 5px 5px;">
+                    <tr>
+                       <td style="width:15%;font-weight:bold;" >
+                            @Html.LabelFor(model => model.QM_TYPE)
+                        </td>
+                        <td style="width:15%" >                            
+                            @Html.DropDownListFor(model => model.QM_TYPE, new SelectList(Model.QM_TYPE_LIST, "value", "text"), new { @id = "ddlQMTypeUnsatisfactoryWork"})
+                        </td>
+                        <td style="width:15%;font-weight:bold;">
+                            @Html.LabelFor(model => model.STATE)
+                        </td>
+                        <td style="width:15%" >                            
+                            @Html.DropDownListFor(model => model.STATE, new SelectList(Model.STATE_LIST, "value", "text"), new { @id = "ddlStateUnsatisfactoryWork"})
+                        </td>
+                        <td colspan="2" style="text-align:left;">
+                             <input type="button" id="btnViewUnsatisfactoryWorks" value="View Details" class="jquerybutton"  style="margin-left:20px;"/>
+                        </td>
+                    </tr>
+            </table>
+    </div>
+    
+    <div id="divUnstifactoryWorksDetails"></div>
+

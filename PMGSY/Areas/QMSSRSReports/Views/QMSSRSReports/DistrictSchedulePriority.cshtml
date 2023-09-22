@@ -1,0 +1,158 @@
+﻿@*<script src="~/Scripts/QualityMonitoring/SchedulePriorityDistrict.js"></script>*@
+
+<script src="~/Areas/QMSSRSReports/Scripts/SchedulePriorityDistrict.js"></script>
+
+
+
+
+<form>
+ 
+<input type="hidden" id="hdStateCode" value="@ViewBag.StateCode"/>
+
+    <h3 style="text-align:left" class="ui-state-default"><a id="" href="#" style=" font-size:.9em;" >District Priority List</a>
+        <a href="#"  style="float: right;">
+            <img style="border:none" class="ui-icon ui-icon-closethick" onclick="CloseDistrictPriority();" /></a>
+    </h3>
+    <div id="divDistrictProrityDetails" style="display:block;">
+        <table style="margin-top:0px; margin-bottom:0px; width:100%; ">
+          <tr>
+                <td style="text-align:center;width:33%;padding-right:20px; border: 1px solid #B5B8C8;vertical-align:top">
+                    <!-- Priority -I  -->
+                    <table style="margin-top:0px; margin-bottom:0px; width:100%" >
+                      <tr>
+                           <td colspan="2" style="font-weight:bold;text-align:center;width:10%;padding-right:20px;">
+                                <h3>Priority-I</h3>
+                           </td>
+                      </tr>
+                        <tr>
+                            <td style="text-align:center;width:50%;" >
+                                    <b>Progress Between [50-100]:</b>
+                               </td>
+                              <td style="text-align:center;width:50%;" >
+                                    <b>Completed Between [50-100]:</b>
+                              </td>
+                        </tr>
+                   
+                        <tr>
+                           <td style="text-align:center;width:50%;">
+                               <input type="text" id="txtDistrictPriority1Prog" style="width:100px" placeholder="Progress Value" title="Progress Min Value in Cr."/>
+                           </td>
+                          <td style="text-align:center;width:50%;" >
+                               <input type="text" id="txtDistrictPriority1Comp" style="width:100px" placeholder="Completed Value" title="Completed Min Value in Cr."/>
+                          </td>
+                      </tr>
+                    <tr>
+                           <td style="text-align:center;width:50%;">
+                                NQM Insp Month:
+                           </td>
+                          <td style="text-align:center;width:50%;" >
+                               <input type="text" id="txtDistrictPriority1InspMonthFrom" style="width:100px" placeholder="Month" title="No of Month of Inspection."/>
+                          </td>
+                      </tr>
+                        <tr>
+                           <td colspan="2" style="text-align:center;width:10%;">
+                               <input type="button" class="jqueryButton" id="btnDistrictPriority1Submit" value="Submit"/>
+                           </td>
+                      </tr>
+                 </table>
+ 
+                
+                    <center>
+                
+                    <div id="div1DistrictPriorityList"> </div>
+                    </center>
+                </td>
+              <td style="text-align:center;width:33%; border: 1px solid #B5B8C8;vertical-align:top">
+                  <!-- Priority -II  --> 
+                   <table style="margin-top:0px; margin-bottom:5px; width:100%" >
+                      <tr>
+                           <td colspan="2" style="font-weight:bold;text-align:center;width:10%;padding-right:20px;">
+                                <h3>Priority-II</h3>
+                           </td>
+                      </tr>
+                        <tr>
+                               <td style="text-align:center;width:50%;" >
+                                    <b>Progress Between [50-100]:</b>
+                               </td>
+                              <td style="text-align:center;width:50%;" >
+                                    <b>Completed Between [50-100]:</b>
+                              </td>
+                          </tr>
+                  
+                        <tr>
+                           <td style="text-align:right;width:50%;">
+                               <input type="text" id="txtDistrictPriority2ProgMin"  style="width:75px" placeholder="Progress Value" title="Progress Min Value in Cr."/>-<input type="text" id="txtDistrictPriority2ProgMax"  style="width:75px" readonly placeholder="Progress Value" title="Progress Max Value in Cr."/>
+                           </td>
+                          <td style="text-align:right;width:50%;">
+                               <input type="text" id="txtDistrictPriority2CompMin"  style="width:75px" placeholder="Completed Value" title="Completed Min Value in Cr."/>-<input type="text" id="txtDistrictPriority2CompMax"  style="width:75px" readonly placeholder="Completed Value" title="Completed Max Value in Cr."/>
+                          </td>
+                      </tr>
+                       <tr>
+                           <td style="text-align:right;width:50%;">
+                            NQM Insp Month Min: <input type="text" id="txtDistrictPriority2InspMonthFrom" style="width:75px" placeholder="Min Month" title="Minium No of Month of Inspection."/>
+                           </td>
+                          <td style="text-align:right;width:50%;" >
+                            NQM Insp Month Max:<input type="text" id="txtDistrictPriority2InspMonthTo" style="width:75px" readonly placeholder="Max Month" title="Maximum No of Month of Inspection."/>                          
+                          </td>
+                      </tr>
+                    
+                        <tr>
+                           <td colspan="2" style="text-align:center;width:10%;padding-right:20px;">
+                               <input type="button" class="jqueryButton" id="btnDistrictPriority2Submit" value="Submit"/>
+                           </td>
+                      </tr>
+                </table>
+             <center>
+                <div id="div2DistrictPriorityList"> </div>
+                </center>
+            </td>
+          <td style="text-align:center;width:33%;padding-right:20px; border: 1px solid #B5B8C8;vertical-align:top">
+              <!-- Priority -III  -->
+                <table style="margin-top:0px; margin-bottom:5px; width:100%" >
+                  <tr>
+                       <td colspan="2" style="font-weight:bold;text-align:center;width:10%;padding-right:20px;">
+                            <h3>Priority-III</h3>
+                       </td>
+                  </tr>
+                    <tr>
+                       <td style="text-align:center;width:50%;">
+                            <b>Progress [50<]:</b>
+                       </td>
+                      <td style="text-align:center;width:50%;" >
+                            <b>Completed [50<]:</b>
+                      </td>
+                  </tr>
+
+                    <tr>
+                       <td style="text-align:center;width:50%;">
+                           <input type="text" id="txtDistrictPriority3Prog" style="width:100px" readonly placeholder="Progress Value" title="Progress Max Value in Cr."/>
+                       </td>
+                      <td style="text-align:center;width:50%;">
+                           <input type="text" id="txtDistrictPriority3Comp" style="width:100px" readonly placeholder="Completed Value" title="Completed Max Value in Cr."/>
+                      </td>
+                  </tr>
+                   <tr>
+                        <td style="text-align:center;width:50%;">
+                               NQM Insp Month:
+                         </td>
+                          <td style="text-align:center;width:50%;" >
+                               <input type="text" id="txtDistrictPriority3InspMonthFrom" style="width:100px" readonly placeholder="Month" title="No of Month of Inspection."/>
+                          </td>
+                      </tr>
+                    
+                    <tr>
+                       <td colspan="2" style="text-align:center;width:10%;padding-right:20px;">
+                           <input type="button" class="jqueryButton" id="btnDistrictPriority3Submit" value="Submit"/>
+                       </td>
+                  </tr>
+             </table>
+                <center>
+                <div id="div3DistrictPriorityList"> </div>
+                </center>
+            </td>
+      </tr>
+    </table>
+
+   </div>                     
+
+</form>

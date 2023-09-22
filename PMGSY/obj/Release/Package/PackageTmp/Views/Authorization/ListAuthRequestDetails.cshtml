@@ -1,0 +1,93 @@
+﻿@model PMGSY.Models.Authorization.ListAutorizationRequestModel
+
+<script src="~/Scripts/jquery.ui.datepicker.js"></script>
+<script type="text/javascript" src="@Url.Content("~/Scripts/custom/Generic.js")"> </script>
+@*<script src="~/Scripts/jquery-ui.js"></script>
+<script src="~/Scripts/jquery.ui.core.js"></script>
+<script src="~/Scripts/jquery.ui.position.js"></script>
+<script src="~/Scripts/jquery.ui.widget.js"></script>
+<script src="~/Scripts/jquery.ui.button.js"></script>
+<script src="~/Scripts/jquery.ui.resizable.js"></script>
+<script src="~/Scripts/jquery.ui.effect.js"></script>*@
+<script src="~/Scripts/jquery.ui.dialog.js"></script>
+
+<script type="text/javascript" src="@Url.Content("~/Scripts/Authorization/ListAuthRequestDetails.js")"> </script>
+
+
+<br/>
+<div class="ui-widget-header innerDivHeader" style="margin-bottom:5px">Authorization Request Details</div>
+
+<form id="frmAuthRequestList">
+    @Html.ValidationSummary(true)    
+    @Html.AntiForgeryToken()
+<center>
+
+<table class="ui-state-default ui-corner-all" style="border:0.1em solid gray; width:98%; margin-bottom:5px" id="tblViewDetails">
+<tr>
+    <td style="text-align:right; width:15%">@Html.LabelFor(m=>m.ADMIN_ND_CODE)<label style="color: red;"> *</label></td>
+    <td style="width:20%">@Html.DropDownListFor(m => m.ADMIN_ND_CODE, ViewBag.DPIU as IEnumerable<SelectListItem>, new { @title="DPIU" })</td>
+    <td style="text-align:right; width:05%">@Html.LabelFor(m=>m.AUTH_MONTH)<span style="color:red"> *</span></td>
+    <td style="width:15%">
+        @*@Html.DropDownListFor(m => m.AUTH_MONTH, ViewBag.ddlMonth as IEnumerable<SelectListItem>, new { @id="ddlMonth" })*@
+        @Html.DropDownListFor( m => m.AUTH_MONTH , new SelectList(Model.AUTH_MONTH_LIST,"Value","Text"), new { @id="ddlMonth" ,@title="Month"})
+    </td>
+    <td style="text-align:right; width:5%">@Html.LabelFor(m=>m.AUTH_YEAR)<span style="color:red"> *</span></td>
+    <td style="width:15%">
+        @*@Html.DropDownListFor(m=>m.AUTH_YEAR,ViewBag.ddlYear as IEnumerable<SelectListItem>, new { @id="ddlYear" })*@
+        @Html.DropDownListFor( m => m.AUTH_YEAR , new SelectList(Model.AUTH_YEAR_LIST,"Value","Text"), new { @id="ddlYear" ,@title="Year"})
+    </td>
+    <td style="width:25%; text-align:center"><input type="button" id="btnView" value="View Details" class="jqueryButton" title="Click here to view details"></td>        
+</tr>
+    <tr>
+        <td></td>
+        <td id="tdDpiu">@Html.ValidationMessageFor(m=>m.ADMIN_ND_CODE)</td>
+        <td></td>
+        <td>@Html.ValidationMessageFor(m=>m.AUTH_MONTH)</td>
+        <td></td>
+        <td>@Html.ValidationMessageFor(m=>m.AUTH_YEAR)</td>
+        <td></td>
+    </tr>
+</table>
+<div id="divAuthRequestConfirm" style="display:none">
+<table id="tbldig" class="ui-state-default ui-corner-all" style="font-size:1em; width:100%">
+    <tr>
+        <td colspan="2">
+            <div id="divAuthRequestError" class="ui-state-error ui-corner-all" style="text-align: left; display: none; width: 100%">
+                <span class="ui-icon ui-icon-alert" style="float: left;"></span>
+                <span></span>
+            </div>
+        </td>        
+    </tr>
+    <tr>
+        <td style="width:35%">@Html.LabelFor(m=>m.DATE_OF_OPERATION)<label style="color: red;"> *</label></td>
+        <td style="width:65%">@Html.TextBoxFor(m=>m.DATE_OF_OPERATION)</td>
+    </tr>
+    <tr>
+        <td colspan="2">@Html.ValidationMessageFor(m=>m.DATE_OF_OPERATION)</td>
+    </tr>
+    <tr>
+        <td>@Html.LabelFor(m=>m.REMARKS)<label style="color: red;"> *</label></td>
+        <td>@Html.TextAreaFor(m => m.REMARKS, new { @placeholder="Alphanumeric,Space,dash, slash and dot Allowed...", @style="width:200px" })</td>                  
+    </tr>
+    <tr>
+        <td colspan="2">@Html.ValidationMessageFor(m=>m.REMARKS)</td>
+    </tr>
+    <tr>
+        <td>@Html.HiddenFor(m=>m.REQUEST_ID_LIST)</td>
+        <td><input type="button" value="Confirm" class="jqueryButton" id="btnConfirm" />&nbsp
+            <input type="button" value="Cancel" class="jqueryButton" id="btnCancel" />
+        </td>    
+    </tr>
+</table>
+</div>
+<div style="width:98%; margin-bottom:5px">
+    <table id="tblAuthRequestGrid"></table>
+    <div id="divAuthRequestPager"></div>
+</div>
+
+</center>
+
+</form>
+@section Scripts {
+    @Scripts.Render("~/bundles/jqueryval")
+}

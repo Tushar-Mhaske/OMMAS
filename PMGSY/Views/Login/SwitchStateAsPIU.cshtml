@@ -1,0 +1,12 @@
+﻿
+<script>
+    $(document).ready(function () {
+        blockPage();
+        $("#dialog-form-login").load('/Login/StateAsPIU', function () {
+            $("#dialog-form").dialog("open");
+            unblockPage();
+        });
+    });
+</script>
+
+<div id="dialog-form-login"></div>

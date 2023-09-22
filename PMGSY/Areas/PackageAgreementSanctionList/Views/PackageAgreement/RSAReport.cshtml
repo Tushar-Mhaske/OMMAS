@@ -1,0 +1,33 @@
+﻿@using MvcReportViewer
+@model PMGSY.Areas.PackageAgreementSanctionList.Models.RSALayout
+
+@if (Model.BlockCode == 0)
+{
+    @Html.MvcReportViewer("/PMGSYCitizen/RSA",
+     new
+     {
+         LEVEL = 0,
+         STATE = Model.Mast_State_Code,
+         DISTRICT = Model.Mast_District_Code,
+         YEAR = @Model.Year,
+         SCHEME = @Model.schemeCode
+     },
+     new { Height = 600, Width = "100%", style = "border:none;" })
+}
+else
+{
+    @Html.MvcReportViewer("/PMGSYCitizen/RSASubdetails",
+     new
+     {
+         LEVEL = 2,
+         STATE = Model.Mast_State_Code,
+         DISTRICT = Model.Mast_District_Code,
+         YEAR = @Model.Year,
+         SCHEME = @Model.schemeCode,
+         BLOCK = Model.Mast_Block_Code,
+     },
+     new { Height = 600, Width = "100%", style = "border:none;" })
+}
+
+
+

@@ -1,0 +1,101 @@
+﻿@*
+    * Project Id    :
+    * Project Name  :   OMMAS II
+    * Name          :   AddRepackagingDetails.cshtml
+    * Description   :   This View Adds the Repackaging Details 
+    * Author        :   Vikram Nandanwar
+    * Creation Date :   10/07/2014
+*@
+
+@model PMGSY.Models.MaintenanceAgreement.EmargRepackage
+
+
+<script src="~/Scripts/custom/Generic.js"></script>
+
+<script src="~/Scripts/MaintenanceAgreement/EmargAddMaintenanceRepackagingDetails.js"></script>
+<form id="frmAddMaintenanceRepakagingDetails">
+    <div style="margin-left: 100px">
+        @Html.AntiForgeryToken()
+        @Html.ValidationSummary(true)
+        @Html.HiddenFor(model=>model.roadLength)
+    </div>
+    <div id="divError" class="ui-state-error ui-corner-all" style="text-align: left; display: none; width: 100%">
+        <span class="ui-icon ui-icon-alert" style="float: left;"></span>
+        <span></span>
+    </div>
+    <div style="height: 20px; width: 100%; text-align: left; padding-top: 0.6em;" class="ui-state-default ui-corner-all">
+        &nbsp; <strong>Note :</strong>  Fields marked with * are mandatory.
+    </div>
+    <table id="tb" cellpadding="3px" class="rowstyle" style="margin-top: 10px; text-align: left; border: ridge 0.1em #ccc; width: 100%; padding-top: 5px 5px 5px 5px;">
+        <tr></tr>
+        <tr>
+            <td style="width:10%">
+                @Html.HiddenFor(model=>model.ShortStateCode)
+            </td>
+            <td style="width: 10%;">
+                @Html.RadioButtonFor(model => model.NewOldPackage, "Y", new { @id = "rdoNewPackage", @name = "rdoNewPackage" ,@checked="checked"}) New Package                                         
+            </td>
+            <td style="width: 15%;">
+             @*   @Html.RadioButtonFor(model => model.NewOldPackage, "N", new { @id = "rdoOldPackage", @name = "rdoNewPackage" }) Existing Package*@
+            </td>
+            <td style="width: 10%;">
+            </td>
+            <td style="width: 10%;">
+            </td>
+             <td style="width: 10%;">
+            </td>
+            <td style="width: 10%;">
+            </td>
+             <td style="width: 25%;">
+            </td>
+            <td style="width: 25%;">
+            </td>
+        </tr>
+        <tr>
+             <td style="width:10%"></td>
+             @Html.HiddenFor(model=>model.EncProposalCode) 
+            @* <td style="width:10%">
+                @Html.LabelFor(model=>model.StartChainage)<label style="color:red">*</label>
+                
+            </td>
+            <td style="width:10%">
+                  @Html.TextBoxFor(model => model.StartChainage, new { @id="txtStartChainage",@placeholder = "Enter Start Chainage...",@title="Enter Start Chainage"})
+                    @Html.ValidationMessageFor(model=>model.StartChainage) 
+            </td>
+             <td style="width:10%">
+                @Html.LabelFor(model=>model.EndChainage)<label style="color:red">*</label>
+            </td>
+            <td style="width:10%">
+                 @*   @Html.TextBoxFor(model => model.EndChainage, new { @id="txtEndChainage",@placeholder = "Enter End Chainage...",@title="Enter End Chainage"})
+                    @Html.ValidationMessageFor(model=>model.EndChainage)
+            </td>*@
+            <td style="width: 10%;">
+                @Html.Label("Current Package ID")<label style="color:red">*</label>
+            </td>
+            <td style="width: 10%;">
+                @Html.DisplayFor(model=>model.OLD_PACKAGE_ID)
+                @Html.HiddenFor(model=>model.OLD_PACKAGE_ID)
+            </td>
+            <td style="width: 10%;">
+                @Html.LabelFor(model=>model.NEW_PACKAGE_ID)<label style="color:red">*</label>
+            </td>
+            <td id="tdNewPackage" style="width: 25%;">    <!--length changed by pradip patil 10=>15-->
+                @Html.HiddenFor(model=>model.OLD_PACKAGE_ID_PREFIX)     
+                @*@Html.DisplayFor(model=>model.OLD_PACKAGE_ID_PREFIX)*@ @Html.TextBoxFor(model => model.NEW_PACKAGE_ID, new { @id="txtNewPackage",@placeholder = "Enter New Package...",@title="Enter New Package",@maxlength = 15})
+                @Html.ValidationMessageFor(model=>model.NEW_PACKAGE_ID)
+            </td>
+            <td id="tdExistingPackage" style="width: 25%;display:none" >
+               @* @Html.DropDownListFor(model => model.ExistingPackage,Model.lstPackages, new { @id="ddlNewPackage",@placeholder = "Select New Package...",@title="Select New Package"})
+                @Html.ValidationMessageFor(model=>model.ExistingPackage)*@
+            </td>
+        </tr>
+         <tr>
+            <td colspan="5">
+                <center>
+                <input type="button" id="btnSave" name="btnSave" value="Save" class= "jqueryButton" title="Save Repackaging Details" tabindex="3"  />  
+                <input type="reset" id="btnReset" name="btnReset" value="Reset" class= "jqueryButton" title="Reset" tabindex="7"  />
+                </center>
+            </td>
+        </tr>
+    </table>
+</form>

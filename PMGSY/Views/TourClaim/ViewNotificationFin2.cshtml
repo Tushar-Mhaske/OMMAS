@@ -1,0 +1,78 @@
+﻿@model IEnumerable<PMGSY.Models.NQMTourClaimModels.NQM_TOUR_CLAIM_MASTER_MODEL>
+
+@{
+    ViewBag.Title = "ViewNotificationFin2";
+}
+
+<style>
+    img {
+        margin-top: 1rem;
+        height: 1.2rem;
+    }
+</style>
+
+<h4></h4>
+
+<div id="divNotificationFin2">
+    <div class="ui-state-default" style="width:1100px; margin-left:22.5rem">
+        <h4 style="text-align:center;margin-top:0.5rem; font-size:1.2rem">
+            Notifications
+            <img src="~/Content/img/icons8-notification-30.png" />
+        </h4>
+
+        <div style="width: 750px; margin-left: 10rem; text-align: center">
+
+            <div style="margin-top:0.5rem;margin-left:15rem;">
+                <table>
+                    <tr>
+                        <td><b>Till :</b></td>
+                        <td>
+                            @Html.DropDownList("DropdownMonth", new SelectList(ViewBag.MonthList, "Value", "Text", ViewBag.Month), new { @id = "ddlNotificationMonthFin2" })
+                        </td>
+                        <td>
+                            @Html.DropDownList("DropdownYear", new SelectList(ViewBag.YearList, "Value", "Text", ViewBag.Year), new { @id = "ddlNotificationYearFin2" })
+                        </td>
+                        <td>
+                            <input type="button" class="jqueryButton" value="Filter" id="btnFilterNotificationFin2" name="btnFilterNotificationFin2" />
+                        </td>
+                    </tr>
+                </table>
+            </div>
+
+            <ul>
+                @foreach (var item in Model)
+                {
+                    <li style="font-size:1rem; padding:0.5rem;color:red">
+                        Tour Allowance Claim for @item.ADMIN_QM_NAME for @item.MONTH_OF_INSPECTION @item.YEAR_OF_INSPECTION has been forwarded by Finance handler.
+                    </li>
+                    <hr />
+                }
+            </ul>
+
+        </div>
+
+    </div>
+</div>
+
+<script>
+    $('#btnFilterNotificationFin2').click(function () {
+        var month = $('#ddlNotificationMonthFin2').val();
+        var year = $('#ddlNotificationYearFin2').val();
+
+        $.ajax({
+            url: "/TourClaim/ViewNotificationFin2",
+            data: {
+                currMonth: month,
+                currYear: year
+            },
+            success: function (data) {
+                $('#divNotificationFin2').html("");
+                $("#divNotificationFin2").html(data);
+            },
+            error: function (xhr, ajaxOptions, thrownError) {
+                alert("error");
+                alert(xhr.responseText);
+            }
+        });
+    });
+</script>

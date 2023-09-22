@@ -1,0 +1,14 @@
+﻿@model PMGSY.Models.ARRR.AnalysisOfRates
+@using MvcReportViewer
+
+
+<div id="AnalysisofRatesReport" style="width: 100%; height: 590px; overflow-x: hidden; overflow-y: hidden;">
+    @Html.MvcReportViewer("/PMGSYCitizen/ARRR_Analysis_Rates_Report",
+     new
+     {
+          State = Model.StateCode,
+          SYear = Model.PhaseYear,
+          Chapter = Model.Chapter,
+     },
+     new { Height = 600, Width = "100%", style = "border:none;" })
+</div>

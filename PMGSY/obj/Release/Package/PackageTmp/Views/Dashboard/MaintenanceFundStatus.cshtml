@@ -1,0 +1,181 @@
+﻿<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html>
+<head>
+    <style>
+
+        .tblContent {
+            background-color: #FFF;
+            border: 1px solid #b1d7f7;
+            margin-top: -5px;
+        }
+
+        .dataTable {
+            width: 100%;
+            border: 1px solid #b1d7f7;
+        }
+
+            .dataTable table {
+                width: 97%;
+                table-layout: fixed;
+                border-spacing: 0;
+                /*border:none;*/
+                border: thin;
+            }
+
+                .dataTable table tr td {
+                    padding: 2px 5px;
+                    border: 1px solid #deedf8;
+                    border-bottom: 1px solid #deedf8;
+                    word-wrap: break-word;
+                }
+
+                .dataTable table.head tr td {
+                    background: #F0F2F2;
+                }
+
+        .innerTable {
+            /*height: 100px;*/
+            overflow-y: auto;
+        }
+
+        .dataTable th {
+            background-color: #F0F2F2;
+            padding: 3px 5px;
+            text-align: center;
+            border-right: 1px solid #CCC;
+            border-bottom: 1px solid #CCC;
+            word-wrap: break-word;
+        }
+
+        .subHeaderDataTable {
+            color: #003E74;
+            background-color: #FFF;
+            border-bottom: 1px solid #CCC;
+            font-weight: bold;
+            word-wrap: break-word;
+        }
+    </style>
+</head>
+<body>
+
+    @{ var curYear = Convert.ToInt32(DateTime.Now.Year);}
+    <div id="divHabDetailsTbl" class="tblContent dataTable" style="width: 99%; border: 1px solid #b1d7f7; padding: 5px 10px 15px 10px;">
+        <div style="margin-bottom:5px">
+        <center>
+            <span style="font-weight: bold; font-size: 15px; margin-top: -5px;padding:5px 5px 5px 5px">
+                Maintenance Fund Status for the last three years and current year (@(DateTime.Now.Year - 4)-@(DateTime.Now.Year - 3) to @(DateTime.Now.Year - 1)-@(DateTime.Now.Year)) (Rs. in Crore)
+            </span>
+        </center>
+        </div>
+        <table class="dataTable" style="width: 100%;border: 1px solid #b1d7f7;">
+            <tr>
+                <th style="width: 80px;" rowspan="2">State(s)
+                </th>
+                <th colspan="4">Maintenance Fund Required (As per contracts)
+                </th>
+                <th colspan="4">Maintenance Fund Credited
+                </th>
+                <th colspan="4">Maintenance Fund Spent / % Expenditure on Fund Required
+                </th>
+            </tr>
+            <tr>
+                <th style="width: 40px;">@((curYear - 3))-@(curYear - 2)
+                </th>
+                <th style="width: 40px;">@(curYear - 2)-@(curYear - 1)
+                </th>
+                <th style="width: 40px;">@(curYear - 1)-@(curYear)
+                </th>
+                <th style="width: 40px;">@(curYear)-@(curYear + 1) (Upto date)
+                </th>
+                <th style="width: 40px;">@((curYear - 3))-@(curYear - 2)
+                </th>
+                <th style="width: 40px;">@(curYear - 2)-@(curYear - 1)
+                </th>
+                <th style="width: 40px;">@(curYear - 1)-@(curYear)
+                </th>
+                <th style="width: 40px;">@(curYear)-@(curYear + 1) (Upto date)
+                </th>
+                <th style="width: 40px;">@((curYear - 3))-@(curYear - 2)
+                </th>
+                <th style="width: 40px;">@(curYear - 2)-@(curYear - 1)
+                </th>
+                <th style="width: 40px;">@(curYear - 1)-@(curYear)
+                </th>
+                <th style="width: 40px;">@(curYear)-@(curYear + 1) (Upto date)
+                </th>
+            </tr>
+
+
+            @{
+                var cnt = 1;
+                var cssClass = "background-color:#FFFFFF;";
+            }
+            @foreach (var item in ViewBag.HabDetails)
+            {
+                if (cnt % 2 == 0)
+                {
+                    cssClass = "background-color:#FFFFFF;";
+                }
+                else
+                {
+                    cssClass = "background-color:#FFFFFF;";
+                }
+                <tr style="">
+                    <td style="text-align: center;border:0.5px solid #deedf8">
+                        @item.LOCATION_NAME
+                    </td>
+                    <td style="text-align: center;border:0.5px solid #deedf8">
+                        @(Math.Round(item.FR_Year1, 2))
+                    </td>
+                    <td style="text-align: center;border:0.5px solid #deedf8">
+                        @(Math.Round(item.FR_Year2, 2))
+                    </td>
+                    <td style="text-align: center;border:0.5px solid #deedf8">
+                        @(Math.Round(item.FR_Year3, 2))
+                    </td>
+                    <td style="text-align: center;border:0.5px solid #deedf8">
+                        @(Math.Round(item.FR_Year4, 2))
+                    </td>
+                    <td style="text-align: center;border:0.5px solid #deedf8">
+                        @(Math.Round(item.FC_Year1, 2))
+                    </td>
+                    <td style="text-align: center;border:0.5px solid #deedf8">
+                        @(Math.Round(item.FC_Year2, 2))
+                    </td>
+                    <td style="text-align: center;border:0.5px solid #deedf8">
+                        @(Math.Round(item.FC_Year3, 2))
+                    </td>
+                    <td style="text-align: center;border:0.5px solid #deedf8">
+                        @(Math.Round(item.FC_Year4, 2))
+                    </td>
+                    <td style="text-align: center;border:0.5px solid #deedf8">
+                        @(Math.Round(item.FS_Year1, 2))
+                        <br />
+                        <label style="font-size: 10px">(@(Math.Round(item.FP_Year1, 2))%)</label>
+                    </td>
+                    <td style="text-align: center;border:0.5px solid #deedf8">
+                        @(Math.Round(item.FS_Year2, 2))
+                        <br />
+                        <label style="font-size: 10px">(@(Math.Round(item.FP_Year2, 2))%)</label>
+                    </td>
+                    <td style="text-align: center;border:0.5px solid #deedf8">
+                        @(Math.Round(item.FS_Year3, 2))
+                        <br />
+                        <label style="font-size: 10px">(@(Math.Round(item.FP_Year3, 2))%)</label>
+                    </td>
+                    <td style="text-align: center;border:0.5px solid #deedf8">
+                        @(Math.Round(item.FS_Year4, 2))
+                        <br />
+                        <label style="font-size: 10px">(@(Math.Round(item.FP_Year4, 2))%)</label>
+                    </td>
+                </tr>
+                   
+                cnt++;
+            }
+        </table>
+
+    </div>
+
+
+</body>
+</html>

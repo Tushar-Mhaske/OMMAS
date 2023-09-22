@@ -1,0 +1,2015 @@
+﻿@{
+    ViewBag.Title = "PreviewBridgePIU_SavedData";
+}
+
+@model PMGSY.Areas.EFORMArea.PiuBridgeViewPdfModel.EFORM_BRIDGE_PIU_PREVIEW_MODEL
+
+<head>
+    <title>PIU Bridge PDF View</title>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+
+    <link href="~/Content/Bootstrap/bootstrap.min.css" rel="stylesheet" type="text/css" />
+    <script src="~/Scripts/Bootstrap/bootstrap.min.js" type="text/javascript"></script>
+
+    <style type="text/css">
+
+        /*=========== Common Stylesheet ============*/
+
+        input[type="text"] {
+            font-size: 18px;
+        }
+
+        /* inputbox width for values like codes,length,dates, */
+        .inputCodeWidth {
+            width: 100px;
+            min-height: 32px;
+        }
+
+        .inputShortWidth {
+            width: 150px;
+            min-height: 32px;
+        }
+
+        .inputMediumWidth {
+            width: 250px;
+            min-height: 32px;
+        }
+
+        .inputMidlLargeWidth {
+            width: 400px;
+            min-height: 32px;
+        }
+
+        .inputLargeWidth {
+            width: 700px;
+            min-height: 32px;
+        }
+
+        .SectionUnderline {
+            border: 0.5px solid gray;
+        }
+
+        .PageBreakLine {
+            border: 3px solid gray;
+            margin-top: 35px;
+            margin-bottom: 35px;
+        }
+
+        .table-borderless td {
+            border: none;
+        }
+
+        .table-bordered thead th {
+            vertical-align: top;
+            text-align: center;
+            background-color: #8c8c8c24;
+        }
+
+        .table-hover tbody tr:hover td {
+            background-color: #d5bcbc24;
+        }
+
+        .fontPIUPdf {
+            font-size: 18px;
+            font-family: Calibri;
+        }
+
+        .PiuLeftHeading {
+            width: 300px;
+            text-align: left;
+        }
+
+        /*-------------------- new added --------------------*/
+        .piuleftSrNo {
+            width: 5px;
+            font-weight: bold;
+        }
+    </style>
+</head>
+
+
+
+<body>
+    @* --------------------------------- PIU start --------------------------------- *@
+
+    <div class="container-fluid" style="background-color:lightgray; border: 1px solid gray; margin-top: auto;margin-bottom: auto;">
+        <div class="container-fluid mt-6 p-4" style="width: 75%; background-color: #fff; margin-top: 50px; margin-bottom: 50px; margin-left: 150px">
+
+            <!-- 1. Headings and General Details -->
+            <div id="GeneralDetailsBridge_PIU">
+                <div class="container-fluid">
+                    <!-- HEADLINES -->
+                    <div class="post-container" id="HeadingsPIU" style="text-align: center;">
+                       @*<div class="post-thumb"><img src="~/Areas/EFORMArea/Content/LionAshokaChakra.png" style="width: 10%; margin-top: 40px; " /></div>*@
+                        <div class="post-content">
+                            <h1> <b> National Rural Infrastructure Development Agency </b> </h1>
+                            <h2>Ministry of Rural Development, Government of India</h2>
+                            <h4 style="text-align:left;"> EFORM ID <input type="text" value="@Model.BRIDGE_PIU_PREFILLED_VIEW.Eform_Id" class="inputShortWidth" disabled data-toggle="tooltip" data-placement="bottom" title="EFORM ID"> <span style="float:right;color:red">Template Version <input type="text" value="@Model.PDF_UPLOAD_DETAIL_VIEW.TEMPLATE_VERSION" class="inputCodeWidth" data-toggle="tooltip" data-placement="bottom" title="Template Version" disabled></span>  </h4>
+                            <h4> <span style="float:right;">Format QB Version 2021.0- Part I </span>  </h4>
+                            <br />
+                            <h3> <b> Format for information to QM for Inspection of Ongoing/Completed Bridge Work </b> </h3>
+                            <h3> <u><b> PART I- Work Information  </b> <i> (To be filled-up by PIU) </i> </u> </h3>
+                        </div>
+                    </div>
+
+                    <h3><b> 1. GENERAL DETAILS </b></h3>
+                    <hr style="border: 0.5px solid gray">
+                    <table class="table table-hover table-borderless fontPIUPdf">
+                        <tr>
+                            <td class="piuleftSrNo" style="text-align:center"> I </td>
+                            <td class="PiuLeftHeading">Work: (check✓ any one box) </td>
+                            <td colspan="2">
+                                @if (Model.BRIDGE_PIU_PREFILLED_VIEW.WORK_STATUS.Contains("P") || Model.BRIDGE_PIU_PREFILLED_VIEW.WORK_STATUS.Contains("M"))
+                                {
+                                    <input type="checkbox" checked disabled /> <label> In-Progress  &emsp; &emsp;</label>
+                                    <input type="checkbox" disabled /> <label>Completed </label>
+                                }
+                                else if (Model.BRIDGE_PIU_PREFILLED_VIEW.WORK_STATUS.Contains("C"))
+                                {
+                                    <input type="checkbox" disabled /> <label> In-Progress  &emsp; &emsp;</label>
+                                    <input type="checkbox" checked disabled /> <label> Completed </label>
+                                }
+                                else
+                                {
+                                    <input type="checkbox" disabled /> <label> In-Progress &emsp; &emsp;</label>
+                                    <input type="checkbox" disabled /> <label> Completed </label>
+                                }
+
+
+                            </td>
+                        </tr>
+
+
+                        <tr>
+                            <td class="piuleftSrNo" style="text-align:center"> II </td>
+                            <td class="PiuLeftHeading">Date of inspection </td>
+                            <td> <input type="text" value="" data-toggle="tooltip" data-placement="bottom" title="Date of inspection" class="inputShortWidth" disabled> </td>
+                        </tr>
+
+                        <tr>
+                            <td class="piuleftSrNo" style="text-align:center"> III </td>
+                            <td class="PiuLeftHeading">Name of Quality Monitor (QM)</td>
+                            <td colspan="2">
+                                <input type="text" value="@Model.BRIDGE_PIU_PREFILLED_VIEW.QM_NAME" data-toggle="tooltip" data-placement="bottom" title="Name of Quality Monitor (QM)" class="inputMidlLargeWidth" disabled>
+                                &emsp;&emsp;
+
+                                @if (Model.BRIDGE_PIU_PREFILLED_VIEW.QM_TYPE.Equals("I"))
+                                {
+                                    <input type="checkbox" checked disabled> <label> NQM &emsp; </label> <input type="checkbox" disabled> <label> SQM </label>
+                                }
+                                else if (Model.BRIDGE_PIU_PREFILLED_VIEW.QM_TYPE.Equals("S"))
+                                {
+                                    <input type="checkbox" disabled> <label> NQM &emsp; </label> <input type="checkbox" checked disabled> <label> SQM </label>
+                                }
+                                else
+                                {
+                                    <input type="checkbox" disabled> <label> NQM &emsp; </label> <input type="checkbox" disabled> <label> SQM </label>
+                                }
+
+
+
+                            </td>
+                        </tr>
+
+                        <tr>
+                            <td class="piuleftSrNo" style="text-align:center"> IV </td>
+                            <td class="PiuLeftHeading">State </td>
+                            <td colspan="2">
+                                <input type="text" value="@Model.BRIDGE_PIU_PREFILLED_VIEW.State" data-toggle="tooltip" data-placement="bottom" title="State" disabled>
+                                &emsp;&emsp;
+                                District   <input type="text" value="@Model.BRIDGE_PIU_PREFILLED_VIEW.District" data-toggle="tooltip" data-placement="bottom" title="District" disabled>
+                                &emsp;&emsp;
+                                Block  <input type="text" value="@Model.BRIDGE_PIU_PREFILLED_VIEW.Block" data-toggle="tooltip" data-placement="bottom" title="Block" disabled>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td class="piuleftSrNo" style="text-align:center"> V </td>
+                            <td class="PiuLeftHeading">Name of of bridge & Location </td>
+                            <td colspan="2">
+                                <div class="grow-wrap p-2 border border-grey text-wrap fontPIUPdf" style="border: 1px solid lightgray; color: #666; background-color: #eee; min-height: 30px; max-width: 780px;" data-toggle="tooltip" data-placement="bottom" title="Name of of bridge & Location">
+                                    <p class="fontPIUPdf px-2">
+                                        @Model.BRIDGE_PIU_PREFILLED_VIEW.RoadName
+                                    </p>
+                                </div>
+                            </td>
+                        </tr>
+
+                        <tr>
+                            <td class="piuleftSrNo" style="text-align:center"> VI </td>
+                            <td class="PiuLeftHeading">Package Number </td>
+                            <td colspan="2"> <input type="text" value="  @Model.BRIDGE_PIU_PREFILLED_VIEW.PkgNumber" data-toggle="tooltip" data-placement="bottom" title="Package Number" class="inputMediumWidth" disabled> </td>
+                        </tr>
+
+                        <tr>
+                            <td class="piuleftSrNo" style="text-align:center"> VII </td>
+                            <td class="PiuLeftHeading">Sanctioned length of the bridge </td>
+                            <td> <input type="text" value="  @Model.BRIDGE_PIU_PREFILLED_VIEW.SancLength" data-toggle="tooltip" data-placement="bottom" title="Sanctioned Length" class="inputShortWidth" disabled> m </td>
+                        </tr>
+
+                        <tr>
+                            <td></td>
+                            <td class="PiuLeftHeading"> Deviation in length of the bridge <br />(If any) </td>
+                            <td> <input type="text" value="  @Model.BRIDGE_PIU_GENERAL_INFO_VIEW.DEVIATION_LENGTH" data-toggle="tooltip" data-placement="bottom" title="Deviation in length of the bridge" class="inputShortWidth" disabled> m </td>
+                        </tr>
+
+                        <tr>
+                            <td class="piuleftSrNo" style="text-align:center"> VIII </td>
+                            <td class="PiuLeftHeading"> Reasons for deviation <i>(if any)</i> </td>
+                            <td colspan="2">
+                                <div class="grow-wrap p-2" style="border:1px solid grey; background-color: #cccccc3d; color: #333333cf; min-height: 30px; max-width: 780px;" data-toggle="tooltip" data-placement="bottom" title="Reasons for deviation">
+                                    @Model.BRIDGE_PIU_GENERAL_INFO_VIEW.DEVIATION_REASON
+                                </div>
+                            </td>
+                        </tr>
+
+                        <tr>
+                            <td class="piuleftSrNo" style="text-align:center"> IX </td>
+                            <td class="PiuLeftHeading">Estimated cost (as cleared by GOI) </td>
+                            <td> <input type="text" value="&#8377; @Model.BRIDGE_PIU_PREFILLED_VIEW.ESTIMATED_COST " data-toggle="tooltip" data-placement="bottom" title="Estimated cost (as cleared by GOI)" class="inputShortWidth" disabled> Lakh</td>
+                        </tr>
+                        <tr>
+                            <td class="piuleftSrNo" style="text-align:center"> X </td>
+                            <td class="PiuLeftHeading">Technical sanction cost </td>
+                            <td> <input type="text" value="&#8377;@Model.BRIDGE_PIU_GENERAL_INFO_VIEW.TECHNICAL_SANC_COST " data-toggle="tooltip" data-placement="bottom" title="Technical sanction cost" class="inputShortWidth" disabled> Lakh</td>
+                        </tr>
+                        <tr>
+                            <td class="piuleftSrNo" style="text-align:center"> XI </td>
+                            <td class="PiuLeftHeading">Awarded cost </td>
+                            <td> <input type="text" value="&#8377;@Model.BRIDGE_PIU_PREFILLED_VIEW.AWARDED_COST " data-toggle="tooltip" data-placement="bottom" title="Awarded cost" class="inputShortWidth" disabled> Lakh</td>
+                        </tr>
+
+                        <tr>
+                            <td class="piuleftSrNo" style="text-align:center"> XII </td>
+                            <td class="PiuLeftHeading"> Expenditure <b><i>(If work is ongoing)</i></b> </td>
+                        </tr>
+                        @if (Model.BRIDGE_PIU_PREFILLED_VIEW.WORK_STATUS == "C")
+                        {
+                            <tr>
+                                <td></td>
+                                <td class="PiuLeftHeading"> &emsp;&emsp; a. Expenditure done </td>
+                                <td> <input type="text" value="&#8377;" data-toggle="tooltip" data-placement="bottom" title="Expenditure done" class="inputShortWidth" disabled> Lakh</td>
+                            </tr>
+                            <tr>
+                                <td></td>
+                                <td class="PiuLeftHeading"> &emsp;&emsp; b. Bills pending </td>
+                                <td> <input type="text" value="&#8377;" data-toggle="tooltip" data-placement="bottom" title="Bills Pending" class="inputShortWidth" disabled> Lakh</td>
+                            </tr>
+                            <tr>
+                                <td></td>
+                                <td class="PiuLeftHeading"> &emsp;&emsp; c. Total expenditure (a+b) </td>
+                                <td> <input type="text" value="&#8377;" data-toggle="tooltip" data-placement="bottom" title="Total expenditure" class="inputShortWidth" disabled> Lakh</td>
+                            </tr>
+                        }
+                        else
+                        {
+                            <tr>
+                                <td></td>
+                                <td class="PiuLeftHeading"> &emsp;&emsp; a. Expenditure done </td>
+                                <td> <input type="text" value="&#8377; @Model.BRIDGE_PIU_PREFILLED_VIEW.EXPENDITURE_DONE" data-toggle="tooltip" data-placement="bottom" title="Expenditure done" class="inputShortWidth" disabled> Lakh</td>
+                            </tr>
+                            <tr>
+                                <td></td>
+                                <td class="PiuLeftHeading"> &emsp;&emsp; b. Bills pending </td>
+                                <td> <input type="text" value="&#8377; @Model.BRIDGE_PIU_GENERAL_INFO_VIEW.BILLS_PENDING" data-toggle="tooltip" data-placement="bottom" title="Bills Pending" class="inputShortWidth" disabled> Lakh</td>
+                            </tr>
+                            <tr>
+                                <td></td>
+                                <td class="PiuLeftHeading"> &emsp;&emsp; c. Total expenditure (a+b) </td>
+                                <td> <input type="text" value="&#8377; @Model.BRIDGE_PIU_GENERAL_INFO_VIEW.TOTAL_EXPENDITURE" data-toggle="tooltip" data-placement="bottom" title="Total expenditure" class="inputShortWidth" disabled> Lakh</td>
+                            </tr>
+                        }
+
+                        @if (Model.BRIDGE_PIU_PREFILLED_VIEW.WORK_STATUS == "C")
+                        {
+                            <tr>
+                                <td class="piuleftSrNo" style="text-align:center"> XIII </td>
+                                <td class="PiuLeftHeading"> Completion cost<b> <br /> <i>(If work is completed)</i></b> </td>
+                                <td> <input type="text" value="&#8377; @Model.BRIDGE_PIU_PREFILLED_VIEW.COMPLETION_COST" data-toggle="tooltip" data-placement="bottom" title="Completion cost" class="inputShortWidth" disabled> Lakh</td>
+                            </tr>
+                        }
+                        else
+                        {
+                            <tr>
+                                <td class="piuleftSrNo" style="text-align:center"> XIII </td>
+                                <td class="PiuLeftHeading"> Completion cost<b> <br /> <i>(If work is completed)</i></b> </td>
+                                <td> <input type="text" value="&#8377; " data-toggle="tooltip" data-placement="bottom" title="Completion cost" class="inputShortWidth" disabled> Lakh</td>
+                            </tr>
+                        }
+
+
+
+
+
+
+                        <tr>
+                            <td class="piuleftSrNo" style="text-align:center"> XIV </td>
+                            <td class="detailtablesPiuLeftHeading"> Date of award of work <br /> <i>(date/ month/ year)</i></td>
+                            <td> <input type="text" value="@Model.BRIDGE_PIU_GENERAL_INFO_VIEW.AWARD_OF_WORK_DATE" data-toggle="tooltip" data-placement="bottom" title="Date of award of work" class="inputShortWidth" disabled> </td>
+                        </tr>
+                        <tr>
+                            <td class="piuleftSrNo" style="text-align:center"> XV </td>
+                            <td class="detailtablesPiuLeftHeading"> Date of start of work <br /> <i>(date/ month/ year)</i></td>
+                            <td> <input type="text" value="@Model.BRIDGE_PIU_GENERAL_INFO_VIEW.START_OF_WORK_DATE" data-toggle="tooltip" data-placement="bottom" title="Date of start of work" class="inputShortWidth" disabled> </td>
+                        </tr>
+                        <tr>
+                            <td class="piuleftSrNo" style="text-align:center"> XVI </td>
+                            <td class="detailtablesPiuLeftHeading"> Stipulated date of completion <br /> <i>(date/ month/ year)</i></td>
+                            <td> <input type="text" value="@Model.BRIDGE_PIU_GENERAL_INFO_VIEW.STIPULATED_COMPLETION_DATE" data-toggle="tooltip" data-placement="bottom" title="Stipulated date of completion" class="inputShortWidth" disabled> </td>
+                        </tr>
+
+                        @if (Model.BRIDGE_PIU_PREFILLED_VIEW.WORK_STATUS == "C")
+                        {
+                            <tr>
+                                <td class="piuleftSrNo" style="text-align:center"> XVII </td>
+                                <td class="detailtablesPiuLeftHeading"> Actual date of completion <br /> <i>(date/ month/ year)</i> <br> <b><i>(in case of completed work)</i></b></td>
+                                <td> <input type="text" value="@Model.BRIDGE_PIU_GENERAL_INFO_VIEW.ACTUAL_COMPLETION_DATE" data-toggle="tooltip" data-placement="bottom" title="Actual date of completion" class="inputShortWidth" disabled> </td>
+                            </tr>
+                        }
+                        else
+                        {
+                            <tr>
+                                <td class="piuleftSrNo" style="text-align:center"> XVII </td>
+                                <td class="detailtablesPiuLeftHeading"> Actual date of completion <br /> <i>(date/ month/ year)</i> <br> <b><i>(in case of completed work)</i></b></td>
+                                <td> <input type="text" value="" data-toggle="tooltip" data-placement="bottom" title="Actual date of completion" class="inputShortWidth" disabled> </td>
+                            </tr>
+                        }
+                    </table>
+                </div>
+            </div> <!-- Close Headings and General Details -->
+            <br>
+
+            <hr class="PageBreakLine">
+
+            <!-- 2. PHYSICAL PROGRESS: (Ongoing/Completed) -->
+            <div id="PhysicalProgressBridge_PIU">
+                <div class="container-fluid">
+                    <h3><b> 2. PHYSICAL PROGRESS (Ongoing/Completed) </b></h3>
+                    <hr style="border: 0.5px solid gray">
+
+                    <div class="table-responsive m-3">
+                        <p class="fontPIUPdf"> Construction Programme and Physical Progress </p>
+                        <table class="table table-hover table-bordered w-auto text-wrap fontPIUPdf">
+                            <thead>
+                                <tr>
+                                    <th rowspan="2"> Item of work <br /> (1) </th>
+                                    <th rowspan="2"> Unit <br /> (2) </th>
+                                    <th rowspan="2"> Quantity As per DPR <br /> (3) </th>
+                                    <th rowspan="2"> Quantity executed <br /> (4) </th>
+                                    <th rowspan="2"> Completed percentage of item <br /> (5) </th>
+                                    <th colspan="3"> Fill in start and completion dates </th>
+                                    <th rowspan="2"> Delay in months <br /> (9) </th>
+
+                                <tr>
+                                    <th> Progress status <br /> (6) </th>
+                                    <th> Start Date <br /> (7) </th>
+                                    <th> Completion Date <br /> (8) </th>
+                                </tr>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                @foreach (var item in @Model.BRIDGE_PIU_PRGS_DETAILS_VIEW)
+                                {
+                                    foreach (var thd in @Model.BRIDGE_MASTER_WORK_ITEM_VIEW)
+                                    {
+                                        if (thd.ITEM_ID == item.ITEM_ID)
+                                        {
+
+
+                                            <tr>
+                                                <td>@(@thd.ITEM_DESC == null || thd.ITEM_DESC =="" ? "" : thd.ITEM_DESC)</td>
+                                                <td>@(@item.IEM_UNIT  == null || @item.IEM_UNIT  =="" ? "" : @item.IEM_UNIT)</td>
+                                                <td>@(@item.DPR_QUANTITY)</td>
+                                                <td>@(@item.EXECUTED_QUANTITY)</td>
+                                                <td>@(@item.COMPLETED_PERC)</td>
+
+                                                <td>
+                                                    Due
+                                                    <hr style="border: 0.5px solid lightgrey" />
+                                                    Actual
+                                                </td>
+                                                <td>
+                                                    @(@item.DUE_START_DATE == null ? "" : @item.DUE_START_DATE)
+                                                    <hr style="border: 0.5px solid lightgrey" />
+                                                    @(@item.ACTUAL_START_DATE == null ? "" : @item.ACTUAL_START_DATE)
+
+                                                </td>
+
+                                                <td>
+                                                    @(@item.DUE_END_DATE == null ? "" : @item.DUE_END_DATE)
+                                                    <hr style="border: 0.5px solid lightgrey" />
+                                                    @(@item.ACTUAL_END_DATE == null ? "" : @item.ACTUAL_END_DATE)
+
+                                                </td>
+                                                <td>
+                                                    @item.DELAY_MONTH
+
+                                                </td>
+
+                                            </tr>
+                                        }
+                                    }
+                                }
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div> <!-- Close PHYSICAL PROGRESS: (Ongoing/Completed) -->
+            <br>
+
+            <hr class="PageBreakLine">
+
+            <!-- 3. PARTICULARS OF THE BRIDGE -->
+            <div id="ParticularsBridge_PIU">
+                <div class="container-fluid">
+                    <h3><b> 3. PARTICULARS OF THE BRIDGE </b></h3>
+                    <hr style="border: 0.5px solid gray">
+                    <table class="table table-hover table-borderless fontPIUPdf">
+                        <tr>
+                            <td class="piuleftSrNo" style="text-align:center"> 3.1 </td>
+                            <td class="PiuLeftHeading"> Type of the bridge (according to HFL) </td>
+                            <td colspan="2">
+                                @if (Model.BRIDGE_PIU_PARTICULAR_VIEW.BRIDGE_TYPE_HFL.Equals("Submersible"))
+                                {
+                                    <input type="checkbox" checked disabled /> <label> Submersible  &emsp; &emsp;</label>
+                                    <input type="checkbox" disabled /> <label> Non-Submersible </label>
+                                }
+                                else if (Model.BRIDGE_PIU_PARTICULAR_VIEW.BRIDGE_TYPE_HFL.Equals("Non-submersible"))
+                                {
+                                    <input type="checkbox" disabled /> <label> Submersible  &emsp; &emsp;</label>
+                                    <input type="checkbox" checked disabled /> <label> Non-Submersible </label>
+                                }
+                                else
+                                {
+                                    <input type="checkbox" disabled /> <label> Submersible  &emsp; &emsp;</label>
+                                    <input type="checkbox" disabled /> <label> Non-Submersible </label>
+                                }
+
+                            </td>
+                        </tr>
+
+                        <tr>
+                            <td class="piuleftSrNo" style="text-align:center"> </td>
+                            <td class="PiuLeftHeading"> (according to Material) </td>
+                            <td colspan="2">
+                                @if (Model.BRIDGE_PIU_PARTICULAR_VIEW.BRIDGE_TYPE_MATERIAL.Equals("RCC"))
+                                {
+                                    <input type="checkbox" checked disabled /> <label> RCC  &emsp; &emsp;</label>  
+                                    <input type="checkbox" disabled /> <label> Steel </label>
+                                }
+                                else if (Model.BRIDGE_PIU_PARTICULAR_VIEW.BRIDGE_TYPE_MATERIAL.Equals("Steel"))
+                                {
+                                    <input type="checkbox" disabled /> <label> RCC  &emsp; &emsp;</label> 
+                                    <input type="checkbox" checked disabled /> <label> Steel </label>
+                                }
+                                else
+                                {
+                                    <input type="checkbox" disabled /> <label> RCC  &emsp; &emsp;</label>  
+                                    <input type="checkbox" disabled /> <label> Steel </label>
+                                }
+
+                            </td>
+                        </tr>
+                        <tr>
+                            <td></td>
+                            <td></td>
+                            <td colspan="2">
+                                @if (Model.BRIDGE_PIU_PARTICULAR_VIEW.BRIDGE_TYPE_MATERIAL.Equals("Composite"))
+                                {
+                                    <input type="checkbox" checked disabled /> <label> Composite  &emsp; &emsp;</label>
+                                    <input type="checkbox" disabled /> <label> Pre-stress </label>
+                                }
+                                else if (Model.BRIDGE_PIU_PARTICULAR_VIEW.BRIDGE_TYPE_MATERIAL.Equals("Pre-Stress"))
+                                {
+                                    <input type="checkbox" disabled /> <label> Composite  &emsp; &emsp;</label>
+                                    <input type="checkbox" checked disabled /> <label> Pre-stress </label>
+                                }
+                                else
+                                {
+                                    <input type="checkbox" disabled /> <label> Composite  &emsp; &emsp;</label>
+                                    <input type="checkbox" disabled /> <label> Pre-stress </label>
+                                }
+
+                            </td>
+                        </tr>
+                        <tr>
+                            <td class="piuleftSrNo" style="text-align:center"> 3.2 </td>
+                            <td class="PiuLeftHeading"> Type of foundation </td>
+                            <td colspan="2">
+                                @if (Model.BRIDGE_PIU_PARTICULAR_VIEW.FOUNDATION_TYPE.Equals("Open"))
+                                {
+                                    <input type="checkbox" checked disabled /> <label> Open  &emsp; &emsp;</label> 
+                                    <input type="checkbox" disabled /> <label> Raft </label>
+                                }
+                                else if (Model.BRIDGE_PIU_PARTICULAR_VIEW.FOUNDATION_TYPE.Equals("Raft"))
+                                {
+                                    <input type="checkbox" disabled /> <label> Open  &emsp; &emsp;</label>  
+                                    <input type="checkbox" checked disabled /> <label> Raft </label>
+                                }
+                                else
+                                {
+                                    <input type="checkbox" disabled /> <label> Open  &emsp; &emsp;</label> 
+                                    <input type="checkbox" disabled /> <label> Raft </label>
+                                }
+
+                            </td>
+                        </tr>
+                        <tr>
+                            <td></td>
+                            <td> </td>
+                            <td colspan="2">
+                                @if (Model.BRIDGE_PIU_PARTICULAR_VIEW.FOUNDATION_TYPE.Equals("Pile"))
+                                {
+                                    <input type="checkbox" checked disabled /> <label> Pile  &emsp; &emsp;</label>  
+                                    <input type="checkbox" disabled /> <label> Well </label>
+                                }
+                                else if (Model.BRIDGE_PIU_PARTICULAR_VIEW.FOUNDATION_TYPE.Equals("Well"))
+                                {
+                                    <input type="checkbox" disabled /> <label> Pile  &emsp; &emsp;</label>  
+                                    <input type="checkbox" checked disabled /> <label> Well </label>
+                                }
+                                else
+                                {
+                                    <input type="checkbox" disabled /> <label> Pile  &emsp; &emsp;</label>  
+                                    <input type="checkbox" disabled /> <label> Well </label>
+                                }
+
+                            </td>
+                        </tr>
+
+                        <tr>
+                            <td class="piuleftSrNo" style="text-align:center"> 3.3 </td>
+                            <td class="PiuLeftHeading"> Length of bridge </td>
+                            <td colspan="2">
+                                <input type="text" value="@Model.BRIDGE_PIU_PARTICULAR_VIEW.BRIDGE_LENGTH " data-toggle="tooltip" data-placement="bottom" title="Length of bridge" disabled> m
+                            </td>
+                        </tr>
+
+                        <tr>
+                            <td class="piuleftSrNo" style="text-align:center"> 3.4 </td>
+                            <td class="PiuLeftHeading"> Number of spans and spans length </td>
+                            <td colspan="2">
+                                <input type="text" value="@Model.BRIDGE_PIU_PARTICULAR_VIEW.SPANS_NO " data-toggle="tooltip" data-placement="bottom" title="Number of spans" disabled> &emsp;
+                                <input type="text" value="@Model.BRIDGE_PIU_PARTICULAR_VIEW.SPANS_LEN " data-toggle="tooltip" data-placement="bottom" title="Spans length" disabled>
+                            </td>
+                        </tr>
+
+                        <tr>
+                            <td class="piuleftSrNo" style="text-align:center"> 3.5 </td>
+                            <td class="PiuLeftHeading"> Width of bridge </td>
+                            <td colspan="2">
+                                <input type="text" value="@Model.BRIDGE_PIU_PARTICULAR_VIEW.BRIDGE_WIDTH " data-toggle="tooltip" data-placement="bottom" title="Width of bridge" disabled> m
+                            </td>
+                        </tr>
+                        <tr>
+                            <td class="piuleftSrNo" style="text-align:center"> 3.6 </td>
+                            <td class="PiuLeftHeading"> Footpaths provided </td>
+                            <td colspan="2">
+                                @if (Model.BRIDGE_PIU_PARTICULAR_VIEW.IS_FOOTPATH_PROVIDED.Equals("Yes"))
+                                {
+                                    <input type="checkbox" checked disabled /> <label> Yes &emsp; &emsp; </label> 
+                                    <input type="checkbox" disabled /> <label> No </label>
+                                }
+                                else if (Model.BRIDGE_PIU_PARTICULAR_VIEW.IS_FOOTPATH_PROVIDED.Equals("No"))
+                                {
+                                    <input type="checkbox" disabled /> <label> Yes &emsp; &emsp; </label> 
+                                    <input type="checkbox" checked disabled /> <label> No </label>
+                                }
+                                else
+                                {
+                                    <input type="checkbox" disabled /> <label> Yes &emsp; &emsp; </label> 
+                                    <input type="checkbox" disabled /> <label> No </label>
+                                }
+
+                            </td>
+                        </tr>
+
+                        <tr>
+                            <td></td>
+                            <td class="PiuLeftHeading"> If provided, width of footpath </td>
+                            <td colspan="2">
+                                <input type="text" value=" @Model.BRIDGE_PIU_PARTICULAR_VIEW.FOOTPATH_WIDTH" data-toggle="tooltip" data-placement="bottom" title="width of footpath" disabled> m
+                            </td>
+                        </tr>
+
+                        <tr>
+                            <td class="piuleftSrNo" style="text-align:center"> 3.7 </td>
+                            <td class="PiuLeftHeading"> Formation Level (F.L.) </td>
+                            <td colspan="2">
+                                <input type="text" value="@Model.BRIDGE_PIU_PARTICULAR_VIEW.FORMATION_LEVEL " data-toggle="tooltip" data-placement="bottom" title="Formation Level (F.L.)" disabled> m
+                            </td>
+                        </tr>
+                        <tr>
+                            <td class="piuleftSrNo" style="text-align:center"> 3.8 </td>
+                            <td class="PiuLeftHeading"> Highest Flood Level (HFL) <br /> Ordinary Flood Level (OFL) </td>
+                            <td>
+                                <input type="text" value="@Model.BRIDGE_PIU_PARTICULAR_VIEW.HIGHEST_FLOOD_LEVEL " data-toggle="tooltip" data-placement="bottom" title="Highest Flood Level (HFL)" disabled>m &emsp;
+                                <input type="text" value="@Model.BRIDGE_PIU_PARTICULAR_VIEW.ORDINARY_FLOOD_LEVEL " data-toggle="tooltip" data-placement="bottom" title="Ordinary Flood Level (OFL)" disabled>m
+                            </td>
+                        </tr>
+
+                        <tr>
+                            <td class="piuleftSrNo" style="text-align:center"> 3.9 </td>
+                            <td class="PiuLeftHeading"> Bed level (Lowest) </td>
+                            <td colspan="2">
+                                <input type="text" value="@Model.BRIDGE_PIU_PARTICULAR_VIEW.BED_LEVEL " data-toggle="tooltip" data-placement="bottom" title="Bed level (Lowest)" disabled> m
+                            </td>
+                        </tr>
+                        <tr>
+                            <td class="piuleftSrNo" style="text-align:center"> 3.10 </td>
+                            <td class="PiuLeftHeading"> Catchment area </td>
+                            <td colspan="2">
+                                <input type="text" value="@Model.BRIDGE_PIU_PARTICULAR_VIEW.CATCHMENT_AREA " data-toggle="tooltip" data-placement="bottom" title="Catchment area" disabled> km<sup>2</sup>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td class="piuleftSrNo" style="text-align:center"> 3.11 </td>
+                            <td class="PiuLeftHeading"> Linear waterway at HFL </td>
+                            <td colspan="2">
+                                <input type="text" value="@Model.BRIDGE_PIU_PARTICULAR_VIEW.LINEAR_WATERWAY_HFL " data-toggle="tooltip" data-placement="bottom" title="Linear waterway at HFL" disabled> m
+                            </td>
+                        </tr>
+                        <tr>
+                            <td class="piuleftSrNo" style="text-align:center"> 3.12 </td>
+                            <td class="PiuLeftHeading"> Design discharge </td>
+                            <td colspan="2">
+                                <input type="text" value="@Model.BRIDGE_PIU_PARTICULAR_VIEW.DESIGN_DISCHARGE " data-toggle="tooltip" data-placement="bottom" title="Design discharge" disabled> cumec
+                            </td>
+                        </tr>
+                        <tr>
+                            <td class="piuleftSrNo" style="text-align:center"> 3.13 </td>
+                            <td class="PiuLeftHeading"> Design velocity </td>
+                            <td colspan="2">
+                                <input type="text" value="@Model.BRIDGE_PIU_PARTICULAR_VIEW.DESIGN_VELOCITY " data-toggle="tooltip" data-placement="bottom" title="Design velocity" disabled> m/s
+                            </td>
+                        </tr>
+
+                        @* ---------------------------- Foundation levels start ----------------------------*@
+                        <tr>
+                            <td class="piuleftSrNo" style="text-align:center"> 3.14 </td>
+                            <td class="PiuLeftHeading"> Foundation levels </td>
+                        </tr>
+                        <tr>
+                            <td class="piuleftSrNo" style="text-align:center"> </td>
+                            <td class="PiuLeftHeading"> (a) Piers @*<input type="checkbox" disabled />*@</td>
+                            <td colspan="2">
+                                P1 <input type="text" value="@Model.BRIDGE_PIU_PARTICULAR_VIEW.PIERS_P1 " data-toggle="tooltip" data-placement="bottom" title="P1" disabled> m &emsp;
+                                P2 <input type="text" value="@Model.BRIDGE_PIU_PARTICULAR_VIEW.PIERS_P2 " data-toggle="tooltip" data-placement="bottom" title="P2" disabled> m &emsp;
+                                P3 <input type="text" value="@Model.BRIDGE_PIU_PARTICULAR_VIEW.PIERS_P3 " data-toggle="tooltip" data-placement="bottom" title="P3" disabled> m
+                            </td>
+                        </tr>
+                        <tr>
+                            <td class="piuleftSrNo" style="text-align:center"> </td>
+                            <td class="PiuLeftHeading"></td>
+                            <td colspan="2">
+                                P4 <input type="text" value="@Model.BRIDGE_PIU_PARTICULAR_VIEW.PIERS_P4 " data-toggle="tooltip" data-placement="bottom" title="P4" disabled> m &emsp;
+                                P5 <input type="text" value="@Model.BRIDGE_PIU_PARTICULAR_VIEW.PIERS_P5 " data-toggle="tooltip" data-placement="bottom" title="P5" disabled> m &emsp;
+                                P6 <input type="text" value="@Model.BRIDGE_PIU_PARTICULAR_VIEW.PIERS_P6 " data-toggle="tooltip" data-placement="bottom" title="P6" disabled> m
+                            </td>
+                        </tr>
+                        <tr>
+                            <td class="piuleftSrNo" style="text-align:center"> </td>
+                            <td class="PiuLeftHeading"></td>
+                            <td colspan="2">
+                                P7 <input type="text" value="@Model.BRIDGE_PIU_PARTICULAR_VIEW.PIERS_P7 " data-toggle="tooltip" data-placement="bottom" title="P7" disabled> m &emsp;
+                                P8 <input type="text" value="@Model.BRIDGE_PIU_PARTICULAR_VIEW.PIERS_P8 " data-toggle="tooltip" data-placement="bottom" title="P8" disabled> m &emsp;
+                                P9 <input type="text" value="@Model.BRIDGE_PIU_PARTICULAR_VIEW.PIERS_P9 " data-toggle="tooltip" data-placement="bottom" title="P9" disabled> m
+                            </td>
+                        </tr>
+
+
+                        <tr>
+                            <td class="piuleftSrNo" style="text-align:center"> </td>
+                            <td class="PiuLeftHeading"> (b) Abutments @*<input type="checkbox" disabled />*@</td>
+                            <td colspan="2">
+                                A1 <input type="text" value="@Model.BRIDGE_PIU_PARTICULAR_VIEW.ABUTMENTS_A1 " data-toggle="tooltip" data-placement="bottom" title="A1" disabled> m &emsp;
+                                A2 <input type="text" value="@Model.BRIDGE_PIU_PARTICULAR_VIEW.ABUTMENTS_A2 " data-toggle="tooltip" data-placement="bottom" title="A2" disabled> m
+                            </td>
+                        </tr>
+                        <tr>
+                            <td class="piuleftSrNo" style="text-align:center"> </td>
+                            <td class="PiuLeftHeading"> (c) Returns @*<input type="checkbox" disabled />*@</td>
+                            <td colspan="2">
+                                R1 <input type="text" value="@Model.BRIDGE_PIU_PARTICULAR_VIEW.RETURNS_R1 " data-toggle="tooltip" data-placement="bottom" title="R1" disabled> m &emsp;
+                                R2 <input type="text" value="@Model.BRIDGE_PIU_PARTICULAR_VIEW.RETURNS_R2 " data-toggle="tooltip" data-placement="bottom" title="R2" disabled> m
+                            </td>
+                        </tr>
+
+                        @* ---------------------------- Foundation levels end ----------------------------*@
+
+                        <tr>
+                            <td class="piuleftSrNo" style="text-align:center"> 3.15 </td>
+                            <td class="PiuLeftHeading"> Foundation Strata </td>
+                            <td colspan="2">
+                                <input type="text" value="@Model.BRIDGE_PIU_PARTICULAR_VIEW.FOUNDATION_STRATA " data-toggle="tooltip" data-placement="bottom" title="Foundation Strata" disabled>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td class="piuleftSrNo" style="text-align:center"> 3.16 </td>
+                            <td class="PiuLeftHeading"> Safe Bearing Capacity (SBC) </td>
+                            <td colspan="2">
+                                <input type="text" value="@Model.BRIDGE_PIU_PARTICULAR_VIEW.SAFE_BEARING_CAP " data-toggle="tooltip" data-placement="bottom" title="Safe Bearing Capacity (SBC)" disabled> tons/m<sup>2</sup>
+                            </td>
+                        </tr>
+
+                        <tr>
+                            <td class="piuleftSrNo" style="text-align:center"> 3.17 </td>
+                            <td class="PiuLeftHeading"> River protection works provided or not </td>
+                            <td colspan="2">
+                                @if (Model.BRIDGE_PIU_PARTICULAR_VIEW.IS_RIVER_PROT_PROVIDED.Equals("Yes"))
+                                {
+                                    <input type="checkbox" checked disabled /> <label> Yes &emsp; &emsp; </label> 
+                                    <input type="checkbox" disabled /> <label> No </label>
+                                }
+                                else if (Model.BRIDGE_PIU_PARTICULAR_VIEW.IS_RIVER_PROT_PROVIDED.Equals("No"))
+                                {
+                                    <input type="checkbox" disabled /> <label> Yes &emsp; &emsp; </label> 
+                                    <input type="checkbox" checked disabled /> <label> No </label>
+                                }
+                                else
+                                {
+                                    <input type="checkbox" disabled /> <label> Yes &emsp; &emsp; </label> 
+                                    <input type="checkbox" disabled /> <label> No </label>
+                                }
+
+                            </td>
+                        </tr>
+                        <tr>
+                            <td class="piuleftSrNo" style="text-align:center"> </td>
+                            <td class="PiuLeftHeading"> if provided </td>
+                            <td colspan="2">
+                                @if (Model.BRIDGE_PIU_PARTICULAR_VIEW.RIVER_PROT_PROVIDED.Equals("Rigid boulder apron"))
+                                {
+                                    <input type="checkbox" checked disabled /> <label> Rigid boulder apron &emsp; &emsp;&emsp; &emsp; </label> 
+                                    <input type="checkbox" disabled /> <label> Flexible boulder apron </label>
+                                }
+                                else if (Model.BRIDGE_PIU_PARTICULAR_VIEW.RIVER_PROT_PROVIDED.Equals("Flexible boulder apron"))
+                                {
+                                    <input type="checkbox" disabled /> <label> Rigid boulder apron &emsp; &emsp;&emsp; &emsp; </label> 
+                                    <input type="checkbox" checked disabled /> <label> Flexible boulder apron </label>
+                                }
+                                else
+                                {
+                                    <input type="checkbox" disabled /> <label> Rigid boulder apron &emsp; &emsp;&emsp; &emsp; </label> 
+                                    <input type="checkbox" disabled /> <label> Flexible boulder apron </label>
+                                }
+
+                            </td>
+                        </tr>
+
+                        @* ---------------------------- Type of Substructure start ----------------------------*@
+                        <tr>
+                            <td class="piuleftSrNo" style="text-align:center"> 3.18 </td>
+                            <td class="PiuLeftHeading"> Type of Substructure </td>
+                        </tr>
+                        <tr>
+                            <td class="piuleftSrNo" style="text-align:center"> </td>
+                            <td class="PiuLeftHeading"> (a) Piers </td>
+                            <td colspan="2">
+                                @if (Model.BRIDGE_PIU_PARTICULAR_VIEW.SUBSTRUCTURE_PIERS.Equals("Solid Circlar"))
+                                {
+                                    <input type="checkbox" checked disabled /> <label> Solid circular &emsp; &emsp; </label>
+                                    <input type="checkbox" disabled /> <label> Hollow circular &emsp; &emsp; </label>
+                                    <input type="checkbox" disabled /> <label> Wall type pier </label>
+                                }
+                                else if (Model.BRIDGE_PIU_PARTICULAR_VIEW.SUBSTRUCTURE_PIERS.Equals("Hollow circular"))
+                                {
+                                    <input type="checkbox" disabled /> <label> Solid circular &emsp; &emsp; </label>
+                                    <input type="checkbox" checked disabled /> <label> Hollow circular &emsp; &emsp; </label>
+                                    <input type="checkbox" disabled /> <label> Wall type pier </label>
+                                }
+                                else if (Model.BRIDGE_PIU_PARTICULAR_VIEW.SUBSTRUCTURE_PIERS.Equals("Wall type pier"))
+                                {
+                                    <input type="checkbox" disabled /> <label> Solid circular &emsp; &emsp; </label>
+                                    <input type="checkbox" disabled /> <label> Hollow circular &emsp; &emsp; </label>
+                                    <input type="checkbox" checked disabled /> <label> Wall type pier </label>
+                                }
+                                else
+                                {
+                                    <input type="checkbox" disabled /> <label> Solid circular &emsp; &emsp; </label>
+                                    <input type="checkbox" disabled /> <label> Hollow circular &emsp; &emsp; </label>
+                                    <input type="checkbox" disabled /> <label> Wall type pier </label>
+                                }
+
+                            </td>
+                        </tr>
+                        <tr>
+                            <td class="piuleftSrNo" style="text-align:center"> </td>
+                            <td class="PiuLeftHeading"> </td>
+                            <td colspan="2">
+                                @if (Model.BRIDGE_PIU_PARTICULAR_VIEW.SUBSTRUCTURE_PIERS.Equals("OTHER_TYPE"))
+                                {
+                                    <input type="checkbox" checked disabled /> <label> Any other type &emsp; &emsp; </label>
+                                }
+                                else
+                                {
+                                    <input type="checkbox" disabled /> <label> Any other type &emsp; &emsp; </label>
+                                }
+
+                                <input type="text" value="@Model.BRIDGE_PIU_PARTICULAR_VIEW.OTHER_SUBSTRUCTURE_PIERS " data-toggle="tooltip" data-placement="bottom" title="Any other type" disabled>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td class="piuleftSrNo" style="text-align:center"> </td>
+                            <td class="PiuLeftHeading"> (b) Abutments </td>
+                            <td colspan="2">
+                                @if (Model.BRIDGE_PIU_PARTICULAR_VIEW.SUBSTRUCTURE_ABUTMENTS.Equals("Gravity type"))
+                                {
+                                    <input type="checkbox" checked disabled /> <label>  Gravity type &emsp; &emsp; </label> 
+                                    <input type="checkbox" disabled /> <label> Spill through &emsp; &emsp; </label> 
+                                    <input type="checkbox" disabled /> <label> Box type &emsp; &emsp; </label> 
+                                    <input type="checkbox" disabled /> <label> Counter fort type </label>
+                                }
+                                else if (Model.BRIDGE_PIU_PARTICULAR_VIEW.SUBSTRUCTURE_ABUTMENTS.Equals("Spill through"))
+                                {
+                                    <input type="checkbox" disabled /> <label>  Gravity type &emsp; &emsp; </label> 
+                                    <input type="checkbox" checked disabled /> <label> Spill through &emsp; &emsp; </label> 
+                                    <input type="checkbox" disabled /> <label> Box type &emsp; &emsp; </label> 
+                                    <input type="checkbox" disabled /> <label> Counter fort type </label>
+                                }
+                                else if (Model.BRIDGE_PIU_PARTICULAR_VIEW.SUBSTRUCTURE_ABUTMENTS.Equals("Box type"))
+                                {
+                                    <input type="checkbox" disabled /> <label>  Gravity type &emsp; &emsp; </label> 
+                                    <input type="checkbox" disabled /> <label> Spill through &emsp; &emsp; </label> 
+                                    <input type="checkbox" checked disabled /> <label> Box type &emsp; &emsp; </label> 
+                                    <input type="checkbox" disabled /> <label> Counter fort type </label>
+                                }
+                                else if (Model.BRIDGE_PIU_PARTICULAR_VIEW.SUBSTRUCTURE_ABUTMENTS.Equals("Counter fort type"))
+                                {
+                                    <input type="checkbox" disabled /> <label>  Gravity type &emsp; &emsp; </label> 
+                                    <input type="checkbox" disabled /> <label> Spill through &emsp; &emsp; </label> 
+                                    <input type="checkbox" disabled /> <label> Box type &emsp; &emsp; </label> 
+                                    <input type="checkbox" checked disabled /> <label> Counter fort type </label>
+                                }
+                                else
+                                {
+                                    <input type="checkbox" disabled /> <label>  Gravity type &emsp; &emsp; </label> 
+                                    <input type="checkbox" disabled /> <label> Spill through &emsp; &emsp; </label> 
+                                    <input type="checkbox" disabled /> <label> Box type &emsp; &emsp; </label> 
+                                    <input type="checkbox" disabled /> <label> Counter fort type </label>
+                                }
+
+                            </td>
+                        </tr>
+                        <tr>
+                            <td class="piuleftSrNo" style="text-align:center"> </td>
+                            <td class="PiuLeftHeading"> </td>
+                            <td colspan="2">
+                                @if (Model.BRIDGE_PIU_PARTICULAR_VIEW.SUBSTRUCTURE_ABUTMENTS.Equals("OTHER_TYPE"))
+                                {
+                                    <input type="checkbox" checked disabled /> <label> Any other type &emsp; &emsp; </label> 
+                                }
+                                else
+                                {
+                                    <input type="checkbox" disabled /> <label> Any other type &emsp; &emsp; </label>
+                                }
+
+                                <input type="text" value="@Model.BRIDGE_PIU_PARTICULAR_VIEW.OTHER_SUBSTRUCTURE_ABUTMENTS " data-toggle="tooltip" data-placement="bottom" title="Any other type" disabled>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td class="piuleftSrNo" style="text-align:center"> </td>
+                            <td class="PiuLeftHeading"> (c) Returns </td>
+                            <td colspan="2">
+                                @if (Model.BRIDGE_PIU_PARTICULAR_VIEW.SUBSTRUCTURE_RETURNS.Equals("Box type"))
+                                {
+                                    <input type="checkbox" checked disabled /> <label> Box type &emsp; &emsp; </label> 
+                                    <input type="checkbox" disabled /> <label> Counter fort &emsp; &emsp; </label> 
+                                    <input type="checkbox" disabled /> <label> Tied returns &emsp; &emsp; </label> 
+                                    <input type="checkbox" disabled /> <label> Cantilever type </label>
+                                }
+                                else if (Model.BRIDGE_PIU_PARTICULAR_VIEW.SUBSTRUCTURE_RETURNS.Equals("Counter fort"))
+                                {
+                                    <input type="checkbox" disabled /> <label> Box type &emsp; &emsp; </label> 
+                                    <input type="checkbox" checked disabled /> <label> Counter fort &emsp; &emsp; </label> 
+                                    <input type="checkbox" disabled /> <label> Tied returns &emsp; &emsp; </label> 
+                                    <input type="checkbox" disabled /> <label> Cantilever type </label>
+                                }
+                                else if (Model.BRIDGE_PIU_PARTICULAR_VIEW.SUBSTRUCTURE_RETURNS.Equals("Tied returns"))
+                                {
+                                    <input type="checkbox" disabled /> <label> Box type &emsp; &emsp; </label> 
+                                    <input type="checkbox" disabled /> <label> Counter fort &emsp; &emsp; </label> 
+                                    <input type="checkbox" checked disabled /> <label> Tied returns &emsp; &emsp; </label> 
+                                    <input type="checkbox" disabled /> <label> Cantilever type </label>
+                                }
+                                else if (Model.BRIDGE_PIU_PARTICULAR_VIEW.SUBSTRUCTURE_RETURNS.Equals("Cantilever type"))
+                                {
+                                    <input type="checkbox" disabled /> <label> Box type &emsp; &emsp; </label> 
+                                    <input type="checkbox" disabled /> <label> Counter fort &emsp; &emsp; </label> 
+                                    <input type="checkbox" disabled /> <label> Tied returns &emsp; &emsp; </label> 
+                                    <input type="checkbox" checked disabled /> <label> Cantilever type </label>
+                                }
+                                else
+                                {
+                                    <input type="checkbox" disabled /> <label> Box type &emsp; &emsp; </label> 
+                                    <input type="checkbox" disabled /> <label> Counter fort &emsp; &emsp; </label> 
+                                    <input type="checkbox" disabled /> <label> Tied returns &emsp; &emsp; </label> 
+                                    <input type="checkbox" disabled /> <label> Cantilever type </label>
+                                }
+
+                            </td>
+                        </tr>
+                        <tr>
+                            <td class="piuleftSrNo" style="text-align:center"> </td>
+                            <td class="PiuLeftHeading"> </td>
+                            <td colspan="2">
+                                @if (Model.BRIDGE_PIU_PARTICULAR_VIEW.SUBSTRUCTURE_RETURNS.Equals("OTHER_TYPE"))
+                                {
+                                    <input type="checkbox" checked disabled /> <label> Any other type &emsp; &emsp; </label>
+                                }
+                                else
+                                {
+                                    <input type="checkbox" disabled /> <label> Any other type &emsp; &emsp; </label>
+                                }
+
+                                <input type="text" value="@Model.BRIDGE_PIU_PARTICULAR_VIEW.OTHER_SUBSTRUCTURE_RETURNS " data-toggle="tooltip" data-placement="bottom" title="Any other type" disabled>
+                            </td>
+                        </tr>
+                        @* ---------------------------- Type of Substructure end ----------------------------*@
+
+                        <tr>
+                            <td class="piuleftSrNo" style="text-align:center"> 3.19 </td>
+                            <td class="PiuLeftHeading"> Type of bearings </td>
+                            <td colspan="2">
+                                @if (Model.BRIDGE_PIU_PARTICULAR_VIEW.BEARING_TYPE.Equals("Elastomeric"))
+                                {
+                                    <input type="checkbox" checked disabled /> <label> Elastomeric &emsp; &emsp; </label> 
+                                    <input type="checkbox" disabled /> <label> Pot PTFE &emsp; &emsp; </label> 
+                                    <input type="checkbox" disabled /> <label> Rocker & Roller </label>
+                                }
+                                else if (Model.BRIDGE_PIU_PARTICULAR_VIEW.BEARING_TYPE.Equals("Pot PTFE"))
+                                {
+                                    <input type="checkbox" disabled /> <label> Elastomeric &emsp; &emsp; </label> 
+                                    <input type="checkbox" checked disabled /> <label> Pot PTFE &emsp; &emsp; </label> 
+                                    <input type="checkbox" disabled /> <label> Rocker & Roller </label>
+                                }
+                                else if (Model.BRIDGE_PIU_PARTICULAR_VIEW.BEARING_TYPE.Equals("Rocker & Roller"))
+                                {
+                                    <input type="checkbox" disabled /> <label> Elastomeric &emsp; &emsp; </label> 
+                                    <input type="checkbox" disabled /> <label> Pot PTFE &emsp; &emsp; </label> 
+                                    <input type="checkbox" checked disabled /> <label> Rocker & Roller </label>
+                                }
+                                else
+                                {
+                                    <input type="checkbox" disabled /> <label> Elastomeric &emsp; &emsp; </label> 
+                                    <input type="checkbox" disabled /> <label> Pot PTFE &emsp; &emsp; </label> 
+                                    <input type="checkbox" disabled /> <label> Rocker & Roller </label>
+                                }
+
+                            </td>
+                        </tr>
+                        <tr>
+                            <td class="piuleftSrNo" style="text-align:center"> </td>
+                            <td class="PiuLeftHeading"> </td>
+                            <td colspan="2">
+                                @if (Model.BRIDGE_PIU_PARTICULAR_VIEW.BEARING_TYPE.Equals("OTHER_TYPE"))
+                                {
+                                    <input type="checkbox" checked disabled /> <label> Any other type &emsp; &emsp; </label>  
+                                }
+                                else
+                                {
+                                    <input type="checkbox" disabled /> <label> Any other type &emsp; &emsp; </label>
+                                }
+
+                                <input type="text" value=" " data-toggle="tooltip" data-placement="bottom" title="Any other type" disabled>
+                            </td>
+                        </tr>
+
+                        <tr>
+                            <td class="piuleftSrNo" style="text-align:center"> 3.20 </td>
+                            <td class="PiuLeftHeading"> Test report of bearings available or not </td>
+                            <td colspan="2">
+                                @if (Model.BRIDGE_PIU_PARTICULAR_VIEW.IS_BEARING_REPORT_AVBL.Equals("Yes"))
+                                {
+                                    <input type="checkbox" checked disabled /> <label> Yes &emsp; &emsp; </label> 
+                                    <input type="checkbox" disabled /> <label> No </label>
+                                }
+                                else if (Model.BRIDGE_PIU_PARTICULAR_VIEW.IS_BEARING_REPORT_AVBL.Equals("No"))
+                                {
+                                    <input type="checkbox" disabled /> <label> Yes &emsp; &emsp; </label> 
+                                    <input type="checkbox" checked disabled /> <label> No </label>
+                                }
+                                else
+                                {
+                                    <input type="checkbox" disabled /> <label> Yes &emsp; &emsp; </label> 
+                                    <input type="checkbox" disabled /> <label> No </label>
+                                }
+
+                            </td>
+                        </tr>
+
+                        @* ---------------------------- Type of superstructure start ----------------------------*@
+                        <tr>
+                            <td class="piuleftSrNo" style="text-align:center"> 3.21 </td>
+                            <td class="PiuLeftHeading">Type of superstructure </td>
+                            <td colspan="2">
+                                @if (Model.BRIDGE_PIU_PARTICULAR_VIEW.SUPERSTRUCTURE_MAIN_TYPE.Equals("RCC"))
+                                {
+                                    <input type="checkbox" checked disabled /> <label> RCC &emsp; &emsp; </label> 
+                                }
+                                else
+                                {
+                                    <input type="checkbox" disabled /> <label> RCC &emsp; &emsp; </label>
+                                }
+
+                            </td>
+                        </tr>
+                        <tr>
+                            <td class="piuleftSrNo" style="text-align:center"> </td>
+                            <td class="PiuLeftHeading"> </td>
+                            <td colspan="2">
+                               
+
+                                @if (Model.BRIDGE_PIU_PARTICULAR_VIEW.RCC_SUB_TYPE.Equals("Solid slab"))
+                                {
+                                    <input type="checkbox" checked disabled /><label> Solid slab &emsp; &emsp; </label> 
+                                    <input type="checkbox" disabled /><label> T Beam slab &emsp; &emsp; </label> 
+                                    <input type="checkbox" disabled /><label> Voided slab &emsp; &emsp; </label> 
+                                    <input type="checkbox" disabled /><label> Box girder </label>
+                                }
+                                else if (Model.BRIDGE_PIU_PARTICULAR_VIEW.RCC_SUB_TYPE.Equals("T Beam slab"))
+                                {
+                                    <input type="checkbox" disabled /><label> Solid slab &emsp; &emsp; </label> 
+                                    <input type="checkbox" checked disabled /><label> T Beam slab &emsp; &emsp; </label> 
+                                    <input type="checkbox" disabled /><label> Voided slab &emsp; &emsp; </label> 
+                                    <input type="checkbox" disabled /><label> Box girder </label>
+                                }
+                                else if (Model.BRIDGE_PIU_PARTICULAR_VIEW.RCC_SUB_TYPE.Equals("Voided slab"))
+                                {
+                                    <input type="checkbox" disabled /><label> Solid slab &emsp; &emsp; </label> 
+                                    <input type="checkbox" disabled /><label> T Beam slab &emsp; &emsp; </label> 
+                                    <input type="checkbox" checked disabled /><label> Voided slab &emsp; &emsp; </label> 
+                                    <input type="checkbox" disabled /><label> Box girder </label>
+                                }
+                                else if (Model.BRIDGE_PIU_PARTICULAR_VIEW.RCC_SUB_TYPE.Equals("Box girder"))
+                                {
+                                    <input type="checkbox" disabled /><label> Solid slab &emsp; &emsp; </label> 
+                                    <input type="checkbox" disabled /><label> T Beam slab &emsp; &emsp; </label> 
+                                    <input type="checkbox" disabled /><label> Voided slab &emsp; &emsp; </label> 
+                                    <input type="checkbox" checked disabled /><label> Box girder </label>
+                                }
+                                else
+                                {
+                                    <input type="checkbox" disabled /><label> Solid slab &emsp; &emsp; </label> 
+                                    <input type="checkbox" disabled /><label> T Beam slab &emsp; &emsp; </label> 
+                                    <input type="checkbox" disabled /><label> Voided slab &emsp; &emsp; </label> 
+                                    <input type="checkbox" disabled /><label> Box girder </label>
+                                }
+
+                            </td>
+                        </tr>
+                        <tr>
+                            <td class="piuleftSrNo" style="text-align:center"> </td>
+                            <td class="PiuLeftHeading"> </td>
+                            <td colspan="2">
+                               
+                                @if (Model.BRIDGE_PIU_PARTICULAR_VIEW.RCC_SUB_TYPE.Equals("OTHER_TYPE"))
+                                {
+                                    <input type="checkbox" checked disabled /> <label> Any other type &emsp; &emsp; </label>
+                                }
+                                else
+                                {
+                                    <input type="checkbox"  disabled /> <label> Any other type &emsp; &emsp; </label>
+                                }
+
+                                <input type="text" value="@Model.BRIDGE_PIU_PARTICULAR_VIEW.OTHER_RCC_SUB_TYPE " data-toggle="tooltip" data-placement="bottom" title="Any other type" disabled>
+                            </td>
+                        </tr>
+
+                        <tr>
+                            <td class="piuleftSrNo" style="text-align:center"> </td>
+                            <td class="PiuLeftHeading"> </td>
+                            <td colspan="2">
+                                @if (Model.BRIDGE_PIU_PARTICULAR_VIEW.SUPERSTRUCTURE_MAIN_TYPE.Equals("STEEL"))
+                                {
+                                    <input type="checkbox" checked disabled /> <label> Steel &emsp; &emsp; </label> 
+                                }
+                                else
+                                {
+                                    <input type="checkbox" disabled /> <label> Steel &emsp; &emsp; </label>
+                                }
+
+                            </td>
+                        </tr>
+                        <tr>
+                            <td class="piuleftSrNo" style="text-align:center"> </td>
+                            <td class="PiuLeftHeading"> </td>
+                            <td colspan="2">
+                                
+                                @if (Model.BRIDGE_PIU_PARTICULAR_VIEW.STEEL_SUB_TYPE.Equals("Plate girder"))
+                                {
+                                    <input type="checkbox" checked disabled /><label> Plate girder &emsp; &emsp; </label> 
+                                    <input type="checkbox" disabled /><label> Truss frame &emsp; &emsp; </label> 
+                                    <input type="checkbox" disabled /><label> Arch bridges &emsp; &emsp; </label> 
+                                    <input type="checkbox" disabled /><label> Cable stayed &emsp; &emsp; </label> 
+                                    <input type="checkbox" disabled /><label> Suspension &emsp; &emsp; </label> 
+                                    <input type="checkbox" disabled /><label> Bailey bridges </label>
+
+
+
+                                }
+                                else if (Model.BRIDGE_PIU_PARTICULAR_VIEW.STEEL_SUB_TYPE.Equals("Truss frame"))
+                                {
+                                    <input type="checkbox"  disabled /><label> Plate girder &emsp; &emsp; </label> 
+                                    <input type="checkbox" checked disabled /><label> Truss frame &emsp; &emsp; </label> 
+                                    <input type="checkbox" disabled /><label> Arch bridges &emsp; &emsp; </label> 
+                                    <input type="checkbox" disabled /><label> Cable stayed &emsp; &emsp; </label> 
+                                    <input type="checkbox" disabled /><label> Suspension &emsp; &emsp; </label> 
+                                    <input type="checkbox" disabled /><label> Bailey bridges </label>
+
+                                }
+                                else if (Model.BRIDGE_PIU_PARTICULAR_VIEW.STEEL_SUB_TYPE.Equals("Arch bridges"))
+                                {
+                                    <input type="checkbox"  disabled /><label> Plate girder &emsp; &emsp; </label> 
+                                    <input type="checkbox" disabled /><label> Truss frame &emsp; &emsp; </label> 
+                                    <input type="checkbox" checked disabled /><label> Arch bridges &emsp; &emsp; </label> 
+                                    <input type="checkbox" disabled /><label> Cable stayed &emsp; &emsp; </label> 
+                                    <input type="checkbox" disabled /><label> Suspension &emsp; &emsp; </label> 
+                                    <input type="checkbox" disabled /><label> Bailey bridges </label>
+
+                                }
+                                else if (Model.BRIDGE_PIU_PARTICULAR_VIEW.STEEL_SUB_TYPE.Equals("Cable stayed"))
+                                {
+                                    <input type="checkbox"  disabled /><label> Plate girder &emsp; &emsp; </label> 
+                                    <input type="checkbox" disabled /><label> Truss frame &emsp; &emsp; </label> 
+                                    <input type="checkbox" disabled /><label> Arch bridges &emsp; &emsp; </label> 
+                                    <input type="checkbox" checked disabled /><label> Cable stayed &emsp; &emsp; </label> 
+                                    <input type="checkbox" disabled /><label> Suspension &emsp; &emsp; </label> 
+                                    <input type="checkbox" disabled /><label> Bailey bridges </label>
+                                }
+                                else if (Model.BRIDGE_PIU_PARTICULAR_VIEW.STEEL_SUB_TYPE.Equals("Suspension"))
+                                {
+                                    <input type="checkbox"  disabled /><label> Plate girder &emsp; &emsp; </label> 
+                                    <input type="checkbox" disabled /><label> Truss frame &emsp; &emsp; </label> 
+                                    <input type="checkbox" disabled /><label> Arch bridges &emsp; &emsp; </label> 
+                                    <input type="checkbox" disabled /><label> Cable stayed &emsp; &emsp; </label> 
+                                    <input type="checkbox" checked disabled /><label> Suspension &emsp; &emsp; </label> 
+                                    <input type="checkbox" disabled /><label> Bailey bridges </label>
+                                }
+                                else if (Model.BRIDGE_PIU_PARTICULAR_VIEW.STEEL_SUB_TYPE.Equals("Bailey bridges"))
+                                {
+                                    <input type="checkbox"  disabled /><label> Plate girder &emsp; &emsp; </label> 
+                                    <input type="checkbox" disabled /><label> Truss frame &emsp; &emsp; </label> 
+                                    <input type="checkbox" disabled /><label> Arch bridges &emsp; &emsp; </label> 
+                                    <input type="checkbox" disabled /><label> Cable stayed &emsp; &emsp; </label> 
+                                    <input type="checkbox" disabled /><label> Suspension &emsp; &emsp; </label> 
+                                    <input type="checkbox" checked disabled /><label> Bailey bridges </label>
+                                }
+                                else
+                                {
+                                    <input type="checkbox" disabled /><label> Plate girder &emsp; &emsp; </label> 
+                                    <input type="checkbox" disabled /><label> Truss frame &emsp; &emsp; </label> 
+                                    <input type="checkbox" disabled /><label> Arch bridges &emsp; &emsp; </label> 
+                                    <input type="checkbox" disabled /><label> Cable stayed &emsp; &emsp; </label> 
+                                    <input type="checkbox" disabled /><label> Suspension &emsp; &emsp; </label> 
+                                    <input type="checkbox" disabled /><label> Bailey bridges </label>
+                                }
+
+                            </td>
+                        </tr>
+                        <tr>
+                            <td class="piuleftSrNo" style="text-align:center"> </td>
+                            <td class="PiuLeftHeading"> </td>
+                            <td colspan="2">
+                                
+                                @if (Model.BRIDGE_PIU_PARTICULAR_VIEW.STEEL_SUB_TYPE.Equals("OTHER_TYPE"))
+                                {
+                                    <input type="checkbox" checked disabled /> <label> Any other type &emsp; &emsp; </label> 
+                                }
+                                else
+                                {
+                                    <input type="checkbox" disabled /> <label> Any other type &emsp; &emsp; </label>
+                                }
+
+                                <input type="text" value="@Model.BRIDGE_PIU_PARTICULAR_VIEW.OTHER_STEEL_SUB_TYPE " data-toggle="tooltip" data-placement="bottom" title="Any other type" disabled>
+                            </td>
+                        </tr>
+                        @* ---------------------------- Type of superstructure end ----------------------------*@
+
+
+                        @* ---------------------------- Type of expansion joints start ----------------------------*@
+                        <tr>
+                            <td class="piuleftSrNo" style="text-align:center"> 3.22 </td>
+                            <td class="PiuLeftHeading">Type of expansion joints </td>
+                        </tr>
+                        <tr>
+                            <td class="piuleftSrNo" style="text-align:center"> </td>
+                            <td class="PiuLeftHeading"> </td>
+                            <td colspan="2">
+                                @if (Model.BRIDGE_PIU_PARTICULAR_VIEW.EXPANSION_JNT_TYPE.Equals("Buried"))
+                                {
+                                    <input type="checkbox" checked disabled /><label> Buried &emsp; &emsp; </label> 
+                                    <input type="checkbox" disabled /><label> Copper plate &emsp; &emsp; </label> 
+                                    <input type="checkbox" disabled /><label> Bituminous &emsp; &emsp; </label> 
+                                }
+                                else if (Model.BRIDGE_PIU_PARTICULAR_VIEW.EXPANSION_JNT_TYPE.Equals("Copper plate"))
+                                {
+                                    <input type="checkbox" disabled /><label> Buried &emsp; &emsp; </label> 
+                                    <input type="checkbox" checked disabled /><label> Copper plate &emsp; &emsp; </label> 
+                                    <input type="checkbox" disabled /><label> Bituminous &emsp; &emsp; </label> 
+                                }
+                                else if (Model.BRIDGE_PIU_PARTICULAR_VIEW.EXPANSION_JNT_TYPE.Equals("Bituminous"))
+                                {
+                                    <input type="checkbox" disabled /><label> Buried &emsp; &emsp; </label> 
+                                    <input type="checkbox" disabled /><label> Copper plate &emsp; &emsp; </label> 
+                                    <input type="checkbox" checked disabled /><label> Bituminous &emsp; &emsp; </label> 
+                                }
+                                else
+                                {
+                                    <input type="checkbox" disabled /><label> Buried &emsp; &emsp; </label> 
+                                    <input type="checkbox" disabled /><label> Copper plate &emsp; &emsp; </label> 
+                                    <input type="checkbox" disabled /><label> Bituminous &emsp; &emsp; </label>
+                                }
+
+                            </td>
+                        </tr>
+                        <tr>
+                            <td class="piuleftSrNo" style="text-align:center"> </td>
+                            <td class="PiuLeftHeading"> </td>
+                            <td colspan="2">
+                                @if (Model.BRIDGE_PIU_PARTICULAR_VIEW.EXPANSION_JNT_TYPE.Equals("Strip seal"))
+                                {
+                                    <input type="checkbox" checked disabled /><label> Strip seal &emsp; &emsp; </label> 
+                                    <input type="checkbox" disabled /><label> Modular &emsp; &emsp; </label> 
+                                    <input type="checkbox" disabled /><label> Finger type </label>
+                                }
+                                else if (Model.BRIDGE_PIU_PARTICULAR_VIEW.EXPANSION_JNT_TYPE.Equals("Modular"))
+                                {
+                                    <input type="checkbox" disabled /><label> Strip seal &emsp; &emsp; </label> 
+                                    <input type="checkbox" checked disabled /><label> Modular &emsp; &emsp; </label> 
+                                    <input type="checkbox" disabled /><label> Finger type </label>
+                                }
+                                else if (Model.BRIDGE_PIU_PARTICULAR_VIEW.EXPANSION_JNT_TYPE.Equals("Finger type"))
+                                {
+                                    <input type="checkbox" disabled /><label> Strip seal &emsp; &emsp; </label> 
+                                    <input type="checkbox" disabled /><label> Modular &emsp; &emsp; </label> 
+                                    <input type="checkbox" checked disabled /><label> Finger type </label>
+                                }
+                                else
+                                {
+                                    <input type="checkbox" disabled /><label> Strip seal &emsp; &emsp; </label> 
+                                    <input type="checkbox" disabled /><label> Modular &emsp; &emsp; </label> 
+                                    <input type="checkbox" disabled /><label> Finger type </label>
+                                }
+
+                            </td>
+                        </tr>
+                        <tr>
+                            <td class="piuleftSrNo" style="text-align:center"> </td>
+                            <td class="PiuLeftHeading"> </td>
+                            <td colspan="2">
+                                @if (Model.BRIDGE_PIU_PARTICULAR_VIEW.EXPANSION_JNT_TYPE.Equals("OTHER_TYPE"))
+                                {
+                                    <input type="checkbox" checked disabled /> <label> Any other type &emsp; &emsp; </label>
+                                }
+                                else
+                                {
+                                    <input type="checkbox" disabled /> <label> Any other type &emsp; &emsp; </label>
+                                }
+
+                                <input type="text" value="@Model.BRIDGE_PIU_PARTICULAR_VIEW.OHTER_EXPANSION_JNT_TYPE " data-toggle="tooltip" data-placement="bottom" title="Any other type" disabled>
+                            </td>
+                        </tr>
+                        @* ---------------------------- Type of expansion joints end ----------------------------*@
+
+                        <tr>
+                            <td class="piuleftSrNo" style="text-align:center"> 3.23 </td>
+                            <td class="PiuLeftHeading"> Type of wearing coat </td>
+                            <td colspan="2">
+                                @if (Model.BRIDGE_PIU_PARTICULAR_VIEW.WEARING_COAT_TYPE.Equals("RCC"))
+                                {
+                                    <input type="checkbox" checked disabled /> <label> RCC &emsp; &emsp; </label> 
+                                    <input type="checkbox" disabled /> <label> Bituminous </label>
+                                }
+                                else if (Model.BRIDGE_PIU_PARTICULAR_VIEW.WEARING_COAT_TYPE.Equals("Bituminous"))
+                                {
+                                    <input type="checkbox" disabled /> <label> RCC &emsp; &emsp; </label> 
+                                    <input type="checkbox" checked disabled /> <label> Bituminous </label>
+                                }
+                                else
+                                {
+                                    <input type="checkbox" disabled /> <label> RCC &emsp; &emsp; </label> 
+                                    <input type="checkbox" disabled /> <label> Bituminous </label>
+                                }
+
+                            </td>
+                        </tr>
+
+                        <tr>
+                            <td class="piuleftSrNo" style="text-align:center"> 3.24 </td>
+                            <td class="PiuLeftHeading"> Type of drainage spouts </td>
+                            <td colspan="2">
+                                @if (Model.BRIDGE_PIU_PARTICULAR_VIEW.DRAINAGES_SPOUTS_TYPE.Equals("As per IRC sp 042"))
+                                {
+                                    <input type="checkbox" checked disabled /> <label> As per IRC SP 042 &emsp; &emsp; </label> 
+                                    <input type="checkbox" disabled /> <label> As per Design </label>
+                                }
+                                else if (Model.BRIDGE_PIU_PARTICULAR_VIEW.DRAINAGES_SPOUTS_TYPE.Equals("As per Design"))
+                                {
+                                    <input type="checkbox" disabled /> <label> As per IRC SP 042 &emsp; &emsp; </label> 
+                                    <input type="checkbox" checked disabled /> <label> As per Design </label>
+                                }
+                                else
+                                {
+                                    <input type="checkbox" disabled /> <label> As per IRC SP 042 &emsp; &emsp; </label> 
+                                    <input type="checkbox" disabled /> <label> As per Design </label>
+                                }
+
+                            </td>
+                        </tr>
+
+                        @* ---------------------------- Design loading start ----------------------------*@
+                        <tr>
+                            <td class="piuleftSrNo" style="text-align:center"> 3.25 </td>
+                            <td class="PiuLeftHeading"> Design loading </td>
+                            <td colspan="2">
+                                @if (Model.BRIDGE_PIU_PARTICULAR_VIEW.DESIGN_LOADING.Equals("AA"))
+                                {
+                                    <input type="checkbox" checked disabled /> <label>  Single lane IRC Class “AA” loading or double lane IRC class “A” loading which ever produces severe stresses. &emsp; &emsp; </label> 
+                                }
+                                else
+                                {
+                                    <input type="checkbox" disabled /> <label>  Single lane IRC Class “AA” loading or double lane IRC class “A” loading which ever produces severe stresses. &emsp; &emsp; </label>
+                                }
+
+                            </td>
+                        </tr>
+                        <tr>
+                            <td class="piuleftSrNo" style="text-align:center"> </td>
+                            <td class="PiuLeftHeading"> </td>
+                            <td colspan="2">
+                                @if (Model.BRIDGE_PIU_PARTICULAR_VIEW.DESIGN_LOADING.Equals("B"))
+                                {
+                                    <input type="checkbox" checked disabled /><label> IRC class “B” loading </label>
+
+                                }
+                                else
+                                {
+                                    <input type="checkbox" disabled /><label> IRC class “B” loading </label>
+
+                                }
+                            </td>
+                        </tr>
+                        <tr>
+                            <td class="piuleftSrNo" style="text-align:center"> </td>
+                            <td class="PiuLeftHeading"> </td>
+                            <td colspan="2">
+                                @if (Model.BRIDGE_PIU_PARTICULAR_VIEW.DESIGN_LOADING.Equals("A"))
+                                {
+                                    <input type="checkbox" checked disabled /><label> Single lane IRC class “70R” loading or double lane IRC class “A” loading which ever produces severe stresses. </label>
+
+                                }
+                                else
+                                {
+                                    <input type="checkbox" disabled /><label> Single lane IRC class “70R” loading or double lane IRC class “A” loading which ever produces severe stresses. </label>
+
+                                }
+                            </td>
+                        </tr>
+                        <tr>
+                            <td class="piuleftSrNo" style="text-align:center"> </td>
+                            <td class="PiuLeftHeading"> </td>
+                            <td colspan="2">
+                                @if (Model.BRIDGE_PIU_PARTICULAR_VIEW.DESIGN_LOADING.Equals("OTHER_TYPE"))
+                                {
+                                    <input type="checkbox" checked disabled /> <label> Any other type &emsp; &emsp; </label>
+
+                                }
+                                else
+                                {
+                                    <input type="checkbox" disabled /> <label> Any other type &emsp; &emsp; </label>
+
+                                }
+                                <input type="text" value="@Model.BRIDGE_PIU_PARTICULAR_VIEW.OTHER_DESIGN_LOADING " data-toggle="tooltip" data-placement="bottom" title="Any other type" disabled>
+                            </td>
+                        </tr>
+                        @* ---------------------------- Design loading end ----------------------------*@
+
+                        <tr>
+                            <td class="piuleftSrNo" style="text-align:center"> 3.26 </td>
+                            <td class="PiuLeftHeading"> Whether approaches are in cutting or in filling </td>
+                            <td colspan="2">
+                                @if (Model.BRIDGE_PIU_PARTICULAR_VIEW.APPROCH_TYPE.Equals("Cutting"))
+                                {
+                                    <input type="checkbox" checked disabled /> <label> Cutting &emsp; &emsp; </label> 
+                                    <input type="checkbox" disabled /> <label> Filling &emsp; &emsp; </label> 
+                                    <input type="checkbox" disabled /> <label> Partly cutting and filling </label>
+                                }
+                                else if (Model.BRIDGE_PIU_PARTICULAR_VIEW.APPROCH_TYPE.Equals("Filling"))
+                                {
+                                    <input type="checkbox" disabled /> <label> Cutting &emsp; &emsp; </label> 
+                                    <input type="checkbox" checked disabled /> <label> Filling &emsp; &emsp; </label> 
+                                    <input type="checkbox" disabled /> <label> Partly cutting and filling </label>
+                                }
+                                else if (Model.BRIDGE_PIU_PARTICULAR_VIEW.APPROCH_TYPE.Equals("Partly cutting & filling"))
+                                {
+                                    <input type="checkbox" disabled /> <label> Cutting &emsp; &emsp; </label> 
+                                    <input type="checkbox" disabled /> <label> Filling &emsp; &emsp; </label> 
+                                    <input type="checkbox" checked disabled /> <label> Partly cutting and filling </label>
+                                }
+                                else
+                                {
+                                    <input type="checkbox" disabled /> <label> Cutting &emsp; &emsp; </label> 
+                                    <input type="checkbox" disabled /> <label> Filling &emsp; &emsp; </label> 
+                                    <input type="checkbox" disabled /> <label> Partly cutting and filling </label>
+                                }
+
+                            </td>
+                        </tr>
+
+                        <tr>
+                            <td class="piuleftSrNo" style="text-align:center"> 3.27 </td>
+                            <td class="PiuLeftHeading"> Type of pitching in approaches </td>
+                            <td colspan="2">
+                                @if (Model.BRIDGE_PIU_PARTICULAR_VIEW.PITCHING_TYPE.Equals("Bolder pitching"))
+                                {
+                                    <input type="checkbox" checked disabled /> <label> Boulder pitching &emsp; &emsp; </label> 
+                                    <input type="checkbox" disabled /> <label> Concrete block </label>
+                                }
+                                else if (Model.BRIDGE_PIU_PARTICULAR_VIEW.PITCHING_TYPE.Equals("Concrete block"))
+                                {
+                                    <input type="checkbox" disabled /> <label> Boulder pitching &emsp; &emsp; </label> 
+                                    <input type="checkbox" checked disabled /> <label> Concrete block </label>
+                                }
+                                else
+                                {
+                                    <input type="checkbox" disabled /> <label> Boulder pitching &emsp; &emsp; </label> 
+                                    <input type="checkbox" disabled /> <label> Concrete block </label>
+                                }
+
+                            </td>
+                        </tr>
+
+                        @* ---------------------------- 3.28 start ----------------------------*@
+                        <tr>
+                            <td class="piuleftSrNo" style="text-align:center"> 3.28 </td>
+                            <td class="PiuLeftHeading"> Whether bench marks and alignment are established </td>
+                            <td colspan="2">
+                                @if (Model.BRIDGE_PIU_PARTICULAR_VIEW.IS_BENCHMARKS_ESTB.Equals("Yes"))
+                                {
+                                    <input type="checkbox" checked disabled /> <label> Yes &emsp; &emsp; </label> 
+                                    <input type="checkbox" disabled /> <label> No </label>
+                                }
+                                else if (Model.BRIDGE_PIU_PARTICULAR_VIEW.IS_BENCHMARKS_ESTB.Equals("No"))
+                                {
+                                    <input type="checkbox" disabled /> <label> Yes &emsp; &emsp; </label> 
+                                    <input type="checkbox" checked disabled /> <label> No </label>
+                                }
+                                else
+                                {
+                                    <input type="checkbox" disabled /> <label> Yes &emsp; &emsp; </label> 
+                                    <input type="checkbox" disabled /> <label> No </label>
+                                }
+
+                            </td>
+                        </tr>
+
+                        <tr>
+                            <td class="piuleftSrNo" style="text-align:center"> </td>
+                            <td class="PiuLeftHeading"> near the bridge site (give locations and RLs) </td>
+                            <td colspan="2">
+                                <label> Location </label><input type="text" value="@Model.BRIDGE_PIU_PARTICULAR_VIEW.BENCHMARK_LOC1 " data-toggle="tooltip" data-placement="bottom" title="Location" disabled> &emsp;&emsp;
+                                <label> RL </label><input type="text" value="@Model.BRIDGE_PIU_PARTICULAR_VIEW.BENCHMARK_RL1 " data-toggle="tooltip" data-placement="bottom" title="RL" disabled> m
+                            </td>
+                        </tr>
+                        <tr>
+                            <td class="piuleftSrNo" style="text-align:center"> </td>
+                            <td class="PiuLeftHeading">  </td>
+                            <td colspan="2">
+                                <label> Location </label><input type="text" value="@Model.BRIDGE_PIU_PARTICULAR_VIEW.BENCHMARK_LOC2 " data-toggle="tooltip" data-placement="bottom" title="Location" disabled> &emsp;&emsp;
+                                <label> RL </label><input type="text" value="@Model.BRIDGE_PIU_PARTICULAR_VIEW.BENCHMARK_RL2 " data-toggle="tooltip" data-placement="bottom" title="RL" disabled> m
+                            </td>
+                        </tr>
+                        <tr>
+                            <td class="piuleftSrNo" style="text-align:center"> </td>
+                            <td class="PiuLeftHeading">  </td>
+                            <td colspan="2">
+                                <label> Location </label><input type="text" value="@Model.BRIDGE_PIU_PARTICULAR_VIEW.BENCHMARK_LOC3 " data-toggle="tooltip" data-placement="bottom" title="Location" disabled> &emsp;&emsp;
+                                <label> RL </label><input type="text" value="@Model.BRIDGE_PIU_PARTICULAR_VIEW.BENCHMARK_RL3 " data-toggle="tooltip" data-placement="bottom" title="RL" disabled> m
+                            </td>
+                        </tr>
+                        <tr>
+                            <td class="piuleftSrNo" style="text-align:center"> </td>
+                            <td class="PiuLeftHeading">  </td>
+                            <td colspan="2">
+                                <label> Location </label><input type="text" value="@Model.BRIDGE_PIU_PARTICULAR_VIEW.BENCHMARK_LOC4 " data-toggle="tooltip" data-placement="bottom" title="Location" disabled> &emsp;&emsp;
+                                <label> RL </label><input type="text" value="@Model.BRIDGE_PIU_PARTICULAR_VIEW.BENCHMARK_RL4 " data-toggle="tooltip" data-placement="bottom" title="RL" disabled> m
+                            </td>
+                        </tr>
+                        @* ---------------------------- 3.28 end ----------------------------*@
+
+                        <tr>
+                            <td class="piuleftSrNo" style="text-align:center"> 3.29 </td>
+                            <td class="PiuLeftHeading"> Type of Railings </td>
+                        </tr>
+                        <tr>
+                            <td class="piuleftSrNo" style="text-align:center"> </td>
+                            <td class="PiuLeftHeading"> </td>
+                            <td colspan="2">
+                                @if (Model.BRIDGE_PIU_PARTICULAR_VIEW.RAILING_TYPE.Equals("RCC as per standard"))
+                                {
+                                    <input type="checkbox" checked disabled /> <label> RCC as per standard &emsp; &emsp; </label> 
+                                    <input type="checkbox" disabled /> <label> Pipe railings pitching &emsp; &emsp; </label> 
+                                    <input type="checkbox" disabled /> <label> Steel &emsp; &emsp; </label> 
+                                    <input type="checkbox" disabled /> <label> Collapsible pitching </label>
+                                }
+                                else if (Model.BRIDGE_PIU_PARTICULAR_VIEW.RAILING_TYPE.Equals("Pipe railings pitching"))
+                                {
+                                    <input type="checkbox" disabled /> <label> RCC as per standard &emsp; &emsp; </label> 
+                                    <input type="checkbox" checked disabled /> <label> Pipe railings pitching &emsp; &emsp; </label> 
+                                    <input type="checkbox" disabled /> <label> Steel &emsp; &emsp; </label> 
+                                    <input type="checkbox" disabled /> <label> Collapsible pitching </label>
+                                }
+                                else if (Model.BRIDGE_PIU_PARTICULAR_VIEW.RAILING_TYPE.Equals("Steel"))
+                                {
+                                    <input type="checkbox" disabled /> <label> RCC as per standard &emsp; &emsp; </label> 
+                                    <input type="checkbox" disabled /> <label> Pipe railings pitching &emsp; &emsp; </label> 
+                                    <input type="checkbox" checked disabled /> <label> Steel &emsp; &emsp; </label> 
+                                    <input type="checkbox" disabled /> <label> Collapsible pitching </label>
+                                }
+                                else if (Model.BRIDGE_PIU_PARTICULAR_VIEW.RAILING_TYPE.Equals("Collapsible pitching"))
+                                {
+                                    <input type="checkbox" disabled /> <label> RCC as per standard &emsp; &emsp; </label> 
+                                    <input type="checkbox" disabled /> <label> Pipe railings pitching &emsp; &emsp; </label> 
+                                    <input type="checkbox" disabled /> <label> Steel &emsp; &emsp; </label> 
+                                    <input type="checkbox" checked disabled /> <label> Collapsible pitching </label>
+                                }
+                                else
+                                {
+                                    <input type="checkbox" disabled /> <label> RCC as per standard &emsp; &emsp; </label> 
+                                    <input type="checkbox" disabled /> <label> Pipe railings pitching &emsp; &emsp; </label> 
+                                    <input type="checkbox" disabled /> <label> Steel &emsp; &emsp; </label> 
+                                    <input type="checkbox"  disabled /> <label> Collapsible pitching </label>
+                                }
+
+                            </td>
+                        </tr>
+                        <tr>
+                            <td class="piuleftSrNo" style="text-align:center"> </td>
+                            <td class="PiuLeftHeading"> </td>
+                            <td colspan="2">
+                                @if (Model.BRIDGE_PIU_PARTICULAR_VIEW.RAILING_TYPE.Equals("OTHER_TYPE"))
+                                {
+                                    <input type="checkbox" checked disabled /> <label> Any other type &emsp; &emsp; </label>
+                                }
+                                else
+                                {
+                                    <input type="checkbox" disabled /> <label> Any other type &emsp; &emsp; </label>
+                                }
+
+                                <input type="text" value="@Model.BRIDGE_PIU_PARTICULAR_VIEW.OTHER_RAILING_TYPE " data-toggle="tooltip" data-placement="bottom" title="Any other type" disabled>
+                            </td>
+                        </tr>
+
+
+
+                    </table>
+                </div>
+            </div> <!-- Close PARTICULARS OF THE BRIDGE -->
+            <br>
+
+            <hr class="PageBreakLine">
+
+            <!-- 4. QUALITY CONTROL -->
+            <div id="QualityControlBridge_PIU">
+                <div class="container-fluid">
+                    <h3><b> 4. QUALITY CONTROL </b></h3>
+                    <hr style="border: 0.5px solid gray">
+                    <table class="table table-hover table-borderless fontPIUPdf">
+                        <tr>
+                            <td class="piuleftSrNo" style="text-align:center"> I </td>
+                            <td class="PiuLeftHeading"> Location of Field Laboratory </td>
+                            <td colspan="2">
+                                <input type="text" value="@Model.BRIDGE_PIU_QC_DETAIL_VIEW.LAB_LOCATION" data-toggle="tooltip" data-placement="bottom" title=" Location of Field Laboratory" class="inputMediumWidth" disabled>
+                            </td>
+                        </tr>
+
+                        <tr>
+                            <td class="piuleftSrNo" style="text-align:center"> II </td>
+                            <td class="PiuLeftHeading"> Geo-tagged photograph of laboratory uploaded on: <br /> (date/ month/ year) </td>
+                            <td colspan="2">
+                                <input type="text" value="@Model.BRIDGE_PIU_QC_DETAIL_VIEW.PHOTO_UPLOAD_DATE" data-toggle="tooltip" data-placement="bottom" title="Geo-tagged photograph of laboratory uploaded date" class="inputMediumWidth" disabled>
+                            </td>
+                        </tr>
+
+                        <tr>
+                            <td class="piuleftSrNo" style="text-align:center"> III </td>
+                            <td class="PiuLeftHeading">Reason for delay in establishment of field laboratory <i>(if so) </i> </td>
+                            <td colspan="2">
+                                <div class="grow-wrap p-2 border border-grey text-wrap fontPIUPdf" style="border: 1px solid lightgray; color: #666; background-color: #eee; min-height: 30px; max-width: 780px;" data-toggle="tooltip" data-placement="bottom" title="Reason for delay in establishment of field laboratory (if so)">
+                                    <p class="fontPIUPdf px-2">
+                                        @Model.BRIDGE_PIU_QC_DETAIL_VIEW.ESTB_DELAY_REASON
+                                    </p>
+                                </div>
+                            </td>
+                        </tr>
+                    </table>
+
+
+                    @* ------------------------ engineer details tables start ------------------------- *@
+
+                    <label class="fontPIUPdf piuleftSrNo" style="text-align:center; margin:3px;padding:8px"> IV </label> <label class="fontPIUPdf"> Details of contractor, executing the work </label>
+                    <div class="table-responsive m-3">
+                        <table class="table table-hover table-bordered fontPIUPdf" align="center" style="width: 75%;">
+                            <thead>
+                            <th>Sl No.</th>
+                            <th> Name of contractor </th>
+                            <th> PAN number </th>
+                            <th> Mobile number </th>
+                            <th> E-mail ID </th>
+                            </thead>
+                            <tbody>
+                                @{int rowcountContractor = 1;}
+                                @foreach (var item in @Model.BRIDGE_QC_OFFICIAL_DETAILS_VIEW)
+                                {
+                                    if (item.OFFICIAL_TYPE.Equals("C"))
+                                    {
+                                        <tr>
+                                            <td> @rowcountContractor @{rowcountContractor++;} </td>
+                                            <td>@item.OFFICIAL_NAME</td>
+                                            <td>@item.PAN</td>
+                                            <td>@item.MOBILE_NO</td>
+                                            <td>@item.EMAIL_ID</td>
+                                        </tr>
+                                    }
+                                }
+                                    </tbody>
+                        </table>
+                    </div>
+
+                    <label class="fontPIUPdf piuleftSrNo" style="text-align:center; margin:3px;padding:8px"> V </label> <label class="fontPIUPdf"> Details of contractor's engineer available at site: (Responsible for maintaining quality control register part-1) </label>
+                    <div class="table-responsive m-3">
+                        <table class="table table-hover table-bordered fontPIUPdf" align="center" style="width: 75%;">
+                            <thead>
+                                <tr>
+                                    <th rowspan="2"> Sl No. </th>
+                                    <th rowspan="2"> Name of contractor's engineer at site </th>
+                                    <th rowspan="2"> Identity number </th>
+                                    <th rowspan="2"> Mobile number </th>
+                                    <th colspan="2"> Duration of posting at site </th>
+
+                                <tr>
+                                    <th> From </th>
+                                    <th> To </th>
+                                </tr>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                @{int rowcountEngineer = 1;}
+                                @foreach (var item in @Model.BRIDGE_QC_OFFICIAL_DETAILS_VIEW)
+                                {
+                                    if (item.OFFICIAL_TYPE.Equals("E"))
+                                    {
+                                        <tr>
+                                            <td> @rowcountEngineer @{rowcountEngineer++;} </td>
+                                            <td> @item.OFFICIAL_NAME </td>
+                                            <td> @item.IDENTITY_NUMBER </td>
+                                            <td> @item.MOBILE_NO </td>
+                                            <td> @item.FROM_DATE </td>
+                                            <td> @item.TO_DATE </td>
+                                        </tr>
+                                    }
+                                }
+                            </tbody>
+                        </table>
+                    </div>
+
+                    <label class="fontPIUPdf piuleftSrNo" style="text-align:center; margin:3px;padding:8px"> VI </label> <label class="fontPIUPdf"> Details of Head of PIU supervising the work </label>
+                    <div class="table-responsive m-3">
+                        <table class="table table-hover table-bordered fontPIUPdf" align="center" style="width: 75%;">
+                            <thead>
+                                <tr>
+                                    <th rowspan="2"> Sl No. </th>
+                                    <th rowspan="2"> Head of PIU <br> (Executive engineer) </th>
+                                    <th rowspan="2"> Employee number </th>
+                                    <th rowspan="2"> Mobile number </th>
+                                    <th colspan="2"> Duration of posting at site </th>
+                                <tr>
+                                    <th> From </th>
+                                    <th> To </th>
+                                </tr>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                @{int rowcountSuperviser = 1;}
+                                @foreach (var item in @Model.BRIDGE_QC_OFFICIAL_DETAILS_VIEW)
+                                {
+                                    if (item.OFFICIAL_TYPE.Equals("S"))
+                                    {
+                                <tr>
+                                    <td> @rowcountSuperviser @{rowcountSuperviser++;} </td>
+                                    <td>@item.OFFICIAL_NAME </td>
+                                    <td>@item.IDENTITY_NUMBER </td>
+                                    <td>@item.MOBILE_NO </td>
+                                    <td>@item.FROM_DATE </td>
+                                    <td>@item.TO_DATE </td>
+                                </tr>
+                                    }
+                                }
+                            </tbody>
+                        </table>
+                    </div>
+
+                    <label class="fontPIUPdf piuleftSrNo" style="text-align:center; margin:3px;padding:8px"> VII </label> <label class="fontPIUPdf"> Details of Assistant engineer supervising the work and maintaining quality control register Part-II </label>
+                    <div class="table-responsive m-3">
+                        <table class="table table-hover table-bordered fontPIUPdf" align="center" style="width: 75%;">
+                            <thead style="vertical-align: top; text-align: center;">
+                                <tr>
+                                    <th rowspan="2"> Sl No. </th>
+                                    <th rowspan="2"> Name of Assistant engineer </th>
+                                    <th rowspan="2"> Employee number </th>
+                                    <th rowspan="2"> Mobile number </th>
+                                    <th colspan="2"> Duration of posting at site </th>
+                                <tr>
+                                    <th> From </th>
+                                    <th> To </th>
+                                </tr>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                @{int rowcountAssistant = 1;}
+
+                                @foreach (var item in @Model.BRIDGE_QC_OFFICIAL_DETAILS_VIEW)
+                                {
+                                    if (item.OFFICIAL_TYPE.Equals("A"))
+                                    {
+                                        <tr>
+                                            <td> @rowcountAssistant @{rowcountAssistant++;} </td>
+                                            <td>@item.OFFICIAL_NAME </td>
+                                            <td>@item.IDENTITY_NUMBER </td>
+                                            <td>@item.MOBILE_NO </td>
+                                            <td>@item.FROM_DATE </td>
+                                            <td>@item.TO_DATE </td>
+                                        </tr>
+                                    }
+                                }
+                            </tbody>
+                        </table>
+                    </div>
+
+                    <label class="fontPIUPdf piuleftSrNo" style="text-align:center; margin:3px;padding:8px"> VIII </label> <label class="fontPIUPdf"> Details of the Junior engineer supervising the work </label>
+                    <div class="table-responsive m-3">
+                        <table class="table table-hover table-bordered fontPIUPdf" align="center" style="width: 75%;">
+                            <thead style="vertical-align: top; text-align: center;">
+                                <tr>
+                                    <th rowspan="2"> Sl No. </th>
+                                    <th rowspan="2"> Name of Junior engineer </th>
+                                    <th rowspan="2"> Employee number </th>
+                                    <th rowspan="2"> Mobile number </th>
+                                    <th colspan="2"> Duration of posting at site </th>
+
+                                <tr>
+                                    <th> From </th>
+                                    <th> To </th>
+                                </tr>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                @{int rowcountJuniorEng = 1;}
+                                @foreach (var item in @Model.BRIDGE_QC_OFFICIAL_DETAILS_VIEW)
+                                {
+                                    if (item.OFFICIAL_TYPE.Equals("J"))
+                                    {
+                                        <tr>
+                                            <td> @rowcountJuniorEng @{rowcountJuniorEng++;} </td>
+                                            <td>@item.OFFICIAL_NAME</td>
+                                            <td>@item.IDENTITY_NUMBER</td>
+                                            <td>@item.MOBILE_NO</td>
+                                            <td>@item.FROM_DATE</td>
+                                            <td>@item.TO_DATE</td>
+                                        </tr>
+                                    }
+                                }
+                            </tbody>
+                        </table>
+                    </div>
+
+
+                    @* ------------------------ engineer details tables end --------------------------- *@
+
+                    <table class="table table-hover table-borderless fontPIUPdf">
+                        <tr>
+                            <td class="piuleftSrNo" style="text-align:center"> IX </td>
+                            <td class="PiuLeftHeading"> List of equipments available in field lab </td>
+                            <td colspan="2">
+                                <div class="grow-wrap rounded p-2 border border-grey text-wrap fontPIUPdf" style="max-width:auto; border: 1px solid lightgray; color: #666; background-color: #eee; min-height: 50px;" data-toggle="tooltip" data-placement="bottom" title="List of equipments available in field lab">
+                                   @Model.BRIDGE_PIU_QC_DETAIL_VIEW.LAB_EQUIP_AVBL
+                                </div>
+                            </td>
+                        </tr>
+
+                        @* -------------------- Inner table for Available equipments condition start--------------------*@
+                        <tr>
+                            <td></td>
+                            <td colspan="2">
+                                <table class="table table-hover table-borderless fontPIUPdf">
+                                    <tr style="border: 1px solid grey;">
+
+                                        <th style="border: 1px solid grey; vertical-align: text-bottom;text-align: center;"> Available equipments that are in working condition (1) </th>
+                                        <th style="border: 1px solid grey; vertical-align: text-bottom;text-align: center;"> Available equipments that are not in working condition (2) </th>
+                                    </tr>
+                                    <tr style="border: 1px solid grey;">
+
+                                        <td style="border: 1px solid grey;">
+                                            <div class="grow-wrap rounded p-2 border border-grey text-wrap fontPIUPdf" style="min-width: fit-content; border: 1px solid lightgray; color: #666; background-color: #eee; min-height: 80px;" data-toggle="tooltip" data-placement="bottom" title="Available equipments that are in working condition (1)">
+                                                @Model.BRIDGE_PIU_QC_DETAIL_VIEW.EQUIP_WORKING
+                                            </div>
+                                        </td>
+                                        <td style="border: 1px solid grey;">
+                                            <div class="grow-wrap rounded p-2 border border-grey text-wrap fontPIUPdf" style="min-width: fit-content; border: 1px solid lightgray; color: #666; background-color: #eee; min-height: 80px;" data-toggle="tooltip" data-placement="bottom" title="Available equipments that are not in working condition (2)">
+                                                @Model.BRIDGE_PIU_QC_DETAIL_VIEW.EQUIP_NOT_WORKING
+                                            </div>
+                                        </td>
+                                    </tr>
+                                </table>
+                            </td>
+                        </tr>
+                        @* -------------------- Inner table for Available equipments condition end--------------------*@
+
+
+                        <tr>
+                            <td class="piuleftSrNo" style="text-align:center"> X </td>
+                            <td class="PiuLeftHeading"> List of equipments not available in field lab</td>
+                            <td>
+                                <div class="grow-wrap rounded p-2 border border-grey text-wrap fontPIUPdf" style="border: 1px solid lightgray; color: #666; background-color: #eee; min-height: 50px;" data-toggle="tooltip" data-placement="bottom" title="List of equipments not available in field lab">
+                                    @Model.BRIDGE_PIU_QC_DETAIL_VIEW.LAB_EQUIP_NOT_AVBL
+                                </div>
+                            </td>
+                        </tr>
+
+                        <tr>
+                            <td class="piuleftSrNo" style="text-align:center"> XI </td>
+                            <td class="PiuLeftHeading"> Reasons put forth by PIU for non availability of equipments in field lab </td>
+
+                            <td colspan="2">
+                                <div class="grow-wrap rounded p-2 border border-grey text-wrap fontPIUPdf" style="border: 1px solid lightgray; color: #666; background-color: #eee; min-height: 50px;" data-toggle="tooltip" data-placement="bottom" title="Reasons put forth by PIU for non availability of equipments in field lab">
+                                    @Model.BRIDGE_PIU_QC_DETAIL_VIEW.REASON_LAB_EQUIP_NOT_AVBL
+                                </div>
+                            </td>
+                        </tr>
+
+                        <tr>
+                            <td class="piuleftSrNo" style="text-align:center"> XII </td>
+                            <td class="PiuLeftHeading"> Details of calibrations of equipment done </td>
+
+                            <td colspan="2">
+                                <div class="grow-wrap rounded p-2 border border-grey text-wrap fontPIUPdf" style="border: 1px solid lightgray; color: #666; background-color: #eee; min-height: 50px;" data-toggle="tooltip" data-placement="bottom" title="Details of calibrations of equipment done">
+                                    @Model.BRIDGE_PIU_QC_DETAIL_VIEW.CALIBRATION_DETAILS
+                                </div>
+                            </td>
+                        </tr>
+
+                        <tr>
+                            <td class="piuleftSrNo" style="text-align:center"> XIII </td>
+                            <td class="PiuLeftHeading"> Equipments and documents ready to be made available to QM before or during the inspection </td>
+                            <td colspan="2">
+                                <div class="grow-wrap rounded p-2 border border-grey text-wrap fontPIUPdf" style="border: 1px solid lightgray; color: #666; background-color: #eee; min-height: 50px;" data-toggle="tooltip" data-placement="bottom" title="Equipments and documents ready to be made available to QM before or during the inspection">
+                                    @Model.BRIDGE_PIU_QC_DETAIL_VIEW.DOCUMENT_FOR_QM
+                                </div>
+                            </td>
+                        </tr>
+                    </table>
+                </div>
+            </div> <!-- Close QUALITY CONTROL -->
+            <br>
+
+            <hr class="PageBreakLine">
+
+            <!-- 5. DETAILS OF MIX DESIGN(s)-->
+            <div id="DetailsOfMixDesignBridge_PIU">
+                <div class="container-fluid">
+                    <h3><b> 5. DETAILS OF MIX DESIGN(s) </b></h3>
+                    <hr style="border: 0.5px solid gray">
+
+                    <div class="table-responsive m-3">
+                        <table class="table table-hover table-bordered fontPIUPdf">
+                            <thead style="vertical-align: top; text-align: center;">
+                            <th> Sl No. </th>
+                            <th> Mix Design </th>
+                            <th> Average Mix Design Strength </th>
+                            <th> Details of Institute/laboratory where mix design was done </th>
+                            <th> Details of Mix Design approving PMGSY Authority </th>
+                            </thead>
+                            <tbody>
+                                @{int rowcountMixDesign = 1;}
+                                @foreach (var item in @Model.BRIDGE_PIU_MIX_DESIGN_DETAIL_VIEW)
+                                {
+                                    foreach (var thd in @Model.BRIDGE_MASTER_WORK_ITEM_VIEW)
+                                    {
+                                        if (thd.ITEM_ID == item.ITEM_ID)
+                                        {
+                                            <tr>
+                                                <td> @rowcountMixDesign @{rowcountMixDesign++;} </td>
+                                                <td> @thd.ITEM_DESC </td>
+                                                <td> @item.DESIGN_STRENGTH </td>
+                                                <td> @item.DESIGN_LAB </td>
+                                                <td> @item.DESIGN_APP_AUTH </td>
+                                            </tr>
+                                        }
+                                    }
+                                }
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div> <!-- Close DETAILS OF MIX DESIGN(s) -->
+            <br>
+
+            <hr class="PageBreakLine">
+
+            <!-- 6. EARLIER INSPECTIONS BY NQM, SQM or SENIOR DEPARTMENTAL OFFICERS (SEs & CEs) AND ACTION TAKEN STATEMENT-->
+            <div id="EarlierInspectionBridge_PIU">
+                <div class="container-fluid">
+                    <h3><b> 6. EARLIER INSPECTIONS BY NQM, SQM or SENIOR DEPARTMENTAL OFFICERS (SEs & CEs) AND ACTION TAKEN STATEMENT </b></h3>
+                    <large>(Details about departmental officers who inspected the work should be added after the NQM/SQM details.)</large>
+                    <hr style="border: 0.5px solid gray">
+
+                    <div class="table-responsive m-3">
+                        <table class="table table-hover table-bordered fontPIUPdf">
+                            <thead style="vertical-align: top; text-align: center;">
+
+                                <tr>
+                                    <th rowspan="2"> Date of visit <br />(1) </th>
+                                    <th rowspan="2"> Name and Designation of inspecting officer <br />(NQM/SQM/CE/SE) <br />(2) </th>
+                                    <th colspan="2"> Road distance <br />(RD) </th>
+                                    <th rowspan="2"> Level of work at the time of inspection <br />(5) </th>
+                                    <th rowspan="2"> Major observations <br />(6) </th>
+                                    <th rowspan="2"> Action taken by PIU with date <br />(7)</th>
+
+                                <tr>
+                                    <th> From (3) </th>
+                                    <th> To (4) </th>
+                                </tr>
+                                </tr>
+
+                            </thead>
+                            <tbody>
+                                @foreach (var item in @Model.BRIDGE_PIU_PREVIOUS_INSP_DETAIL_VIEW)
+                                {
+                                    <tr>
+                                        <td>@(@item.VISIT_DATE == null ? "" : @item.VISIT_DATE)</td>
+                                        <td>@(@item.VISITOR_NAME_DESG == null || @item.VISITOR_NAME_DESG == "" ? "" : @item.VISITOR_NAME_DESG)</td>
+                                        <td>@(@item.ROAD_FROM)</td>
+                                        <td>@(@item.ROAD_TO)</td>
+                                        <td>@(@item.INSP_LEVEL  == null || @item.INSP_LEVEL  =="" ? "" : @item.INSP_LEVEL)</td>
+                                        <td>@(@item.OBSERVATIONS  == null || @item.OBSERVATIONS  == "" ? "" : @item.OBSERVATIONS)</td>
+                                        <td>@(@item.ACTION  == null || @item.ACTION  == "" ? "" : @item.ACTION)</td>
+                                    </tr>
+                                }
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div> <!-- Close EARLIER INSPECTIONS BY NQM, SQM or SENIOR DEPARTMENTAL OFFICERS (SEs & CEs) AND ACTION TAKEN STATEMENT -->
+            <br>
+
+            <p class="fontPIUPdf" style="margin-left: 130px;"> <b>Seal of PIU</b> </p>
+            <div class="container-fluid m-3" style="display: flex; justify-content: space-between;">
+
+                <div class="m-3" id="piuSEAL" style="border: 1px solid black; height: 200px; width: 20%; border-radius: 4px;">
+
+                </div>
+                <div id="piuInformation" style="margin-left:auto;margin-right: 25px;">
+                    <table class="table table-hover table-borderless fontPIUPdf w-30">
+                        <tr>
+                            <td>Signature of the Head of PIU</td>
+                            <td></td>
+                        </tr>
+                        <tr>
+                            <td>Name and Designation of the Head of PIU</td>
+                            <td>
+                                <div class="grow-wrap text-wrap rounded p-1 border border-grey" style="border: 1px solid lightgray; color: #666; background-color: #eee; min-width: 350px; min-height: 30px; " data-toggle="tooltip" data-placement="bottom" title="Name and Designation of the Head of PIU">
+                                    @Model.BRIDGE_PIU_GENERAL_INFO_VIEW.PIU_HEAD_NAME
+                                </div>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>Mobile Number of the Head of PIU</td>
+                            <td><input type="text" value=" @Model.BRIDGE_PIU_GENERAL_INFO_VIEW.PIU_HEAD_MOBILE_NO" data-toggle="tooltip" data-placement="bottom" title="Mobile Number of the Head of PIU" class="inputShortWidth" disabled>  </td>
+                        </tr>
+                        <tr>
+                            <td>E-mail of the Head of PIU</td>
+                            <td><input type="text" value=" @Model.BRIDGE_PIU_GENERAL_INFO_VIEW.PIU_HEAD_EMAIL" data-toggle="tooltip" data-placement="bottom" title="E-mail of the Head of PIU" class="inputMediumWidth" disabled>  </td>
+                        </tr>
+                        <tr>
+                            <td>Address of the PIU</td>
+                            <td>
+                                <div class="grow-wrap text-wrap rounded p-1 border border-grey" style="border: 1px solid lightgray; color: #666; background-color: #eee; min-width: 350px; min-height: 30px;" data-toggle="tooltip" data-placement="bottom" title="Address of the PIU">
+                                    @Model.BRIDGE_PIU_GENERAL_INFO_VIEW.PIU_ADDR
+                                </div>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>Date</td>
+                            <td><input type="text" value="  @Model.BRIDGE_PIU_GENERAL_INFO_VIEW.PIU_SIGN_DATE" data-toggle="tooltip" data-placement="bottom" title="Date" class="inputShortWidth" disabled>  </td>
+                        </tr>
+                    </table>
+                </div>
+            </div>
+
+        </div>  <!-- Main div -->
+    </div>
+
+    @* ---------------------------------  PIU end  --------------------------------- *@
+
+</body>

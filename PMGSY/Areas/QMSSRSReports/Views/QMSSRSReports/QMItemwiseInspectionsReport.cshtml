@@ -1,0 +1,21 @@
+﻿@using MvcReportViewer
+
+@model PMGSY.Areas.QMSSRSReports.Models.QualityReportsViewModel
+
+    @Html.MvcReportViewer("/PMGSYCitizen/QMItemwiseInpections",
+     new
+     {
+         state = Model.State,
+         district = Model.District,
+         grade = Model.Grade,
+         fromyear = Model.FromYear,
+         frommonth = Model.FromMonth,
+         toyear = Model.ToYear,
+         tomonth = Model.ToMonth,
+         citem = Model.GradingItem,
+         qmType = Model.qmType,
+         StateName = Model.StateName,
+         GradingItemName = Model.GradingItemName,
+         DistrictName = Model.DistName,
+     },
+       new { Height = 600, Width = "100%", style = "border:none;" })

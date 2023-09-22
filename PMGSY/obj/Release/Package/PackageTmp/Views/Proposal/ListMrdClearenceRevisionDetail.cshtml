@@ -1,0 +1,41 @@
+﻿<script src="~/Scripts/custom/Generic.js"></script>
+<script src="~/Scripts/jquery.ui.accordion.js"></script>
+<script src="~/Scripts/Proposal/ListMrdClearenceRevisionDetail.js"></script>
+
+@Html.Hidden("hdClearanceCodeEncrypted",ViewBag.CleranceCodeEncrypt as string)
+<center>
+
+<div id="tabs">
+    <ul>
+        <li><a href="#tabs-1">Revision Details</a></li>
+        <li><a href="#tabs-2" onclick="LoadMrdOriginalClearenceLetterGrid()">Original Details</a></li>
+    </ul>
+<div id="tabs-1">
+   <div id="divRevisionFileDetail" style="width: 95%">
+        <table id="tblFileDownloadClearancedRevisionDetail">
+        </table>
+        <div id="divPagerFileDownloadCleranceRevisionDetail">
+        </div>
+       
+    </div>
+    <div style="text-align:left;margin-left:10px" id="divbtnCreateRevision">
+            <input type="button" id="btnCreateRevision" value="Add Revision"  title="Add Revision Detail" class="jqueryButton" tabindex="1" />      
+    </div>
+    <div id="accordiondivClearancRevsionAddEdit" style="display:none;width:96%;margin-top:20px;margin-bottom:20px" >
+        <h3 style="text-align:left"><a id="" href="#" style=" font-size:.9em;" >Clearance Revision Detail</a>
+                    <a href="#"  style="float: right;">
+                        <img src="" class="ui-icon ui-icon-closethick" onclick="CloseClearanceRevsionAddEditDetails();" /></a>
+                </h3>
+        <div id="divClearancRevsionAddEdit" style="display:none;width: 94.8%">
+
+        </div>
+    </div>
+</div>
+<div id="tabs-2">
+    <div id="dvOriginalDetails" style="width:95%">
+        <table id="tblstClearanceDetails"></table>
+        <div id="dvpagerClearanceDetails"></div>
+    </div>
+</div>
+</div>
+</center>

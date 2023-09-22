@@ -1,0 +1,196 @@
+﻿@model PMGSY.Models.Fund.FundAllocationViewModel
+
+@{
+    ViewBag.Title = "AddEditFundAllocation";
+}
+
+<script src="~/Scripts/jquery.ui.datepicker.js"></script>
+<script src="~/Scripts/custom/Generic.js"></script>
+<script src="~/Scripts/Fund/AddEditFundAllocation.js"></script>
+
+
+<form id="frmAddEditFundAllocation">
+         <div style="margin-left: 100px">
+             @Html.ValidationSummary(true)             
+         </div>            
+         <div id="divError" class="ui-state-error ui-corner-all" style="text-align: left; display: none; width: 100%">
+                <span class="ui-icon ui-icon-alert" style="float: left;"></span>                   
+                <span></span>
+         </div>
+         <center>
+         <div style="height:20px; width: 100%; text-align:left; padding-top: 0.6em;" class="ui-state-default ui-corner-all" > 
+                   &nbsp; <strong> Note :</strong>  Fields marked with * are mandatory.
+                </div>
+         <table id="tb" cellpadding="3px" class="rowstyle" style="margin-top:10px; text-align:left; border:ridge 0.1em #ccc; width:100%; padding-top:5px 5px 5px 5px;">
+            <tr></tr>
+            <tr>
+                   <td style="width:10%;">
+                       @Html.HiddenFor(model=>model.EncryptedFundCode)
+                       @Html.HiddenFor(model=>model.releaseType)
+                       @Html.HiddenFor(model=>model.TotalRelease)
+                       @if(Model.EncryptedFundCode != null)
+                       {
+                           @Html.HiddenFor(model=>model.transactionCount)
+                           @Html.HiddenFor(model=>model.MAST_ALLOCATION_FILE)
+                       }
+                   </td>
+                   <td  style="text-align:left;width:15%;">@Html.LabelFor(model=>model.MAST_STATE_CODE) <label style="color:red">*</label></td>
+                   <td  style="width:30%;">
+                       @if(Model.EncryptedFundCode == null)
+                       {
+                           if (Model.releaseType == "C")
+                           {
+                                @Html.DropDownListFor(model => model.MAST_STATE_CODE, ViewData["State"] as IEnumerable<SelectListItem>, "--Select State--", new { @id="ddlState",@title="Select State Name",@tabindex=1})
+                                @Html.ValidationMessageFor(model=>model.MAST_STATE_CODE)    
+                           }
+                           else
+                           {
+                                @Html.DropDownListFor(model => model.MAST_STATE_CODE, ViewData["State"] as IEnumerable<SelectListItem>, "--Select State--", new { @id="ddlState",@title="Select State Name",@tabindex=1,@disabled="disabled"})
+                                @Html.HiddenFor(model=>model.MAST_STATE_CODE)
+                                @Html.ValidationMessageFor(model=>model.MAST_STATE_CODE)
+                           }
+                           
+                       }
+                       else
+                       {
+                           @Html.DropDownListFor(model => model.MAST_STATE_CODE, ViewData["State"] as IEnumerable<SelectListItem>, "--Select State--", new { @id="ddlState",@title="Select State Name",@tabindex=1,@disabled="disabled"})
+                           @Html.HiddenFor(model=>model.MAST_STATE_CODE)
+                           @Html.ValidationMessageFor(model=>model.MAST_STATE_CODE)
+                       }
+                   </td>
+                   <td style="width:12%">
+                       @Html.LabelFor(model=>model.MAST_FUND_TYPE)<label style="color:red">*</label>
+                   </td>
+                   <td>
+                       @if(Model.EncryptedFundCode == null)
+                       {
+                           @Html.DropDownListFor(model => model.MAST_FUND_TYPE, ViewData["FundType"] as IEnumerable<SelectListItem>, new {@id="ddlFundType",@title="Select Fund Type",@tabindex=2 })
+                           @Html.ValidationMessageFor(model=>model.MAST_FUND_TYPE)
+                       }
+                       else
+                       {
+                           @Html.DropDownListFor(model => model.MAST_FUND_TYPE, ViewData["FundType"] as IEnumerable<SelectListItem>, new {@id="ddlFundType",@title="Select Fund Type",@tabindex=2 ,@disabled="disabled"})
+                           @Html.HiddenFor(model=>model.MAST_FUND_TYPE)
+                           @Html.ValidationMessageFor(model=>model.MAST_FUND_TYPE)
+                       }
+                   </td>
+              </tr>
+             <tr>
+                 <td></td>
+                 <td>
+                     @Html.LabelFor(model=>model.MAST_YEAR)<label style="color:red">*</label>
+                 </td>
+                 <td>
+                     @if(Model.EncryptedFundCode == null)
+                     {
+                         @Html.DropDownListFor(model => model.MAST_YEAR, ViewData["Year"] as IEnumerable<SelectListItem>, "--Select Year--", new {@id="ddlYear",@title="Select Financial Year",@tabindex = 3 })
+                         @Html.ValidationMessageFor(model=>model.MAST_YEAR)
+                     }
+                     else
+                     {
+                         @Html.DropDownListFor(model => model.MAST_YEAR, ViewData["Year"] as IEnumerable<SelectListItem>, "--Select Year--", new {@id="ddlYear",@title="Select Financial Year",@tabindex = 3,@disabled="disabled" })
+                         @Html.HiddenFor(model=>model.MAST_YEAR)
+                         @Html.ValidationMessageFor(model=>model.MAST_YEAR)
+                     }
+                 </td>
+                 <td>
+                     @Html.LabelFor(model=>model.ADMIN_NO_CODE)<label style="color:red">*</label>
+                 </td>
+                 <td>
+                     @if(Model.EncryptedFundCode == null)
+                     {
+                         @Html.DropDownListFor(model => model.ADMIN_NO_CODE, ViewData["ExecutingAgency"] as IEnumerable<SelectListItem>, "--Select SRRDA--", new { @id="ddlExecutingAgency",@title="Select Executing Agency",@tabindex=4})
+                         @Html.ValidationMessageFor(model=>model.ADMIN_NO_CODE)
+                     }
+                     else
+                     {
+                         @Html.DropDownListFor(model => model.ADMIN_NO_CODE, ViewData["ExecutingAgency"] as IEnumerable<SelectListItem>, "--Select SRRDA--", new { @id="ddlExecutingAgency",@title="Select Executing Agency",@tabindex=4,@disabled="disabled"})
+                         @Html.HiddenFor(model=>model.ADMIN_NO_CODE)
+                         @Html.ValidationMessageFor(model=>model.ADMIN_NO_CODE)
+                     }
+                 </td>
+             </tr>
+             <tr>
+                 <td></td>
+                 <td>
+                     @Html.LabelFor(model=>model.MAST_FUNDING_AGENCY_CODE)<label style="color:red">*</label>
+                 </td>
+                 <td>
+                     @if(Model.EncryptedFundCode == null)
+                     {
+                          @Html.DropDownListFor(model => model.MAST_FUNDING_AGENCY_CODE, ViewData["FundingAgency"] as IEnumerable<SelectListItem>, "--Select Collaboration--", new { @id="ddlFundingAgency",@title="Select Funding Agency",@tabindex=5})
+                          @Html.ValidationMessageFor(model=>model.MAST_FUNDING_AGENCY_CODE)
+                     }
+                     else
+                     {
+                          @Html.DropDownListFor(model => model.MAST_FUNDING_AGENCY_CODE, ViewData["FundingAgency"] as IEnumerable<SelectListItem>, "--Select Collaboration--", new { @id="ddlFundingAgency",@title="Select Funding Agency",@tabindex=5,@disabled="disabled"})
+                          @Html.HiddenFor(model=>model.MAST_FUNDING_AGENCY_CODE)
+                          @Html.ValidationMessageFor(model=>model.MAST_FUNDING_AGENCY_CODE)
+                     }
+                 </td>
+                 <td>Allocation No.</td>
+                 <td><label id="txtTransaction"></label></td>
+             </tr>
+             <tr>
+                 <td></td>
+                 <td>@Html.LabelFor(model=>model.MAST_ALLOCATION_AMOUNT)<label style="color:red">*</label></td>
+                 <td colspan="3">
+                     @Html.TextBoxFor(model => model.MAST_ALLOCATION_AMOUNT, new {@title="Enter Allocation Amount",@placeholder = "Enter Allocation Amount in cr...",@tabindex=6 })
+                     @Html.ValidationMessageFor(model=>model.MAST_ALLOCATION_AMOUNT)
+                 </td>
+             </tr>
+             <tr>
+                 <td></td>
+                 <td>@Html.LabelFor(model=>model.MAST_ALLOCATION_DATE)<label style="color:red">*</label></td>
+                 <td>
+                     @Html.TextBoxFor(model => model.MAST_ALLOCATION_DATE, new {@title="Enter Allocation Date",@placeholder="Enter Allocation Date...",@tabindex=6 })
+                     @Html.ValidationMessageFor(model=>model.MAST_ALLOCATION_DATE)
+                 </td>
+                 <td>@Html.LabelFor(model=>model.MAST_ALLOCATION_ORDER)<label style="color:red">*</label></td>
+                 <td>
+                     @Html.TextBoxFor(model => model.MAST_ALLOCATION_ORDER, new {@title="Enter Sanction Number",@maxlength = 150,@placeholder="Enter Sanction No...",@tabindex=6 })
+                     @Html.ValidationMessageFor(model=>model.MAST_ALLOCATION_ORDER)
+                 </td>  
+             </tr>
+             <tr>
+                 <td></td>
+                 <td>Total Allocation(In Cr.)</td>
+                 <td colspan="3"><label id="txtTotalAllocation"></label></td>
+                 @*<td>
+                     Remaining Amount(In Cr.)
+                 </td>
+                 <td>
+                     <label id="txtRemainingAllocation"></label>
+                 </td>*@
+             </tr>
+             
+              <tr>
+                <td></td>
+                <td></td>
+                     @if(Model.EncryptedFundCode == null)
+                     {   
+                        <td  style="text-align:right;">
+                        <input type="button" id="btnSave" name="btnSave" value="Save Fund Details" class= "jqueryButton" title="Save Fund Allocation Details" tabindex="6"  />  
+                        <input type="reset" id="btnReset" name="btnReset" value="Reset" class= "jqueryButton" title="Reset" tabindex="7"  />
+                            </td>
+                     }
+                    else
+                    {
+                         @*<td  style="text-align:right;">
+                         <input type="button" id="btnUpdate" name="btnUpdate" value="Update" class= "jqueryButton" title="Update Fund Allocation Details" tabindex="6"  /> </td> 
+                         <td colspan="2"><input type="button" id="btnCancel" name="btnCancel" value="Cancel" class= "jqueryButton" title="Cancel" tabindex="7"  /></td> 
+                         
+                         *@
+                         <td style="text-align:right;">
+                          <input type="button" id="btnUpdate" name="btnUpdate" value="Update" class= "jqueryButton" title="Update Fund Allocation Details" tabindex="6"  />  
+                         <input type="button" id="btnCancel" name="btnCancel" value="Cancel" class= "jqueryButton" title="Cancel" tabindex="7"  /></td> 
+                     }
+            </tr>
+             </table>
+        </center>
+        
+</form>
+<br />  
+
+
+

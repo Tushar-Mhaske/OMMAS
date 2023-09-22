@@ -1,0 +1,46 @@
+﻿@using MvcReportViewer
+
+@model PMGSY.Areas.MPR.Models.MPR1Model
+
+@*@{ PMGSY.Common.FetchCookieData fetchCookieData = new PMGSY.Common.FetchCookieData(); }*@
+
+@if (Model.StateCode==0)
+{
+
+@Html.MvcReportViewer("/PMGSYCitizen/MPR1_New_Latest_Agency",
+     new
+     {
+      
+         STATE = Model.StateCode,
+         Year = Model.Year,
+         Month = Model.Month,
+         Collaboration = Model.Collab,
+         PMGSY = Model.Scheme,//PMGSY.Extensions.PMGSYSession.Current.PMGSYScheme,
+         AGENCY=Model.Agency,
+         StateName = Model.StateName,
+         CollaborationName = Model.CollaborationName,
+         AgencyName =Model.AgencyName
+     },
+     new { Height = 600, Width = "100%", style = "border:none;" })
+
+}
+else
+{
+    
+@Html.MvcReportViewer("/PMGSYCitizen/Districtwise_MPR1_New_Latest_Agency",
+     new
+     { 
+      
+         STATE = Model.StateCode,
+         Year = Model.Year,
+         Month = Model.Month,
+         Collaboration = Model.Collab,
+         PMGSY = Model.Scheme,//PMGSY.Extensions.PMGSYSession.Current.PMGSYScheme,
+         AGENCY=Model.Agency,
+         StateName = Model.StateName,
+         CollaborationName = Model.CollaborationName,
+         AgencyName =Model.AgencyName
+     },
+     new { Height = 600, Width = "100%", style = "border:none;" })
+
+}

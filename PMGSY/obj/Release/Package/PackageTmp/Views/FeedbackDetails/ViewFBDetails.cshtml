@@ -1,0 +1,149 @@
+﻿@model PMGSY.Models.Feedback.ViewFBDetails
+@{
+    ViewBag.Title = "ViewFBDetails";
+}
+
+@*<h2>ViewFBDetails</h2>*@
+
+<script src="~/Scripts/custom/Generic.js"></script>
+<script src="~/Scripts/jquery.ui.accordion.js"></script>
+<script src="~/Scripts/Feedback/ViewFBDetails.js"></script>
+@*<script src="~/Scripts/jquery.ui.accordion.js"></script>*@
+@*<script src="~/Scripts/jquery.ui.tabs.js"></script>*@
+@*<script src="~/Scripts/Bootstrap/bootstrap.min.js"></script>*@
+
+<div id="dvViewFBMain">
+    <form id="frmViewFB">
+        @Html.AntiForgeryToken()
+        @Html.ValidationSummary(true)
+
+        @*<div id="dvTabs">
+        <ul>
+            <li><a href="#tabs-1" onclick="LoadFBDetails();">Feedback Details</a></li>
+            <li><a href="#tabs-2" onclick="LoadFBApproval();">Approval</a></li>
+            <li><a href="#tabs-3" onclick="LoadFBRepStatus()">Reply Status</a></li>
+        </ul>*@
+        <table class="rowstyle" id="tblFBDetails" style="text-align: left; border: ridge 0.1em #ccc; width: 100%; padding: 5px 5px 5px 5px;">
+            <tr>
+                <td style="width: 15%; height: 25px; text-align: left">Feedback Type </td>
+                <td style="width: 25%; text-align: left">
+                    @Html.DisplayFor(m => m.FB_Type)
+                    @Html.HiddenFor(m => m.hdnfeedId, new { @id = "hdnFeedId" })
+                </td>
+                <td style="width: 15%; text-align: left; height: 25px;">Name</td>
+                <td style="width: 25%; text-align: left;"><strong>@Html.DisplayTextFor(m => m.FName)</strong></td>
+            </tr>
+            <tr class="ui-widget-header">
+                <td colspan="4" style="text-align: left;">Contact Details</td>
+            </tr>
+            <tr>
+                <td style="width: 15%; height: 25px; text-align: left">Telephone Number</td>
+                <td style="width: 25%; text-align: left">
+                    @Html.DisplayTextFor(m => m.FTel)
+                </td>
+                <td style="width: 15%; text-align: left; height: 25px;">Mobile</td>
+                <td style="width: 25%; text-align: left;"><strong>@Html.DisplayTextFor(m => m.FMob)</strong></td>
+            </tr>
+            <tr>
+                <td style="width: 15%; height: 25px; text-align: left">Email</td>
+                <td style="width: 25%; text-align: left">
+                    @Html.DisplayTextFor(m => m.FEmail)
+                </td>
+            </tr>
+            <tr style="display: none"></tr>
+            <tr class="ui-widget-header">
+                <td colspan="4" style="text-align: left;">Other Details</td>
+            </tr>
+            <tr>
+                <td style="width: 15%; height: 25px; text-align: left">Feedback Date</td>
+                <td style="width: 25%; text-align: left">
+                    @Html.DisplayTextFor(m => m.FDate)
+                </td>
+                <td style="width: 15%; text-align: left; height: 25px;">Category</td>
+                <td style="width: 25%; text-align: left;"><strong>@Html.DisplayTextFor(m => m.FCategory)</strong></td>
+            </tr>
+            <tr>
+                <td style="width: 15%; height: 25px; text-align: left">Feedback Against</td>
+                <td style="width: 25%; text-align: left">
+                    @Html.DisplayTextFor(m => m.FAgainst)
+                </td>
+                <td style="width: 15%; text-align: left; height: 25px;">State</td>
+                <td style="width: 25%; text-align: left;"><strong>@Html.DisplayTextFor(m => m.FState)</strong></td>
+            </tr>
+            <tr>
+                <td style="width: 15%; height: 25px; text-align: left">District</td>
+                <td style="width: 25%; text-align: left">
+                    @Html.DisplayTextFor(m => m.FDistrict)
+                </td>
+                <td style="width: 15%; text-align: left; height: 25px;">Block</td>
+                <td style="width: 25%; text-align: left;"><strong>@Html.DisplayTextFor(m => m.FBlock)</strong></td>
+            </tr>
+            <tr>
+                <td style="width: 15%; height: 25px; text-align: left">Feedback For</td>
+                <td style="width: 25%; text-align: left">
+                    @Html.DisplayTextFor(m => m.FFor)
+                </td>
+                @if (Model.FFor == "Road")
+                {
+                    <td style="width: 15%; text-align: left; height: 25px;">Road Name</td>
+                }
+                else if (Model.FFor == "Habitation")
+                {
+                    <td style="width: 15%; text-align: left; height: 25px;">Habitation Name</td>
+                }
+                <td style="width: 25%; text-align: left;"><strong>@Html.DisplayTextFor(m => m.RH_Name)</strong></td>
+            </tr>
+            <tr>
+                <td style="width: 15%; height: 25px; text-align: left">Comments</td>
+                <td colspan="3" style="text-align: left;">
+                    <div style="word-wrap: break-word; width: 750px;">
+                        @Html.DisplayTextFor(m => m.FComments)
+                    </div>
+                </td>
+            </tr>
+            <tr>
+                <td style="width: 15%; height: 25px; text-align: left">PMGSY Road</td>
+                <td style="width: 25%; text-align: left"><strong>
+                    @Html.DisplayTextFor(m => m.PMGSYRoads)</strong>
+                </td>
+                <td style="width: 15%; height: 25px; text-align: left">Road Name</td>
+                <td style="width: 25%; text-align: left"><strong>
+                    @Html.DisplayTextFor(m => m.RoadName)</strong>
+                </td>
+            </tr>
+            <tr>
+                <td style="width: 15%; text-align: left; height: 25px;">Village Name</td>
+                <td style="width: 25%; text-align: left;"><strong>@Html.DisplayTextFor(m => m.VillageName)</strong></td>
+                <td style="width: 15%; height: 25px; text-align: left">Nearest Habitation</td>
+                <td style="width: 25%; text-align: left"><strong>
+                    @Html.DisplayTextFor(m => m.NearestHabitation)</strong>
+                </td>
+            </tr>
+        </table>
+        @*</div>*@
+    </form>
+</div>
+<div id="tabs-1">
+    <div id="divDetailsFBMain">
+        <div id="dvDetailsFB" style="margin-top: 20px; width: 100%;">
+        </div>
+    </div>
+</div>
+<div id="tabs-2">
+    <div id="divFBFilesMain">
+        <div id="dvFBFiles" style="margin-top: 20px; width: 100%;">
+        </div>
+    </div>
+</div>
+<div id="tabs-3">
+    <div id="divFBApprovalMain">
+        <div id="dvFBApproval" style="margin-top: 20px; width: 100%;">
+        </div>
+    </div>
+</div>
+<div id="tabs-4">
+    <div id="divFBRepMain">
+        <div id="dvFBRepStatus" style="margin-top: 20px; width: 100%;">
+        </div>
+    </div>
+</div>

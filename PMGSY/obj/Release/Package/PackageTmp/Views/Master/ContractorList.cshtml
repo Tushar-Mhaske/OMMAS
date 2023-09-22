@@ -1,0 +1,136 @@
+﻿@using PMGSY.Extensions.MvcJqGrid
+@using System.Collections.Generic
+
+<script src="~/Scripts/custom/Generic.js"></script>
+<script src="~/Scripts/Master/AddEditContractor.js"></script>
+<script src="~/Scripts/jquery-ui-1.10.js"></script>
+
+<div id="dialog-confirm" title="Delete Confirmation:" style="display: none">
+    <p><span class="ui-icon ui-icon-alert" style="float: left; margin: 0 7px 20px 0;"></span>Are you sure u want to delete?</p>
+</div>
+<br />
+<div id="addMsg" style="text-align: center; font-size: medium">
+    <span style="font-size: medium; color: green"><b>@ViewBag.Success</b></span>
+</div>
+
+<div id="editMsg" style="text-align: center; font-size: medium">
+    <span style="font-size: medium; color: green"><b>@ViewBag.EditSuccess</b></span>
+</div>
+
+<div style="margin-left: 50px; margin-top: 50px">
+    @Html.ActionLink("Add New Contractor/Supplier", "Create", "MasterData", new { id = "lblAddNew" })
+    <br />
+    <br />
+</div>
+
+
+<div id="pageContent" style="text-align: center">
+    <center>
+<div id="tableMain" class="jqueryTable">
+    <div id="tableTitle">
+        <span id="tableTitleName">Filter Menu</span>
+    </div>
+    <div id="tableHeader">
+        <table id="Table1" style="width:60%">
+            <tr>
+                <td align="center"><b>State</b></td>
+                <td align="center" id="lblDistrict"><b>District</b></td>
+                <td align="center" id="lblPan"><b>PAN Number</b></td>
+            </tr>
+        </table>
+    </div>
+    <div id="tableContent">
+        <table>
+            <tr>
+               <td style="text-align:center">@Html.DropDownList("State", null, new { @style = "width:100%" })</td>
+               <td style="text-align:center">@Html.DropDownList("District")</td>
+               <td style="text-align:center">@Html.DropDownList("PAN Number", new SelectList(ViewBag.PAN, "Value", "Text"), new { id = "ddlPan" })</td>
+            </tr>
+            <tr>
+                <td colspan="3">&nbsp;</td>
+            </tr>
+            <tr>
+                <td colspan="3" align="center"><input type="button" id="loadGrid" value="View List" class="jqueryButton"/></td>
+            </tr>
+        </table>
+    </div>
+</div>
+    <br />
+
+    <br />
+        </center>
+</div>
+
+
+<br />
+<br />
+<center>
+ <table id="Contractor">
+
+</table>
+        <div id="pager">
+
+        </div>
+</center>
+<br />
+<br />
+<br />
+<br />
+
+<div>
+    @if (ViewBag.Mode == "Delete")
+    {
+        <center>    
+    <h2 style="text-align:center;color:red;margin-top:50px">@ViewBag.Message</h2>
+    </center>
+    }
+</div>
+
+
+<div>
+</div>
+<div align="center">
+    <table id="contractorRegistration"></table>
+    <div id="pager"></div>
+</div>
+<br />
+
+<br />
+<br />
+<br />
+<br />
+
+<br />
+<br />
+<br />
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

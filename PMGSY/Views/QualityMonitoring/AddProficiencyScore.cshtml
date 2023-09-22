@@ -1,0 +1,109 @@
+﻿@model PMGSY.Models.QualityMonitoring.ProficiencyTestScoreModel
+
+<script src="~/Scripts/custom/Generic.js"></script>
+<script src="~/Scripts/jquery-ui.js"></script>
+<script src="~/Scripts/jquery.validate.min.js"></script>
+<script src="~/Scripts/jquery.validate.unobtrusive.min.js"></script>
+<link href="~/Content/Chosen/chosen.min.css" rel="stylesheet" />
+<script src="~/Scripts/chosen.jquery.min.js"></script>
+<script src="~/Scripts/QualityMonitoring/MonitorProficiencyTestScore.js"></script>
+
+
+<center>
+    <form id="formAddProficiencyScore">
+        @Html.AntiForgeryToken()
+        <center>@Html.ValidationSummary(true)</center>
+        <center>@Html.HiddenFor(model => model.EXAM_ID)</center>
+        <div id="divAddScore" class="ui-corner-top ui-widget-header panelheader" style="text-align: center; margin-top: 20px; height: 20px; width: 100%">
+            <span class="ui-jqgrid-title" id="inspOperation" style="float: left">&nbsp;&nbsp;Add Proficiency Test Score</span>
+            <span id="iconAddClose" class="ui-icon ui-icon-circle-close" style="float: right"></span>
+        </div>
+
+        <table class="rowstyle" style="width: 100%; margin-top: 0px; border: 1px solid grey; border-radius:0.5rem; padding: 0.5%">
+            <tr>
+                <td style="padding:0.5rem">
+                    @Html.LabelFor(model => model.DATE_OF_EXAM)<label style="color: red">*</label>
+                </td>
+                <td>
+                    @Html.TextBoxFor(model => model.DATE_OF_EXAM, new { style = "margin-bottom:0.6rem;margin-left:0.6", @disable = true, @id = "dateOfExam", @disabled = "disabled", Value = Model.DATE_OF_EXAM.ToShortDateString() })
+                    @Html.ValidationMessageFor(model => model.DATE_OF_EXAM)
+                </td>
+
+                <td>
+                    @Html.LabelFor(model => model.INSTITUTION)<label style="color: red">*</label>
+                </td>
+                <td>
+                    @Html.TextBoxFor(model => model.INSTITUTION, new { style = "margin-bottom:0.6rem;margin-left:0.6", @disabled = "disabled", @id = "institution" })
+                    @Html.ValidationMessageFor(model => model.INSTITUTION)
+                </td>
+
+                <td>
+                    @Html.LabelFor(model => model.NQM_SQM)<label style="color: red">*</label>
+                </td>
+                <td>
+                    @Html.TextBoxFor(model => model.NQM_SQM, new { @id = "monitorType", @disabled = "disabled" })
+                    @Html.ValidationMessageFor(model => model.NQM_SQM)
+                </td>
+            </tr>
+
+            <tr>
+
+                <td style="padding:0.5rem">
+                    @Html.LabelFor(model => model.MONITOR_NAME)<label style="color: red">*</label>
+                </td>
+                @*<td>
+                        @Html.TextBoxFor(model => model.MONITOR_NAME, new { style = "margin-bottom:0.6rem;margin-left:0.6", @id = "nameOfMonitor" })
+                        @Html.ValidationMessageFor(model => model.MONITOR_NAME)
+                    </td>*@
+
+                <td>
+                    @Html.DropDownListFor(model => model.MONITOR_NAME, new SelectList(Model.MONITORS_LIST, "Value", "Text"), new { style = "width:50%", @id = "monitorList" })
+                    @Html.ValidationMessageFor(model => model.MONITOR_NAME)
+                </td>
+
+
+                <td>
+                    @Html.LabelFor(model => model.MONITOR_STATUS)<label style="color: red">*</label>
+                </td>
+                <td>
+                    @Html.DropDownListFor(model => model.MONITOR_STATUS, new SelectList(Model.EXAM_STATUS_LIST, "Value", "Text"), new { @id = "monitorStatus" })
+                    @Html.ValidationMessageFor(model => model.MONITOR_STATUS)
+                </td>
+
+                <td>
+                    @Html.LabelFor(model => model.PERCENTAGE, new { style = "display: none;", @class = "marks" })
+                </td>
+                <td>
+                    @Html.TextBoxFor(model => model.PERCENTAGE, new { style = "display: none;margin-bottom:0.6rem;margin-left:0.6", Value = "", @id = "percentage", @class = "marks" })
+                </td>
+            </tr>
+
+            <tr>
+                <td></td>
+                <td></td>
+
+                <td style="text-align: center" colspan="2">
+                    <input type="button" id="btnSaveNewScore" name="btnSave" value="Save" class="jqueryButton" title="Save Proficiency Score" tabindex="5" />
+
+                    <input type="reset" id="btnResetScore" name="btnReset" value="Reset" class="jqueryButton" title="Reset Proficiency Score" tabindex="6" />
+                </td>
+
+                <td></td>
+                <td></td>
+            </tr>
+            <tr></tr>
+            <tr></tr>
+
+            <tr>
+                <td colspan="5">
+                    <label style="border: none">
+                        [ Note: Fields marked with<label style="color: red;"> * </label>
+                        are mandatory.]
+                    </label>
+                </td>
+            </tr>
+
+        </table>
+    </form>
+</center>
+

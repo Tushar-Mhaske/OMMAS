@@ -1,0 +1,207 @@
+﻿@model PMGSY.Models.Feedback.FeedbackReply
+@{
+    ViewBag.Title = "FeedbackReply";
+}
+<script src="~/Scripts/custom/Generic.js"></script>
+<script src="@Url.Content("~/Scripts/jquery.ui.datepicker.js")" type="text/javascript"></script>
+
+
+
+<script src="~/Scripts/Feedback/FeedbackReplyNew.js"></script>
+
+
+@*<div id="dvReply" style="width: 99%;" ><div style="border: 1px solid; float:right; text-align:right" class="ui-icon ui-icon-closethick" ></div></div>*@
+@*<div id="dvhdrChequeAbstractDetails" class="ui-state-default ui-corner-all " style="margin-bottom: 05px; height: 20px">Abstract at the end of the month<span style="float: right; margin-right: 2Px; margin-top: 2px;cursor:pointer" id="spnCloseDetails" class="ui-icon ui-icon-closethick"></span>  </div>    *@
+<div id="dvViewFBMain">
+    <form id="frmFeedbackRep">
+        @Html.AntiForgeryToken()
+        @Html.ValidationSummary(true)
+        @Html.HiddenFor(m => m.hdnRepStatus)
+        <table class="rowstyle" id="tblFBDetails" style="text-align: left; border: ridge 0.1em #ccc; width: 100%; padding: 5px 5px 5px 5px;">
+            @if (
+                ((Model.hdnRepStatus.Trim() == "I" || Model.hdnRepStatus.Trim() == "")
+                && (
+                    /*MRD and CQCAdmin*/
+                    ((Model.hdnRepStateCode == 0 && (PMGSY.Extensions.PMGSYSession.Current.RoleCode == 25 || PMGSY.Extensions.PMGSYSession.Current.RoleCode == 5))
+                    || (PMGSY.Extensions.PMGSYSession.Current.RoleCode == 25 && Model.hdnStateType == "U"))
+                    /*SQC*/
+                    || (Model.hdnRepStateCode != 0 && PMGSY.Extensions.PMGSYSession.Current.RoleCode == 8)
+                    /*PIU*/
+                    || (Model.hdnRepStateCode != 0 && (PMGSY.Extensions.PMGSYSession.Current.RoleCode == 22 || PMGSY.Extensions.PMGSYSession.Current.RoleCode == 38 || PMGSY.Extensions.PMGSYSession.Current.RoleCode == 54))
+                    )
+                   )
+
+                || (PMGSY.Extensions.PMGSYSession.Current.RoleCode == 8 && (Model.hdnRole == 22 || Model.hdnRole == 38 || Model.hdnRole == 54) && Model.hdnRepStatus.Trim() == "F" && Model.hdnDBOpr.Trim() == "M")
+                )
+            {
+                //if(PMGSY.Extensions.PMGSYSession.Current.RoleCode == 5 && Model.hdnRole == 22 && Model.hdnRepStatus.Trim() == "F")
+                {
+                    <tr>
+                        <td style="width: 15%; text-align: left; height: 25px;">Feedback Type</td>
+                        <td style="width: 25%; text-align: left;">
+                            @Html.HiddenFor(m => m.hdnFBId, new { @id = "hdnFeedId" })
+                            @Html.HiddenFor(m => m.hdnRepId, new { @id = "hdnRepId" })
+                            @Html.HiddenFor(m => m.hdnRepStatus, new { @id = "hdnRepStat" })
+                            @Html.HiddenFor(m => m.hdnRepStatus, new { @id = "hdnRepState" })
+                            @Html.HiddenFor(m => m.hdnDBOpr, new { @id = "hdnDBOperation" })
+                            @Html.HiddenFor(m => m.hdnRole, new { @id = "hdnRole" })
+
+                            @if (Model.hdnRepStatus.Trim() != "I" || Model.hdnDBOpr.Trim() == "M" || Model.hdnRepStatus.Trim() != "F")
+                            {
+                                if (PMGSY.Extensions.PMGSYSession.Current.RoleCode == 8 && Model.hdnRole == 22 && Model.hdnRepStatus.Trim() == "I" && Model.hdnDBOpr.Trim() == "M"
+                                    /*PIU*/
+                                    || ((PMGSY.Extensions.PMGSYSession.Current.RoleCode == 22 || PMGSY.Extensions.PMGSYSession.Current.RoleCode == 38 || PMGSY.Extensions.PMGSYSession.Current.RoleCode == 54 || PMGSY.Extensions.PMGSYSession.Current.RoleCode == 25 || PMGSY.Extensions.PMGSYSession.Current.RoleCode == 8) && (Model.hdnRepStatus.Trim() != "I" || Model.hdnDBOpr.Trim() == "M")))
+                                {
+                                    @Html.RadioButtonFor(m => m.Feed_Reply, "I", new { @id = "rdbRepI", @checked = Model.hdnRepStatus.Trim() == "I" ? true : false })
+                                    @Html.Label(" Interim Reply")
+                                }
+                            }
+                            @Html.RadioButtonFor(m => m.Feed_Reply, "F", new { @id = "rdbRepF", @checked = Model.hdnRepStatus.Trim() == "F" ? true : false })
+                            @Html.Label(" Final Reply")
+                        </td>
+                    </tr>
+
+
+
+
+
+                    <tr>
+                        <td style="width: 30px;">
+                            @if (PMGSY.Extensions.PMGSYSession.Current.RoleCode == 22 || PMGSY.Extensions.PMGSYSession.Current.RoleCode == 38 || PMGSY.Extensions.PMGSYSession.Current.RoleCode == 54)
+                            { /*PIU Login */
+
+                                @Html.Label("Was any action taken to address the complaint ?", new { @id = "lblIsActionTaken" })
+                            }
+
+                        </td>
+                        <td>
+                            @if (PMGSY.Extensions.PMGSYSession.Current.RoleCode == 22 || PMGSY.Extensions.PMGSYSession.Current.RoleCode == 38 || PMGSY.Extensions.PMGSYSession.Current.RoleCode == 54)
+                            { /*PIU Login */
+
+                                @Html.RadioButtonFor(m => m.Is_Action_Taken, "Y", new { @id = "rdbYesDetails", @checked = true }) <span style="color: red;">&nbsp;</span>
+                                @Html.Label(" Yes   ", new { @id = "HereYes" })
+                                <span style="color: red;">&nbsp;&nbsp;&nbsp;</span>
+
+                                @Html.RadioButtonFor(m => m.Is_Action_Taken, "N", new { @id = "rdbNoDetails", @checked = false }) <span style="color: red;">&nbsp;</span>
+                                @Html.Label(" No", new { @id = "HereNo" })
+
+
+                            }
+                        </td>
+                    </tr>
+
+                    <tr>
+                        <td style="width: 30px;">
+
+                            @if (PMGSY.Extensions.PMGSYSession.Current.RoleCode == 22 || PMGSY.Extensions.PMGSYSession.Current.RoleCode == 38 || PMGSY.Extensions.PMGSYSession.Current.RoleCode == 54)
+                            { /*PIU Login */
+
+
+
+                                @Html.Label("What action needs to be taken?", new { id = "lblPIUIntrim" })
+
+
+                                @Html.Label("What action was taken?", new { id = "lblPIUFinalYes" })
+
+                                @Html.Label("Reason for not taking any action?", new { id = "lblPIUFinalNo" })
+
+
+                            }
+                            else
+                            {
+                                @Html.Label("Reply", new { @id = "lblReply" })<span style="color: red;">*</span>
+                            }
+
+
+
+
+
+
+
+                        </td>
+                        <td>
+                            @Html.TextAreaFor(m => m.Rep_Comments, new { @id = "txtFeedReply", @maxlength = "8000", @style = "width:400px; height:100px; resize:none;" })
+                            @Html.ValidationMessageFor(m => m.Rep_Comments)
+                        </td>
+                    </tr>
+
+
+
+
+
+                    <tr id="timeLineDateID">
+                        <td style="width: 30px;">
+                            @if (PMGSY.Extensions.PMGSYSession.Current.RoleCode == 22 || PMGSY.Extensions.PMGSYSession.Current.RoleCode == 38 || PMGSY.Extensions.PMGSYSession.Current.RoleCode == 54)
+                            {
+                                @Html.LabelFor(model => model.TIMELINE_DATE) <label style="color:red;"> *</label>
+                            }
+
+                        </td>
+                        <td>
+                            @if (PMGSY.Extensions.PMGSYSession.Current.RoleCode == 22 || PMGSY.Extensions.PMGSYSession.Current.RoleCode == 38 || PMGSY.Extensions.PMGSYSession.Current.RoleCode == 54)
+                            {
+                                @Html.TextBoxFor(model => model.TIMELINE_DATE, new { @title = "Select Date", @tabindex = 7, @placeholder = "dd/mm/yyyy..." })
+                                <br />
+                                @Html.ValidationMessageFor(m => m.TIMELINE_DATE)
+                            }
+                        </td>
+                    </tr>
+
+
+
+
+
+
+
+
+                }
+                <tr>
+                    <td colspan="4" style="text-align: center;">
+                        @if (Model.hdnDBOpr.Trim() == "I")
+                        {
+                            <input id="btnSubmitRep" type="button" title="Submit" value="Submit" class="jqueryButton" />
+                        }
+                        else
+                        {
+                            <input id="btnUpdateRep" type="button" title="Update" value="Update" class="jqueryButton" />
+                        }
+                        <input id="btnResetRep" type="reset" title="Reset" value="Reset" class="jqueryButton" />
+                        <input id="btnCloseRep" type="button" title="Close" value="Close" class="jqueryButton" />
+                    </td>
+                </tr>
+            }
+            else if (Model.hdnRepStateCode != 0 && (PMGSY.Extensions.PMGSYSession.Current.RoleCode == 25 || PMGSY.Extensions.PMGSYSession.Current.RoleCode == 5))
+            {
+                <tr>
+                    <td colspan="2">
+                        @Html.Label("Thank you for Viewing Feedback, Action on this feedback should be taken by that particular State")
+                    </td>
+                </tr>
+            }
+            else
+            {
+                if (Model.hdnRole == 8 || (Model.hdnRole == 22 && PMGSY.Extensions.PMGSYSession.Current.RoleCode == 22) || (Model.hdnRole == 38 && PMGSY.Extensions.PMGSYSession.Current.RoleCode == 38) || (Model.hdnRole == 54 && PMGSY.Extensions.PMGSYSession.Current.RoleCode == 54))
+                {
+                    <tr>
+                        <td colspan="2">
+                            @*<span>Thank for Viewing Feedback, the queries regarding this feedback are solved and this feedback is closed.</span>*@
+                            @if (((PMGSY.Extensions.PMGSYSession.Current.RoleCode == 22 && Model.hdnRole == 22) || (PMGSY.Extensions.PMGSYSession.Current.RoleCode == 38 && Model.hdnRole == 38) || (PMGSY.Extensions.PMGSYSession.Current.RoleCode == 54 && Model.hdnRole == 54)) && Model.hdnRepStatus.Trim() == "F")
+                            {
+                                @Html.Label("Thank you for Viewing Feedback, Final Reply is under review by SQC")
+                            }
+                            else
+                            {
+                                @Html.Label("Thank you for Viewing Feedback, the queries regarding this feedback are solved and this feedback is closed")
+                            }
+                        </td>
+                    </tr>
+                }
+                //else if (PMGSY.Extensions.PMGSYSession.Current.RoleCode == 5 && Model.hdnRole == 22)
+                //{
+
+                //}
+            }
+        </table>
+    </form>
+</div>
+

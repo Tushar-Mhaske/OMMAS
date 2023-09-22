@@ -1,0 +1,54 @@
+﻿@model PMGSY.Models.UM_Role_Master
+
+@{
+    ViewBag.Title = "EditRole";
+}
+
+<script src="~/Scripts/custom/Generic.js"></script>
+<script src="~/Scripts/UserManager/UpdateRole.js"></script>
+
+<br/>
+<div class="ui-widget-header innerDivHeader">Edit Role</div>
+<br/>
+<div style="margin-left:10px">
+    @Html.ActionLink("Back to List", "RoleMaster")
+</div>
+
+<center>
+<form id="EditRoleForm">
+    @Html.ValidationSummary(true)
+
+   
+<table id="Table1" cellspacing="0" cellpadding="5" class="rowstyle dataentry" style="margin-top:10px; border:solid 0.1em gray; width:98%">
+        <tr>
+            <td style="width:50%">@Html.LabelFor(model => model.RoleName)</td>
+            <td style="width:50%">@Html.TextBoxFor(model => model.RoleName) @Html.ValidationMessageFor(model => model.RoleName)</td>
+            @Html.HiddenFor(model => model.RoleID)
+        </tr>
+        <tr>
+            <td>@Html.LabelFor(model => model.Remark)</td>
+            <td>@Html.TextAreaFor(model => model.Remark) @Html.ValidationMessageFor(model => model.Remark)</td>
+        </tr>
+        <tr>
+             <td style="font-weight:bold">Please select levels</td>
+             <td style="text-align:center"><span id="showLevelError"> @Html.ValidationMessage( "showLevelError")</span></td>    
+        </tr>    
+                @foreach (var item in ViewBag.RoleLevelMap as IEnumerable<PMGSY.Models.GetMappedLevelsForRole_Result>)
+                 {
+                    <tr>
+                    <td></td> 
+                    <td><input type="checkbox" name="categories" value="@item.levelId" @(item.LevelMap > 0  ? "checked=\"checked\"" : "")>@item.levelName</td>
+                    </tr>
+                 }
+           <tr>
+               <td>&nbsp;</td>
+               <td><input type="button" class="jqueryButton" value="Update" id="btnUpdateRole"/></td>               
+           </tr>  
+        
+</table>    
+    
+  
+    
+</form>
+
+  </center>

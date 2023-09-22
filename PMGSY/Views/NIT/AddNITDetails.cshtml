@@ -1,0 +1,419 @@
+﻿@*----------------------------------------------------------------------------------------
+
+ * Project Id:
+
+ * Project Name:OMMAS2
+
+ * File Name: AddNITDetails.cshtml
+
+ * Author : Koustubh Nakate
+
+ * Creation Date :08/July/2013
+
+ * Desc : This is partial view which consist add/edit NIT details view.
+ * ---------------------------------------------------------------------------------------*@
+
+@model PMGSY.Models.NIT.NITDetails
+
+<link href="@Url.Content("~/Content/jquery.ui.timepicker.css")" rel="stylesheet" />
+
+<script src="@Url.Content("~/Scripts/custom/Generic.js")" type="text/javascript" ></script>
+<script src="@Url.Content("~/Scripts/jquery.ui.datepicker.js")" type="text/javascript" ></script>
+<script src="@Url.Content("~/Scripts/jquery.ui.timepicker.js")" type="text/javascript" ></script>
+<script type="text/javascript" src="@Url.Content("~/Scripts/NIT/AddNITDetails.js")"> </script>
+
+<style type="text/css">
+
+    /*div {
+        font-size:1em;
+    }*/
+    #accordion .ui-accordion-content  {
+        font-size:1em;
+    }
+
+</style>
+
+<div id="dvNITDetails" style="display:none">
+ 
+    <div id="dvErrorMessage"class="ui-widget ui-state-error ui-corner-all" style="padding: 0.7em .7em ; display:none; margin:5px 0px 5px 0px; text-align:left">
+    <span class="ui-icon ui-icon-alert" style="float: left; margin-right: .3em;"></span>
+    <strong>Alert:</strong> <span id="message"> </span>
+</div>
+
+     <form id="frmAddNITDetails">
+
+         @Html.AntiForgeryToken()
+         <div style="text-align:left">
+         @Html.ValidationSummary(false,"Please correct following errors")
+         </div>   
+            
+          @* <div id="validationSummary" style="text-align:left" class="validation-summary-errors">
+              
+           @Html.ValidationMessageFor(model => model.TEND_COLLABORATION)
+           @Html.ValidationMessageFor(model => model.TEND_NIT_NUMBER)
+                    </div>*@
+
+   
+              <table style="width:100%; border:1px solid #808080 ; margin-top:0px;"    class="rowstyle ui-corner-all" cellpadding="4">
+
+              <tr style="display: none; ">
+                <td colspan="2">
+                    @Html.HiddenFor(model => model.EncryptedTendNITCode)
+                  
+                </td>
+              
+
+            </tr>
+
+                    <tr>
+
+                     <td style="text-align: left; width: 25%;">
+                    @Html.LabelFor(model => model.TEND_COLLABORATION) <label style="color:red;"> *</label>
+                </td >
+               
+                   <td style="text-align: left;" > 
+                      @if (Model.EncryptedTendNITCode == null)
+                      {    
+                    @Html.DropDownListFor(model => model.TEND_COLLABORATION, Model.FundingAgencies, new { @id = "ddlFundingAgencies", @title = "Funding Agency", @tabindex = 100, style="width:400px" }) 
+                  
+                      }
+                       else
+                       {
+                          @Html.DropDownListFor(model => model.TEND_COLLABORATION, Model.FundingAgencies, new { @id = "ddlFundingAgencies", @title = "Funding Agency", @tabindex = 100, @disabled="disabled", style="width:400px"}) 
+                      }
+                        @* @Html.ValidationMessageFor(model => model.TEND_COLLABORATION)*@
+                </td>
+                       
+            </tr>
+
+                  
+               <tr>
+                <td  >
+                    @Html.LabelFor(model => model.TEND_NIT_NUMBER) <label style="color:red;"> *</label>
+                </td>
+               
+                <td>
+                  
+                    @Html.TextBoxFor(model => model.TEND_NIT_NUMBER, new { @title = "Draft NIT Number", @tabindex = 101 ,@placeholder="Enter Draft NIT Number...", @maxlength=101, style="width:400px"})
+                    
+                     @* @Html.ValidationMessageFor(model => model.TEND_NIT_NUMBER)*@
+                </td>
+             
+            </tr> 
+
+             
+                    <tr>
+                <td  >
+                    @Html.LabelFor(model => model.TEND_PUBLICATION_DATE) <label style="color:red;"> *</label>
+                </td>
+               
+                <td >
+                  
+                   @Html.TextBoxFor(model => model.TEND_PUBLICATION_DATE, new { @title = "NIT Publication Date", @tabindex = 102 ,@placeholder="dd/mm/yyyy..."})
+                    
+                      @*@Html.ValidationMessageFor(model => model.TEND_PUBLICATION_DATE)*@
+                </td>
+             
+            </tr> 
+
+                  <tr>
+                <td >
+                    @Html.LabelFor(model => model.TEND_ISSUE_START_DATE) <label style="color:red;"> *</label>
+                </td>
+               
+                <td >
+                  
+                   @Html.TextBoxFor(model => model.TEND_ISSUE_START_DATE, new { @title = "Tender Form Issue Start Date", @tabindex = 103 ,@placeholder="dd/mm/yyyy..."})
+                    
+                   @*   @Html.ValidationMessageFor(model => model.TEND_ISSUE_START_DATE)*@
+
+
+                     @Html.LabelFor(model => model.TEND_ISSUE_START_TIME, new {style="margin-left:20px;" } ) <label style="color:red;"> *</label>
+                    
+                      @Html.TextBoxFor(model => model.TEND_ISSUE_START_TIME, new { @title = "Tender Form Issue Start Time", @tabindex = 104 ,@placeholder="hh:mm", @style="margin-left:20px; width:60px; ", @readonly="readonly"})
+                    
+                    <img  id="tmTenderFormIssueStart" class="ui-datepicker-trigger" src="/Content/Images/Sidebar_Search_Icon_16.png" alt="Tender Form Issue Start Time" title="Tender Form Issue Start Time">
+
+@*                      @Html.ValidationMessageFor(model => model.TEND_ISSUE_START_TIME)*@
+
+                </td>
+             
+            </tr> 
+
+
+          <tr>
+                <td>
+                    @Html.LabelFor(model => model.TEND_ISSUE_END_DATE) <label style="color:red;"> *</label>
+                </td>
+               
+                <td >
+                  
+                   @Html.TextBoxFor(model => model.TEND_ISSUE_END_DATE, new { @title = "Tender Form Issue End Date", @tabindex = 105 ,@placeholder="dd/mm/yyyy..."})
+                    
+                    @*  @Html.ValidationMessageFor(model => model.TEND_ISSUE_END_DATE)*@
+
+
+                     @Html.LabelFor(model => model.TEND_ISSUE_END_TIME, new {style="margin-left:20px;" })<label style="color:red;"> *</label>
+                     @Html.TextBoxFor(model => model.TEND_ISSUE_END_TIME, new { @title = "Tender Form Issue End Time", @tabindex = 106 ,@placeholder="hh:mm", @style="margin-left:20px;width:60px;",@readonly="readonly"})
+                    
+                    <img  id="tmTenderFormIssueEnd" class="ui-datepicker-trigger" src="/Content/Images/Sidebar_Search_Icon_16.png" alt="Tender Form Issue End Time" title="Tender Form Issue End Time">
+
+                    @*  @Html.ValidationMessageFor(model => model.TEND_ISSUE_END_TIME)*@
+
+                </td>
+             
+            </tr> 
+
+
+             <tr>
+                <td>
+                    @Html.LabelFor(model => model.TEND_INVITING_AUTHORITY) <label style="color:red;"> *</label>
+                </td>
+               
+                <td >
+                  
+                   @Html.TextBoxFor(model => model.TEND_INVITING_AUTHORITY, new { @title = "Inviting Authority Name", @tabindex = 107 ,@placeholder="Enter Inviting Authority Name...", @maxlength=100, style="width:400px"})
+                    
+                    @*  @Html.ValidationMessageFor(model => model.TEND_INVITING_AUTHORITY)*@
+
+
+                </td>
+             
+            </tr> 
+
+         
+
+    
+              <tr>
+                <td colspan="2">
+                    @Html.LabelFor(model => model.TEND_INVITING_ORG) <label style="color:red;"> *</label>
+               
+                  
+                   @Html.TextBoxFor(model => model.TEND_INVITING_ORG, new { @title = "Inviting Organization Name", @tabindex = 108 ,@placeholder="Enter Inviting Organization Name...", @maxlength=100, style="width:400px"})
+                    
+                    <label> sealed </label>
+
+                    @*  @Html.ValidationMessageFor(model => model.TEND_INVITING_ORG)*@
+
+
+                </td>
+             
+            </tr> 
+
+
+<tr>
+
+    
+                  <td  colspan="2">
+                   @Html.RadioButtonFor(model => model.TendItemRate, true, new { id = "rdoItemRate", @tabindex = 109 }) <label for="rdoItemRate"> Item Rate</label> 
+                      
+                   @Html.RadioButtonFor(model => model.TendItemRate, false, new { id = "rdoPercentageRate" , style="margin-left:10px;", @tabindex = 110  }) <label  for="rdoPercentageRate">Percentage Rate</label>
+
+                    <label>tenders from approved and eligible contractors registered with</label>  
+
+                    
+                    
+                  </td>
+</tr>
+                
+
+                  <tr>
+
+    
+                  <td  colspan="2"> <label style="color:red;"> *</label>
+                      @Html.TextBoxFor(model => model.CONT_REGN_WITH_ORG, new { @title = "Registered Organization Name", @tabindex = 111 ,@placeholder="Enter Registered Organization Name...", @maxlength=255, style="width:300px"})
+@*                    @Html.ValidationMessageFor(model => model.CONT_REGN_WITH_ORG)*@
+
+                      <label>up to </label><label style="color:red;"> *</label>
+
+                       @Html.TextBoxFor(model => model.CONT_REGN_VALIDITY_TIME, new { @title = "Contractor Registration Time", @tabindex = 112 ,@placeholder="hh:mm", style="width:60px",@readonly="readonly" }) 
+                      
+                       <img  id="tmContractorRegistration" class="ui-datepicker-trigger" src="/Content/Images/Sidebar_Search_Icon_16.png" alt="Contractor Registration Time" title="Contractor Registration Time">
+
+                      
+                      
+                      
+                    
+                     @* @Html.ValidationMessageFor(model => model.CONT_REGN_VALIDITY_TIME)*@
+
+                      <label>hours on</label>
+                    
+                  </td>
+</tr>
+
+
+                   <tr>
+
+    
+                  <td  colspan="2"> <label style="color:red;"> *</label>
+                   @Html.TextBoxFor(model => model.CONT_REGN_VALIDITY_DATE, new { @title = "Contractor Registration Date", @tabindex = 113 ,@placeholder="dd/mm/yyyy..."})
+                   @* @Html.ValidationMessageFor(model => model.CONT_REGN_VALIDITY_DATE)*@
+
+                      <label>for each of the following works including maintenance  for five years after construction.  </label>
+
+                  
+                    
+                  </td>
+</tr>
+
+                   <tr>
+
+    
+                  <td  colspan="2"> 
+                  
+
+                      <label> The earnest money should be deposited along  with  the  tenders  in  the  appropriate form as per the tender documents.  </label>
+
+                  
+                    
+                  </td>
+</tr>
+
+                  
+                   <tr>
+
+    
+                  <td  colspan="2"> 
+                  
+
+                      <label> The tender shall  be issued  on payment  by demand  draft drawn in the favour of   </label>
+
+                  
+                    
+                  </td>
+</tr>
+
+                <tr>
+
+    
+                  <td  colspan="2"> <label style="color:red;"> *</label>
+                   @Html.TextBoxFor(model => model.TEND_DD_ISSUE_IN_FAVOUR, new { @title = "Tender Payment DD Issue in favour of", @tabindex = 114 ,@placeholder="Enter Tender Payment DD Issue in favour...", style="width:400px"})
+                   @* @Html.ValidationMessageFor(model => model.TEND_DD_ISSUE_IN_FAVOUR)*@
+
+                      <label>and payble at  </label>
+
+                  
+                    
+                  </td>
+</tr>
+            
+                  
+                 <tr>
+
+    
+                  <td  colspan="2"> <label style="color:red;"> *</label>
+                   @Html.TextBoxFor(model => model.TEND_DD_PAYABLE_AT, new { @title = "Tender Payment DD Payable at", @tabindex = 115 ,@placeholder="Enter Tender Payment DD Payable at...", style="width:300px"})
+                   @* @Html.ValidationMessageFor(model => model.TEND_DD_PAYABLE_AT)*@
+
+                      <label>  for Rs.  </label>  <label style="color:red;"> *</label>
+
+                   @Html.TextBoxFor(model => model.TEND_AMOUNT_PER_PACKAGE, new { @title = "Amount Per Package", @tabindex = 116 ,@placeholder="Enter Amount Per Package..."})
+                                        
+                  @*  @Html.ValidationMessageFor(model => model.TEND_AMOUNT_PER_PACKAGE)*@
+
+                        <label> only  (non-refundable) for each package.  </label>
+                    
+                  </td>
+</tr>
+
+                      <tr>
+
+    
+                  <td  colspan="2"> 
+                  
+
+                      <label> The authorized tender documents are available for inspection in the office of  </label>
+
+                  
+                    
+                  </td>
+</tr>
+
+
+            
+                   <tr>
+
+    
+                  <td  colspan="2"> 
+                  
+
+              
+                   <label style="color:red;"> *</label> 
+                    @Html.TextBoxFor(model => model.TEND_DOC_INSP_OFFICE, new { @title = "Inspection Office Name ", @tabindex = 117 ,@placeholder="Enter Inspection Office Name ...",style="width:300px"})
+                                        
+                  @*  @Html.ValidationMessageFor(model => model.TEND_DOC_INSP_OFFICE)*@
+
+                      <label>from  </label>
+                    
+                        <label style="color:red;"> *</label>
+                      @Html.TextBoxFor(model => model.TEND_INSP_START_DATE, new { @title = "Inspection Start Date", @tabindex = 118 ,@placeholder="dd/mm/yyyy..."})
+                  @*  @Html.ValidationMessageFor(model => model.TEND_INSP_START_DATE)*@
+
+                        <label> to  </label>  <label style="color:red;"> *</label>
+                    
+                    @Html.TextBoxFor(model => model.TEND_INSP_END_DATE, new { @title = "Inspection End Date", @tabindex = 119 ,@placeholder="dd/mm/yyyy..."})
+                   @* @Html.ValidationMessageFor(model => model.TEND_INSP_END_DATE)*@
+                  </td>
+</tr>
+            
+                    <tr>
+
+    
+                  <td  colspan="2"> 
+                  
+                      <label> during office hours on all working days.</label>
+                  </td>
+</tr>
+
+            
+                 
+             <tr>
+                
+               
+                  @if (Model.EncryptedTendNITCode == null)
+                  {    
+                      
+                <td style="text-align: center" colspan="2">
+                    <input type="button" id="btnSaveNITDetails" name="btnSaveNITDetails" value="Save" class="jqueryButton" title="Save NIT Details" tabindex="120" />
+                    
+                           
+
+                    <input type="reset" id="btnResetNITDetails" name="btnResetNITDetails" value="Reset" class="jqueryButton" title="Reset" tabindex="121" />
+                </td>
+                  }
+                else
+                {
+
+                <td style="text-align: center" colspan="2" >
+                   <input type="button" id="btnUpdateNITDetails" name="btnUpdateNITDetails" value="Update" class= "jqueryButton" title="Update NIT Details" tabindex="120"  /> 
+                    
+              
+
+                    <input type="button" id="btnCancelNITDetails" name="btnCancelNITDetails" value="Cancel" class= "jqueryButton" title="Cancel" tabindex="121"  />
+                </td>
+                  }
+
+
+            </tr>
+
+           
+               <tr >
+                <td colspan="2">
+                      <label  style="border:none">[ Note: Fields marked <label style="color:red">*</label>  are mandatory. ] </label> @*class="ui-state-default"*@
+                </td>
+
+            </tr>
+
+
+
+
+        </table>
+
+           
+
+
+         
+        </form>
+       
+</div>
+

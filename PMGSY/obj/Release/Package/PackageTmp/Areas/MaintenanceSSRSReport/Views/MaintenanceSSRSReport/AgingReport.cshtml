@@ -1,0 +1,19 @@
+﻿@using MvcReportViewer
+
+@model PMGSY.Areas.MaintenanceSSRSReport.Models.Aging
+
+
+@Html.MvcReportViewer("/PMGSYCitizen/Ageing",
+     new
+     { 
+        
+    State= Model.Mast_State_Code,
+	Month =DateTime.Now.Month,
+	Year =DateTime.Now.Year,
+	proposalType ='%' ,
+	ConnectivityType='%',
+	DelayGroup=Model.DelayGroupCode,
+	Expsrange=Model.EXP_START_RANGE,//0
+	Eeperange =Model.EXP_END_RANGE//100000000
+     },
+     new { Height = 600, Width = "100%", style = "border:none;" })

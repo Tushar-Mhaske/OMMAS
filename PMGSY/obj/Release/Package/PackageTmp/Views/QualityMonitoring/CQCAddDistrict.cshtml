@@ -1,0 +1,36 @@
+﻿@**
+        * Project Id    :
+        * Project Name  :   OMMAS II
+        * Name          :   CQCAddDistrict.cshtml
+        * Description   :   View for Add District in Monitor's Schedule
+        * Author        :   Shyam Yadav 
+        * Creation Date :   10/Jun/2013
+ **@
+
+@model PMGSY.Models.QualityMonitoring.QMCQCAddDistrictModel
+
+<script src="~/Scripts/custom/Generic.js"></script>
+<script src="~/Scripts/QualityMonitoring/CQCAddDistrict.js"></script>
+
+<form id="frmCQCAddDistrict">
+    <div id="divAddDistError" class="ui-state-error ui-corner-all" style="text-align: left; display: none; width: 100%">
+        <span class="ui-icon ui-icon-alert" style="float: left;"></span>
+        <span></span>
+    </div>
+    @Html.HiddenFor(model => model.ADMIN_SCHEDULE_CODE)
+
+    <table class="rowstyle" id="tblAddDistrict" style="margin-top: 10px; text-align: left; border: ridge 0.1em #ccc; width: 100%; padding: 5px 5px 5px 5px;">
+        <tr>
+            <td style="width: 10%">@Html.LabelFor(model => model.MAST_DISTRICT_CODE)<span style="color: red">*</span></td>
+            <td style="width: 20%">
+                @Html.DropDownListFor(model => model.MAST_DISTRICT_CODE, new SelectList(Model.DISTRICTS, "Value", "Text"), "Select District")
+                @Html.ValidationMessageFor(model => model.MAST_DISTRICT_CODE) 
+            </td>
+            <td style="width: 70%; text-align:left;">
+                <input type="button" id="btnAddDistrict" name="btnAddDistrict" value="Add" class="jqueryButton" />
+                &nbsp;&nbsp;<input type="button" id="btnCancelAddDistrict" name="btnCancelAddDistrict" value="Cancel" class="jqueryButton" />
+            </td>
+        </tr>
+    </table>
+
+</form>

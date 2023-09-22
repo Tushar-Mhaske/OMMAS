@@ -1,0 +1,466 @@
+﻿@{
+    Layout = null;
+}
+
+<!DOCTYPE html>
+
+<html>
+<head>
+    <meta name="viewport" content="width=device-width" />
+    <title>MasterDetailsPayment</title>
+    <script>
+        var month = '@ViewBag.month';
+        var year = '@ViewBag.year';
+        var opeartion = '@ViewBag.operationType';
+        var Bill_ID = '@ViewBag.Bill_id';
+        var Bill_finalized = '@ViewBag.BillFinalized';
+        var fundType = '@PMGSY.Extensions.PMGSYSession.Current.FundType';  
+    </script>
+    <script src="~/Scripts/custom/Generic.js"></script>
+    <script src="~/Scripts/Payment/MasterDetailsPayment.js"></script>
+    <script src="~/Scripts/jquery.ui.dialog.js"></script>
+
+    <script>
+        $(function () {
+
+
+            //$("#PaymentEpaydialog").dialog({
+            //    autoOpen: false,
+            //     height:550,
+            //    width: 600,
+            //    modal: true,
+            //    show: {
+            //        effect: "blind",
+            //        duration: 1000
+            //    },
+            //    hide: {
+            //        effect: "explode",
+            //        duration: 1000
+            //    }
+
+            //});
+            $("#SignEpaymentDialog").dialog({
+                autoOpen: false,
+                // height:550,
+                width: 850,
+                modal: true,
+                show: {
+                    effect: "blind",
+                    duration: 1000
+                },
+                hide: {
+                    effect: "explode",
+                    duration: 1000
+                },
+                close: function () {
+                   // alert('B');
+                    //$('#PaymentList').jqGrid('GridUnload');
+                    // loadPaymentGrid("view");
+                   // $("#SignEpaymentDiv").empty();
+                    window.location.href = '/Payment/GetPaymentList/';
+                },
+
+                //closeOnEscape: false,
+                //open: function (event, ui) {
+                //    $(".ui-dialog-titlebar-close", ui.dialog | ui).hide();
+                //}
+
+            });
+
+
+            $("#SignERemDialog").dialog({
+                autoOpen: false,
+                // height:550,
+                width: 850,
+                modal: true,
+                show: {
+                    effect: "blind",
+                    duration: 1000
+                },
+                hide: {
+                    effect: "explode",
+                    duration: 1000
+                },
+                close: function () {
+                  //  $("#SignERemDiv").empty();
+                    window.location.href = '/Payment/GetPaymentList/';
+                },
+
+            });
+         
+        });
+
+
+
+
+    </script>
+    @*     <style type="text/css" media="screen">
+th.ui-th-column div {
+    white-space: normal !important;
+    height: auto !important;
+    padding: 2px;
+}  
+
+    </style>*@
+
+
+</head>
+<body>
+    <div class="ui-widget-header innerDivHeader">
+        Add Edit Payment
+    </div>
+    <br />
+    <div id="divError" style="margin-left: 10px; margin-right: 15px; display: none" class="ui-state-error ui-corner-all">
+        <span class="ui-icon ui-icon-alert " style="float: left"></span>
+        <span id="errorSpan"></span>
+    </div>
+
+    <div id="MasterData">
+    </div>
+
+    <div id="masterListGrid" style="width: 98%; margin-top: 5px">
+        <center>
+        <table id="PaymentMasterList" ></table>
+        <div id="PaymentMasterListpager"></div>
+        </center>
+
+    </div>
+
+    <table id="trShowHideLinkTable">
+        <tr id="trnsShowtable">
+            <td style="width: auto" style="display: none">
+                <span id="HideShowTransaction">
+                    <span id="iconSpan" class="ui-icon ui-icon-circle-triangle-n" style="float: left"></span>
+                    <span><b>Add transaction details   
+                    </b></span>
+                </span>
+            </td>
+            <td>&nbsp;&nbsp;&nbsp;
+            </td>
+
+        </tr>
+    </table>
+
+    <form id="TransactionForm" style="display: none">
+
+
+        <div class="table-content ui-corner-all" style="width: 98%; border: .1em solid gray; margin-bottom: 5px; margin-top: 5px">
+            <table id="PaymentBalance" style="width: 100%" class="rowstyle">
+                <tr>
+                    <td style="text-align: center; width: 20%">
+                        <div class="ui-widget-header ui-corner-all">Description</div>
+                    </td>
+                    <td style="text-align: center; width: 20%">
+                        <div class="ui-widget-header ui-corner-all">Cheque Amount (In Rs.)</div>
+                    </td>
+                    <td style="text-align: center; width: 20%">
+                        <div class="ui-widget-header ui-corner-all">Cash Amount (In Rs.) </div>
+                    </td>
+                    <td style="text-align: center; width: 20%">
+                        <div class="ui-widget-header ui-corner-all">Deduction Amount (In Rs.) </div>
+                    </td>
+                    <td style="text-align: center; width: 20%">
+                        <div class="ui-widget-header ui-corner-all">Gross Amount (In Rs.)</div>
+                    </td>
+                </tr>
+                <tr>
+                    <td style="text-align: left; width: 20%">Total Amount To Be Entered (In Rs.)</td>
+                    <td id="TotalAmtToEnterChqAmount" style="text-align: right"></td>
+                    <td id="TotalAmtToEnterCachAmount" style="text-align: right"></td>
+                    <td id="TotalAmtToEnterDedAmount" style="text-align: right"></td>
+                    <td id="TotalAmtToEnterGrossAmount" style="text-align: right"></td>
+                </tr>
+                <tr>
+                    <td style="text-align: left; width: 20%">Total Amount Entered (In Rs.)</td>
+                    <td id="TotalAmtEnteredChqAmount" style="text-align: right"></td>
+                    <td id="TotalAmtEnteredCachAmount" style="text-align: right"></td>
+                    <td id="TotalAmtEnteredDedAmount" style="text-align: right"></td>
+                    <td id="TotalAmtEnteredGrossAmount" style="text-align: right"></td>
+                </tr>
+                <tr>
+                    <td style="text-align: left; width: 20%">Diffrence To Be Entered (In Rs.)</td>
+
+                    <td id="DiffChqAmount" style="text-align: right; font-weight: bolder; color: green"></td>
+                    <td id="DiffCachAmount" style="text-align: right; font-weight: bolder; color: green"></td>
+                    <td id="DiffDedAmount" style="text-align: right; font-weight: bolder; color: green"></td>
+                    <td id="DiffGrossAmount" style="text-align: right; font-weight: bolder; color: green"></td>
+                </tr>
+
+
+            </table>
+        </div>
+
+        <div id="PaymentDeductionData" style="width: 99%; margin-bottom: 5px">
+            <br />
+        </div>
+
+        <div id="DetailsGrid" style="width: 98%; clear: both;">
+            <center>        
+                <table id="PaymentGridDivList"></table>
+                <div id="PaymentGridDivpager"></div>
+                    </center>
+        </div>
+
+        <table id="tblFinalize" class="table-content ui-corner-all" style="width: 98%; border: .1em solid gray; display: none; margin-top: 5px; margin-bottom: 5px;">
+            <tr>
+            </tr>
+            <tr>
+
+                <td style="text-align: center">
+
+                    <div style="padding: 0pt 0.7em; cursor: pointer;" class="jqueryButton" id="finalize">
+
+                        <span class="ui-icon ui-icon-locked" style="float: left; margin-right: 0.3em;"></span><strong>Finalize
+                        </strong>
+                    </div>
+                </td>
+            </tr>
+        </table>
+
+
+    </form>
+
+    @* 
+    <div id="PaymentEpaydialog" title="E-Payment/E-Remittance" style="display: none">
+        <div class="ui-corner-all" style="width: 100%; border: .1em solid gray" cellspacing="1px">
+
+            <div id="divError1" style="margin-left: 10px; margin-right: 15px; display: none; margin-top: 5px; margin-bottom: 5px" class="ui-state-error ui-corner-all">
+                <span class="ui-icon ui-icon-alert " style="float: left"></span>
+                <span id="errorSpan1"></span>
+            </div>
+
+            <div id="dvPrintEpaymentDetails">
+              
+                <table class="rowstyle">
+
+                    <tr>
+                        <td colspan="2">
+                            <div class="ui-widget-header">
+                                <b>
+                                Epayments Instruction Details :
+                                </b>
+                            </div>
+                        </td>
+
+                    </tr>
+
+                    <tr>
+                        <td style="width: 30%">Email Sender 
+                        </td>
+                        <td style="width: 70%">
+                            <b>omms.pmgsy@nic.in </b>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td style="width: 30%">Email Recepient
+                        </td>
+                        <td id="EmailRecepient1"></td>
+                    </tr>
+                    <tr>
+                        <td style="width: 30%">Email Subject
+                        </td>
+                        <td>
+                            <b>An Epayment transaction is made by  <span id="DPIUName1"></span>of <span id="STATEName1"></span>on www.omms.nic.in,
+                <br />
+                                Epayment No:<span id="EpayNo1"></span> </b>
+                        </td>
+                    </tr>
+
+                    <tr>
+                        <td style="width: 30%">Email Date
+                        </td>
+                        <td id="EmailDate1"></td>
+                    </tr>
+
+                    <tr>
+                        <td style="width: 30%">Email is for
+                        </td>
+                        <td id="Bankaddress1"></td>
+                    </tr>
+
+                    <tr>
+                        <td style="width: 30%">Account Number
+                        </td>
+                        <td id="BankAcNumber1"></td>
+                    </tr>
+                     <tr>
+                        <td>Authorised Signatory Name </td>
+                        <td id ="AuthSignName"> </td>
+                    </tr>
+                    <tr>
+                            <td>Authorised Signatory Phone Number  </td>
+                            <td id ="AuthSignPhoneNumber"> </td>
+                   </tr>
+                    <tr>
+                        <td colspan="2">
+
+                            <div class="ui-widget-header">
+                                <b>
+                                Epayment Transaction Details :
+                                </b>
+                            </div>
+
+                        </td>
+
+                    </tr>
+                    <tr>
+                        <td style="width: 30%">Epayment Number
+                        </td>
+                        <td id="EpayNumber1"></td>
+                    </tr>
+
+                    <tr>
+                        <td style="width: 30%">Epayment Date
+                        </td>
+                        <td id="EpayDate1"></td>
+                    </tr>
+
+
+                    <tr>
+                        <td style="width: 30%">State
+                        </td>
+                        <td id="EpayState1"></td>
+                    </tr>
+
+                    <tr>
+                        <td style="width: 30%">DPIU
+                        </td>
+                        <td id="EpayDPIU1"></td>
+                    </tr>
+
+                    <tr>
+                        <td style="width: 30%">Voucher Number
+                        </td>
+                        <td id="EpayVNumber1"></td>
+                    </tr>
+
+                    <tr>
+                        <td style="width: 30%">Voucher Date
+                        </td>
+                        <td id="EpayVDate1"></td>
+                    </tr>
+                   
+                    <tr>
+                        <td style="width: 30%">Package(s)
+                        </td>
+                        <td id="EpayVPackages1"></td>
+                    </tr>
+
+                    <tr>
+                         @if (PMGSY.Extensions.PMGSYSession.Current.FundType.Equals("A"))
+                         {
+                                <td style="width: 30%">Payee/Supplier Name</td>
+                         }
+                         else
+                         {
+                             <td style="width: 30%">Contractor Name</td>
+                         }
+                        <td id="EpayConName1"></td>
+                    </tr>
+
+                    
+                     <tr id="trContLegalHeirDetails1" style="display:none">
+                        <td style="width: 30%">Contractor Legal Heir Name
+                        </td>
+                        <td id="EpayConLegalHeirName1"></td>
+                    </tr>
+
+                    <tr>
+                         @if (PMGSY.Extensions.PMGSYSession.Current.FundType.Equals("A"))
+                         {
+                            <td style="width: 30%">Payee/Supplier Account Number</td>
+                         }
+                         else
+                         {
+                             <td style="width: 30%">Contractor Account Number</td>
+                         }
+                        <td id="EpayConAcNum1"></td>
+                    </tr>
+
+
+                    <tr>
+                       @if (PMGSY.Extensions.PMGSYSession.Current.FundType.Equals("A"))
+                       {
+                         <td style="width: 30%">Payee/Supplier Bank Name</td>
+                       }
+                       else
+                       {
+                         <td style="width: 30%">Contractor Bank Name</td>  
+                       }
+
+                       <td id="EpayConBankName1"></td>
+                    </tr>
+
+
+                    <tr>
+                       @if (PMGSY.Extensions.PMGSYSession.Current.FundType.Equals("A"))
+                       { 
+                            <td style="width: 30%">Payee/Supplier Bank IFSC Code </td>
+                        }
+                        else
+                        {
+                            <td style="width: 30%">Contractor Bank IFSC Code </td>
+                        }
+                        
+                           <td id="EpayConBankIFSCCode1"></td>
+                    </tr>
+                    <tr>
+                        <td style="width: 30%">Net Amount(in Rs.)
+                        </td>
+                        <td id="" style="text-align: justify"><span id="EpayAmount1"></span>
+
+
+                        </td>
+                    </tr>
+
+                    <tr>
+                        <td style="width: 30%">Net Amount(in words)
+                        </td>
+                        <td id="" style="text-align: justify">
+                            <span id="EpayAmountInWord1"></span>
+
+                        </td>
+                    </tr>
+
+                </table>
+                <div style="margin-top: 5px; margin-bottom: 5px;">
+                    <span style="color: red">Note: Please Ask the Bank to allow all type of E-mails coming from omms.pmgsy@nic.in on their E-mail server. </span>
+                </div>
+            </div>
+        </div>
+
+    </div>*@
+
+    <div id="SignEpaymentDialog" title="E-Payment Details" style="display: none; width: 850px !important">
+        <div id="divSignError2" style="margin-left: 10px; margin-right: 15px; display: none; margin-top: 5px; margin-bottom: 5px" class="ui-state-error ui-corner-all">
+            <span class="ui-icon ui-icon-alert " style="float: left"></span>
+            <span id="errorSignSpan2"></span>
+        </div>
+
+        <div id="SignEpaymentDiv" style="width: 850px !important">
+        </div>
+
+        <div style="margin-top: 5px; margin-bottom: 5px;">
+            <span style="color: red">Note: Please Ask the Bank to  allow all type of Emails coming from omms.pmgsy@nic.in on their Email server </span>
+        </div>
+    </div>
+
+    <div id="SignERemDialog" title="E-Remittance Details" style="display: none; width: 850px !important">
+
+        <div id="divSignError3" style="margin-left: 10px; margin-right: 15px; display: none; margin-top: 5px; margin-bottom: 5px" class="ui-state-error ui-corner-all">
+            <span class="ui-icon ui-icon-alert " style="float: left"></span>
+            <span id="errorSignSpan3"></span>
+        </div>
+
+        <div id="SignERemDiv" style="width: 750px !important">
+        </div>
+
+        <div style="margin-top: 5px; margin-bottom: 5px;">
+            <span style="color: red">Note: Please Ask the Bank to  allow all type of Emails coming from omms.pmgsy@nic.in on their Email server </span>
+        </div>
+
+
+    </div>
+
+</body>
+</html>

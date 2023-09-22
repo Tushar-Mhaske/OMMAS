@@ -1,0 +1,65 @@
+﻿@model PMGSY.Models.LockUnlock.AgreementFilterViewModel
+@{
+    ViewBag.Title = "SearchCNContract";
+}
+
+<script src="~/Scripts/custom/Generic.js"></script>
+<script src="~/Scripts/LockUnlock/SearchCNContract.js"></script>
+
+<form id="searchCNContract">
+<table style="width:100%; margin-top:2px; margin-bottom:0px; text-align:left; border:ridge 0.1em #ccc;">
+    <tr>
+     @Html.HiddenFor(model=>model.ModuleCode)
+     @Html.HiddenFor(model=>model.SubModuleCode)
+     
+     <td style="width:70%;text-align:left;border:ridge 0.1em #ccc;">
+                    <div style="width: 96%; border:none; margin-top:0px; margin-bottom:10px;" class="ui-state-default">
+                        @*<table id="Table1"  cellpadding="3px" class="rowstyle" style="margin-top:10px; text-align:left; border:ridge 0.1em #ccc; width:100%; padding-top:5px 5px 5px 5px;">*@
+                        <center>
+                        <table style="margin-top:10px; margin-bottom:5px";>
+                            <tr>
+                                <td style="width:5%"></td>
+                                
+                                <td>
+                                    State
+                                </td>
+                                <td>
+                                    @Html.DropDownListFor(model=>model.state, ViewData["State"] as IEnumerable<SelectListItem>,"--Select State--" ,new {@id="ddlStateSearch",title="Please Select State",@tabindex=2 })
+                                </td>
+                                <td>
+                                    <label id="lblDistrict">District</label>
+                                </td>
+                                <td>
+                                    @Html.DropDownListFor(model=>model.district, ViewData["District"] as IEnumerable<SelectListItem>, new {@id="ddlDistrictSearch",title="Please Select District",@tabindex=2 })
+                                </td>
+                                <td>
+                                    <label id="lblBlock">Block</label>
+                                </td>
+                                <td>
+                                    @Html.DropDownListFor(model=>model.block, ViewData["Block"] as IEnumerable<SelectListItem>, new {@id="ddlBlockSearch",title="Please Select Batch",@tabindex=2 })
+                                </td>
+                                @*<td style="width:10%;text-align:right">
+                                    Year
+                                </td>
+                                <td style="width:10%">
+                                    @Html.DropDownListFor(model=>model.year, ViewData["Road"] as IEnumerable<SelectListItem>, "--Select Year--",new {@id="ddlYearSearch",title="Please Select Year",@tabindex=1 })
+                                </td>*@
+                            </tr>
+                            <tr>
+                                <td colspan="7">
+                                    <center>
+                                        <table>
+                                            <td>
+                                                <input type="button" style="display:none;" class="jqueryButton" value="List Core Network Contract Details" id="btnListCNContract" name ="btnListTendering" title="Click here to list Tendering Details"/>
+                                            </td>
+                                        </table>
+                                    </center>
+                                </td>
+                            </tr>
+                        </table>
+                        </center>
+            </div>
+      </td>
+       </tr>
+</table>
+</form>

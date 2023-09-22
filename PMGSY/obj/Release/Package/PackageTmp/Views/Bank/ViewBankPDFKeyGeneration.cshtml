@@ -1,0 +1,90 @@
+﻿@model PMGSY.Models.Bank.BankPdfKeyViewModel
+@using PMGSY.Extensions
+<script src="~/Scripts/custom/Generic.js"></script>
+<script src="~/Scripts/Bank/BankPDFOpenKey.js"></script>
+<style>
+    .ui-jqgrid-bdiv {
+        overflow-x: hidden !important;
+    }
+</style>
+
+<form id="frmGenerateBankPdfKeyDetails" style="width: 100%">
+    @Html.ValidationSummary(true)
+    <div id="divBank">
+        <table class="ui-corner-all" style="border: 0.1em solid gray; width: 100%" id="tblOBMaster">
+            <tr>
+                <td style="width: 10%"></td>
+                <td style="width: 10%">
+                    <b>@Html.LabelFor(m => m.FundType) <span style="color: red">*</span> : </b>
+                </td>
+                <td style="width: 25%">
+                    @Html.DropDownListFor(m => m.FundType, Model.PopulateFundType, new { @id = "ddlFundType", @tabindex = "1", @title = "Fund Type" })
+                    @Html.ValidationMessageFor(m => m.FundType)
+                </td>
+                <td style="width: 7%">
+                    <b>@Html.LabelFor(m => m.AdminNdCode) : </b>
+                </td>
+                <td style="width: 25%">
+                    @Html.DropDownListFor(m => m.AdminNdCode, Model.PopulateAgency, new { @id = "ddlAgency", @tabindex = "2", @title = "Agency" })
+                    @Html.ValidationMessageFor(m => m.AdminNdCode)
+                </td>
+                <td>
+                    <input type="button" id="btnViewDetails" value="View" class="jqueryButton" tabindex="3" title="View Details">
+                </td>
+            </tr>
+        </table>
+    </div>
+</form>
+
+<div style="margin-top: 10px; margin-bottom: 10px; width: 100%">
+    <table id="tblBankDetails"></table>
+    <div id="dvPagerBankDetails"></div>
+    <div class="ui-state-default ui-corner-bottom" style="margin-left: 0; margin-right: 0; margin-bottom: 0; text-align: left;">
+        <b>Note:</b> SRRDA can Update the email address of Bank, for any change in email address please contact SRRDA - <span id="spnSRRDAName"></span>
+    </div>
+</div>
+
+
+
+<div id="dvDialogGenerateKey" style="display: none" title="Generate Key">
+
+    <form id="frmGenerateKey">
+        @Html.ValidationSummary(true)
+        @Html.AntiForgeryToken()
+        @Html.HiddenFor(m => m.hdnBankCode)
+        @Html.HiddenFor(m => m.hdnGeneratedKey)
+        @Html.HiddenFor(m => m.StateAgencyName)
+
+        <table class="ui-state-default ui-corner-all" style="border: 0.1em solid gray; width: 100%; height: 100px" id="tblGenerateKey">
+            <tr>
+                <td colspan="3">
+                    <div id="dvErrorMessage" class="ui-widget ui-state-error ui-corner-all" style="padding: 0.9em .9em; display: none; height: 5px; text-align: left">
+                        <span class="ui-icon ui-icon-alert" style="float: left; margin-right: .3em;"></span>
+                        <strong>Alert:</strong> <span id="message"></span>
+                    </div>
+                </td>
+            </tr>
+            <tr>
+                <td style="width: 30px"></td>
+                <td style="width: 10px">
+                    <div id="dvKeyLabel" style="display: none;">Key is :</div>
+                </td>
+                <td style="width: 10px">
+                    <div id="dvGeneratedKey" style="color: green; display: none"></div>
+                </td>
+            </tr>
+            <tr>
+                <center>
+                    <td style="text-align:center" colspan="3">                      
+                      <input type="button" id="btnSaveKeyDetails" value="Send email" class="jqueryButton" tabindex="2" title="Send email">
+                    </td>
+               </center>
+            </tr>
+        </table>
+    </form>
+</div>
+
+
+
+
+

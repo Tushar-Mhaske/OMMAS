@@ -1,0 +1,38 @@
+﻿@{
+    ViewBag.Title = "ListTrafficType";
+}
+
+
+<script src="~/Scripts/custom/Generic.js"></script>
+<script src="~/Scripts/Master/ListTrafficType.js"></script>
+
+<center>  
+    <div style="width:100%">
+<div id="dvAddTrafficDetails" style="display:none;" > </div>
+   <div id="divSearchTrafficDetails" style="display:none"></div>     
+    
+<div id="trafficList" >
+            <table id="tblAddNewButton" style="width: 100%;">
+        <tr>
+            <td style="text-align: left">
+                  <div class="ui-state-default ui-corner-all jqueryButton" id="btnAdd" title="Add Details">
+                    <span style="float: left" class="ui-icon ui-icon-circle-plus"></span>
+                    <span style="float: left; margin-right: 5px">Add Traffic Details </span>
+                </div>
+                 <div class="ui-state-default ui-corner-all jqueryButton" id="btnSearch" title="Search Traffic Details" style="display:none;">
+                    <span style="float:left" class="ui-icon ui-icon-search"></span>
+                    <span style="float:left; margin-right:5px" id="spnListSearchEC">Search Traffic Details</span>
+                </div>   
+    </table>       
+
+    <table id="tblTrafficDetails">
+    </table>
+    <div id="pager">
+    </div>
+</div>
+        </div>  
+    </center>
+
+
+
+

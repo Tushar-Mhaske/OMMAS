@@ -1,0 +1,82 @@
+﻿@model PMGSY.Models.QualityMonitoring.QMTourDetails 
+<script src="~/Scripts/custom/Generic.js"></script>
+
+@*<script src="~/Scripts/StaPay/TourGenerateInvoiceLayout.js"></script>*@
+<script src="~/Scripts/QualityMonitoring/TourPaymentInvoiceLayout.js"></script>
+<center>    
+    <div style="width:98%; height:25px;border:none; margin-top:5px;" class="ui-corner-top ui-widget-header panelheader" @*class="ui-state-default"*@>
+        <span class="ui-jqgrid-title" style="float: left">&nbsp;Tour Payment</span>
+        @*<span style="float:right;margin-right:2Px; margin-top:2px" id="idFilterDiv" class="ui-icon ui-icon-circle-triangle-n"></span>  *@   
+    </div>
+    <div style="width: 98%; border:none; margin-top:-15px; margin-bottom:10px;" class="ui-state-default">      
+        <div id="divFilterForm">
+            <center>
+                <form id="tourPaymentFiltersForm"> 
+                    <table style="margin-top:10px; margin-bottom:5px">
+                        <tr>
+                            <td>
+                                @Html.LabelFor(model => model.IMS_YEAR)
+                                <span style="color:red">*</span>            
+                            </td>
+                            <td>
+                                @Html.DropDownListFor(model => model.IMS_YEAR, new SelectList(Model.Years, "Value", "Text"), new { @id = "ddlYear" })
+                                <br />
+                                @Html.ValidationMessageFor(m=>m.IMS_YEAR)
+                            </td>
+                            <td>
+                                @Html.LabelFor(model => model.Month)
+                                <span style="color:red">*</span>   
+                            </td>
+                            <td>                            
+                                @Html.DropDownListFor(model => model.Month, new SelectList(Model.MonthList, "Value", "Text"), new { @id = "ddlMonth" ,@style="width:100px"})
+                                <br />
+                                @Html.ValidationMessageFor(m=>m.Month)
+                            </td>
+                            <td>
+                                @Html.LabelFor(model => model.Monitor)
+                                <span style="color:red">*</span>   
+                            </td>
+                            <td>
+                                @Html.DropDownListFor(model => model.Monitor, new SelectList(Model.MonitorList, "Value", "Text"), new { @id = "ddlMonitor" ,@style="width:100px"})
+                                <br />
+                                @Html.ValidationMessageFor(m=>m.Monitor)
+                            </td>
+                            <td>
+                                <input type="button" class="jqueryButton" value="Go" id="btnGo" name ="btnGo"/>
+                            </td>
+                        </tr>
+                    </table>                                        
+                    @*<table style="">
+                        <tr>
+                            
+                        </tr>
+                    </table>  *@
+                </form>
+            </center>
+        </div>
+    </div>
+
+    <div id="divTourPayment" style="margin-top:20px;width:98%;">                    
+
+    </div>
+
+    <div style="margin-top: 10px;width:98%;margin-right:5px;">
+    <table id="tblTourPaymentInvoiceList"></table>
+    <div id="divTourPaymentInvoicePager"></div>
+</div>
+@*<div style="margin-top: 10px;width:98%;margin-right:5px;">
+    <table id="tbTourInvoiceList"></table>
+    <div id="dvTourInvoicePager"></div>
+</div>*@
+
+
+ <div id="accordion" style="display:none;width:100%;margin-top:10px;">            
+    <h3 style="text-align:left"><a id="" href="#" style=" font-size:.9em;" >Add Invoice Details</a>
+        <a href="#"  style="float: right;">
+            <img style="border:none"  class="ui-icon ui-icon-closethick" onclick="CloseDetails();" /></a>
+    </h3>
+    <div id="divAddTourPayment" style="display:none;">
+    </div>                     
+</div>
+
+</center>

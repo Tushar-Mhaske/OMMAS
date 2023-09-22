@@ -1,0 +1,79 @@
+﻿@model PMGSY.Areas.AccountReports.Models.ReconciliationModel
+@{
+    //Layout = "~/Views/Shared/_Layout.cshtml";
+    //Layout = "~/Areas/AccountReports/Views/Account/_Layout.cshtml";
+
+    Layout = Request.IsAjaxRequest() ? null : "~/Areas/AccountReports/Views/Account/_Layout.cshtml";
+    
+}
+<script src="~/Areas/AccountReports/Scripts/Reconciliation.js"></script>
+@*<script src="~/Areas/IAPArea/Scripts/IAPHabitationReport.js"></script>*@
+
+ <div class="ui-widget-header innerDivHeader" style="margin-bottom: 05px; height: 20px">
+      Reconciliation Details
+       
+   </div>
+
+<div id="loadFilters">
+    <form id="frmReconciliation">
+        @Html.ValidationSummary(true)
+   @*     @Html.HiddenFor(model => model.localizedValue)*@
+        
+        @Html.HiddenFor(model => model.StateName)
+       @* @{
+            System.Globalization.CultureInfo CultureInfo = null;
+            CultureInfo = new System.Globalization.CultureInfo(Request.Cookies["language"] == null ? "en" : Request.Cookies["language"].Value.ToString());
+        }*@
+        <table style="width: 100%; border: .1em solid gray" class="table-content ui-corner-all">
+            <tr>
+                <td style="width: 2%;"></td>
+                  @*<td style="text-align: left; width: 5%;">*@
+                    @*  @HttpContext.GetLocalResourceObject(@"~\Views\Shared\Menu", "lblStates", CultureInfo)*@
+                   @* @Html.LabelFor(model => model.FundType)*@
+               @* </td>*@
+              @*  <td style="width: 15%;">
+                   
+                        @Html.DropDownListFor(model => model.FundType, new SelectList(Model.listFundType, "Value", "Text"), new { @title ="Fund Type", @tabindex = 1, @id = "ddlFundType", @style = "width:150px" })
+                        @Html.ValidationMessageFor(m => m.FundType)
+                 
+                </td>*@
+
+                <td style="text-align: left; width: 5%;">
+                    @*  @HttpContext.GetLocalResourceObject(@"~\Views\Shared\Menu", "lblStates", CultureInfo)*@
+                    @Html.LabelFor(model => model.StateCode)
+                </td>
+                <td style="width: 15%;">
+                    
+                        @Html.DropDownListFor(model => model.StateCode, new SelectList(Model.listStates, "Value", "Text"), new { @title ="State", @tabindex = 1, @id = "ddlState", @style = "width:150px" })
+                        @Html.ValidationMessageFor(m => m.StateCode)                    
+                </td>
+                <td style="text-align: left; width: 5%;">
+                    @Html.LabelFor(model => model.Month)
+                </td>
+                <td style="width: 15%">
+                    @Html.DropDownListFor(model => model.Month, new SelectList(Model.listMonth, "Value", "Text"), new { @title ="Month", @tabindex = 2, @id = "ddlMonth", @style = "width:150px" })
+                    @Html.ValidationMessageFor(model => model.Month)
+                   
+              
+                </td>
+
+                <td style="text-align: left; width: 5%;">
+                    @Html.LabelFor(model => model.Year)
+                </td>
+
+                <td style="width: 15%;">
+                    @Html.DropDownListFor(model => model.Year, new SelectList(Model.listYear, "Value", "Text"), new { @title ="Year", @tabindex = 3, @id = "ddlYear", @style = "width:150px" })
+                    @Html.ValidationMessageFor(model => model.Year)
+                </td>
+
+                <td>
+                    <input type="button" id="btnView" value="View"  Class="button"  Title="View Details"tabindex="4" />
+                </td>
+
+
+            </tr>
+        </table>
+    </form>
+</div>
+
+<div id="loadReport" class="divLoadReport"></div>

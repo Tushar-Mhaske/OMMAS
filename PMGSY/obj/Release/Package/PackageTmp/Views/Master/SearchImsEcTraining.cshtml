@@ -1,0 +1,50 @@
+﻿@model PMGSY.Models.Master.IMSEcTrainingSearchViewModel
+@{
+    ViewBag.Title = "SearchImsEcTraining";
+}
+
+<script src="~/Scripts/custom/Generic.js"></script>
+<script src="~/Scripts/Master/SearchImsEcTraining.js"></script>
+<form id="frmSearchImsEcTraining">
+    <div id="ImsEcTrainingList" style="width: 100%">
+        <div id="dvhdSearch" class="ui-corner-top ui-widget-header panelheader" style="text-align: left; height: 20px;">
+            @*margin-left:10px;margin-right:10px;margin-top:10px;*@
+            <span class="ui-jqgrid-title" style="float: left">&nbsp;Search</span>
+            <span id="spCollapseIconS" class="ui-icon ui-icon-circle-triangle-n" style="float: right"></span>
+        </div>
+        <div id="dvSearchParameter" class="ui-corner-bottom" style="display: block; border: 1px solid #B5B8C8;">
+            @*margin-left: 10px; margin-right: 10px;*@
+            @Html.Hidden("hdStatCode", PMGSY.Extensions.PMGSYSession.Current.StateCode)
+            <table style="width: 100%" class="rowstyle">
+                <tr>
+                    <td style="width: 2%;"></td>
+                    <td style="text-align: left; width: 8%;">
+                        @Html.LabelFor(model => model.StateCode)</td>
+                    <td style="text-align: left; width: 20%">
+                        @Html.DropDownListFor(model => model.StateCode,  new SelectList(Model.StateList, "Value", "Text"), new { @title = "State", @id = "ddlStateSerach", @tabindex = 1 })
+                        @Html.ValidationMessageFor(model => model.StateCode)
+                    </td>
+                     <td style="text-align: left; width: 8%;">
+                        @Html.LabelFor(model => model.PhaseYear)</td>
+                    <td style="text-align: left; width: 20%">
+                        @Html.DropDownListFor(model => model.PhaseYear, new SelectList(Model.PhaseYearList, "Value", "Text"), new { @title = "Year", @id = "ddlPhaseYearSerach", @tabindex = 1 })
+                        @Html.ValidationMessageFor(model => model.PhaseYear)
+                    </td>                                     
+                    <td style="text-align: left; width: 8%;">
+                        @Html.LabelFor(model => model.Mast_Designation)</td>
+                    <td style="text-align: left; width: 20%">
+                        @Html.DropDownListFor(model => model.Mast_Designation, new SelectList(Model.Mast_DesignationList, "Value", "Text"), new { @title = "Designation", @id = "ddlDesignationSerach", @tabindex = 1 })
+                
+                          @Html.ValidationMessageFor(model => model.Mast_Designation)
+                    </td>                   
+
+                    <td style="text-align: left">
+                        <input type="button" id="btnImsEcTrainingSearch" name="btnImsEcTrainingSearch" value="Search" class="jqueryButton" title="Search Training" />
+                    </td>
+                </tr>
+            </table>
+        </div>
+    </div>
+</form>
+
+

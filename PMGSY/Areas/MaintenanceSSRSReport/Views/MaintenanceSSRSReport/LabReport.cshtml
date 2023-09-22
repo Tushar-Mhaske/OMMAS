@@ -1,0 +1,30 @@
+﻿@using MvcReportViewer
+
+@model PMGSY.Areas.MaintenanceSSRSReport.Models.DLPExpenditureModel
+
+
+
+@Html.MvcReportViewer("/PMGSYCitizen/Updated_newQM_Lab_Report",
+     new
+     {   
+         
+          State=Model.StateCode,
+         Level=1,
+         District=0,
+         
+         PMGSY=Model.schemeCode,
+         Month= DateTime.Now.Month,
+         Year=DateTime.Now.Year
+        
+        // LEVEL=0,
+        // DISTRICT=0,
+        // BLOCK=0,
+         
+         //STATENAME=Model.StateName,
+        // Month =Model.MonthCode,
+         //YEAR=Model.PhaseYear
+          
+         
+     },
+     new { Height = 600, Width = "100%", style = "border:none;" })
+

@@ -1,0 +1,142 @@
+﻿@model PMGSY.Models.Execution.RoadSafetyViewModel
+
+@{
+    ViewBag.Title = "RoadSafetyLayout";
+}
+
+<script src="~/Scripts/custom/Generic.js"></script>
+<script src="~/Scripts/jquery.ui.datepicker.js"></script>
+<script src="~/Scripts/Execution/RoadSafetyLayout.js"></script>
+
+<form id="frmRoadSafetyLayout">
+    @Html.AntiForgeryToken()
+    @Html.ValidationSummary(true)
+    @Html.HiddenFor(model=>model.prRoadCode)
+    <div style="height: auto; width: 99%; text-align: left; padding-top: 0.6em;">
+        <table class="rowstyle ui-corner-all" style="width: 100%; border: solid black 1px;">
+            <tr>
+                <td style="width: 5%"></td>
+                <td style="width: 12%; font-weight: bold">
+                    <b>Block</b>
+                </td>
+                <td style="width: 15%">
+                    @Model.BlockName
+                </td>
+                <td style="width: 12%; font-weight: bold">
+                    <b>Package No.</b>
+                </td>
+                <td style="width: 15%">
+                    @Model.Package
+                </td>
+            </tr>
+            <tr>
+                <td></td>
+                <td style="font-weight: bold">
+                    <b>Road Name:</b>
+                </td>
+                <td>
+                    @Model.RoadName
+                </td>
+                <td style="font-weight: bold">Agreement Date:
+                </td>
+                <td id="Agreementdate">
+                    @Model.AgreementDate
+                </td>
+            </tr>
+            <tr>
+                <td></td>
+                <td style="font-weight: bold">
+                    <b>Sanction Cost(Rs. in Lakh):</b>
+                </td>
+                <td>
+                    @Model.Sanction_Cost
+                </td>
+                <td style="font-weight: bold">
+                    <b>Sanction Length(in Km)</b>
+                </td>
+                <td>
+                    @Model.Sanction_length
+                </td>
+            </tr>
+            <tr>
+                <td></td>
+                <td style="font-weight: bold">
+                    <b>Agreement Cost(Rs. in Lakh):</b>
+                </td>
+                <td>
+                    @Model.AgreementCost
+                </td>
+                <td style="font-weight: bold">
+                    <b>Year</b>
+                </td>
+                <td>
+                    @Model.SanctionYear
+                </td>
+            </tr>
+            @if (Model.changedLength > 0)
+            {
+                <tr>
+                    <td></td>
+                    <td style="font-weight: bold">
+                        <b>Additional Sanctioned Length(in Km):</b>
+                    </td>
+                    <td>
+                        @Model.changedLength
+                    </td>
+                    <td style="font-weight: bold"></td>
+                    <td></td>
+                </tr>
+            }
+        </table>
+    </div>
+    <br />
+    <div id="divHabitationDetails" style="width: 99%">
+        <table style="width: 99%">
+            <tr>
+                <td style="width: 10%; vertical-align: top; text-align: center;"></td>
+                <td style="width: 5%; vertical-align: top; text-align: center;">
+                    @Html.Label("Stage")<label style="color:red">*</label>
+                </td>
+                <td style="width: 10%; vertical-align: top;">
+                    @Html.DropDownListFor(model => model.stageCode, new SelectList(Model.stageList, "Value", "Text"), new { @id = "ddlStage", tabindex = 1, @title = "Stage", })
+                    <br />
+                    @Html.ValidationMessageFor(x => x.stageCode)
+                </td>
+
+                <td style="width: 5%; vertical-align: top">
+                    @Html.Label("Road Safety")<label style="color:red">*</label>
+                </td>
+                <td style="width: 10%; vertical-align: top">
+                    @Html.CheckBoxFor(model => model.isTSC, new { @title = "TSC", @id = "chkTSC", tabindex = 2 })@Html.Label("TSC")
+                    @Html.CheckBoxFor(model => model.isPIC, new { @title = "PIC", @id = "chkPIC", tabindex = 3 })@Html.Label("PIC")
+                    @Html.CheckBoxFor(model => model.isPIURRNMU, new { @title = "PIU/RRNMU", @id = "chkPIURRNMU", tabindex = 4 })@Html.Label("PIU/RRNMU")<br />
+                    <span style="display:none" id="errspn"></span>
+                    <br />
+                    @Html.HiddenFor(x => x.roadSafety)
+                    @Html.ValidationMessageFor(x => x.roadSafety)
+                </td>
+                <td style="width: 5%; vertical-align: top">
+                    @Html.Label("Audit Date")<label style="color:red">*</label>
+                </td>
+                <td style="width: 10%; vertical-align: top">
+                    @Html.TextBoxFor(model => model.auditDate, new { @title = "Audit Date",@readonly="readonly", @maxlength = 10, @tabindex = 5, @placeholder = "Enter Date...", @id = "txtAuditDate" })
+                    <br />
+                    @Html.ValidationMessageFor(x => x.auditDate)
+                </td>
+                <td style="width: 10%; vertical-align: top; text-align: center;"></td>
+            </tr>
+            <tr>
+                <td colspan="4"></td>
+                <td>
+                    <input type="button" name="btnSave" id="btnSave" value="Save" title="Save ROad Safety Details" class="jqueryButton" />
+                </td>
+                <td colspan="2"></td>
+            </tr>
+        </table>
+
+         <div id="dvRoadSafety" style="text-align:left;width:100%">
+            <table id="tbRoadSafetyList" style="width:100%"></table>
+            <div id="pagerHabitationRoadList"></div>
+        </div>
+    </div>
+</form>

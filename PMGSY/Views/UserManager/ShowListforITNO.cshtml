@@ -1,0 +1,23 @@
+﻿<!DOCTYPE html>
+
+
+<html>
+<head>
+    <script src="~/Scripts/custom/Generic.js"></script>
+    <script src="~/Scripts/UserManager/ShowListforITNO.js"></script>
+    
+</head>
+<body>
+    @Html.Hidden("RoleCode",PMGSY.Extensions.PMGSYSession.Current.RoleCode)
+    <center>
+<div id="divITNODetails" style="width: 100%; padding: 10px 0px 5px 0px;">
+    <table id="tblITNOUserList" class="scroll">
+    </table>
+    <div id="divITNOUserListPager"></div>
+</div>    
+
+</center>
+</body>
+</html>
+
+

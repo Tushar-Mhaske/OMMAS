@@ -1,0 +1,12 @@
+﻿@using MvcReportViewer
+
+@model PMGSY.Areas.LocationSSRSReports.Models.MPMLAConCodesViewModel
+
+@Html.MvcReportViewer("/PMGSYCitizen/MP_MLA_CON_Codes_Report",
+     new
+     {
+         CONTYPE = Model.ConstituencyType,
+         STATE = Model.StateCode,
+         StateName = Model.StateName,
+     },
+       new { Height = 600, Width = "100%", style = "border:none;" })

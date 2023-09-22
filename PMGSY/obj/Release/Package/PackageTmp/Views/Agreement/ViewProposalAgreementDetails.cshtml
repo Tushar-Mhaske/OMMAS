@@ -1,0 +1,25 @@
+﻿@{
+    ViewBag.Title = "ViewProposalAgreementDetails";
+}
+
+<script src="~/Scripts/custom/Generic.js"></script>
+<script src="~/Scripts/jquery.ui.accordion.js"></script>
+<script src="~/Scripts/Agreement/ViewProposalAgreementDetails.js"></script>
+
+
+@Html.Hidden("ProposalCode",ViewBag.ProposalCode as String)
+@Html.Hidden("ProposalType",ViewBag.AgreementType as String)
+<center>
+<div>
+    <div id="dvAgreementDetails"">
+        <table id="tbListAggDetails"></table>
+        <div id="pgAggDetails"></div>
+    </div>
+    <br />
+    @*<div id="dvMaintenanceDetails">
+        <table id="tbListMaintenanceDetails"></table>
+        <div id="pgMaintenanceDetails"></div>
+    </div>
+    <br />*@
+</div>
+</center>

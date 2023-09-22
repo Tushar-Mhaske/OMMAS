@@ -1,0 +1,141 @@
+﻿@model PMGSY.Models.Master.MasterContractorViewModel
+
+@{
+    ViewBag.Title = "ViewContractorDetails";
+}
+
+<script src="~/Scripts/custom/Generic.js"></script>
+
+<table id="Table1"  cellspacing="0" cellpadding="5px" class="rowstyle" style="margin-top:10px; text-align:left; border:ridge 0.1em #ccc; width:100%; padding-top:5px 5px 5px 5px;">
+    <tr>
+    </tr>
+    <tr>
+        <td>
+            @Html.Label("Type")
+        </td>
+        <td colspan="3">
+            @if (Model.MAST_CON_SUP_FLAG == "S")
+            {
+                <label>Supplier</label> 
+            }
+            else if (Model.MAST_CON_SUP_FLAG == "C")
+            {
+                <label>Contractor</label> 
+            }
+        </td>
+    </tr>
+    <tr>
+        <td>
+            @if (Model.MAST_CON_SUP_FLAG == "S")
+            {
+                <label>Supplier Name</label> 
+            }
+            else if (Model.MAST_CON_SUP_FLAG == "C")
+            {
+                <label>Contractor Name</label> 
+            }
+        </td>
+        <td>
+            @Html.DisplayFor(model=>model.MAST_CON_FNAME) <label> </label>@Html.DisplayFor(model=>model.MAST_CON_MNAME)<label> </label>@Html.DisplayFor(model=>model.MAST_CON_LNAME)
+        </td>
+        <td>
+            @Html.LabelFor(model=>model.MAST_CON_COMPANY_NAME)
+        </td>
+        <td>
+            @Html.DisplayFor(model=>model.MAST_CON_COMPANY_NAME)
+        </td>
+    </tr>
+    <tr>
+        <td>
+            <label>PAN/TAN No.</label>
+        </td>
+        <td>
+            @Html.DisplayFor(model=>model.MAST_CON_PAN)
+        </td>
+        <td>
+            @Html.Label("Is Active")
+        </td>
+        <td>
+            @if (Model.MAST_CON_STATUS == "A")
+            {
+                <label>Yes</label> 
+            }
+            else
+            {
+                <label>No</label> 
+            }
+        </td>
+    </tr>
+    <tr>
+        <td>
+            @Html.LabelFor(model=>model.MAST_CON_ADDR1)
+        </td>
+        <td>
+            @Html.DisplayFor(model=>model.MAST_CON_ADDR1)<label> </label>@Html.DisplayFor(model=>model.MAST_CON_ADDR2)
+        </td>
+        <td>
+            @Html.LabelFor(model=>model.MAST_CON_PIN)
+        </td>
+        <td>
+            @Html.DisplayFor(model=>model.MAST_CON_PIN)
+        </td>
+    </tr>
+    <tr>
+        <td>
+            @Html.LabelFor(model=>model.MAST_DISTRICT_CODE_ADDR)
+        </td>
+        <td>
+            @Html.DisplayFor(model=>model.DistrictName)
+        </td>
+        <td>
+            @Html.LabelFor(model=>model.MAST_STATE_CODE_ADDR)
+        </td>
+        <td>
+            @Html.DisplayFor(model=>model.StateName)
+        </td>
+    </tr>
+    <tr>
+        <td>
+            <label>Phone No.</label>
+        </td>
+        <td>
+            @Html.DisplayFor(model=>model.MAST_CON_STD1)<label>-</label> @Html.DisplayFor(model=>model.MAST_CON_PHONE1)
+        </td>
+        <td>
+            <label>Fax No.</label>
+        </td>
+        <td>
+            @Html.DisplayFor(model=>model.MAST_CON_STD_FAX)<label>-</label> @Html.DisplayFor(model=>model.MAST_CON_FAX)
+        </td>
+    </tr>
+    <tr>
+        <td>
+            @Html.LabelFor(model=>model.MAST_CON_MOBILE)
+        </td>
+        <td>
+            @Html.DisplayFor(model=>model.MAST_CON_MOBILE)
+        </td>
+        <td>
+            @Html.LabelFor(model=>model.MAST_CON_EMAIL)
+        </td>
+        <td>
+            @Html.DisplayFor(model=>model.MAST_CON_EMAIL)
+        </td>
+    </tr>
+    <tr>
+        <td>
+            @Html.Label("Legal Heir Name")
+        </td>
+        <td>
+            @Html.DisplayFor(model=>model.MAST_CON_LEGAL_HEIR_FNAME) <label> </label>@Html.DisplayFor(model=>model.MAST_CON_LEGAL_HEIR_MNAME)<label> </label>@Html.DisplayFor(model=>model.MAST_CON_LEGAL_HEIR_LNAME)
+        </td>
+        <td>
+            @Html.Label("Expiry Date")
+        </td>
+        <td>
+            @Html.DisplayFor(model=>model.MAST_CON_EXPIRY_DATE)
+        </td>
+        
+    </tr>
+</table>
+

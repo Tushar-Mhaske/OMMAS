@@ -1,0 +1,21 @@
+﻿@using MvcReportViewer
+@model PMGSY.Areas.AccountReports.Models.MonthRevokeModel
+
+
+<div id="dvCurrentAssetReport1" style="width: 100%; height: 573px; overflow-x: hidden; overflow-y: hidden">
+    @Html.MvcReportViewer("/PMGSYCitizen/MonthRevokeDetails",
+         new
+         {
+            UserID=Model.UserID,
+	        SrrdaCode =Model.Agency,
+	        DPIUCode =Model.Piu==1?0:Model.Piu,
+	        SrrdaPIUFlag=Model.SRRDA_DPIU,
+	        FromMonth=Model.Month,
+	        FromYear=Model.Year,
+            ToMonth=Model.ToMonth,
+	        ToYear =Model.ToYear,
+	        FundType =Model.FundTye,
+	        DurationFlag=Model.DurationFlag
+         },
+         new {  style = "border:none; width:100%; height:100%" })
+</div>

@@ -1,0 +1,60 @@
+﻿@model PMGSY.Models.LockUnlock.FreezeUnfreezeReportModel
+
+<script src="~/Scripts/custom/Generic.js"></script>
+<script src="~/Scripts/LockUnlock/ListBatchFreezeView.js"></script>
+
+<center>
+    <div id="dvhdLockUnlockReportDetails" class="ui-corner-top ui-widget-header panelheader" style="text-align: left; height: 20px;">@*margin-left:0px;margin-right:0px;margin-top:0px; *@
+    <span class="ui-jqgrid-title" style="float: left">&nbsp;Freeze Unfreeze Report</span>
+
+    @*<span id="spCollapseIconCN" class="ui-icon ui-icon-circle-triangle-n" style="float: right"></span>*@
+</div>
+<div id="dvFilter" style="margin-top: 0px">
+    <div style="width: 99.9%; border: 1px solid #B5B8C8; margin-top: 0px; margin-bottom: 0px;" class="ui-corner-bottom">
+        <form id="frmFilterDetails">
+            
+            <table style="margin-top: 10px; margin-bottom: 5px; width:100%;" class="rowstyle">
+                <tr>
+                    <td style="width: 5%;"></td>
+                    <td style="width:5%;text-align:center">State
+                    </td>
+                    <td style="width:15%">
+                        @Html.DropDownListFor(model => model.MAST_STATE_CODE, new SelectList(Model.STATES, "Value", "Text"), new { @title = "Please select State", @Placeholder = 1, @id = "ddlStates" })
+                        @Html.ValidationMessageFor(model => model.MAST_STATE_CODE)
+                    </td>
+                    <td style="width:5%;text-align:center">Year
+                    </td>
+                    <td style="width:15%">
+                        @Html.DropDownListFor(model => model.YearCode, new SelectList(Model.Years, "Value", "Text"), new { @title = "Please select Year", @Placeholder = 2, @id = "ddlYears" })
+                        @Html.ValidationMessageFor(model => model.YearCode)
+                    </td>
+                    <td style="width:5%;text-align:center">Batch
+                    </td>
+                    <td style="width:15%">
+                        @Html.DropDownListFor(model => model.IMS_BATCH, new SelectList(Model.BATCHS, "Value", "Text"), new { @title = "Please select Batch", @Placeholder = 3, @id = "ddlBatch" })
+                        @Html.ValidationMessageFor(model => model.IMS_BATCH)
+                    </td>
+                    <td style="width:5%;text-align:center">Scheme
+                    </td>
+                    <td style="width:15%">
+                        @Html.DropDownListFor(model => model.PMGSYScheme, new SelectList(Model.lstScheme, "Value", "Text"), new { @title = "Please select Scheme", @Placeholder = 4, @id = "ddlSchemes" })
+                        @Html.ValidationMessageFor(model => model.PMGSYScheme)
+                    </td>
+                    <td colspan="2">
+                        <center>
+                        <input type="button" name="btnView" value="View Details" id="btnViewDetails" class="jqueryButton" />
+                        </center>
+                    </td>
+                    <td style="width: 5%;"></td>
+                </tr>
+                <tr></tr>
+            </table>
+            
+        </form>
+    </div>
+    <div id="dvReportDetails" style="margin-top: 20px; width: 98%;">
+        <table id="tbrptDetails"></table>
+        <div id="dvpgrptDetails"></div>
+    </div>
+</div>
+</center>

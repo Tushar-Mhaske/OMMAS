@@ -1,0 +1,250 @@
+﻿@using PMGSY.Extensions.MvcJqGrid
+@using System.Collections.Generic
+<script src="~/Scripts/i18n/jquery.jqGrid.src.js"></script>
+@model IEnumerable< PMGSY.Models.UserManager.User_Master>
+ 
+@{
+    ViewBag.Title = "Index";
+}
+<script src="~/Scripts/custom/Generic.js"></script>
+
+<script type="text/javascript">
+    $(document).ready(function () {
+       
+        //Admin Home Page -- Edit User
+        $("#tblUserList").jqGrid({
+            url: '/UserManager/UserList',
+            datatype: "json",
+            mtype: "POST",
+            //postData: { roleId: $('#hidRoleId').val(), levelId: $('#hidLevelId').val() },
+            loadError: function (r, st, error) {
+                $("#message").html("status is " + r.status);
+            },
+            height: 'auto',
+            width:500,
+            rowNum: 30,
+            colNames: ["UserName", "LevelName", "State", "District", "Department", "IsLocked", "IsActive", "Edit"],
+            colModel: [
+                         { name: 'UserName', index: 'UserName', width: 200, align: "left" },
+                         { name: 'LevelName', index: 'LevelName', width: 50, align: "left" },
+                         { name: 'State', index: 'State', width: 200, align: "left" },
+                         { name: 'District', index: 'District', width: 200, align: "left" },
+                         { name: 'Department', index: 'Department', width: 180, align: "left" },
+                         { name: 'IsLocked', index: 'IsLocked', width: 80, align: "center"},
+                         { name: 'IsActive', index: 'IsActive', width: 200, align: "center"},
+                         { name: 'Edit', index: 'Edit', width: 200, align: "center"}
+            ],
+            viewrecords: true,
+            rownumbers: true,
+            rownumWidth: 35,
+            rownum:10,
+            loadComplete: function (rowid) {
+                ////To hide Heading of columns
+                // var grid = $("#RoleMenuMappingDetailsDiv");
+                // var gview = grid.parents("div.ui-jqgrid-view");
+                // gview.children("div.ui-jqgrid-hdiv").hide();
+
+                //Hide Title bar
+                //$(".ui-jqgrid-titlebar").hide();
+            },
+            caption: "User List"
+        });
+
+
+
+
+        $('#btnAddUser').click(function (evt) {
+                $.ajax({
+                    url: '/UserManager/Create',
+                    type: "GET",
+                    cache: false,                    
+                    beforeSend: function () {
+                        blockPage();
+                    },
+                    error: function (xhr, status, error) {
+                        unblockPage();
+                        Alert("Request can not be processed at this time,please try after some time!!!");
+                        return false;
+                    },
+                    success: function (response) {
+                        if (response.Success) {                            
+                            $("#mainDiv").load("/UserManager/Create");
+                        }
+                        else {
+                            $('#mainDiv').html(response);
+                        }
+                        unblockPage();
+                    }
+                }); 
+        });
+    });
+
+    function LockUnLockUser(id , isLock) {               
+        var operation = true;
+        if (isLock == 'Unlock') {
+            operation = false;
+        }      
+        var param = id + "$" + operation;
+        blockPage();
+        $.ajax({
+            url: "/UserManager/LockUnLockUser/"+param,//+ id + "/" + operation + "/" + Math.random(),
+            method: "POST",
+            async: false,
+            cache: false,
+            error: function (jqXHR, textStatus, errorThrown) {
+                alert("error while processing your request. 1" + jqXHR.responseText);
+                unblockPage();
+            },
+            success: function (data) {
+                var regex = new RegExp('"', "g")
+                alert(data.replace(regex, ''));
+                $("#Users").trigger("reloadGrid");
+                unblockPage();
+            }
+        });
+        return false;
+    }
+
+    function ActivateUser(id, operationType) {
+        var operation = false;
+        if (operationType == 'InActive') {
+            operation = true;
+        }
+        var param = id + "$" + operation;
+        blockPage();
+        $.ajax({
+            url: "/UserManager/ActivateUser/" + param,//+ id + "/" + operation + "/" + Math.random(),
+            method: "POST",
+            async: false,
+            cache: false,
+            error: function (jqXHR, textStatus, errorThrown) {
+                alert("error while processing your request. 1" + jqXHR.responseText);
+                unblockPage();
+            },
+            success: function (data) {
+                var regex = new RegExp('"', "g")
+                alert(data.replace(regex, ''));
+                $("#Users").trigger("reloadGrid");
+                unblockPage();
+            }
+        });
+        return false;
+    }
+
+</script>  
+<div class="ui-widget-header innerDivHeader">&nbsp;&nbsp;User List</div>        
+<br />
+<center>
+    <table>
+        <tr>
+            <td>
+                 <input type="button" id="btnAddUser" value="Create User" class="jqueryButton"/>
+            </td>
+        </tr>
+        <tr>
+            <td>
+                <table id="tblUserList"></table>
+                <div id="tableMain" class="jqueryTable" style="width:1050px">    
+        
+@*         
+        @{
+    
+        Column col1 = new Column("UserID");
+        col1.SetHidden(true);
+        col1.SetWidth(100);
+        col1.SetKey(true);
+
+        Column col2 = new Column("UserName");
+        col2.SetLabel("User Name ");
+        col2.SetWidth(50);
+        col2.SetAlign(Align.Center);
+
+        Column col3 = new Column("LevelName");
+        col3.SetLabel("Level Name ");
+        col3.SetWidth(50);
+        col3.SetAlign(Align.Center);
+
+        Column col4 = new Column("Role Name");
+        col4.SetLabel("Role Name");
+        col4.SetAlign(Align.Center);
+        col4.SetWidth(50);
+        col4.SetSearchType(Searchtype.Select);        
+
+
+        Column col5 = new Column("State");
+        col5.SetLabel("State");
+        col5.SetAlign(Align.Center);
+        col5.SetWidth(200);
+        
+        Column col6 = new Column("District");
+        col6.SetLabel("District");
+        col6.SetAlign(Align.Center);
+        col6.SetWidth(50);
+        
+        Column col7 = new Column("DPIU");
+        col7.SetLabel("DPIU");
+        col7.SetAlign(Align.Center);
+        col7.SetWidth(50);
+        
+        Column col8 = new Column("isLocked");
+        col8.SetLabel("Lock/UnLock");
+        col8.SetAlign(Align.Center);
+        col8.SetWidth(50);
+        //col8.SetFormatter(Formatters.dynamicLink, " onClick: function (rowId, iRow, iCol, cellValue, e) { LockUnLockUser(rowId,cellValue);  }");
+
+        Column col9 = new Column("IsActive");
+        col9.SetLabel("Status");
+        col9.SetAlign(Align.Center);
+        col9.SetWidth(50);
+        //col9.SetFormatter(Formatters.dynamicLink, " onClick: function (rowId, iRow, iCol, cellValue, e) { ActivateUser(rowId,cellValue);  }");
+
+
+        Column col10 = new Column("Edit");
+        col10.SetLabel("Edit");
+        col10.SetAlign(Align.Center);
+        col10.SetWidth(50);
+        col10.SetFormatter(Formatters.Showlink,"baseLinkUrl:'/UserManager/Edit'");
+      
+        
+        IEnumerable<Column> columnList = new List<Column> { 
+                        col1,
+                        col2,
+                        col3,
+                        col4,
+                        col5,
+                        col6,
+                        col7,col8,col9,col10
+                    };
+}
+@(
+        Html.Grid("Users")
+        .SetCaption("User List")        
+        .AddColumns(columnList)       
+        .SetUrl(Url.Action("GetUserList"))
+        .SetDataType(DataType.Json)
+        .SetWidth(1000)    
+        .SetRowNum(10)
+        .SetRowNumbers(true)        
+        .SetViewRecords(true)
+        .SetPager("pager")
+        .SetPgInput(false)
+        .SetEmptyRecords("No record Found")        
+        .SetShowAllSortIcons(false)        
+        .SetShrinkToFit(true)
+        .SetAutoEncode(true)        
+        .SetSearchClearButton(true)
+        .SetPgButtons(true)
+        .SetAutoWidth(true)
+        .SetAltRows(true)              
+        .SetLoadText("Loading the Grid Please Wait...")
+        .SetLoadUi(PMGSY.Extensions.MvcJqGrid.LoadUi.Block)         
+)*@
+</div>
+            </td>
+
+        </tr>
+
+    </table>
+
+
+</center>

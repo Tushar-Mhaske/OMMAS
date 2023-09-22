@@ -1,0 +1,95 @@
+﻿@model PMGSY.Models.OnlineFundRequest.DocumentUploadViewModel
+
+<script src="~/Scripts/custom/Generic.js"></script>
+<script src="~/Scripts/jquery.ui.accordion.js"></script>
+<script src="~/Scripts/OnlineFundProcess/UploadDetails.js"></script>
+
+<div id="dvAUploadDetails" class="ui-corner-bottom" style="display: block; border: 1px solid #B5B8C8; text-align: left">
+    <div id="dvErrorMessage" class="ui-widget ui-state-error ui-corner-all" style="padding: 0.7em .7em; margin: 5px 5px 5px 5px; display: none">
+        <span class="ui-icon ui-icon-alert" style="float: left; margin-right: .3em;"></span>
+        <strong>Alert:</strong> <span id="errmessage"></span>
+    </div>
+    @using (Html.BeginForm("UploadDocuments", "OnlineFund", FormMethod.Post, new { enctype = "multipart/form-data", @id = "frmRequestDocument" }))
+    {
+       
+        <center>@Html.ValidationSummary(true)</center>
+        <center>
+        <table style="width: 100%; margin-top: 10px;" class="rowstyle">
+            <tr>
+                <td colspan="5" style="display: none">
+                    @Html.HiddenFor(model => model.EncryptedRequestId)
+                    @Html.HiddenFor(model => model.DocumentBefore)
+                    @Html.Hidden("RoleCode",PMGSY.Extensions.PMGSYSession.Current.RoleCode)
+                </td>
+            </tr>
+            @if (Model.DocumentBefore == "N" && PMGSY.Extensions.PMGSYSession.Current.RoleCode == 2)
+            {
+                foreach (var item in Model.lstDocuments)
+                {
+                <tr>
+                    <td style="width: 5%;"></td>
+                    <td style="text-align: left; width: 25%;">
+                        @item.Text  in (@(item.Value == "1" ? ".pdf | .doc | .docx" : (item.Value == "2" ? ".xls | .xlsx" : (item.Value == "3" ? ".pdf" : ".pdf | .doc | .docx"))))
+                        <label style="color: red;">*</label>
+                    </td>
+                    <td style="text-align: left; width: 15%;display:none">
+                        <select name="@("ddl" + item.Text.Replace(' ', '_'))" id="@("ddl" + item.Text)">
+                            <option value="@item.Value">@item.Text</option>
+                        </select>
+                    </td>
+                    <td>
+                        <input type="file" name="file" id="@(item.Text.Replace(' ', '_'))" tabindex="1" />
+                    </td>
+                    <td>
+                        @Html.Label("Remarks")<label style="color: red;">*</label>
+                    </td>
+                    <td>
+                        <textarea name="@("Remarks" + item.Text.Replace(' ', '_'))" id="@("txt" + item.Text.Replace(' ', '_'))" tabindex="1" />
+                    </td>
+                </tr>
+                
+                }
+                <tr>
+                    <td colspan="7">
+                        <center>
+                    <table>
+                        <tr>
+                        <td>
+                            <input type="submit" value="Save" name="btnSave" id="btnSave" class="jqueryButton" tabindex ="7" />
+                            <input type="reset" value="Reset" name="btnReset" id="btnReset" class="jqueryButton" tabindex="8"/>
+                        </td>
+                         </tr>
+                    </table>
+                </center>
+                    </td>
+                </tr>
+            }
+            else if (PMGSY.Extensions.PMGSYSession.Current.RoleCode != 2)
+            {
+                <div id="dvDocumentList" style="width:95%;margin-left:20px;float:right">
+                    <table id="tblstDocuments"></table>
+                    <div id="pglstDocuments"></div>
+                </div>    
+            }
+            else
+            {
+                <div id="dvDocumentList" style="width:95%;float:right">
+                    <table id="tblstDocuments"></table>
+                    <div id="pglstDocuments"></div>
+                </div> 
+            }
+
+            @if (PMGSY.Extensions.PMGSYSession.Current.RoleCode == 2)
+            {
+                
+                <div id="dvDocumentList" style="width:95%;float:right;margin-top:20px">
+                    <table id="tblstDocuments"></table>
+                    <div id="pglstDocuments"></div>
+                </div> 
+               
+            }
+
+        </table>
+        </center>
+    }
+</div>

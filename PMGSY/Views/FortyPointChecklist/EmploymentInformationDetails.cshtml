@@ -1,0 +1,31 @@
+﻿
+@{
+    ViewBag.Title = "EmploymentInformationDetails";
+}
+    <script type="text/javascript">
+    $.blockUI({ message: '<img src="/Content/images/ajax-loader.gif"/>' });
+
+    $(document).ready(function () {
+        $.unblockUI();
+    });
+</script>
+
+<script type="text/javascript" src="@Url.Content("~/Scripts/jquery.ui.dialog.js")"> </script>
+<script type="text/javascript" src="@Url.Content("~/Scripts/jquery.ui.accordion.js")"> </script>
+<script src="@Url.Content("~/Scripts/custom/Generic.js")" type="text/javascript" ></script>
+    <script src="~/Scripts/FortyPointChecklist/EmploymentDetails.js"></script>
+<br />
+    <center>
+        <div style="height:20px; width: 100%; text-align:left; padding-top: 0.6em;" class="ui-state-default ui-corner-all" > 
+                   &nbsp; 
+                   <strong>Check List Point Id:</strong>&nbsp;  &nbsp;@ViewBag.CheckListId &nbsp;  &nbsp;  &nbsp;  &nbsp;  &nbsp;  &nbsp;  &nbsp; 
+                 <strong> Check List Issue:</strong>&nbsp;  &nbsp; @ViewBag.CheckListIssue
+        </div>
+
+      <div id="dvFrmAddDetails" style="display:none;width:100%"></div>
+        <br />
+        <div id="employmentInfo">
+            <table id="tableEmploymentDetails"></table>
+            <div id="navGridEmploymentDetails"></div>        
+        </div>
+    </center>

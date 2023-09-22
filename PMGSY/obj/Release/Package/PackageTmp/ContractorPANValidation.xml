@@ -1,0 +1,13 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+ <PANValidationExclusion>
+  <Exclusion>
+    <StateCode>20</StateCode>
+    <DateFrom>10/01/2022</DateFrom>
+    <DateTo>16/01/2022</DateTo>
+  </Exclusion>
+ <Exclusion>
+    <StateCode>03</StateCode>
+    <DateFrom>10/01/2022</DateFrom>
+    <DateTo>16/01/2022</DateTo>
+  </Exclusion>
+</PANValidationExclusion>

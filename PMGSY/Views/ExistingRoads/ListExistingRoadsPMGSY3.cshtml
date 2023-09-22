@@ -1,0 +1,171 @@
+﻿@model PMGSY.Models.ExistingRoads.ListDRRPPmgsy3ViewModel
+@{
+    ViewBag.Title = "ListExecutionProgress";
+}
+
+<script src="~/Scripts/custom/Generic.js"></script>
+
+<center>
+
+    @*@{ if (PMGSY.Extensions.PMGSYSession.Current.PMGSYScheme == 4 && Model.isPMGSY3)*@
+    @*Added condition for Scheme 5 (Village Vibrent Road) by Shreyas by 22-06-23*@
+    @{ if ((PMGSY.Extensions.PMGSYSession.Current.PMGSYScheme == 4 || PMGSY.Extensions.PMGSYSession.Current.PMGSYScheme == 5) && Model.isPMGSY3)
+        {
+            <script src="~/Scripts/ExistingRoads/ExistingRoadsPMGSY3.js"></script>
+            <script src="~/Scripts/jquery.ui.accordion.js"></script>
+            <script src="~/Scripts/jquery.ui.tabs.js"></script>
+
+            <div style="width:96%; height:20px;border:none; margin-top:5px; margin-bottom:-15px; " class="ui-state-default">
+                <span style="float:right;margin-right:2Px; margin-top:2px" id="idFilterDiv" class="ui-icon ui-icon-circle-triangle-n"></span>
+            </div>
+            <div style="width: 96%; border:none; margin-top:-15px; margin-bottom:10px;" class="ui-state-default">
+                <div id="divFilterForm">
+                    <form id="frmDRRPPMGSY3">
+                        @Html.AntiForgeryToken()
+                        <center>
+                            <table style="margin-top:10px; margin-bottom:5px">
+                                <tr>
+                                    @Html.Hidden("PMGSYScheme", PMGSY.Extensions.PMGSYSession.Current.PMGSYScheme)
+                                    @Html.Hidden("RoleCode", PMGSY.Extensions.PMGSYSession.Current.RoleCode)
+                                    @Html.Hidden("StateCodeInSession", PMGSY.Extensions.PMGSYSession.Current.StateCode)
+                                    <td style="text-align:left;width:17%">
+                                        @if (PMGSY.Extensions.PMGSYSession.Current.RoleCode == 25 || PMGSY.Extensions.PMGSYSession.Current.RoleCode == 53 || PMGSY.Extensions.PMGSYSession.Current.RoleCode == 65)//Changes by SAMMED A. PATIL for mordviewuser
+                                        {
+                                        <td style="text-align:right;width:5%">
+                                            @Html.Label("State")
+                                        </td>
+                                        <td style="text-align:center;width:20%">
+                                            @Html.DropDownListFor(model => model.StateCode, new SelectList(Model.lstStateCode, "Value", "Text"), new { @id = "ddlStates", @title = "States", @tabindex = 1 })
+                                            <br />
+                                            @Html.ValidationMessageFor(x => x.StateCode)
+                                        </td>
+                                        <td style="text-align:right;width:5%">
+                                            @Html.Label("District")
+                                        </td>
+                                        <td style="text-align:center;width:20%">
+                                            @Html.DropDownListFor(model => model.DistrictCode, new SelectList(Model.lstDistrictCode, "Value", "Text"), new { @id = "ddlDistrict", @title = "Districts", @tabindex = 2 })
+                                        </td>
+                                    }
+                                        @if (PMGSY.Extensions.PMGSYSession.Current.RoleCode == 2)
+                                        {
+                                            <td style="text-align:right;width:5%">
+                                                @Html.Label("District")
+                                            </td>
+                                            <td style="text-align:center;width:20%">
+                                                @Html.DropDownListFor(model => model.DistrictCode, new SelectList(Model.lstDistrictCode, "Value", "Text"), new { @id = "ddlDistricts", @title = "Districts", @tabindex = 2 })
+                                                <br />
+                                                @Html.ValidationMessageFor(x => x.DistrictCode)
+                                            </td>
+                                        }
+                                        <td style="text-align:left;width:5%">
+                                            @Html.Label("Block")
+                                        </td>
+                                        <td style="text-align:left;width:11%">
+                                            @Html.DropDownListFor(model => model.BlockCode, new SelectList(Model.lstBlockCode, "Value", "Text"), new { @id = "ddlBlocks", @title = "Blocks", @tabindex = 3 })
+                                            <br />
+                                            @Html.ValidationMessageFor(x => x.BlockCode)
+                                        </td>
+
+                                        <td style="text-align:left;width:5%">
+                                            @Html.Label("Category")
+                                        </td>
+                                        <td style="text-align:left;width:2%">
+                                            @Html.DropDownListFor(model => model.Category, new SelectList(Model.lstCategory, "Value", "Text"), new { @id = "ddlRoadCategory", @title = "Road Category", @tabindex = 4 })
+                                            <br />
+                                            @Html.ValidationMessageFor(x => x.Category)
+                                        </td>
+                                        <td style="text-align:left;width:17%">
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td colspan="10">
+                                            <center>
+                                                <table>
+                                                    <td>
+                                                        <input type="button" class="jqueryButton" value="List Existing Roads" title="Click here to view existing road list" id="btnListExistingRoads" name="btnListExistingRoads" />
+                                                    </td>
+                                                    @if (PMGSY.Extensions.PMGSYSession.Current.RoleCode == 22)
+                                                    {
+                                                        if (Convert.ToInt32(Model.isUnlocked) > 0)
+                                                        {
+                                                            <td>
+                                                                <input type="button" value="Add Existing Road" class="jqueryButton" title="Click here to add existing road" id="btnAddExistingRoad" name="btnAddExistingRoad" tabindex="5" />
+                                                            </td>
+                                                        }
+                                                        else
+                                                        {
+                                                            <td>
+                                                                @*<input type="button" value="Add Existing Road" class="jqueryButton" title="Click here to add existing road" id="btnAddExistingRoad" style="display:none;" name="btnAddExistingRoad"  tabindex="5"/>*@
+                                                                <input type="button" value="Add Existing Road" class="jqueryButton" title="Click here to add existing road" id="btnAddExistingRoad" name="btnAddExistingRoad" tabindex="5" />
+                                                            </td>
+                                                        }
+                                                    }
+                                                    else if (PMGSY.Extensions.PMGSYSession.Current.RoleCode == 25)
+                                                    {
+                                                        <td>
+                                                            <input type="button" value="Add Existing Road" class="jqueryButton" title="Click here to add existing road" id="btnAddExistingRoad" name="btnAddExistingRoad" tabindex="5" />
+                                                        </td>
+                                                    }
+                                                </table>
+                                            </center>
+                                        </td>
+
+                                    </tr>
+                                </table>
+                            </center>
+                        </form>
+                    </div>
+
+                </div>
+                <div id="dvExistingRoads" style="margin-top:20px; width:96%">
+                    <table id="tbExistingRoadsList"></table>
+                    <div id="dvExistingRoadsListPager"></div>
+                </div>
+                <br />
+                <br />
+                <div id="accordion" style="display:none;width:96%">
+                    <h3 style="text-align:left">
+                        <a id="" href="#" style=" font-size:.9em;">Add Existing Roads Details</a>
+                        <a href="#" style="float: right;">
+                            <img src="" class="ui-icon ui-icon-closethick" onclick="CloseExistingRoadsDetails();" />
+                        </a>
+                    </h3>
+
+                    <div id="divExistingRoadsForm" style="display:none;">
+                    </div>
+                </div>
+            }
+            else
+            {
+                <table class="rowstyle">
+                    <tr>
+                        <td style="width: 5%;"></td>
+                        <td style="width: 25%;">
+                            <strong>
+                                @if (PMGSY.Extensions.PMGSYSession.Current.PMGSYScheme != 4)
+                                {
+                                    <label>Existing Roads PMGSY3 details are available only for PMGSY 3 Scheme and PMGSY 3 enabled states</label>
+                                }
+                                @if (!Model.isPMGSY3)
+                                {
+                                    if (PMGSY.Extensions.PMGSYSession.Current.RoleCode == 25)
+                                    {
+                                        <label>Details not available for MoRD</label>
+                                    }
+                                    else
+                                    {
+                                        <label>State is not enabled for PMGSY3</label>
+                                    }
+                                }
+                            </strong>
+                        </td>
+                        <td style="width: 5%;"></td>
+                        <td style="width: 15%;"></td>
+                    </tr>
+                </table>
+            }
+    }
+</center>
+
+<div id="dvShiftDRRPBlockPMGSY3">
+</div>

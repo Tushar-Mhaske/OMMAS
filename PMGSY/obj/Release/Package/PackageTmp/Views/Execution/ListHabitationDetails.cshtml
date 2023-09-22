@@ -1,0 +1,227 @@
+﻿@model PMGSY.Models.Execution.ExecutionRoadStatusViewModel
+
+@{
+    ViewBag.Title = "ListHabitationDetails";
+}
+
+<link href="~/Content/Multiselect/multi-select.css" rel="stylesheet" />
+<script src="~/Scripts/custom/Generic.js"></script>
+@*<script src="~/Scripts/Multiselect/jquery.multi-select.js"></script>*@
+@*<script src="~/Scripts/jquery.multiselect.min.js"></script>*@
+<script src="~/Scripts/Execution/jquery.multi-select.js"></script>
+<script async defer src="~/Scripts/Execution/ListHabitationDetails.js"></script>
+<script src="~/Scripts/jquery-ui.js"></script>
+<script>
+    var date = new Date();
+    var firstDay = new Date(date.getFullYear(), date.getMonth(), 1);
+    var lastDay = new Date(date.getFullYear(), date.getMonth() + 1, 0);
+    var cur = date.getDate();
+    var difference = (lastDay.getDate() - cur);
+
+    //var startDate = parseInt(cur) <= 5 ? new Date(date.getFullYear(), parseInt(date.getMonth()) == 1 ? 12 : parseInt(date.getMonth() - 1), 1) : new Date(date.getFullYear(), date.getMonth(), 1);
+    //var startDate = parseInt(cur) <= 5 ? new Date(parseInt(date.getMonth()) == 0 ? parseInt(date.getMonth() - 1) : date.getFullYear(), parseInt(date.getMonth()) == 0 ? 12 : parseInt(date.getMonth() - 1), 1) : new Date(date.getFullYear(), date.getMonth(), 1);
+
+    //Change by Avinash15 on 11/04/2019 Relaxation for April Month to 15..Prev it was 10.
+    /*var startDate = date.getMonth() == 3 ? (parseInt(cur) <= 10 ? new Date(parseInt(date.getMonth()) == 0 ? parseInt(date.getMonth() - 1) : date.getFullYear(), parseInt(date.getMonth()) == 0 ? 12 : parseInt(date.getMonth() - 1), 1) : new Date(date.getFullYear(), date.getMonth(), 1))
+                                         : (parseInt(cur) <= 5 ? new Date(parseInt(date.getMonth()) == 0 ? parseInt(date.getMonth() - 1) : date.getFullYear(), parseInt(date.getMonth()) == 0 ? 12 : parseInt(date.getMonth() - 1), 1) : new Date(date.getFullYear(), date.getMonth(), 1));  */
+    var startDate = date.getMonth() == 3 ? (parseInt(cur) <= 8 ? new Date(parseInt(date.getMonth()) == 0 ? parseInt(date.getMonth() - 1) : date.getFullYear(), parseInt(date.getMonth()) == 0 ? 12 : parseInt(date.getMonth() - 1), 1) : new Date(date.getFullYear(), date.getMonth(), 1))
+                                         : (parseInt(cur) <= 5 ? new Date(parseInt(date.getMonth()) == 0 ? parseInt(date.getMonth() - 1) : date.getFullYear(), parseInt(date.getMonth()) == 0 ? 12 : parseInt(date.getMonth() - 1), 1) : new Date(date.getFullYear(), date.getMonth(), 1));
+
+    var date = new Date();
+    var firstDay = new Date(date.getFullYear(), date.getMonth() - 1, 1);
+    var lastDay = new Date(date.getFullYear(), date.getMonth(), 0);
+
+    //if max Date is Zero it is defaultly taking Today's Date
+    //Change by Avinash15 on 11/04/2019 Relaxation for April Month to 15..Prev it was 10.
+    //var maxDate = (date.getMonth() == 3 && parseInt(cur) <= 10) ? lastDay : 0;
+    var maxDate = (date.getMonth() == 3 && parseInt(cur) <= 8) ? lastDay : 0;
+
+    //console.log('firstDay= ' + firstDay);
+    //console.log('lastDay= ' + lastDay);
+
+    //var lastDayWithSlashes = (lastDay.getDate()) + '/' + (lastDay.getMonth() + 1) + '/' + lastDay.getFullYear();
+
+    //console.log('lastDayWithSlashes= ' + lastDayWithSlashes);
+    //console.log('setDate= ' + new Date(lastDay.getFullYear(), (lastDay.getMonth()), lastDay.getDate()));
+
+    $("#datepicker").datepicker({
+        changeMonth: true,
+        changeYear: false,
+        //maxDate: "+" + difference + "D",
+        dateFormat: "dd/mm/yy",
+        showOn: "button",
+        buttonImage: "/Content/images/calendar_2.png",
+        buttonImageOnly: true,
+        buttonText: "Select date",
+        //minDate: firstDay,
+        maxDate: maxDate,
+        minDate: startDate,
+    });
+    $("#datepicker").datepicker("setDate", new Date(lastDay.getFullYear(), (lastDay.getMonth()), lastDay.getDate()));
+</script>
+
+
+<form id="frmListHabitation">
+    <div style="height: auto; width: 99%; text-align: left; padding-top: 0.6em;">
+        <table class="rowstyle ui-corner-all" style="width: 100%; border: solid black 1px;">
+            <tr>
+                <td style="width: 5%"></td>
+                <td style="width: 12%; font-weight: bold">
+                    <b>Block</b>
+                </td>
+                <td style="width: 15%">
+                    @Model.BlockName
+                </td>
+                <td style="width: 12%; font-weight: bold">
+                    <b>Package No.</b>
+                </td>
+                <td style="width: 15%">
+                    @Model.Package
+                </td>
+            </tr>
+            <tr>
+                <td></td>
+                <td style="font-weight: bold">
+                    <b>Road Name:</b>
+                </td>
+                <td>
+                    @Model.RoadName
+                </td>
+                <td style="font-weight: bold">Agreement Date:
+                </td>
+                <td>
+                    @Model.AgreementDate
+                </td>
+            </tr>
+            <tr>
+                <td></td>
+                <td style="font-weight: bold">
+                    <b>Sanction Cost(Rs. in Lakh):</b>
+                </td>
+                <td>
+                    @Model.Sanction_Cost
+                </td>
+                <td style="font-weight: bold">
+                    <b>Sanction Length(in Km)</b>
+                </td>
+                <td>
+                    @Model.Sanction_length
+                </td>
+            </tr>
+            <tr>
+                <td></td>
+                <td style="font-weight: bold">
+                    <b>Agreement Cost(Rs. in Lakh):</b>
+                </td>
+                <td>
+                    @Model.AgreementCost
+                </td>
+                <td style="font-weight: bold">
+                    <b>Year</b>
+                </td>
+                <td>
+                    @Model.SanctionYear
+                </td>
+            </tr>
+            @if (Model.changedLength > 0)
+            {
+                <tr>
+                    <td></td>
+                    <td style="font-weight: bold">
+                        <b>Additional Sanctioned Length(in Km):</b>
+                    </td>
+                    <td>
+                        @Model.changedLength
+                    </td>
+                    <td style="font-weight: bold"></td>
+                    <td></td>
+                </tr>
+            }
+        </table>
+    </div>
+
+    @Html.AntiForgeryToken()
+    @Html.ValidationSummary(true)
+
+    @Html.HiddenFor(model => model.IMS_PR_ROAD_CODE, new { @id = "prRoadCode" })
+    @Html.HiddenFor(model => model.CompleteStatus, new { @id = "status" })
+    @Html.HiddenFor(model => model.EncryptedHabCodes)
+    @Html.HiddenFor(model => model.EncryptedRoadCode)
+    @Html.HiddenFor(model => model.PLAN_CN_ROAD_CODE)
+
+    <br />
+    <div id="divHabitationDetails" style="width: 99%">
+        <table style="width: 95%">
+            <tr>
+                <td style="width: 50%; vertical-align: top; text-align: center;">
+                    <table style="width: 100%;">
+                        <tr>
+                            <td style="text-align: left; text-align: center; vertical-align: top;" colspan="3">
+                                @Html.RadioButtonFor(m => m.Cluster_Habitation, "C", new { @id = "rdbCluster" })
+                                @Html.Label("Cluster")
+                                @Html.RadioButtonFor(m => m.Cluster_Habitation, "H", new { @id = "rdbHabitation" })
+                                @Html.Label("Habitation")
+                                @Html.ValidationMessageFor(m => m.Cluster_Habitation)
+                            </td>
+                        </tr>
+                        <tr>
+                         
+                           
+                            <td class="tdCluster" style="text-align: center;vertical-align:top " >
+                                <div>
+                                 <span> Cluster<span style="color: red">*</span></span> 
+                                  @Html.DropDownListFor(model => model.clusterCode, new SelectList(Model.clusterList, "Value", "Text"), new { @id = "ddlCluster" })
+                                </div>
+                            </td>
+
+                            @if (Model.HABITATIONS != null && Model.HABITATIONS.Count > 0)
+                            {
+                                <td class="tdHabs" style="text-align: justify; vertical-align:top ">
+                                    @Html.DropDownListFor(model => model.HABITATION_LIST, new SelectList(Model.HABITATIONS, "Value", "Text"), new { @style = "text-align: justify !important" })
+                                    <span id="showHabitationError">@Html.ValidationMessage("showHabitationError")</span>
+                                </td>
+                            }
+                            else
+                            { 
+                                <td class="tdHabs" style="text-align: center;" >
+                                    <label id="lbHabs" style="color: #e80c4d">All Habitations are Connected</label>
+                                </td>    
+                            }
+                              
+                             <td id="tdDate">
+                                <div id="dateDiv" style="margin-bottom: 30%;">
+                                <span>Date: <span  style="color: red;" > *</span></span>
+                                  @Html.TextBoxFor(model => model.mappedHabitaionDate, new { @id = "datepicker", @readonly = "readonly" })
+                                </div>
+                              </td>
+ 
+                           
+                        </tr>
+                        <tr>
+                            <td style="text-align: center" colspan="3">
+                                @if (Model.Cluster_Habitation == "H")
+                                {
+                                    <input type="button" id="btnSaveHabitation" name="btnSave" value="Map Habitations" class="jqueryButton" title="Map Habitation Details" style="margin-top: 17px;" />
+                                    <input style="display: none;margin-top: 17px;" type="button" id="btnSaveCluster" name="btnSave" value="Map Cluster" class="jqueryButton" title="Map Cluster Details" />
+                                }
+                                else
+                                {
+                                    <input style="display: none;margin-top: 17px;" type="button" id="btnSaveHabitation" name="btnSave" value="Map Habitations" class="jqueryButton" title="Map Habitation Details" />
+                                    <input type="button" id="btnSaveCluster" name="btnSave" value="Map Cluster" class="jqueryButton" title="Map Cluster Details" style="margin-top: 17px;" />
+                                }
+                                <input type="button" id="btnMapCancel" name="Cancel" value="Cancel" class="jqueryButton" title="Cancel" />
+                            </td>
+                        </tr>
+                    </table>
+                </td>
+                <td style="width: 50%; text-align: center;">
+                    <table id="tbMappedHabitationRoadList">
+                    </table>
+                    <div id="pagerMappedHabitationRoadList">
+                    </div>
+                </td>
+            </tr>
+
+        </table>
+    </div>
+</form>

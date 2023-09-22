@@ -1,0 +1,106 @@
+﻿@model PMGSY.Models.QualityMonitoring.UploadQCRModel
+@{
+    ViewBag.Title = "UploadQCRLayout";
+}
+
+
+<script src="~/Scripts/custom/Generic.js"></script>
+<script src="~/Scripts/jquery.ui.accordion.js"></script>
+<script src="~/Scripts/QualityMonitoring/UploadQCR.js"></script>
+<script src="~/Scripts/QualityMonitoring/AddQCRDetails.js"></script>
+ 
+ 
+<center>
+<div id="spanDiv" style="width:98%; height:20px;border:none; margin-top:5px; margin-bottom:-15px; " class="ui-corner-top ui-widget-header panelheader">
+         <span class="ui-jqgrid-title" style="float: left">&nbsp;Upload QCR</span>   <span style="float:right;margin-right:2Px; margin-top:2px" id="idFilterDiv" class="ui-icon ui-icon-circle-triangle-n"></span>     
+</div>
+<div id="divSearchExecution">
+<div style="width: 98%; border:none; margin-top:15px; margin-bottom:10px;" class="ui-state-default">
+<center>
+<form id="searchExecution">
+                    <div style="width: 98%; border:none; margin-top:10px; margin-bottom:10px;" class="ui-state-default">
+                        
+                        <table style="margin-top:15px; margin-bottom:10px;">
+                            <tr>
+                                 
+                                 
+                            
+                                 <td>
+                                    @Html.LabelFor(model => model.stateCode)
+                                </td>
+                                <td>                                 
+                                    @if (PMGSY.Extensions.PMGSYSession.Current.RoleCode == 8 || PMGSY.Extensions.PMGSYSession.Current.RoleCode == 69)
+                                    {
+                                         @* @Html.DropDownListFor(model => model.stateCode, new SelectList(Model.lstStates, "Value", "Text"), new { @id = "ddlStates" })
+                                         @Html.ValidationMessageFor(model => model.stateCode)*@
+                                         @Html.TextBoxFor(model => model.StateName, new {@id="ddlStates", @disabled = "disabled",@readonly="readonly" }) @* , @tabindex = 1,Class="textWidth" *@
+                                    }
+                                    else if (PMGSY.Extensions.PMGSYSession.Current.RoleCode == 9)
+                                    { 
+                                         @Html.DropDownListFor(model => model.stateCode, new SelectList(Model.lstStates, "Value", "Text"), new { @id = "ddlStates" })
+                                         @Html.ValidationMessageFor(model => model.stateCode)
+                                    }
+                                </td>
+                                <td style="width: 9%"></td>
+                                <td>
+                                    @Html.LabelFor(model => model.districtCode)
+                                </td>
+                                <td>
+                                    @Html.DropDownListFor(model => model.districtCode, new SelectList(Model.lstDistricts, "Value", "Text"), new { @id = "ddlDistrict" })
+                                    @Html.ValidationMessageFor(model => model.districtCode)
+
+                                </td>
+                                <td style="width: 9%"></td>
+                                <td>
+                                    @Html.LabelFor(model => model.year)
+                                </td>
+                                <td>
+                                    @Html.DropDownListFor(model => model.year, new SelectList(Model.Years, "Value", "Text"), new { @id = "ddlYear" })
+                                        @Html.ValidationMessageFor(model => model.year)
+                                </td>
+                                 <td style="width: 9%"></td>
+                                <td>
+                                     @if (PMGSY.Extensions.PMGSYSession.Current.RoleCode == 8 || PMGSY.Extensions.PMGSYSession.Current.RoleCode == 69)
+                                    {
+                                        <input type="button"  class="jqueryButton" value="List Details" id="btnListDetails" name ="btnListDetails" title="Click here to list Details"/>                        
+                                    }
+                                    else if(PMGSY.Extensions.PMGSYSession.Current.RoleCode == 9)
+                                    {
+                                        <input type="button"  class="jqueryButton" value="List Details" id="btnListDetailsCQC" name ="btnListDetails" title="Click here to list Details"/>                        
+                                    }                        
+                                </td>
+                            </tr>
+                             
+                        </table>
+                        
+                    </div>
+</form>
+</center>
+</div>
+</div>
+    <div id="divListExecution" style="margin-top:20px; width:100%">
+    <table id="tbExecutionList">
+
+    </table>
+    <div id="pagerExecution">
+
+    </div>
+    </div>
+ 
+</center>
+ 
+
+<center>
+    
+
+    
+    
+    <div id="divAddQCR" style="width:100%; margin-top:2%">
+
+    </div>
+     
+ 
+</center>
+
+
+

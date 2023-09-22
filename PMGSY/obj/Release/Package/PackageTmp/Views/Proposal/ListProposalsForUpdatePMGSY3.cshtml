@@ -1,0 +1,93 @@
+﻿@*
+    * Project Id    :
+    * Project Name  :   OMMAS II
+    * Name          :   AddRepackagingDetails.cshtml
+    * Description   :   This View lists the Proposals for Updating the Batch and Year
+    * Author        :   Vikram Nandanwar
+    * Creation Date :   18/07/2014
+*@
+
+@model PMGSY.Models.Proposal.ProposalFilterViewModel
+
+
+<script src="~/Scripts/custom/Generic.js"></script>
+<script type="text/javascript" src="@Url.Content("~/Scripts/jquery.ui.dialog.js")"> </script>
+<script src="~/Scripts/Proposal/ListProposalsForUpdatePMGSY3.js"></script>
+<script src="~/Scripts/Proposal/UpdateProposalDetailsPMGSY3.js"></script>
+<center>    
+<div style="width:98%; height:20px;border:none; margin-top:5px; margin-bottom:-15px; " class="ui-corner-top ui-widget-header panelheader">
+    <span style="float:right;margin-right:2Px; margin-top:2px" id="idFilterDiv" class="ui-icon ui-icon-circle-triangle-n"></span>     
+</div>
+<div style="width: 98%; border:none; margin-top:-15px; margin-bottom:10px;" class="ui-state-default">      
+    <div id="divFilterForm">
+    <center>
+    <form id="FilterForm">     
+                @Html.Hidden("PMGSYScheme", PMGSY.Extensions.PMGSYSession.Current.PMGSYScheme)           
+        <table style="margin-top:10px; margin-bottom:5px">
+            <tr>
+                <td>@Html.LabelFor(model => model.IMS_YEAR)</td>
+                <td>@Html.DropDownListFor(model => model.IMS_YEAR, new SelectList(Model.Years, "Value", "Text"), new { @id = "ddlImsYear" })</td>
+                
+                
+                @*@if(PMGSY.Extensions.PMGSYSession.Current.RoleCode!=2)*@                   
+                @if (!(PMGSY.Extensions.PMGSYSession.Current.RoleCode == 2 || PMGSY.Extensions.PMGSYSession.Current.RoleCode == 55))
+                {
+                <td>@Html.LabelFor(model => model.MAST_STATE_CODE)</td>
+                <td>@Html.DropDownListFor(model => model.MAST_STATE_CODE, new SelectList(Model.STATES, "Value", "Text"), new { @id = "ddlState" })</td>
+                }
+                else
+                {
+                   
+                        @Html.Hidden("MAST_STATE_CODE", Model.MAST_STATE_CODE)      
+                    
+                    
+                <td>@Html.Label("State Name") </td>
+                <td> @Html.DisplayFor(model => model.StateName)</td>
+                    
+                 @Html.Hidden("ddlState", Model.MAST_STATE_CODE)
+                }
+                
+                <td>@Html.LabelFor(model => model.MAST_DISTRICT_CODE)</td>
+                <td>@Html.DropDownListFor(model => model.MAST_DISTRICT_CODE, new SelectList(Model.DISTRICTS, "Value", "Text"), new { @id = "ddlDistrict" })</td>
+                <td>@Html.LabelFor(model => model.MAST_BLOCK_CODE)</td>
+                <td>@Html.DropDownListFor(model => model.MAST_BLOCK_CODE, new SelectList(Model.BLOCKS, "Value", "Text"), new { @id = "ddlMastBlockCode" })</td> 
+                <td>@Html.LabelFor(model => model.IMS_BATCH)</td>
+                <td>@Html.DropDownListFor(model => model.IMS_BATCH, new SelectList(Model.BATCHS, "Value", "Text"), new { @id = "ddlImsBatch" })</td>
+            </tr>                    
+            <tr>
+                <td>@Html.LabelFor(model => model.IMS_COLLABORATION)</td>
+                <td>@Html.DropDownListFor(model => model.IMS_COLLABORATION, new SelectList(Model.COLLABORATIONS, "Value", "Text"), new { @id = "ddlImsStreams" })</td>
+                <td>@Html.LabelFor(model => model.IMS_PROPOSAL_TYPE)</td>
+                <td>@Html.DropDownListFor(model => model.IMS_PROPOSAL_TYPE, new SelectList(Model.PROPOSAL_TYPES, "Value", "Text"), new { @id = "ddlImsProposalTypes" })</td>
+                <td>@Html.LabelFor(model => model.IMS_PROPOSAL_STATUS)</td>
+                <td>@Html.DropDownListFor(model => model.PROPOSAL_STATUS, new SelectList(Model.PROPOSAL_STATUS, "Value", "Text"), new { @id = "ddlProposalStatus" })</td>
+                <td>@Html.LabelFor(model => model.IMS_UPGRADE_COONECT)</td>
+                <td>@Html.DropDownListFor(model => model.IMS_UPGRADE_COONECT, new SelectList(Model.CONNECTIVITYLIST, "Value", "Text"), new { @id = "ddlImsConnectivity" })</td>
+            </tr>        
+        </table>
+        <table>
+            <tr>
+                <td><input type="button" class="jqueryButton" value="List Proposals" id="btnListProposal" name ="btnListProposal"/></td>
+            </tr>
+        </table>   
+    </form>
+    </center>
+</div>
+</div>
+<div id="divListProposal" style="margin-top:20px;width:97%;">
+    <table id="tbUpdateProposalList"></table>
+    <div id="dvUpdateProposalListPager"></div>
+</div>
+<div id="accordion" style="display:none;width:98%;margin-top:10px;">            
+    <h3 style="text-align:left"><a id="" href="#" style=" font-size:.9em;" >Update Proposal Details</a>
+        <a href="#"  style="float: right;">
+            <img style="border:none" class="ui-icon ui-icon-closethick" onclick="CloseProposalDetails();" /></a>
+    </h3>
+    <div id="divProposalUpdateForm" style="display:none;">
+    </div>                     
+</div>
+<div id="dvPIUUpdate"></div>
+<div id="dvBlockUpdate"></div>
+</center>
+
+

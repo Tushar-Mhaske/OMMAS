@@ -1,0 +1,124 @@
+﻿@model PMGSY.Models.Proposal.ProposalAdditionalCostFilterViewModel
+@{
+    ViewBag.Title = "ListPropAddCost";
+}
+
+
+<script src="~/Scripts/custom/Generic.js"></script>
+<script src="~/Scripts/jquery.ui.accordion.js"></script>
+<script src="~/Scripts/Proposal/ListProposalAdditionalLengthDetails.js"></script>
+<center>
+<div style="width:98%; height:20px;border:none; margin-top:5px; margin-bottom:-15px; " class="ui-state-default">
+            <span style="float:right;margin-right:2Px; margin-top:2px" id="idFilterDiv" class="ui-icon ui-icon-circle-triangle-n"></span>     
+</div>
+<div id="divSearchPropAddCost">
+<div style="width: 98%; border:none; margin-top:-15px; margin-bottom:10px;" class="ui-state-default">
+<center>
+<form id="searchPropAddLength">
+                    <div style="width: 98%; border:none; margin-top:0px; margin-bottom:10px;" class="ui-state-default">
+                        @Html.HiddenFor(model => model.Urlparameter)
+                        <table style="margin-top:10px; margin-bottom:5px;">
+                            <tr>
+                                <td>
+                                    @Html.LabelFor(model => model.MAST_State_CODE)
+                                </td>
+                                <td>
+                                    @if (Model.MAST_State_CODE > 0)
+                                    {
+                                    @Html.DropDownListFor(model => model.MAST_State_CODE, new SelectList(Model.States, "Value", "Text"), new { @id = "ddlState", @disabled = "disabled", @tabIndex = 1 })
+                                    }
+                                    else
+                                    {
+                                          @Html.DropDownListFor(model => model.MAST_State_CODE, new SelectList(Model.States, "Value", "Text"), new { @id = "ddlState", @tabIndex = 1 })
+                                    }
+                                </td>
+                                <td>
+                                    @Html.LabelFor(model => model.MAST_District_CODE)
+                                </td>
+                                <td>
+                              @if (Model.MAST_District_CODE > 0)
+                              {
+                                  @Html.DropDownListFor(model => model.MAST_District_CODE, new SelectList(Model.Districts, "Value", "Text"), new { @id = "ddlDistrict", @disabled = "disabled", @tabIndex = 2 })
+                              }
+                              else
+                              {
+                                   @Html.DropDownListFor(model => model.MAST_District_CODE, new SelectList(Model.Districts, "Value", "Text"), new { @id = "ddlDistrict", @tabIndex = 2 })
+                              }   
+
+                                </td>
+                                <td>
+                                    @Html.LabelFor(model => model.MAST_BLOCK_CODE)
+                                </td>
+                                <td>
+                                    @Html.DropDownListFor(model => model.MAST_BLOCK_CODE, new SelectList(Model.BLOCKS, "Value", "Text"), new { @id = "ddlMastBlockCode", @tabIndex = 3 })
+                                </td>
+                                <td>
+                                    @Html.LabelFor(model => model.IMS_YEAR)
+                                </td>
+                                <td>                            
+                                    @Html.DropDownListFor(model => model.IMS_YEAR, new SelectList(Model.Years, "Value", "Text"), new { @id = "ddlImsYear", @tabIndex = 3 })
+                                </td>
+                                
+                                <td>
+                                    @Html.LabelFor(model => model.Batch)
+                                </td>
+                                <td>                            
+                                    @Html.DropDownListFor(model => model.Batch, new SelectList(Model.lstBatchs, "Value", "Text"), new { @id = "ddlBatchs", @tabIndex = 4 })
+                                </td>
+                            </tr>
+                            <tr>
+                                
+                                <td>
+                                    @Html.LabelFor(model => model.IMS_PACKAGE)
+                                </td>
+                                <td>
+                                    @Html.DropDownListFor(model => model.PACKAGES, new SelectList(Model.PACKAGES, "Value", "Text"), new { @id = "ddlImsPackages", @tabIndex = 5 })
+                                </td>
+                                <td>
+                                    @Html.LabelFor(model => model.Collaboration)
+                                </td>
+                                <td>
+                                    @Html.DropDownListFor(model => model.Collaboration, new SelectList(Model.lstCollaborations, "Value", "Text"), new { @id = "ddlCollaborations", @tabIndex = 6 })
+                                </td>
+                                <td>
+                                    @Html.LabelFor(model => model.IMS_PROPOSAL_TYPE)
+                                </td>
+                                <td>
+                                    @Html.DropDownListFor(model => model.IMS_PROPOSAL_TYPE, new SelectList(Model.PROPOSAL_TYPES, "Value", "Text"), new { @id = "ddlImsProposalTypes", @tabIndex = 7 })
+                                </td>
+                                <td>
+                                    @Html.LabelFor(model => model.UpgradeConnect)
+                                </td>
+                                <td>
+                                    @Html.DropDownListFor(model => model.UpgradeConnect, new SelectList(Model.lstUpgradations, "Value", "Text"), new { @id = "ddlUpgradations", @tabIndex = 8 })
+                                </td>
+                          
+                               <td colspan="2">
+                                        <input type="button" style="margin-top:5px" class="jqueryButton" value="List Proposals" id="btnListPropAddLength" tabindex="9" name ="btnListPropAddLength" title="Click here to list Proposal for Additional Progress Length Details"/>
+                                 </td>          
+                                  
+                            </tr>
+                        </table>
+                        
+                    </div>
+</form>
+</center>
+</div>
+</div>
+    <div id="divListPropAddLength" style="margin-top:20px; width:96%">
+        <table id="tbPropExecutionList">  </table>
+        <div id="pagerPropAddLength">    </div>
+ </div>
+
+<div id="accordion" style="display:none;width:96%;margin-top:20px;margin-bottom:20px" >
+    <h3 style="text-align:left"><a id="" href="#" style=" font-size:.9em;" >Progress Addition Length Details</a>
+                <a href="#"  style="float: right;">
+                    <img src="" class="ui-icon ui-icon-closethick" onclick="ClosePropAddLengthDetails();" /></a>
+            </h3>
+    <div id="divAddPropAddLength" style="display:none">
+
+    </div>
+</div>
+</center>
+
+

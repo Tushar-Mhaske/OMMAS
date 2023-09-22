@@ -1,0 +1,74 @@
+﻿@model PMGSY.Models.OB.OBMasterModel
+<script type="text/javascript">var billId = '@ViewBag.BILL_ID';</script>
+<script type="text/javascript" src="~/Scripts/jquery.ui.datepicker.js"></script>
+<script type="text/javascript" src="@Url.Content("~/Scripts/custom/Generic.js")"> </script>
+<script type="text/javascript" src="@Url.Content("~/Scripts/OB/AddOBMaster.js")"> </script>
+
+<form id="frmOBAddMaster">
+    @Html.ValidationSummary(true)
+    @Html.AntiForgeryToken()
+<center>
+<div class="ui-widget-header ui-corner-top" style="margin-left:0; margin-right:0; margin-bottom:0; text-align:left">Opening Balance Master Screen 
+    <span id="DivIcoMasterOB" style="float:right" class="ui-icon ui-icon-circle-triangle-n"></span>
+</div>
+@*<div class="ui-state-default ui-corner-bottom">*@
+    <table id="tblOBMaster" class="table-content ui-corner-all" style="width: 100%; border: .1em solid gray" cellspacing="1px">
+@*<table class="table-content ui-table-border" style="width:100%;" cellspacing="1px" id="tblOBMaster">*@
+    <tr>
+        <td colspan="4">
+            <div id="divOBMasterError" class="ui-state-error ui-corner-all" style="text-align: left; display: none; width: 100%">
+                <span class="ui-icon ui-icon-alert" style="float: left;"></span>
+                <span></span>
+            </div>
+        </td>
+    </tr>
+    <tr>
+        <th style="width:30%;"></th>
+        <th style="width:15%; text-align:left">Head Type</th>
+        <th style="width:25%; text-align:left">@Html.LabelFor(model => model.ASSET_BILL_DATE)<label style="color: red;"> *</label></th>
+        <th style="width:30%; text-align:left">@Html.LabelFor(model => model.ASSET_GROSS_AMOUNT)<label style="color: red;"> *</label></th>
+    </tr>
+    <tr>
+        <td></td>
+        <td>Assets</td>
+        <td>@Html.TextBoxFor(model => model.ASSET_BILL_DATE, new { @placeholder="dd/MM/yyyy format", @title="Asset Opening Balance Date"})</td>
+        <td>@Html.TextBoxFor(model => model.ASSET_GROSS_AMOUNT, new{@placeholder="Max 11.2 decimal Allowed...",@title="Opening Balance Amount"})</td>
+    </tr>
+    <tr>
+        <td></td>
+        <td></td>
+        <td>@Html.ValidationMessageFor(model => model.ASSET_BILL_DATE)</td>
+        <td>@Html.ValidationMessageFor(model => model.ASSET_GROSS_AMOUNT, null, new { @id="spnAssetAmount"})</td>
+    </tr>
+    <tr>
+        <td></td>
+        <td>Liabilities</td>
+        <td>@Html.TextBoxFor(model => model.LIB_BILL_DATE, new { @placeholder="dd/MM/yyyy format", @readonly="readonly",@title="Liabilities Opening Balance Date"})</td>
+        <td>@Html.TextBoxFor(model => model.LIB_GROSS_AMOUNT, new{@placeholder="Max 11.2 decimal Allowed..." ,@title="Opening Balance Amount"})</td>
+    </tr>
+    <tr>
+        <td></td>
+        <td></td>
+        <td>@Html.ValidationMessageFor(model => model.LIB_BILL_DATE)</td>
+        <td>@Html.ValidationMessageFor(model => model.LIB_GROSS_AMOUNT,null, new { @id="spnLibGrossAmount"})</td>
+    </tr>
+    <tr>
+        <td colspan="2"></td>
+        <td style="text-align:left" colspan="2">
+          @{if (ViewBag.BILL_ID == null){<input type="button" id="btnSaveOBMaster" value="Save" class="jqueryButton" title="Click here to save">}
+                else { <input type="button" id="btnEditOBMaster" value="Update" class="jqueryButton" title="Click here to update"> } }
+            &nbsp;
+          @{if (ViewBag.BILL_ID == null){<input type="reset" id="btnResetOBMaster" value="Reset" class="jqueryButton" title="Click here to reset">
+             }else { <input type="button" id="btnCancelOBMaster" value="Cancel" class="jqueryButton" title="Click here to cancel"> } }
+        </td>
+    </tr>
+</table>
+@*</div>*@
+    
+</center>
+</form>
+
+    @section Scripts {
+    @Scripts.Render("~/bundles/jqueryval")
+}
+

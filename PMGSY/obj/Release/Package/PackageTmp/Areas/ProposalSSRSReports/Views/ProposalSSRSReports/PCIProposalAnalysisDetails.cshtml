@@ -1,0 +1,58 @@
+﻿@model PMGSY.Areas.ProposalSSRSReports.Models.PropAnalysisViewModel
+
+@if (Layout == null)
+{
+    Layout = Request.IsAjaxRequest() ? null : "~/Areas/AccountReports/Views/Account/_Layout.cshtml";
+}
+
+<script type="text/javascript" src="@Url.Content("~/Scripts/jquery.ui.dialog.js")"> </script>
+@*<script src="~/Scripts/ProposalReports/PCIAbstractAnalysisDetails.js" type="text/javascript"></script>*@
+<script src="~/Areas/ProposalSSRSReports/Scripts/PCIProposalAnalysisDetails.js"></script>
+ <script src="~/Scripts/custom/Generic.js"></script>
+<script src="~/Scripts/HighChart/highcharts.js"></script>
+
+@Html.Hidden("hdnLevelId", PMGSY.Extensions.PMGSYSession.Current.LevelId.ToString())
+
+@if (PMGSY.Extensions.PMGSYSession.Current.StateCode != 0)
+{           
+    @Html.Hidden("STATE_NAME", PMGSY.Extensions.PMGSYSession.Current.StateName.ToString())
+}
+
+@if (PMGSY.Extensions.PMGSYSession.Current.DistrictCode != 0)
+{
+    @Html.Hidden("DISTRICT_NAME", PMGSY.Extensions.PMGSYSession.Current.DistrictName.ToString())   
+}
+@Html.HiddenFor(model => model.MAST_STATE_CODE)
+@Html.HiddenFor(model => model.MAST_DISTRICT_CODE)
+@Html.HiddenFor(model => model.BLOCK_NAME)
+<div style="width: 100%">
+    <table class="ui-state-default ui-corner-all" style="width: 100%;">
+        <tr>
+            <td style="width: 6%;"></td>
+            <td style="text-align: left; width: 5%;">
+                @Html.Label("Route")
+            </td>
+            <td style="width: 15%;">
+                @Html.DropDownList("ddRoute_PCIAbstractAnalyisDetails", ViewData["ROUTE"] as IEnumerable<SelectListItem>, new { @title = "Route",@tabindex = 1 })
+            </td>
+            <td>
+                <input type="button" value="View" class="jqueryButton" id="btnPCIAbstractAnalyisDetails" title="View Details" tabindex="2" />
+            </td>
+        </tr>
+    </table>
+</div>
+<br />
+
+<div id="PCIPropAnalysisReport">
+    <table id="tbPCIPropAnalysisReport"></table>
+    <div id="dvPCIPropAnalysisReportPager"></div>
+</div>
+
+<br />
+<br />
+<div class="ui-state-default ui-corner-all" style="width: 100%;">
+   <b><center>Road Condition: <span id="spanChartFor" style="font:100;font-size:12px;"></span></center></b> 
+
+    <div id="dvPropPCIChart" style="height: 100%; margin-top: 20px;margin-bottom:20px;">
+    </div>
+</div>

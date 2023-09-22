@@ -1,0 +1,41 @@
+﻿
+@model PMGSY.Models.AccountsReports.StateAccountMonitoringViewModel
+
+<script src="~/Scripts/AccountsReports/StateAccountMonitoringDetails.js"></script>
+ <div id="dvStateAccMonitoringHeader" class="CBHeader ui-corner-all" style="width:99%">
+    
+     <table class="ui-state-default ui-corner-all" style="border: 0.1em solid gray; width: 100%; margin-top: 1px" id="rptMAAnnex">
+        <tr>
+            <td colspan="7" style="color: green;text-align:right">@Html.DisplayFor(model=>model.ReportFormNumber)</td>
+        </tr>
+        <tr>
+            <td colspan="7" style="color: green;text-align:center">@Html.DisplayFor(model=>model.FundTypeName)</td>
+        </tr>
+        <tr>
+            <td colspan="7" style="color: green;text-align:center">@Html.DisplayFor(model=>model.ReportName)</td>
+        </tr>
+        <tr>
+            <td colspan="7" style="color: green;text-align:center">@Html.DisplayFor(model=>model.ReportParagraphName)</td>
+        </tr>
+        <tr>
+            <td colspan="7"><br /></td>
+        </tr>
+
+        <tr>
+            <td style="width:10%"></td>
+            <td style="color:green;font-weight:bold;width:5%">@Html.LabelFor(model=>model.StateCode) : </td>
+            <td style="font-weight:bold;width:25%">@Html.DisplayTextFor(model=>model.DisplayStateName)</td>
+
+            <td style="color:green;font-weight:bold;width:5%">@Html.LabelFor(m=>m.Agency) :</td>
+            <td style="font-weight:bold;width:20%">@Html.DisplayTextFor(model=>model.DisplayAgencyName)  </td>
+
+            <td style="color:green;font-weight:bold;width:09%">@Html.LabelFor(model=>model.FundType) : </td>
+            <td style="font-weight:bold;width:20%">@Html.DisplayTextFor(model=>model.DisplayFundType)</td>
+        </tr>
+    </table>
+</div>
+
+<div id="dvStateAccMonitoringList" >
+    <table id="tblStateAccMonitoringList" ></table>    
+    <div id="dvStateAccMonitoringListPager"></div>
+</div>

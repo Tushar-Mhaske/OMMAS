@@ -1,0 +1,25 @@
+﻿@*
+    * Project Id    :
+    * Project Name  :   OMMAS II
+    * Name          :   QMPhaseProgressReport.cshtml
+    * Description   :   Sends QM Phase Progress Report Filter Parameters to report server.
+    * Author        :   Rohit Jadhav
+    * Creation Date :   29/Aug/2014
+*@
+
+
+@using MvcReportViewer
+@model PMGSY.Models.QualityMonitoring.QMPahseProgressViewModel
+
+<div id="QMPhaseProgressDetails" style="width: 100%; height: 590px; overflow-x: hidden; overflow-y: hidden;">
+    @Html.MvcReportViewer("/PMGSYCitizen/QMPhaseProgressDetails",
+     new
+     {
+         level = Model.LevelID,
+         scheme = PMGSY.Extensions.PMGSYSession.Current.PMGSYScheme,
+         state = Model.StateCode,
+         year = Model.year,
+         StateName = Model.StateName
+     },
+     new { Height = 600, Width = 1110, style = "border:none;" })
+</div>

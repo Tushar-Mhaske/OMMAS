@@ -1,0 +1,93 @@
+﻿@model PMGSY.Models.Master.MatrixParamModel
+@{
+    ViewBag.Title = "AddEdit Parameters";
+}
+<script src="~/Scripts/custom/Generic.js"></script>
+<script src="~/Scripts/jquery.ui.datepicker.js"></script>
+<script src="~/Scripts/Master/AddEditMatrixParameter.js"></script>
+<div id="dvmatrixParamdetails" class="ui-corner-top ui-widget-header panelheader" style="text-align: left; height: 20px;">
+    <span class="ui-jqgrid-title" style="float: left">Matrix Parameters Details</span>
+
+    <span id="spCollapseIconCN" class="ui-icon ui-icon-circle-close" style="float: right"></span>
+</div>
+
+<div id="dvAddMatrixDetails" style="display: block; border: 1px solid #B5B8C8; text-align: left">
+    <div id="dvErrorMessage" class="ui-widget ui-state-error ui-corner-all" style="padding: 0.7em .7em; display: none; margin: 5px 5px 5px 5px;">
+        <span class="ui-icon ui-icon-alert" style="float: left; margin-right: .3em;"></span>
+        <strong>Alert:</strong> <span id="message"></span>
+    </div>
+
+
+    <form id="frmMatrixParam">
+        @Html.AntiForgeryToken()
+        <center>
+            @Html.ValidationSummary(true)</center>
+
+
+        <table class="rowstyle" style="width: 100%; margin-top: 10px;">
+            <tr>
+                <td>@Html.HiddenFor(m => m.matrixId)</td>
+            </tr>
+            <tr>
+                <td style="width: 30%;"></td>
+                <td style="text-align: left; width: 15%;">
+                    @Html.Label("Parameter Code")
+                    <label style="color: red;">*</label>
+                   
+                </td>
+                <td>
+                    @Html.TextBoxFor(m => m.matrixNo, new {  @tabindex = 1})
+                     @Html.ValidationMessageFor(m=>m.matrixNo)
+                </td>
+            </tr>
+
+
+            <tr>
+                <td style="width: 30%;"></td>
+                <td style="text-align: left; width: 15%;">
+                    @Html.Label("Parameter")
+                    <label style="color: red;">*</label>
+                </td>
+                <td style="text-align: left">
+                    @Html.TextBoxFor(model => model.parameterValue, new {   @title = "Parameter", @tabindex = 2 })
+                    @Html.ValidationMessageFor(model => model.parameterValue)
+                </td>
+            </tr>
+            <tr>
+                <td></td>
+                <td>
+                    @Html.Label("Weight")
+                     <label style="color: red;">*</label>
+                </td>
+                <td>
+                    @Html.TextBoxFor(model => model.Weight, new {  @tabindex = 3, })
+                     @Html.ValidationMessageFor(model => model.Weight)  
+                </td>
+            </tr>
+            <tr>
+                <td></td>
+                <td></td>
+                <td>
+                    @if (Model.matrixId == 0)
+                    {
+                        <input type="button" id="btnSave" name="btnSave" value="Save" class="jqueryButton" title="Save Matrix Parameter Details" tabindex="5" /> 
+                        <input type="button" id="btnReset" name="btnReset" value="Reset" class="jqueryButton" title="Reset" tabindex="6" />
+                    }
+                    else
+                    {
+                        <input type="button" id="btnUpdate" name="btnUpdate" value="Update" class="jqueryButton" title="Update Matrix Parameter Details" tabindex="5" /> 
+                        <input type="button" id="btnCancel" name="btnCancel" value="Cancel" class="jqueryButton" title="Cancel" tabindex="6" />
+                    }
+
+
+                </td>
+            </tr>
+            <tr>
+                <td colspan="3">
+                    <label @*class="ui-state-default"*@ style="border:none">[ Note: Fields marked with<label style="color: red;"> * </label>are mandatory.]</label>
+                </td>
+            </tr>
+        </table>
+
+    </form>
+</div>

@@ -1,0 +1,46 @@
+﻿@{
+    ViewBag.Title = "ListTechnologyDetails";
+}
+
+
+<script src="~/Scripts/custom/Generic.js"></script>
+<script src="~/Scripts/Proposal/ListTechnologyDetails.js"></script>
+
+<div id="divError" class="ui-state-error ui-corner-all" style="text-align: left; display: none; width: 90%">
+        <span class="ui-icon ui-icon-alert" style="float: left;"></span>                   
+        <span></span>
+</div>
+
+@Html.Hidden("ProposalCode",ViewBag.ProposalCode as String)
+@Html.Hidden("Convergence",ViewBag.Convergence as String)
+<div class="ui-corner-all ui-state-highlight" style="border:solid 1px black; text-align:left; width:90%">
+    <table style="width:100%">
+        <tr>
+            <td style="text-align:right;width:10%;font-weight:bold">Year:</td>
+            <td style="text-align:left;"> @ViewBag.Year - @Convert.ToInt32(ViewBag.Year + 1)  </td>
+
+            <td style="text-align: right; font-weight:bold"> Batch:</td>
+            <td style="text-align: left;">Batch @ViewBag.Batch</td>
+
+            <td style="text-align:right; font-weight:bold">Package:</td>
+            <td style="text-align:left; ">@ViewBag.Package</td>
+
+            <td style="text-align:right; font-weight:bold">Road Name:</td>
+            <td style="text-align:left; ">@ViewBag.RoadName</td>
+
+            <td style="text-align: right; font-weight: bold; width:10%">Pavement Length:</td>
+            <td style="text-align: left;width:10%">@ViewBag.PavLength&nbsp;Kms.</td>
+        </tr>
+    </table>
+</div>
+
+<div id="divAddTechnologyDetails" style="width:90%">
+</div>
+
+
+<div style="margin-top:20px;width:100%">
+    <table id="tblistTechnologyDetails"></table>
+    <div id="dvpagerTechnology"></div>
+</div>
+
+

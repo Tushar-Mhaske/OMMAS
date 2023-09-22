@@ -1,0 +1,47 @@
+﻿@using MvcReportViewer
+@model PMGSY.Models.CoreNetwork.CUPLPCIReportModel
+
+@if (Convert.ToInt32(ViewData["TRMRLUnlocked"]) > 0)
+{
+     <table>
+        <tr style="background-color:lightyellow;">
+            <td style="width: 5%;"></td>
+            <td style="width: 25%;">
+                <strong>
+                    <label style="color:#865a24;">CUPL cannot be displayed as TR/MRL is unlocked. Please contact NRIDA</label>
+                </strong>
+            </td>
+            <td style="width: 5%;"></td>
+            <td style="width: 15%;"></td>
+        </tr>
+    </table>
+}
+else if (@ViewData["IsHabitationUnlocked"].Equals(true))
+{
+     <table>
+        <tr style="background-color:lightyellow;">
+            <td style="width: 5%;"></td>
+            <td style="width: 25%;">
+                <strong>
+                    <label style="color:#865a24;">Habitations are unlocked in this Block for some duration. Hence Report can not be viewed for this Block. Please contact NRIDA</label>
+                </strong>
+            </td>
+            <td style="width: 5%;"></td>
+            <td style="width: 15%;"></td>
+        </tr>
+    </table>
+}
+else
+{
+    @Html.MvcReportViewer("/PMGSYCitizen/CUPL_PCI_PMGSY3_New",
+     new
+     {
+         State = Model.StateCode,
+         District = Model.DistrictCode,
+         Block = Model.BlockID,
+         Statename = Model.statename,
+         Districtname = Model.Districtname,
+         Blockname = Model.Blockname
+     },
+     new { Height = 600, Width = "100%", style = "border:none;" })
+}

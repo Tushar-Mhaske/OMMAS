@@ -1,0 +1,78 @@
+﻿@model PMGSY.Areas.REAT.Models.DSCREATModel
+<html>
+<head>
+    <script></script>
+</head>
+<body>
+
+    @if (Model.IsAccountNumberAvailable && Model.IsIFSCAvailable && Model.IsInitPartyAvailable && Model.IsEmailAvailable)
+    {
+        string strKey = PMGSY.Extensions.PMGSYSession.Current.AdminNdCode.ToString() + "$" + Model.operation + "$" + Model.adminNdName;
+        string location = PMGSY.Extensions.PMGSYSession.Current.UserName;
+
+        if (Model.operation == "A")
+        {
+        <div id="divSignEpay">
+            <label id="lbPayMessage"><b>Note</b> : <a style="color: red;">Please do not click on Refresh or back button.</a></label>
+            <applet id="signApplet" code="com.epfo.establishment.applet.dsig.sign.Base64PdfSignerApplet.class" name="Digitally Sign E-Payment" archive="/DigSignDocs/JavaApplet/PdfSignerApplet_Xml.jar" style="border: 1px solid #CCC;" width="100%" height="250">
+                <param name="pdfKey" value="@strKey"/> 
+                <param name="sessionKey" value="ASP.NET_SessionId"/> 
+                <param name="sessionValue" value="@HttpContext.Current.Session.SessionID"/> 
+                <param name="sourceUrl" value="/Reat/Reat/GetDSCXml/"/> <!-- currently 1 as Pdf Key, later on change it to document id -->
+                <param name="destUrl" value="/Reat/Reat/SaveDSCXml?pdfKey=@strKey"> 
+                <param name="title" value="Sign E-Payment" />
+                <param name="redirectUrl" value="/DigSign/RegisterDSC/" />
+                <param name="successUrl" value="/DigSign/RegisterDSC/" />
+                <param name="failureUrl" value="/DigSign/SignFailure" />
+                <param name="location" value="@location" />
+                <param name="reason" value="Instructions for E-Payment" />
+                </applet>
+        </div>
+        }
+        else if (Model.operation == "D")
+        {
+        <div id="divSignEpay">
+            <label id="lbPayMessage"><b>Note</b> : <a style="color: red;">Please do not click on Refresh or back button.</a></label>
+            <applet id="signApplet" code="com.epfo.establishment.applet.dsig.sign.Base64PdfSignerApplet.class" name="Digitally Sign E-Payment" archive="/DigSignDocs/JavaApplet/PdfSignerApplet_Xml.jar" style="border: 1px solid #CCC;" width="100%" height="250">
+            
+                <param name="pdfKey" value="@strKey"/> 
+                <param name="sessionKey" value="ASP.NET_SessionId"/> 
+                <param name="sessionValue" value="@HttpContext.Current.Session.SessionID"/> 
+                <param name="sourceUrl" value="/Reat/Reat/GetDSCXmlforDelete/"/> <!-- currently 1 as Pdf Key, later on change it to document id -->
+                <param name="destUrl" value="/Reat/Reat/SaveDSCXml?pdfKey=@strKey"> 
+                <param name="title" value="Sign E-Payment" />
+                <param name="redirectUrl" value="/DigSign/RegisterDSC/" />
+                <param name="successUrl" value="/DigSign/RegisterDSC/" />
+                <param name="failureUrl" value="/DigSign/SignFailure" />
+                <param name="location" value="@location" />
+                <param name="reason" value="Instructions for E-Payment" />
+                </applet>
+        </div>
+        }
+    }
+    else
+    {
+        <strong style="color: red; font-weight: bold">Alert :</strong><br />
+        if (Model.IsAccountNumberAvailable == false)
+        { 
+        <span style="color: red;">Account Number is not available </span> <br />
+        }
+
+        if (Model.IsIFSCAvailable == false)
+        { 
+        <span style="color: red;">IFSC Number is not available </span> <br />
+        }
+
+        if (Model.IsInitPartyAvailable == false)
+        { 
+        <span style="color: red;">Initiating Party details is not available </span> <br />
+        }
+
+        if (Model.IsEmailAvailable == false)
+        { 
+        <span style="color: red;">Email Id is not available </span> <br />
+        }
+    }
+
+</body>
+</html>

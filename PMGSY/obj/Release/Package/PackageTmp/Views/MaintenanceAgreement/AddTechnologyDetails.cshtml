@@ -1,0 +1,207 @@
+﻿@model PMGSY.Models.MaintenanceAgreement.MaintenanceTechnologyDetailsViewModel
+
+
+
+@{
+    ViewBag.Title = "AddTechnologyDetails";
+}
+
+<script src="~/Scripts/custom/Generic.js"></script>
+<script src="~/Scripts/MaintenanceAgreement/AddTechnologyDetails.js"></script>
+
+<form id="frmAddTechnology">
+    <div style="margin-left: 100px">
+        @Html.ValidationSummary(true)
+    </div>
+    @*<div id="divError" class="ui-state-error ui-corner-all" style="text-align: left; display: none; width: 100%">
+        <span class="ui-icon ui-icon-alert" style="float: left;"></span>                   
+        <span></span>
+</div>*@
+    @*<div style="height:20px; width: 100%; text-align:left; padding-top: 0.6em;" class="ui-state-default ui-corner-all" > 
+            &nbsp;<strong> Note :</strong>  Fields marked with * are mandatory. 
+</div>*@
+    @Html.HiddenFor(model=>model.IMS_PR_SANCTIONED_LENGTH)
+    <table id="tbAddRevisedCostLength" cellpadding="3px" class="rowstyle" style="margin-top: 0px; text-align: left; border: ridge 0.1em #ccc; width: 100%; padding-top: 5px 5px 5px 5px;">
+
+        <tr>
+            <td></td>
+            <td>
+                @Html.LabelFor(model => model.MAST_TECH_CODE)<label style="color: red">*</label>
+            </td>
+            <td>
+                @*@Html.DropDownListFor(model => model.MAST_TECH_CODE, new SelectList(Model.ListTechnology, "Value", "Text"), new { @title = "Please select Technology", @tabindex = 1 })*@
+                <select name="MAST_TECH_CODE"  tabindex = 2 >
+                @{var lstTypes = Model.ListTechnology.Select(m=>m.MAST_TECH_TYPE).Distinct().ToList();}
+                @foreach (var type in lstTypes)
+                {
+                <optgroup label="@(type == "E" ? "Technology with IRC Specifications(Mainstreaming of Existing Technology) " : type == "N" ? "Non Accredited Technology ":"Technology where IRC Specifications are not available.(IRC accredited Technology)" )">
+                    @foreach (var item in Model.ListTechnology)
+                    {
+                        if(type == item.MAST_TECH_TYPE)
+                        {
+                            if(Model.MAST_TECH_CODE == item.MAST_TECH_CODE)
+                            {
+                                <option value="@(item.MAST_TECH_CODE)" selected="selected">@item.MAST_TECH_NAME</option>
+                            }
+                            else
+                            {
+                                <option value="@(item.MAST_TECH_CODE)">@item.MAST_TECH_NAME</option>
+                            }
+                        }
+                    }
+                </optgroup>
+                }
+                </select>     
+                @Html.ValidationMessageFor(model => model.MAST_TECH_CODE)
+                @*@if(Model.Operation == "A")
+            {
+                @Html.DropDownListFor(model => model.MAST_TECH_CODE, new SelectList(Model.ListTechnology, "Value", "Text"), new {@title="Please select Technology",@tabindex=3})
+                @Html.ValidationMessageFor(model=>model.MAST_TECH_CODE)
+            }
+            else
+            {
+                @Html.DropDownListFor(model => model.MAST_TECH_CODE, new SelectList(Model.ListTechnology, "Value", "Text"), new {@title="Please select Technology",@disabled="disabled",@tabindex=3})
+                @Html.HiddenFor(model=>model.MAST_TECH_CODE)
+                @Html.ValidationMessageFor(model=>model.MAST_TECH_CODE)
+            }*@
+            </td>
+            <td>
+                @Html.LabelFor(model => model.MAST_LAYER_CODE)<label style="color: red">*</label>
+            </td>
+            <td>
+                @Html.DropDownListFor(model => model.MAST_LAYER_CODE, new SelectList(Model.ListLayers, "Value", "Text"), new { @title = "Please select Layer", @tabindex = 3 })
+                @Html.ValidationMessageFor(model => model.MAST_LAYER_CODE)
+                @* @if(Model.Operation == "A")
+            {
+                @Html.DropDownListFor(model => model.MAST_LAYER_CODE, new SelectList(Model.ListLayers, "Value", "Text"), new {@title="Please select Technology",@tabindex=4})
+                @Html.ValidationMessageFor(model=>model.MAST_LAYER_CODE)
+            }
+            else
+            {
+                @Html.DropDownListFor(model => model.MAST_LAYER_CODE, new SelectList(Model.ListLayers, "Value", "Text"), new {@title="Please select Technology",@disabled = "disabled",@tabindex=4})
+                @Html.HiddenFor(model=>model.MAST_LAYER_CODE)
+                @Html.ValidationMessageFor(model=>model.MAST_LAYER_CODE)
+            }*@
+            </td>
+        </tr>
+        <tr>
+            <td style="width: 5%">
+                @Html.HiddenFor(model => model.IMS_PR_ROAD_CODE)
+                @Html.HiddenFor(model => model.MANE_CONTRACT_CODE)
+                @if (Model.Operation == "E")
+                {
+                    @Html.HiddenFor(model => model.EncryptedProposalSegmentCode)
+                    @Html.HiddenFor(model => model.IMS_PR_ROAD_CODE)
+                }
+            </td>
+            <td style="width: 10%">
+                @Html.LabelFor(model => model.IMS_START_CHAINAGE) in Kms<label style="color: red">*</label>
+            </td>
+            @if (Model.Operation == "A")
+            {
+                <td style="width: 15%">
+                    @Html.TextBoxFor(model => model.IMS_START_CHAINAGE, new { @title = "Enter Start Chainage", @placeholder = "Enter Start Chainage...", @tabindex = 4 })
+                    @Html.ValidationMessageFor(model => model.IMS_START_CHAINAGE)
+                </td>
+            }
+            else
+            {
+                <td style="width: 20%">
+                    @Html.DisplayFor(model => model.IMS_START_CHAINAGE)
+                    @Html.HiddenFor(model => model.IMS_START_CHAINAGE)
+                </td>
+            }
+            <td style="width: 10%">
+                @Html.LabelFor(model => model.IMS_END_CHAINAGE) in Kms<label style="color: red">*</label>
+            </td>
+            @if (Model.Operation == "A")
+            {
+                <td style="width: 20%">
+                    @Html.TextBoxFor(model => model.IMS_END_CHAINAGE, new { @title = "Enter End Chainage", @placeholder = "Enter End Chainage...", @tabindex = 5 })
+                    @Html.ValidationMessageFor(model => model.IMS_END_CHAINAGE)
+                </td>
+            }
+            else
+            {
+                <td style="width: 20%">
+                    @Html.DisplayFor(model => model.IMS_END_CHAINAGE)
+                    @Html.HiddenFor(model => model.IMS_END_CHAINAGE)
+                </td>
+            }
+        </tr>
+
+        <tr>
+            <td></td>
+            <td style="width: 10%">
+                @Html.LabelFor(model => model.IMS_TECH_COST) in Lacs<label style="color: red">*</label>
+            </td>
+            @if (Model.Operation == "A")
+            {
+                <td style="width: 20%">
+                    @Html.TextBoxFor(model => model.IMS_TECH_COST, new { @title = "Enter Total Technology Cost", @placeholder = "Enter Total Technology Cost...", @tabindex = 6 })
+                    @Html.ValidationMessageFor(model => model.IMS_TECH_COST)
+                </td>
+            }
+            else
+            {
+                 <td style="width: 20%">
+                    @Html.TextBoxFor(model => model.IMS_TECH_COST, new { @title = "Enter Total Technology Cost", @placeholder = "Enter Total Technology Cost...", @tabindex = 6 })
+                    @Html.ValidationMessageFor(model => model.IMS_TECH_COST)
+                </td>
+                @*<td style="width: 20%">
+                    @Html.DisplayFor(model => model.IMS_TECH_COST)
+                    @Html.HiddenFor(model => model.IMS_TECH_COST)
+                </td>*@
+            }
+            <td style="width: 10%">
+                @Html.LabelFor(model => model.IMS_LAYER_COST) in Lacs<label style="color: red">*</label>
+            </td>
+             @if (Model.Operation == "A")
+            {
+                <td style="width: 20%">
+                    @Html.TextBoxFor(model => model.IMS_LAYER_COST, new { @title = "Enter Layer Cost", @placeholder = "Enter Layer Cost...", @tabindex = 7 })
+                    @Html.ValidationMessageFor(model => model.IMS_LAYER_COST)
+                </td>
+            }
+            else
+            {
+                 <td style="width: 20%">
+                    @Html.TextBoxFor(model => model.IMS_LAYER_COST, new { @title = "Enter Layer Cost", @placeholder = "Enter Layer Cost...", @tabindex = 7 })
+                    @Html.ValidationMessageFor(model => model.IMS_LAYER_COST)
+                </td>
+                @*<td style="width: 20%">
+                    @Html.DisplayFor(model => model.IMS_TECH_COST)
+                    @Html.HiddenFor(model => model.IMS_TECH_COST)
+                </td>*@
+            }
+        </tr>
+        <tr>
+            <td colspan="5">
+                @if (Model.Operation == "A")
+                {
+                    <center>
+            <table>
+                <td>
+                    <input type="button" value="Save" name="btnAddDetails" id="btnAddDetails" class="jqueryButton" tabindex ="8" />
+                    <input type="reset" value="Reset" name="btnResetDetails" id="btnResetDetails" class="jqueryButton" tabindex="9"/>
+                </td>
+            </table>
+            </center>
+                }
+                else
+                {
+                    <center>
+            <table>
+                <td>
+                <input type="button" value="Update" name="btnUpdateDetails" id="btnUpdateDetails" class="jqueryButton" tabindex="8"/>
+                <input type="reset" value="Cancel" name="btnCancelDetails" id="btnCancelDetails" class="jqueryButton" tabindex="9" />
+                </td>
+            </table>
+            </center>
+                }
+            </td>
+        </tr>
+    </table>
+</form>
+
+

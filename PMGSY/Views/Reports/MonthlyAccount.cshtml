@@ -1,0 +1,512 @@
+﻿@using PMGSY.Models
+@using PMGSY.Models.Report
+@using PMGSY.Extensions
+@using System.Globalization
+@using PMGSY.Common
+
+@model PMGSY.Models.Report.MonthlyAccountModel
+
+@{
+    ViewBag.Title = "MonthlyAccount";
+}
+<style type="text/css">
+
+div.CBHeader{
+			padding:5px;
+            width:98%;
+			display:inline-block;
+			cursor:default;
+			/*font:12px/14px Arial, Helvetica, sans-serif;*/
+            font-family: Trebuchet MS,Tahoma,Verdana,Arial,sans-serif;
+			color:#000;
+			/*background-color:#eee;*/
+            background-color:white;
+			-moz-border-radius:10px;
+			-webkit-border-radius:10px;
+			-moz-box-shadow:#999 2px 0px 3px;
+			-webkit-box-shadow:#999 2px 0px 3px;
+		}
+</style>
+<link href="~/Content/demo_page.css" rel="stylesheet" />
+<link href="~/Content/demo_table_jui.css" rel="stylesheet" />
+<link href="~/Content/TableTools.css" rel="stylesheet" />
+<link href="~/Content/TableTools_JUI.css" rel="stylesheet" />
+
+<script src="~/Scripts/custom/Generic.js"></script>
+<script src="~/Scripts/DataTables/jquery.dataTables.js"></script>
+<script src="~/Scripts/DataTables/ZeroClipboard.js"></script>
+<script src="~/Scripts/DataTables/TableTools.js"></script>
+<script src="~/Scripts/Report/MonthlyAccount.js"></script>
+  @{
+    CommonFunctions objCommonFunction = new CommonFunctions();
+   }
+<div id="dvShowMonthlyAccountDetails">
+
+@*<div class="ui-widget-header innerDivHeader" style="margin-bottom:5px">Monthly / Annual Account For (@ViewBag.Level)</div>*@ 
+    <div id="dvhdrMonthlyDetailsForStateAndSRRDA" class="ui-widget-header innerDivHeader" style="margin-bottom: 05px; height: 20px;">
+        Monthly Account Details
+        <span style="float: right; margin-right: 2Px; margin-top: 2px" id="spnMonthlyStateSRRDA" class="ui-icon ui-icon-circle-triangle-n"></span>
+    </div>
+
+ <form id="frmShowMonthlyLedger">
+        @*@Html.Hidden("SelectedMonth", Model.Month)                               
+        @Html.Hidden("SelectedYear", Model.Year)
+        @Html.Hidden("SelectedBalance", Model.CreditDebit)
+        @Html.Hidden("SelectedAgency", Model.NodalAgency)
+        @Html.Hidden("SelectedReportType", Model.monthlyStateSrrdaDpiu)*@
+        @Html.Hidden("MONTH", Model.Month)                               
+        @Html.Hidden("YEAR", Model.Year)
+        @Html.Hidden("CREDIT_DEBIT", Model.CreditDebit)
+        @Html.Hidden("HEAD", Model.CreditDebit)
+        @Html.Hidden("SRRDA", Model.State)
+        @Html.Hidden("SRRDA_DPIU", Model.monthlyStateSrrdaDpiu)
+ </form>
+
+<form id="frmMonthlyAccount" >
+    @Html.AntiForgeryToken()
+    @Html.ValidationSummary(true)
+
+    @Html.HiddenFor(model=>Model.MonthName)
+    @Html.HiddenFor(model=>Model.BalanceName)
+
+    @Html.Hidden("DPIUId",Model.Dpiu)
+
+    @*@Html.HiddenFor(model=>Model.StateSRRDAName)*@
+   
+<center>
+
+<div class="CBHeader ui-state-default ui-corner-all" id="dvMonthlyAccountSearch" style ="background:none;">
+
+<table class="ui-state-default ui-corner-all" style="border:0.1em solid gray; background:none; width:100%; margin-top:1px" id="tblFilter">
+        
+    @if(PMGSYSession.Current.LevelId==4 || PMGSYSession.Current.LevelId==6)
+    {
+         <tr>
+            <td style="width:5%"></td>
+            <td style="width:15%;text-align:left">@Html.Label("Report Type : ") <label style="color:red;"> *</label></td>
+
+            <td style="text-align:center;  width:20%">
+                
+                @if(PMGSYSession.Current.LevelId==5)
+                {
+                    @Html.RadioButtonFor(model => model.monthlyStateSrrdaDpiu, "STATE", new { @id="rdoState",@title="State"}) @Html.DisplayNameFor(model=>model.State)
+                }
+                else
+                {
+                    @Html.RadioButtonFor(model => model.monthlyStateSrrdaDpiu, "STATE", new { @id="rdoState",@title="State",@checked="checked"}) @Html.DisplayNameFor(model=>model.State)
+                }
+            </td>
+
+            <td style="width:15%;text-align:right" > 
+                @if(PMGSYSession.Current.LevelId==4)//SRRDA
+                {                
+                    @Html.RadioButtonFor(model => model.monthlyStateSrrdaDpiu, "SRRDA", new { @id="rdoSrrda",@title="SRRDA"}) @Html.DisplayNameFor(model=>model.Srrda)
+                }
+                else if (PMGSYSession.Current.LevelId == 6) //SRRDA
+                {
+                    @Html.RadioButtonFor(model => model.monthlyStateSrrdaDpiu, "SRRDA", new { @id="rdoSrrda",@title="SRRDA"}) @Html.DisplayNameFor(model=>model.Srrda)
+                }
+                else if(PMGSYSession.Current.LevelId==5) //DPIU
+                {
+                    @Html.RadioButtonFor(model => model.monthlyStateSrrdaDpiu, "SRRDA", new { @id="rdoSrrda",@title="SRRDA",@disabled="disabled"})  @Html.DisplayNameFor(model=>model.Srrda)
+                }
+            </td>
+            
+            <td style="text-align:left; font-weight:bold; width:5%">
+               
+            </td>
+             <td style="width:10%">
+                  @if(PMGSYSession.Current.LevelId==5)
+                {
+                    @Html.RadioButtonFor(model => model.monthlyStateSrrdaDpiu, "DPIU", new { @id="rdoDpiu",@title="DPIU",@checked="checked"}) @Html.DisplayNameFor(model=>model.Dpiu)
+                }
+                else
+                {
+                    @Html.RadioButtonFor(model => model.monthlyStateSrrdaDpiu, "DPIU", new { @id="rdoDpiu",@title="DPIU"}) @Html.DisplayNameFor(model=>model.Dpiu)
+                }
+
+             </td>
+            
+            <td style="text-align:left; font-weight:bold; width:08%">
+
+               
+
+            </td>
+             <td></td>
+             <td></td>
+            @*<td style="width:15%"></td>*@
+            
+            @*<td style="width:25%"></td>        *@
+        </tr>
+
+        <tr>
+            <td></td>
+            <td style="width:10%;text-align:left">@Html.Label("Select Agency : ")</td>
+            <td style="text-align:right">
+                @if (PMGSYSession.Current.LevelId == 4 || PMGSYSession.Current.LevelId == 5)//SRRDA or DPIU
+                {
+                    @Html.DropDownListFor(m => m.State, ViewBag.ddlState as IEnumerable<SelectListItem>, new { @style="width:200px", @disabled=true,@title="Agency"})
+                }
+                else {//MORD 
+                    @Html.DropDownListFor(m => m.State, ViewBag.ddlState as IEnumerable<SelectListItem>,new { @style="width:200px",@title="Agency"})
+                }
+            </td>  
+            <td style="text-align:right">@Html.Label("Select DPIU : ", new { @id="lblSelectDpiu",style="display:none"})</td>              
+            <td>@Html.DropDownListFor(m => m.Dpiu, ViewBag.ddlDPIU as IEnumerable<SelectListItem>, new { style="display:none",@title="DPIU"})
+            </td>
+            <td></td>
+            <td></td>            
+            <td></td>
+            <td></td>
+        </tr>
+    }
+
+    
+        <tr>
+            <td style="width:5%"></td>
+            <td style="width:15%;text-align:left">@Html.Label("Report Duration : ")</td>
+            <td style="width:20%;text-align:right; font-weight:bold;">
+                
+                @Html.LabelFor(m=>m.Month)<label style="color:red;"> *</label>:
+                @Html.DropDownListFor(m => m.Month, ViewBag.ddlMonth as IEnumerable<SelectListItem>, new { @title="Month"})
+                @Html.ValidationMessageFor(m=>m.Month)
+
+            </td>
+            <td style="width:15%;text-align:right">@Html.LabelFor(m=>m.Year)<label style="color:red;"> *</label>:</td>
+            <td style="width:5%;text-align:right; font-weight:bold;">@Html.DropDownListFor(m => m.Year, ViewBag.ddlYear as IEnumerable<SelectListItem>, new { @title="Year"})                
+                @Html.ValidationMessageFor(m=>m.Year)
+            </td>
+            <td style="width:10%;text-align:right">@Html.LabelFor(m=>m.CreditDebit)<label style="color:red;"> *</label>:</td>
+            <td style="width:8%;text-align:right;">@Html.DropDownListFor(m => m.CreditDebit, ViewBag.ddlCreditDebit as IEnumerable<SelectListItem>, new { @title="Balance"})
+                @Html.ValidationMessageFor(m=>m.CreditDebit)
+            </td>
+            <td ></td>                
+            <td></td>
+        </tr>
+    
+    <tr>
+        <td style="width:25%;text-align:center" colspan="9" ><input type="button" id="btnView" value="View Details" class="jqueryButton" title="Click here to view details"></td>        
+    </tr>
+
+</table>
+</div>
+
+    <div id="dvMonthlyAccountDetails" class="CBHeader ui-state-default ui-corner-all" style="display:none;">
+    <table class="ui-state-default ui-corner-all" style="border: 0.1em solid gray; width: 100%; margin-top: 1px" id="rptMAAnnex">
+
+        <tr>
+            <td colspan="6" style="color: green;text-align:right">@Html.DisplayFor(model=>model.ReportFormNumber)</td>
+        </tr>
+        <tr>
+            <td colspan="6" style="color: green;text-align:center">@Html.DisplayFor(model=>model.FundTypeName)</td>
+        </tr>
+        <tr>
+            <td colspan="6" style="color: green;text-align:center">@Html.DisplayFor(model=>model.ReportName)</td>
+        </tr>
+        <tr>
+            <td colspan="6" style="color: green;text-align:center">@Html.DisplayFor(model=>model.ReportParagraphName)</td>
+        </tr>
+        <tr>
+            <td colspan="6"><br /></td>
+        </tr>
+
+        <tr>
+            <td style="color:green;font-weight:bold;width:20%">@Html.Label("Report Type : ") </td>
+            <td style="font-weight:bold;width:30%">
+                
+                @if (Model.monthlyStateSrrdaDpiu == null)
+                { 
+                    @Html.Label("DPIU")
+                }
+                else
+                {
+                    @Html.DisplayFor(model=>model.monthlyStateSrrdaDpiu)
+                }
+
+            </td>
+
+            <td style="color:green;font-weight:bold;width:10%">@Html.Label("Month - Year : ") </td>
+            <td style="font-weight:bold;width:20%">@Html.DisplayFor(model=>model.MonthName) - @Html.DisplayFor(model=>model.Year)</td>
+
+            <td style="color:green;font-weight:bold;width:10%">@Html.Label("Balance : ") </td>
+            <td style="font-weight:bold;width:20%">@Html.DisplayFor(model=>model.BalanceName)</td>
+        </tr>
+        <tr>
+            <td style="color:green; font-weight:bold">
+                
+                @if(PMGSYSession.Current.LevelId==5 || (Model.monthlyStateSrrdaDpiu=="DPIU" && Model.Dpiu!=0))
+                {
+                    @Html.Label("State - Name Of DPIU") @Html.Label(" :")
+                }
+                else
+                {
+                    @Html.Label("State - ") @Html.LabelFor(m=>m.NodalAgency) @Html.Label(" :")
+                }
+
+
+            </td>    
+            <td style="font-weight:bold">
+                @if (Model.NodalAgency == null)
+                { 
+                    @Html.Label(" - ")
+                }
+                else
+                {
+                    if (PMGSYSession.Current.LevelId == 6)
+                    {    
+                        @Html.DisplayFor(model=>model.StateName) @Html.Label(" - ") @Model.NodalAgency                   
+                    }
+                    else {                     
+                        @Html.Label(PMGSYSession.Current.StateName) @Html.Label(" - ") @Model.NodalAgency
+                    }
+                }
+            </td>    
+            <td>@*@Html.Label("STATE/SRRDA")*@</td>
+            <td>@*@Html.DisplayFor(model=>model.StateSRRDAName)*@</td>
+            <td></td>
+            <td></td>
+        </tr>
+
+</table>
+
+    </div>
+
+<br/>        
+@if (Model.lstMonthlyAccountSelf != null)
+{
+    if (Model.monthlyStateSrrdaDpiu == "DPIU" || PMGSYSession.Current.LevelId==5)
+    {
+        <div id="dvhdrMonthlyDetailsForStateAndSRRDA" class="ui-state-default ui-corner-all" style="margin-bottom: 05px; height: 20px;text-align:left;border:0.1em solid gray;background:none">
+               Monthly Account Details For DPIU
+              <span style="float: right; margin-right: 2Px; margin-top: 2px" id="spnMonthlyDetailsDPIU" class="ui-icon ui-icon-circle-triangle-n"></span>
+        </div>
+    }
+    else if (Model.monthlyStateSrrdaDpiu == "STATE" || Model.monthlyStateSrrdaDpiu == "SRRDA")
+    { 
+        <div id="dvhdrMonthlyDetailsStateAndSRRDA" class="ui-state-default ui-corner-all" style="margin-bottom: 05px; height: 20px;text-align:left;border:0.1em solid gray; background:none;">
+                Monthly Account Details For State / SRRDA
+                <span style="float: right; margin-right: 2Px; margin-top: 2px" id="spnMonthlyDetailsStateSRRDA" class="ui-icon ui-icon-circle-triangle-n"></span>
+        </div>
+    }
+    
+     
+    <table id="tblMonthlyAccount">
+        @{ 
+            <thead>
+                <tr>
+                    <th rowspan="2">Account Code Number</th>
+                    <th rowspan="2">Head of Account</th>                            
+                    <th colspan="3">@(Model.CreditDebit == "C" ? "Credit Balances (Amount in Rs.)" : "Debit Balances (Amount in Rs.)")</th>                            
+                </tr>
+                <tr>
+                    <th>To end of previous month @CultureInfo.CurrentCulture.DateTimeFormat.GetMonthName(Model.Month==1?12:Model.Month-1)</th>
+                    <th>For the Month @CultureInfo.CurrentCulture.DateTimeFormat.GetMonthName(Model.Month)</th>                            
+                    <th>To end of the month @CultureInfo.CurrentCulture.DateTimeFormat.GetMonthName(Model.Month) (3+4)</th>                                                        
+                </tr>              
+            </thead>
+            <tfoot>
+                @if (Model.lstMonthlyAccountSelf.Count > 0)
+                {
+                    <tr>
+                        <td></td>
+                        <td style="font-weight:bold;font-size:13px">TOTAL</td>
+                        <td style="text-align:right;font-weight:bold;font-size:13px">@String.Format(new CultureInfo("en-IN"), "{0:C}",Model.TotalOpeningAmount==null?0:Model.TotalOpeningAmount)</td>
+                        <td style="text-align:right;font-weight:bold;font-size:13px">@String.Format(new CultureInfo("en-IN"), "{0:C}",Model.TotalCreditDebit==null?0:Model.TotalCreditDebit)</td>
+                        <td style="text-align:right;font-weight:bold;font-size:13px">@String.Format(new CultureInfo("en-IN"), "{0:C}",(Convert.ToDecimal(Model.TotalOpeningAmount==null?0:Model.TotalOpeningAmount) + Convert.ToDecimal(Model.TotalCreditDebit==null?0:Model.TotalCreditDebit)))</td>
+                    </tr> 
+                }                                     
+        </tfoot>
+        <tbody> 
+                        
+                @if (Model.lstMonthlyAccountSelf.Count > 0)
+                {
+                    <tr>
+                        <td style="font-weight:bold; text-align:center; color:#1C94C4">1</td>
+                        <td style="font-weight:bold; text-align:center; color:#1C94C4">2</td>
+                        <td style="font-weight:bold; text-align:center; color:#1C94C4">3</td>
+                        <td style="font-weight:bold; text-align:center; color:#1C94C4">4</td>
+                        <td style="font-weight:bold; text-align:center; color:#1C94C4">5</td>
+                    </tr>
+                    
+                   
+                    
+                    foreach (USP_RPT_SHOW_MONTHLY_ACCOUNT_SELF_Result item in Model.lstMonthlyAccountSelf)
+                    {
+                        <tr>
+                            <td style="text-align:center">
+                                @*@item.Head_Code*@
+                                @* Added By Abhishek kamble 2-jan-2014 *@                    
+                                <a href="#" onclick="ShowMonthlyLedgerDetails('@item.Head_Code','S');">@item.Head_Code </a>
+                            </td>
+                            <td>@item.HEAD_NAME</td>
+                            <td style="text-align:right">
+                                 @{ 
+                                    @objCommonFunction._IndianFormatAmount(item.OB_AMT== null ? "0" : item.OB_AMT.ToString());
+                                  }
+                            </td>
+                            <td style="text-align:right">
+                                @{ 
+                                    @objCommonFunction._IndianFormatAmount(item.MONTHLY_AMT== null ? "0" : item.MONTHLY_AMT.ToString());
+                                }
+                            </td>
+                            <td style="text-align:right">
+                                @{ 
+                                    @objCommonFunction._IndianFormatAmount((Convert.ToDecimal(item.OB_AMT==null?0:item.OB_AMT) + Convert.ToDecimal(item.MONTHLY_AMT)).ToString());
+                                }
+                            </td>        
+                        </tr>
+                    }                         
+                 }                          
+                 else
+                 {
+                       <tr>
+                        <td style="font-weight:bold; text-align:center; color:#1C94C4">1</td>
+                        <td style="font-weight:bold; text-align:center; color:#1C94C4">2</td>
+                        <td style="font-weight:bold; text-align:center; color:#1C94C4">3</td>
+                        <td style="font-weight:bold; text-align:center; color:#1C94C4">4</td>
+                        <td style="font-weight:bold; text-align:center; color:#1C94C4">5</td>
+                       </tr>
+                       <tr>                               
+                            <td></td>
+                            <td></td>
+                            <td><b>No Records to Display</b></td>
+                            <td></td>
+                            <td></td>                               
+                        </tr>
+                            
+                 }     
+    </tbody>
+    }
+    </table>
+}
+
+    <br />
+    
+    @if (Model.lstMonthlyAccountAllPIU != null)
+    {
+     <div id="dvhdrMonthlyDetailsForStateAndSRRDA" class="ui-state-default ui-corner-all" style="margin-bottom: 05px; height: 20px;text-align:left;border:0.1em solid gray; background:none;">
+        Monthly Account Details For DPIU
+        <span style="float: right; margin-right: 2Px; margin-top: 2px" id="spnMonthlyDetailsDPIU" class="ui-icon ui-icon-circle-triangle-n"></span>
+    </div>        
+        
+    <table id="tblMonthlyAccountForPIU">
+        @{ 
+            <thead>
+                <tr>
+                    <th rowspan="2">Account Code Number</th>
+                    <th rowspan="2">Head of Account</th>                            
+                    <th colspan="3">@(Model.CreditDebit == "C" ? "Credit Balances (Amount in Rs.)" : "Debit Balances (Amount in Rs.)")</th>                            
+                </tr>
+                <tr>
+                    <th>To end of previous month @CultureInfo.CurrentCulture.DateTimeFormat.GetMonthName(Model.Month==1?12:Model.Month-1)</th>
+                    <th>For the Month @CultureInfo.CurrentCulture.DateTimeFormat.GetMonthName(Model.Month)</th>                            
+                    <th>To end of the month @CultureInfo.CurrentCulture.DateTimeFormat.GetMonthName(Model.Month) (3+4)</th>                                                        
+                </tr>              
+            </thead>
+            <tfoot>
+                @if (Model.lstMonthlyAccountAllPIU.Count > 0)
+                {
+                    <tr>
+                        <td></td>
+                        <td style="font-weight:bold;font-size:13px">TOTAL</td>
+                        <td style="text-align:right;font-size:13px">@String.Format(new CultureInfo("en-IN"), "{0:C}",Model.TotalOpeningAmountForPIU==null?0:Model.TotalOpeningAmountForPIU)</td>
+                        <td style="text-align:right;font-size:13px">@String.Format(new CultureInfo("en-IN"), "{0:C}",Model.TotalCreditDebitAmountForPIU==null?0:Model.TotalCreditDebitAmountForPIU)</td>
+                        <td style="text-align:right;font-size:13px">@String.Format(new CultureInfo("en-IN"), "{0:C}",(Convert.ToDecimal(Model.TotalOpeningAmountForPIU==null?0:Model.TotalOpeningAmountForPIU) + Convert.ToDecimal(Model.TotalCreditDebitAmountForPIU==null?0:Model.TotalCreditDebitAmountForPIU)))</td>
+                    </tr> 
+                }                                     
+        </tfoot>
+        <tbody> 
+                        
+                @if (Model.lstMonthlyAccountAllPIU.Count > 0)
+                {
+                    <tr>
+                        <td style="font-weight:bold; text-align:center; color:#1C94C4">1</td>
+                        <td style="font-weight:bold; text-align:center; color:#1C94C4">2</td>
+                        <td style="font-weight:bold; text-align:center; color:#1C94C4">3</td>
+                        <td style="font-weight:bold; text-align:center; color:#1C94C4">4</td>
+                        <td style="font-weight:bold; text-align:center; color:#1C94C4">5</td>
+                    </tr>
+                    foreach (USP_RPT_SHOW_MONTHLY_ACCOUNT_ALLPIU_Result item in Model.lstMonthlyAccountAllPIU)
+                    {
+                        <tr>
+                            <td style="text-align:center">
+                                @*@item.Head_Code*@
+
+                                @* Added By Abhishek kamble 2-jan-2014 *@                    
+                                <a href="#" onclick="ShowMonthlyLedgerDetails('@item.Head_Code','D');">@item.Head_Code </a>
+
+                            </td>
+                            <td>@item.HEAD_NAME</td>
+                            <td style="text-align:right">
+                                @{ 
+                                    @objCommonFunction._IndianFormatAmount(item.OB_AMT== null ? "0" : item.OB_AMT.ToString());
+                                }
+                            </td>
+                            <td style="text-align:right">
+                                @{ 
+                                    @objCommonFunction._IndianFormatAmount(item.MONTHLY_AMT== null ? "0" : item.MONTHLY_AMT.ToString());
+                                }
+                            </td>
+                            <td style="text-align:right">
+                                @{ 
+                                    @objCommonFunction._IndianFormatAmount((Convert.ToDecimal(item.OB_AMT==null?0:item.OB_AMT) + Convert.ToDecimal(item.MONTHLY_AMT==null?0:item.MONTHLY_AMT)).ToString());
+                                 }
+                            </td>        
+                        </tr>
+                    }                         
+                 }                          
+                 else
+                 {
+                       <tr>
+                        <td style="font-weight:bold; text-align:center; color:#1C94C4">1</td>
+                        <td style="font-weight:bold; text-align:center; color:#1C94C4">2</td>
+                        <td style="font-weight:bold; text-align:center; color:#1C94C4">3</td>
+                        <td style="font-weight:bold; text-align:center; color:#1C94C4">4</td>
+                        <td style="font-weight:bold; text-align:center; color:#1C94C4">5</td>
+                       </tr>
+                       <tr>                               
+                            <td></td>
+                            <td></td>
+                            <td><b>No Records to Display</b></td>
+                            <td></td>
+                            <td></td>                               
+                        </tr>
+                            
+                 }     
+    </tbody>
+    }
+    </table>
+        
+        if ((PMGSYSession.Current.LevelId == 6 && Model.monthlyStateSrrdaDpiu == "STATE") || (PMGSYSession.Current.LevelId == 4 && Model.monthlyStateSrrdaDpiu == "STATE"))
+        {
+            <br />        
+            <div id="dvTotalAmount" class="ui-state-default ui-corner-all" style="margin-bottom: 05px; height: 20px;text-align:left;border:0.1em solid gray;background:none">
+        
+                   <table style="width:100%">
+                    <tr>
+                        <td style="width:25%"></td>
+
+                        <td style="width:31%;text-align:right;font-weight:bold;font-size:13px">
+                                State Total :@String.Format(new CultureInfo("en-IN"), "{0:C}",(Convert.ToDecimal(Model.TotalOpeningAmount==null?0:Model.TotalOpeningAmount)+Convert.ToDecimal(Model.TotalOpeningAmountForPIU==null?0:Model.TotalOpeningAmountForPIU)))
+                        </td>
+
+                        <td style="width:10%;text-align:right;font-weight:bold;font-size:13px">
+                            @String.Format(new CultureInfo("en-IN"), "{0:C}",(Convert.ToDecimal(Model.TotalCreditDebit==null?0:Model.TotalCreditDebit)+Convert.ToDecimal(Model.TotalCreditDebitAmountForPIU==null?0:Model.TotalCreditDebitAmountForPIU)))
+                        </td>
+
+                        <td style="width:16%;text-align:right;font-weight:bold;font-size:13px">                            
+                            @String.Format(new CultureInfo("en-IN"), "{0:C}",(Convert.ToDecimal(Model.TotalOpeningAmount==null?0:Model.TotalOpeningAmount)+Convert.ToDecimal(Model.TotalCreditDebit==null?0:Model.TotalCreditDebit)+Convert.ToDecimal(Model.TotalOpeningAmountForPIU==null?0:Model.TotalOpeningAmountForPIU)+Convert.ToDecimal(Model.TotalCreditDebitAmountForPIU==null?0:Model.TotalCreditDebitAmountForPIU)))
+                        </td>
+                    </tr>
+                </table>
+            </div>        
+        }
+    }
+
+</center>
+
+</form>
+
+   </div>
+<div id="dvShowMonthlyLedgerDetails"></div>
+

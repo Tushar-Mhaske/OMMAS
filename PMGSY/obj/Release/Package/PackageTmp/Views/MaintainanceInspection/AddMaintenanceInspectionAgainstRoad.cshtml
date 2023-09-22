@@ -1,0 +1,83 @@
+﻿@model PMGSY.Models.MaintainanceInspection.MaintainanceInspectionViewModel
+
+<script src="~/Scripts/custom/Generic.js"></script>
+
+<script src="~/Scripts/MainatinanceInspection/AddMaintainanceInspection.js"></script>
+
+<style>
+    /*div {
+        font-size:1em;
+    }*/
+    #accordion .ui-accordion-content {
+        font-size: 1em;
+    }
+</style>
+
+<div id="dvInspectionDetails" class="ui-state-default ui-corner-all">
+    <table>
+        @Html.HiddenFor(m => m.IMS_PR_ROAD_CODE)
+      
+        <tr>
+            <td style="width: 2%"></td>
+            <td style="width: 5%; text-align: left">
+                @Html.Label("Block")
+            </td>
+            <td style="width: 12%; text-align: left">
+                <b>@Html.Label("SanctionedYear", ViewBag.Block as String)   </b>
+
+            </td>
+            <td style="width: 5%; text-align: left">
+                @Html.Label("Year")
+            </td>
+            <td style="width: 12%; text-align: left">
+                <b>@Html.Label("SanctionedYear", ViewBag.SanctionedYear as String)   </b>
+
+            </td>
+        </tr>
+        <tr>
+            <td style="width: 2%"></td>
+            <td style="width: 8%">
+                @Html.Label("Package")
+            </td>
+
+            <td style="width: 8%">
+
+                <b>@Html.Label("Package", ViewBag.Package as String)   </b>
+
+            </td>
+            <td style="width: 5%; text-align: left">
+                @Html.Label("Road Name")
+
+            </td>
+
+            <td style="width: 12%; text-align: left">
+
+                <b>@Html.Label("RoadName", ViewBag.RoadName as String)   </b>
+
+            </td>
+
+
+        </tr>
+    </table>
+</div>
+
+<div id="dvInspectionList" style="margin-top: 20px; margin-bottom: 15px;">
+
+    <table id="tbMainInspectionList">
+    </table>
+
+    <div id="dvInspectionListPager"></div>
+
+
+</div>
+
+<div id="dvAddInspection">
+</div>
+
+
+
+
+
+
+
+

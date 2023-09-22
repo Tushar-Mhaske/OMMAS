@@ -1,0 +1,84 @@
+﻿@model PMGSY.Models.Report.RegisterOfWorks.RegisterOfWorksModel
+
+<script src="~/Scripts/custom/Generic.js"></script>
+<script src="~/Scripts/Report/RegisterOfWorksPartial.js"></script>
+<center>
+<form id="frmRegisterOfWorksPartial">
+    @Html.HiddenFor(model => model.ADMIN_ND_CODE)
+    @Html.HiddenFor(model => model.MAST_CON_ID)
+    @Html.HiddenFor(model => model.TEND_AGREEMENT_CODE)
+@*<table cellspacing="0" cellpadding="2" class="rowstyle" style="margin-top:10px; text-align:left; border:ridge 0.1em #ccc; width:100%; padding:5px 5px 5px 5px;">*@
+
+    <div id="dvWorkOfRegisterDetails" class="CBHeader ui-corner-all" style="display:none;">
+    <table class="ui-state-default ui-corner-all" style="border: 0.1em solid gray; width: 100%; margin-top: 1px" id="rptMAAnnex">
+        <tr>
+            <td colspan="6" style="color: green;text-align:right">@Html.DisplayFor(model=>model.ReportFormNumber)</td>
+        </tr>
+        <tr>
+            <td colspan="6" style="color: green;text-align:center">@Html.DisplayFor(model=>model.FundTypeName)</td>
+        </tr>
+        <tr>
+            <td colspan="6" style="color: green;text-align:center">@Html.DisplayFor(model=>model.ReportName)</td>
+        </tr>
+        <tr>
+            <td colspan="6" style="color: green;text-align:center">@Html.DisplayFor(model=>model.ReportParagraphName)</td>
+        </tr>
+        <tr>
+            <td colspan="6"><br /></td>
+        </tr>
+        
+      <tr>
+                    @if (PMGSY.Extensions.PMGSYSession.Current.LevelId == 4) //State
+                    { 
+                        <td style="width:07%">
+                               <b style="color:green">@Html.LabelFor(model=>model.StateDepartment) :</b>
+                        </td>
+                        <td style="width:20%">
+                                @Html.DisplayFor(model=>model.StateDepartment)
+                        </td>
+                    }
+                    else if(PMGSY.Extensions.PMGSYSession.Current.LevelId == 5)  //District
+                    {
+                        <td style="width:07%">
+                               <b style="color:green">@Html.LabelFor(model=>model.DistrictDepartment) :</b>
+                        </td>
+                        <td style="width:20%">
+                                @Html.DisplayFor(model=>model.DistrictDepartment)
+                        </td>
+                    }
+                <td style="width:10%">
+                    <b style="color:green">@Html.LabelFor(model=>model.AGREEMENT_DATE) :</b>
+                </td>
+                <td style="width:20%">
+                     @Html.DisplayFor(model=>model.AGREEMENT_DATE)
+                </td>
+                <td style="width:15%">
+                    <b style="color:green">@Html.LabelFor(model=>model.AGREEMENT_AMOUNT) :</b>
+                </td>
+                <td style="width:13%">
+                     @Html.DisplayFor(model=>model.AGREEMENT_AMOUNT)
+                </td>
+            </tr>
+            <tr>
+                 <td style="width:10%">
+                     <b style="color:green">@Html.LabelFor(model=>model.AGREEMENT_NUMBER) :</b>
+                </td>
+                <td style="width:10%" colspan="3">
+                     @Html.DisplayFor(model=>model.AGREEMENT_NUMBER)
+                </td>
+                <td style="width:07%">
+                     @*<b style="color:green">@Html.LabelFor(model=>model.FUNDING_AGENCY) :</b>*@
+                </td>
+                <td style="width:20%">
+                     @*@Html.DisplayFor(model=>model.FUNDING_AGENCY)*@
+                </td>
+               
+            </tr>
+        </table>
+    </div>
+    <br />
+
+     <table id="tblRegisterOfWorksList"></table>
+    <div id="divRegisterOfWorksListPager"></div>
+   </form>
+</center>

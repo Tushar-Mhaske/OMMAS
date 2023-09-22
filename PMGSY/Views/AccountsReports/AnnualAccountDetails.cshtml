@@ -1,0 +1,522 @@
+﻿@using PMGSY.Models
+@using PMGSY.Models.Report
+@model PMGSY.Models.AccountsReports.AnnualAccount
+@using PMGSY.Extensions
+@using System.Globalization
+@using PMGSY.Common
+
+<style type="text/css">
+
+div.CBHeader{
+			padding:5px;
+            width:98%;
+			display:inline-block;
+			cursor:default;
+			/*font:12px/14px Arial, Helvetica, sans-serif;*/
+            font-family: Trebuchet MS,Tahoma,Verdana,Arial,sans-serif;
+			color:#000;
+			background-color:#eee;
+			-moz-border-radius:10px;
+			-webkit-border-radius:10px;
+			-moz-box-shadow:#999 2px 0px 3px;
+			-webkit-box-shadow:#999 2px 0px 3px;
+		}
+</style>
+
+<link href="~/Content/demo_page.css" rel="stylesheet" />
+<link href="~/Content/demo_table_jui.css" rel="stylesheet" />
+<link href="~/Content/TableTools.css" rel="stylesheet" />
+<link href="~/Content/TableTools_JUI.css" rel="stylesheet" />
+
+<script src="~/Scripts/custom/Generic.js"></script>
+<script src="~/Scripts/DataTables/jquery.dataTables.js"></script>
+<script src="~/Scripts/DataTables/ZeroClipboard.js"></script>
+<script src="~/Scripts/DataTables/TableTools.js"></script>
+
+<script src="~/Scripts/AccountsReports/AnnualReportList.js"></script>
+
+@{
+    CommonFunctions objCommonFunction = new CommonFunctions();
+ }
+
+<div class="CBHeader ui-corner-all" >
+    <table class="ui-state-default ui-corner-all" style="border: 0.1em solid gray; width: 100%; margin-top: 1px" id="tblFilter">
+        @if(Model.DPIU=="0")
+        {
+             @Html.Hidden("TotalRecord",Model.lstReportDPIU.Count)  
+        }
+        else
+        {
+             @Html.Hidden("TotalRecord",Model.lstAnnualReport.Count)  
+        }   
+    @Html.HiddenFor(m=>m.Selection)
+        @Html.Hidden("LevelId",PMGSYSession.Current.LevelId)
+        <tr>
+            <td colspan="5" style="text-align:right;color:green">
+                @Html.DisplayFor(m=>m.FormNo)
+            </td>
+        </tr>
+        <tr>
+            <td colspan="5"  style="text-align:center;color:green">
+                @Html.DisplayFor(m=>m.FundType)
+            </td>
+        </tr>
+        <tr>
+            <td colspan="5"  style="text-align:center;color:green">
+                @Html.DisplayFor(m=>m.ReportName)
+            </td>
+        </tr>
+        <tr>
+            <td colspan="5" style="text-align:center;color:green">
+                @Html.DisplayFor(m=>m.ReportParaName)
+            </td>
+        </tr>
+      <tr>
+          <td><br /></td>
+      </tr>
+        
+        <tr>
+            <td style="width:3%"></td>
+            <td style="font-weight: bold; width: 10%;color:green">@Html.LabelFor(m => m.NodalAgency, new { style="font-weight:bold"}) :</td>
+            <td style="width:20%">@Html.DisplayFor(m => m.NodalAgency)</td>
+
+            <td style="font-weight: bold; width: 15%;color:green">@Html.LabelFor(m => m.PIU, new { style="font-weight:bold"}) :</td>
+            @if(Model.PIU!=null)
+            {
+                <td style="width:10%">@Html.DisplayFor(m => m.PIU)</td>
+            }
+            else
+            {
+                <td style="width:20%">@Html.Label("-")</td>
+            }
+        </tr>
+       
+        <tr>
+            <td style="width:3%"></td>
+            <td style="font-weight: bold;width: 3%;color:green">@Html.Label("State", new { style="font-weight:bold"}) :</td>
+            <td style="width: 15%">@Html.Label("lblState", ViewBag.State as String)</td>
+
+             <td style="font-weight: bold;width: 3%;color:green">@Html.Label("Year",new { style="font-weight:bold"}) :</td>
+            <td style="width: 15%">@Html.Label("lblYear", ViewBag.Year as String)</td>
+        </tr>
+      
+    </table>
+</div>
+
+@if(Model.Selection=="S")
+{
+  <div id="dvhdrChequeBookDetails" class="ui-state-default ui-corner-all" style="margin-bottom: 05px; height: 20px"><b>Annual Account Details for @ViewBag.State</b><span style="float: right; margin-right: 2Px; margin-top: 2px" id="spnStateBalances" class="ui-icon ui-icon-circle-triangle-n"></span>  </div>
+if (Model.lstAnnualReport != null)
+{
+    <table id="tblAnnualAccount">
+        @{ 
+            <thead>
+                <tr>
+                    <th rowspan="2">Sr. No.</th>
+                    <th rowspan="2">Head Code</th>                
+                    <th rowspan="2">Head of Account</th>                            
+                    <th colspan="3">@(Model.CreditDebit == "C" ? "Credit Balances" : "Debit Balances")</th>                            
+                </tr>
+                <tr>
+                    <th >Opening Balance on <br />1 <sup>st</sup>April of Year @Model.Year </th>
+                    <th>During the year <br />@(Convert.ToInt32(Model.Year)) - @(Convert.ToInt32(Model.Year) +1) </th>                                              
+                    <th>Closing Balance on <br />31<sup>st</sup> March of Year @(Convert.ToInt32(Model.Year) + 1)</th>                                                        
+                </tr>  
+                         
+            </thead>
+            <tfoot>
+                @if (Model.lstAnnualReport.Count > 0)
+                {
+                    <tr>
+                        <td></td>
+                        <td></td>                   
+                        <td style="font-weight:bold;font-size:13px">TOTAL</td>
+                        @*<td style="font-weight:bold;text-align:right">@Model.TotalCreditDebit</td>
+                        <td style="font-weight:bold;text-align:right">@(Model.TotalOpeningAmount == null?Convert.ToDecimal(0):Model.TotalOpeningAmount)</td>*@
+                            <td style="text-align:right;font-weight:bold;font-size:13px">
+                                @String.Format(new CultureInfo("en-IN"), "{0:C}",Model.TotalCreditDebit==null?0:Model.TotalCreditDebit)                                
+                            </td>
+                            <td style="text-align:right;font-weight:bold;font-size:13px">
+                                @String.Format(new CultureInfo("en-IN"), "{0:C}",Model.TotalOpeningAmount==null?0:Model.TotalOpeningAmount)
+                            </td>
+                        <td style="font-weight:bold;text-align:right;font-size:13px">@String.Format(new CultureInfo("en-IN"), "{0:C}",(Convert.ToDecimal(Model.TotalOpeningAmount) + Convert.ToDecimal(Model.TotalCreditDebit)))</td>
+                    </tr> 
+                }                                     
+        </tfoot>
+        <tbody>           
+                @if (Model.lstAnnualReport.Count > 0)
+                {
+
+                    foreach (USP_RPT_SHOW_YEARLY_ACCOUNT_SELF_Result item in Model.lstAnnualReport)
+                    {
+                        <tr>
+                                
+                            <td style="text-align:center"></td>
+                            <td>@item.Head_Code</td>                    
+                            <td>@item.HEAD_NAME</td>
+                            @*<td style="text-align:right">@item.OB_AMT</td>
+                            <td style="text-align:right">@item.YEARLY_AMT</td>*@
+                               <td style="text-align:right">
+                                    @{ 
+                                        @objCommonFunction._IndianFormatAmount(item.OB_AMT==null?"0":item.OB_AMT.ToString());
+                                    }
+                                </td>
+                                <td style="text-align:right">
+                                    @{ 
+                                        @objCommonFunction._IndianFormatAmount(item.YEARLY_AMT==null?"0":item.YEARLY_AMT.ToString());
+                                    }
+                                </td>
+                            <td style="text-align:right">
+                                @{ 
+                                        @objCommonFunction._IndianFormatAmount((Convert.ToDecimal(item.OB_AMT) + Convert.ToDecimal(item.YEARLY_AMT)).ToString());
+                                 }
+                            </td>        
+                        </tr>
+                     
+                    }                         
+                 }                          
+                 else
+                 {
+                        <tr>                                            
+                            <td></td>
+                            <td></td>
+                            <td></td>
+                            <td><b>No Records to Display</b></td>
+                            <td></td>
+                            <td></td>                               
+                        </tr>
+                            
+                 }                  
+  
+    </tbody>
+    }
+    </table>
+}
+}
+<br />
+@if(Model.Selection=="R")
+{
+<div id="dvhdSRRDA" class="ui-state-default ui-corner-all" style="margin-bottom: 05px; height: 20px"><b>Annual Account Details for @ViewBag.State</b><span style="float: right; margin-right: 2Px; margin-top: 2px" id="spnSRRDABalances" class="ui-icon ui-icon-circle-triangle-n"></span>  </div>
+}
+@if (Model.Selection == "R")
+{
+    if (Model.lstAnnualReport != null)
+{
+    <table id="tblAnnualAccountSRRDA">
+        @{ 
+            <thead>
+                <tr>
+                    <th rowspan="2">SR No.</th>
+                    <th rowspan="2">Head Code</th>                
+                    <th rowspan="2">Head of Account</th>                            
+                    <th colspan="3">@(Model.CreditDebit == "C" ? "Credit Balances" : "Debit Balances")</th>                            
+                </tr>
+                <tr>
+                    <th >Opening Balance on <br />1 <sup>st</sup>April of Year @Model.Year </th>
+                    <th>During the year <br />@(Convert.ToInt32(Model.Year)) - @(Convert.ToInt32(Model.Year) +1) </th>                                              
+                    <th>Closing Balance on <br />31<sup>st</sup> March of Year @(Convert.ToInt32(Model.Year) + 1)</th>                                                   
+                </tr>  
+                         
+            </thead>
+            <tfoot>
+                @if (Model.lstAnnualReport.Count > 0)
+                {
+                    <tr>
+                        <td></td>
+                        <td></td>                   
+                        <td style="font-weight:bold;font-size:13px">TOTAL</td>
+                        @*<td style="text-align:right">@Model.TotalCreditDebit</td>
+                        <td style="text-align:right">@(Model.TotalOpeningAmount == null?Convert.ToDecimal(0):Model.TotalOpeningAmount)</td>*@
+                            <td style="text-align:right;font-weight:bold;font-size:13px">                                
+                                @String.Format(new CultureInfo("en-IN"), "{0:C}",Model.TotalCreditDebit==null?0:Model.TotalCreditDebit)
+                            </td>
+                        
+                            <td style="text-align:right;font-weight:bold;font-size:13px">
+                                @String.Format(new CultureInfo("en-IN"), "{0:C}",Model.TotalOpeningAmount==null?0:Model.TotalOpeningAmount)
+                            </td>
+                        <td style="text-align:right;font-size:13px">
+                            @String.Format(new CultureInfo("en-IN"), "{0:C}",(Convert.ToDecimal(Model.TotalOpeningAmount) + Convert.ToDecimal(Model.TotalCreditDebit)))
+                        </td>
+                    </tr> 
+                }                                     
+        </tfoot>
+        <tbody> 
+                   
+                @if (Model.lstAnnualReport.Count > 0)
+                {
+
+                    foreach (USP_RPT_SHOW_YEARLY_ACCOUNT_SELF_Result item in Model.lstAnnualReport)
+                    {
+                        <tr>
+                                
+                            <td style="text-align:center"></td>
+                            <td>@item.Head_Code</td>                    
+                            <td>@item.HEAD_NAME</td>
+                            @*<td style="text-align:right">@item.OB_AMT</td>
+                            <td style="text-align:right">@item.YEARLY_AMT</td>*@
+                                <td style="text-align:right">
+                                     @{ 
+                                        @objCommonFunction._IndianFormatAmount(item.OB_AMT==null?"0":item.OB_AMT.ToString());
+                                    }
+                                </td>
+                            
+                                <td style="text-align:right">
+                                    @*@(item.YEARLY_AMT)*@
+                                    @String.Format(new CultureInfo("en-IN"), "{0:C}",item.YEARLY_AMT).Substring(1)
+                                </td>
+                            
+                            <td style="text-align:right">
+                                 @String.Format(new CultureInfo("en-IN"), "{0:C}",(Convert.ToDecimal(item.OB_AMT) + Convert.ToDecimal(item.YEARLY_AMT))).Substring(1)
+                            </td>        
+                        </tr>
+                     
+                    }                         
+                 }                          
+                 else
+                 {
+                        <tr>                                            
+                            <td></td>
+                            <td></td>
+                            <td><b>No Records to Display</b></td>
+                            <td></td>
+                            <td></td>                               
+                        </tr>
+                            
+                 }          
+            
+    </tbody>
+    }
+    </table>
+}
+    
+}
+<br />
+
+
+@if (Model.Selection == "D"|| Model.Selection=="S"|| PMGSYSession.Current.LevelId==5 )
+{
+    if (Model.lstReportDPIU != null || Model.lstAnnualReport != null || PMGSYSession.Current.LevelId == 5)
+{
+    if (Model.DPIU == "0" || Model.Selection == "S")
+        {
+   <div id="dvhdDPIU" class="ui-state-default ui-corner-all" style="margin-bottom: 05px; height: 20px"><b>Annual Account Details for All DPIU</b><span style="float: right; margin-right: 2Px; margin-top: 2px" id="spnDPIUBalances" class="ui-icon ui-icon-circle-triangle-n"></span>  </div>
+        }
+        else
+        {
+            <div id="dvhdDPIU" class="ui-state-default ui-corner-all" style="margin-bottom: 05px; height: 20px"><b>Annual Account Details for @Model.PIU</b><span style="float: right; margin-right: 2Px; margin-top: 2px" id="spnDPIUBalances" class="ui-icon ui-icon-circle-triangle-n"></span>  </div>
+        }
+    <table id="tblAnnualAccountDPIU">
+        @{ 
+            <thead>
+                <tr>
+                    <th rowspan="2">SR No.</th>
+                    <th rowspan="2">Head Code</th>                
+                    <th rowspan="2">Head of Account</th>                            
+                    <th colspan="3">@(Model.CreditDebit == "C" ? "Credit Balances" : "Debit Balances")</th>                            
+                </tr>
+                <tr>
+                    <th >Opening Balance on <br />1 <sup>st</sup>April of Year @Model.Year </th>
+                    <th>During the year <br />@(Convert.ToInt32(Model.Year)) - @(Convert.ToInt32(Model.Year) +1) </th>                                              
+                    <th>Closing Balance on <br />31<sup>st</sup> March of Year @(Convert.ToInt32(Model.Year) + 1)</th>                                                     
+                </tr>  
+                         
+            </thead>
+            <tfoot>            
+             
+                @if(Model.DPIU=="0")
+                {
+                     <tr>
+                        <td></td>
+                         <td></td>                   
+                        <td style="font-weight:bold;font-size:13px">TOTAL</td>
+                        @*<td style="text-align:right;font-weight:bold">@(Model.TotalCreditDebit == 0?Convert.ToDecimal(0.00):Model.TotalCreditDebit)</td>
+                        <td style="text-align:right;font-weight:bold">@(Model.TotalOpeningAmount == 0?Convert.ToDecimal(0.00):Model.TotalOpeningAmount)</td>*@
+                            <td style="text-align:right;font-weight:bold;font-size:13px">
+                                @String.Format(new CultureInfo("en-IN"), "{0:C}",Model.TotalCreditDebit==null?0:Model.TotalCreditDebit)
+                            </td>
+                            <td style="text-align:right;font-weight:bold;font-size:13px">
+                                @String.Format(new CultureInfo("en-IN"), "{0:C}",Model.TotalOpeningAmount==null?0:Model.TotalOpeningAmount)
+                            </td>
+                        <td style="text-align:right;font-weight:bold;font-size:13px">
+                            @String.Format(new CultureInfo("en-IN"), "{0:C}",(Convert.ToDecimal(Model.TotalCreditDebit) + Convert.ToDecimal(Model.TotalOpeningAmount))) 
+                        </td>
+                    </tr> 
+                }
+                else 
+                {
+                    <tr>
+                        <td style="font-weight:bold">@*TOTAL*@</td>
+                        <td></td>                   
+                        <td style="font-weight:bold;font-size:13px">TOTAL</td>
+                            <td style="text-align:right;font-weight:bold;font-size:13px">
+                                @String.Format(new CultureInfo("en-IN"), "{0:C}",Model.TotalCreditDebitDPIU)
+                            </td>
+                            <td style="text-align:right;font-weight:bold;font-size:13px">
+                                @String.Format(new CultureInfo("en-IN"), "{0:C}",Model.TotalOpeningAmountDPIU)
+                            </td>
+                        <td style="text-align:right;font-weight:bold;font-size:13px">                            
+                            @String.Format(new CultureInfo("en-IN"), "{0:C}",(Convert.ToDecimal(Model.TotalCreditDebitDPIU) + Convert.ToDecimal(Model.TotalOpeningAmountDPIU)))
+                        </td>
+                    </tr> 
+                }  
+                                                
+        </tfoot>
+        <tbody> 
+               @if(Model.DPIU=="0"|| Model.Selection=="S")
+               {  
+                if (Model.lstReportDPIU.Count > 0)
+                {
+
+                    foreach (USP_RPT_SHOW_YEARLY_ACCOUNT_ALLPIU_Result item in Model.lstReportDPIU)
+                    {
+                        <tr>
+                                
+                            <td style="text-align:center"></td>                    
+                            <td>@item.HEAD_CODE</td>
+                            <td>@item.HEAD_NAME</td>
+                            <td style="text-align:right">                            
+                                @{ 
+                                    @objCommonFunction._IndianFormatAmount(item.OB_AMT== null ? "0" : item.OB_AMT.ToString());
+                                 }
+                            </td>
+                            <td style="text-align:right">
+                                @{ 
+                                    @objCommonFunction._IndianFormatAmount(item.YEARLY_AMT== null ? "0" : item.YEARLY_AMT.ToString());
+                                  }
+                            </td>
+                            <td style="text-align:right">                                
+                                @{ 
+                                    @objCommonFunction._IndianFormatAmount((Convert.ToDecimal(item.OB_AMT) + Convert.ToDecimal(item.YEARLY_AMT)).ToString());
+                                }
+                            </td>        
+                        </tr>
+                     
+                    }                         
+                 }                                          
+                 else
+                 {
+                        <tr>                                            
+                            <td></td>
+                            <td></td>
+                            <td><b>No Records to Display</b></td>
+                            <td></td>
+                            <td></td>                               
+                        </tr>
+                            
+                 }  
+            } 
+            else if(Model.DPIU !="0")
+               {  
+                if (Model.lstAnnualReport.Count > 0)
+                {
+
+                    foreach (USP_RPT_SHOW_YEARLY_ACCOUNT_SELF_Result item in Model.lstAnnualReport)
+                    {
+                        <tr>
+                                
+                            <td style="text-align:center"></td> 
+                            <td>@item.Head_Code</td>                   
+                            <td>@item.HEAD_NAME</td>
+                            <td style="text-align:right">
+                                @{ 
+                                    @objCommonFunction._IndianFormatAmount(item.OB_AMT== null ? "0" : item.OB_AMT.ToString());
+                                }                         
+                            </td>
+                            <td style="text-align:right">
+                                @{ 
+                                    @objCommonFunction._IndianFormatAmount(item.YEARLY_AMT== null ? "0" : item.YEARLY_AMT.ToString());
+                                }                         
+                            </td>
+                            
+                            <td style="text-align:right">
+                                @{ 
+                                    @objCommonFunction._IndianFormatAmount((Convert.ToDecimal(item.OB_AMT) + Convert.ToDecimal(item.YEARLY_AMT)).ToString());
+                                }                         
+                            </td>        
+                        </tr>
+                     
+                    }                         
+                 }                                         
+                 else
+                 {
+                        <tr>                                            
+                            <td></td>
+                            <td></td>
+                            <td></td>
+                            <td><b>No Records to Display</b></td>
+                            <td></td>
+                            <td></td>                               
+                        </tr>
+                            
+                 } 
+                 }
+            
+                          
+            
+    </tbody>
+    }
+    </table>
+}
+    
+}
+
+@if(Model.Selection=="S")
+{  
+<div class="ui-state-default ui-corner-all" style="margin-bottom: 05px; height: 20px" id="dvBalance">   
+<table style="width:100%">
+    <tr>
+        <td colspan="2" style="width:54%">
+            <b>Total Balance for State:</b>
+    @*Total Balance for State: @(Convert.ToDecimal(Model.TotalCreditDebit) + Convert.ToDecimal(Model.TotalOpeningAmount)+ Convert.ToDecimal(Model.TotalCreditDebitDPIU) + Convert.ToDecimal(Model.TotalOpeningAmountDPIU))*@
+            </td>
+        <td style="width:10%;text-align:right">
+            @if (Convert.ToDecimal(Model.TotalCreditDebit) + Convert.ToDecimal(Model.TotalCreditDebitDPIU) == 0)
+            {
+                <b>Rs. 0.00</b> 
+            }
+            else
+            {
+                <b> 
+                    @String.Format(new CultureInfo("en-IN"), "{0:C}",(Convert.ToDecimal(Model.TotalCreditDebit) + Convert.ToDecimal(Model.TotalCreditDebitDPIU)))
+                </b>
+            }
+        </td>
+        <td style="width:10%;text-align:right">
+            @if (Convert.ToDecimal(Model.TotalOpeningAmount) + Convert.ToDecimal(Model.TotalOpeningAmountDPIU) == 0)
+            {
+                <b>Rs. 0.00</b> 
+            }
+            else
+            {
+                <b>
+                     @String.Format(new CultureInfo("en-IN"), "{0:C}",(Convert.ToDecimal(Model.TotalOpeningAmount) +Convert.ToDecimal(Model.TotalOpeningAmountDPIU)))
+                </b>     
+            }
+            
+        </td>
+        <td style="width:13%;text-align:right">
+            @if (Convert.ToDecimal(Model.TotalCreditDebit) + Convert.ToDecimal(Model.TotalCreditDebitDPIU) + Convert.ToDecimal(Model.TotalOpeningAmount) + Convert.ToDecimal(Model.TotalOpeningAmountDPIU) == 0)
+            {
+                <b>Rs. 0.00</b>
+            }
+            else
+            {
+                <b> 
+                    @String.Format(new CultureInfo("en-IN"), "{0:C}",(Convert.ToDecimal(Model.TotalCreditDebit) + Convert.ToDecimal(Model.TotalCreditDebitDPIU) + Convert.ToDecimal(Model.TotalOpeningAmount) + Convert.ToDecimal(Model.TotalOpeningAmountDPIU)))
+                </b> 
+            }
+                
+        </td>
+        </tr>
+</table>
+  
+</div>
+}
+
+
+
+
+
+
+
+

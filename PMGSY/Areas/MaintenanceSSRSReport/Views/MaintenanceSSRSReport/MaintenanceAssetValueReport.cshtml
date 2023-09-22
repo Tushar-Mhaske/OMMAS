@@ -1,0 +1,10 @@
+﻿@using MvcReportViewer
+
+@model PMGSY.Areas.MaintenanceSSRSReport.Models.AssetValueModel
+
+@Html.MvcReportViewer("/PMGSYCitizen/AssetValueOfPMGSY",
+     new { 
+         PMGSY = Model.PMGSY,
+         LocalizationValue="en"   
+        },
+     new { Height = 600, Width = "100%", style = "border:none;" })

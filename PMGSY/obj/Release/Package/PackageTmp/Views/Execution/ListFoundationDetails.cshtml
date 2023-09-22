@@ -1,0 +1,26 @@
+﻿@model PMGSY.Models.Execution.FoundationViewModel
+
+@if (Layout == null)
+{
+    Layout = Request.IsAjaxRequest() ? null : "~/Areas/AccountReports/Views/Account/_Layout.cshtml";
+}
+
+<script src="@Url.Content("~/Scripts/custom/Generic.js")" type="text/javascript" ></script>
+<script src="~/Scripts/Execution/ListFoundationDetails.js"></script>
+
+<form id="frmListFoundation">
+    @Html.ValidationSummary(true)
+    @Html.AntiForgeryToken()
+    @Html.HiddenFor(model => model.EncrProposalCode)
+
+    <div id="divListFoundation" style="margin-top: 20px; width: 96%">
+        <table id="tbFoundationList">
+        </table>
+        <div id="pagerFoundation">
+        </div>
+    </div>
+
+    <div id="dvEditFoundation" style="width: 96%; margin-top:20px;"></div>
+</form>
+
+

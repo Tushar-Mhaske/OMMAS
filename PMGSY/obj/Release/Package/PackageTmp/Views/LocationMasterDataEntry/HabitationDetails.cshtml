@@ -1,0 +1,92 @@
+﻿@model IEnumerable<PMGSY.Models.MASTER_HABITATIONS>
+
+@{
+    ViewBag.Title = "Index";
+}
+
+<script type="text/javascript" src="@Url.Content("~/Scripts/jquery.ui.dialog.js")"> </script>
+<script type="text/javascript" src="@Url.Content("~/Scripts/MasterDataEntry/Master_ListHabitation.js")"> </script>
+
+
+<center>
+    @Html.Hidden("RoleCode", PMGSY.Extensions.PMGSYSession.Current.RoleCode)
+    <div style="width:100%;">
+<div id="dvHabitationDetails" style="display:none;">
+       
+      </div>@* end of craete new div*@
+
+
+
+<div id="dvSearchHabitation" >
+     
+   
+</div>
+
+
+
+<div id="dvHabitationList" >
+
+     <table style="width:100%; padding-top:1.5em;">
+    <tr id="trAddNewSearch">  
+       @* <td style="width:20%;"></td> *@
+        <td  style="text-align:left">
+   @*   <input type="button" id="btnCreateNew" name="btnCreateNew" value="Add New Habitation" class= "jqueryButton" title="Add New Habitation"  /> 
+      <input type="button" id="btnSearchView" name="btnSearchView" value="Search Habitation" class= "jqueryButton" title="Search Habitation" style="display:none;"/> *@
+        
+            @if (PMGSY.Extensions.PMGSYSession.Current.RoleCode == 36 || PMGSY.Extensions.PMGSYSession.Current.RoleCode == 22) //ITNO= 36 and PIU=22
+            {
+                if (ViewBag.MAST_LOCK_STATUS == "U")
+                {
+             <div class="ui-state-default ui-corner-all jqueryButton" id="btnCreateNew" title="Add Habitation">
+                     <span style="float:left" class="ui-icon ui-icon-circle-plus"></span>
+                     <span style="float:left; margin-right:5px">Add Habitation</span>
+             </div>
+                }
+            }
+            else
+            {
+               <div class="ui-state-default ui-corner-all jqueryButton" id="btnCreateNew" title="Add Habitation">
+                     <span style="float:left" class="ui-icon ui-icon-circle-plus"></span>
+                     <span style="float:left; margin-right:5px">Add Habitation</span>
+               </div>
+            }
+             <div class="ui-state-default ui-corner-all jqueryButton" id="btnSearchView" title="Search Habitation" style="display:none;">
+                    <span style="float:left" class="ui-icon ui-icon-search"></span>
+                    <span style="float:left; margin-right:5px">Search Habitation</span>
+             </div>
+
+            </td>
+        </tr>
+   @* <tr></tr>
+    <tr></tr>*@
+    </table>
+
+    <table id="tbHabitationList">
+
+    </table>
+
+    <div id="dvHabitationListPager"></div>
+</div>
+    
+    
+<br />     
+
+<div id="dvOtherDetails" style="display:none">
+
+
+</div>
+
+        <div id="dvShiftHabitationToNewVillage">
+</div>
+
+
+
+        </div>
+
+
+    </center>
+
+@section Scripts {
+    @Scripts.Render("~/bundles/jqueryval")
+    @Scripts.Render("~/bundles/jqueryui")
+}

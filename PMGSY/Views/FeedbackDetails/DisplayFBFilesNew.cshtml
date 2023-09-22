@@ -1,0 +1,202 @@
+﻿@model PMGSY.Models.Feedback.DisplayFBFiles
+@{
+    ViewBag.Title = "DisplayFeedbackFilesNew";
+}
+
+
+<script src="~/Scripts/jquery.cycle.all.js"></script>
+<script src="~/Scripts/Feedback/DisplayFBFilesNew.js"></script>
+<style type="text/css">
+    * {
+        margin: 0px;
+        padding: 0px;
+        border: 0px;
+    }
+
+    body {
+        background: url() repeat-x;
+    }
+
+    h1 {
+        text-indent: -9999px;
+        background: url() no-repeat;
+        width: 340px;
+        height: 92px;
+        margin: 0 auto;
+    }
+
+    #slideshowContainer {
+        width: 500px;
+        margin: 10px auto 0 auto;
+        position: relative;
+    }
+
+    .slideshow {
+        /*height: 600px;*/
+        height: auto;
+    }
+
+        .slideshow img {
+            padding: 15px;
+            border: 1px solid #ccc;
+            background-color: #eee;
+        }
+
+        .slideshow iframe {
+            padding: 15px;
+            border: 1px solid #ccc;
+            background-color: #eee;
+        }
+
+    #nav {
+        list-style-type: none;
+        z-index: 150;
+    }
+
+        #nav li a {
+            display: block;
+            width: 58px;
+            height: 102px;
+            text-indent: -9999px;
+            outline: none;
+        }
+
+    #prev a {
+        background: url(/Content/images/prev.jpg) no-repeat;
+        width: 58px;
+        height: 102px;
+        position: absolute;
+        top: 220px;
+        left: 18px;
+        z-index: 1500;
+    }
+
+    #next a {
+        background: url(/Content/images/next1.jpg) no-repeat;
+        width: 58px;
+        height: 102px;
+        position: absolute;
+        top: 220px;
+        /*margin-left: 388px;*/
+        z-index: 1500;
+        right: -40px;
+    }
+
+        #next a:hover {
+           
+        }
+
+    #prev a:hover {
+        /*background: url(/Content/images/left_over.png);*/
+    }
+</style>
+
+<form id="frmFBFilesDisplay">
+    @Html.AntiForgeryToken()
+    @Html.ValidationSummary(true)
+
+    @Html.Hidden("hdnIsLatLongAvailable", Model.IsLatLongAvailable)
+    @Html.HiddenFor(x => x.LatLong)
+
+    @if (Model.path != null)
+    {
+        <table style="margin-top: 10px; margin-bottom: 5px; margin-left: 20px; width: 100%">
+            <tr>
+                <td style="width: 50%">
+                    <table class="rowstyle" style="margin-top: 10px; margin-bottom: 5px; margin-left: 5px; width: 90%">
+                        <tr>
+                            <td colspan="2">
+                                @*<div id="dv" class="ui-state-default ui-corner-all " style="margin-bottom: 05px; height: 20px"><span style="float: left; cursor: pointer" id="spn">@Html.DisplayFor(m => m.IssuedBy)</span>  <span style="float: right; margin-right: 2Px; margin-top: 2px; cursor: pointer" id="spn2">@Html.DisplayFor(m => m.IssuedDate)</span> </div>*@
+                            </td>
+                        </tr>
+                        <tr>
+                            <td style="width: 15%">
+                                <b>@Html.Label("Title")</b>
+                            </td>
+                            <td>
+                                @Html.DisplayFor(m => m.Title)
+                            </td>
+                        </tr>
+                        <tr>
+                            <td style="width: 15%">
+                                <b>
+                                    @Html.Label("Description")</b>
+                            </td>
+                            <td>
+                                @Html.DisplayFor(m => m.Description)
+                            </td>
+                        </tr>
+                        <tr>
+                            <td colspan="2">
+                                <div id="slideshowContainer">
+
+                                    @*<h1>News Files</h1>*@
+                                    <div class="slideshow">
+
+                                        @*<div id="dv4" class="ui-state-default ui-corner-all " style="margin-bottom: 05px; height: 20px"><span style="float: right; margin-right: 2Px; margin-top: 2px;cursor:pointer" id="spn5" >@Html.DisplayFor(m=>m.IssuedBy)</span>  </div>*@
+
+                                        @foreach (var a in Model.path)
+                                        {
+                                            if (a.Value == "I")
+                                            {
+                                            <a href="#">
+                                                <img data-lan="@(Model.LatLong)"  src="@Url.Content((a.Text.Trim()))" width="100%" height="400" /></a>
+                                            }
+                                            else
+                                            {
+                                            <a href="#">
+                                                <iframe src="@Url.Content((a.Text.Trim()))" width="100%" height="400"></iframe>
+                                            </a>
+                                            }
+                                        }
+
+                                    </div>
+                                    <ul id="nav">
+                                        <li id="prev"><a href="#">Previous</a></li>
+                                        <li id="next"><a href="#">Next</a></li>
+                                    </ul>
+
+                                </div>
+                            </td>
+                        </tr>
+                    </table>
+                </td>
+                <td style="width: 50%">
+                    @if (Model.IsLatLongAvailable)
+                    {
+                        <table style="width: 90%;">
+                            <tr>
+                                <td style="vertical-align: top; width: 35%;">
+                                    <span id="spnLatToShow"></span>
+                                    <br>
+                                    <span id="spnLongToShow"></span>
+                                </td>
+                                <td style="vertical-align: top; width: 65%;">
+                                    <span id="spnLocation"></span>
+                                </td>
+                            </tr>
+                        </table>
+                        <table style='width: 90%; margin-left: 10px;'>
+                            <tr>
+                                <td style="width: 90%;">
+                                    <span id="spnDistanceGMap"></span>
+                                </td>
+                            </tr>
+                        </table>
+                        <div id='gmapDivRoadPath' style='width: 90%; height: 430px; margin-top: 40px;'>Location Map</div>
+                    }
+                </td>
+            </tr>
+        </table>
+    }
+    else
+    {
+        <table style="margin-top: 20px; text-align: center; width: 100%;">
+            <tr>
+                <td colspan="2">
+                    @Html.Label("No Files Uploaded for this Feedback", new { id = "lbNoFiles" })
+                </td>
+            </tr>
+        </table>
+    }
+</form>

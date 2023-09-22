@@ -1,0 +1,152 @@
+﻿@model PMGSY.Models.Master.MasterMpMembersViewModel
+
+@section Scripts {
+    @Scripts.Render("~/bundles/jqueryval")
+}
+
+@*
+<script src="~/Scripts/jquery-ui.js"></script>*@
+<script src="~/Scripts/custom/Generic.js"></script>
+<script src="~/Scripts/jquery.ui.datepicker.js"></script>
+<script src="~/Scripts/Master/Master_CreateMpMember.js"></script>
+
+<div id="dvhdCreateNewMpMemberDetails" class="ui-corner-top ui-widget-header panelheader" style="text-align: left; height: 20px;">
+    <span class="ui-jqgrid-title" style="float: left">&nbsp;MP Member Details</span>
+    <span id="spCollapseIconCN" class="ui-icon ui-icon-circle-triangle-n" style="float: right"></span>
+</div>
+
+<div id="dvCreateNewMpMemberDetails" style="display: block; border: 1px solid #B5B8C8;">
+    <div id="dvErrorMessage" class="ui-widget ui-state-error ui-corner-all" style="padding: 0.7em .7em; display: none; margin: 5px 5px 5px 5px; text-align: left">
+        <span class="ui-icon ui-icon-alert" style="float: left; margin-right: .3em;"></span>
+        <strong>Alert:</strong> <span id="message"></span>
+    </div>
+    @using PMGSY.Extensions;
+
+    <form id="frmMasterMpMember">
+        @Html.AntiForgeryToken()
+        <center>@Html.ValidationSummary(true)</center>
+        <table style="width: 100%; margin-top: 10px;" class="rowstyle">
+            <tr style="display: none">
+                <td colspan="5">
+                    @Html.HiddenFor(model => model.EncryptedMpMemberId)
+                </td>
+            </tr>
+
+            <tr>
+                <td style="width: 8%;"></td>
+                <td style="text-align: left; width: 15%;">
+                    @Html.LabelFor(model => model.MAST_LS_TERM)
+                    <label style="color: red;">*</label>
+                </td>
+
+                <td style="width: 30%;">
+
+                    @if (Model.EncryptedMpMemberId == null)
+                    {
+                        @Html.DropDownListFor(model => model.MAST_LS_TERM, Model.LockSabhaTerms, "--Select--", new { @id = "MAST_LS_TERM", @title = "Lok Sabha Term", @tabindex = 1 })
+                        @Html.ValidationMessageFor(model => model.MAST_LS_TERM)
+                    }
+                    else
+                    {
+                        @Html.DropDownListFor(model => model.MAST_LS_TERM, Model.LockSabhaTerms, "--Select--", new { @id = "MAST_LS_TERM", @title = "Lok Sabha Term", @tabindex = 1, @disabled = "disabled" })                  
+                    }
+
+                </td>
+
+                <td style="width: 15%;">
+                    @Html.LabelFor(model => model.MAST_MP_CONST_CODE)
+                    <label style="color: red;">*</label>
+                </td>
+
+                <td>
+                    @if (Model.EncryptedMpMemberId == null)
+                    {
+                        @Html.DropDownListFor(model => model.MAST_MP_CONST_CODE, Model.MpConstituencyNames,"--Select--", new { @id = "MAST_MP_CONST_CODE", @title = "MP Constituency", @tabindex = 2 })
+                        @Html.ValidationMessageFor(model => model.MAST_MP_CONST_CODE)
+                    }
+                    else
+                    {
+                        @Html.DropDownListFor(model => model.MAST_MP_CONST_CODE, Model.MpConstituencyNames,"--Select--", new { @id = "MAST_MP_CONST_CODE", @title = "MP Constituency", @tabindex = 2, @disabled = "disabled" })                    
+                    }
+
+                </td>
+            </tr>
+
+
+            <tr>
+                <td></td>
+                <td>
+                    @Html.LabelFor(model => model.MAST_MEMBER)
+                    <label style="color: red;">*</label>
+                </td>
+                <td>
+                    @Html.TextBoxFor(model => model.MAST_MEMBER, new { maxlength = 50, @title = "Member Name", @tabindex = 3, @placeholder = "Enter member name..." })
+                    @Html.ValidationMessageFor(model => model.MAST_MEMBER)
+                </td>
+
+                <td>
+                    @Html.LabelFor(model => model.MAST_MEMBER_PARTY)
+                </td>
+
+                <td>
+                    @Html.TextBoxFor(model => model.MAST_MEMBER_PARTY, new { maxlength = 50, @title = "Party Name", @tabindex = 4, @placeholder = "Enter party name..." })
+                    @Html.ValidationMessageFor(model => model.MAST_MEMBER_PARTY)
+                </td>
+            </tr>
+
+
+            <tr>
+                <td></td>
+                <td>
+                    @Html.LabelFor(model => model.MAST_MEMBER_START_DATE)
+                    <label style="color: red;">*</label>
+                </td>
+                <td>
+                    @Html.TextBoxFor(model => model.MAST_MEMBER_START_DATE, new { maxlength = 10, @title = "Start Date", @tabindex = 5, @placeholder = "dd/mm/yyyy", @readonly = "readonly" })
+                    @Html.ValidationMessageFor(model => model.MAST_MEMBER_START_DATE)
+                </td>
+
+                <td>
+                    @Html.LabelFor(model => model.MAST_MEMBER_END_DATE)
+                </td>
+
+                <td>
+                    @Html.TextBoxFor(model => model.MAST_MEMBER_END_DATE, new { maxlength = 10, @title = "End Date", @tabindex = 6, @placeholder = "dd/mm/yyyy", @readonly = "readonly" })
+                    @Html.ValidationMessageFor(model => model.MAST_MEMBER_END_DATE)
+                </td>
+            </tr>
+
+            <tr>
+                <td></td>
+                <td></td>
+
+
+                @if (Model.EncryptedMpMemberId == null)
+                {
+                    <td style="text-align: right">
+                        <input type="button" id="btnSave" name="btnSave" value="Save" class="jqueryButton" title="Save MP Member Details" tabindex="7" />
+                    </td>
+                    <td colspan="2" style="text-align: left">
+                        <input type="reset" id="btnReset" name="btnReset" value="Reset" class="jqueryButton" title="Reset" tabindex="8" />
+                    </td>
+                }
+                else
+                {
+                    <td style="text-align: right">
+                        <input type="button" id="btnUpdate" name="btnUpdate" value="Update" class="jqueryButton" title="Update MP Member Details" tabindex="7" />
+                    </td>
+                    <td colspan="2" style="text-align: left">
+                        <input type="button" id="btnCancel" name="btnCancel" value="Cancel" class="jqueryButton" title="Cancel" tabindex="8" /></td>
+                }
+
+            </tr>
+
+            <tr>
+                <td colspan="5">
+                    <label style="border:none">[ Note: Fields marked with<label style="color: red;"> * </label>are mandatory.] </label>
+                </td>
+            </tr>
+        </table>
+    </form>
+
+</div>

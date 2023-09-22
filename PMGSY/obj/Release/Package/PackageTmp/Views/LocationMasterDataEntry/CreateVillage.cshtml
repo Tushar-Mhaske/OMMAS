@@ -1,0 +1,231 @@
+﻿@model PMGSY.Models.MasterDataEntry.VillageMaster
+@using PMGSY.Extensions
+
+<script src="@Url.Content("~/Scripts/custom/Generic.js")" type="text/javascript" ></script>
+<script type="text/javascript" src="@Url.Content("~/Scripts/MasterDataEntry/Master_CreateVillage.js")"> </script>
+
+<div id="dvhdCreateNewVillageDetails" class="ui-corner-top ui-widget-header panelheader" style="text-align: left; height: 20px;">
+    @*margin-left:10px;margin-right:10px;margin-top:10px;*@
+    <span class="ui-jqgrid-title" style="float: left">&nbsp;Village Details</span>
+
+    <span id="spCollapseIconCN" class="ui-icon ui-icon-circle-triangle-n" style="float: right"></span>
+</div>
+
+<div id="dvCreateNewVillageDetails" class="ui-corner-bottom" style="display: block; border: 1px solid #B5B8C8;">
+    @*margin-left: 10px; margin-right: 10px;*@
+    <div id="dvErrorMessage" class="ui-widget ui-state-error ui-corner-all" style="padding: 0.7em .7em; display: none; margin: 5px 5px 5px 5px; text-align: left">
+        <span class="ui-icon ui-icon-alert" style="float: left; margin-right: .3em;"></span>
+        <strong>Alert:</strong> <span id="errvlmessage"></span>
+    </div>
+
+    <form id="frmCreateVillage">
+
+        @{
+            if (PMGSYSession.Current.RoleCode == 22)//PIU
+            {          
+            @Html.Hidden("SelectedStateCode", PMGSYSession.Current.StateCode)          
+            @Html.Hidden("SearchDistCode", PMGSYSession.Current.DistrictCode)
+
+            @Html.Hidden("RoleCode", PMGSYSession.Current.RoleCode)          
+            }          
+        }
+        <center>
+             @Html.ValidationSummary(true)
+            @Html.AntiForgeryToken()
+
+        </center>
+
+        <table style="width: 100%; margin-top: 10px;" class="rowstyle">
+
+            <tr style="display: none">
+                <td colspan="5">
+                    @Html.HiddenFor(model => model.EncryptedVillageCode)
+                </td>
+
+            </tr>
+
+
+            <tr>
+                <td style="width: 8%;"></td>
+                <td style="text-align: left; width: 15%;">
+                    @Html.LabelFor(model => model.MAST_STATE_CODE)<label style="color: red;"> *</label>
+                </td>
+
+                <td style="width: 30%;">
+                    @if (Model.EncryptedVillageCode == null)
+                    {    
+                        @Html.DropDownListFor(model => model.MAST_STATE_CODE, Model.States, new { @id = "ddlStates", @title = "State", @tabindex = 1 })
+                   
+                        @Html.ValidationMessageFor(model => model.MAST_STATE_CODE)
+                    }
+                    else
+                    {
+                        @Html.DropDownListFor(model => model.MAST_STATE_CODE, Model.States, new { @id = "ddlStates", @title = "State", @tabindex = 1, @disabled = "disabled" })
+                    }
+
+
+                </td>
+
+                <td style="width: 15%;">
+                    @Html.LabelFor(model => model.MAST_DISTRICT_CODE)
+                    <label style="color: red;">*</label>
+                </td>
+
+                <td>
+                    @if (Model.EncryptedVillageCode == null)
+                    {   
+                        @Html.DropDownListFor(model => model.MAST_DISTRICT_CODE, Model.Districts, new { @id = "ddlDistricts", @title = "District", @tabindex = 2 })
+
+                   
+                        @Html.ValidationMessageFor(model => model.MAST_DISTRICT_CODE)
+                    }
+                    else
+                    {
+                        @Html.DropDownListFor(model => model.MAST_DISTRICT_CODE, Model.Districts, new { @id = "ddlDistricts", @title = "District", @tabindex = 2, @disabled = "disabled" })
+                    }
+
+                </td>
+            </tr>
+
+
+            <tr>
+                <td></td>
+                <td>
+                    @Html.LabelFor(model => model.MAST_BLOCK_CODE)
+                    <label style="color: red;">*</label>
+                </td>
+
+                <td>
+                    @if (Model.EncryptedVillageCode == null)
+                    {   
+                        @Html.DropDownListFor(model => model.MAST_BLOCK_CODE, Model.Blocks, new { @id = "ddlBlocks", @title = "Block", @tabindex = 3 })
+                   
+                        @Html.ValidationMessageFor(model => model.MAST_BLOCK_CODE)
+                    }
+                    else
+                    {
+                        @Html.DropDownListFor(model => model.MAST_BLOCK_CODE, Model.Blocks, new { @id = "ddlBlocks", @title = "Block", @tabindex = 3, @disabled = "disabled" })
+                    }
+
+                </td>
+                <td>
+                    @Html.LabelFor(model => model.MAST_VILLAGE_NAME)
+                    <label style="color: red;">*</label>
+                </td>
+
+                <td>
+                    @Html.TextBoxFor(model => model.MAST_VILLAGE_NAME, new { maxlength = 50, @title = "Village Name", @tabindex = 4, placeholder = "Enter Village Name..." })
+
+                    @Html.ValidationMessageFor(model => model.MAST_VILLAGE_NAME)
+
+                </td>
+            </tr>
+
+
+
+
+            <tr>
+                <td></td>
+                <td>
+                    @Html.LabelFor(model => model.MAST_VILLAGE_TOT_POP)
+                    <label style="color: red;">*</label>
+                </td>
+
+                <td>
+                    @Html.TextBoxFor(model => model.MAST_VILLAGE_TOT_POP, new { @title = "Total Population", @tabindex = 5, placeholder = "Enter Total Population..." })
+
+                    @Html.ValidationMessageFor(model => model.MAST_VILLAGE_TOT_POP)
+
+                </td>
+                <td>
+                    @Html.LabelFor(model => model.MAST_VILLAGE_SCST_POP)
+                    <label style="color: red;">*</label>
+                </td>
+
+                <td>
+                    @Html.TextBoxFor(model => model.MAST_VILLAGE_SCST_POP, new { @title = "SC/ST Population", @tabindex = 6, placeholder = "Enter SC/ST Population..." })
+
+                    @Html.ValidationMessageFor(model => model.MAST_VILLAGE_SCST_POP)
+
+                </td>
+            </tr>
+
+
+
+
+            <tr>
+                <td></td>
+                <td style="display:none;">
+                    @Html.LabelFor(model => model.MAST_SCHEDULE5)<label style="color: red;"> *</label>
+                </td>
+
+                <td  style="display:none;">
+
+                    @Html.RadioButtonFor(model => model.IsSchedule5, true, new { @title = "Yes", id = "rdoIsSchedule5Yes", @tabindex = 7 })
+                    <label for="rdoIsSchedule5Yes">Yes</label>
+                    &nbsp;&nbsp;
+                    
+                    @Html.RadioButtonFor(model => model.IsSchedule5, false, new { @title = "No", id = "rdoIsIsSchedule5No", @tabindex = 7 })
+                    <label for="rdoIsIsSchedule5No">No</label>
+
+                    @Html.ValidationMessageFor(model => model.IsSchedule5)
+                </td>
+                <td>
+                    <label>Census Year</label>
+                </td>
+                <td>
+                    <b>@Html.Label(Model.Years)</b>
+                </td>
+            </tr>
+            <tr>
+                <td></td>
+                <td style="display:none;">
+                    @Html.LabelFor(model => model.IsActive)<label style="color: red;">*</label>
+                </td>
+                <td style="display:none;">
+                    @Html.RadioButtonFor(model => model.IsActive, true, new { @title = "Yes", id = "rdoIsActiveYes", @tabindex = 14 })
+                        <label>Yes</label>
+                        &nbsp;&nbsp;                    
+                                    @Html.RadioButtonFor(model => model.IsActive, false, new { @title = "No", id = "rdoIsActiveNo", @tabindex = 15 })
+                        <label>No</label>
+                        @Html.ValidationMessageFor(model => model.IsActive)
+                </td>
+            </tr>
+
+
+            <tr>
+                <td></td>
+                <td></td>
+
+                @if (Model.EncryptedVillageCode == null)
+                {   
+                    <td style="text-align: right;">
+                        <input type="button" id="btnSave" name="btnSave" value="Save" class="jqueryButton" title="Save Village Details" tabindex="8" />
+                    </td> 
+                    <td colspan="2">
+                        <input type="reset" id="btnReset" name="btnReset" value="Reset" class="jqueryButton" title="Reset" tabindex="9" /></td> 
+                }
+                else
+                {
+                    <td style="text-align: right;">
+                        <input type="button" id="btnUpdate" name="btnUpdate" value="Update" class="jqueryButton" title="Update Village Details" tabindex="8" />
+                    </td> 
+                    <td colspan="2">
+                        <input type="button" id="btnCancel" name="btnCancel" value="Cancel" class="jqueryButton" title="Cancel" tabindex="9" /></td> 
+                }
+
+
+            </tr>
+
+            <tr>
+                <td colspan="5">
+                    <label style="border: none">[ Note: Fields marked with<label style="color: red;"> * </label>
+                        are mandatory.]</label>
+                </td>
+
+            </tr>
+        </table>
+
+    </form>
+
+</div>

@@ -1,0 +1,62 @@
+﻿@{
+    ViewBag.Title = "StateDetails";
+}
+
+<button id="pdfButton" style="display: none">Get PDF</button>
+<script>
+
+    $("#pdfButton").click(function () {
+        document.location = '@Url.Action("pressPDF")'
+    });
+</script>
+
+<button id="excelButton" style="display: none">Get Excel</button>
+<script>
+
+    $("#excelButton").click(function () {
+        document.location = '@Url.Action("createExcel")'
+    });
+</script>
+
+@*<br /><br />*@
+
+
+<div style="width: 100%">
+    <table class="ui-state-default ui-corner-all" style="width: 100%;">
+        <tr>
+            <td style="width: 6%;"></td>
+            <td style="text-align: left; width: 5%;">
+                @Html.Label("State/Union")
+            </td>
+            <td style="width: 15%;">
+                @Html.DropDownList("StateList_StateDetails", ViewData["STATE_UNION"] as IEnumerable<SelectListItem>, new { @title = "State/Union", @tabindex = 1 })
+            </td>
+            <td style="text-align: left; width: 5%;">
+                @Html.Label("State Type")
+            </td>
+            <td style="width: 15%;">
+                @Html.DropDownList("StateType_StateDetails", ViewData["STATE_TYPE"] as IEnumerable<SelectListItem>, new { @title = "State Type", @tabindex = 2 })
+            </td>
+             <td style="text-align: left; width: 4%;">
+                @Html.Label("Active")
+            </td>
+            <td style="width: 15%;">
+                @Html.DropDownList("ActiveType_StateDetails", ViewData["Active_TYPE"] as IEnumerable<SelectListItem>, new { @title = "Active", @tabindex = 3 })
+            </td>
+            <td style="text-align: center; width: 10%; margin-left: 5px;">
+                <input type="button" id="StateDetailsButton" value="View" class="jqueryButton" title="View Details" tabindex="4" />
+            </td>
+            <td style="width:5%"></td>
+        </tr>
+    </table>
+</div>
+<br />
+
+<div id="stateDetails">
+    <table id="stateDetailsTable"></table>
+</div>
+<div id="stateDetailsPager"></div>
+
+<script type="text/javascript" src="~/Scripts/MasterReports/StateDetails.js"></script>
+
+<script src="~/Scripts/custom/Generic.js"></script>

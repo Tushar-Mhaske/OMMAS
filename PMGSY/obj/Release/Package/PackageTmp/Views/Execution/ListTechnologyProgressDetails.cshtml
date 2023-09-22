@@ -1,0 +1,27 @@
+﻿@model PMGSY.Models.Execution.TechnologyDetailsViewModel
+
+<script src="~/Scripts/custom/Generic.js"></script>
+<script src="~/Scripts/jquery.ui.datepicker.js"></script>
+@*<script src="~/Scripts/jquery.ui.accordion.js"></script>*@
+<script src="~/Scripts/Execution/ListTechnologyProgressDetails.js"></script>
+
+<form id="frmAddEditTechnologyProgressDetails">
+    @Html.HiddenFor(model => model.EncryptedRoadCode, new { id="hdnEncryptedRoadCode" }) 
+    @Html.HiddenFor(model => model.previousStatus, new { id="hdnpreviousStatus"}) 
+
+    @Html.HiddenFor(model => model.EncryptedTechCode) 
+    @Html.HiddenFor(model => model.EncryptedStChainage) 
+    @Html.HiddenFor(model => model.EncryptedEndChainage) 
+    @Html.HiddenFor(model => model.EncryptedLayerCode) 
+
+    <div id="divExecTechnologyProgressDetails" style="width: 100%;">
+        <table id="tbExecTechnologyList">
+        </table>
+        <div id="pgExecTechnologyList">
+        </div>
+    </div>
+    <br />
+    <div id="divAddTechnologyProgressDetails" style="display:none; font-size:1em;">
+
+    </div>
+</form>

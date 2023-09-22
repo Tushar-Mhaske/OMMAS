@@ -1,0 +1,13 @@
+﻿@using MvcReportViewer
+
+@model PMGSY.Areas.LocationSSRSReports.Models.OMMSSystemCodesViewModel
+
+@Html.MvcReportViewer("/PMGSYCitizen/Ommas_System_Codes_Report",
+     new
+     {
+         STATE = Model.StateCode,
+         DISTRICT = Model.DistrictCode,
+         StateName = Model.StateName,
+         DistrictName = Model.DistrictName,
+     },
+       new { Height = 600, Width = "100%", style = "border:none;" })

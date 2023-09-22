@@ -1,0 +1,59 @@
+﻿@using MvcReportViewer
+
+@model PMGSY.Areas.ProposalSSRSReports.Models.TechnologyViewModel
+
+@if (Model.ReportType == "T")
+{    
+    @Html.MvcReportViewer("/PMGSYCitizen/TechnologyReport",
+     new
+     {
+         State = Model.State,
+         District = Model.District,
+         Block = Model.Block,
+         Batch = Model.Batch,
+         Year = Model.Year,
+         Collaboration = Model.Collaboration,
+         TechType = Model.AggregatedType,
+         STAStatus = Model.STAStatus,
+         MRDStatus = Model.MRDStatus,
+         Connectivity = Model.Connectivity,
+         Rpt = Model.ReportType,
+         PMGSY = PMGSY.Extensions.PMGSYSession.Current.PMGSYScheme,
+         StateName = Model.StateName,
+         DistrictName = Model.DistName,
+         BlockName = Model.BlockName,
+         YearName = Model.YearName,
+         BatchName = Model.BatchName,
+         CollaborationName = Model.CollabName,
+         TechCode = Model.Technology,
+         TechName = Model.TechName,
+     },
+       new { Height = 600, Width = "100%", style = "border:none;" })
+}
+else
+{
+    @Html.MvcReportViewer("/PMGSYCitizen/TechnologyStatewiseReport",
+     new
+     {
+         State = Model.State,
+         District = Model.District,
+         Block = Model.Block,
+         Batch = Model.Batch,
+         Year = Model.Year,
+         Collaboration = Model.Collaboration,
+         TechType = Model.AggregatedType,
+         STAStatus = Model.STAStatus,
+         MRDStatus = Model.MRDStatus,
+         Connectivity = Model.Connectivity,
+         Rpt = Model.ReportType,
+         PMGSY = PMGSY.Extensions.PMGSYSession.Current.PMGSYScheme,
+         StateName = Model.StateName,
+         DistrictName = Model.DistName,
+         BlockName = Model.BlockName,
+         YearName = Model.YearName,
+         BatchName = Model.BatchName,
+         CollaborationName = Model.CollabName,
+         TechCode = Model.Technology,
+     },
+       new { Height = 600, Width = "100%", style = "border:none;" })
+}

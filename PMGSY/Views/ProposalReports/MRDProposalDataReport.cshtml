@@ -1,0 +1,676 @@
+﻿@using PMGSY.Models
+@using PMGSY.Models.ProposalReports
+@model PMGSY.Models.ProposalReports.MRDProposalModel
+@using PMGSY.Extensions
+@using PMGSY.Common
+
+<style type="text/css">
+    div.CBHeader {
+        padding: 5px;
+        width: 98%;
+        display: inline-block;
+        cursor: default;
+        /*font:12px/14px Arial, Helvetica, sans-serif;*/
+        font-family: Trebuchet MS,Tahoma,Verdana,Arial,sans-serif;
+        color: #000;
+        background-color: #eee;
+        -moz-border-radius: 10px;
+        -webkit-border-radius: 10px;
+        -moz-box-shadow: #999 2px 0px 3px;
+        -webkit-box-shadow: #999 2px 0px 3px;
+    }
+</style>
+
+
+<script src="~/Scripts/custom/Generic.js"></script>
+
+<script src="~/Scripts/jquery.ui.dialog.js"></script>
+
+<link href="~/Content/demo_page.css" rel="stylesheet" />
+<link href="~/Content/demo_table_jui.css" rel="stylesheet" />
+<link href="~/Content/TableTools.css" rel="stylesheet" />
+<link href="~/Content/TableTools_JUI.css" rel="stylesheet" />
+
+<script src="~/Scripts/DataTables/jquery.dataTables.js"></script>
+<script src="~/Scripts/DataTables/ZeroClipboard.js"></script>
+<script src="~/Scripts/DataTables/TableTools.js"></script>
+<script src="~/Scripts/ProposalReports/MRDProposalDataReport.js"></script>
+@*<script>
+   
+    var s = $('#tblBridgeReportData').dataTable({
+        "bJQueryUI": true,
+        "bFilter": false,
+        "bSort": false,
+        "bHeader": true,
+        "sScrollY": "420px",
+        "bPaginate": false,
+        "bScrollInfinite": true,
+        "bScrollCollapse": true,
+        "sDom": '<"H"Tfr>t<"F"ip>',
+        "oTableTools": {
+            "aButtons": []
+        },
+    });
+    
+</script>*@
+
+
+
+
+
+<br />
+<div id="dvBridgeHeader" class="ui-widget-header innerDivHeader" style="width: 98%; margin-bottom: 5px">Bridge Proposal Report<span style="float: right; margin-right: 2Px; margin-top: 2px" id="idheaderDv" class="ui-icon ui-icon-circle-triangle-n"></span></div>
+@{
+    CommonFunctions objCommonFunction = new CommonFunctions();
+}
+<div id="dvMRDPropBridge">
+    <form id="frmMRDProposalDataReport">
+        @Html.ValidationSummary(true)
+
+        <div class="CBHeader ui-corner-all" id="dvMRDPropDetails" style="width: 97.5%;">
+            <center>
+                 @if (Model.ProposalName == "Bridge")
+                 {
+<table class="ui-state-default ui-corner-all" style="border: 0.1em solid gray; width: 97%; margin-top: 1px" id="tblFilter" >
+
+<tr>
+    
+    <td style="width:5%"><b>State:</b></td><td style="width:10%;">@Html.DisplayFor(m => m.StateName)</td>
+    <td style="width:5%"><b>District:</b></td><td style="width:10%">@Html.DisplayFor(m => m.DistrictName)</td>
+    <td style="width:5%"><b>Block:</b></td><td style="width:10%">@Html.DisplayFor(m => m.BlockName)</td>
+    <td style="width:10%"><b>Sanctioned Year:</b></td>
+    @if (Model.Year != 0)
+    {
+         <td style="width:10%">@Html.DisplayFor(m => m.YearName)</td>
+    }
+    else
+    {
+         <td style="width:10%">@Html.Label("All Years")</td>
+    }
+    <td style="width:5%"><b>Batch:</b></td><td style="width:10%">@Html.DisplayFor(m => m.BatchName)</td>
+    <td style="width:5%"><b>Collaboration:</b></td><td style="width:10%">@Html.DisplayFor(m => m.CollabName)</td>
+    </tr>
+    <tr>
+    <td style="width:5%"><b>Package:</b></td><td style="width:10%">@Html.DisplayFor(m => m.PackageName)</td>
+    <td style="width:7%"><b>MRD Status:</b></td><td style="width:10%">@Html.DisplayFor(m => m.StatusName)</td>
+    <td style="width:7%"><b>STA Status:</b></td><td style="width:10%">@Html.DisplayFor(m => m.STAStatusName)</td>
+    <td style="width:5%"><b>Proposal:</b></td><td style="width:10%">@Html.DisplayFor(m => m.ProposalName)</td>
+    <td style="width:5%"><b>Category:</b></td><td style="width:10%">@Html.DisplayFor(m => m.CategoryName)</td>
+        <td style="width:5%"><b>Agency:</b></td><td style="width:10%">@Html.DisplayFor(m => m.AgencyName)</td>
+</tr>
+
+</table>
+                 }
+        </center>
+        </div>
+
+        @*@if (Model.lstMRDProposal != null) class="DataTables_sort_wrapper"  style="position:fixed;"  class="ui-state-default"
+    {*@
+
+        @*<div style="width: 98%; height: 400px; overflow: auto" id="divBridgeParent">*@
+
+        @if (Model.PMGSY == 1)
+        {
+            <div style="width: 99%">
+                <table id="tblBridgeReportData" class="ui-state-default">
+                    <thead>
+                        <tr style="vertical-align: top;">
+                            <th colspan="10" style="border: 1px solid #CCC;"></th>
+                            @*<th></th>
+                        <th></th>
+                        <th></th>
+                        <th></th>
+                        <th></th>
+                        <th></th>*@
+                            <th style="border: 1px solid #CCC;" colspan="3">Long Span Bridges</th>
+
+                            <th colspan="13" style="border: 1px solid #CCC;"></th>
+                            @*<th></th>
+                        <th></th>
+                        <th></th>
+                        <th></th>
+                        <th></th>
+                        <th></th>
+                        <th></th>
+                        <th></th>
+                        <th></th>
+                        <th></th>
+                        <th></th>
+                        <th></th>
+                        <th></th>
+                        <th></th>
+                        <th></th>*@
+                        </tr>
+                        <tr style="vertical-align: top;">
+
+                            <th style="border-right: 1px solid #FFF;">Sr.No.</th>
+                            <th style="border-right: 1px solid #FFF;">District</th>
+                            <th style="border-right: 1px solid #FFF;">Block</th>
+                            <th style="border-right: 1px solid #FFF;">Package Number</th>
+                            <th style="vertical-align: top; border-right: 1px solid #FFF;">Road Code as per Core Network</th>
+                            <th style="border-right: 1px solid #FFF;">Road Name</th>
+                            <th style="border-right: 1px solid #FFF;">Sanctioned Year</th>
+
+                            <th style="border-right: 1px solid #FFF;">Batch</th>
+                            <th style="border-right: 1px solid #FFF;">Funding Agency</th>
+
+                            <th style="border-right: 1px solid #FFF;">Category of Road (N/U)*</th>
+
+                            <th style="border-right: 1px solid #FFF;">Long Span Bridge Name</th>
+                            <th style="border-right: 1px solid #FFF;">Long Span Bridge Length (Mtrs)</th>
+                            <th style="border-right: 1px solid #FFF;">Bridge Type</th>
+
+                            <th style="border-right: 1px solid #FFF;">MORD Cost</th>
+                            @if (Model.PMGSY == 1)
+                            {
+                                <th style="border-right: 1px solid #FFF;">State Share</th>
+                            }
+
+                            <th style="border-right: 1px solid #FFF;">Estimated Cost (Rs. in Lakhs)</th>
+                            <th style="border-right: 1px solid #FFF;">Average Cost (Per Mtrs. Length)</th>
+
+                            @if (Model.PMGSY == 1)
+                            {
+                                <th style="border-right: 1px solid #FFF;">Estimated Maintenance Cost (Rs. in Lakhs)</th>
+                            }
+                            <th style="border-right: 1px solid #FFF;">STA Sanctioned Status</th>
+                            <th style="border-right: 1px solid #FFF;">PTA Sanctioned Status</th>
+                            <th style="border-right: 1px solid #FFF;">MORD Sanction Status</th>
+                            <th style="border-right: 1px solid #FFF;">Clearance Date</th>
+                            <th style="border-right: 1px solid #FFF;">STA Remarks</th>
+                            <th style="border-right: 1px solid #FFF;">PTA Remarks</th>
+                            <th style="border-right: 1px solid #FFF;">Remarks by DPIU</th>
+                            <th style="border-right: 1px solid #FFF;">View Photos / C Proforma</th>
+                            @*<th style="border-right: 1px solid #FFF;">C Proforma</th>*@
+                        </tr>
+                        <tr style="vertical-align: top;">
+                            <th>1</th>
+                            <th>2</th>
+                            <th>3</th>
+                            <th>4</th>
+                            <th>5</th>
+                            <th>6</th>
+                            <th>7</th>
+                            <th>8</th>
+                            <th>9</th>
+                            <th>10</th>
+                            <th>11</th>
+                            <th>12</th>
+                            <th>13</th>
+                            <th>14</th>
+                            <th>15</th>
+                            <th>16</th>
+                            <th>17</th>
+                            <th>18</th>
+                            <th>19</th>
+                            <th>20</th>
+                            <th>21</th>
+                            <th>22</th>
+                            <th>23</th>
+                            <th>24</th>
+                            <th>25</th>
+                            <th>26</th>
+                        </tr>
+                    </thead>
+                    <tfoot>
+                        @{
+                            
+                            var LSBLenGTotal = Model.lstMRDProposal.Sum(s => s.LSB_LEN);
+                            var HSpecsGTotal = Model.lstMRDProposal.Sum(s => s.HIGHER_SPECS);
+                            var BridgeAmtGTotal = Model.lstMRDProposal.Sum(s => s.BRIDGE_AMT);
+                            var BridgeStateGTotal = Model.lstMRDProposal.Sum(s => s.BRIDGE_STATE);
+                            var TotCostGTotal = Model.lstMRDProposal.Sum(s => s.TOTAL_COST);
+                            var AvgCostGTotal = Model.lstMRDProposal.Sum(s => s.AVG_COST_KM);
+                            var BatchGTotal = Model.lstMRDProposal.Sum(s => s.IMS_BATCH);
+                            var MaintAmtGTotal = Model.lstMRDProposal.Sum(s => s.MAINT_AMT);
+                            decimal? MaintPercent = 0;
+                        }
+                        <tr>
+                            @{
+                            if (LSBLenGTotal > 0)
+                            {
+                                AvgCostGTotal = TotCostGTotal / LSBLenGTotal;
+                            }
+                            else
+                            {
+                                AvgCostGTotal = 0;
+                            }
+                            if (TotCostGTotal > 0)
+                            {
+                                MaintPercent = (MaintAmtGTotal / TotCostGTotal) * 100;
+                            }
+                            }
+                            <td style="border-right: 1px solid #CCC;"></td>
+                            <td style="border-right: 1px solid #CCC;"><b>Grand Total</b></td>
+                            <td style="border-right: 1px solid #CCC;"></td>
+                            <td style="border-right: 1px solid #CCC;"></td>
+                            <td style="border-right: 1px solid #CCC;"></td>
+                            <td style="border-right: 1px solid #CCC;"></td>
+                            <td style="border-right: 1px solid #CCC;"></td>
+                            <td style="border-right: 1px solid #CCC;"></td>
+                            <td style="border-right: 1px solid #CCC;"></td>
+                            <td style="border-right: 1px solid #CCC;"></td>
+                            <td style="border-right: 1px solid #CCC;"></td>
+                            <td style="text-align: right; border-right: 1px solid #CCC;"><b>@objCommonFunction._IndianFormatAmount(@LSBLenGTotal == null ? "0" : @LSBLenGTotal.ToString())</b></td>
+                            <td style="border-right: 1px solid #CCC;"></td>
+                            @*@if (Model.PMGSY == 2)
+                {
+                    <td style="text-align: right"><b>@objCommonFunction._IndianFormatAmount(HSpecsGTotal == null ? "0" : HSpecsGTotal.ToString())</b></td>
+                }*@
+                            <td style="text-align: right; border-right: 1px solid #CCC;"><b>@objCommonFunction._IndianFormatAmount(BridgeAmtGTotal == null ? "0" : BridgeAmtGTotal.ToString())</b></td>
+                            <td style="text-align: right; border-right: 1px solid #CCC;"><b>@objCommonFunction._IndianFormatAmount(BridgeStateGTotal == null ? "0" : BridgeStateGTotal.ToString())</b></td>
+                            <td style="text-align: right; border-right: 1px solid #CCC;"><b>@objCommonFunction._IndianFormatAmount(TotCostGTotal == null ? "0" : TotCostGTotal.ToString())</b></td>
+                            <td style="text-align: right; border-right: 1px solid #CCC;"><b>@objCommonFunction._IndianFormatAmount(AvgCostGTotal == null ? "0" : AvgCostGTotal.ToString())</b></td>
+
+                            @if (Model.PMGSY == 1)
+                            {
+                                <td style="text-align: right; border-right: 1px solid #CCC;"><b>@(objCommonFunction._IndianFormatAmount(MaintAmtGTotal == null ? "0" : MaintAmtGTotal.ToString()) + " (" + objCommonFunction._IndianFormatAmount(MaintPercent == null ? "0" : MaintPercent.ToString()) + "% of Total Cost)")</b></td>
+                            }
+                            <td style="border-right: 1px solid #CCC;"></td>
+                            <td style="border-right: 1px solid #CCC;"></td>
+                            <td style="border-right: 1px solid #CCC;"></td>
+                            <td style="border-right: 1px solid #CCC;"></td>
+                            <td style="border-right: 1px solid #CCC;"></td>
+                            <td style="border-right: 1px solid #CCC;"></td>
+                            <td style="border-right: 1px solid #CCC;"></td>
+                            <td></td>
+                            @*<td></td>*@
+                        </tr>
+
+                    </tfoot>
+                    <tbody id="tb1">
+                        @if (Model.lstMRDProposal != null)
+                        {
+                            int cnt = 1;
+
+
+                            var districts = Model.lstMRDProposal.Select(s => s.MAST_DISTRICT_CODE).Distinct();
+
+
+                            foreach (var distitem in districts)
+                            {
+                                var districtwise = Model.lstMRDProposal.Where(s => s.MAST_DISTRICT_CODE == distitem);
+
+                                var distname = Model.lstMRDProposal.Where(m => m.MAST_DISTRICT_CODE == distitem).Select(s => s.MAST_DISTRICT_NAME).FirstOrDefault();
+                                var LSBLenTotal = Model.lstMRDProposal.Where(m => m.MAST_DISTRICT_CODE == distitem).Sum(s => s.LSB_LEN);
+                                var HSpecsTotal = Model.lstMRDProposal.Where(m => m.MAST_DISTRICT_CODE == distitem).Sum(s => s.HIGHER_SPECS);
+                                var BridgeAmtTotal = Model.lstMRDProposal.Where(m => m.MAST_DISTRICT_CODE == distitem).Sum(s => s.BRIDGE_AMT);
+                                var BridgeStateTotal = Model.lstMRDProposal.Where(m => m.MAST_DISTRICT_CODE == distitem).Sum(s => s.BRIDGE_STATE);
+                                var TotCostTotal = Model.lstMRDProposal.Where(m => m.MAST_DISTRICT_CODE == distitem).Sum(s => s.TOTAL_COST);
+                                //var AvgCostTotal = Model.lstMRDProposal.Where(m => m.MAST_DISTRICT_CODE == distitem).Sum(s => s.LSB_AVG);
+                                var AvgCostTotal = TotCostTotal / LSBLenTotal;
+                                var BatchTotal = Model.lstMRDProposal.Where(m => m.MAST_DISTRICT_CODE == distitem).Sum(s => s.IMS_BATCH);
+                                var MaintAmtTotal = Model.lstMRDProposal.Where(m => m.MAST_DISTRICT_CODE == distitem).Sum(s => s.MAINT_AMT);
+
+                                int distcnt = Model.lstMRDProposal.Where(m => m.MAST_DISTRICT_CODE == distitem).Select(s => s.MAST_DISTRICT_NAME).Count();
+                                int i = 0;
+                                string prevblk = "";
+                                int blkcnt = 0;
+
+                                string prevpkg = "";
+                                int pkgblk = 0;
+                                int pkgcnt = 0;
+
+                                foreach (var item in districtwise.Select((value, j) => new { j, value }))
+                                {
+                                    i++;
+
+                                    //curr = item.value.MAST_BLOCK_NAME;
+                                    blkcnt = Model.lstMRDProposal.Where(m => m.MAST_DISTRICT_CODE == distitem && m.MAST_BLOCK_CODE == item.value.MAST_BLOCK_CODE).Select(s => s.MAST_DISTRICT_NAME).Count();
+                                    pkgcnt = Model.lstMRDProposal.Where(m => m.MAST_DISTRICT_CODE == distitem && m.IMS_PACKAGE_ID == item.value.IMS_PACKAGE_ID && m.MAST_BLOCK_CODE == item.value.MAST_BLOCK_CODE).Select(s => s.MAST_DISTRICT_NAME).Count();
+
+                                    var css = (cnt % 2 == 0) ? "background-color:lightyellow;" : "background-color:white;";
+                                    
+                            <tr style="@css">
+                                <td style="text-align: center">@cnt</td>
+                                <td>@item.value.MAST_DISTRICT_NAME</td>
+
+                                <td>@item.value.MAST_BLOCK_NAME</td>
+                                <td style="text-align: center;">@item.value.IMS_PACKAGE_ID</td>
+                                <td style="text-align: center;">@item.value.CN_ROAD</td>
+                                <td>@item.value.ROAD_NAME</td>
+                                <td style="text-align: center">@item.value.IMS_YEAR</td>
+
+                                <td style="text-align: right">@item.value.IMS_BATCH</td>
+                                <td style="text-align: center">@item.value.IMS_COLLABORATION</td>
+
+                                <td>@item.value.IMS_UPGRADE_CONNECT</td>
+
+                                <td>@item.value.LSB_NAME</td>
+                                <td style="text-align: right">@objCommonFunction._IndianFormatAmount(@item.value.LSB_LEN == null ? "0" : @item.value.LSB_LEN.ToString())</td>
+                                <td style="text-align: center"><a style="text-decoration:underline; color:blue" href="#" onclick="GetBridgeTypeDetails('@item.value.IMS_PR_ROAD_CODE,@item.value.MAST_STATE_NAME,@item.value.MAST_DISTRICT_NAME,@item.value.MAST_BLOCK_NAME, @item.value.IMS_PACKAGE_ID.ToString() ,@item.value.IMS_YEAR,@item.value.ROAD_NAME,@item.value.LSB_NAME,@item.value.LSB_LEN,@item.value.ROAD_LENGTH')">@item.value.IMS_PROPOSAL_TYPE</a></td>
+                                @*@if (Model.PMGSY == 2)
+                    {
+                        <td style="text-align: right">@objCommonFunction._IndianFormatAmount(@item.HIGHER_SPECS == null ? "0" : @item.HIGHER_SPECS.ToString())</td>
+                    }*@
+                                <td style="text-align: right">@objCommonFunction._IndianFormatAmount(@item.value.BRIDGE_AMT == null ? "0" : @item.value.BRIDGE_AMT.ToString())</td>
+                                <td style="text-align: right">@objCommonFunction._IndianFormatAmount(@item.value.BRIDGE_STATE == null ? "0" : @item.value.BRIDGE_STATE.ToString())</td>
+                                <td style="text-align: right"><a  style="text-decoration:underline; color:blue"  href="#" onclick="GetBridgeEstCostDetails('@item.value.IMS_PR_ROAD_CODE,@item.value.MAST_STATE_NAME,@item.value.MAST_DISTRICT_NAME,@item.value.MAST_BLOCK_NAME, @item.value.IMS_PACKAGE_ID.ToString() ,@item.value.IMS_YEAR,@item.value.ROAD_NAME,@item.value.LSB_NAME,@item.value.LSB_LEN,@item.value.ROAD_LENGTH')">@objCommonFunction._IndianFormatAmount(@item.value.TOTAL_COST == null ? "0" : @item.value.TOTAL_COST.ToString())</a></td>
+                                <td style="text-align: right">@objCommonFunction._IndianFormatAmount(@item.value.LSB_AVG == null ? "0" : @item.value.LSB_AVG.ToString())</td>
+
+                                @if (Model.PMGSY == 1)
+                                {
+                                    <td style="text-align: right;"><a  style="text-decoration:underline; color:blue"  href="#" onclick="GetBridgeCostDetails('@item.value.IMS_PR_ROAD_CODE,@item.value.MAST_STATE_NAME,@item.value.MAST_DISTRICT_NAME,@item.value.MAST_BLOCK_NAME, @item.value.IMS_PACKAGE_ID.ToString() ,@item.value.IMS_YEAR,@item.value.ROAD_NAME,@item.value.LSB_NAME,@item.value.LSB_LEN,@item.value.ROAD_LENGTH')">@objCommonFunction._IndianFormatAmount(@item.value.MAINT_AMT == null ? "0" : @item.value.MAINT_AMT.ToString())</a></td>
+                                }
+                                <td>@item.value.STA_SCRUTINY</td>
+                                <td>@item.value.PTA_SCRUTINY</td>
+                                <td>@item.value.PROPOSAL_STATUS</td>
+                                <td>@item.value.IMS_SANCTIONED_DATE</td>
+                                <td>@item.value.IMS_STA_REMARKS</td>
+                                <td>@item.value.IMS_PTA_REMARKS</td>
+                                <td>@item.value.IMS_REMARKS</td>
+                                @*<td>-</td>*@
+                                <td><a  style="text-decoration:underline; color:blue"  href="#" onclick="GetBridgeProposalFilesDetails('@item.value.IMS_PR_ROAD_CODE,@item.value.MAST_STATE_NAME,@item.value.MAST_DISTRICT_NAME,@item.value.MAST_BLOCK_NAME, @item.value.IMS_PACKAGE_ID.ToString() ,@item.value.IMS_YEAR.ToString(),@item.value.ROAD_NAME,@item.value.ROAD_LENGTH,@item.value.IMS_COLLABORATION,@item.value.IMS_BATCH,@item.value.LSB_NAME,@item.value.LSB_LEN,L')">View</a></td>
+                            </tr>
+                                cnt++;
+                                }
+                                distcnt = 0;
+                            <tr class="ui-state-default">
+                                <td></td>
+                                <td><b>Total for @distname</b></td>
+                                <td></td>
+                                <td></td>
+                                <td></td>
+                                <td></td>
+                                <td></td>
+                                <td></td>
+                                <td></td>
+                                <td></td>
+                                <td></td>
+                                <td style="text-align: right"><b>@objCommonFunction._IndianFormatAmount(@LSBLenTotal == null ? "0" : @LSBLenTotal.ToString())</b></td>
+                                <td></td>
+                                @*@if (Model.PMGSY == 2)
+                    {
+                        <td style="text-align: right"><b>@objCommonFunction._IndianFormatAmount(@HSpecsTotal == null ? "0" : @HSpecsTotal.ToString())</b></td>
+                    }*@
+                                @{
+                                if (LSBLenTotal > 0)
+                                {
+                                    AvgCostTotal = TotCostTotal / LSBLenTotal;
+                                }
+                                else
+                                {
+                                    AvgCostTotal = 0;
+                                }
+                                }
+                                <td style="text-align: right"><b>@objCommonFunction._IndianFormatAmount(@BridgeAmtTotal == null ? "0" : @BridgeAmtTotal.ToString())</b></td>
+                                <td style="text-align: right"><b>@objCommonFunction._IndianFormatAmount(@BridgeStateTotal == null ? "0" : @BridgeStateTotal.ToString())</b></td>
+                                <td style="text-align: right"><b>@objCommonFunction._IndianFormatAmount(@TotCostTotal == null ? "0" : @TotCostTotal.ToString())</b></td>
+                                <td style="text-align: right"><b>@objCommonFunction._IndianFormatAmount(@AvgCostTotal == null ? "0" : @AvgCostTotal.ToString())</b></td>
+
+                                @if (Model.PMGSY == 1)
+                                {
+                                    <td style="text-align: right"><b>@objCommonFunction._IndianFormatAmount(@MaintAmtTotal == null ? "0" : @MaintAmtTotal.ToString())</b></td>
+                                }
+                                <td></td>
+                                <td></td>
+                                <td></td>
+                                <td></td>
+                                <td></td>
+                                <td></td>
+                                <td></td>
+                                <td></td>
+
+                                @*<td></td>*@
+                            </tr>
+                            }
+                        }
+                    </tbody>
+                </table>
+            </div>
+        }
+        else
+        { 
+            <div style="width: 99%">
+                <table id="tblBridgeReportData2" class="ui-state-default">
+                    <thead>
+                        <tr>
+                            <th colspan="9" style="border: 1px solid #CCC;"></th>
+                            @*<th></th>
+                        <th></th>
+                        <th></th>
+                        <th></th>
+                        <th></th>
+                        <th></th>*@
+                            <th colspan="3" style="border: 1px solid #CCC;">Long Span Bridges</th>
+
+                            <th colspan="14" style="border: 1px solid #CCC;"></th>
+                            @*<th></th>
+                        <th></th>
+                        <th></th>
+                        <th></th>
+                        <th></th>
+                        <th></th>
+                        <th></th>
+                        <th></th>
+                        <th></th>
+                        <th></th>
+                        <th></th>
+                        <th></th>
+                        <th></th>
+                        <th></th>
+                        <th></th>*@
+                        </tr>
+                        <tr>
+                            <th style="border-right: 1px solid #FFF; vertical-align: top;">Sr.No.</th>
+                            <th style="border-right: 1px solid #FFF; vertical-align: top;">District</th>
+                            <th style="border-right: 1px solid #FFF; vertical-align: top;">Block</th>
+                            <th style="border-right: 1px solid #FFF; vertical-align: top;">Package Number</th>
+                            <th style="vertical-align: top; border-right: 1px solid #FFF;">Road Code as per Core Network</th>
+                            <th style="border-right: 1px solid #FFF; vertical-align: top;">Road Name</th>
+                            <th style="border-right: 1px solid #FFF; vertical-align: top;">Sanctioned Year</th>
+                            <th style="border-right: 1px solid #FFF; vertical-align: top;">Batch</th>
+                            <th style="border-right: 1px solid #FFF; vertical-align: top;">Funding Agency</th>
+                            <th style="border-right: 1px solid #FFF; vertical-align: top;">Category of Road (N/U)*</th>
+                            <th style="border-right: 1px solid #FFF; vertical-align: top;">Long Span Bridge Name</th>
+                            <th style="border-right: 1px solid #FFF; vertical-align: top;">Long Span Bridge Length (Mtrs)</th>
+                            <th style="border-right: 1px solid #FFF; vertical-align: top;">Bridge Type</th>
+                            <th style="border-right: 1px solid #FFF; vertical-align: top;">Higher Specification Cost (Rs. in Lakhs)</th>
+                            <th style="border-right: 1px solid #FFF; vertical-align: top;">MORD Cost</th>
+                            <th style="border-right: 1px solid #FFF; vertical-align: top;">State Cost (Rs. in Lakhs)</th>
+                            <th style="border-right: 1px solid #FFF; vertical-align: top;">Estimated Cost Including Higher Specification Cost (Rs. in Lakhs)</th>
+                            <th style="border-right: 1px solid #FFF; vertical-align: top;">Average Cost (Per Mtrs. Length)</th>
+
+                            <th style="border-right: 1px solid #FFF; vertical-align: top;">STA Sanctioned Status</th>
+                            <th style="border-right: 1px solid #FFF; vertical-align: top;">PTA Sanctioned Status</th>
+                            <th style="border-right: 1px solid #FFF; vertical-align: top;">MORD Sanction Status</th>
+                            <th style="border-right: 1px solid #FFF; vertical-align: top;">Clearance Date</th>
+                            <th style="border-right: 1px solid #FFF; vertical-align: top;">STA Remarks</th>
+                            <th style="border-right: 1px solid #FFF; vertical-align: top;">PTA Remarks</th>
+                            <th style="border-right: 1px solid #FFF; vertical-align: top;">Remarks by DPIU</th>
+                            <th style="vertical-align: top;">View Photos / C Proforma</th>
+                            @*<th style="border-right: 1px solid #FFF;">C Proforma</th>*@
+                        </tr>
+                        <tr>
+                            <th>1</th>
+                            <th>2</th>
+                            <th>3</th>
+                            <th>4</th>
+                            <th>5</th>
+                            <th>6</th>
+                            <th>7</th>
+                            <th>8</th>
+                            <th>9</th>
+                            <th>10</th>
+                            <th>11</th>
+                            <th>12</th>
+                            <th>13</th>
+                            <th>14</th>
+                            <th>15</th>
+                            <th>16</th>
+                            <th>17</th>
+                            <th>18</th>
+                            <th>19</th>
+                            <th>20</th>
+                            <th>21</th>
+                            <th>22</th>
+                            <th>23</th>
+                            <th>24</th>
+                            <th>25</th>
+                            <th>26</th>
+                        </tr>
+                    </thead>
+                    <tfoot>
+                        @{
+                            
+            var LSBLenGTotal = Model.lstMRDProposal.Sum(s => s.LSB_LEN);
+            var HSpecsGTotal = Model.lstMRDProposal.Sum(s => s.HIGHER_SPECS);
+            var BridgeAmtGTotal = Model.lstMRDProposal.Sum(s => s.BRIDGE_AMT);
+            var BridgeStateGTotal = Model.lstMRDProposal.Sum(s => s.BRIDGE_STATE);
+            var TotCostGTotal = Model.lstMRDProposal.Sum(s => s.TOTAL_COST);
+            var AvgCostGTotal = Model.lstMRDProposal.Sum(s => s.AVG_COST_KM);
+            var BatchGTotal = Model.lstMRDProposal.Sum(s => s.IMS_BATCH);
+            var MaintAmtGTotal = Model.lstMRDProposal.Sum(s => s.MAINT_AMT);
+                        }
+                        <tr>
+                            @{
+            if (LSBLenGTotal > 0)
+            {
+                AvgCostGTotal = TotCostGTotal / LSBLenGTotal;
+            }
+            else
+            {
+                AvgCostGTotal = 0;
+            }
+                            }
+                            <td style="border-right: 1px solid #CCC;"></td>
+                            <td style="border-right: 1px solid #CCC;"><b>Grand Total</b></td>
+                            <td style="border-right: 1px solid #CCC;"></td>
+                            <td style="border-right: 1px solid #CCC;"></td>
+                            <td style="border-right: 1px solid #CCC;"></td>
+                            <td style="border-right: 1px solid #CCC;"></td>
+                            <td style="border-right: 1px solid #CCC;"></td>
+                            <td style="text-align: right; border-right: 1px solid #CCC;"></td>
+                            <td style="border-right: 1px solid #CCC;"></td>
+                            <td style="border-right: 1px solid #CCC;"></td>
+                            <td style="border-right: 1px solid #CCC;"></td>
+                            <td style="text-align: right; border-right: 1px solid #CCC;"><b>@objCommonFunction._IndianFormatAmount(@LSBLenGTotal == null ? "0" : @LSBLenGTotal.ToString())</b></td>
+                            <td style="border-right: 1px solid #CCC;"></td>
+                            <td style="text-align: right; border-right: 1px solid #CCC;"><b>@objCommonFunction._IndianFormatAmount(HSpecsGTotal == null ? "0" : HSpecsGTotal.ToString())</b></td>
+                            <td style="text-align: right; border-right: 1px solid #CCC;"><b>@objCommonFunction._IndianFormatAmount(BridgeAmtGTotal == null ? "0" : BridgeAmtGTotal.ToString())</b></td>
+                            <td style="text-align: right; border-right: 1px solid #CCC;"><b>@objCommonFunction._IndianFormatAmount(BridgeStateGTotal == null ? "0" : BridgeStateGTotal.ToString())</b></td>
+                            <td style="text-align: right; border-right: 1px solid #CCC;"><b>@objCommonFunction._IndianFormatAmount(TotCostGTotal == null ? "0" : TotCostGTotal.ToString())</b></td>
+                            <td style="text-align: right; border-right: 1px solid #CCC;"><b>@objCommonFunction._IndianFormatAmount(AvgCostGTotal == null ? "0" : AvgCostGTotal.ToString())</b></td>
+
+
+                            <td style="border-right: 1px solid #CCC;"></td>
+                            <td style="border-right: 1px solid #CCC;"></td>
+                            <td style="border-right: 1px solid #CCC;"></td>
+                            <td style="border-right: 1px solid #CCC;"></td>
+                            <td style="border-right: 1px solid #CCC;"></td>
+                            <td style="border-right: 1px solid #CCC;"></td>
+                            <td style="border-right: 1px solid #CCC;"></td>
+                            <td></td>
+                            @*<td></td>*@
+                        </tr>
+
+                    </tfoot>
+                    <tbody id="tb1">
+                        @if (Model.lstMRDProposal.Count > 0)
+                        {
+                            int cnt = 1;
+
+
+                            var districts = Model.lstMRDProposal.Select(s => s.MAST_DISTRICT_CODE).Distinct();
+
+
+                            foreach (var distitem in districts)
+                            {
+                                var districtwise = Model.lstMRDProposal.Where(s => s.MAST_DISTRICT_CODE == distitem);
+
+                                var distname = Model.lstMRDProposal.Where(m => m.MAST_DISTRICT_CODE == distitem).Select(s => s.MAST_DISTRICT_NAME).FirstOrDefault();
+                                var LSBLenTotal = Model.lstMRDProposal.Where(m => m.MAST_DISTRICT_CODE == distitem).Sum(s => s.LSB_LEN);
+                                var HSpecsTotal = Model.lstMRDProposal.Where(m => m.MAST_DISTRICT_CODE == distitem).Sum(s => s.HIGHER_SPECS);
+                                var BridgeAmtTotal = Model.lstMRDProposal.Where(m => m.MAST_DISTRICT_CODE == distitem).Sum(s => s.BRIDGE_AMT);
+                                var BridgeStateTotal = Model.lstMRDProposal.Where(m => m.MAST_DISTRICT_CODE == distitem).Sum(s => s.BRIDGE_STATE);
+                                var TotCostTotal = Model.lstMRDProposal.Where(m => m.MAST_DISTRICT_CODE == distitem).Sum(s => s.TOTAL_COST);
+                                //var AvgCostTotal = Model.lstMRDProposal.Where(m => m.MAST_DISTRICT_CODE == distitem).Sum(s => s.LSB_AVG);
+                                var AvgCostTotal = TotCostTotal / LSBLenTotal;
+                                var BatchTotal = Model.lstMRDProposal.Where(m => m.MAST_DISTRICT_CODE == distitem).Sum(s => s.IMS_BATCH);
+                                var MaintAmtTotal = Model.lstMRDProposal.Where(m => m.MAST_DISTRICT_CODE == distitem).Sum(s => s.MAINT_AMT);
+
+                                foreach (var item in districtwise)
+                                {
+                                    var css = (cnt % 2 == 0) ? "background-color:lightyellow;" : "background-color:white;";
+                            <tr style="@css">
+                                <td style="text-align: center">@cnt</td>
+                                <td>@item.MAST_DISTRICT_NAME</td>
+                                <td>@item.MAST_BLOCK_NAME</td>
+                                <td style="text-align: center">@item.IMS_PACKAGE_ID</td>
+                                <td style="text-align: center">@item.CN_ROAD</td>
+                                <td>@item.ROAD_NAME</td>
+                                <td style="text-align: center">@item.IMS_YEAR</td>
+                                <td style="text-align: right">@item.IMS_BATCH</td>
+                                <td style="text-align: center">@item.IMS_COLLABORATION</td>
+                                <td>@item.IMS_UPGRADE_CONNECT</td>
+
+                                <td>@item.LSB_NAME</td>
+                                <td style="text-align: right">@objCommonFunction._IndianFormatAmount(@item.LSB_LEN == null ? "0" : @item.LSB_LEN.ToString())</td>
+                                <td style="text-align: center"><a href="#" onclick="GetBridgeTypeDetails('@item.IMS_PR_ROAD_CODE,@item.MAST_DISTRICT_NAME,@item.MAST_BLOCK_NAME, @item.IMS_PACKAGE_ID.ToString() ,@item.IMS_YEAR')">@item.IMS_PROPOSAL_TYPE</a></td>
+
+                                <td style="text-align: right">@objCommonFunction._IndianFormatAmount(@item.HIGHER_SPECS == null ? "0" : @item.HIGHER_SPECS.ToString())</td>
+                                <td style="text-align: right">@objCommonFunction._IndianFormatAmount(@item.BRIDGE_AMT == null ? "0" : @item.BRIDGE_AMT.ToString())</td>
+                                <td style="text-align: right">@objCommonFunction._IndianFormatAmount(@item.BRIDGE_STATE == null ? "0" : @item.BRIDGE_STATE.ToString())</td>
+                                <td style="text-align: right">@objCommonFunction._IndianFormatAmount(@item.TOTAL_COST == null ? "0" : @item.TOTAL_COST.ToString())</td>
+                                <td style="text-align: right">@objCommonFunction._IndianFormatAmount(@item.LSB_AVG == null ? "0" : @item.LSB_AVG.ToString())</td>
+
+                                <td>@item.STA_SCRUTINY</td>
+                                <td>@item.PTA_SCRUTINY</td>
+                                <td>@item.PROPOSAL_STATUS</td>
+                                <td>@item.IMS_SANCTIONED_DATE</td>
+                                <td>@item.IMS_STA_REMARKS</td>
+                                <td>@item.IMS_PTA_REMARKS</td>
+                                <td>@item.IMS_REMARKS</td>
+                                @*<td>-</td>*@
+                                <td><a href="#" onclick="GetBridgeProposalFilesDetails('@item.IMS_PR_ROAD_CODE,@item.MAST_STATE_NAME,@item.MAST_DISTRICT_NAME,@item.MAST_BLOCK_NAME, @item.IMS_PACKAGE_ID.ToString() ,@item.IMS_YEAR.ToString(),@item.ROAD_NAME,@item.ROAD_LENGTH,@item.IMS_COLLABORATION,@item.IMS_BATCH,@item.LSB_NAME,@item.LSB_LEN,L')">View</a></td>
+                            </tr>
+                                    cnt++;
+                                }
+                            <tr class="ui-state-default">
+                                <td></td>
+                                <td><b>Total for @distname</b></td>
+                                <td></td>
+                                <td></td>
+                                <td></td>
+                                <td></td>
+                                <td></td>
+                                <td style="text-align: right"></td>
+                                <td></td>
+                                <td></td>
+                                <td></td>
+                                <td style="text-align: right"><b>@objCommonFunction._IndianFormatAmount(@LSBLenTotal == null ? "0" : @LSBLenTotal.ToString())</b></td>
+                                <td></td>
+
+                                <td style="text-align: right"><b>@objCommonFunction._IndianFormatAmount(@HSpecsTotal == null ? "0" : @HSpecsTotal.ToString())</b></td>
+                                <td style="text-align: right"><b>@objCommonFunction._IndianFormatAmount(@BridgeAmtTotal == null ? "0" : @BridgeAmtTotal.ToString())</b></td>
+                                <td style="text-align: right"><b>@objCommonFunction._IndianFormatAmount(@BridgeStateTotal == null ? "0" : @BridgeStateTotal.ToString())</b></td>
+                                <td style="text-align: right"><b>@objCommonFunction._IndianFormatAmount(@TotCostTotal == null ? "0" : @TotCostTotal.ToString())</b></td>
+                                <td style="text-align: right"><b>@objCommonFunction._IndianFormatAmount(@AvgCostTotal == null ? "0" : @AvgCostTotal.ToString())</b></td>
+
+
+                                <td></td>
+                                <td></td>
+                                <td></td>
+                                <td></td>
+                                <td></td>
+                                <td></td>
+                                <td></td>
+                                <td></td>
+
+                                @*<td></td>*@
+                            </tr>
+                            }
+                        }
+                    </tbody>
+                </table>
+            </div>
+        }
+        @*</div>*@
+
+
+
+        <div id="dvBridgeParent"></div>
+        @*<div id="dvBridgeCostParent"></div>*@
+        <div id="dvBridgeFile"></div>
+    </form>
+</div>

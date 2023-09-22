@@ -1,0 +1,221 @@
+﻿@model PMGSY.Areas.RCTRC.Models.RCTRCTraining
+
+@{
+    ViewBag.Title = "RCTRCRegistrationModel";
+}
+<script src="~/Scripts/custom/Generic.js" type="text/javascript"></script>
+<script src="~/Scripts/jquery.ui.datepicker.js"></script>
+<script src="~/Areas/RCTRC/Scripts/RCTRCTraining.js"></script>
+<div id="dvhdAddNewCdWorksDetails" class="ui-corner-top ui-widget-header panelheader" style="text-align: left; height: 20px;">
+    <span class="ui-jqgrid-title" style="float: left">&nbsp;Training Programs / Workshops / Seminars  Details</span>
+    <span id="spCollapseIconCN" class="ui-icon ui-icon-circle-triangle-n" style="float: right"></span>
+</div>
+
+<div id="dvAddNewCdWorksDetails" style="display: block; border: 1px solid #B5B8C8; text-align: left">
+    <div id="dvErrorMessage" class="ui-widget ui-state-error ui-corner-all" style="padding: 0.7em .7em; display: none; margin: 5px 5px 5px 5px;">
+        <span class="ui-icon ui-icon-alert" style="float: left; margin-right: .3em;"></span>
+        <strong>Alert:</strong> <span id="message"></span>
+    </div>
+
+    <form id="frmAddCdWorks">
+        @Html.AntiForgeryToken()
+        <center>@Html.ValidationSummary(true)</center>
+        <table class="rowstyle" style="width: 100%; margin-top: 10px">
+            <tr style="display: none">
+                <td>@Html.HiddenFor(m => m.EncryptedTrainingCode)</td>
+            </tr>
+
+            <tr>
+                <td style="width: 30%;"></td>
+                <td style="text-align: left; width: 15%;">
+                    @Html.LabelFor(model => model.ContactPersonID)
+                    <label style="color: red;">*</label>
+                </td>
+                <td>
+                    @Html.DropDownListFor(model => model.ContactPersonID, new SelectList(Model.ContactPerson_List, "Value", "Text"), new { @title = "Contact Person", @id = "ddlContactPerson", @tabindex = 1, @style = "width:150px" })
+                    @Html.ValidationMessageFor(m => m.ContactPersonID)
+                </td>
+            </tr>
+
+
+
+            <tr>
+                <td style="width: 30%;"></td>
+                <td style="text-align: left; width: 15%;">
+                    @Html.LabelFor(model => model.TOPIC)
+                    <label style="color: red;">*</label>
+                </td>
+                <td>
+                    @Html.TextAreaFor(model => model.TOPIC, new { maxlength = 200, @title = "Training Topic", @tabindex = 2, @placeholder = "Enter Training Topic" })
+                    @Html.ValidationMessageFor(model => model.TOPIC)
+                </td>
+            </tr>
+
+            <tr>
+                <td style="width: 30%;"></td>
+                <td style="text-align: left; width: 15%;">
+                    @Html.Label("Training Duration ( In Month(s) )")
+                    <label style="color: red;">*</label>
+                </td>
+                <td>
+                    @Html.TextBoxFor(model => model.DURATION, new { maxlength = 50, @title = "Training Duration", @tabindex = 3, @placeholder = "Training Duration" })
+                    @Html.ValidationMessageFor(model => model.DURATION)
+                </td>
+            </tr>
+            <tr>
+                <td style="width: 30%;"></td>
+                <td style="text-align: left; width: 15%;">
+                    @Html.LabelFor(model => model.START_DATE)
+                    <label style="color: red;">*</label>
+                </td>
+                <td>
+                    @Html.TextBoxFor(model => model.START_DATE, new { @title = "Start Date of Training", @readonly = "readonly", @maxlength = 10, @tabindex = 4, @placeholder = "Select Start Date of Training...", @id = "txtSD" })
+                    @Html.ValidationMessageFor(model => model.START_DATE)
+                </td>
+
+            </tr>
+
+            <tr>
+                <td style="width: 30%;"></td>
+                <td style="text-align: left; width: 15%;">
+                    @Html.LabelFor(model => model.END_DATE)
+                    <label style="color: red;">*</label>
+                </td>
+                <td>
+                    @Html.TextBoxFor(model => model.END_DATE, new { @title = "End Date of Training", @readonly = "readonly", @maxlength = 10, @tabindex = 5, @placeholder = "Select End Date of Training...", @id = "txtED" })
+                    @Html.ValidationMessageFor(model => model.END_DATE)
+                </td>
+            </tr>
+
+    
+
+
+                <tr>
+                <td style="width: 30%;"></td>
+                <td style="text-align: left; width: 15%;">
+                    @Html.LabelFor(model => model.HOST)
+                    <label style="color: red;">*</label>
+                </td>
+                <td>
+                    @Html.TextBoxFor(model => model.HOST, new { maxlength = 100, @title = "Training Host", @tabindex = 7, @placeholder = "Enter Training Host" })
+                    @Html.ValidationMessageFor(model => model.HOST)
+                </td>
+            </tr>
+
+
+
+
+            <tr>
+                <td></td>
+                <td></td>
+                <td>
+                    @if (Model.EncryptedTrainingCode == null)
+                    {
+                  
+                        <input type="button" id="btnSave" name="btnSave" value="Save" class="jqueryButton" title="Save Details" tabindex="15" /> 
+                        <input type="reset" id="btnReset" name="btnReset" value="Reset" class="jqueryButton" title="Reset" tabindex="16" />
+                    }
+                    else
+                    {
+                        <input type="button" id="btnUpdate" name="btnUpdate" value="Update" class="jqueryButton" title="Update Details" tabindex="17" /> 
+                        <input type="button" id="btnCancel" name="btnCancel" value="Cancel" class="jqueryButton" title="Cancel" tabindex="18" />
+                    }
+                </td>
+            </tr>
+            <tr>
+                <td colspan="4">
+                    <label style="border: none">[ Note: Fields marked with<label style="color: red;"> * </label>
+                        are mandatory.]</label>
+                </td>
+            </tr>
+        </table>
+
+    </form>
+</div>
+
+
+
+
+
+
+
+</br>
+</br>
+</br>
+</br>
+</br>
+
+<div id="dvhdAddNewCdWorksDetails_View" class="ui-corner-top ui-widget-header panelheader" style="text-align: left; height: 20px;">
+    <span class="ui-jqgrid-title" style="float: left">&nbsp;Search List</span>
+    <span id="spCollapseIconCN_View" class="ui-icon ui-icon-circle-triangle-n" style="float: right"></span>
+</div>
+
+
+<div id="dvAddNewCdWorksDetails_View" style="display: block; border: 1px solid #B5B8C8; text-align: left">
+    <div id="dvErrorMessage_View" class="ui-widget ui-state-error ui-corner-all" style="padding: 0.7em .7em; display: none; margin: 5px 5px 5px 5px;">
+        <span class="ui-icon ui-icon-alert" style="float: left; margin-right: .3em;"></span>
+        <strong>Alert:</strong> <span id="message"></span>
+    </div>
+
+    <form id="frmAddCdWorks_View">
+        @Html.AntiForgeryToken()
+        <center>@Html.ValidationSummary(true)</center>
+        <table class="rowstyle" style="width: 100%; margin-top: 10px">
+            <tr style="display: none">
+                <td>@Html.HiddenFor(m => m.EncryptedTrainingCode)</td>
+            </tr>
+
+            <tr>
+                <td style="width: 30%;"></td>
+                <td style="text-align: left; width: 15%;">
+                    @Html.LabelFor(model => model.ContactPersonIDSearch)
+                    <label style="color: red;">*</label>
+                </td>
+                <td>
+                    @Html.DropDownListFor(model => model.ContactPersonIDSearch, new SelectList(Model.ContactPerson_List, "Value", "Text"), new { @title = "Contact Person", @id = "ddlContactPerson_View", @tabindex = 19, @style = "width:150px" })
+                    @Html.ValidationMessageFor(m => m.ContactPersonIDSearch)&nbsp; &nbsp;&nbsp;&nbsp;&nbsp;<input type="button" id="btnSearch" name="btnSearch" value="Search" class="jqueryButton" title="Search Details" tabindex="20" /> 
+                </td>
+                
+            </tr>
+
+            
+        </table>
+
+    </form>
+</div>
+
+
+<div id="tabs-1" style="text-align: left; flex-align: center">
+    <div id="divCdWorks" style="text-align: left; width: 100%">
+        <table id="tbCDWorksList" style="width: 95%; flex-align: center"></table>
+        <div id="pagerCDWorksList" tabindex="15"></div>
+    </div>
+</div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

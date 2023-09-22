@@ -1,0 +1,479 @@
+﻿@model PMGSY.Models.Proposal.MrdClearenceRevisionViewModel
+
+@{
+    ViewBag.Title = "AddEditMrdCleranceRevisionDetail";
+}
+
+<script src="~/Scripts/custom/Generic.js" type="text/javascript"></script>
+<script src="~/Scripts/jquery.ui.datepicker.js" type="text/javascript"></script>
+<script src="~/Scripts/Proposal/AddClearanceRevisionDetailsPartial.js" type="text/javascript"></script>
+<center>
+<div id="dvhdAddNewMrdCleranceRevisionDetail" class="ui-corner-top ui-widget-header panelheader" style="text-align: left; height: 20px;">
+    <span class="ui-jqgrid-title" style="float: left">&nbsp;Clearance Revision Details</span>
+
+    <span id="spCollapseIconCN" class="ui-icon ui-icon-circle-triangle-n" style="float: right"></span>
+</div>
+
+<div id="dvAddNewMrdCleranceRevisionDetail" class="ui-corner-bottom" style="display: block; border: 1px solid #B5B8C8; text-align: left">
+    <div id="dvErrorMessageRevision" class="ui-widget ui-state-error ui-corner-all" style="padding: 0.7em .7em; margin: 5px 5px 5px 5px; display: none">
+        <span class="ui-icon ui-icon-alert" style="float: left; margin-right: .3em;"></span>
+        <strong>Alert:</strong> <span id="messageRevision"></span>
+    </div>
+
+    @*<form id="frmAddMrdCleranceRevisionDetail" enctype="multipart/form-data">*@
+    @using (Html.BeginForm("AddEditMrdClerenceRevisionDetailPartial", "Proposal",/* new AjaxOptions { HttpMethod = "POST" }*/ FormMethod.Post, new { enctype = "multipart/form-data", @id = "frmAddMrdCleranceRevisionDetailPartial" }))
+    {
+       
+        <center>@Html.ValidationSummary(true)</center>
+        
+        <table style="width: 100%; margin-top: 10px;" class="rowstyle">
+
+            <tr>
+                <td colspan="6" style="display: none">
+
+                    @Html.HiddenFor(model => model.MRD_ORG_CLEARANCE_CODE)
+                    @Html.HiddenFor(model => model.EncryptedClearanceCode)
+                    @Html.HiddenFor(model => model.EncryptedClearanceRevisionCode)
+                    @Html.Hidden("hdStateCode", PMGSY.Extensions.PMGSYSession.Current.StateCode)
+                    @Html.HiddenFor(model => model.User_Action)
+                    @if (Model.EncryptedClearanceRevisionCode != null)
+                    {
+                        @Html.HiddenFor(model => model.MRD_CLEARANCE_REVISED_PDF_FILE)
+                        @Html.HiddenFor(model => model.MRD_ROAD_REVISED_PDF_FILE)
+                        @Html.HiddenFor(model => model.MRD_ROAD_REVISED_EXCEL_FILE)
+                        @Html.HiddenFor(model => model.Temp_MRD_REVISED_CLEARANCE_PDF_FILE)
+                        @Html.HiddenFor(model => model.Temp_MRD_ROAD_REVISED_PDF_FILE)
+                        @Html.HiddenFor(model => model.Temp_MRD_ROAD_REVISED_EXCEL_FILE)                                            
+                    }
+                </td>
+            </tr>
+
+
+            <tr>
+                <td style="width: 5%;"></td>
+                <td style="text-align: left; width: 18%;">
+                    @Html.LabelFor(model => model.Mast_State_Code)<label style="color: red;"> *</label>
+                </td>
+                <td style="width: 32%;">
+                    @if (Model.EncryptedClearanceCode == null)
+                    {
+                        if (Model.Mast_State_Code == null || Model.Mast_State_Code == 0)
+                        {
+                        @Html.DropDownListFor(model => model.Mast_State_Code, new SelectList(Model.StateList, "Value", "Text"), new { @title = "Select State", @id = "ddlStateRevision", @tabindex = 1 })
+                        }
+                        else
+                        {
+                        @Html.DropDownListFor(model => model.Mast_State_Code, new SelectList(Model.StateList, "Value", "Text"), new { @title = "Select State", @id = "ddlStateRevision", @tabindex = 1, @disabled = "disabled" })
+                        }
+                    }
+                    else
+                    {
+                        @Html.DropDownListFor(model => model.Mast_State_Code, new SelectList(Model.StateList, "Value", "Text"), new { @title = "Select State", @id = "ddlStateRevision", @tabindex = 1, @disabled = "disabled" })
+                    }
+                    @Html.ValidationMessageFor(model => model.Mast_State_Code)
+                </td>
+                <td style="width: 18%">
+                    @Html.LabelFor(model => model.Mast_Agency)
+                    <label style="color: red;">*</label>
+                </td>
+                <td>
+                    @if (Model.EncryptedClearanceCode == null)
+                    {
+                        @Html.DropDownListFor(model => model.Mast_Agency, new SelectList(Model.Mast_AgencyList, "Value", "Text"), new { @id = "ddlAgencyRevision", @title = "Select Agency", @tabindex = 2 })
+                    
+                    }
+                    else
+                    {
+                        @Html.DropDownListFor(model => model.Mast_Agency, new SelectList(Model.Mast_AgencyList, "Value", "Text"), new { @id = "ddlAgencyRevision", @title = "Select Agency", @tabindex = 2, @disabled = "disabled" })
+                         
+                    }
+                    @Html.ValidationMessageFor(model => model.Mast_Agency)
+
+                </td>
+
+            </tr>
+            <tr>
+                <td style="width: 5%;"></td>
+                <td style="text-align: left; width: 18%;">
+                    @Html.LabelFor(model => model.Batch)
+                </td>
+                <td style="width: 32%;">
+                    @if (Model.EncryptedClearanceCode == null)
+                    {
+                        @Html.DropDownListFor(model => model.Batch, new SelectList(Model.BatchList, "Value", "Text"), new { @title = "Select Batch", @id = "ddlBatchRevision", @tabindex = 3 })
+                   
+                    }
+                    else
+                    {
+                        @Html.DropDownListFor(model => model.Batch, new SelectList(Model.BatchList, "Value", "Text"), new { @title = "Select Batch", @id = "ddlBatchRevision", @tabindex = 3, @disabled = "disabled" })
+                          
+                    }
+                    @Html.ValidationMessageFor(model => model.Batch)
+                </td>
+                <td style="width: 18%">
+                    @Html.LabelFor(model => model.PhaseYear)
+                    <label style="color: red;">*</label>
+                </td>
+                <td>
+                    @if (Model.EncryptedClearanceCode == null)
+                    {
+                        @Html.DropDownListFor(model => model.PhaseYear, new SelectList(Model.PhaseYearList, "Value", "Text"), new { @id = "ddlPhaseYearRevision", @title = "Select Year", @tabindex = 4 })
+                    
+                    }
+                    else
+                    {
+                        @Html.DropDownListFor(model => model.PhaseYear, new SelectList(Model.PhaseYearList, "Value", "Text"), new { @id = "ddlPhaseYearRevision", @title = "Select Year", @tabindex = 4, @disabled = "disabled" })
+                         
+                    }
+                    @Html.ValidationMessageFor(model => model.PhaseYear)
+
+                </td>
+            </tr>
+            <tr>
+                <td style="width: 5%;"></td>
+                <td style="text-align: left; width: 18%;">
+                    @Html.LabelFor(model => model.IMS_COLLABORATION)<label style="color: red;"> *</label>
+                </td>
+                <td style="width: 32%;">
+                    @if (Model.EncryptedClearanceCode == null)
+                    {
+                        @Html.DropDownListFor(model => model.IMS_COLLABORATION, new SelectList(Model.COLLABORATIONS_List, "Value", "Text"), new { @title = "Select Collaboration", @id = "ddlCollaborationRevision", @tabindex = 5 })
+                   
+                    }
+                    else
+                    {
+                        @Html.DropDownListFor(model => model.IMS_COLLABORATION, new SelectList(Model.COLLABORATIONS_List, "Value", "Text"), new { @title = "Select Collaboration", @id = "ddlCollaborationRevision", @tabindex = 5, @disabled = "disabled" })
+                          
+                    }
+                    @Html.ValidationMessageFor(model => model.IMS_COLLABORATION)
+                </td>
+                <td style="text-align: left; width: 18%;">
+                    @Html.LabelFor(model => model.MRD_REVISION_NUMBER)<label style="color: red;"> *</label>
+                </td>
+                <td style="width: 32%;">
+                    @if (Model.EncryptedClearanceCode == null)
+                    {
+                        @Html.TextBoxFor(model => model.MRD_REVISION_NUMBER, new { @placeholder = "Enter Revision Number", @tabindex = 6, maxlength = 25 }) 
+                    }
+                    else
+                    {
+                        @Html.TextBoxFor(model => model.MRD_REVISION_NUMBER, new { @placeholder = "Enter Revision Number", @tabindex = 6, maxlength = 25 })         
+                    }
+                    @Html.ValidationMessageFor(model => model.MRD_REVISION_NUMBER)
+                </td>
+
+            </tr>
+
+            <tr>
+                <td style="width: 5%;"></td>
+                <td style="text-align: left; width: 18%;">
+                    @Html.LabelFor(model => model.MRD_REVISION_DATE)<label style="color: red;"> *</label>
+                </td>
+                <td style="width: 32%;">
+                    @Html.TextBoxFor(model => model.MRD_REVISION_DATE, new { @placeholder = "Enter Revision Date", @tabindex = 7 })
+                    @Html.ValidationMessageFor(model => model.MRD_REVISION_DATE)
+                </td>
+                <td>
+                    @Html.LabelFor(model => model.UPGRADE_CONNECT)<label style="color: red;"> *</label>
+                </td>
+                <td>
+                    @if(Model.User_Action == "A")
+                    {
+                        @Html.RadioButtonFor(model => model.UPGRADE_CONNECT, "N", new { @id = "rdoNew", @name = "rdoNew" ,@checked="checked"}) <label>New</label>
+                        @Html.RadioButtonFor(model => model.UPGRADE_CONNECT, "U", new { @id = "rdoUpgrade", @name = "rdoUpgrade" ,@checked="checked"}) <label>Upgradation</label>
+                    }
+                    else
+                    {
+                        @Html.RadioButtonFor(model => model.UPGRADE_CONNECT, "N", new { @id = "rdoNew", @name = "rdoNew" }) <label>New</label>
+                        @Html.RadioButtonFor(model => model.UPGRADE_CONNECT, "U", new { @id = "rdoUpgrade", @name = "rdoUpgrade" }) <label>Upgradation</label>
+                    }
+                    @Html.ValidationMessageFor(model => model.UPGRADE_CONNECT)
+                </td>
+            </tr>
+            <tr id="trStageProposal" style="display:none">
+                <td style="width: 5%;"></td>
+                <td style="text-align: left; width: 15%;">
+                </td>
+                <td style="width: 30%;">
+                </td>
+                <td>
+                    @Html.LabelFor(model => model.STAGE_COMPLETE)<label style="color: red;"> *</label>
+                </td>
+                <td>
+                    @if(Model.User_Action == "A")
+                    {
+                        @Html.RadioButtonFor(model => model.STAGE_COMPLETE, "S1", new { @id = "rdoStage1", @name = "rdoStage1" ,@checked="checked"}) <label>Stage 1</label>
+                        @Html.RadioButtonFor(model => model.STAGE_COMPLETE, "S2", new { @id = "rdoStage2", @name = "rdoStage2" ,@checked="checked"}) <label>Stage 2</label>
+                        @Html.RadioButtonFor(model => model.STAGE_COMPLETE, "C", new { @id = "rdoComplete", @name = "rdoComplete",@checked="checked"}) <label>Complete</label>
+                    }
+                    else
+                    {
+                        @Html.RadioButtonFor(model => model.STAGE_COMPLETE, "S1", new { @id = "rdoStage1", @name = "rdoStage1" }) <label>Stage 1</label>
+                        @Html.RadioButtonFor(model => model.STAGE_COMPLETE, "S2", new { @id = "rdoStage2", @name = "rdoStage2" }) <label>Stage 2</label>
+                        @Html.RadioButtonFor(model => model.STAGE_COMPLETE, "C", new { @id = "rdoComplete", @name = "rdoComplete"}) <label>Complete</label>
+                    }
+                </td>
+            </tr>
+            <tr>
+                <td style="width: 5%;"></td>
+                <td style="text-align: left; width: 18%;">
+                    @Html.LabelFor(model => model.MRD_TOTAL_ROADS)<label style="color: red;"> *</label>
+                </td>
+                <td style="width: 32%;">
+                    @Html.TextBoxFor(model => model.MRD_TOTAL_ROADS, new { @placeholder = "Enter Number of Roads", @tabindex = 8, maxlength = 12 })
+                    @Html.ValidationMessageFor(model => model.MRD_TOTAL_ROADS)
+                </td>
+                <td style="text-align: left; width: 18%;">
+                    @Html.LabelFor(model => model.MRD_TOTAL_LSB)<label style="color: red;"> *</label>
+                </td>
+                <td style="width: 32%;">
+                    @Html.TextBoxFor(model => model.MRD_TOTAL_LSB, new { @placeholder = "Enter Number of Bridges", @tabindex = 9, maxlength = 12 })
+                    @Html.ValidationMessageFor(model => model.MRD_TOTAL_LSB)
+                </td>
+            </tr>
+             <tr>
+                <td style="width: 5%;"></td>
+                <td style="text-align: left; width: 18%;">
+                    @Html.LabelFor(model => model.MRD_TOTAL_ROAD_LENGTH)  (in KM.)
+                    <label style="color: red;">*</label>
+                </td>
+                <td style="width: 32%;">
+                    @Html.TextBoxFor(model => model.MRD_TOTAL_ROAD_LENGTH, new { @placeholder = "Enter Total Road Length", @tabindex = 10,maxlength = 19 })
+                    @Html.ValidationMessageFor(model => model.MRD_TOTAL_ROAD_LENGTH)
+                </td>
+                <td style="text-align: left; width: 18%;">
+                    @Html.LabelFor(model => model.MRD_TOTAL_LSB_LENGTH) (in Mtr.)
+                    <label style="color: red;">*</label>
+                </td>
+                <td style="width: 32%;">
+                    @Html.TextBoxFor(model => model.MRD_TOTAL_LSB_LENGTH, new { @placeholder = "Enter Total Bridge Length", @tabindex = 11,maxlength = 19 })
+                    @Html.ValidationMessageFor(model => model.MRD_TOTAL_LSB_LENGTH)
+                </td>
+
+            </tr>
+             <tr>
+                <td style="width: 5%;"></td>
+                <td style="text-align: left; width: 18%;">
+                    @Html.LabelFor(model => model.MRD_ROAD_MORD_SHARE_AMT) (in Cr.)<label style="color: red;"> *</label>
+                </td>
+                <td style="width: 32%;">
+                    @Html.TextBoxFor(model => model.MRD_ROAD_MORD_SHARE_AMT, new { @placeholder = "Enter Road MoRD share", @tabindex = 12,maxlength = 19 })
+                    @Html.ValidationMessageFor(model => model.MRD_ROAD_MORD_SHARE_AMT)
+                </td>
+
+                <td style="text-align: left; width: 18%;">
+                    @Html.LabelFor(model => model.MRD_LSB_MORD_SHARE_AMT) (in Cr.)<label style="color: red;"> *</label>
+                </td>
+                <td style="width: 32%;">
+                    @Html.TextBoxFor(model => model.MRD_LSB_MORD_SHARE_AMT, new { @placeholder = "Enter Bridge  MoRD share", @tabindex = 13,maxlength = 19 })
+                    @Html.ValidationMessageFor(model => model.MRD_LSB_MORD_SHARE_AMT)
+                </td>
+            </tr>
+            <tr>
+                <td style="width: 5%;"></td>
+                <td style="text-align: left; width: 18%;">
+                    @Html.LabelFor(model => model.MRD_ROAD_STATE_SHARE_AMT) (in Cr.)
+                    <label style="color: red;">*</label>
+                </td>
+                <td style="width: 32%;">
+                    @Html.TextBoxFor(model => model.MRD_ROAD_STATE_SHARE_AMT, new { @placeholder = "Enter Road State share ", @tabindex = 14,maxlength = 19 })
+                    @Html.ValidationMessageFor(model => model.MRD_ROAD_STATE_SHARE_AMT)
+                </td>
+
+
+                <td style="text-align: left; width: 18%;">
+                    @Html.LabelFor(model => model.MRD_LSB_STATE_SHARE_AMT) (in Cr.)
+                    <label style="color: red;">*</label>
+                </td>
+                <td style="width: 32%;">
+                    @Html.TextBoxFor(model => model.MRD_LSB_STATE_SHARE_AMT, new { @placeholder = "Enter Bridge  State share", @tabindex = 15,maxlength = 19 })
+                    @Html.ValidationMessageFor(model => model.MRD_LSB_STATE_SHARE_AMT)
+                </td>
+            </tr>
+           
+            <tr>
+                <td style="width: 5%;"></td>
+                <td style="text-align: left; width: 18%;">
+                    @Html.LabelFor(model => model.MRD_ROAD_TOTAL_AMT) (in Cr.)<label style="color: red;"> *</label>
+                </td>
+                <td style="width: 32%;">
+                    @Html.TextBoxFor(model => model.MRD_ROAD_TOTAL_AMT, new { @placeholder = "Enter Total Road Sanctioned Amount", @tabindex = 16,maxlength = 19,@id="MRD_ROAD_TOTAL_AMTRevision", @disabled = "disabled" })
+                    @Html.ValidationMessageFor(model => model.MRD_ROAD_TOTAL_AMT)
+                </td>
+
+                <td style="text-align: left; width: 18%;">
+                    @Html.LabelFor(model => model.MRD_LSB_TOTAL_AMT) (in Cr.)
+                    <label style="color: red;">*</label>
+                </td>
+                <td style="width: 32%;">
+                    @Html.TextBoxFor(model => model.MRD_LSB_TOTAL_AMT, new { @placeholder = "Enter Total Bridge Sanctioned Amount", @tabindex = 17,maxlength = 19,@id="MRD_LSB_TOTAL_AMTRevision", @disabled = "disabled" })
+                    @Html.ValidationMessageFor(model => model.MRD_LSB_TOTAL_AMT)
+                </td>
+            </tr>
+
+            <tr>
+                <td style="width: 5%;"></td>
+                <td style="text-align: left; width: 18%;">
+                    @Html.LabelFor(model => model.MRD_TOTAL_MORD_SHARE_AMT) (in Cr.)
+                    <label style="color: red;">*</label>
+                </td>
+                <td style="width: 32%;">
+                    @Html.TextBoxFor(model => model.MRD_TOTAL_MORD_SHARE_AMT, new { @placeholder = "Enter Total MoRD share", @tabindex = 18,maxlength = 19,@id="MRD_TOTAL_MORD_SHARE_AMTRevision", @disabled = "disabled" })
+                    @Html.ValidationMessageFor(model => model.MRD_TOTAL_MORD_SHARE_AMT)
+                </td>
+                <td style="text-align: left; width: 18%;">
+                    @Html.LabelFor(model => model.MRD_TOTAL_STATE_SHARE_AMT) (in Cr.)
+                    <label style="color: red;">*</label>
+                </td>
+                <td style="width: 32%;">
+                    @Html.TextBoxFor(model => model.MRD_TOTAL_STATE_SHARE_AMT, new { @placeholder = "Enter Total State share", @tabindex = 19,@id="MRD_TOTAL_STATE_SHARE_AMTRevision",maxlength = 16 , @disabled = "disabled" })
+                    @Html.ValidationMessageFor(model => model.MRD_TOTAL_STATE_SHARE_AMT)
+                </td>
+            </tr>
+            <tr>
+                <td style="width: 5%;"></td>
+                <td style="text-align: left; width: 18%;">
+                    @Html.LabelFor(model => model.MRD_TOTAL_SANCTIONED_AMT) (in Cr.)
+                    <label style="color: red;">*</label>
+                </td>
+                <td style="width: 32%;">
+                    @Html.TextBoxFor(model => model.MRD_TOTAL_SANCTIONED_AMT, new { @placeholder = "Enter Total Sanctioned  Amount", @tabindex = 20,maxlength = 19,@id="MRD_TOTAL_SANCTIONED_AMTRevision", @disabled = "disabled" })
+                    @Html.ValidationMessageFor(model => model.MRD_TOTAL_SANCTIONED_AMT)
+                </td>
+                <td></td>
+                <td></td>
+            </tr>
+           
+            <tr>
+                <td style="width: 5%;"></td>
+
+                <td style="text-align: left; width: 18%;">
+                    @Html.LabelFor(model => model.MRD_HAB_1000)<label style="color: red;"> *</label>
+                </td>
+                <td style="width: 32%;">
+                    @Html.TextBoxFor(model => model.MRD_HAB_1000, new { @placeholder = "Enter Hab>1000", @tabindex = 21, maxlength = 12 })
+                    @Html.ValidationMessageFor(model => model.MRD_HAB_1000)
+                </td>
+                <td style="text-align: left; width: 18%;">
+                    @Html.LabelFor(model => model.MRD_HAB_500)<label style="color: red;"> *</label>
+                </td>
+                <td style="width: 32%;">
+                    @Html.TextBoxFor(model => model.MRD_HAB_500, new { @placeholder = "Enter Hab>500", @tabindex = 22, maxlength = 12 })
+                    @Html.ValidationMessageFor(model => model.MRD_HAB_500)
+                </td>
+
+            </tr>
+            <tr>
+                <td style="width: 5%;"></td>
+                <td style="text-align: left; width: 18%;">
+                    @Html.LabelFor(model => model.MRD_HAB_250_ELIGIBLE)<label style="color: red;"> *</label>
+                </td>
+                <td style="width: 32%;">
+                    @Html.TextBoxFor(model => model.MRD_HAB_250_ELIGIBLE, new { @placeholder = "Enter Hab>250", @tabindex = 23, maxlength = 12 })
+                    @Html.ValidationMessageFor(model => model.MRD_HAB_250_ELIGIBLE)
+                </td>
+                <td style="text-align: left; width: 18%;">
+                    @Html.LabelFor(model => model.MRD_HAB_100_ELIGIBLE)<label style="color: red;"> *</label>
+                </td>
+                <td style="width: 32%;">
+                    @Html.TextBoxFor(model => model.MRD_HAB_100_ELIGIBLE, new { @placeholder = "Enter Hab>100", @tabindex = 24, maxlength = 12 })
+                    @Html.ValidationMessageFor(model => model.MRD_HAB_100_ELIGIBLE)
+                </td>
+
+            </tr>
+            <tr style="text-align:left;">
+                <td style="width: 5%;"></td>
+                <td>
+                    @Html.LabelFor(model => model.MRD_CLEARANCE_REMARKS)
+                </td>
+                <td >
+                    @Html.TextAreaFor(model => model.MRD_CLEARANCE_REMARKS, new { @style = "width: 50%;", @maxlength = "255", @placeholder = "Enter Remarks" })
+                    @Html.ValidationMessageFor(model => model.MRD_CLEARANCE_REMARKS)
+                </td>
+                <td colspan="2"></td>
+            </tr>       
+            <tr>
+                <td style="width: 5%;"></td>
+                <td style="text-align: left; width: 18%;">
+                    @Html.Label("Revised Clearance Letter (pdf)") 
+                </td>
+                <td style="width: 32%;">
+                    <input type="file" name="file" id="ClearanceRevisedPdfFile" tabindex="25" />
+                    @if (Model.MRD_CLEARANCE_REVISED_PDF_FILE != "" && Model.User_Action != "A")
+                    {
+                        @Html.Label("Revised File 1", new { id = "Temp_MRD_CLEARANCE_REVISED_PDF_FILE", @style = "color:red" })
+                   
+                    }
+                </td>
+                <td></td>
+                <td></td>
+            </tr>
+            <tr>
+                <td style="width: 5%;"></td>
+                <td style="text-align: left; width: 18%;">
+                    @Html.Label("Revised Road List (pdf) ")
+                </td>
+                <td style="width: 32%;">
+                    <input type="file" name="file" id="RoadRevisedPdfFile" tabindex="26" />
+                    @if (Model.MRD_ROAD_REVISED_PDF_FILE != "" && Model.User_Action != "A")
+                    {
+
+                        @Html.Label("Revised File 2", new { id = "Temp_MRD_ROAD_REVISED_PDF_FILE", @style = "color:red" })
+                   
+                    }
+                </td>
+                <td style="text-align: left; width: 18%;">
+                    @Html.Label("Revised Road List (excel)")
+                </td>
+                <td style="width: 32%;">
+                    <input type="file" name="file" id="RoadRevisedExcelFile" tabindex="27" />
+                    @if (Model.MRD_ROAD_REVISED_EXCEL_FILE != "" && Model.User_Action != "A")
+                    {
+
+                        @Html.Label("Revised File 3", new { id = "Temp_MRD_ROAD_REVISED_EXCEL_FILE", @style = "color:red" })
+                    }
+                </td>
+            </tr>
+            <tr>
+                <td></td>
+                <td></td>
+
+                @if (Model.User_Action == "A")
+                {   
+                    <td style="text-align: right;">
+                        <input type="submit" id="btnSavePartial" name="btnSave" value="Save" class="jqueryButton" title="Save Clearance Revision Details" tabindex="28" />
+                    </td> 
+                    <td colspan="2">
+                        <input type="reset" id="btnResetPartial" name="btnReset" value="Reset" class="jqueryButton" title="Reset" tabindex="29" /></td> 
+                }
+                else
+                {
+               
+                    <td style="text-align: right;">
+                        <input type="submit" id="btnUpdatePartial" name="btnUpdate" value="Update" class="jqueryButton" title="Update Clearance Revision Details" tabindex="28" />
+                    </td> 
+                    <td colspan="2">
+                        <input type="button" id="btnCancelRevisionPartial" name="btnCancelRevision" value="Cancel" class="jqueryButton" title="Cancel" tabindex="29" /></td> 
+                }
+            </tr>
+            <tr>
+                <td colspan="5">
+                    <label style="border: none">
+                        [ Note 1: Fields marked with<label style="color: red;"> * </label>
+                        are mandatory.]</label>
+                    <label style="border: none">
+                        [ Note 2:Excel Files allowed<label style="color: red;"> xlsx,xls </label>
+                        ]</label>
+                </td>
+            </tr>
+        </table>
+    }
+    @*</form>*@
+ 
+</div>
+
+</center>
+
+
+
+

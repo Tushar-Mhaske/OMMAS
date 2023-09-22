@@ -1,0 +1,95 @@
+<?xml version="1.0" encoding="utf-8"?>
+<wsdl:definitions xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/" xmlns:tns="http://bankScroll.services.epfo.com/" xmlns:ns1="http://schemas.xmlsoap.org/soap/http" name="BankScroll" targetNamespace="http://bankScroll.services.epfo.com/" xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">
+  <wsdl:types>
+    <xs:schema elementFormDefault="unqualified" targetNamespace="http://bankScroll.services.epfo.com/" version="1.0" xmlns:xs="http://www.w3.org/2001/XMLSchema">
+      <xs:element name="EodBankScroll" type="tns:eodBankScroll" />
+      <xs:element name="bankScrollResponse" type="tns:bankScrollResponse" />
+      <xs:element name="sendBankScrollData" type="tns:sendBankScrollData" />
+      <xs:element name="sendBankScrollDataResponse" type="tns:sendBankScrollDataResponse" />
+      <xs:complexType name="sendBankScrollData">
+        <xs:sequence>
+          <xs:element minOccurs="0" name="eodBankScroll" type="tns:eodBankScroll" />
+        </xs:sequence>
+      </xs:complexType>
+      <xs:complexType name="eodBankScroll" final="extension restriction">
+        <xs:sequence>
+          <xs:element maxOccurs="unbounded" name="transactionDetails" type="tns:transactionDetails" />
+          <xs:element minOccurs="0" name="BANKCODE" type="xs:string" />
+          <xs:element minOccurs="0" name="SCROLLDATE" type="xs:anySimpleType" />
+          <xs:element minOccurs="0" name="USERKEY" type="xs:string" />
+        </xs:sequence>
+      </xs:complexType>
+      <xs:complexType name="transactionDetails">
+        <xs:sequence>
+          <xs:element minOccurs="0" name="BANKREFNO" type="xs:string" />
+          <xs:element minOccurs="0" name="CHALLANTYPE" type="tns:challanType" />
+          <xs:element minOccurs="0" name="CRN" type="xs:string" />
+          <xs:element minOccurs="0" name="DATECREDIT" type="xs:string" />
+          <xs:element minOccurs="0" name="DATEINITIATION" type="xs:string" />
+          <xs:element minOccurs="0" name="DATEREALISATION" type="xs:string" />
+          <xs:element minOccurs="0" name="ESTCODE" type="xs:string" />
+          <xs:element minOccurs="0" name="IFSCCODE" type="xs:string" />
+          <xs:element name="PAIDAMOUNT" type="xs:float" />
+          <xs:element minOccurs="0" name="TRANDATETIME" type="xs:string" />
+          <xs:element name="TRRN" type="xs:long" />
+        </xs:sequence>
+      </xs:complexType>
+      <xs:complexType name="sendBankScrollDataResponse">
+        <xs:sequence>
+          <xs:element minOccurs="0" name="return" type="tns:bankScrollResponse" />
+        </xs:sequence>
+      </xs:complexType>
+      <xs:complexType name="bankScrollResponse">
+        <xs:sequence>
+          <xs:element minOccurs="0" name="bankScrollId" type="xs:string" />
+          <xs:element minOccurs="0" name="bankcode" type="xs:string" />
+          <xs:element minOccurs="0" name="responseMessage" type="xs:string" />
+          <xs:element minOccurs="0" name="scrollStatus" type="tns:scrollStatus" />
+          <xs:element minOccurs="0" name="scrolldate" type="xs:anySimpleType" />
+        </xs:sequence>
+      </xs:complexType>
+      <xs:simpleType name="challanType">
+        <xs:restriction base="xs:string">
+          <xs:enumeration value="CONT" />
+          <xs:enumeration value="MISC" />
+          <xs:enumeration value="ADMIN" />
+        </xs:restriction>
+      </xs:simpleType>
+      <xs:simpleType name="scrollStatus">
+        <xs:restriction base="xs:string">
+          <xs:enumeration value="Failure" />
+          <xs:enumeration value="Success" />
+        </xs:restriction>
+      </xs:simpleType>
+    </xs:schema>
+  </wsdl:types>
+  <wsdl:message name="sendBankScrollData">
+    <wsdl:part name="parameters" element="tns:sendBankScrollData" />
+  </wsdl:message>
+  <wsdl:message name="sendBankScrollDataResponse">
+    <wsdl:part name="parameters" element="tns:sendBankScrollDataResponse" />
+  </wsdl:message>
+  <wsdl:portType name="BankScroll">
+    <wsdl:operation name="sendBankScrollData">
+      <wsdl:input name="sendBankScrollData" message="tns:sendBankScrollData" />
+      <wsdl:output name="sendBankScrollDataResponse" message="tns:sendBankScrollDataResponse" />
+    </wsdl:operation>
+  </wsdl:portType>
+  <wsdl:binding name="BankScrollSoapBinding" type="tns:BankScroll">
+    <soap:binding transport="http://schemas.xmlsoap.org/soap/http" />
+    <wsdl:operation name="sendBankScrollData">
+      <soap:operation soapAction="" style="document" />
+      <wsdl:input name="sendBankScrollData">
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output name="sendBankScrollDataResponse">
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+  </wsdl:binding>
+  <wsdl:service name="BankScroll">
+    <wsdl:port name="BankScrollPort" binding="tns:BankScrollSoapBinding">
+      <soap:address location="http://10.60.12.157:8080/EPFOServices/BankScroll" />
+    </wsdl:port>
+  </wsdl:service>
+</wsdl:definitions>

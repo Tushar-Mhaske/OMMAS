@@ -1,0 +1,187 @@
+﻿@model PMGSY.Models.NewUserDetailsModel
+    
+    <script src="~/Scripts/jquery.validate.min.js"></script>
+    <script src="~/Scripts/jquery.validate.unobtrusive.min.js"></script>
+    <script src="~/Scripts/custom/Generic.js"></script>
+    <script src="~/Scripts/AddNewUserDetails.js"></script>
+    
+    
+    @using (Html.BeginForm()) {
+        @Html.ValidationSummary(true)
+        <br />
+  <center>
+<div id="tableMain" class="jqueryTable" >
+    <div id="tableTitle">
+        <span id="tableTitleName">Add User</span>
+    </div>
+    <div id="tableHeader">
+        <table id="Table1" >
+            <tr>
+                <th colspan="4"></th>
+            </tr>
+        </table>
+    </div>
+    <div id="tableContent">
+      <table class="dataentry">
+                    <tr>
+                        <td>@Html.LabelFor(m => m.UserName, new { @id = "lblUName"}) : </td>
+                        <td >@Html.EditorFor(m => m.UserName, new { @id = "txtUName"}) </td> 
+                        <td>@Html.LabelFor(m => m.FName) : </td>
+                        <td>@Html.EditorFor(m => m.FName)</td>
+                    </tr>
+                    <tr>
+                        <td>&nbsp;</td>
+                        <td >@Html.ValidationMessageFor(m => m.UserName)</td> 
+                        <td>&nbsp;</td>
+                        <td>@Html.ValidationMessageFor(m => m.FName)</td>
+                    </tr>
+                    <tr>
+                        <td>@Html.LabelFor(m => m.MName) : </td>
+                        <td>@Html.EditorFor(m => m.MName)</td> 
+                        <td>@Html.LabelFor(m => m.LName) : </td>
+                        <td>@Html.EditorFor(m => m.LName)</td>  
+                    </tr>
+                    <tr>
+                        <td colspan="2">@Html.ValidationMessageFor(m => m.MName)</td>
+                        <td colspan="2">@Html.ValidationMessageFor(m => m.LName)</td>
+                    </tr>
+                     <tr>
+                        <td>@Html.LabelFor(m => m.Address) : </td>
+                        <td>@Html.EditorFor(m => m.Address)</td>
+                        <td>@Html.LabelFor(m => m.PinCode) : </td>
+                        <td>@Html.EditorFor(m => m.PinCode)</td> 
+                    </tr>
+                    <tr>
+                        <td>&nbsp;</td>
+                        <td >@Html.ValidationMessageFor(m => m.Address)</td> 
+                        <td>&nbsp;</td>
+                        <td>@Html.ValidationMessageFor(m => m.PinCode)</td>
+                    </tr>
+                    <tr>
+                        <td>@Html.LabelFor(m => m.OfficeSTD) : </td>
+                        <td>@Html.EditorFor(m => m.OfficeSTD)</td>
+                        <td>@Html.LabelFor(m => m.OfficePhNo) : </td>
+                        <td>@Html.EditorFor(m => m.OfficePhNo)</td> 
+                    </tr>
+                    <tr>
+                        <td>&nbsp;</td>
+                        <td >@Html.ValidationMessageFor(m => m.OfficeSTD)</td> 
+                        <td>&nbsp;</td>
+                        <td>@Html.ValidationMessageFor(m => m.OfficePhNo)</td>
+                    </tr>
+                    <tr>
+                        <td>@Html.LabelFor(m => m.ResidenceSTD) : </td>
+                        <td>@Html.EditorFor(m => m.ResidenceSTD)</td>
+                        <td>@Html.LabelFor(m => m.ResidencePhNo) : </td>
+                        <td>@Html.EditorFor(m => m.ResidencePhNo)</td> 
+                    </tr>
+                    <tr>
+                        <td>&nbsp;</td>
+                        <td >@Html.ValidationMessageFor(m => m.ResidenceSTD)</td> 
+                        <td>&nbsp;</td>
+                        <td>@Html.ValidationMessageFor(m => m.ResidencePhNo)</td>
+                    </tr>
+                    <tr>
+                        <td>@Html.LabelFor(m => m.FaxSTD) : </td>
+                        <td>@Html.EditorFor(m => m.FaxSTD)</td>
+                        <td>@Html.LabelFor(m => m.FaxNo) : </td>
+                        <td>@Html.EditorFor(m => m.FaxNo)</td> 
+                    </tr>
+                    <tr>
+                        <td>&nbsp;</td>
+                        <td >@Html.ValidationMessageFor(m => m.FaxSTD)</td> 
+                        <td>&nbsp;</td>
+                        <td>@Html.ValidationMessageFor(m => m.FaxNo)</td>
+                    </tr>
+                    <tr>
+                        <td>@Html.LabelFor(m => m.MobileNo) : </td>
+                        <td>@Html.EditorFor(m => m.MobileNo)</td>
+                        <td>&nbsp;</td>
+                        <td>&nbsp;</td>
+                    </tr>
+                    <tr>
+                        <td>&nbsp;</td>
+                        <td colspan="3">@Html.ValidationMessageFor(m => m.MobileNo)</td>
+                    </tr>
+                    <tr>
+                        <td>@Html.LabelFor(m => m.PrimEmail) : </td>
+                        <td>@Html.EditorFor(m => m.PrimEmail, new { @class="pmgsy-textbox"})</td>
+                        <td>@Html.LabelFor(m => m.SecEmail) : </td>
+                        <td>@Html.EditorFor(m => m.SecEmail, new { @class="pmgsy-textbox"})</td> 
+                    </tr>
+                    <tr>
+                        <td>&nbsp;</td>
+                        <td >@Html.ValidationMessageFor(m => m.PrimEmail)</td> 
+                        <td>&nbsp;</td>
+                        <td>@Html.ValidationMessageFor(m => m.SecEmail)</td>
+                    </tr>
+                <tr>
+                        <td>@Html.LabelFor(m => m.StateName) : </td>
+                        <td>@Html.DropDownList("StateList", new SelectList(ViewBag.StateList, "Value", "Text"), new { @id = "ddlState" })</td>
+                        <td>@Html.LabelFor(m => m.DistrictName) : </td>
+                        <td>@Html.DropDownList("DistrictList", new SelectList(ViewBag.DistrictList, "Value", "Text"), new { @id = "ddlDistrict" })
+                        </td> 
+                    </tr>
+                    <tr>
+                        <td>&nbsp;</td>
+                        <td >@Html.ValidationMessageFor(m => m.StateId)</td> 
+                        <td>&nbsp;</td>
+                        <td>@Html.ValidationMessageFor(m => m.DistrictId)</td>
+                    </tr>
+                    <tr>
+                        <td>@Html.LabelFor(m => m.AccActivateDate) :</td>
+                        <td>@Html.EditorFor(m => m.AccActivateDate)</td>
+                        <td>@Html.LabelFor(m => m.AccDeactivateDate) :</td>
+                        <td>@Html.EditorFor(m => m.AccDeactivateDate)</td> 
+                    </tr>
+                    <tr>
+                        <td>&nbsp;</td>
+                        <td >@Html.ValidationMessageFor(m => m.AccActivateDate)</td> 
+                        <td>&nbsp;</td>
+                        <td>@Html.ValidationMessageFor(m => m.AccDeactivateDate)</td>
+                    </tr>
+                    <tr>
+                        <td>@Html.LabelFor(m => m.PwdrRecoveryQuesText) :</td>
+                        <td>@Html.DropDownList("PwdrQuestionId", new SelectList(ViewBag.QuestionList, "Value", "Text"),"Select Question")</td>
+                        <td>@Html.LabelFor(m => m.PwdrRecoveryAns) :</td>
+                        <td>@Html.EditorFor(m => m.PwdrRecoveryAns)</td> 
+                    </tr>
+                    <tr>
+                        <td>&nbsp;</td>
+                        <td >@Html.ValidationMessageFor(m => m.PwdrRecoveryQuesId)</td> 
+                        <td>&nbsp;</td>
+                        <td>@Html.ValidationMessageFor(m => m.PwdrRecoveryAns)</td>
+                    </tr>
+                    <tr>
+                        <td>@Html.LabelFor(m => m.HomePgUrl) :</td>
+                        <td>@Html.EditorFor(m => m.HomePgUrl)</td>
+                        <td>@Html.LabelFor(m => m.PictutrPath) :</td>
+                        <td>@Html.EditorFor(m => m.PictutrPath)</td> 
+                    </tr>
+                    <tr>
+                        <td>&nbsp;</td>
+                        <td >@Html.ValidationMessageFor(m => m.HomePgUrl)</td> 
+                        <td>&nbsp;</td>
+                        <td>@Html.ValidationMessageFor(m => m.PictutrPath)</td>
+                    </tr>
+                    @*<tr>
+                            <td>
+                                @Html.LabelFor(m => m.PwdrQuestionId, new { @id = "lblPwdrQues"}) : 
+                            </td>
+                        <td>
+                            @Html.DropDownList("PwdrQuestionId", new SelectList(ViewBag.QuestionList, "Value", "Text"),"Select Question")
+                        </td> 
+                    </tr>*@
+                    <tr>
+                        <td colspan="2"><input type="submit" id="btnSubmit" title="Click to submit details" value="Submit" class="jqueryButton"></td>
+                        <td colspan="2"><input type="reset" id="btnReset" title="Click to Reset details" value="Reset" class="jqueryButton"></td>
+                        
+                    </tr>
+              </table>
+    </div>
+</div>
+</center>      
+       
+    }
+    
+    

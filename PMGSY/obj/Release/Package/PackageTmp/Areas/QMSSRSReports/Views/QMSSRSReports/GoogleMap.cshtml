@@ -1,0 +1,85 @@
+﻿@model PMGSY.Areas.QMSSRSReports.Models.BlockModel
+
+@*{
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}*@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta name="viewport" content="initial-scale=1.0, user-scalable=no" />
+      <meta http-equiv="content-type" content="text/html; charset=UTF-8"/> 
+      <style type="text/css">
+    #map-canvas
+    {
+        height: 500px;
+    }
+</style>
+ 
+        <script src="~/Scripts/custom/Generic.js"></script>
+        <script src="~/Areas/QMSSRSReports/Scripts/BlockGoogleMap.js"></script>
+     
+
+</head>
+<body>
+
+
+<table  style="width:100%;" >
+    <tr>
+        <td style="width:50%" valign="top">
+            <div>
+                <table  style="margin-top:0px; text-align:center; border:ridge 0.1em #ccc; width:100%; padding:5px 5px 5px 5px;">
+                    
+                    
+                    <tr>
+                         <td style="width:26%;" >
+                             
+                                 @Html.LabelFor(model =>Model.State) <label style="color: red;"> *</label>                                                  
+                                @Html.DropDownListFor(model => model.State, new SelectList(Model.StateList, "value", "text"), new { @id = "ddlState"})
+                                @Html.ValidationMessageFor(model => model.State)
+                           
+                           
+                        </td>
+                        <td style="width:26%;" >
+                            @Html.LabelFor(model =>Model.District) <label style="color: red;"> *</label>                                                  
+                                @Html.DropDownListFor(model => model.District, new SelectList(Model.DistrictList, "value", "text"), new { @id = "ddlDistrict"})
+                                @Html.ValidationMessageFor(model => model.District)
+                        </td>
+                        <td style="width:26%;">
+                             @Html.LabelFor(model =>Model.Block)      <label style="color: red;"> *</label>                                             
+                                @Html.DropDownListFor(model => model.Block, new SelectList(Model.BlockList, "value", "text"), new { @id = "ddlBlock"})
+                                @Html.ValidationMessageFor(model => model.Block)
+                        </td>
+                         <td style="width:10%;font-weight:bold;">
+                           <input type="button" id="btnView" value="View" class="jquerybutton"  style="margin-left:20px;"/>
+                        </td>
+                    </tr>
+                       <tr>
+                <td colspan="4">
+                    <label style="border: none; text-align:left" >
+                        [ Note: Fields marked with<label style="color: red;"> * </label>
+                        are mandatory.]</label>
+                </td>
+            </tr>
+
+
+                   
+            </table>
+
+            </div>
+            
+            <table id="jqGrid"></table>
+            <div id="jqGridPager"></div>
+    
+
+        </td>
+        <td style="width:55%"  valign="top">
+            <div id="map-canvas" style="height:485px"></div>
+        </td>
+    </tr>
+</table>
+
+   
+
+</body>
+</html>
+

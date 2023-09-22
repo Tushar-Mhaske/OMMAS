@@ -1,0 +1,16 @@
+﻿@model PMGSY.Areas.QMSSRSReports.Models.ContractorInspectionModel
+
+@using MvcReportViewer
+    @Html.MvcReportViewer("/PMGSYCitizen/QMContractorInspection",
+     new
+     {
+         STATE =Model.MAST_STATE_CODE,
+         YEAR= Model.SANCTION_YEAR,
+         STATUS=Model.ROAD_STATUS
+     },
+      
+ new { Height = 600, Width = 1215, style = "border:none;" })
+
+@*  *@
+
+@* new { Height = 500, Width = "100%", style = "border:none;" })*@

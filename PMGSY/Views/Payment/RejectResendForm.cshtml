@@ -1,0 +1,148 @@
+﻿@model PMGSY.Models.RejectResendFormModel
+<script type="text/javascript" src="@Url.Content("~/Scripts/custom/Generic.js")"> </script>
+<script src="~/Scripts/jquery.ui.datepicker.js" type="text/javascript"></script>
+<script src="~/Scripts/Payment/EpaymentRejectResendForm.js"></script>
+
+@*<script>
+    var _Bill_ID = '@ViewBag.Bill_Id';
+</script>*@
+
+@Html.ValidationSummary(true)
+
+<div id="DetailsGrid" style="width: 90%;">
+    <center>        
+                <table id="PaymentGridDivList"></table>
+                <div id="PaymentGridDivpager"></div>
+                    </center>
+</div>
+
+
+<div id="dvRejectResend">
+    <div id="divRejectResendError" style="margin: 5px 10px 5px 15px; display: none;" class="ui-state-error ui-corner-all">
+        <span class="ui-icon ui-icon-alert " style="float: left"></span>
+        <span id="spnRejectResendError"></span>
+    </div>
+    <form id="frmRejectResendDetails" style="text-align: left">
+        <table class="table-content ui-corner-all" style="width: 95%; border: .1em solid gray; margin-top: 10px; margin-left: 20px">
+            <tr>
+            <tr>
+                <td style="text-align: center" colspan="4">
+
+                    @Html.Hidden("fndType", @PMGSY.Extensions.PMGSYSession.Current.FundType)
+                    @Html.Hidden("isPaymentRejected", Model.isPaymentRejected)
+
+                    @Html.HiddenFor(m => m.Encrypted_BIllID_EpayID)
+                    @Html.HiddenFor(m => m.currentDate)
+                    @Html.HiddenFor(m => m.BillDate)
+
+                    @Html.HiddenFor(m => m.IsEpayErremi)
+
+                    @*@Html.Hidden("DeleteResend","R")     *@
+
+                    @Html.HiddenFor(m => m.CancelResend)
+                    @Html.HiddenFor(m => m.EncBillID)
+
+                    @*  <div id="divDelete">*@
+                    @*@Html.RadioButtonFor(m => m.DeleteResend, "D", new { @id = "rdDelete", @Checked = "checked", @title = "Delete", @tabindex = "7" })
+                    <label for="rdDelete">Delete</label>*@
+                    @*</div>*@
+                    @*<div id="divResend" >*@
+                    @*@Html.RadioButtonFor(m => m.DeleteResend, "R", new { @id = "rdResend", @title = "Resend", @Checked = "checked", @tabindex = "8" })
+                    <label for="rdResend">Resend</label>*@
+                    @*  </div>    *@
+                    @* @Html.ValidationMessageFor(m => m.DeleteResend)*@
+                </td>
+            </tr>
+            <tr>
+                @if (Model.CancelResend.Equals("C"))
+                { 
+                        
+                    <td style="width: 16%">
+                        @Html.LabelFor(m => m.HeadId) <span style="color: red">*</span>
+                    </td>
+                    <td style="text-align: left; width: 0%">
+                        @*@Html.DropDownListFor(m => m.HeadId, Model.PopulateHeadId, new { @title = "Head", @tabindex = "8", @id = "ddlHeadID" })*@
+                        @Html.DropDownListFor(m => m.HeadId,new SelectList( Model.PopulateHeadId,"Value", "Text"), new { @title = "Head", @tabindex = "8", @id = "ddlHeadID",@style = "width: 356px;"})
+                    </td>   
+                    <td></td>
+                }
+
+            </tr>
+            <tr>
+                <td style="width: 16%">
+
+                    @if (Model.CancelResend.Equals("C"))
+                    { 
+                        @Html.Label("Reason for Cancellation")
+                    }
+                    else
+                    {
+                        @Html.LabelFor(m => m.Reason) 
+                    }
+                    <span style="color: red">*</span>
+                </td>
+                <td style="text-align: left; width: 0%">
+                    @Html.TextAreaFor(m => m.Reason, new { @cols = 5, @rows = 1, maxlength = 250, @tabindex = "9", @title = "Reason", @style = "height: 49px; width: 356px;" })
+                    @Html.ValidationMessageFor(m => m.Reason)
+                </td>
+                <td>
+                    @Html.LabelFor(m => m.Remark)
+                </td>
+                <td>
+                    @Html.TextAreaFor(m => m.Remark, new { @cols = 5, @rows = 1, maxlength = 250, @tabindex = "10", @title = "Remark", @style = "height: 49px; width: 356px;" })
+                    @Html.ValidationMessageFor(m => m.Remark)
+                </td>
+            </tr>
+            <tr id="dvResendDate">
+                <td class="NEC">
+                    @Html.Label("Non Epayment Certificate") <span id="spnNEC" style="color: red">*</span>
+                </td>
+                <td class="NEC">
+                    <input type="file" id="picFile" name="picFile" tabindex="11" />
+                </td>
+                <td>
+                    @if (Model.CancelResend.Equals("C"))
+                    { 
+                        @Html.Label("Cancellation Date")
+                    }
+                    else
+                    {
+                        @Html.LabelFor(m => m.ResendDate)
+                    }
+                    <span style="color: red">*</span>
+                </td>
+                <td>
+                    @Html.TextBoxFor(m => m.ResendDate, new { @title = (Model.CancelResend.Equals("C") ? "Cancellation Date" : "Resend Date"), @tabindex = "12", @maxlength = 10, @style = "width:80px" })
+                    @Html.ValidationMessageFor(m => m.ResendDate)
+                </td>
+            </tr>
+            <tr>
+                <td colspan="4" style="text-align: center">
+                    @if (Model.CancelResend.Equals("C"))
+                    {
+                        String btnValue = Model.IsEpayErremi.Equals("E") ? "Cancel Epayment" : "Cancel Eremittance"; 
+                        <input type="button" class="jqueryButton ui-button ui-widget ui-state-default ui-corner-all ui-button-text-only" name="btnCancel" id="btnCancel" title="Cancel details" value='@btnValue' tabindex="13" />
+                    }
+                    else
+                    {                       
+                        <input type="button" class="jqueryButton ui-button ui-widget ui-state-default ui-corner-all ui-button-text-only" name="btnSubmit" id="btnSubmit" title="Click here to Submit details" value='Submit' tabindex="13" />
+                    }
+
+                </td>
+            </tr>
+        </table>
+    </form>
+
+</div>
+
+
+<div id="dvNote">
+    <br />
+    <label style="color: green"><b>Note: </b></label>
+    <ul style="text-align: left">
+        <li>File extension should be [*.pdf,*.jpg,*.jpeg].
+        </li>
+        <li>Maximum size of an File must not be greater than 2 MB.
+        </li>
+    </ul>
+</div>

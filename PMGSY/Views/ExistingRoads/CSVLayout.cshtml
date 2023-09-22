@@ -1,0 +1,61 @@
+﻿@model PMGSY.Models.ExistingRoads.FileUploadModel
+
+<script type="text/javascript">
+
+    $(document).ready(function () {
+
+        $.validator.unobtrusive.parse($('#frmCSVLayout'));
+
+        $('#btnSubmit').click(function (event) {
+            event.stopPropagation(); // Stop stuff happening call double avoid to action
+            event.preventDefault(); // call double avoid to action
+
+            if ($('#dvFileUpload').get(0).files.length === 0) {
+                alert('Please select a file');
+                return false;
+            }
+
+            var form_data = new FormData();
+            var objFileUpload = $("input#dvFileUpload").prop("files");
+
+            form_data.append("file", objFileUpload[0]);
+
+            form_data = new FormData(document.getElementById("frmCSVLayout"));
+
+            $.ajax({
+                type: 'POST',
+                url: '/ExistingRoads/GetCSVValue/',
+                async: false,
+                data: form_data,
+                contentType: false,
+                processData: false,
+                success: function (data) {
+                    if (data.success == true) {
+                        alert(data.message);
+                        $('#imgPFMSxml').trigger('click');
+                    }
+                    else {
+                        alert(data.message);
+                    }
+                }
+            })///ajax call Ends..
+        });
+    });
+
+</script>
+
+<div id="dvCSVLayout" class="ui-corner-bottom" style="display: block; border: 1px solid #B5B8C8;">
+    <form id="frmCSVLayout">
+        @Html.HiddenFor(m => m.BlockCode)
+        <div id="divFileUpload" width: 100%">
+            <input type="file" name="file" id="dvFileUpload" tabindex="4" />
+                    <label id="lblFileUpload"></label>
+                    <img id="imgFileUpload" style="display: none; margin-left: 5px; cursor: pointer;" title="Click here to clear file" src="~/Content/images/close-icon.png" />
+        </div>
+
+        <input type="button" class="jqueryButton" value="Submit" title="Submit" id="btnSubmit" name="Submit" tabindex="3" />
+
+        <div id="divAddForm" style="width: 100%">
+        </div>
+    </form>
+</div>

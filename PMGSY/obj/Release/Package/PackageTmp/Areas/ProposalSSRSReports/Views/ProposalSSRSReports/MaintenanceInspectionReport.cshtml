@@ -1,0 +1,23 @@
+﻿@using MvcReportViewer
+
+@model PMGSY.Areas.ProposalSSRSReports.Models.ExecutionFinancialProgressViewModel
+
+
+    
+    @Html.MvcReportViewer("/PMGSYCitizen/Maintenence_Inspection_Report",
+     new
+     {
+         State = Model.State,
+         District = Model.District,
+         Block = Model.Block,
+         Year = Model.Year,
+         Batch = Model.Batch,
+         Collaboration = Model.Collaboration,
+         Type = Model.Type,
+         PMGSY = PMGSY.Extensions.PMGSYSession.Current.PMGSYScheme,
+         StateName = Model.StateName,
+         DistName = Model.DistName,
+         BlockName = Model.BlockName,
+         CollabName = Model.CollabName,
+     },
+       new { Height = 600, Width = "100%", style = "border:none;" })

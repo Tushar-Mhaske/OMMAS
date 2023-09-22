@@ -1,0 +1,127 @@
+﻿@*----------------------------------------------------------------------------------------
+
+ * Project Id:
+
+ * Project Name:OMMAS2
+
+ * File Name: 
+
+ * Author : 
+
+ * Creation Date :
+
+ * Desc : This is main view to disaply completed road as per search paramenters.
+ * ---------------------------------------------------------------------------------------*@
+@model PMGSY.Models.MaintenanceAgreement.MordListEmarg
+@{
+    ViewBag.Title = "ProposalMaintenanceAgreement";
+}
+<link href="~/Content/UserManager.css" rel="stylesheet" />
+
+<link href="~/Content/jquery.multiselect.css" rel="stylesheet" />
+<script src="~/Scripts/jquery.multiselect.min.js"></script>
+
+
+<script src="@Url.Content("~/Scripts/custom/Generic.js")" type="text/javascript" ></script>
+<script type="text/javascript" src="@Url.Content("~/Scripts/jquery.ui.accordion.js")"> </script>
+
+
+
+<script src="~/Scripts/MaintenanceAgreement/MordEmargRoadList.js"></script>
+
+<center>
+
+ 
+    
+    
+    
+    <div id="dvAgreement" style="width:98%; margin-top:10px;">
+<div id="dvSearchProposedRoad">
+@*<div style="height:20px;border:none; margin-top:5px; margin-bottom:-15px; " class="ui-state-default">
+  <span style="float:right;margin-right:2Px; margin-top:2px" id="spCollapseIconS" class="ui-icon ui-icon-circle-triangle-n"></span>   
+</div>*@
+
+<div id="dvSearchParameter" class="ui-state-default" style=" border:none; ">
+   <form id="frmSearchProposedRoad">
+
+         <table style="width:100%;">
+             <tr>
+                <td style="width:8%;">@Html.Label("State")</td>
+                <td style="width:15%;" >
+                    
+                @*    @Html.DropDownList("ddlStates", ViewData["StateList"] as IEnumerable<SelectListItem>, new { @id = "ddlStates", @title = "State", @tabindex = 1 })*@
+
+
+
+                     @Html.DropDownListFor(model => model.StateCode, new SelectList(Model.StateList, "Value", "Text"), new { @title = "State", @tabindex = 1, @id = "ddlStates", @style = "width:150px" })
+                        <br />
+                        @Html.ValidationMessageFor(m => m.StateCode)
+
+                </td>
+               
+                <td style="text-align:left;width:10%;"  >@Html.Label("District")</td>
+                <td style="width:15%;">
+                
+                    
+                      @Html.ListBoxFor(model => model.DistrictCode, Model.DistrictList, new { @Id = "multiDist" })
+
+
+
+
+
+                </td>
+              
+               @* <td style="text-align:left;width:8%;" >@Html.Label("Package")</td>
+                <td style="width:15%;">
+
+
+                      @Html.TextBoxFor(model => model.PackageList, new { @title = "Package",  @Id = "multiPackage",@placeholder = "Enter Package ...", @tabindex = 3 })
+
+                </td>*@
+              
+                <td style="text-align:left;width:8%;" ></td>
+                <td style="width:15%;"><input type="button" id="btnSearch1" name="btnSearch" value="View" class= "jqueryButton" title="View" tabindex="4"  /></td>
+            </tr>
+
+          
+         </table>
+   </form>
+</div>
+
+<div id="emargUpdateForm" style="display:none" >
+</div>
+ 
+
+</div>
+
+     <div>
+         <table>
+      <tr>
+               
+                <td colspan="5">
+                      <label @*class="ui-state-default"*@ style="border:none"><h3>[ Note: Correct the Maintenance Agreement Details first then proceed to make corrections for Length Completed, Date of Completion, Traffic, Carriage Way Width etc.]  </h3>
+                </td>
+
+            </tr>
+             </table>
+         </div>
+
+<div id="dvProposedRoadList" style="width:100%; margin-top:25px;">
+    <table id="tbProposedRoadList"></table>
+ @*  <div id="dvProposedRoadListPager"></div>*@
+</div>
+<div id="accordion" style="display:none;margin-top:20px;">            
+    <h3 style="text-align:left"><a id="" href="#" style=" font-size:.9em;" >Add Maintenance Agreement Details</a>
+        <a href="#"  style="float: right;">
+            <img style="border:none" alt="Close" class="ui-icon ui-icon-closethick" id="imgCloseAgreementDetails" /></a>
+    </h3>
+    <div id="dvAddMaintenanceAgreementAgainstRoad" style="display:none"></div>      
+</div>
+
+</div>
+</center>
+
+@section Scripts {
+    @Scripts.Render("~/bundles/jqueryval")
+
+}

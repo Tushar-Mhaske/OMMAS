@@ -1,0 +1,151 @@
+﻿@model PMGSY.Models.AssetDetails.AssetDetailsViewModel
+
+<script src="~/Scripts/custom/Generic.js"></script>
+<script src="~/Scripts/jquery.ui.datepicker.js"></script>
+<script src="~/Scripts/AssetDetails/AddEditAssetDetails.js"></script>
+
+<center>
+
+<div id="divAddAssetDetails">
+<div class="ui-corner-all ui-state-highlight" style="border: solid 1px black; text-align: left">
+<table>
+    <tr>
+        <td style="text-align: right; width: 5%; font-weight: bold">
+            Voucher No:-
+        </td>
+        <td style="text-align: left;width:5%;" id="tdVoucherNo">
+            @Model.VoucherNo
+        </td>
+        <td style="text-align: right; width: 5%; font-weight: bold">
+            Voucher Date:-
+        </td>
+        <td style="text-align: left;width:7%;" id="tdVoucherDate">
+            @Model.VoucherDate
+        </td>
+        <td style="text-align: right; width: 5%; font-weight: bold">
+            Head Description:-
+        </td>
+        <td style="text-align: left;width:15%;" id="tdHeadDesc">
+            @Model.HeadDesc
+        </td>
+    </tr>
+</table>
+</div>
+
+<form id="frmAddAssetDetails">
+    <div id="divError" class="ui-state-error ui-corner-all" style="text-align: left; display: none; width: 100%">
+        <span class="ui-icon ui-icon-alert" style="float: left;"></span>                   
+        <span></span>
+    </div>
+    <div style="height:20px; width: 100%; text-align:left; padding-top: 0.6em;" class="ui-state-default ui-corner-all" > 
+            &nbsp;<strong> Note :</strong>  Fields marked with * are mandatory.
+    </div>
+    @Html.HiddenFor(model=>model.Head_Id)
+    @Html.HiddenFor(model=>model.Bill_Id)
+    @Html.HiddenFor(model=>model.EncryptedDetailsId)
+    @Html.HiddenFor(model=>model.Urlparameter)
+    @Html.HiddenFor(model=>model.TotalAssetAmount)
+    @Html.HiddenFor(model=>model.TotalRemainingAmount)
+    @Html.HiddenFor(model=>model.Operation)
+
+@*<table id="tbAddAssetetails"  cellpadding="3px" class="table-content ui-table-border" style="margin-top:0px; text-align:left; border:ridge 0.1em #ccc; width:100%; padding-top:5px 5px 5px 5px;">*@
+<table class="table-content ui-table-border" style="width:100%" cellspacing="1px" id="tbAddAssetetails" >
+    <tr>
+        <td style="width:5%"></td>
+        <td style="width:8%">@Html.LabelFor(model=>model.Asset_Id)<label style="color:red">*</label></td>
+        <td style="width:15%">
+            @if(Model.Operation == "A")
+            {
+                @Html.DropDownListFor(model => model.Asset_Id, new SelectList(Model.ddlAssets, "Value", "Text"), new { @id="ddlAssets",@title="Please select Asset",@tabindex=1})
+                @Html.ValidationMessageFor(model=>model.Asset_Id)
+            }
+            else
+            {
+                @Html.DropDownListFor(model => model.Asset_Id, new SelectList(Model.ddlAssets, "Value", "Text"), new { @id="ddlAssets",@title="Please select Asset",@tabindex=1,@disabled="disabled"})
+                @Html.HiddenFor(model=>model.Asset_Id)
+                @Html.ValidationMessageFor(model=>model.Asset_Id)
+            }
+
+        </td>
+        <td style="width:8%">@Html.LabelFor(model=>model.Rate)<label style="color:red">*</label></td>
+        <td style="width:15%">@Html.TextBoxFor(model => model.Rate, new {@title="Enter Rate.",@tabindex=1,@maxlength=25,@placeholder="Enter Rate..."})@Html.ValidationMessageFor(model=>model.Rate)</td>
+        
+    </tr>
+    <tr>
+        <td></td>
+        <td>@Html.LabelFor(model=>model.Quantity)<label style="color:red">*</label></td>
+        <td>@Html.TextBoxFor(model => model.Quantity, new {@title="Enter Quantity.",@placeholder="Enter Quantity...",@tabindex=1 })@Html.ValidationMessageFor(model=>model.Quantity)</td>
+        <td>@Html.LabelFor(model=>model.Total_Amount)<label style="color:red">*</label></td>
+        <td>@Html.TextBoxFor(model => model.Total_Amount, new {@title="Enter Total Amount.",@placeholder="Enter Total Amount...",@tabindex=1,@maxlength=25,@readonly="readonly" })@Html.ValidationMessageFor(model=>model.Total_Amount)</td>
+    </tr>
+    <tr>
+        <td></td>
+        <td>@Html.LabelFor(model=>model.Serial_No)</td>
+        <td>@Html.TextBoxFor(model => model.Serial_No, new {@title="Enter Serial No.",@placeholder="Enter Serial No...",@tabindex=1,@maxlength=30 })@Html.ValidationMessageFor(model=>model.Serial_No)</td>
+        <td>@Html.LabelFor(model=>model.Model_No)</td>
+        <td>@Html.TextBoxFor(model => model.Model_No, new {@title="Enter Model No.",@tabindex=1,@maxlength=30,@placeholder="Enter Model No..."})@Html.ValidationMessageFor(model=>model.Model_No)</td>
+    </tr>
+    <tr>
+        <td></td>
+        <td>@Html.LabelFor(model=>model.Assigned_Id)</td>
+        <td>@Html.TextBoxFor(model => model.Assigned_Id, new {@title="Enter Assigned Id.",@tabindex=1,@maxlength=25,@placeholder="Enter Assigned Id..."})@Html.ValidationMessageFor(model=>model.Assigned_Id)</td>
+        <td>@Html.LabelFor(model=>model.Disposal_Date)</td>
+        <td>@Html.TextBoxFor(model => model.Disposal_Date, new {@title="Enter Disposal Date.",@placeholder="Enter Disposal Date...",@tabindex=1})@Html.ValidationMessageFor(model=>model.Disposal_Date)</td>
+    </tr>
+    <tr>
+        <td colspan="5">
+            @if(Model.Operation == "A")
+            {
+            <center>
+            <table>
+                <td>
+                    <input type="button" value="Save" name="btnAddAssetDetails" id="btnAddAssetDetails" class="jqueryButton" tabindex ="1" title="Click here to save details"/>
+                    <input type="reset" value="Reset" name="btnResetAssetDetails" id="btnResetAssetDetails" class="jqueryButton" tabindex="1" title="Click here to reset"/>
+                </td>
+            </table>
+            </center>
+            }
+            else
+            {
+            <center>
+            <table>
+                <td>
+                <input type="button" value="Update" name="btnUpdateAssetDetails" id="btnUpdateAssetDetails" class="jqueryButton" tabindex="1" title="Click here to update details"/>
+                <input type="reset" value="Cancel" name="btnCancelAssetDetails" id="btnCancelAssetDetails" class="jqueryButton" tabindex="1" title="Click here to cancel"/>
+                </td>
+            </table>
+            </center>
+            }
+        </td>
+    </tr>
+</table>
+</form>
+
+<div style="width:100%;margin-top:20px;">
+    <table id="tbListDetails"></table>
+<div id="dvAssetPager"></div>
+</div>
+<div style="margin-top:20px">
+<table id="tblFinalize" class="table-content ui-corner-all" style="width: 98%; border: .1em solid gray; display: none; margin-top: 5px; margin-bottom: 5px;">
+    <tr>
+    </tr>
+    <tr>
+
+        <td style="text-align: center">
+
+            <div style="padding: 0pt 0.7em; cursor: pointer;" class="jqueryButton" id="finalize">
+
+                <span class="ui-icon ui-icon-locked" style="float: left; margin-right: 0.3em;"></span><strong>Finalize
+                </strong>
+            </div>
+        </td>
+    </tr>
+</table>
+</div>
+</div>
+</center>
+
+
+
+
+

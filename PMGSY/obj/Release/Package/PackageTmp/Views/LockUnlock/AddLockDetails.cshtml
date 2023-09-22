@@ -1,0 +1,86 @@
+﻿@model PMGSY.Models.LockUnlock.LockDetailsViewModel
+@{
+    ViewBag.Title = "AddLockDetails";
+}
+
+<script src="~/Scripts/jquery.ui.datepicker.js"></script>
+<script src="~/Scripts/custom/Generic.js"></script>
+<script src="~/Scripts/LockUnlock/AddLockDetails.js"></script>
+
+
+<form id="frmAddLockDetails">
+    <div style="margin-left: 100px">
+        @Html.ValidationSummary(true)             
+
+    </div>            
+    <div id="divError" class="ui-state-error ui-corner-all" style="text-align: left; display: none; width: 100%">
+            <span class="ui-icon ui-icon-alert" style="float: left;"></span>     <span></span>              
+    </div>
+    <center>
+        <div style="height:20px; width: 100%; text-align:left; padding-top: 0.6em;" class="ui-state-default ui-corner-all" > 
+                   &nbsp;&nbsp; &nbsp; &nbsp;
+                   <strong> Note :</strong>  Fields marked with * are mandatory.)
+        </div>
+        <table id="Table1"  cellpadding="3px" class="rowstyle" style="margin-top:5px; text-align:left; border:ridge 0.1em #ccc; width:100%; padding-top:5px 5px 5px 5px;">
+            @if(PMGSY.Extensions.PMGSYSession.Current.RoleCode != 36)
+            {
+            <tr>
+                <td style="width:8%">
+                    @Html.HiddenFor(model=>model.IMS_PR_ROAD_CODE)
+                    @Html.HiddenFor(model=>model.MAST_ER_ROAD_CODE)
+                    @Html.HiddenFor(model=>model.PLAN_CN_ROAD_CODE)
+                    @Html.HiddenFor(model=>model.TEND_AGREEMENT_CODE)
+                    @Html.HiddenFor(model=>model.TEND_NIT_NO)
+                    @Html.HiddenFor(model=>model.IMS_UNLOCK_TABLE)
+                    @Html.HiddenFor(model=>model.IMS_UNLOCK_BY)
+                    @Html.HiddenFor(model=>model.LockStatus)
+                    @Html.HiddenFor(model=>model.BatchCode)
+                    @Html.HiddenFor(model=>model.DistrictCode)
+                    @Html.HiddenFor(model=>model.PackageCode)
+                    @Html.HiddenFor(model=>model.StateCode)
+                    @Html.HiddenFor(model=>model.YearCode)
+                    @Html.HiddenFor(model=>model.BlockCode)
+                    @Html.HiddenFor(model=>model.MANE_CONTRACT_CODE)
+                    @for (int i = 0; i < Model.DataID.Length; ++i)
+                    {
+                        @Html.HiddenFor(model=>model.DataID[i])    
+                    }
+                    
+                </td>
+                <td style="width:5%">
+                    @Html.LabelFor(model=>model.IMS_UNLOCK_DATE)<label style="color:red">*</label>
+                </td>
+                <td style="width:15%">
+                    @Html.TextBoxFor(model => model.IMS_UNLOCK_DATE, new {@title="Enter Unlock Date" ,@tabindex=1,@placeholder="Enter Unlock Date..."})
+                    @Html.ValidationMessageFor(model=>model.IMS_UNLOCK_DATE)
+                </td>
+                <td style="width:5%">
+                    @Html.LabelFor(model=>model.IMS_AUTOLOCK_DATE)<label style="color:red">*</label>
+                </td>
+                <td style="width:15%">
+                    @Html.TextBoxFor(model => model.IMS_AUTOLOCK_DATE, new {@title="Enter Valid Upto",@tabindex=2,@placeholder="Enter Valid Upto..." })
+                    @Html.ValidationMessageFor(model=>model.IMS_AUTOLOCK_DATE)
+                </td>
+            </tr>
+            }
+            <tr>
+                <td></td>
+                <td>
+                    @Html.LabelFor(model=>model.IMS_UNLOCK_REMARKS)<label style="color:red">*</label>
+                </td>
+                <td colspan="3">
+                    @Html.TextAreaFor(model => model.IMS_UNLOCK_REMARKS, new {@maxlength=255, @title="Enter Unlock Remarks..." ,@tabindex=3,@placeholder="Enter Unlock Remarks..."})
+                    @Html.ValidationMessageFor(model=>model.IMS_UNLOCK_REMARKS)
+                </td>
+            </tr>
+            <tr>
+                <td colspan="5">
+                    <center>
+                        <input type="button" id="btnSubmit" name="btnSubmit" value="Submit" class= "jqueryButton" title="Submit Lock Details" tabindex="4" style="text-align:center" /> 
+                        <input type="button" id="btnCancel" name="btnCancel" value="Cancel" class= "jqueryButton" title="Cancel Lock Details" tabindex="5" style="text-align:center" /> 
+                    </center>
+                </td>
+            </tr>
+        </table>
+    </center>
+</form>

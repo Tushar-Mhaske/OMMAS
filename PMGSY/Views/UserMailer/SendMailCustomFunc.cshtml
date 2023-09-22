@@ -1,0 +1,88 @@
+@model PMGSY.Models.Common.SendMailCustomFuncModel
+@{
+    Layout = null;
+}
+<html>
+<head>
+<style>
+    #dvPrintMailDetails {
+    background-color: #fff transparent;
+    color: #333;
+    font-size: 13px;
+    font-family: Trebuchet MS,Tahoma,Verdana,Arial,sans-serif;
+}
+
+    table td {
+        font-size: 1em;
+        font-family: Trebuchet MS,Tahoma,Verdana,Arial,sans-serif;
+        border:1px ridge #CCC;
+    }
+  
+</style>
+</head>
+<body>
+    <div id="dvPrintMailDetails">
+        <p>Dear @(Model.RecepientName) ,</p><br />
+        <p>@(Model.EmailSubject) is generated. Please find attachemnt as .pdf </p><br />
+        <p>With Regards,<br />
+            National Rural Roads Development Agency,<br />
+            Ministry of Rural Development<br />
+            (Government of India)<br />
+            #15 NBCC Tower, 5th Floor,<br />
+            Bhikaji Cama Place, New Delhi-66<br />
+        </p>
+
+        @*<table style="width:100%; border:1px ridge #CCC;">
+
+            @if (Model.RoleCode == 8) //SQC
+            {
+                <tr>
+                    <td colspan="2" style="vertical-align: central"><b>SQC Letter</b></td>
+                </tr>
+                <tr>
+                    <td style="width: 20%;font-weight:bold;">Email Sender</td>
+                    <td style="width: 80%"><b>omms.pmgsy@nic.in</b></td>
+                </tr>
+                <tr>
+                    <td style="width: 20%;font-weight:bold;">Email Recepient</td>
+                    <td id="EmailRecepient" style="vertical-align:top;">@Model.EmailRecepient
+                        <table>
+                            <tr>
+                                <td>
+                                    Name : @Model.RecepientName
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>
+                                    Designation : @Model.RecepientDesignation
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>
+                                    Address : @Model.RecepientAddress
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>
+                                    State : @Model.RecepientState
+                                </td>
+                            </tr>
+                        </table>
+                    </td>
+                </tr>
+                <tr>
+                    <td style="width: 20%;font-weight:bold;">Email Subject</td>
+                    <td>@Model.EmailSubject </td>
+                </tr>
+                <tr>
+                    <td style="width: 20%;font-weight:bold;">Email Date</td>
+                    <td id="EmailDate">@Model.EmailDate</td>
+                </tr>
+                
+            }
+        </table>*@
+ 
+    </div> 
+      
+</body>
+</html>

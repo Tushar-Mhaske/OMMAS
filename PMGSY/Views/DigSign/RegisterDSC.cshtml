@@ -1,0 +1,291 @@
+﻿@model PMGSY.Models.DigSign.RegisterDSCModel
+<script src="~/Scripts/jquery.ui.dialog.js"></script>
+<script src="~/Scripts/jquery.ui.datepicker.js"></script>
+
+
+<style>
+    button.button.orange {
+        background: #feda71;
+        background: -webkit-gradient(linear, 0 0, 0 bottom, from(#feda71), to(#febe4d));
+        background: -moz-linear-gradient(#feda71, #febe4d);
+        background: linear-gradient(#feda71, #febe4d);
+        border: solid 1px #eab551;
+        border-bottom: solid 3px #b98a37;
+        box-shadow: inset 0 0 0 1px #fee9aa;
+        color: #996633;
+        text-shadow: 0 1px 0 #fedd9b;
+    }
+
+        button.button.orange:hover {
+            background: #fec455;
+            background: -webkit-gradient(linear, 0 0, 0 bottom, from(#fec455), to(#fecd61));
+            background: -moz-linear-gradient(#fec455, #fecd61);
+            background: linear-gradient(#fec455, #fecd61);
+            border: solid 1px #e6a93d;
+            border-bottom: solid 3px #b98a37;
+            box-shadow: inset 0 0 0 1px #fedb98;
+        }
+
+        button.button.orange:active {
+            background: #f9bd4f;
+            background: -webkit-gradient(linear, 0 0, 0 bottom, from(#f9bd4f), to(#f0b64d));
+            background: -moz-linear-gradient(#f9bd4f, #f0b64d);
+            background: linear-gradient(#f9bd4f, #f0b64d);
+            border: solid 1px #a77f35;
+            box-shadow: inset 0 10px 15px 0 #dba646;
+        }
+</style>
+
+
+<div style="margin-top: 5px; border-radius: 4px; text-align: right">
+    <table style='width: 100%;'>
+        <tr>
+            <td style="width: 20%;">
+                <a href="~/DigSignDocs/JavaApplet/DSC_Registration_Steps.pdf">Download steps to register digital certificate </a>
+            </td>
+        </tr>
+    </table>
+</div>
+
+@Html.HiddenFor(m => m.NodalOfficerCode)
+
+@if (Model.IsAlreadyRegistered == 0)
+{
+     
+    <div style="margin-top: 5px; border: 1px solid #CCC; border-radius: 4px;">
+        <table style='width: 100%;'>
+            <tr style="background: #f9f8d8;">
+                <td style="width: 20%;">
+                    <b>Authorise signatory details are not available. First enter Authorise signatory details  </b>
+                </td>
+            </tr>
+        </table>
+    </div> 
+}
+@if (Model.IsAlreadyRegistered == 2)
+{
+    <div style="margin-top: 5px; border: 1px solid #CCC; border-radius: 4px;">
+        <table style='width: 100%;'>
+            <tr>
+                <td style="width: 100%; background-color: #d0d0d0" colspan="2">
+                    <b>Digital Certificate Registration is </b><span style="color: #f00;">yet to be done </span><b>Following are the details of Authorise signatory </b>
+                </td>
+            </tr>
+            <tr style="background: #f9f8d8;">
+                <td style="width: 20%;">
+                    <b>Name of the authorise signatory: </b>
+                </td>
+                <td style="width: 60%;">
+                    @Model.NameAsPerCertificate
+                </td>
+            </tr>
+            <tr>
+                <td style="width: 20%;">
+                    <b>Designation : </b>
+                </td>
+                <td style="width: 60%;">
+                    @Model.Designation
+                </td>
+            </tr>
+            <tr style="background: #f9f8d8;">
+                <td style="width: 20%;">
+                    <b>Mobile : </b>
+                </td>
+                <td style="width: 60%;">
+                    @Model.Mobile
+                </td>
+            </tr>
+        </table>
+    </div>
+    <applet code="com.epfo.establishment.applet.dsig.register.WindowsTokenCertRegistrationHttpApplet.class" archive="/DigSignDocs/JavaApplet/DigitalSignerApplet.jar" style="border: 1px solid #CCC;" width="100%" height="250">
+            <param name="designation" value="@Model.Designation"/>
+            <param name="mobileNumber" value="@Model.Mobile"/>
+            <param name="nameAsPerCeritificate" value="@Model.NameAsPerCertificate"/>
+            <param name="destUrl" value="/DigSign/RegisterDSCDetails"/>
+            <param name="redirectUrl" value="/DigSign/RegisterDSC" />
+            <param name="jsessionId" value="@HttpContext.Current.Session.SessionID"/>
+            <param name="sessionKey" value="ASP.NET_SessionId" />
+            <param name="title" value="Digital Certificate Registration" />
+            <param name="cache_option" value="no" />
+            <param name="classloader_cache" value="false" />
+            <param name="logoImage" value="/Content/images/pmgsy-logo.png" />
+        </applet> 
+}
+<!-- Added by pradip for testing of 2 epay login PFMS Dsc digital signature-->
+<!-- jqueryButton ui-button ui-widget ui-state-default ui-corner-all ui-button-text-only -->
+
+
+@*@if (Model.IsAlreadyRegistered == 1 && Model.IsValidXmlDscRegistered != null)
+{
+    if (Model.IsValidXmlDscRegistered.Value == false && PMGSY.Extensions.PMGSYSession.Current.DistrictCode != 448)
+    { 
+    <button type="button" id="signDscDetails" class="button orange" style="margin-top: 20px; margin-bottom: 20px; margin-left: 00px; height: 36px; padding: 5px; color: white">Sign details For PFMS Application</button>
+    
+    <script>
+        $("#signDscDetails").click(function () {
+            $.ajax({
+                url: '/PFMS1/SignEpaymentDSCXml',
+                type: 'POST',
+                cache: false,
+                success: function (response) {
+                    $("#containerDsc").html(response);
+                },
+                complete: function () {
+
+                },
+                error: function () {
+                    alert("Error occured while processing your request");
+                },
+            });
+
+        });
+
+    </script>
+    }
+}*@
+
+@*@if (Model.IsAlreadyRegistered == 1 &&   Model.IsValidXmlDscRegisteredREAT != null)
+   *@
+    
+        @* Added : Model.DscAckStatus ==null  to enable button  // && Model.IsValidXmlDscRegisteredREAT != null *@ 
+      
+@if (Model.IsAlreadyRegistered == 1   )
+{
+    if (Model.IsValidXmlDscRegisteredREAT.Value != null && (Model.IsDSCInProgress.Value == false))
+    //if (Model.IsValidXmlDscRegisteredREAT.Value != null && (Model.IsDSCInProgress.Value == false || Model.IsDSCInProgress.Value == null)) 
+    { 
+   <button type="button" id="signDscDetailsREAT" class="button orange" style="margin-top: 20px; margin-bottom: 20px; margin-left: 00px; height: 36px; padding: 5px; color: white">Sign details For REAT Application</button>
+    
+    <script>
+        $("#signDscDetailsREAT").click(function () {
+            $.ajax({
+                url: '/Reat/Reat/SignEpaymentDSCXmlREAT',
+                type: 'POST',
+                cache: false,
+                success: function (response) {
+                    $("#containerDsc1").html(response);
+                    //alert('0' + response.error)
+                    if (response.error = 'undefined') {
+                       
+                    }
+                    else {
+                        alert(response.error);
+                    }
+                },
+                complete: function (response) {
+                    //alert('1')
+                    //alert(response.success);
+                },
+                error: function (response) {
+                    alert("Error occured while processing your request");
+                   // alert('2')
+                },
+            });
+
+        });
+
+    </script>
+    }
+
+    else
+    {
+        if (Model.DscAckStatus !=null )
+        { 
+             if (Model.DscAckStatus == "ACCP" || Model.DscAckStatus == "ACPT"  )
+             {
+                 if (Model.DscDeleteEnabled == true )
+             {
+                 
+         <button type="button" id="DeRegisterDscDetailsREAT" class="button orange" style="margin-top: 20px; margin-bottom: 20px; margin-left: 00px; height: 36px; padding: 5px; color: white">DeRegister DSC from REAT Application</button>
+   
+             <script>
+                 $("#DeRegisterDscDetailsREAT").click(function () {
+                     $.ajax({
+                         url: '/Reat/Reat/DeRegisterDSCXmlREAT',
+                         type: 'POST',
+                         cache: false,
+                         success: function (response) {
+                             $("#containerDsc1").html(response);
+                             //alert('0' + response.error)
+                             if (response.error = 'undefined') {
+
+                             }
+                             else {
+                                 alert(response.error);
+                             }
+                         },
+                         complete: function (response) {
+                             //alert('1')
+                             //alert(response.success);
+                         },
+                         error: function (response) {
+                             alert("Error occured while processing your request");
+                             // alert('2')
+                         },
+                     });
+
+                 });
+
+    </script>    
+}
+}
+       }
+    }
+
+}
+
+
+@if (Model.IsAlreadyRegistered == 1)
+{
+    <table class="ui-corner-all rowstyle" style="width: 100%; border: .1em solid gray; margin-bottom: 5px; margin-top: 5px; cellspacing: 1px">
+        <tr>
+            <td style="width: 100%; background-color: #d0d0d0" colspan="2">
+                <b>Digital Certificate Registration Details</b>
+            </td>
+        </tr>
+        <tr style="background: #f9f8d8;">
+            <td style="width: 20%;">
+                <b>Name of the authorise signatory: </b>
+            </td>
+            <td style="width: 60%;">
+                @Model.NameAsPerCertificate
+            </td>
+        </tr>
+        <tr>
+            <td style="width: 20%;">
+                <b>Designation : </b>
+            </td>
+            <td style="width: 60%;">
+                @Model.Designation
+            </td>
+        </tr>
+        <tr style="background: #f9f8d8;">
+            <td style="width: 20%;">
+                <b>Mobile : </b>
+            </td>
+            <td style="width: 60%;">
+                @Model.Mobile
+            </td>
+        </tr>
+    </table>
+}
+
+ <div id="containerDsc1" style="margin-top: 20px"></div>
+@*<!-- Added by pradip for testing of 2 epay login PFMS Dsc digital signature-->
+@if (Model.IsAlreadyRegistered == 1 && (Model.IsValidXmlDscRegistered != null || Model.IsValidXmlDscRegisteredREAT != null))
+{
+    if (Model.IsValidXmlDscRegistered != null)
+    {
+        if (Model.IsValidXmlDscRegistered.Value == false)
+        { 
+    <div id="containerDsc" style="margin-top: 20px"></div>
+        }
+    }
+    if (Model.IsValidXmlDscRegisteredREAT != null)
+    {
+        if (Model.IsValidXmlDscRegisteredREAT.Value == false)
+        { 
+    <div id="containerDsc1" style="margin-top: 20px"></div>
+        }
+    }
+} *@

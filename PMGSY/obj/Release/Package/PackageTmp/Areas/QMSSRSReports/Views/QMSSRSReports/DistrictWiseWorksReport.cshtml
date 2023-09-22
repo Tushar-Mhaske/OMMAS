@@ -1,0 +1,27 @@
+﻿@using MvcReportViewer
+
+@if (PMGSY.Extensions.PMGSYSession.Current.RoleCode == 8)
+{
+    @Html.MvcReportViewer("/PMGSYCitizen/QM_Districtwise_Works",
+     new
+     {
+         STATE = PMGSY.Extensions.PMGSYSession.Current.StateCode ,
+         DISTRICT = 0,
+         LEVEL = 0,
+         StateName =  PMGSY.Extensions.PMGSYSession.Current.StateName
+     },
+       new { Height = 600, Width = "100%", style = "border:none;" })
+}
+else
+{
+    @Html.MvcReportViewer("/PMGSYCitizen/QM_Statewise_Works",
+   new
+   {
+       STATE =  0,
+       DISTRICT = 0,
+       LEVEL = 0,
+       StateName = "All States"
+   },
+     new { Height = 600, Width = "100%", style = "border:none;" })
+}
+    

@@ -1,0 +1,16 @@
+﻿@using MvcReportViewer
+@model PMGSY.Areas.PackageAgreementSanctionList.Models.WronglyAwardedWorksViewModel
+
+
+
+
+@Html.MvcReportViewer("/PMGSYCitizen/Wrongly_Awarded_Works_Report",
+     new
+     {
+      
+         state = Model.stateCode,
+         District = Model.districtCode,
+         PMGSY = Model.pmgsyScheme,
+       
+     },
+     new { Height = 675, Width = "100%", style = "border:none;" })

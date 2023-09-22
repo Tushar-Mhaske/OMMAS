@@ -1,0 +1,238 @@
+﻿@model PMGSY.Models.SecurityDepositAccOpeningBalanceEntryModel
+@{
+    ViewBag.Title = "GetSecurityDepositACCDetails";
+}
+
+@section Scripts {
+    @Scripts.Render("~/bundles/jqueryval")
+}
+<head>
+    <meta name="viewport" content="width=device-width" />
+
+    @*
+        <style>
+
+            html * {
+                font-family: Helvetica,Arial,sans-serif;
+                font-size: 1em;
+            }
+        </style>*@
+    <style>
+        .ui-autocomplete {
+            max-height: 200px;
+            overflow-y: auto;
+        }
+
+        html .ui-autocomplete {
+            height: 100px;
+        }
+    </style>
+
+    <style type="text/css" media="screen">
+        th.ui-th-column div {
+            white-space: normal !important;
+            height: auto !important;
+            padding: 2px;
+        }
+
+        .ui-jqgrid .ui-jqgrid-resize {
+            height: 100% !important;
+        }
+    </style>
+
+
+    <script src="~/Scripts/jquery.ui.autocomplete.js"></script>
+    <script src="~/Scripts/custom/Generic.js" type="text/javascript"></script>
+
+    @*Below two lines are added to enable search functionality in dropdown *@
+    <link href="~/Content/Chosen/chosen.min.css" rel="stylesheet" />
+    <script src="~/Scripts/chosen.jquery.min.js"></script>
+
+    @*for validation *@
+    @*
+        <script src="~/Areas/EFORMArea/Scripts/jquery.validate.js"></script>
+        <script src="~/Areas/EFORMArea/Scripts/jquery.validate.min.js"></script>
+        <script src="~/packages/jQuery.Validation.1.8.1/Content/Scripts/jquery.validate.js"></script>
+        <script src="~/packages/jQuery.Validation.1.8.1/Content/Scripts/jquery.validate.min.js"></script>*@
+
+    <!--Custom Js -->
+    <script src="~/Scripts/Payment/GetSecurityDepositACCDetails.js"></script>
+
+
+</head>
+
+<body>
+    @Html.Hidden("fundType", PMGSY.Extensions.PMGSYSession.Current.FundType)
+    @Html.Hidden("IsAdvicePayment", Model.CHQ_EPAY)
+
+    @Html.Hidden("BILL_MONTH", Model.BILL_MONTH)
+    @Html.Hidden("BILL_YEAR", Model.BILL_YEAR)
+
+
+    <div style="height:10px;">
+
+    </div>
+
+    <div id="divGridGetSecurityDepositACCDetails" class="ui-corner-top ui-widget-header panelheader" style="text-align: left; height: 20px;">
+        <span class="ui-jqgrid-title" style="float: left">&nbsp;Security Deposit Account Opening Balance Entry</span>
+        <span id="closeGridId" class="ui-icon ui-icon-circle-triangle-n" style="float: right"></span>
+    </div>
+
+
+    <div id="divGetSecurityDepositACCDetailsData" style="display: block; border: 1px solid #B5B8C8;">
+        <div style="height:10px;">
+
+        </div>
+
+        @*        <div id="divError" class="ui-state-error ui-corner-all" style="text-align: left; display: none;">
+                <span class="ui-icon ui-icon-alert" style="float: left;"></span>
+                <span id="errorSpan"></span>
+                <span style="float: right;">
+                    <a style="float: right;" href="#">
+                        <img class="ui-icon ui-icon-closethick" onclick="closeDivError();" style="border: none; border-width: 0;">
+                    </a>
+                </span>
+            </div>
+        *@
+
+
+        <form id="masterPaymentFormAcc">
+            @Html.AntiForgeryToken()
+            @*@Html.HiddenFor(x => x.conAccountId)*@
+
+            <div id="FormParameters">
+                <table id="formTable" class="ui-corner-all rowstyle" style="width:100%; border: .1em solid gray" cellspacing="1px">
+                    <tr>
+                        <td style="width: 15%"></td>
+                        <td style="text-align: left; width: 15%">
+                            @Html.LabelFor(model => model.BILL_NO)<label style="color: red">*</label>
+                        </td>
+                        <td style="text-align: left; width: 25%">
+                            @Html.TextBoxFor(model => model.BILL_NO, new { @style = "width:55%", @tabindex = "10", @title = "Voucher Number", @readonly = "readonly" })
+                            <br />
+                            @Html.ValidationMessageFor(model => model.BILL_NO)
+
+                        </td>
+
+                        <td style="text-align: left; width: 15%">
+                            @Html.LabelFor(model => model.BILL_DATE)
+                            <label style="color: red">*</label>
+                        </td>
+
+                        <td style="text-align: left; width: 20%">
+                            @Html.TextBoxFor(model => model.BILL_DATE, new { @style = "width:20%", @tabindex = "11", @title = "Voucher Date", @readonly = "true" })
+                            @*@Html.EditorFor(model=>model.BILL_DATE,"0:dd/MM/yyyy",Model.BILL_DATE)*@
+                            <br />
+                            @Html.ValidationMessageFor(model => model.BILL_DATE)
+                        </td>
+
+
+                    </tr>
+                    <!-- ///////////////////////////////////////////////////////////-->
+                    <tr class="chequeTr">
+                        <td></td>
+                        <td>
+                            @Html.LabelFor(model => model.CHQ_NO)  <label style="color: red">*</label>
+
+                        </td>
+                        <td style="text-align: left; width: 25%">
+
+                            @Html.TextBoxFor(model => model.EPAY_NO, new { Title = "Epayment Number ", @style = "width:55%", placeholder = "Enter Epayment Number", @readonly = "readonly", @tabindex = "12" })
+
+                        </td>
+
+                        <td style="text-align: left">
+                            @Html.LabelFor(model => model.TOTAL_AMOUNT)
+                            <label style="color: red">*</label>
+                        </td>
+                        <td style="text-align: left; width: 25%">
+                            @Html.TextBoxFor(model => model.TOTAL_AMOUNT, new { @title = "Total Amount", @placeholder = "Enter total Amount", @width = "50px", @align = "center" })
+                            <br />
+                            @Html.ValidationMessageFor(model => model.TOTAL_AMOUNT)
+                        </td>
+
+
+                    </tr>
+
+                    <tr class="ContracorTr">
+                        <td></td>
+                        <td style="text-align: left" id="ContracorTrID">
+                            @Html.LabelFor(model => model.MAST_CON_ID_C)
+                            <label style="color: red">*</label>
+                        </td>
+                        <td style="text-align: left; width: 25%">
+                            @Html.DropDownListFor(model => model.MAST_CON_ID_C, new SelectList(Model.mast_CON_ID_C1, "Value", "Text", "Company name is required"), new { Title = "Company name", tabindex = "18", @class = "dropdown", @style = "width:100%" })
+                            <br />
+                            @Html.ValidationMessageFor(model => model.MAST_CON_ID_C)
+
+                        </td>
+
+                        <td style="text-align: left">
+                        </td>
+                        <td style="text-align: left; width: 25%">
+                        </td>
+                    </tr>
+
+                    <tr id="trContractorBankDetails">
+                        <td></td>
+                        <td style="text-align: left" id="ContracorAccountTrID"> Select  Contractor Bank Account <label style="color: red">*</label></td>
+                        <td style="text-align: left; width: 25%">
+                            @Html.DropDownListFor(model => model.CONC_Account_ID, new SelectList(Model.CONC_Account_ID1, "Value", "Text", "Acount details are required"), new { Title = "Account Details", tabindex = "20", @class = "dropdown", @style = "width:100%" })
+                            <br />
+                            @Html.ValidationMessageFor(model => model.CONC_Account_ID)
+
+                        </td>
+                        <td>
+                            @Html.Label("Bank Name : ")
+                            <span id="spnBankName" style="margin-left: 0px">-</span>
+
+                        </td>
+                        <td>
+                            @Html.Label("Account Number : ")
+                            <span id="spnBankAccNumber" style="margin-left: 0px">-</span> &nbsp; &nbsp; &nbsp; &nbsp;
+                            <br />
+                            @Html.Label("IFSC Code : ", new { @style = "margin-left:0px" })
+                            <span id="spnIFSCCode" style="margin-left: 0px">-</span>&nbsp; &nbsp; &nbsp; &nbsp;
+                        </td>
+
+                    </tr>
+
+                    <tr>
+
+                        <th colspan="5" style="text-align: center">
+
+                            <input tabindex="27" type="button" id="btnSubmit" class="jqueryButton" value=" Save" />
+                            @*                    <input tabindex="28" type="button" id="btnUpdate" style="display: none" value="Update " />
+                            *@
+
+                            <input tabindex="27" type="button" class="jqueryButton"
+                                   name="btnReset" id="btnReset" title="Click here to reset" value='Reset' />
+                            @*                    <input tabindex="28" type="button" class="jqueryButton"
+                                name="btnMasterCancel" id="btnMasterCancel" title="Click here to cancel" value='Cancel' style="display: none" />*@
+                        </th>
+
+                    </tr>
+                </table>
+            </div>
+        </form>
+    </div>
+
+    <div style="height:10px;">
+
+    </div>
+
+    @* <div id="listId" style="display:none; width:98%">
+    *@
+    <div id="listId" style="width:98%">
+        @*        <div id="divGridGetSecurityDepositACCDetailsList" class="ui-corner-top ui-widget-header panelheader" style="text-align: left; height: 20px;">
+                <span class="ui-jqgrid-title" style="float: left">&nbsp;Security Deposit Account Opening Balance Entry Data List</span>
+                <span id="closeListGridId" class="ui-icon ui-icon-circle-triangle-n" style="float: right"></span>
+            </div>*@
+        <div style="width:98%">
+            <table id="PaymentList" style="width:98%"></table>
+            <div id="pager" style="width:98%"></div>
+        </div>
+
+    </div>
+
+</body>

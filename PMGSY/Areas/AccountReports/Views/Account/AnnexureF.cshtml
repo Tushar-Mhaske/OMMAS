@@ -1,0 +1,49 @@
+﻿@model PMGSY.Areas.AccountReports.Models.ANNEXURE
+@{ 
+    Layout = Request.IsAjaxRequest() ? null : "~/Areas/AccountReports/Views/Account/_Layout.cshtml";
+}
+
+<script src="~/Scripts/custom/Generic.js"></script>
+<script src="~/Areas/AccountReports/Scripts/AnnexureF.js"></script>
+
+<div id="loadFilters">
+  <form id="frmStateAccountMonitoringDetails">
+        <div class="ui-widget-header innerDivHeader" style="margin-bottom: 0px; margin-top: 0px; height: 20px;">
+            <label style="margin-left: 5px">Annexure - E</label>
+            <span style="float: right; margin-right: 2Px; margin-top: 2px" id="spnFundReceived" class="ui-icon ui-icon-circle-triangle-n"></span>
+        </div>
+
+        <div id="dvError" class="ui-state-error ui-corner-all" style="text-align: left; display: none; width: 99%;">
+            <span class="ui-icon ui-icon-alert" style="float: left;"></span>
+            <span></span>
+        </div>
+
+        <div id="dvFilterForm">
+            <table class="table-content ui-corner-all" style="border: 0.1em solid gray; width: 100%; margin-top: 1px" id="tblFilter" align="center">
+            
+               <tr>
+                      <td style="text-align: left; font-weight: bold; width: 600px">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                            @Html.Label("Scheme :")&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                            @Html.DropDownListFor(m => m.schemeCode, Model.lstscheme, new { @title = "Scheme", @id="schemeCode" })
+                            @Html.ValidationMessageFor(m => m.schemeCode)
+                      </td>
+                        <td>
+                            @Html.Label("Completion  Year:")
+                           <label style="color: red;">*</label>
+                            @Html.DropDownListFor(m => m.Year, Model.ListYear, new {@id="Year", @title = "Completion Year" })
+                            @Html.ValidationMessageFor(m => m.Year)
+                        </td>
+
+                   <td>
+                         <td id="tdOtherBthViewDetails" style="text-align: left;">
+                        <input type="button" id="btnView" value="View Details" class="jqueryButton" title="View Details"></td>
+                   </td>
+              </tr>
+            </table>
+        </div>
+
+    </form>
+</div>
+@* Display SSRS report *@
+<div id="dvLoadReport" style="width: 100%;">
+</div>

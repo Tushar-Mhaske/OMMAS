@@ -1,0 +1,35 @@
+﻿
+<style>
+   
+#map {
+  border: 1px solid #DDD; 
+  width:600px;
+  height: 400px;
+  margin: 10px 0 10px 0;
+  
+}
+
+</style>
+  <script src="http://maps.google.com/maps/api/js?sensor=false"></script>
+  <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.10.2/jquery.min.js"></script>
+  <script src="http://ajax.googleapis.com/ajax/libs/jqueryui/1.10.3/jquery-ui.min.js"></script>
+<script src="~/Scripts/QualityMonitoring/jquery.ui.addresspicker.js"></script>
+<script src="~/Scripts/QualityMonitoring/LabPositoinGoogleMap.js"></script>
+    
+    
+       <div id="legend">Note*- You can drag and drop the marker to the correct location</div>
+        <div id="map"></div>
+   
+   
+       <input id="addresspicker_map" hidden/>   
+      <input id="locality" disabled=disabled hidden> 
+       <input id="administrative_area_level_2" disabled=disabled  hidden> 
+      <input id="administrative_area_level_1" disabled=disabled hidden>
+       <input id="country" disabled=disabled hidden> 
+      <input id="postal_code" disabled=disabled  hidden> 
+      Lat: <input id="lat" disabled=disabled> 
+      Long: <input id="lng" disabled=disabled> 
+       <input id="zoom" disabled=disabled hidden > 
+      <input id="type" disabled=disabled hidden/> 
+        <input type="button" value="Update" id="btnUpdate" />
+  

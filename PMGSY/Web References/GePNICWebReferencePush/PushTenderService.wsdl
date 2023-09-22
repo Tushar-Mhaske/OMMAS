@@ -1,0 +1,647 @@
+<?xml version="1.0" encoding="utf-8"?>
+<wsdl:definitions xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/" xmlns:ax21="http://exception.nic.gov/xsd" xmlns:mime="http://schemas.xmlsoap.org/wsdl/mime/" xmlns:wsaw="http://www.w3.org/2006/05/addressing/wsdl" xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns:soap12="http://schemas.xmlsoap.org/wsdl/soap12/" xmlns:http="http://schemas.xmlsoap.org/wsdl/http/" xmlns:ns="http://pretender.webservices.nic.gov" xmlns:ns1="http://org.apache.axis2/xsd" targetNamespace="http://pretender.webservices.nic.gov" xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">
+  <wsdl:documentation>
+		Please Type your service description here
+	</wsdl:documentation>
+  <wsdl:types>
+    <xs:schema xmlns:ax22="http://pretender.webservices.nic.gov" attributeFormDefault="qualified" elementFormDefault="qualified" targetNamespace="http://exception.nic.gov/xsd">
+      <xs:import namespace="http://pretender.webservices.nic.gov" />
+      <xs:complexType name="ServiceException">
+        <xs:complexContent mixed="false">
+          <xs:extension base="ax22:Exception">
+            <xs:sequence />
+          </xs:extension>
+        </xs:complexContent>
+      </xs:complexType>
+    </xs:schema>
+    <xs:schema xmlns:ax23="http://exception.nic.gov/xsd" attributeFormDefault="qualified" elementFormDefault="qualified" targetNamespace="http://pretender.webservices.nic.gov">
+      <xs:import namespace="http://exception.nic.gov/xsd" />
+      <xs:complexType name="Exception">
+        <xs:sequence>
+          <xs:element minOccurs="0" name="Exception" nillable="true" type="xs:anyType" />
+        </xs:sequence>
+      </xs:complexType>
+      <xs:element name="ServiceException">
+        <xs:complexType>
+          <xs:sequence>
+            <xs:element minOccurs="0" name="ServiceException" nillable="true" type="ax23:ServiceException" />
+          </xs:sequence>
+        </xs:complexType>
+      </xs:element>
+      <xs:element name="getWorkItemRefNo">
+        <xs:complexType>
+          <xs:sequence>
+            <xs:element minOccurs="0" name="workItemRefNo" nillable="true" type="xs:string" />
+          </xs:sequence>
+        </xs:complexType>
+      </xs:element>
+      <xs:element name="getWorkItemRefNoResponse">
+        <xs:complexType>
+          <xs:sequence>
+            <xs:element minOccurs="0" name="return" nillable="true" type="xs:string" />
+          </xs:sequence>
+        </xs:complexType>
+      </xs:element>
+      <xs:element name="getTenderWorkItemsRefNoForWhichSummaryIsDoneByUpdatedDate">
+        <xs:complexType>
+          <xs:sequence>
+            <xs:element minOccurs="0" name="updatedDate" nillable="true" type="xs:string" />
+          </xs:sequence>
+        </xs:complexType>
+      </xs:element>
+      <xs:element name="getTenderWorkItemsRefNoForWhichSummaryIsDoneByUpdatedDateResponse">
+        <xs:complexType>
+          <xs:sequence>
+            <xs:element minOccurs="0" name="return" nillable="true" type="xs:string" />
+          </xs:sequence>
+        </xs:complexType>
+      </xs:element>
+      <xs:element name="getTenderInfoFromPreTenderbyPublishDate">
+        <xs:complexType>
+          <xs:sequence>
+            <xs:element minOccurs="0" name="publishedDate" nillable="true" type="xs:string" />
+          </xs:sequence>
+        </xs:complexType>
+      </xs:element>
+      <xs:element name="getTenderInfoFromPreTenderbyPublishDateResponse">
+        <xs:complexType>
+          <xs:sequence>
+            <xs:element minOccurs="0" name="return" nillable="true" type="xs:string" />
+          </xs:sequence>
+        </xs:complexType>
+      </xs:element>
+      <xs:element name="getAocInfoFromPreTenderbyCreatedDate">
+        <xs:complexType>
+          <xs:sequence>
+            <xs:element minOccurs="0" name="createdDate" nillable="true" type="xs:string" />
+          </xs:sequence>
+        </xs:complexType>
+      </xs:element>
+      <xs:element name="getAocInfoFromPreTenderbyCreatedDateResponse">
+        <xs:complexType>
+          <xs:sequence>
+            <xs:element minOccurs="0" name="return" nillable="true" type="xs:string" />
+          </xs:sequence>
+        </xs:complexType>
+      </xs:element>
+      <xs:element name="getCorrigendumInfoFromPreTenderbyPublishDate">
+        <xs:complexType>
+          <xs:sequence>
+            <xs:element minOccurs="0" name="publishedDate" nillable="true" type="xs:string" />
+          </xs:sequence>
+        </xs:complexType>
+      </xs:element>
+      <xs:element name="getCorrigendumInfoFromPreTenderbyPublishDateResponse">
+        <xs:complexType>
+          <xs:sequence>
+            <xs:element minOccurs="0" name="return" nillable="true" type="xs:string" />
+          </xs:sequence>
+        </xs:complexType>
+      </xs:element>
+      <xs:element name="getDGSNDTenderDetailsByTenderRefNo">
+        <xs:complexType>
+          <xs:sequence>
+            <xs:element minOccurs="0" name="tenderRefno" nillable="true" type="xs:string" />
+          </xs:sequence>
+        </xs:complexType>
+      </xs:element>
+      <xs:element name="getDGSNDTenderDetailsByTenderRefNoResponse">
+        <xs:complexType>
+          <xs:sequence>
+            <xs:element minOccurs="0" name="return" nillable="true" type="xs:string" />
+          </xs:sequence>
+        </xs:complexType>
+      </xs:element>
+      <xs:element name="getTenderDetailsByTenderPublishedDate">
+        <xs:complexType>
+          <xs:sequence>
+            <xs:element minOccurs="0" name="publishedDate" nillable="true" type="xs:string" />
+          </xs:sequence>
+        </xs:complexType>
+      </xs:element>
+      <xs:element name="getTenderDetailsByTenderPublishedDateResponse">
+        <xs:complexType>
+          <xs:sequence>
+            <xs:element minOccurs="0" name="return" nillable="true" type="xs:string" />
+          </xs:sequence>
+        </xs:complexType>
+      </xs:element>
+      <xs:element name="getTenderInfoByPublishedDate">
+        <xs:complexType>
+          <xs:sequence>
+            <xs:element minOccurs="0" name="publishedDate" nillable="true" type="xs:string" />
+          </xs:sequence>
+        </xs:complexType>
+      </xs:element>
+      <xs:element name="getTenderInfoByPublishedDateResponse">
+        <xs:complexType>
+          <xs:sequence>
+            <xs:element minOccurs="0" name="return" nillable="true" type="xs:string" />
+          </xs:sequence>
+        </xs:complexType>
+      </xs:element>
+      <xs:element name="getAocInfoByAocCreatedDate">
+        <xs:complexType>
+          <xs:sequence>
+            <xs:element minOccurs="0" name="createdDate" nillable="true" type="xs:string" />
+          </xs:sequence>
+        </xs:complexType>
+      </xs:element>
+      <xs:element name="getAocInfoByAocCreatedDateResponse">
+        <xs:complexType>
+          <xs:sequence>
+            <xs:element minOccurs="0" name="return" nillable="true" type="xs:string" />
+          </xs:sequence>
+        </xs:complexType>
+      </xs:element>
+      <xs:element name="getCorrigendumInfoByCorrPublishedDate">
+        <xs:complexType>
+          <xs:sequence>
+            <xs:element minOccurs="0" name="publishedDate" nillable="true" type="xs:string" />
+          </xs:sequence>
+        </xs:complexType>
+      </xs:element>
+      <xs:element name="getCorrigendumInfoByCorrPublishedDateResponse">
+        <xs:complexType>
+          <xs:sequence>
+            <xs:element minOccurs="0" name="return" nillable="true" type="xs:string" />
+          </xs:sequence>
+        </xs:complexType>
+      </xs:element>
+      <xs:element name="getTenderInfoByTenderRefNo">
+        <xs:complexType>
+          <xs:sequence>
+            <xs:element minOccurs="0" name="tenderRefNo" nillable="true" type="xs:string" />
+          </xs:sequence>
+        </xs:complexType>
+      </xs:element>
+      <xs:element name="getTenderInfoByTenderRefNoResponse">
+        <xs:complexType>
+          <xs:sequence>
+            <xs:element minOccurs="0" name="return" nillable="true" type="xs:string" />
+          </xs:sequence>
+        </xs:complexType>
+      </xs:element>
+    </xs:schema>
+  </wsdl:types>
+  <wsdl:message name="getAocInfoByAocCreatedDateRequest">
+    <wsdl:part name="parameters" element="ns:getAocInfoByAocCreatedDate" />
+  </wsdl:message>
+  <wsdl:message name="getAocInfoByAocCreatedDateResponse">
+    <wsdl:part name="parameters" element="ns:getAocInfoByAocCreatedDateResponse" />
+  </wsdl:message>
+  <wsdl:message name="getAocInfoFromPreTenderbyCreatedDateRequest">
+    <wsdl:part name="parameters" element="ns:getAocInfoFromPreTenderbyCreatedDate" />
+  </wsdl:message>
+  <wsdl:message name="getAocInfoFromPreTenderbyCreatedDateResponse">
+    <wsdl:part name="parameters" element="ns:getAocInfoFromPreTenderbyCreatedDateResponse" />
+  </wsdl:message>
+  <wsdl:message name="getDGSNDTenderDetailsByTenderRefNoRequest">
+    <wsdl:part name="parameters" element="ns:getDGSNDTenderDetailsByTenderRefNo" />
+  </wsdl:message>
+  <wsdl:message name="getDGSNDTenderDetailsByTenderRefNoResponse">
+    <wsdl:part name="parameters" element="ns:getDGSNDTenderDetailsByTenderRefNoResponse" />
+  </wsdl:message>
+  <wsdl:message name="ServiceException">
+    <wsdl:part name="parameters" element="ns:ServiceException" />
+  </wsdl:message>
+  <wsdl:message name="getTenderInfoByTenderRefNoRequest">
+    <wsdl:part name="parameters" element="ns:getTenderInfoByTenderRefNo" />
+  </wsdl:message>
+  <wsdl:message name="getTenderInfoByTenderRefNoResponse">
+    <wsdl:part name="parameters" element="ns:getTenderInfoByTenderRefNoResponse" />
+  </wsdl:message>
+  <wsdl:message name="getTenderInfoFromPreTenderbyPublishDateRequest">
+    <wsdl:part name="parameters" element="ns:getTenderInfoFromPreTenderbyPublishDate" />
+  </wsdl:message>
+  <wsdl:message name="getTenderInfoFromPreTenderbyPublishDateResponse">
+    <wsdl:part name="parameters" element="ns:getTenderInfoFromPreTenderbyPublishDateResponse" />
+  </wsdl:message>
+  <wsdl:message name="getWorkItemRefNoRequest">
+    <wsdl:part name="parameters" element="ns:getWorkItemRefNo" />
+  </wsdl:message>
+  <wsdl:message name="getWorkItemRefNoResponse">
+    <wsdl:part name="parameters" element="ns:getWorkItemRefNoResponse" />
+  </wsdl:message>
+  <wsdl:message name="getTenderInfoByPublishedDateRequest">
+    <wsdl:part name="parameters" element="ns:getTenderInfoByPublishedDate" />
+  </wsdl:message>
+  <wsdl:message name="getTenderInfoByPublishedDateResponse">
+    <wsdl:part name="parameters" element="ns:getTenderInfoByPublishedDateResponse" />
+  </wsdl:message>
+  <wsdl:message name="getTenderWorkItemsRefNoForWhichSummaryIsDoneByUpdatedDateRequest">
+    <wsdl:part name="parameters" element="ns:getTenderWorkItemsRefNoForWhichSummaryIsDoneByUpdatedDate" />
+  </wsdl:message>
+  <wsdl:message name="getTenderWorkItemsRefNoForWhichSummaryIsDoneByUpdatedDateResponse">
+    <wsdl:part name="parameters" element="ns:getTenderWorkItemsRefNoForWhichSummaryIsDoneByUpdatedDateResponse" />
+  </wsdl:message>
+  <wsdl:message name="getCorrigendumInfoByCorrPublishedDateRequest">
+    <wsdl:part name="parameters" element="ns:getCorrigendumInfoByCorrPublishedDate" />
+  </wsdl:message>
+  <wsdl:message name="getCorrigendumInfoByCorrPublishedDateResponse">
+    <wsdl:part name="parameters" element="ns:getCorrigendumInfoByCorrPublishedDateResponse" />
+  </wsdl:message>
+  <wsdl:message name="getCorrigendumInfoFromPreTenderbyPublishDateRequest">
+    <wsdl:part name="parameters" element="ns:getCorrigendumInfoFromPreTenderbyPublishDate" />
+  </wsdl:message>
+  <wsdl:message name="getCorrigendumInfoFromPreTenderbyPublishDateResponse">
+    <wsdl:part name="parameters" element="ns:getCorrigendumInfoFromPreTenderbyPublishDateResponse" />
+  </wsdl:message>
+  <wsdl:message name="getTenderDetailsByTenderPublishedDateRequest">
+    <wsdl:part name="parameters" element="ns:getTenderDetailsByTenderPublishedDate" />
+  </wsdl:message>
+  <wsdl:message name="getTenderDetailsByTenderPublishedDateResponse">
+    <wsdl:part name="parameters" element="ns:getTenderDetailsByTenderPublishedDateResponse" />
+  </wsdl:message>
+  <wsdl:portType name="PushTenderServicePortType">
+    <wsdl:operation name="getAocInfoByAocCreatedDate">
+      <wsdl:input wsaw:Action="urn:getAocInfoByAocCreatedDate" message="ns:getAocInfoByAocCreatedDateRequest" />
+      <wsdl:output wsaw:Action="urn:getAocInfoByAocCreatedDateResponse" message="ns:getAocInfoByAocCreatedDateResponse" />
+    </wsdl:operation>
+    <wsdl:operation name="getAocInfoFromPreTenderbyCreatedDate">
+      <wsdl:input wsaw:Action="urn:getAocInfoFromPreTenderbyCreatedDate" message="ns:getAocInfoFromPreTenderbyCreatedDateRequest" />
+      <wsdl:output wsaw:Action="urn:getAocInfoFromPreTenderbyCreatedDateResponse" message="ns:getAocInfoFromPreTenderbyCreatedDateResponse" />
+    </wsdl:operation>
+    <wsdl:operation name="getDGSNDTenderDetailsByTenderRefNo">
+      <wsdl:input wsaw:Action="urn:getDGSNDTenderDetailsByTenderRefNo" message="ns:getDGSNDTenderDetailsByTenderRefNoRequest" />
+      <wsdl:output wsaw:Action="urn:getDGSNDTenderDetailsByTenderRefNoResponse" message="ns:getDGSNDTenderDetailsByTenderRefNoResponse" />
+      <wsdl:fault wsaw:Action="urn:getDGSNDTenderDetailsByTenderRefNoServiceException" name="ServiceException" message="ns:ServiceException" />
+    </wsdl:operation>
+    <wsdl:operation name="getTenderInfoByTenderRefNo">
+      <wsdl:input wsaw:Action="urn:getTenderInfoByTenderRefNo" message="ns:getTenderInfoByTenderRefNoRequest" />
+      <wsdl:output wsaw:Action="urn:getTenderInfoByTenderRefNoResponse" message="ns:getTenderInfoByTenderRefNoResponse" />
+    </wsdl:operation>
+    <wsdl:operation name="getTenderInfoFromPreTenderbyPublishDate">
+      <wsdl:input wsaw:Action="urn:getTenderInfoFromPreTenderbyPublishDate" message="ns:getTenderInfoFromPreTenderbyPublishDateRequest" />
+      <wsdl:output wsaw:Action="urn:getTenderInfoFromPreTenderbyPublishDateResponse" message="ns:getTenderInfoFromPreTenderbyPublishDateResponse" />
+    </wsdl:operation>
+    <wsdl:operation name="getWorkItemRefNo">
+      <wsdl:input wsaw:Action="urn:getWorkItemRefNo" message="ns:getWorkItemRefNoRequest" />
+      <wsdl:output wsaw:Action="urn:getWorkItemRefNoResponse" message="ns:getWorkItemRefNoResponse" />
+      <wsdl:fault wsaw:Action="urn:getWorkItemRefNoServiceException" name="ServiceException" message="ns:ServiceException" />
+    </wsdl:operation>
+    <wsdl:operation name="getTenderInfoByPublishedDate">
+      <wsdl:input wsaw:Action="urn:getTenderInfoByPublishedDate" message="ns:getTenderInfoByPublishedDateRequest" />
+      <wsdl:output wsaw:Action="urn:getTenderInfoByPublishedDateResponse" message="ns:getTenderInfoByPublishedDateResponse" />
+    </wsdl:operation>
+    <wsdl:operation name="getTenderWorkItemsRefNoForWhichSummaryIsDoneByUpdatedDate">
+      <wsdl:input wsaw:Action="urn:getTenderWorkItemsRefNoForWhichSummaryIsDoneByUpdatedDate" message="ns:getTenderWorkItemsRefNoForWhichSummaryIsDoneByUpdatedDateRequest" />
+      <wsdl:output wsaw:Action="urn:getTenderWorkItemsRefNoForWhichSummaryIsDoneByUpdatedDateResponse" message="ns:getTenderWorkItemsRefNoForWhichSummaryIsDoneByUpdatedDateResponse" />
+      <wsdl:fault wsaw:Action="urn:getTenderWorkItemsRefNoForWhichSummaryIsDoneByUpdatedDateServiceException" name="ServiceException" message="ns:ServiceException" />
+    </wsdl:operation>
+    <wsdl:operation name="getCorrigendumInfoByCorrPublishedDate">
+      <wsdl:input wsaw:Action="urn:getCorrigendumInfoByCorrPublishedDate" message="ns:getCorrigendumInfoByCorrPublishedDateRequest" />
+      <wsdl:output wsaw:Action="urn:getCorrigendumInfoByCorrPublishedDateResponse" message="ns:getCorrigendumInfoByCorrPublishedDateResponse" />
+    </wsdl:operation>
+    <wsdl:operation name="getCorrigendumInfoFromPreTenderbyPublishDate">
+      <wsdl:input wsaw:Action="urn:getCorrigendumInfoFromPreTenderbyPublishDate" message="ns:getCorrigendumInfoFromPreTenderbyPublishDateRequest" />
+      <wsdl:output wsaw:Action="urn:getCorrigendumInfoFromPreTenderbyPublishDateResponse" message="ns:getCorrigendumInfoFromPreTenderbyPublishDateResponse" />
+    </wsdl:operation>
+    <wsdl:operation name="getTenderDetailsByTenderPublishedDate">
+      <wsdl:input wsaw:Action="urn:getTenderDetailsByTenderPublishedDate" message="ns:getTenderDetailsByTenderPublishedDateRequest" />
+      <wsdl:output wsaw:Action="urn:getTenderDetailsByTenderPublishedDateResponse" message="ns:getTenderDetailsByTenderPublishedDateResponse" />
+      <wsdl:fault wsaw:Action="urn:getTenderDetailsByTenderPublishedDateServiceException" name="ServiceException" message="ns:ServiceException" />
+    </wsdl:operation>
+  </wsdl:portType>
+  <wsdl:binding name="PushTenderServiceSoap11Binding" type="ns:PushTenderServicePortType">
+    <soap:binding transport="http://schemas.xmlsoap.org/soap/http" />
+    <wsdl:operation name="getAocInfoByAocCreatedDate">
+      <soap:operation soapAction="urn:getAocInfoByAocCreatedDate" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="getAocInfoFromPreTenderbyCreatedDate">
+      <soap:operation soapAction="urn:getAocInfoFromPreTenderbyCreatedDate" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="getDGSNDTenderDetailsByTenderRefNo">
+      <soap:operation soapAction="urn:getDGSNDTenderDetailsByTenderRefNo" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+      <wsdl:fault name="ServiceException">
+        <soap:fault use="literal" name="ServiceException" namespace="" />
+      </wsdl:fault>
+    </wsdl:operation>
+    <wsdl:operation name="getTenderInfoByTenderRefNo">
+      <soap:operation soapAction="urn:getTenderInfoByTenderRefNo" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="getTenderInfoFromPreTenderbyPublishDate">
+      <soap:operation soapAction="urn:getTenderInfoFromPreTenderbyPublishDate" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="getWorkItemRefNo">
+      <soap:operation soapAction="urn:getWorkItemRefNo" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+      <wsdl:fault name="ServiceException">
+        <soap:fault use="literal" name="ServiceException" namespace="" />
+      </wsdl:fault>
+    </wsdl:operation>
+    <wsdl:operation name="getTenderInfoByPublishedDate">
+      <soap:operation soapAction="urn:getTenderInfoByPublishedDate" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="getTenderWorkItemsRefNoForWhichSummaryIsDoneByUpdatedDate">
+      <soap:operation soapAction="urn:getTenderWorkItemsRefNoForWhichSummaryIsDoneByUpdatedDate" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+      <wsdl:fault name="ServiceException">
+        <soap:fault use="literal" name="ServiceException" namespace="" />
+      </wsdl:fault>
+    </wsdl:operation>
+    <wsdl:operation name="getCorrigendumInfoByCorrPublishedDate">
+      <soap:operation soapAction="urn:getCorrigendumInfoByCorrPublishedDate" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="getCorrigendumInfoFromPreTenderbyPublishDate">
+      <soap:operation soapAction="urn:getCorrigendumInfoFromPreTenderbyPublishDate" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="getTenderDetailsByTenderPublishedDate">
+      <soap:operation soapAction="urn:getTenderDetailsByTenderPublishedDate" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+      <wsdl:fault name="ServiceException">
+        <soap:fault use="literal" name="ServiceException" namespace="" />
+      </wsdl:fault>
+    </wsdl:operation>
+  </wsdl:binding>
+  <wsdl:binding name="PushTenderServiceSoap12Binding" type="ns:PushTenderServicePortType">
+    <soap12:binding transport="http://schemas.xmlsoap.org/soap/http" />
+    <wsdl:operation name="getAocInfoByAocCreatedDate">
+      <soap12:operation soapAction="urn:getAocInfoByAocCreatedDate" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="getAocInfoFromPreTenderbyCreatedDate">
+      <soap12:operation soapAction="urn:getAocInfoFromPreTenderbyCreatedDate" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="getDGSNDTenderDetailsByTenderRefNo">
+      <soap12:operation soapAction="urn:getDGSNDTenderDetailsByTenderRefNo" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+      <wsdl:fault name="ServiceException">
+        <soap12:fault use="literal" name="ServiceException" namespace="" />
+      </wsdl:fault>
+    </wsdl:operation>
+    <wsdl:operation name="getTenderInfoByTenderRefNo">
+      <soap12:operation soapAction="urn:getTenderInfoByTenderRefNo" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="getTenderInfoFromPreTenderbyPublishDate">
+      <soap12:operation soapAction="urn:getTenderInfoFromPreTenderbyPublishDate" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="getWorkItemRefNo">
+      <soap12:operation soapAction="urn:getWorkItemRefNo" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+      <wsdl:fault name="ServiceException">
+        <soap12:fault use="literal" name="ServiceException" namespace="" />
+      </wsdl:fault>
+    </wsdl:operation>
+    <wsdl:operation name="getTenderInfoByPublishedDate">
+      <soap12:operation soapAction="urn:getTenderInfoByPublishedDate" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="getTenderWorkItemsRefNoForWhichSummaryIsDoneByUpdatedDate">
+      <soap12:operation soapAction="urn:getTenderWorkItemsRefNoForWhichSummaryIsDoneByUpdatedDate" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+      <wsdl:fault name="ServiceException">
+        <soap12:fault use="literal" name="ServiceException" namespace="" />
+      </wsdl:fault>
+    </wsdl:operation>
+    <wsdl:operation name="getCorrigendumInfoByCorrPublishedDate">
+      <soap12:operation soapAction="urn:getCorrigendumInfoByCorrPublishedDate" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="getCorrigendumInfoFromPreTenderbyPublishDate">
+      <soap12:operation soapAction="urn:getCorrigendumInfoFromPreTenderbyPublishDate" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="getTenderDetailsByTenderPublishedDate">
+      <soap12:operation soapAction="urn:getTenderDetailsByTenderPublishedDate" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+      <wsdl:fault name="ServiceException">
+        <soap12:fault use="literal" name="ServiceException" namespace="" />
+      </wsdl:fault>
+    </wsdl:operation>
+  </wsdl:binding>
+  <wsdl:binding name="PushTenderServiceHttpBinding" type="ns:PushTenderServicePortType">
+    <http:binding verb="POST" />
+    <wsdl:operation name="getAocInfoByAocCreatedDate">
+      <http:operation location="PushTenderService/getAocInfoByAocCreatedDate" />
+      <wsdl:input>
+        <mime:content part="getAocInfoByAocCreatedDate" type="text/xml" />
+      </wsdl:input>
+      <wsdl:output>
+        <mime:content part="getAocInfoByAocCreatedDate" type="text/xml" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="getAocInfoFromPreTenderbyCreatedDate">
+      <http:operation location="PushTenderService/getAocInfoFromPreTenderbyCreatedDate" />
+      <wsdl:input>
+        <mime:content part="getAocInfoFromPreTenderbyCreatedDate" type="text/xml" />
+      </wsdl:input>
+      <wsdl:output>
+        <mime:content part="getAocInfoFromPreTenderbyCreatedDate" type="text/xml" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="getDGSNDTenderDetailsByTenderRefNo">
+      <http:operation location="PushTenderService/getDGSNDTenderDetailsByTenderRefNo" />
+      <wsdl:input>
+        <mime:content part="getDGSNDTenderDetailsByTenderRefNo" type="text/xml" />
+      </wsdl:input>
+      <wsdl:output>
+        <mime:content part="getDGSNDTenderDetailsByTenderRefNo" type="text/xml" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="getTenderInfoByTenderRefNo">
+      <http:operation location="PushTenderService/getTenderInfoByTenderRefNo" />
+      <wsdl:input>
+        <mime:content part="getTenderInfoByTenderRefNo" type="text/xml" />
+      </wsdl:input>
+      <wsdl:output>
+        <mime:content part="getTenderInfoByTenderRefNo" type="text/xml" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="getTenderInfoFromPreTenderbyPublishDate">
+      <http:operation location="PushTenderService/getTenderInfoFromPreTenderbyPublishDate" />
+      <wsdl:input>
+        <mime:content part="getTenderInfoFromPreTenderbyPublishDate" type="text/xml" />
+      </wsdl:input>
+      <wsdl:output>
+        <mime:content part="getTenderInfoFromPreTenderbyPublishDate" type="text/xml" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="getWorkItemRefNo">
+      <http:operation location="PushTenderService/getWorkItemRefNo" />
+      <wsdl:input>
+        <mime:content part="getWorkItemRefNo" type="text/xml" />
+      </wsdl:input>
+      <wsdl:output>
+        <mime:content part="getWorkItemRefNo" type="text/xml" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="getTenderInfoByPublishedDate">
+      <http:operation location="PushTenderService/getTenderInfoByPublishedDate" />
+      <wsdl:input>
+        <mime:content part="getTenderInfoByPublishedDate" type="text/xml" />
+      </wsdl:input>
+      <wsdl:output>
+        <mime:content part="getTenderInfoByPublishedDate" type="text/xml" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="getTenderWorkItemsRefNoForWhichSummaryIsDoneByUpdatedDate">
+      <http:operation location="PushTenderService/getTenderWorkItemsRefNoForWhichSummaryIsDoneByUpdatedDate" />
+      <wsdl:input>
+        <mime:content part="getTenderWorkItemsRefNoForWhichSummaryIsDoneByUpdatedDate" type="text/xml" />
+      </wsdl:input>
+      <wsdl:output>
+        <mime:content part="getTenderWorkItemsRefNoForWhichSummaryIsDoneByUpdatedDate" type="text/xml" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="getCorrigendumInfoByCorrPublishedDate">
+      <http:operation location="PushTenderService/getCorrigendumInfoByCorrPublishedDate" />
+      <wsdl:input>
+        <mime:content part="getCorrigendumInfoByCorrPublishedDate" type="text/xml" />
+      </wsdl:input>
+      <wsdl:output>
+        <mime:content part="getCorrigendumInfoByCorrPublishedDate" type="text/xml" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="getCorrigendumInfoFromPreTenderbyPublishDate">
+      <http:operation location="PushTenderService/getCorrigendumInfoFromPreTenderbyPublishDate" />
+      <wsdl:input>
+        <mime:content part="getCorrigendumInfoFromPreTenderbyPublishDate" type="text/xml" />
+      </wsdl:input>
+      <wsdl:output>
+        <mime:content part="getCorrigendumInfoFromPreTenderbyPublishDate" type="text/xml" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="getTenderDetailsByTenderPublishedDate">
+      <http:operation location="PushTenderService/getTenderDetailsByTenderPublishedDate" />
+      <wsdl:input>
+        <mime:content part="getTenderDetailsByTenderPublishedDate" type="text/xml" />
+      </wsdl:input>
+      <wsdl:output>
+        <mime:content part="getTenderDetailsByTenderPublishedDate" type="text/xml" />
+      </wsdl:output>
+    </wsdl:operation>
+  </wsdl:binding>
+  <wsdl:service name="PushTenderService">
+    <wsdl:port name="PushTenderServiceHttpsSoap11Endpoint" binding="ns:PushTenderServiceSoap11Binding">
+      <soap:address location="https://pmgsytenders.gov.in/nicgep_general_webservice/services/PushTenderService.PushTenderServiceHttpsSoap11Endpoint/" />
+    </wsdl:port>
+    <wsdl:port name="PushTenderServiceHttpsSoap12Endpoint" binding="ns:PushTenderServiceSoap12Binding">
+      <soap12:address location="https://pmgsytenders.gov.in/nicgep_general_webservice/services/PushTenderService.PushTenderServiceHttpsSoap12Endpoint/" />
+    </wsdl:port>
+    <wsdl:port name="PushTenderServiceHttpsEndpoint" binding="ns:PushTenderServiceHttpBinding">
+      <http:address location="https://pmgsytenders.gov.in/nicgep_general_webservice/services/PushTenderService.PushTenderServiceHttpsEndpoint/" />
+    </wsdl:port>
+  </wsdl:service>
+</wsdl:definitions>

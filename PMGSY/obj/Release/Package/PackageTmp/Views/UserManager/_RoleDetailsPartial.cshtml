@@ -1,0 +1,44 @@
+﻿@model PMGSY.Models.UserManager.RoleDetailsModel
+
+@using (Html.BeginForm())
+{
+<div id="tableMain" style="width:100%" >
+       <table  id="tblRowDetails">
+           <tr>
+                <td style="width:10%"><b>@Html.LabelFor(m => m.RoleName) :</b></td>
+                <td style="width:20%">@if (Model.RoleName == null)
+                    {       
+                        @Html.Display("Not Available")
+                    }
+                    else
+                    {
+                        @Html.DisplayFor(m => m.RoleName)
+                    }
+              </td>
+              
+              <td style="width:10%"><b>@Html.LabelFor(m => m.IsActive) :</b></td>
+              <td style="width:20%">@if (Model.IsActive == null)
+                    {       
+                        @Html.Display("Not Available")
+                    }
+                    else
+                    {
+                        @Html.DisplayFor(m => m.IsActive)
+                    }
+              </td> 
+            </tr>
+            <tr>
+              <td style="width:10%"><b>@Html.LabelFor(m => m.LevelName) :</b></td>
+              <td colspan="3">@if (Model.LevelName == null)
+                    {       
+                        @Html.Display("Not Available")
+                    }
+                    else
+                    {
+                        @Html.DisplayFor(m => m.LevelName)
+                    }
+              </td>
+            </tr>
+      </table>
+ </div>
+}

@@ -1,0 +1,109 @@
+﻿@using MvcReportViewer
+
+@model PMGSY.Areas.AnalysisSSRSReport.Models.AnalysisAverageLengthModel
+
+
+@if (Model.ReportType == "R")
+{
+    if (Model.RoadWise == false)
+    {
+    <div id="Analysis_Average_Length_Report" style="width: 100%; height: 590px; overflow-x: hidden; overflow-y: hidden;">
+
+        @Html.MvcReportViewer("/PMGSYCitizen/Analysis_Average_Length_Report",
+     new
+     {
+         Level = Model.LevelCode,
+         State = Model.Mast_State_Code,
+         District = Model.Mast_District_Code,
+         Block = Model.Mast_Block_Code,
+         Year = Model.PhaseYear,
+         Batch = Model.Batch,
+         Collaboration = Model.FundingAgency,
+         Status = Model.Status,
+         PMGSY = PMGSY.Extensions.PMGSYSession.Current.PMGSYScheme,
+         StateName = Model.StateName,
+         DistrictName = Model.DistName,
+         BlockName = Model.BlockName,
+         BatchName = Model.BatchName,
+         CollabName = Model.FundingAgencyName,
+         YearName = Model.YearName,
+         StatusName = Model.StatusName
+
+     },
+       new { Height = 600, Width = 1200, style = "border:none;" })
+    </div>
+    }
+    else
+    {
+    <div id="Analysis_Average_Length_LVL_Report" style="width: 100%; height: 590px; overflow-x: hidden; overflow-y: hidden;">
+
+        @Html.MvcReportViewer("/PMGSYCitizen/Analysis_Average_Length_LVL_Report",
+     new
+     {
+         Level = Model.LevelCode,
+         State = Model.Mast_State_Code,
+         District = Model.Mast_District_Code,
+         Block = Model.Mast_Block_Code,
+         Year = Model.PhaseYear,
+         Batch = Model.Batch,
+         Collaboration = Model.FundingAgency,
+         Status = Model.Status,
+         PMGSY = PMGSY.Extensions.PMGSYSession.Current.PMGSYScheme,
+         StateName = Model.StateName,
+         DistrictName = Model.DistName,
+         BlockName = Model.BlockName,
+         BatchName = Model.BatchName,
+         CollabName = Model.FundingAgencyName,
+         YearName = Model.YearName,
+         StatusName = Model.StatusName
+
+     },
+        new { Height = 600, Width = 1200, style = "border:none;" })
+    </div>
+ 
+        
+    }
+}
+else
+{
+    if (Model.RoadWise == false)
+    {
+    <div id="Analysis_Average_Length_HAB_Report" style="width: 100%; height: 590px; overflow-x: hidden; overflow-y: hidden;">
+
+        @Html.MvcReportViewer("/PMGSYCitizen/Analysis_Average_Length_HAB_Report",
+     new
+     {
+         Level = Model.LevelCode,
+         State = Model.Mast_State_Code,
+         District = Model.Mast_District_Code,
+         Block = Model.Mast_Block_Code,
+         PMGSY = PMGSY.Extensions.PMGSYSession.Current.PMGSYScheme,
+         StateName = Model.StateName,
+         DistrictName = Model.DistName,
+         BlockName = Model.BlockName
+     },
+        new { Height = 600, Width = 1200, style = "border:none;" })
+    </div>
+    }
+    else
+    {
+        
+    <div id="Analysis_Average_Length_HAB_LVL_Report" style="width: 100%; height: 590px; overflow-x: hidden; overflow-y: hidden;">
+
+        @Html.MvcReportViewer("/PMGSYCitizen/Analysis_Average_Length_HAB_LVL_Report",
+     new
+     {
+         Level = Model.LevelCode,
+         State = Model.Mast_State_Code,
+         District = Model.Mast_District_Code,
+         Block = Model.Mast_Block_Code,
+         PMGSY = PMGSY.Extensions.PMGSYSession.Current.PMGSYScheme,
+         StateName = Model.StateName,
+         DistrictName = Model.DistName,
+         BlockName = Model.BlockName
+     },
+       new { Height = 550, Width = 1215, style = "border:none;" })
+
+    </div>
+    }
+}

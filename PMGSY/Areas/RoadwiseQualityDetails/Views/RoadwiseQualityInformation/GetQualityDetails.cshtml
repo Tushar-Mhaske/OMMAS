@@ -1,0 +1,135 @@
+﻿@{
+    ViewBag.Title = "GetQualityDetails";
+}
+
+@model PMGSY.Areas.RoadwiseQualityDetails.Models.QualityDetailsModel
+
+<style>
+    #dvQualityDetailMain {
+        font-size: 13px;
+    }
+</style>
+
+<script src="~/Scripts/custom/Generic.js"></script>
+<script src="~/Scripts/jquery-ui.js"></script>
+<script src="~/Areas/RoadwiseQualityDetails/Scripts/ViewRoadwiseDetails.js"></script>
+
+
+
+@if (Model.ErrorMessage != null)
+{
+    <div id="divError" class="ui-state-error ui-corner-all" style="text-align: left; display: none; width: 100%">
+        <div>
+            <lable style="color:red"> * @Model.ErrorMessage </lable>
+        </div>
+    </div>
+}
+else
+{
+    <div id="dvQualityDetailMain" class="ui-corner-all" style="display: block; border: 1px solid #B5B8C8; margin-top: 10px;">
+        <div class="ui-corner-top ui-widget-header panelheader" style="text-align: left; height: 20px;">
+            <b>
+                <span id="spnHeaderSummarysrchFB1" class="ui-jqgrid-title" style="float: left;margin:5px"> Quality Details </span>
+                <span id="spnHeaderSummarysrchFB2" class="ui-icon ui-icon-circle-close" onclick="closeCurrentDiv('dvQualityDetailMain','Quality Detail');" style="float: right"></span>
+            </b>
+            <div class="box-tools pull-right">  </div>
+        </div>
+
+
+        <div class="row">
+            <!-- Left col -->
+            <div class="col-md-12">
+                <!-- MAP & BOX PANE -->
+                <div class="box box-warning collapsed-box">
+                    <div class="box-body no-padding">
+                        <div class="row">
+                            <div class="col-md-12 col-sm-12">
+                                <div class="pad">
+                                    <div id="divContentPostQuality1" class="tblContent dataTable">
+                                        <table style="width: 100%">
+                                            <tr>
+                                                <th> Monitor Name </th>
+                                                <th> Start Chainage </th>
+                                                <th> End Chainage </th>
+                                                <th> Inspection Date </th>
+                                                <th> Overall Grade </th>
+                                                <th> View Details </th>
+                                            </tr>
+                                            <tr class="subHeaderDataTable">
+                                                <td colspan="6" style="font-weight: bold; background-color: #f8f8d0; font-size: 15px;"> SQM Details </td>
+                                            </tr>
+                                            @if (Model.QualityDetails.Where(m => m.ADMIN_QM_TYPE == "S").Count() == 0)
+                                            {
+                                                <tr>
+                                                    <td colspan="6">
+                                                        <label style="color: red; font-weight: bold; float: right;"> No details found.</label>
+                                                    </td>
+                                                </tr>
+                                            }
+                                            else
+                                            {
+                                                foreach (var item in @Model.QualityDetails)
+                                                {
+                                                    if (item.ADMIN_QM_TYPE == "S")
+                                                    {
+                                                        <tr>
+                                                            <td>@(item.MONITOR_NAME)</td>
+                                                            <td>@item.QM_INSPECTED_START_CHAINAGE</td>
+                                                            <td>@item.QM_INSPECTED_END_CHAINAGE</td>
+                                                            <td>@(Convert.ToDateTime(item.QM_INSPECTION_DATE).ToString("dd/MM/yyyy"))</td>
+                                                            <td>@item.QM_OVERALL_GRADE</td>
+                                                            <td style="text-align: center">
+                                                                <a href="#" onclick="ViewQualityInspectionDetails(@item.QM_OBSERVATION_ID,'@item.ADMIN_QM_TYPE')">
+                                                                    <span class="ui-icon ui-icon-zoomin ui-align-center"></span>
+                                                                </a>
+                                                            </td>
+                                                        </tr>
+
+                                                    }
+
+                                                }
+                                            }
+                                            <tr class="subHeaderDataTable">
+                                                <td colspan="6" style="font-weight: bold; background-color: #f8f8d0; font-size: 15px;"> NQM Details </td>
+                                            </tr>
+                                            @if (Model.QualityDetails.Where(m => m.ADMIN_QM_TYPE == "I").Count() == 0)
+                                            {
+                                                <tr>
+                                                    <td colspan="6">
+                                                        <label style="color: red;font-weight:bold;float:right;"> No details found.</label>
+                                                    </td>
+                                                </tr>
+                                            }
+                                            else
+                                            {
+                                                foreach (var item in @Model.QualityDetails)
+                                                {
+                                                    if (item.ADMIN_QM_TYPE == "I")
+                                                    {
+                                                        <tr>
+                                                            <td>@(item.MONITOR_NAME)</td>
+                                                            <td>@item.QM_INSPECTED_START_CHAINAGE</td>
+                                                            <td>@item.QM_INSPECTED_END_CHAINAGE</td>
+                                                            <td>@(Convert.ToDateTime(item.QM_INSPECTION_DATE).ToString("dd/MM/yyyy"))</td>
+                                                            <td>@item.QM_OVERALL_GRADE</td>
+                                                            <td style="text-align: center">
+                                                                <a href="#" onclick="ViewQualityInspectionDetails(@item.QM_OBSERVATION_ID,'@item.ADMIN_QM_TYPE')">
+                                                                    <span class="ui-icon ui-icon-zoomin ui-align-center"></span>
+                                                                </a>
+                                                            </td>
+                                                        </tr>
+                                                    }
+                                                }
+                                            }
+                                        </table>
+                                    </div>
+                                </div>
+                            </div><!-- /.col -->
+                        </div><!-- /.row -->
+                    </div><!-- /.box-body -->
+                </div><!-- /.box -->
+            </div> <!-- /.col -->
+        </div><!-- /.row -->
+
+    </div>
+}

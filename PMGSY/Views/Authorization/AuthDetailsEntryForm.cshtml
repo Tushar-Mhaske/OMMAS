@@ -1,0 +1,358 @@
+﻿@model PMGSY.Models.Authorization.AuthorizationRequestDetailsModel
+
+@{
+    Layout = null;
+}
+<!DOCTYPE html>
+
+<html>
+<head>
+    <meta name="viewport" content="width=device-width" />
+     <script> var DeductionRequired = '@ViewBag.DeductionScreenRequired';
+         var urlparamsForTransEdit = '@ViewBag.urlparams';
+         var Bill_ID = '@ViewBag.Bill_ID';
+         var Bill_finalized = '@ViewBag.BillFinalized';
+         var paymentRequired = '@ViewBag.PaymentScreenRequired';
+     </script> 
+    <script src="~/Scripts/custom/Generic.js"></script>
+    <script src="~/Scripts/Authorization/AuthorizationTransaction.js"></script>
+</head>
+<body>
+ 
+    <table id="trShowHideLinkTable">
+        <tr id="trnsShowtable">
+            <td style="width:auto;display: none">
+               <span id="HideShowTransForm">
+                 <span id="iconSpan2" class="ui-icon ui-icon-circle-triangle-n" style="float: left"></span>
+                <span ><b>show/hide transaction form   
+                </b></span>
+                   </span>
+            </td>
+            <td>&nbsp;&nbsp;&nbsp;
+            </td>
+
+        </tr>
+    </table>
+    @Html.Hidden("Bill_ID")
+     @Html.HiddenFor(model=>model.CONTRACTOR_ID)
+     @if (@ViewBag.PaymentScreenRequired)
+     {
+    
+     <form id="PaymentTransactionForm">
+         @Html.AntiForgeryToken()
+        
+      @{string style = ViewBag.DeductionScreenRequired == true ? "float: left;vertical-align:top; clear:both; width: 49%; border: solid gray 1px;margin-bottom:5px" : "float: left; width: 98%; border: solid gray 1px;margin-bottom:5px;vertical-align:top; ";
+              }
+            
+                 <div id="PaymentDiv" style="@style" class="ui-corner-all">
+               
+                    <div class="ui-widget-header ui-corner-all">
+                        <span>Add Payment Details</span>
+                    </div>
+                
+                    <table id="PaymentTable" class="rowstyle ui-corner-all" style="width:100%"; cellspacing="1px" >
+                        @*<tr>
+                            <td colspan="2">
+                                <div class="ui-jqgrid-titlebar ui-widget-header ui-corner-top ui-helper-clearfix">
+                                    <span class="ui-icon ui-icon-circle-plus" style="float: left"></span>
+                                    <span class="ui-jqgrid-title" style="float: left; font-weight: bold; height: 20px">Add Payment Details</span>
+                                </div>
+                            </td>
+                        </tr>*@
+                        <tr>
+                        <td colspan="2">
+                            <div id="divDetailsError" class="ui-state-error ui-corner-all" style="text-align: left; display: none; width: 100%">
+                            <span class="ui-icon ui-icon-alert" style="float: left;"></span>
+                            <span></span>
+                            </div>
+                        </td>
+                        </tr>
+                         <tr>
+                        <td style="width:30%">
+                            @Html.LabelFor(model => model.HEAD_ID_P) <label style="color:red">*</label>
+                        </td>
+                        <td>
+                          
+                            @{if (@ViewBag.disablePaymentHead)
+                              { 
+                             @Html.DropDownListFor(model => model.HEAD_ID_P, new SelectList(Model.HeadId_P, "Value", "Text", "Subtransaction is required"), new { Title = "Subtransactions", tabindex = "1", @class = "dropdown", @style = "width:85%", @disabled = "disabled" })
+                           
+                              }
+                              else
+                              {
+                                   @Html.DropDownListFor(model => model.HEAD_ID_P, new SelectList(Model.HeadId_P, "Value", "Text", "Subtransaction is required"), new { Title = "Subtransactions", tabindex = "1", @class = "dropdown", @style = "width:85%" })
+                              }
+                            }
+                           <br />
+                              @Html.ValidationMessageFor(model => model.HEAD_ID_P)
+
+                        </td>
+                    </tr>
+
+                    <tr id="HeadDescTr" style="display:none">
+                     <td id="descPayTd" colspan="2">
+
+                     </td>
+
+                    </tr>
+                    <tr>
+                        <td>
+                            @Html.LabelFor(model => model.AMOUNT_Q)<label style="color:red">*</label>
+                        </td>
+                        <td>
+                            @Html.TextBoxFor(model => model.AMOUNT_Q, new { @title = "Cheque Amount", placeholder = "Enter the Cheque amount",tabindex = "2"})
+                          <br />
+                              @Html.ValidationMessageFor(model => model.AMOUNT_Q)
+                        </td>
+                    </tr>
+                    <tr id="cashAmtTr">
+                        <td>
+                            @Html.LabelFor(model => model.AMOUNT_C)<label style="color:red">*</label>
+                        </td>
+                        <td>
+                            @Html.TextBoxFor(model => model.AMOUNT_C, new { @title = "Cash Amount", placeholder = "Enter the Cash amount" ,tabindex = "3"})
+                            <br />
+                             @Html.ValidationMessageFor(model => model.AMOUNT_C)
+                        </td>
+                    </tr>
+                    <tr class="conAgreement" style="display:none">
+                        <td>
+                            @Html.LabelFor(model => model.IMS_AGREEMENT_CODE_C)<label style="color:red">*</label>
+                        </td>
+                        <td>
+                          
+                              @Html.DropDownListFor(model => model.IMS_AGREEMENT_CODE_C, new SelectList(Model.AGREEMENT_C, "Value", "Text", "Agreement is required"), new { Title = "Contractor Agreement", tabindex = "4", @class = "dropdown", @style = "width:82%" })
+                             <br />
+                            @Html.ValidationMessageFor(model => model.IMS_AGREEMENT_CODE_C)
+
+                        </td>
+                    </tr>
+
+                   
+
+                        <tr class="sanctionYear" style="display:none">
+                            <td>
+                            @Html.LabelFor(model => model.IMS_SANCTION_YEAR)
+                        </td>
+                        <td>
+                             @Html.DropDownListFor(model => model.IMS_SANCTION_YEAR, new SelectList(Model.IMS_SANCTION_YEAR_List, "Value", "Text"), new { Title = "Sactioned Year", tabindex = "5", @class = "dropdown", @style = "width:82%" })
+                           <br />
+                              @Html.ValidationMessageFor(model => model.IMS_SANCTION_YEAR)
+                        </td>
+
+                        </tr>
+
+                         <tr class="sanctionPackage" style="display:none">
+                            <td>
+                            @Html.LabelFor(model => model.IMS_SANCTION_PACKAGE)
+                        </td>
+                        <td>
+                             @Html.DropDownListFor(model => model.IMS_SANCTION_PACKAGE, new SelectList(Model.IMS_SANCTION_PACKAGE_List, "Value", "Text"), new { Title = "Sactioned Package", tabindex = "6", @class = "dropdown", @style = "width:82%" })
+                           <br />
+                              @Html.ValidationMessageFor(model => model.IMS_SANCTION_PACKAGE)
+                        </td>
+
+
+                        </tr>
+
+
+                    <tr class="road" style="display:none">
+                        <td>
+                            @Html.LabelFor(model => model.IMS_PR_ROAD_CODE)<span style="color:red">*</span>
+                        </td>
+                        <td>
+                             @Html.DropDownListFor(model => model.IMS_PR_ROAD_CODE, new SelectList(Model.IMS_PR_ROAD_CODEList, "Value", "Text", "Road is required"), new { Title = "Road", tabindex = "7", @class = "dropdown", @style = "width:82%" })
+                           @* @Html.EditorFor(model => model.IMS_PR_ROAD_CODE)*@
+                           <br />
+                              @Html.ValidationMessageFor(model => model.IMS_PR_ROAD_CODE)
+                        </td>
+                    </tr>
+
+                    <tr class="piu" style="display:none">
+                        <td>
+                            @Html.LabelFor(model => model.MAST_DPIU_CODE)
+                        </td>
+                        <td>
+                           @* @Html.TextBoxFor(model => model.MAST_DISTRICT_CODE)*@
+                             @Html.DropDownListFor(model => model.MAST_DPIU_CODE, new SelectList(Model.MAST_DPIU_CODEList, "Value", "Text", "PIU is required"), new { Title = "Road", tabindex = "8", @class = "dropdown" })
+                            <br />
+                             @Html.ValidationMessageFor(model => model.MAST_DPIU_CODE)
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>
+                            @Html.LabelFor(model => model.NARRATION_P)<label style="color:red">*</label>
+                        </td>
+                        <td>
+                            @Html.TextAreaFor(model => model.NARRATION_P, new { Title = "Narration", @style = "width:82%", placeholder = "Enter the narration of payment" ,tabindex = "9"})
+                           <br />
+                              @Html.ValidationMessageFor(model => model.NARRATION_P)
+                        </td>
+                    </tr>
+                    <tr class="final" style="display:none">
+                        <td>
+                            @Html.LabelFor(model => model.FINAL_PAYMENT)
+                        </td>
+                        <td>
+                            @Html.DropDownListFor(model => model.FINAL_PAYMENT, new SelectList(Model.final_pay, "Value", "Text"), new {Title = "Is Final Payment",  @class = "dropdown",tabindex = "10" })
+                            <br />
+                             @Html.ValidationMessageFor(model => model.FINAL_PAYMENT)
+                        </td>
+                    </tr>
+                     <tr>
+                        <td>
+
+                        </td>
+                        <td>
+
+                        </td>
+                    </tr>
+                    
+                    @{
+                              string style1 = ViewBag.BillFinalized == "Y" ? "display:none" : "";
+                      }  
+                    
+                        <tr>
+                        <td colspan="2" style="text-align: center">
+                            <input type="button" class="jqueryButton"
+                                name="btnPaymentSubmit" id="btnPaymentSubmit" title="Click here to save details" value='Save' style="@style1" tabindex = "11"/>
+                            <input type="button" class="jqueryButton" style="display:none;"
+                                name="btnPaymentUpdate" id="btnPaymentUpdate" title="Click here to update details" value='Update' tabindex = "12"/>
+                            <input type="button" class="jqueryButton"
+                                name="btnPaymentReset" id="btnPaymentReset" title="Click here to reset form" value='Reset' style="@style1" tabindex = "13" />
+                             <input type="button" class="jqueryButton"
+                                name="btnPaymentCancel" id="btnPaymentCancel" title="Click here to cancel" value='Cancel' style="display:none;" tabindex = "14" />
+                        </td>
+
+                    </tr>   
+                     
+                </table>
+                
+            </div>
+        </form>      
+     }
+    @if (ViewBag.DeductionScreenRequired)
+    { 
+         <form id="DeductionTransactionForm">   
+         
+             @Html.AntiForgeryToken()
+                   @{string styleT = ViewBag.PaymentScreenRequired == true ? "float:left; vertical-align:top; width:49%;margin-left:5px;border: solid gray 1px;margin-bottom:5px;" : "float: left; width: 98%;vertical-align:top;  border: solid gray 1px;margin-bottom:5px";
+              }
+            
+                 <div id="DeductionDiv" style="@styleT" class="ui-corner-all">
+             
+                
+                    <div class="ui-widget-header ui-corner-all">
+                        <span >Add Deduction Details</span>
+                    </div>
+               
+
+                <table id="deductionTable" class="rowstyle ui-corner-all" style="width:100%;" cellspacing="1px">
+                    @*<tr>
+                        <td colspan="2">
+                            <div class="ui-jqgrid-titlebar ui-widget-header ui-corner-top ui-helper-clearfix">
+                                <span class="ui-icon ui-icon-circle-plus" style="float: left"></span>
+                                <span class="ui-jqgrid-title" style="float: left; font-weight: bold; height: 20px">Add Deduction Details</span>
+                            </div>
+                        </td>
+                    </tr>*@
+                    
+                      <tr>
+                         <td style="width:30%">
+                            @Html.LabelFor(model => model.HEAD_ID_D) <label style="color:red">*</label>
+
+                        </td>
+                        <td>
+                           @* @Html.EditorFor(model => model.HEAD_ID_D)*@
+                            
+                             @Html.DropDownList("HEAD_ID_D", new SelectList(Model.HeadId_D, "Value", "Text", "Subtransaction is required"), new { Title = "Subtransactions", tabindex = "15", @class = "dropdown", @style = "width:82%" })
+                            <br />
+                             @Html.ValidationMessageFor(model => model.HEAD_ID_D)
+
+                        </td>
+                    </tr>
+                     <tr id="headDescDedTR" style="display:none">
+                     <td id="descDedTd" colspan="2">
+
+                     </td>
+
+                    </tr>
+                    <tr>
+                        <td>
+                            @Html.LabelFor(model => model.AMOUNT_D)<label style="color:red">*</label>
+                        </td>
+                        <td>
+                            @Html.TextBoxFor(model => model.AMOUNT_D, new { Title = "Deduction amount", placeholder = "Enter the deduction amount",tabindex = "16" })
+                           <br />
+                              @Html.ValidationMessageFor(model => model.AMOUNT_D)
+                        </td>
+
+                    </tr>
+                    @{
+                          string trStyle = ViewBag.DeductionAgreementRequired == true ? "display:none" : "";
+                      }
+                     
+                       <tr class="AgreementDed" >
+                        <td>
+                            @Html.LabelFor(model => model.IMS_AGREEMENT_CODE_DED) <label style="color:red">*</label>
+                        </td>
+                        <td>
+                         @{
+                            if (ViewBag.PaymentScreenRequired == false && ViewBag.DeductionScreenRequired == true) { 
+                             @Html.DropDownListFor(model => model.IMS_AGREEMENT_CODE_DED, new SelectList(Model.AGREEMENT_DED, "Value", "Text", "Agreement is required"), new { Title = " Agreement", tabindex = "17", @class = "dropdown", @style = "width:82%" })
+                            }else 
+                            {
+                             @Html.DropDownListFor(model => model.IMS_AGREEMENT_CODE_DED, new SelectList(Model.AGREEMENT_DED, "Value", "Text", "Agreement is required"), new { Title = " Agreement", tabindex = "18", @class = "dropdown", @style = "width:82%",@disabled="disabled"})
+                            }
+                        }
+                              <br />
+
+                            @Html.ValidationMessageFor(model => model.IMS_AGREEMENT_CODE_DED)
+
+                        </td>
+                    </tr>
+            
+                    <tr>
+                        <td>
+                            @Html.LabelFor(model => model.NARRATION_D)<label style="color:red">*</label>
+                        </td>
+                        <td>
+                            @Html.TextAreaFor(model => model.NARRATION_D, new { Title = "Narration", @style = "width:82%", placeholder = "Enter the narration of deduction" ,tabindex = "19"})
+                            <br />
+                             @Html.ValidationMessageFor(model => model.NARRATION_D)
+                        </td>
+
+                    </tr>
+                    <tr>
+                        <td></td>
+                        <td></td>
+                    </tr>
+                      @{  
+                     string style2 = ViewBag.BillFinalized == "Y" ? "display:none" : "";
+                      }  
+                    <tr>
+                        <td colspan="2" style="text-align: center">
+                            <input type="button" class="jqueryButton"
+                                name="btnDeductionSubmit" id="btnDeductionSubmit" title="Click here to save details" value='Save'  style="@style2" tabindex = "20"/>
+
+                            <input type="button" class="jqueryButton" style="display:none"
+                                name="btnDeductionUpdate" id="btnDeductionUpdate" title="Click here update details" value='Update' tabindex = "21"/>
+
+                             <input type="button" class="jqueryButton"
+                                name="btnDeductionReset" id="btnDeductionReset" title="Click here reset from" value='Reset' style="@style2"tabindex = "22" />
+                            <input type="button" class="jqueryButton"
+                                name="btnDeductionCancel" id="btnDeductionCancel" title="Click here to cancel" value='Cancel' style="display:none;" tabindex = "23" />
+                        </td>
+
+                    </tr>
+                     
+                </table>
+
+            </div>
+        </form>      
+            
+    }
+
+        
+</body>
+</html>

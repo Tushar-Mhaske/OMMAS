@@ -1,0 +1,813 @@
+﻿@using PMGSY.Models
+@using PMGSY.Models.Report
+@model PMGSY.Models.Report.CBSingleModel
+@using PMGSY.Extensions
+@using PMGSY.Common
+
+<style type="text/css">
+
+div.CBHeader{
+			padding:5px;
+            width:98%;
+			display:inline-block;
+			cursor:default;
+			/*font:12px/14px Arial, Helvetica, sans-serif;*/
+            font-family: Trebuchet MS,Tahoma,Verdana,Arial,sans-serif;
+			color:#000;
+			background-color:#eee;
+			-moz-border-radius:10px;
+			-webkit-border-radius:10px;
+			-moz-box-shadow:#999 2px 0px 3px;
+			-webkit-box-shadow:#999 2px 0px 3px;
+		}
+</style>
+<link href="~/Content/demo_page.css" rel="stylesheet" />
+<link href="~/Content/demo_table_jui.css" rel="stylesheet" />
+<link href="~/Content/TableTools.css" rel="stylesheet" />
+<link href="~/Content/TableTools_JUI.css" rel="stylesheet" />
+
+@*<script src="~/Scripts/jquery-ui.js"></script>*@
+<script src="~/Scripts/custom/Generic.js"></script>
+<script src="~/Scripts/DataTables/jquery.dataTables.js"></script>
+<script src="~/Scripts/DataTables/ZeroClipboard.js"></script>
+<script src="~/Scripts/DataTables/TableTools.js"></script>
+@*<script src="~/Scripts/DataTables/FixedHeader.js"></script>*@
+<script src="~/Scripts/Report/CashBook.js"></script>
+
+<br/>
+<div class="ui-widget-header innerDivHeader" style="margin-bottom:5px">Cash Book</div>
+@{
+   CommonFunctions objCommonFunction = new CommonFunctions();
+}
+<form id="frmCashBook" >
+    @Html.ValidationSummary(true)
+
+    @Html.Hidden("levelId",PMGSYSession.Current.LevelId)
+    @Html.Hidden("AdminNdCode",PMGSYSession.Current.AdminNdCode)
+
+<center>
+<div class="CBHeader ui-corner-all">
+<table class="ui-state-default ui-corner-all" style="border:0.1em solid gray; width:100%; margin-top:1px" id="tblViewDetails">
+        <tr>
+            <td style="width:2%"></td>
+            
+            @if(PMGSYSession.Current.LevelId==4 || PMGSYSession.Current.LevelId==6)
+            {
+            <td style="text-align:right;width:8%">@Html.RadioButtonFor(model=>model.SRRDA_DPIU,"S",new {@id="rdoSRRDA",@title="SRRDA",@checked="checked"}) @Html.LabelFor(model=>model.SRRDA):</td>            
+            <td style="width:15%">
+                
+                @if(PMGSYSession.Current.LevelId==4)//login DPIU
+                {
+                    @Html.DropDownListFor(model => model.SRRDA, ViewBag.SRRDA as IEnumerable<SelectListItem>, new { @id="ddlSRRDA",@title="SRRDA",@disabled="disabled"})
+                }
+                else
+                {
+                    @Html.DropDownListFor(model => model.SRRDA, ViewBag.SRRDA as IEnumerable<SelectListItem>, new { @id="ddlSRRDA",@title="SRRDA"})
+                }
+
+            </td>
+
+            <td style="width:8%;text-align:right">@Html.RadioButtonFor(model => model.SRRDA_DPIU, "D", new { @id="rdoDPIU",@title="DPIU"})  @Html.LabelFor(model=>model.DPIU):</td>
+            <td style="width:15%">@Html.DropDownListFor(model => model.DPIU, ViewBag.DPIU as IEnumerable<SelectListItem>, new { @id="ddlDPIU",@title="DPIU"})</td>
+            }
+            <td style="text-align:right; font-weight:bold; width:5%">@Html.LabelFor(m=>m.Month)<label style="color:red;"> *</label>:</td>
+            <td style="width:15%">@Html.DropDownListFor(m => m.Month, ViewBag.ddlMonth as IEnumerable<SelectListItem>, new { @title="Month"})</td>
+            <td style="text-align:right; font-weight:bold; width:5%">@Html.LabelFor(m=>m.Year)<label style="color:red;"> *</label>:</td>
+            <td style="width:15%">@Html.DropDownListFor(m => m.Year, ViewBag.ddlYear as IEnumerable<SelectListItem>, new { @title="Year"})</td>
+            <td style="width:5%"><input type="button" id="btnView" value="View Details" class="jqueryButton" title="View Details"></td>        
+        </tr>
+</table>
+
+</div>
+<div class="CBHeader ui-corner-all" id="dvDetails">
+<table class="ui-state-default ui-corner-all" style="border: 0.1em solid gray; width: 100%; margin-top: 1px" id="tblFilter" >
+    
+<tr>
+    <td colspan="5" style="text-align:right;color:green">
+        @Html.DisplayFor(m=>m.ReportNumber)
+    </td>
+</tr>
+<tr>
+    <td colspan="5" style="text-align:center;color:green">
+        @Html.DisplayFor(m=>m.FundType)
+    </td>
+</tr>
+ <tr>
+    <td colspan="5" style="text-align:center;color:green">
+        @Html.DisplayFor(m=>m.ReportName)
+    </td>
+</tr>
+ <tr>
+    <td colspan="5" style="text-align:center;color:green">
+        @Html.DisplayFor(m=>m.ReportParaName)
+    </td>
+</tr>
+<tr>
+    <td><br /></td>
+</tr>
+<tr>
+    <td style="width:5%"></td>
+    <td style="width:08%; color:green">@Html.LabelFor(m=>m.StateDepartment) :</td>
+    <td style="width:40%">@Html.DisplayFor(m=>m.StateDepartment)</td>
+    <td style="color:green; width:17%">@Html.LabelFor(m=>m.DistrictDepartment) :</td>
+    @if(Model.DistrictDepartment!=null)
+    {
+         <td style="width:20%">@Html.DisplayFor(m=>m.DistrictDepartment)</td>
+    }
+    else
+    {
+         <td style="width:20%">@Html.Label("-")</td>
+    }
+</tr>
+
+</table>
+</div>
+<table id="cat_icon" style="width:99%; display:none">
+    <tr>
+        <td id="rec_ico" style="width:33%">
+            <div class="ui-state-default ui-corner-all jqueryButton" title="Click here to view Receipt Details">
+                <span style="float:left" class="ui-icon ui-icon-circle-triangle-w"></span>
+                <span style="float:left; margin-right:5px">Go to Receipt Side</span>
+            </div>
+        </td>
+        <td id="singleCB_ico" style="width:33%; text-align:center">
+            <div class="ui-state-default ui-corner-all jqueryButton" title="Click here to view Single Cashbook Details">
+                <span style="float:left" class="ui-icon ui-icon-circle-triangle-s"></span>
+                <span style="float:left; margin-right:5px">Single Cashbook</span>
+                <span style="float:left" class="ui-icon ui-icon-circle-triangle-s"></span>
+            </div>
+        </td>
+        <td id="pay_ico" style="width:33%; text-align:right">
+            <div class="ui-state-default ui-corner-all jqueryButton" title="Click here to view Payment Details">
+                <span style="float:left; margin-right:5px">Go to Payment Side</span>
+                <span style="float:left" class="ui-icon ui-icon-circle-triangle-e"></span>
+            </div>
+        </td>
+    </tr>
+</table>
+</center>
+
+    @if (Model.SingleCB != null && (Model.SingleCB.ListReceiptCB != null || Model.SingleCB.ListPaymentCB != null))
+    {
+        
+        <div style="width:99%" id="divCBParent">
+        <div id="singleCB">
+            <table id="tblSingleCB"> 
+            @{ 
+                   <thead>
+                       <tr>
+                            <th>Date</th>
+                            <th>Money Receipt / Voucher Number</th>
+                            <th>Particulars of Transactions</th>
+                            <th>Cash(Rs.)</th>
+                            <th>Cheque Number</th>
+
+                           @if (((PMGSYSession.Current.LevelId == 4) || (PMGSYSession.Current.LevelId == 6)) && (Model.SRRDA_DPIU == "S"))
+                           { 
+                            <th>Bank  (in Rs.)</th>
+                           }else
+                           {
+                            <th>Bank Authorization</th>
+                           }
+                            <th>Account Code</th>   
+                            <th>Date</th>
+                            <th>Money Receipt / Voucher Number</th>
+                            <th>Particulars of Transactions</th>
+                            <th>Cash(Rs.)</th>
+                            <th>Cheque Number</th>
+                            @if (((PMGSYSession.Current.LevelId == 4) || (PMGSYSession.Current.LevelId == 6)) && (Model.SRRDA_DPIU == "S"))
+                           { 
+                            <th>Bank  (in Rs.)</th>
+                           }else
+                           {
+                            <th>Bank Authorization</th>
+                           }
+                            <th>Account Code</th> 
+                        </tr>
+                   </thead>
+                    <tfoot>
+                       @if (Model.SingleCB != null && (Model.SingleCB.ListReceiptCB.Count > 0 || Model.SingleCB.ListPaymentCB.Count > 0))
+                       {
+                        <tr>
+                            <td>-</td>
+                            <td>-</td>
+                            <td>Total:</td>
+                            @*<td>@Model.TotalRecCash</td>*@
+                            <td>  
+                                @*@String.Format(new System.Globalization.CultureInfo("en-IN"),"{0:C}",Model.TotalRecCash==null?0:Model.TotalRecCash).Substring(1)*@
+                                
+                                @{ 
+                                   @objCommonFunction._IndianFormatAmount(Model.TotalRecCash == null ? "0" : Model.TotalRecCash.ToString());
+                                }
+
+                            </td>
+                            <td>Total:</td>
+                            @*<td>@Model.TotalRecBank</td>*@
+                            <td>   
+                                @{ 
+                                   @objCommonFunction._IndianFormatAmount(Model.TotalRecBank == null ? "0" : Model.TotalRecBank.ToString());
+                                }
+                            </td>
+                            <td></td>
+                            <td>-</td>
+                            <td>-</td>
+                            <td>Total:</td>
+                            @*<td>@Model.TotalPayCash</td>*@
+                            <td>   
+                                @{ 
+                                    @objCommonFunction._IndianFormatAmount(Model.TotalPayCash == null ? "0" : Model.TotalPayCash.ToString());
+                                }
+                            </td>
+                            <td>Total:</td>
+                            @*<td>@Model.TotalPayBank</td>*@
+                            <td>   
+                                @{ 
+                                    @objCommonFunction._IndianFormatAmount(Model.TotalPayBank == null ?"0" : Model.TotalPayBank.ToString());
+                                }
+                            </td>
+                            <td></td>
+                        </tr> 
+                           <tr>
+                                <td>-</td>
+                                <td>-</td>
+                                <td>-</td>
+                                <td>-</td>
+                                <td>-</td>
+                                <td>-</td>
+                                <td>-</td>
+                                <td style="color:black"><b>@Html.DisplayFor(m => m.ClosingBalace.bill_date)</b></td>
+                                <td><b>-</b></td>
+                                <td style="color:black"><b>@Html.DisplayFor(m => m.ClosingBalace.narration)</b></td>
+                                <td style="color:black">
+                                    <b>
+                                @{ 
+                                    @objCommonFunction._IndianFormatAmount(Model.ClosingBalace.cash==null?"0":Model.ClosingBalace.cash.ToString());
+                                }</b
+                                        ></td>
+                                <td style="color:black"><b>@Html.DisplayFor(m => m.ClosingBalace.cheque_epay)</b></td>
+                                <td style="color:black"><b>
+                                     @{ 
+                                        @objCommonFunction._IndianFormatAmount(Model.ClosingBalace.bank_auth == null ? "0" : Model.ClosingBalace.bank_auth.ToString());
+                                      }</b></td>
+                                <td style="color:black"><b>@Html.DisplayFor(m => m.ClosingBalace.head_code)</b></td>
+                            </tr>
+                       }
+                      
+                       
+                        else
+                        {
+                         <tr>
+                            <td></td>
+                            <td></td>
+                            <td></td>
+                            <td></td>
+                            <td></td>
+                            <td></td>
+                            <td></td>
+                            <td></td>
+                            <td></td>
+                            <td></td>
+                            <td></td>
+                            <td></td>
+                            <td></td>
+                            <td></td>
+                         </tr>
+                             <tr>
+                                <td>-</td>
+                                <td>-</td>
+                                <td>-</td>
+                                <td>-</td>
+                                <td>-</td>
+                                <td>-</td>
+                                <td>-</td>
+                                <td style="color:black"><b>@Html.DisplayFor(m => m.ClosingBalace.bill_date)</b></td>
+                                <td><b>-</b></td>
+                                <td style="color:black"><b>@Html.DisplayFor(m => m.ClosingBalace.narration)</b></td>
+                                <td style="color:black">
+                                    <b>
+                                    @{ 
+                                        @objCommonFunction._IndianFormatAmount(Model.ClosingBalace.cash == null ? "0" : Model.ClosingBalace.cash.ToString());
+                                    }
+                                    </b>
+                                </td>
+                                <td style="color:black"><b>@Html.DisplayFor(m => m.ClosingBalace.cheque_epay)</b></td>
+                                <td style="color:black">
+                                    <b>
+                                    @{ 
+                                        @objCommonFunction._IndianFormatAmount(Model.ClosingBalace.bank_auth == null ? "0" : Model.ClosingBalace.bank_auth.ToString());
+                                    }
+                                    </b>
+                                </td>
+                                <td style="color:black"><b>@Html.DisplayFor(m => m.ClosingBalace.head_code)</b></td>
+                            </tr>
+                       }
+                        
+                    </tfoot>
+                    <tbody> 
+                         @{
+                         if (Model.SingleCB != null && (Model.SingleCB.ListReceiptCB.Count > 0 || Model.SingleCB.ListPaymentCB.Count > 0))
+                         { 
+                          <tr>
+                            <td><b>@Html.DisplayFor(m=>m.OpeningBalace.bill_date)</b></td>
+                            <td><b>@Html.DisplayFor(m=>m.OpeningBalace.bill_no)</b></td>
+                            <td><b>@Html.DisplayFor(m=>m.OpeningBalace.narration)</b></td>
+                            <td>
+                                <b>
+                                    @{ 
+                                        @objCommonFunction._IndianFormatAmount(Model.OpeningBalace.cash == null ? "0": Model.OpeningBalace.cash.ToString());
+                                    }
+                                </b>
+                            </td>
+                            <td><b>@Html.DisplayFor(m=>m.OpeningBalace.cheque_epay)</b></td>
+                            <td>
+                                <b>
+                                @{ 
+                                    @objCommonFunction._IndianFormatAmount(Model.OpeningBalace.bank_auth == null ? "0" : Model.OpeningBalace.bank_auth.ToString());
+                                 }
+                                </b>
+                            </td>
+                            <td><b>@Html.DisplayFor(m=>m.OpeningBalace.head_code)</b></td>            
+                            <td>-</td>
+                            <td>-</td>
+                            <td>-</td>
+                            <td>-</td>
+                            <td>-</td>
+                            <td>-</td>
+                            <td>-</td>
+                        </tr>
+                                      
+                            int iterate = Math.Max(Model.SingleCB.ListReceiptCB.Count, Model.SingleCB.ListPaymentCB.Count);
+                            for (int i = 0; i < iterate; i++)
+                            {
+                                <tr>
+                                    @if (i > Model.SingleCB.ListReceiptCB.Count()-1)
+                                    {
+                                        <td>-</td>
+                                        <td>-</td>
+                                        <td>-</td>
+                                        <td>-</td>
+                                        <td>-</td>
+                                        <td>-</td>
+                                        <td>-</td>
+                                    }
+                                    else
+                                    {
+                                        <td>@Model.SingleCB.ListReceiptCB[i].bill_date.ToString()</td>
+                                        <td>@Model.SingleCB.ListReceiptCB[i].bill_no</td>
+                                        <td>@Model.SingleCB.ListReceiptCB[i].narration</td>
+                                        <td> 
+                                            @{ 
+                                                @objCommonFunction._IndianFormatAmount(Model.SingleCB.ListReceiptCB[i].cash == null ? "0" : Model.SingleCB.ListReceiptCB[i].cash.ToString());
+                                            }
+                                        </td>
+                                        <td>@Model.SingleCB.ListReceiptCB[i].cheque_epay</td>
+                                        <td>
+                                            @{ 
+                                                @objCommonFunction._IndianFormatAmount(Model.SingleCB.ListReceiptCB[i].bank_auth == null ? "0" : Model.SingleCB.ListReceiptCB[i].bank_auth.ToString());
+                                            }
+                                        </td>
+                                        <td>@Model.SingleCB.ListReceiptCB[i].head_code</td>                                
+                                    }
+                                    @if (i > Model.SingleCB.ListPaymentCB.Count()-1)
+                                    {
+                                        <td>-</td>
+                                        <td>-</td>
+                                        <td>-</td>
+                                        <td>-</td>
+                                        <td>-</td>
+                                        <td>-</td>
+                                        <td>-</td>              
+                                    }
+                                    else
+                                    {
+                                        <td>@Model.SingleCB.ListPaymentCB[i].bill_date.ToString()</td>
+                                        <td>@Model.SingleCB.ListPaymentCB[i].bill_no</td>
+                                        <td>@Model.SingleCB.ListPaymentCB[i].narration</td>
+                                        <td>
+                                             @{ 
+                                                @objCommonFunction._IndianFormatAmount(Model.SingleCB.ListPaymentCB[i].cash == null ? "0" : Model.SingleCB.ListPaymentCB[i].cash.ToString());
+                                             }
+                                        </td>
+                                        <td>@Model.SingleCB.ListPaymentCB[i].cheque_epay</td>
+                                        <td>
+                                            @{ 
+                                                @objCommonFunction._IndianFormatAmount(Model.SingleCB.ListPaymentCB[i].bank_auth == null ?"0" : Model.SingleCB.ListPaymentCB[i].bank_auth.ToString());
+                                             }
+                                        </td>
+                                        <td>@Model.SingleCB.ListPaymentCB[i].head_code</td>                                
+                                    }
+                                </tr>
+                            
+
+                            }
+                    
+                         @*<tr>
+                            <td>-</td>
+                            <td>-</td>
+                            <td>-</td>
+                            <td>-</td>
+                            <td>-</td>
+                            <td>-</td>
+                            <td>-</td>
+                            <td><b>@Html.DisplayFor(m => m.ClosingBalace.bill_date)</b></td>
+                            <td><b>-</b></td>
+                            <td><b>@Html.DisplayFor(m => m.ClosingBalace.narration)</b></td>
+                            <td><b>@Html.DisplayFor(m => m.ClosingBalace.cash)</b></td>
+                            <td><b>@Html.DisplayFor(m => m.ClosingBalace.cheque_epay)</b></td>
+                            <td><b>@Html.DisplayFor(m => m.ClosingBalace.bank_auth)</b></td>
+                            <td><b>@Html.DisplayFor(m => m.ClosingBalace.head_code)</b></td>
+                         </tr>*@
+                             
+                             
+                             
+                            }                          
+                        else
+                        {
+                             <tr>
+                                <td><b>@Html.DisplayFor(m=>m.OpeningBalace.bill_date)</b></td>
+                                <td><b>@Html.DisplayFor(m=>m.OpeningBalace.bill_no)</b></td>
+                                <td><b>@Html.DisplayFor(m=>m.OpeningBalace.narration)</b></td>
+                                <td><b>
+                                    @{ 
+                                        @objCommonFunction._IndianFormatAmount(Model.OpeningBalace.cash == null ?"0": Model.OpeningBalace.cash.ToString());
+                                     }
+                                    </b>
+
+                                </td>
+                                <td><b>@Html.DisplayFor(m=>m.OpeningBalace.cheque_epay)</b></td>
+                                <td><b>
+                                    @{ 
+                                        @objCommonFunction._IndianFormatAmount(Model.OpeningBalace.bank_auth == null ?"0" : Model.OpeningBalace.bank_auth.ToString());
+                                     }
+                                    </b></td>
+                                <td><b>@Html.DisplayFor(m=>m.OpeningBalace.head_code)</b></td>     
+                                <td>-</td>
+                                <td>-</td>
+                                <td>-</td>
+                                <td>-</td>
+                                <td>-</td>
+                                <td>-</td>
+                                <td>-</td>
+                            </tr>
+                             <tr>
+                                <td></td>
+                                <td></td>
+                                <td></td>
+                                <td></td>
+                                <td></td>
+                                <td style="text-align:right"><b>No Records</b></td>
+                                <td><b>to Display</b></td>
+                                <td></td>
+                                <td></td>
+                                <td></td>
+                                <td></td>
+                                <td></td>
+                                <td></td>
+                                <td></td>
+                            </tr>
+                            @*<tr>
+                                <td>-</td>
+                                <td>-</td>
+                                <td>-</td>
+                                <td>-</td>
+                                <td>-</td>
+                                <td>-</td>
+                                <td>-</td>
+                                <td><b>@Html.DisplayFor(m => m.ClosingBalace.bill_date)</b></td>
+                                <td><b>-</b></td>
+                                <td><b>@Html.DisplayFor(m => m.ClosingBalace.narration)</b></td>
+                                <td><b>@Html.DisplayFor(m => m.ClosingBalace.cash)</b></td>
+                                <td><b>@Html.DisplayFor(m => m.ClosingBalace.cheque_epay)</b></td>
+                                <td><b>@Html.DisplayFor(m => m.ClosingBalace.bank_auth)</b></td>
+                                <td><b>@Html.DisplayFor(m => m.ClosingBalace.head_code)</b></td>
+                            </tr>*@
+                         }
+                 }
+                </tbody>
+             }
+             </table>
+        </div>
+        <div id="receiptCB" style="display:none">
+            <table id="tblCBReceipt">
+            @{ 
+                <thead>
+                        <tr>
+                            <th>Date</th>
+                            <th>Money Receipt / Voucher Number</th>
+                            <th>Perticulars of Transactions</th>
+                            <th>Cash(Rs.)</th>
+                            <th>Cheque Number</th>
+                           @if (((PMGSYSession.Current.LevelId == 4) || (PMGSYSession.Current.LevelId == 6)) && (Model.SRRDA_DPIU == "S"))
+                           { 
+                            <th>Bank  (in Rs.)</th>
+                           }else
+                           {
+                            <th>Bank Authorization</th>
+                           }
+                            <th>Account Code</th>   
+                        </tr>
+               </thead>     
+               <tfoot>
+                        @if (Model.SingleCB.ListReceiptCB != null && Model.SingleCB.ListReceiptCB.Count > 0)
+                        {
+                            <tr>
+                                <td>-</td>
+                                <td>-</td>
+                                <td>Total:</td>
+                                @*<td>@Model.TotalRecCash</td>*@
+                                <td>
+                                    @*@Model.TotalRecCash*@
+                                    @{ 
+                                        @objCommonFunction._IndianFormatAmount(Model.TotalRecCash == null ? "0" : Model.TotalRecCash.ToString());
+                                     }
+                            </td>
+                                <td>Total:</td>
+                                @*<td>@Model.TotalRecBank</td>*@
+                                <td>
+                                    @{ 
+                                        @objCommonFunction._IndianFormatAmount(Model.TotalRecBank == null ?"0" : Model.TotalRecBank.ToString());
+                                     }
+                            </td>
+                                <td></td>                    
+                            </tr>
+                            <tr>
+                                <td style="color:black"><b>@Html.DisplayFor(m => m.ClosingBalace.bill_date)</b></td>
+                                <td><b>-</b></td>
+                                <td style="color:black"><b>@Html.DisplayFor(m => m.ClosingBalace.narration)</b></td>
+                                <td style="color:black"><b>
+                                    @{ 
+                                        @objCommonFunction._IndianFormatAmount(Model.ClosingBalace.cash == null ? "0" : Model.ClosingBalace.cash.ToString());
+                                     }
+                                                        </b></td>
+                                <td style="color:black"><b>@Html.DisplayFor(m => m.ClosingBalace.cheque_epay)</b></td>
+                                @*<td style="color:black"><b>@String.Format(new System.Globalization.CultureInfo("en-IN"),"{0:C}",Model.ClosingBalace.bank_auth==null?0:Model.ClosingBalace.bank_auth).Substring(1)</b></td>*@
+                                <td style="color:black"><b>
+                                    @{ 
+                                        @objCommonFunction._IndianFormatAmount(Model.ClosingBalace.bank_auth == null ? "0" : Model.ClosingBalace.bank_auth.ToString());
+                                     }
+                                  </b></td>
+                                <td style="color:black"><b>@Html.DisplayFor(m => m.ClosingBalace.head_code)</b></td>
+                            </tr>     
+                        }
+                        else
+                        {
+                            <tr>
+                                <td></td>
+                                <td></td>
+                                <td></td>
+                                <td></td>
+                                <td></td>
+                                <td></td>
+                                <td></td>                    
+                            </tr>
+                            <tr>
+                                <td style="color:black"><b>@Html.DisplayFor(m => m.ClosingBalace.bill_date)</b></td>
+                                <td><b>-</b></td>
+                                <td style="color:black"><b>@Html.DisplayFor(m => m.ClosingBalace.narration)</b></td>
+                                <td style="color:black"><b>
+                                @{ 
+                                    @objCommonFunction._IndianFormatAmount(Model.ClosingBalace.cash == null ? "0" : Model.ClosingBalace.cash.ToString());
+                                 }
+                                </b></td>
+                                <td style="color:black"><b>@Html.DisplayFor(m => m.ClosingBalace.cheque_epay)</b></td>
+                                <td style="color:black">
+                                <b>
+                                @{ 
+                                    @objCommonFunction._IndianFormatAmount(Model.ClosingBalace.bank_auth == null ? "0" : Model.ClosingBalace.bank_auth.ToString());
+                                }
+                                </b></td>
+                                <td style="color:black"><b>@Html.DisplayFor(m => m.ClosingBalace.head_code)</b></td>
+                            </tr>     
+                        }
+               </tfoot>     
+               <tbody>    
+                    <tr>
+                        <td><b>@Html.DisplayFor(m=>m.OpeningBalace.bill_date)</b></td>
+                        <td><b>@Html.DisplayFor(m=>m.OpeningBalace.bill_no)</b></td>
+                        <td><b>@Html.DisplayFor(m=>m.OpeningBalace.narration)</b></td>
+                        <td><b>
+                            @{ 
+                                @objCommonFunction._IndianFormatAmount(Model.OpeningBalace.bank_auth == null ? "0" : Model.OpeningBalace.bank_auth.ToString());
+                             }
+                            </b></td>
+                        <td><b>@Html.DisplayFor(m=>m.OpeningBalace.cheque_epay)</b></td>
+                        <td><b>
+                        @{ 
+                           @objCommonFunction._IndianFormatAmount(Model.OpeningBalace.bank_auth == null ? "0" : Model.OpeningBalace.bank_auth.ToString());
+                         }
+                        </b></td>
+                        <td><b>@Html.DisplayFor(m=>m.OpeningBalace.head_code)</b></td>
+                    </tr> 
+                   @if (Model.SingleCB.ListReceiptCB != null && Model.SingleCB.ListReceiptCB.Count > 0)
+                    {      
+                       
+                        foreach (SP_ACC_CASHBOOK_RECEIPT_SIDE_Result item in Model.SingleCB.ListReceiptCB)
+                            {
+               
+		                    <tr>
+                                <td>@item.bill_date.ToString()</td>
+                                <td>@item.bill_no</td>
+                                <td>@item.narration</td>
+                                <td>
+                                @{ 
+                                    @objCommonFunction._IndianFormatAmount(item.cash == null ? "0" : item.cash.ToString());
+                                }
+                                </td>
+                                <td>@item.cheque_epay</td>
+                                <td>
+                                @{ 
+                                    @objCommonFunction._IndianFormatAmount(item.bank_auth == null ? "0" : item.bank_auth.ToString());
+                                }
+                                </td>
+                                <td>@item.head_code</td>                
+                            </tr>
+                            }
+                    }
+                    else
+                    {
+                            <tr>
+                                <td></td>
+                                <td></td>
+                                <td></td>
+                                <td></td>
+                                <td></td>
+                                <td></td>
+                                <td></td>                    
+                            </tr>
+                            @*<tr>
+                                <td><b>@Html.DisplayFor(m => m.ClosingBalace.bill_date)</b></td>
+                                <td><b>-</b></td>
+                                <td><b>@Html.DisplayFor(m => m.ClosingBalace.narration)</b></td>
+                                <td><b>@Html.DisplayFor(m => m.ClosingBalace.cash)</b></td>
+                                <td><b>@Html.DisplayFor(m => m.ClosingBalace.cheque_epay)</b></td>
+                                <td><b>@Html.DisplayFor(m => m.ClosingBalace.bank_auth)</b></td>
+                                <td><b>@Html.DisplayFor(m => m.ClosingBalace.head_code)</b></td>
+                            </tr>     
+                     }*@
+                   }
+               </tbody>
+            }
+        </table>
+        </div>
+        <div id="paymentCB" style="display:none">
+            <table id="tblCBPayment">
+            @{ 
+                
+                <thead>
+                    <tr>
+                        <th>Date</th>
+                        <th>Money Receipt / Voucher Number</th>
+                        <th>Perticulars of Transactions</th>
+                        <th>Cash(Rs.)</th>
+                        <th>Cheque Number</th>
+                        @if (((PMGSYSession.Current.LevelId == 4) || (PMGSYSession.Current.LevelId == 6)) && (Model.SRRDA_DPIU == "S"))
+                           { 
+                            <th>Bank  (in Rs.)</th>
+                           }else
+                           {
+                            <th>Bank Authorization</th>
+                           }
+                        <th>Account Code</th>               
+                    </tr>        
+                </thead>      
+                <tfoot>            
+                @if (Model.SingleCB.ListPaymentCB != null && Model.SingleCB.ListPaymentCB.Count > 0)
+                {
+                    <tr>
+                        <td>-</td>
+                        <td>-</td>
+                        <td>Total:</td>
+                        @*<td>@Model.TotalPayCash</td>*@
+                        <td>
+                        @{ 
+                            @objCommonFunction._IndianFormatAmount(Model.TotalPayCash == null ? "0" : Model.TotalPayCash.ToString());
+                        }
+                        </td>
+                        <td>Total:</td>
+                        @*<td>@Model.TotalPayBank</td>*@
+                        <td>      
+                        @{ 
+                            @objCommonFunction._IndianFormatAmount(Model.TotalPayBank == null ? "0" : Model.TotalPayBank.ToString());
+                        }
+                        </td>
+
+                        <td></td>
+                    </tr>
+                    <tr>
+                    <td style="color:black"><b>@Html.DisplayFor(m => m.ClosingBalace.bill_date)</b></td>
+                    <td><b>-</b></td>
+                    <td style="color:black"><b>@Html.DisplayFor(m => m.ClosingBalace.narration)</b></td>
+                    <td style="color:black"><b>
+                     @{ 
+                        @objCommonFunction._IndianFormatAmount(Model.TotalPayBank == null ? "0" : Model.ClosingBalace.cash == null ? "0" : Model.ClosingBalace.cash.ToString());
+                     }</b></td>
+                    <td style="color:black"><b>@Html.DisplayFor(m => m.ClosingBalace.cheque_epay)</b></td>
+                    <td style="color:black"><b>
+                     @{ 
+                        @objCommonFunction._IndianFormatAmount(Model.ClosingBalace.bank_auth == null ? "0" : Model.ClosingBalace.bank_auth.ToString());
+                     } </b></td>
+                    <td style="color:black"><b>@Html.DisplayFor(m => m.ClosingBalace.head_code)</b></td>
+                </tr>   
+                }
+                else
+                {
+                    <tr>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>                    
+                    </tr>
+                    <tr>
+                    <td style="color:black"><b>@Html.DisplayFor(m => m.ClosingBalace.bill_date)</b></td>
+                    <td><b>-</b></td>
+                    <td style="color:black"><b>@Html.DisplayFor(m => m.ClosingBalace.narration)</b></td>
+                    <td style="color:black"><b>
+                     @{ 
+                        @objCommonFunction._IndianFormatAmount(Model.ClosingBalace.cash == null ?"0" : Model.ClosingBalace.cash.ToString());
+                     }</b></td>
+                    <td style="color:black"><b>@Html.DisplayFor(m => m.ClosingBalace.cheque_epay)</b></td>
+                    <td style="color:black"><b>
+                    @{ 
+                        @objCommonFunction._IndianFormatAmount(Model.ClosingBalace.bank_auth == null ?"0" : Model.ClosingBalace.bank_auth.ToString());
+                    }</b></td>
+                    <td style="color:black"><b>@Html.DisplayFor(m => m.ClosingBalace.head_code)</b></td>
+                </tr>   
+                }
+               </tfoot>     
+               <tbody>           
+                @if (Model.SingleCB.ListPaymentCB != null && Model.SingleCB.ListPaymentCB.Count > 0)
+                {               
+                    foreach (SP_ACC_CASHBOOK_PAYMENT_SIDE_Result item in Model.SingleCB.ListPaymentCB)
+                    {
+               
+		            <tr>
+                        <td>@item.bill_date.ToString()</td>
+                        <td>@item.bill_no</td>
+                        <td>@item.narration</td>
+                        <td>
+                        @{ 
+                            @objCommonFunction._IndianFormatAmount(item.cash == null ?"0" : item.cash.ToString());
+                        }
+                        </td>
+                        <td>@item.cheque_epay</td>
+                        <td>
+                        @{ 
+                            objCommonFunction._IndianFormatAmount(item.bank_auth == null ?"0" : item.bank_auth.ToString());
+                        }
+                        </td>
+                        <td>@item.head_code</td>               
+                    </tr>
+            
+                    }  
+                }
+                else
+                {
+                    <tr>
+                        <td><b>@Html.DisplayFor(m=>m.OpeningBalace.bill_date)</b></td>
+                        <td><b>@Html.DisplayFor(m=>m.OpeningBalace.bill_no)</b></td>
+                        <td><b>@Html.DisplayFor(m=>m.OpeningBalace.narration)</b></td>
+                        <td><b>
+                            @{ 
+                                @objCommonFunction._IndianFormatAmount(Model.OpeningBalace.bank_auth == null ? "0" : Model.OpeningBalace.bank_auth.ToString());
+                            }
+                        </b></td>
+                        <td><b>@Html.DisplayFor(m=>m.OpeningBalace.cheque_epay)</b></td>
+                        <td><b>
+                         @{ 
+                            @objCommonFunction._IndianFormatAmount(Model.OpeningBalace.bank_auth == null ?"0" : Model.OpeningBalace.bank_auth.ToString());
+                         }
+                            </b></td>
+                        <td><b>@Html.DisplayFor(m=>m.OpeningBalace.head_code)</b></td>
+                    </tr>  
+                    @*<tr>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td style="text-align:right"><b>No Records to Display</b></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>                    
+                    </tr>*@
+                }  
+              @*  <tr>
+                    <td><b>@Html.DisplayFor(m => m.ClosingBalace.bill_date)</b></td>
+                    <td><b>-</b></td>
+                    <td><b>@Html.DisplayFor(m => m.ClosingBalace.narration)</b></td>
+                    <td><b>@Html.DisplayFor(m => m.ClosingBalace.cash)</b></td>
+                    <td><b>@Html.DisplayFor(m => m.ClosingBalace.cheque_epay)</b></td>
+                    <td><b>@Html.DisplayFor(m => m.ClosingBalace.bank_auth)</b></td>
+                    <td><b>@Html.DisplayFor(m => m.ClosingBalace.head_code)</b></td>
+                </tr>   *@
+                </tbody>
+           }        
+               
+        </table>
+        </div>
+        </div>
+        
+    }
+
+</form>

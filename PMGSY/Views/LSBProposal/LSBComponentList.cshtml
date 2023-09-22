@@ -1,0 +1,36 @@
+﻿@*
+    * Project Id    :
+    * Project Name  :   OMMAS II
+    * Name          :   LSBComponentList.cshtml
+    * Description   :   This View is for Listing LSB Components
+    * Author        :   Shyam Yadav
+    * Modified By   :   Shivkumar Deshmukh        
+    * Creation Date :   20-05-2013
+*@
+@model PMGSY.Models.Proposal.LSBComponentModel
+
+<script src="~/Scripts/custom/Generic.js"></script>
+<script src="~/Scripts/Proposal/LSBComponentList.js"></script>
+
+<form id="frmLSBComponentList">
+ @Html.HiddenFor(model => model.IMS_PR_ROAD_CODE)
+    @Html.HiddenFor(model=> model.OPERATION)
+ <div id="dvComponentListing">
+     <table id="tbComponentList"></table>
+     <div id="dvComponentListPager"></div>
+</div>
+
+    <table style="margin-top:10px; text-align:left; width:100%; padding:2px 2px 2px 2px;">
+        <tr>
+            <td id="tdBtnAddComponent" style="text-align:left;display:none">
+                    <input type="button" id="btnAddComponent" name="btnAddComponent" value="Add New" class="jqueryButton"/>
+            </td>
+        </tr>
+        <tr>
+            <td style="text-align:left;">
+                   <div id="dvComponentAdd"></div>
+            </td>
+        </tr>
+    </table>
+
+</form>

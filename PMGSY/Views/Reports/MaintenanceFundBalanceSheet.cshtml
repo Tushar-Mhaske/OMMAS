@@ -1,0 +1,368 @@
+﻿@model PMGSY.Models.Report.Account.BalanceSheet
+@using PMGSY.Models
+@using PMGSY.Extensions 
+
+@{
+    ViewBag.Title = "Balance Sheet";
+}
+<script src="@Url.Content("~/Scripts/custom/Generic.js")" type="text/javascript" ></script>
+<script type="text/javascript" src="@Url.Content("~/Scripts/Report/BalanceSheet.js")"> </script>
+
+
+@{
+    Int32 levelId = PMGSYSession.Current.LevelId;
+    }
+<div>
+    <br />
+   <div class="ui-widget-header innerDivHeader" style="margin-bottom: 05px; height: 20px">
+       Balance Sheet
+       <span style="float: right; margin-right: 2Px; margin-top: 2px" id="idFilterDiv" class="ui-icon ui-icon-circle-triangle-n"></span>
+   </div>
+     
+    <div id="dvShowHideBalanceSheet">
+
+   <div id="divError" style="margin-left: 10px; margin-right: 15px;margin-top:5px;margin-bottom:5px; display: none" class="ui-state-error ui-corner-all">
+        <span class="ui-icon ui-icon-alert " style="float: left"></span>
+        <span id="errorSpan"></span>
+       @Html.ValidationSummary(true)
+   </div>
+   @Html.Hidden("Level",levelId)
+   @Html.Hidden("BalSheetReportLevel",Model.ReportLevel)
+   @Html.Hidden("BalSheetSelectedDPIU",Model.AdminCode)
+   @Html.Hidden("BalSheetSelectedMonth",Model.Month)
+   @Html.Hidden("BalSheetSelectedYear",Model.Year)
+
+
+    <br />
+      
+             @*start of change*@
+                 
+                    @if (PMGSYSession.Current.LevelId != 6)
+                    {
+                       <form id="frmBalanceSheet">
+                           @*added by abhishek kamble 3-dec-2013*@
+                           @Html.HiddenFor(m=>m.IsMonthlyYearly)
+                           @Html.HiddenFor(m=>m.showMonthName)
+                           @Html.HiddenFor(m=>m.showDPIUName)
+                           @* Added by Abhishek kamble 15-jan-2014 for year selection *@
+                           @Html.HiddenFor(m=>m.SelectedYear)
+                           
+
+
+                       <center>
+                       <table id="tblSearch" class="table-content ui-corner-all" style="width: 99%; border: .1em solid gray">
+                       <tr>
+                       @*new change done by Vikram on 10-09-2013*@
+                           @if(PMGSYSession.Current.LevelId == 4)
+                           {
+                           <td style="width:20%">
+
+                           </td>
+                           <td style="width:10%">
+                               Balance Sheet:<span style="color:red">*</span>
+                           </td>
+                           <td style="width:15%">
+                               @Html.RadioButtonFor(model => model.ReportLevel, 'S', new { id = "rdbState" ,@tabindex = 102,@title="State" }) <label  for="rdbState">State</label>
+                           </td>
+                           <td style="width:20%">
+                               @Html.RadioButtonFor(model => model.ReportLevel, 'O', new { id = "rdbSRRDA", @tabindex = 101 ,@title="SRRDA"}) <label for="rdbSRRDA">SRRDA</label>                       
+                           </td>
+                           <td style="width:15%">
+                               @Html.RadioButtonFor(model => model.ReportLevel, 'A', new { id = "rdbAllDPIU" , style="margin-left:20px;",@tabindex = 102 ,@title="All DPIU"}) <label  for="rdbAllDPIU">All DPIU</label>
+                           </td>
+                           <td id="trddlDPIU">
+                               @Html.DropDownListFor(model => model.AdminCode, new SelectList(Model.DPIUList,"Value","Text"), new { @id="ddlDPIUList",@title="Please select DPIU"})     
+                           </td>
+                           }
+                           @*end of change*@
+                           
+                           @*<td style="width:29%" id="tdIsSRRDA">
+                        @if (PMGSYSession.Current.LevelId == 4)
+                        {
+                            @Html.RadioButtonFor(model => model.ReportLevel, 'S', new { id = "rdbState" , style="margin-left:20px;",@tabindex = 102 }) <label  for="rdbState">State</label>
+                            @Html.RadioButtonFor(model => model.ReportLevel, 'O', new { id = "rdbSRRDA", @tabindex = 101 }) <label for="rdbSRRDA"> SRRDA</label>                       
+                            @Html.RadioButtonFor(model => model.ReportLevel, 'A', new { id = "rdbAllDPIU" , style="margin-left:20px;",@tabindex = 102 }) <label  for="rdbAllDPIU">All DPIU</label>
+                        }
+                       </td>
+                       <td id="trddlDPIU">
+                               @Html.DropDownListFor(model => model.AdminCode, new SelectList(Model.DPIUList,"Value","Text"), new { @id="ddlDPIU",@title="Please select DPIU"})     
+                       </td>
+                       <td style="text-align: left; width: 8%">Month <label style="color:red">*</label>
+                       </td>
+                       <td style="text-align: left; width: 20%">
+                           @Html.DropDownListFor(model => model.Month, new SelectList(Model.MonthList, "Value", "Text"), new { Title = " Month", tabindex = 103, @class = "dropdown" })
+                           @Html.ValidationMessageFor(model => model.Month)
+                       </td>
+                       <td style="text-align: left ;width: 8%">Year <label style="color:red">*</label>
+                       </td>
+                       <td style="text-align: left; width: 20%">
+                            @Html.DropDownListFor(model => model.Year, new SelectList(Model.YearList, "Value", "Text"), new { Title = " Year", tabindex = 104, @class = "dropdown" })
+                            @Html.ValidationMessageFor(model => model.Year)
+                       </td>
+                       <td style="text-align:center;">
+                           <input type="button" class="jqueryButton" name="btnViewDetails" id="btnViewDetails" title="Click To See details" value='View Details' tabindex = "105" />
+                       </td>*@
+                       </tr>
+                       <tr>
+                           <td style="width:20%"></td>
+                           <td style="width:10%">
+                               Duration:<span style="color:red">*</span>
+                           </td>
+                           <td style="width:15%">
+                               @Html.RadioButton("Monthly", "M", true, new {@id="rdMonthly",@title="Monthly",@checked = "checked"})
+                               <label>Monthly</label>
+                           </td>
+                           <td colspan="2">
+                               @Html.RadioButton("Yearly", "Y", false, new {@id="rdYearly",@title="Yearly" })
+                               <label style="margin-right:20px">Yearly</label>
+                               @*@Html.DropDownListFor(model => model.Year, new SelectList(Model.YearList, "Value", "Text"), new { id="ddlYear",Title = " Year", tabindex = 104, @class = "dropdown" })
+                               @Html.ValidationMessageFor(model => model.Year)*@
+                           </td>
+                           <td></td>
+                       </tr>
+                       <tr id="trMonthYear">
+                           <td></td>
+                           <td id="trlblMonth">
+                               @Html.LabelFor(model=>model.Month) <span style="color:red">*</span>
+                           </td>
+                           <td id="trddlMonth">
+                                @Html.DropDownListFor(model => model.Month, new SelectList(Model.MonthList, "Value", "Text"), new { @id="ddlBalMonth",Title = " Month", tabindex = 103, @class = "dropdown" })
+                                @Html.ValidationMessageFor(model => model.Month)
+                           </td>
+                           <td colspan="2">
+                                <label style="margin-right:100px">Year <span style="color:red">*</span></label> 
+                                @Html.DropDownListFor(model => model.Year, new SelectList(Model.YearList, "Value", "Text"), new {  @id="ddlBalYear",Title = " Year", tabindex = 104, @class = "dropdown" })
+                                     
+                               @Html.ValidationMessageFor(model => model.Year)
+                           </td>
+                       </tr>
+                       <tr>
+                           
+                           @if (PMGSYSession.Current.LevelId == 5)
+                           {
+                               <td colspan="5">
+                               <center>
+                               <input type="button" class="jqueryButton" name="btnViewDetails" id="btnViewBalanceSheetDetails" title="Click To See details" value='View Details' tabindex = "105" />
+                               </center>
+                           </td>
+                           }
+                           else
+                           { <td></td>
+                           <td colspan="4">
+                               <center>
+                               <input type="button" class="jqueryButton" name="btnViewDetails" id="btnViewBalanceSheetDetails" title="Click To See details" value='View Details' tabindex = "105" />
+                               </center>
+                           </td>
+                           }
+                       </tr>
+                       </table>
+                       </center>
+                       </form>
+                    }
+
+                    @if (PMGSYSession.Current.LevelId == 6)
+                    {
+                       <form id="frmBalanceSheet">
+                            @*added by abhishek kamble 3-dec-2013*@
+                           @Html.HiddenFor(m=>m.IsMonthlyYearly)
+                           @Html.HiddenFor(m=>m.showMonthName)
+                            @Html.HiddenFor(m=>m.showDPIUName)
+                       <center>
+                       <table id="tblSearch" class="table-content ui-corner-all" style="width: 99%; border: .1em solid gray">
+                       <tr>
+                           <td style="width:15%">
+                           </td>
+                           <td style="width:10%">
+                               Balance Sheet:<span style="color:red">*</span>
+                           </td>
+                           <td style="width:15%">
+                               @Html.RadioButtonFor(model => model.ReportLevel, 'S', new { id = "rdbState" ,@tabindex = 102 ,@title="State"}) <label  for="rdbState">State</label>
+                           </td>
+                           <td style="width:20%">
+                               @Html.RadioButtonFor(model => model.ReportLevel, 'O', new { id = "rdbSRRDA", @tabindex = 101 ,@title="SRRDA"}) <label for="rdbSRRDA">SRRDA</label>                       
+                           </td>
+                           <td style="width:15%">
+                               @Html.RadioButtonFor(model => model.ReportLevel, 'A', new { id = "rdbAllDPIU" , style="margin-left:20px;",@tabindex = 102 ,@title="All DPIU"}) <label  for="rdbAllDPIU">All DPIU</label>
+                           </td>
+                       </tr>
+                       <tr id="trStateDPIU">
+                           <td></td>
+                           <td>
+                               <label id="lblState">State</label>
+                           </td>
+                           <td>
+                               @Html.DropDownListFor(model => model.StateAdminCode, new SelectList(Model.NodalAgencyList,"Value","Text"), new { @id="ddlNodalAgency",@title="Please select Agency",@style="width:80%"})     
+                           </td>
+                           <td>
+                               <label id="lblShowDPIU" style="margin-right:20px">DPIU</label>
+                               @Html.DropDownListFor(model => model.AdminCode, new SelectList(Model.DPIUList,"Value","Text"),new { @id="ddlPIUList",@title="Please select PIU"})     
+                           </td>
+                           <td>
+                               
+                           </td>
+                       </tr>
+                       <tr>
+                           <td></td>
+                           <td>
+                               Duration:<span style="color:red">*</span>
+                           </td>
+                           <td>
+                               @Html.RadioButton("Monthly", "M", true, new {@id="rdMonthly",@title="Monthly",@checked = "checked" })
+                               <label>Monthly</label>
+                           </td>
+                           <td colspan="2">
+                               @Html.RadioButton("Yearly", "Y", false, new {@id="rdYearly",@title="Yearly" })
+                               <label style="margin-right:20px">Yearly</label>
+                               @*@Html.DropDownListFor(model => model.Year, new SelectList(Model.YearList, "Value", "Text"), new { id="ddlYear",Title = " Year", tabindex = 104, @class = "dropdown" })
+                               @Html.ValidationMessageFor(model => model.Year)*@
+                           </td>
+                           
+                       </tr>
+                       <tr id="trMonthYear">
+                           <td></td>
+                           <td id="trlblMonth">
+                               @Html.LabelFor(model=>model.Month)<span style="color:red">*</span>
+                           </td>
+                           <td id="trddlMonth">
+                                @Html.DropDownListFor(model => model.Month, new SelectList(Model.MonthList, "Value", "Text"), new {  @id="ddlBalMonth",Title = " Month", tabindex = 103, @class = "dropdown" })
+                                @Html.ValidationMessageFor(model => model.Month)
+                           </td>
+                           <td colspan="2">
+                                <label style="margin-right:120px">Year<span style="color:red">*</span></label>
+                                @Html.DropDownListFor(model => model.Year, new SelectList(Model.YearList, "Value", "Text"), new {  @id="ddlBalYear",Title = " Year", tabindex = 104, @class = "dropdown" })
+                                @Html.ValidationMessageFor(model => model.Year)
+                           </td>
+                       </tr>
+                       <tr>
+                           <td colspan="5">
+                               <center>
+                               <input type="button" class="jqueryButton" name="btnViewDetails" id="btnViewBalanceSheetDetails" title="Click To See details" value='View Details' tabindex = "105" />
+                               </center>
+                           </td>
+                       </tr>
+                       </table>
+                        </center>
+                       </form>
+                    }
+             @*end of change*@
+            @*<tr>
+
+                <td style="width:29%" id="tdIsSRRDA">
+
+                    @if (PMGSYSession.Current.LevelId == 4)
+                    {
+                       
+                       @Html.RadioButtonFor(model => model.ReportLevel, 'O', new { id = "rdbSRRDA", @tabindex = 101 }) <label for="rdbSRRDA"> Nodal Agency</label>                       
+                        @Html.RadioButtonFor(model => model.ReportLevel, 'S', new { id = "rdbState" , style="margin-left:20px;",@tabindex = 102 }) <label  for="rdbState">State</label>
+                        @Html.RadioButtonFor(model => model.ReportLevel, 'A', new { id = "rdbAllDPIU" , style="margin-left:20px;",@tabindex = 102 }) <label  for="rdbAllDPIU">All DPIU</label>
+                    }
+                </td>
+                
+                <td id="trddlDPIU">
+                        @Html.DropDownListFor(model => model.AdminCode, new SelectList(Model.DPIUList,"Value","Text"), new { @id="ddlDPIU",@title="Please select DPIU"})     
+                </td>
+                <td style="text-align: left; width: 8%">Month <label style="color:red">*</label>
+
+                </td>
+                <td style="text-align: left; width: 20%">
+                   
+                    @Html.DropDownListFor(model => model.Month, new SelectList(Model.MonthList, "Value", "Text"), new { Title = " Month", tabindex = 103, @class = "dropdown" })
+                    @Html.ValidationMessageFor(model => model.Month)
+                </td>
+                <td style="text-align: left ;width: 8%">Year <label style="color:red">*</label>
+                </td>
+                <td style="text-align: left; width: 20%">
+                  
+                    @Html.DropDownListFor(model => model.Year, new SelectList(Model.YearList, "Value", "Text"), new { Title = " Year", tabindex = 104, @class = "dropdown" })
+                    @Html.ValidationMessageFor(model => model.Year)
+                </td>
+              
+               <td style="text-align:center;">
+                  
+                   <input type="button" class="jqueryButton" name="btnViewDetails" id="btnViewDetails" title="Click To See details" value='View Details' tabindex = "105" />
+               </td>
+
+            </tr>*@
+        </table>
+        </form>
+        </div>
+        <div id="divBalanceSheet"></div>
+
+
+</div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+@*<div>
+
+      <div class="ui-widget-header innerDivHeader">
+
+    </div>
+    
+    <div id="divError" style="margin-left: 10px; margin-right: 15px;margin-top:5px;margin-bottom:5px; display: none" class="ui-state-error ui-corner-all">
+        <span class="ui-icon ui-icon-alert " style="float: left"></span>
+        <span id="errorSpan"></span>
+        </div>
+   
+    <br />
+      <form id="frmBalanceSheet">
+         <table id="tblSearch" class="table-content ui-corner-all" style="width: 99%; border: .1em solid gray">
+
+            <tr>
+
+                <td style="width:29%" id="tdIsSRRDA">
+
+                    @if(PMGSYSession.Current.LevelId==4)
+                    {
+                       
+                       @Html.RadioButtonFor(model => model.ReportLevel, 'O', new { id = "rdbSRRDA", @tabindex = 101 }) <label for="rdbSRRDA"> Nodal Agency</label>                       
+                        @Html.RadioButtonFor(model => model.ReportLevel, 'S', new { id = "rdbState" , style="margin-left:20px;",@tabindex = 102 }) <label  for="rdbState">State</label>
+                        @Html.RadioButtonFor(model => model.ReportLevel, 'A', new { id = "rdbAllDPIU" , style="margin-left:20px;",@tabindex = 102 }) <label  for="rdbAllDPIU">All DPIU</label>
+                    }
+                </td>
+
+                <td style="text-align: left; width: 8%">Month <label style="color:red">*</label>
+
+                </td>
+                <td style="text-align: left; width: 20%">
+                   
+                    @Html.DropDownListFor(model => model.Month, new SelectList(Model.MonthList, "Value", "Text"), new { Title = " Month", tabindex = 103, @class = "dropdown" })
+                    @Html.ValidationMessageFor(model => model.Month)
+                </td>
+                <td style="text-align: left ;width: 8%">Year <label style="color:red">*</label>
+                </td>
+                <td style="text-align: left; width: 20%">
+                  
+                    @Html.DropDownListFor(model => model.Year, new SelectList(Model.YearList, "Value", "Text"), new { Title = " Year", tabindex = 104, @class = "dropdown" })
+                    @Html.ValidationMessageFor(model => model.Year)
+                </td>
+              
+               <td style="text-align:center;">
+                  
+                   <input type="button" class="jqueryButton" name="btnViewDetails" id="btnViewDetails" title="Click To See details" value='View Details' tabindex = "105" />
+               </td>
+
+            </tr>
+           
+
+        </table>
+      
+     
+
+        </form>
+
+    <div id="divBalanceSheet"></div>
+
+
+
+</div>*@

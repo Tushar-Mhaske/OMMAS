@@ -1,0 +1,80 @@
+﻿@model PMGSY.Models.Master.MasterReasonViewModel
+<script src="~/Scripts/custom/Generic.js"></script>
+<script src="~/Scripts/Master/Master_CreateReason.js"></script>
+
+<div id="dvhdCreateNewReasonDetails" class="ui-corner-top ui-widget-header panelheader" style="text-align: left; height: 20px;">
+    <span class="ui-jqgrid-title" style="float: left">&nbsp;Reason Details</span>
+    <span id="spCollapseIconCN" class="ui-icon ui-icon-circle-triangle-n" style="float: right"></span>
+</div>
+
+<div id="dvCreateNewReasonDetails" style="display: block; border: 1px solid #B5B8C8;">
+    <div id="dvErrorMessage" class="ui-widget ui-state-error ui-corner-all" style="padding: 0.7em .7em; display: none; margin: 5px 5px 5px 5px;" align="left">
+        <span class="ui-icon ui-icon-alert" style="float: left; margin-right: .3em;"></span>
+        <strong>Alert:</strong>
+        <span id="message"></span>
+    </div>
+    <form id="frmMasterReason">
+        @Html.AntiForgeryToken()
+        <center>@Html.ValidationSummary(true)</center>
+        <table style="width: 100%; margin-top: 10px;" class="rowstyle">
+            <tr style="display: none">
+                <td colspan="3">
+                    @Html.HiddenFor(model => model.EncryptedReasonCode)
+                </td>
+            </tr>
+            <tr>
+                <td style="width: 30%;"></td>
+
+                <td style="text-align: left; width: 15%;">
+                    @Html.LabelFor(model => model.MAST_REASON_TYPE)
+                    <label style="color: red;">*</label>
+                </td>
+
+                <td>
+                    @if (Model.EncryptedReasonCode == null)
+                    {
+                        @Html.DropDownListFor(model => model.MAST_REASON_TYPE, Model.ReasonType, "--Select--", new { @title = "Reason Type", id = "ddlReasonType", @tabindex = 1 })
+                        @Html.ValidationMessageFor(model => model.MAST_REASON_TYPE)
+                    }
+                    else
+                    {    
+                        @Html.DropDownListFor(model => model.MAST_REASON_TYPE, Model.ReasonType, new { @title = "Reason Type", id = "ddlReasonType", @disabled = "disabled" })
+                        @Html.HiddenFor(model => model.MAST_REASON_TYPE)
+                    }
+                </td>
+            </tr>
+            <tr>
+                <td style="width: 30%;"></td>
+                <td style="text-align: left; width: 15%;">
+                    @Html.LabelFor(model => model.MAST_REASON_NAME)
+                    <label style="color: red;">*</label>
+                </td>
+                <td>
+                    @Html.TextAreaFor(model => model.MAST_REASON_NAME, new { maxlength = 100,@style="width:50%", @title = "Reason Name", @tabindex = 2, @placeholder = "Enter Reason Name..." })
+                    @Html.ValidationMessageFor(model => model.MAST_REASON_NAME)
+                </td>
+            </tr>
+            <tr>
+                <td></td>
+                <td></td>
+                <td>
+                    @if (Model.EncryptedReasonCode == null)
+                    {
+                        <input type="button" id="btnSave" name="btnSave" value="Save" class="jqueryButton" title="Save Reason Details" tabindex="3" /> 
+                        <input type="reset" id="btnReset" name="btnReset" value="Reset" class="jqueryButton" title="Reset" tabindex="4" />
+                    }
+                    else
+                    {   
+                        <input type="button" id="btnUpdate" name="btnUpdate" value="Update" class="jqueryButton" title="Update Reason Details" tabindex="3" /> 
+                        <input type="button" id="btnCancel" name="btnCancel" value="Cancel" class="jqueryButton" title="Cancel" tabindex="4" />
+                    }
+                </td>
+            </tr>
+            <tr>
+                <td colspan="3">
+                    <label style="border: none">[ Note: Fields marked with<label style="color: red;"> * </label>are mandatory.]</label>
+                </td>
+            </tr>
+        </table>
+    </form>
+</div>

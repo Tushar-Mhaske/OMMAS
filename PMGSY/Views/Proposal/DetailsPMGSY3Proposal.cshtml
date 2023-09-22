@@ -1,0 +1,1397 @@
+﻿@*
+    * Project Id    :
+    * Project Name  :   OMMAS II
+    * Name          :   Details.cshtml
+    * Description   :   This View displays Details of Road Proposal
+    * Author        :   Shivkumar Deshmukh   
+    * Modified By   :   Shyam Yadav     
+    * Creation Date :   08/April/2013    
+*@
+
+@model PMGSY.Models.Proposal.ProposalViewModelPMGSY3
+
+<script src="~/Scripts/jquery.ui.accordion.js"></script>
+<script src="~/Scripts/custom/Generic.js"></script>
+<script src="~/Scripts/Proposal/DisplayProposalPMGSY3.js"></script>
+@*<script src="~/Scripts/Execution/ViewExecutionProgressDetails.js"></script>*@
+<style type="text/css">
+    #preview {
+        border: 1px solid #ccc;
+        position: absolute;
+        background: #333;
+        padding: 5px;
+        display: none;
+        color: #fff;
+    }
+
+    td {
+        height: 20px;
+        text-align: left;
+    }
+
+    body {
+        text-align: left;
+    }
+</style>
+<div class="ui-corner-all ui-state-highlight" style="border: solid 1px black; text-align: left">
+    <table style="width: 100%">
+        <tr>
+            @Html.HiddenFor(m => m.encrProposalCode)
+            <td style="text-align: right; width: 10%; font-weight: bold">@Html.LabelFor(model => model.IMS_YEAR):</td>
+            <td style="text-align: left; width: 7%;">@Html.DisplayFor(model => model.IMS_YEAR) - @Convert.ToInt32(Model.IMS_YEAR + 1)  </td>
+
+            <td style="text-align: right; font-weight: bold; width: 7%;">@Html.LabelFor(model => model.IMS_BATCH):</td>
+            <td style="text-align: left; width: 10%;">Batch @Html.DisplayFor(model => model.IMS_BATCH)</td>
+
+            <td style="text-align: right; font-weight: bold; width: 10%;">@Html.LabelFor(model => model.IMS_PACKAGE_ID):</td>
+            <td style="text-align: left; width: 5%;">@Html.DisplayFor(model => model.IMS_PACKAGE_ID)</td>
+
+            <td style="text-align: right; font-weight: bold; width: 10%">@Html.LabelFor(model => model.IMS_ROAD_NAME):</td>
+            <td style="text-align: left; width: 15%;">@Html.DisplayFor(model => model.IMS_ROAD_NAME)</td>
+
+            <td style="text-align: right; font-weight: bold; width: 10%">@Html.LabelFor(model => model.IMS_PAV_LENGTH):</td>
+            <td style="text-align: left; width: 10%">@Html.DisplayFor(model => model.IMS_PAV_LENGTH)&nbsp;Kms.</td>
+        </tr>
+    </table>
+</div>
+<div id="tabs">
+    <ul>
+        <li><a href="#tabs-1">Proposal</a></li>
+        <li><a href="#tabs-2" onclick="ShowHabitations();return false;">Habitations</a></li>
+        <li><a href="#tabs-3">Traffic Intensity</a></li>
+        <li><a href="#tabs-4">CBR</a></li>
+        <li><a href="#tabs-5">Files</a></li>
+        <li><a href="#tabs-6">Technology</a></li>
+        <li><a href="#tabs-7" onclick="LoadStaSanctionForm();">STA Scrutiny</a></li>
+        <li><a href="#tabs-8" onclick="LoadPtaSanctionForm();">PTA Scrutiny</a></li>
+
+        @if (PMGSY.Extensions.PMGSYSession.Current.RoleCode == 3 || PMGSY.Extensions.PMGSYSession.Current.RoleCode == 36 || PMGSY.Extensions.PMGSYSession.Current.RoleCode == 17)
+        {
+            <li><a href="#tabs-9" onclick="LoadTestResultForm();">Test Result</a></li>
+        }
+
+        <li><a href="#tabs-10" onclick="LoadMordSanctionForm();">MORD @*Sanction*@</a></li>
+
+        @if (Model.IMS_SANCTIONED == "Y" && (PMGSY.Extensions.PMGSYSession.Current.RoleCode == 25 || PMGSY.Extensions.PMGSYSession.Current.RoleCode == 36 || PMGSY.Extensions.PMGSYSession.Current.RoleCode == 17))
+        {
+            <li><a href="#tabs-11" onclick="LoadRevisedCostLengthForm();">Revised Cost/Length</a></li>
+        }
+
+        @if (PMGSY.Extensions.PMGSYSession.Current.RoleCode == 2 || PMGSY.Extensions.PMGSYSession.Current.RoleCode == 37 || PMGSY.Extensions.PMGSYSession.Current.RoleCode == 25 || PMGSY.Extensions.PMGSYSession.Current.RoleCode == 36 || PMGSY.Extensions.PMGSYSession.Current.RoleCode == 22 || PMGSY.Extensions.PMGSYSession.Current.RoleCode == 17 || PMGSY.Extensions.PMGSYSession.Current.RoleCode == 54 || PMGSY.Extensions.PMGSYSession.Current.RoleCode == 55 || PMGSY.Extensions.PMGSYSession.Current.RoleCode == 65)///Changes for RCPLWE and Mord View
+        { 
+            <li><a href="#tabs-12" onclick="LoadAgreementDetails();">Agreement</a></li>
+            <li><a href="#tabs-13" onclick="LoadExecutionDetails();">Execution</a></li>
+            <li><a href="#tabs-14" onclick="LoadMaintenanceDetails();">Maintenance</a></li>
+        }
+        @if (PMGSY.Extensions.PMGSYSession.Current.RoleCode == 2 || PMGSY.Extensions.PMGSYSession.Current.RoleCode == 3 || PMGSY.Extensions.PMGSYSession.Current.RoleCode == 15 || PMGSY.Extensions.PMGSYSession.Current.RoleCode == 55)///Changes for RCPLWE
+        {
+            <li><a href="#tabs-15">Performance Report</a></li>
+        }
+        <li><a href="#tabs-16">Forest Clearance</a></li>
+
+    </ul>
+
+    <div id="tabs-1">
+        <div style="height: 20px; width: 100%; text-align: left; padding-top: 0.6em;" class="ui-state-default ui-corner-all">
+            &nbsp; <strong>Note :</strong>  All Amounts are in Lakhs and All Lengths in Kms.
+        </div>
+        @Html.HiddenFor(model => model.IMS_PR_ROAD_CODE)
+        @Html.HiddenFor(model => model.IMS_LOCK_STATUS)
+        @Html.Hidden("hdnRoleCode", PMGSY.Extensions.PMGSYSession.Current.RoleCode)
+
+        <table class="rowstyle" id="tblProposal" style="text-align: left; border: ridge 0.1em #ccc; width: 100%; padding: 5px 5px 5px 5px;">
+            <tr>
+                <td style="width: 15%; height: 25px; text-align: left">Name of State  </td>
+                <td style="width: 25%; text-align: left">
+                    <strong>@Model.StateName</strong>
+                </td>
+                <td style="width: 15%; text-align: left; height: 25px;">District</td>
+                <td style="width: 25%; text-align: left;"><strong>@Model.DistrictName</strong></td>
+            </tr>
+
+            <tr class="ui-widget-header">
+                <td style="text-align: left;">Construction Type</td>
+                @{
+                    if (Model.IMS_UPGRADE_CONNECT == "N")
+                    {
+                    <td colspan="3">New Proposal</td>
+                    }
+                    else
+                    {
+                    <td colspan="3">Upgradation Proposal</td>
+                    }
+                }
+            </tr>
+            @{
+                if (Model.IMS_UPGRADE_CONNECT == "U")
+                {
+                <tr id="ExistingSurface" style="text-align: left">
+                    <td>
+                        @Html.LabelFor(model => model.MAST_EXISTING_SURFACE_CODE)
+                    </td>
+                    <td style="text-align: left">
+                        @Html.DisplayFor(model => model.MAST_EXISTING_SURFACE_NAME)
+                    </td>
+                    <td colspan="2"></td>
+                </tr>
+                }
+            }
+            <tr>
+                <td style="text-align: left;">
+                    @Html.LabelFor(model => model.IMS_YEAR)
+                </td>
+                <td style="text-align: left;">
+                    @Html.DisplayFor(model => model.IMS_YEAR) - @Convert.ToInt32(Model.IMS_YEAR + 1)
+                </td>
+                <td style="text-align: left;">
+                    @Html.LabelFor(model => model.IMS_BATCH)
+                </td>
+                <td style="text-align: left;">Batch @Html.DisplayFor(model => model.IMS_BATCH)
+                </td>
+            </tr>
+            <tr>
+                <td style="text-align: left">
+                    @Html.LabelFor(model => model.MAST_BLOCK_CODE)
+                </td>
+                <td style="text-align: left">
+                    @Html.DisplayFor(model => model.MAST_BLOCK_NAME)
+                </td>
+
+                <td>
+                    @Html.LabelFor(model => model.IMS_COLLABORATION)
+                </td>
+                <td colspan="3">
+                    @Html.DisplayFor(model => model.MAST_FUNDING_AGENCY_NAME)
+                </td>
+            </tr>
+            <tr class="ui-widget-header">
+                @Html.DisplayFor(model => model.IMS_EXISTING_PACKAGE)
+            </tr>
+            <tr id="trPackageText">
+                <td>
+                    @Html.LabelFor(model => model.IMS_PACKAGE_ID)
+                </td>
+                <td>
+                    @Html.DisplayFor(model => model.IMS_PACKAGE_ID)
+                </td>
+                <td>
+                    @Html.LabelFor(model => model.MAST_STREAM_NAME)
+                </td>
+                <td>
+                    @Html.DisplayFor(model => model.MAST_STREAM_NAME)
+                </td>
+            </tr>
+
+            <tr id="trComplete">
+                <td>Proposal Type 
+                </td>
+                <td colspan="3">
+                    @{
+                        if (Model.IMS_IS_STAGED.ToUpper() == "S")
+                        {
+                        <text> Staged :   </text>
+                            if (Model.IMS_STAGE_PHASE == "S1")
+                            {
+                        <text>Stage 1 </text>
+                            }
+                            else
+                            {
+                        <text>Stage 2 </text>
+                            }
+                        }
+                        else
+                        {
+                        <text> Complete </text>
+                        }
+                                        
+                    }
+                </td>
+            </tr>
+
+            @{
+                if (Model.IMS_STAGE_PHASE == "S2")
+                {
+                <tr id="trStageII">
+                    <td>Staged Year
+                    </td>
+                    <td>
+                    @Html.DisplayFor(model => model.IMS_STAGED_YEAR)
+                    <td>Staged Package ID 
+                    </td>
+                    <td>
+                        @Html.DisplayFor(model => model.IMS_STAGED_PACKAGE_ID)
+                    </td>
+                </tr>
+                }
+            }
+
+            <tr>
+                <td>
+                    @Html.LabelFor(model => model.PLAN_CN_ROAD_CODE)
+                </td>
+                <td colspan="3">
+                    <strong>@Html.DisplayFor(model => model.PLAN_RD_NAME)</strong>
+                </td>
+            </tr>
+
+            @{
+                if (Model.IMS_UPGRADE_CONNECT == "U")
+                {
+                    if (Model.IMS_ISBENEFITTED_HABS == "Y")
+                    {
+                <tr>
+                    <td>
+                        @Html.LabelFor(model => model.IMS_ISBENEFITTED_HABS)
+                    </td>
+                    <td colspan="3">Yes
+                    </td>
+                </tr>    
+                    }
+                    else
+                    {
+                <tr>
+                    <td>
+                        @Html.LabelFor(model => model.IMS_ISBENEFITTED_HABS)
+                    </td>
+                    <td>No
+                    </td>
+                    <td>
+                        @Html.LabelFor(model => model.IMS_HABS_REASON)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(model => model.HABS_REASON_TEXT)
+                    </td>
+                </tr>    
+                    }
+                }                                    
+            }
+
+            <tr>
+                <td>
+                    @Html.LabelFor(model => model.IMS_PARTIAL_LEN)
+                </td>
+                <td colspan="3">
+                    @Html.DisplayFor(model => model.IMS_PARTIAL_LEN)
+                </td>
+            </tr>
+
+            <tr>
+                <td>
+                    @Html.LabelFor(model => model.IMS_ROAD_FROM)
+                </td>
+                <td>
+                    @Html.DisplayFor(model => model.IMS_ROAD_FROM)
+                </td>
+                <td>
+                    @Html.LabelFor(model => model.IMS_ROAD_TO)
+                </td>
+                <td>
+                    @Html.DisplayFor(model => model.IMS_ROAD_TO)
+                </td>
+            </tr>
+
+            <tr>
+                <td>
+                    @Html.LabelFor(model => model.IMS_ROAD_NAME)
+                </td>
+                <td colspan="3">
+                    @Html.DisplayFor(model => model.IMS_ROAD_NAME)
+                </td>
+            </tr>
+
+            <tr id="trTEchnicalDetails" class="ui-widget-header">
+                <td colspan="4">Technical Details </td>
+            </tr>
+
+
+              @if (PMGSY.Extensions.PMGSYSession.Current.PMGSYScheme==4)
+            {
+            <tr id="trCarriageway" class="ui-widget-header">
+                <td colspan="4">Existing Carriagway Details </td>
+            </tr>
+              <tr>
+                <td>
+                    @Html.Label(" Existing Carriageway Width (Meters)")
+                </td>
+                <td>
+                    @Html.DisplayFor(model => model.EXISTING_CARRIAGEWAY_WIDTH)
+                </td>
+                <td>
+                    @Html.Label("Current PCU Per Day")
+                </td>
+                <td>
+                    @Html.DisplayFor(model => model.EXISTING_CARRIAGEWAY_PUC)
+                </td>
+            </tr>
+            }
+
+
+
+            <tr>
+                <td>
+                    @Html.LabelFor(model => model.IMS_CC_LENGTH)
+                </td>
+                <td>
+                    @if (Model.IMS_CC_LENGTH.HasValue)
+                    {
+                        @Model.IMS_CC_LENGTH
+                    }
+                    else
+                    {
+                        <span>NA</span> 
+                    }
+                </td>
+                <td>
+                    @Html.LabelFor(model => model.IMS_BT_LENGTH)
+                </td>
+                <td>
+                    @if (Model.IMS_BT_LENGTH.HasValue)
+                    {
+                        @Model.IMS_BT_LENGTH
+                    }
+                    else
+                    {
+                        <span>NA</span> 
+                    }
+                </td>
+            </tr>
+            <tr>
+                <td>
+                    @Html.LabelFor(model => model.IMS_PAV_LENGTH)
+
+                </td>
+                <td colspan="3">
+                    @Html.DisplayFor(model => model.IMS_PAV_LENGTH)
+                </td>
+            </tr>
+
+            @if (Model.PMGSYScheme == 4)
+            {
+                <tr>
+                    <td colspan="3">
+                        @Html.LabelFor(model => model.IMS_IS_HIGHER_SPECIFICATION)
+
+                    </td>
+                    <td>
+                        @if (Model.IMS_IS_HIGHER_SPECIFICATION.Equals("Y"))
+                        {
+                            <label>Yes </label>
+                        }
+                        else
+                        {
+                            <label>No </label>
+                        }
+
+                    </td>
+                </tr>
+                
+                        if (Model.IMS_IS_HIGHER_SPECIFICATION.Equals("Y"))
+                        {
+                <tr>
+                    <td colspan="3">
+                        @Html.LabelFor(model => model.IMS_HIGHER_SPECIFICATION_COST)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(model => model.IMS_SANCTIONED_HS_AMT)
+                    </td>
+                </tr>
+                        }
+               
+                <tr>
+                    <td colspan="3">
+                        @Html.LabelFor(model => model.IMS_SHARE_PERCENT)
+
+                    </td>
+                    <td>
+                        @if (Model.IMS_SHARE_PERCENT == 1)
+                        {
+                            <label>Yes </label>
+                        }
+                        else
+                        {
+                            <label>No </label>
+                        }
+
+                    </td>
+                </tr>                         
+            }
+            <tr>
+                <td>
+                    @Html.Label("Riding Quality Length")
+                </td>
+                <td>
+                    @Html.DisplayFor(model => model.ImsRidingQualityLength)
+                </td>
+                <td></td>
+                <td></td>
+            </tr>
+            @*Pavement Cost Details*@
+            <tr></tr>
+            <tr id="trPavementCostDetails" class="ui-widget-header">
+                <td colspan="4">Pavement Cost Details (Including GST)</td>
+            </tr>
+            <tr>
+                <td>
+                    @Html.Label("Clearing Cost")
+                </td>
+                <td>
+                    @Html.DisplayFor(model => model.ImsClearing)
+                </td>
+
+                <td>
+                    @Html.Label("Excavation Cost")
+                </td>
+                <td>
+                    @Html.DisplayFor(model => model.ImsExcavation)
+                </td>
+            </tr>
+            <tr>
+                <td>
+                    @Html.Label("Filling Cost")
+                </td>
+                <td>
+                    @Html.DisplayFor(model => model.ImsFilling)
+                </td>
+                <td>
+                    @Html.Label("Sub Grade Cost")
+                </td>
+                <td>
+                    @Html.DisplayFor(model => model.ImsSubGrade)
+                </td>
+            </tr>
+            <tr>
+                <td>
+                    @Html.Label("Shoulder Cost")
+                </td>
+                <td>
+                    @Html.DisplayFor(model => model.ImsShoulder)
+                </td>
+
+                <td>
+                    @Html.Label("Sub Granular Grade Cost")
+                </td>
+                <td>
+                    @Html.DisplayFor(model => model.ImsGranularSubBase)
+                </td>
+            </tr>
+            <tr>
+                <td>
+                    @Html.Label("Soil Aggregate Cost")
+                </td>
+                <td>
+                    @Html.DisplayFor(model => model.ImsSoilAggregate)
+                </td>
+
+                <td>
+                    @Html.Label("WBM Grade II Cost")
+                </td>
+                <td>
+                    @Html.DisplayFor(model => model.ImsWBMGradeII)
+                </td>
+            </tr>
+            <tr>
+                <td>
+                    @Html.Label("WBM Grade III Cost")
+                </td>
+                <td>
+                    @Html.DisplayFor(model => model.ImsWBMGradeIII)
+                </td>
+                <td>
+                    @Html.Label("WMM Cost")
+                </td>
+                <td>
+                    @Html.DisplayFor(model => model.ImsWMM)
+                </td>
+            </tr>
+            <tr>
+                <td>
+                    @Html.Label("Prime Coat Cost")
+                </td>
+                <td>
+                    @Html.DisplayFor(model => model.ImsPrimeCoat)
+                </td>
+                <td>
+                    @Html.Label("Tack Coat Cost")
+                </td>
+                <td>
+                    @Html.DisplayFor(model => model.ImsTackCoat)
+                </td>
+            </tr>
+            <tr>
+                <td>
+                    @Html.Label("BM DBM Cost")
+                </td>
+                <td>
+                    @Html.DisplayFor(model => model.ImsBMDBM)
+                </td>
+                <td>
+                    @Html.Label("OGPC SDBC BC Cost")
+                </td>
+                <td>
+                    @Html.DisplayFor(model => model.ImsOGPC_SDBC_BC)
+                </td>
+            </tr>
+            <tr>
+                <td>
+                    @Html.Label("Seal Coat Cost")
+                </td>
+                <td>
+                    @Html.DisplayFor(model => model.ImsSealCoat)
+                </td>
+                <td>
+                    @Html.Label("Surface Dressing Cost")
+                </td>
+                <td>
+                    @Html.DisplayFor(model => model.ImsSurfaceDressing)
+                </td>
+            </tr>
+            <tr>
+                <td>
+                    @Html.Label("Dry Lean Concrete Cost")
+                </td>
+                <td>
+                    @Html.DisplayFor(model => model.ImsDryLeanConcrete)
+                </td>
+                <td>
+                    @Html.Label("Concrete Pavement Cost")
+                </td>
+                <td>
+                    @Html.DisplayFor(model => model.ImsConcretePavement)
+                </td>
+            </tr>
+            @*Pavement Cost Details*@
+            <tr>
+
+                <td>
+                    @Html.LabelFor(model => model.IMS_SANCTIONED_PAV_AMT)
+                </td>
+                <td>
+                    @Html.DisplayFor(model => model.IMS_SANCTIONED_PAV_AMT)
+                </td>
+            </tr>
+            @*Other Cost Details*@
+            <tr></tr>
+            <tr id="trOtherCostDetails" class="ui-widget-header">
+                <td colspan="4">Other Cost Details (Including GST)</td>
+            </tr>
+            <tr>
+                <td>
+                    @Html.Label("Pucca Side Drains Cost")
+                </td>
+                <td>
+                    @Html.DisplayFor(model => model.ImsPuccaSideDrains)
+                </td>
+
+                <td></td>
+                <td></td>
+            </tr>
+
+            <tr>
+                <td>
+                    @Html.LabelFor(model => model.IMS_NO_OF_CDWORKS)
+                </td>
+                <td>
+                    @Html.DisplayFor(model => model.IMS_NO_OF_CDWORKS)
+                </td>
+
+                <td>
+                    @Html.LabelFor(model => model.IMS_SANCTIONED_CD_AMT)
+                </td>
+                <td>
+                    @Html.DisplayFor(model => model.IMS_SANCTIONED_CD_AMT)
+                </td>
+            </tr>
+
+            <tr>
+                <td>
+                    @Html.LabelFor(model => model.IMS_SANCTIONED_PW_AMT)
+                </td>
+                <td>
+                    @Html.DisplayFor(model => model.IMS_SANCTIONED_PW_AMT)
+                </td>
+
+                <td>
+                    @Html.LabelFor(model => model.IMS_SANCTIONED_OW_AMT)
+                </td>
+                <td>
+                    @Html.DisplayFor(model => model.IMS_SANCTIONED_OW_AMT)
+                </td>
+            </tr>
+
+            @if (Model.PMGSYScheme == 4)
+            { 
+                <tr>
+                    <td>
+                        @Html.LabelFor(model => model.IMS_FURNITURE_COST)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(model => model.IMS_SANCTIONED_FC_AMT)
+                    </td>
+                    <td>
+                        @Html.LabelFor(model => model.IMS_TOTAL_COST)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(model => model.IMS_TOTAL_COST)
+                    </td>
+                </tr>
+                
+                <tr style="text-align: left; display: none;">
+                    <td>
+                        @Html.LabelFor(model => model.IMS_STATE_SHARE)
+                        @if (Model.IMS_SHARE_PERCENT == 1)
+                        {
+                            <label>(10% of Total Cost) </label>  
+                        }
+                        else if (Model.IMS_SHARE_PERCENT == 1)
+                        {
+                            <label>(25% of Total Cost) </label>  
+                        }
+                    </td>
+                    <td>
+                        @Html.DisplayFor(model => model.IMS_SANCTIONED_RS_AMT)
+                    </td>
+                    <td>
+                        @Html.LabelFor(model => model.IMS_SANCTIONED_AMOUNT)
+                        @if (Model.IMS_SHARE_PERCENT == 1)
+                        {
+                            <label>(90% of Total Cost) </label>  
+                        }
+                        else if (Model.IMS_SHARE_PERCENT == 1)
+                        {
+                            <label>(75% of Total Cost) </label>  
+                        }
+                    </td>
+                    <td>
+                        @Html.DisplayFor(model => model.IMS_SANCTIONED_AMOUNT)
+                    </td>
+                </tr>
+                
+                <tr style="text-align: left; display: none;">
+                    <td>
+                        <label>State Cost including Higher Specification Cost (Rs Lakhs)</label>
+                    </td>
+                    <td>
+                        @{
+                        var stateWithHSCost = Convert.ToDecimal(@Model.IMS_SANCTIONED_RS_AMT) + Convert.ToDecimal(@Model.IMS_SANCTIONED_HS_AMT);
+                        }
+                        <label>@stateWithHSCost</label>
+                    </td>
+                    <td>
+                        <label>Total Project Cost including Higher Specification Cost (Rs Lakhs)</label>
+                    </td>
+                    <td>
+                        @{
+                        var totalProjectCost = Convert.ToDecimal(@Model.IMS_TOTAL_COST) + Convert.ToDecimal(@Model.IMS_SANCTIONED_HS_AMT);
+                        }
+                        <label>@totalProjectCost</label>
+
+                    </td>
+                </tr>
+                        
+            }
+            else
+            {
+                <tr>
+                    <td>
+                        @Html.LabelFor(model => model.IMS_STATE_SHARE)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(model => model.IMS_SANCTIONED_RS_AMT)
+                    </td>
+                    <td>
+                        @Html.LabelFor(model => model.IMS_TOTAL_COST)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(model => model.IMS_TOTAL_COST)
+                    </td>
+                </tr>
+            }
+            <tr>
+                <td colspan="4" class="ui-widget-header">Fund Sharing Ratio</td>
+            </tr>
+            <tr style="text-align: left;">
+                <td>
+                    @Html.LabelFor(model => model.IMS_SHARE_PERCENT_2015)
+                </td>
+                <td colspan="3">
+                    @switch (Model.IMS_SHARE_PERCENT_2015)
+                    {
+                        case 1:
+                        <label>(75% / 25%)</label>
+                            break;
+                        case 2:
+                        <label>(90% / 10%)</label>
+                            break;
+                        case 3:
+                        <label>(60% / 40%)</label>
+                            break;
+                        case 4:
+                        <label>(100% / 0%)</label>
+                            break;
+                    }
+                </td>
+            </tr>
+            <tr>
+                <td>
+                    @Html.LabelFor(model => model.IMS_STATE_SHARE_2015)
+                </td>
+                <td>
+                    @Html.DisplayFor(model => model.IMS_STATE_SHARE_2015)
+                </td>
+                <td>
+                    @Html.LabelFor(model => model.IMS_MORD_SHARE_2015)
+                </td>
+                <td>
+                    @Html.DisplayFor(model => model.IMS_MORD_SHARE_2015)
+                </td>
+            </tr>
+            <tr>
+                <td>
+                    @Html.LabelFor(model => model.IMS_TOTAL_STATE_SHARE_2015)
+                </td>
+                <td>
+                    @Html.DisplayFor(model => model.IMS_TOTAL_STATE_SHARE_2015)
+                </td>
+            </tr>
+            <tr>
+                <td>
+                    @Html.LabelFor(model => model.IMS_ZP_RESO_OBTAINED)
+                </td>
+                <td colspan="3">
+                    @{ 
+                        if (Model.IMS_ZP_RESO_OBTAINED == "Y")
+                        {
+                        <span>Yes</span>
+                        }
+                        else
+                        {
+                        <span>No </span> 
+                        }   
+                    }
+                </td>
+            </tr>
+
+            <tr>
+                <td>
+                    @Html.LabelFor(model => model.MAST_MP_CONST_CODE)
+                </td>
+                <td>
+                    @Html.DisplayFor(model => model.MAST_MP_CONST_NAME)
+                </td>
+
+                <td>
+                    @Html.LabelFor(model => model.MAST_MLA_CONST_CODE)
+                </td>
+                <td>
+                    @Html.DisplayFor(model => model.MAST_MLA_CONST_NAME)
+                </td>
+            </tr>
+            <tr>
+                <td>
+                    @Html.Label("Total GST Cost")
+                </td>
+                <td>
+                    @Html.DisplayFor(model => model.ImsGSTCost)
+                </td>
+                <td></td>
+                <td></td>
+            </tr>
+            <tr>
+                <td colspan="4" class="ui-widget-header">Desgined For</td>
+            </tr>
+
+            <tr>
+                <td>
+                    @Html.LabelFor(model => model.IMS_CARRIAGED_WIDTH)
+                </td>
+                <td>
+                    @Html.DisplayFor(model => model.Display_Carriaged_Width)
+                </td>
+
+                <td id="tdTrafficTypeLabel">
+                    @Html.LabelFor(model => model.IMS_TRAFFIC_TYPE)
+                </td>
+                <td id="tdTrafficTypeText">
+                    @Html.DisplayFor(model => model.IMS_TRAFFIC_CATAGORY_NAME)
+                </td>
+            </tr>
+
+            <tr>
+                <td>
+                    @Html.LabelFor(model => model.IMS_PROPOSED_SURFACE)
+                </td>
+                <td colspan="3">
+                    @Html.DisplayFor(model => model.IMS_PROPOSED_SURFACE)
+                </td>
+            </tr>
+
+            <tr>
+                <td colspan="4" class="ui-widget-header">Maintenance Cost</td>
+            </tr>
+            <tr>
+                <td>
+                    @Html.LabelFor(model => model.IMS_SANCTIONED_MAN_AMT1)
+
+                </td>
+                <td>
+                    @Html.DisplayFor(model => model.IMS_SANCTIONED_MAN_AMT1)
+                </td>
+
+                <td>
+                    @Html.LabelFor(model => model.IMS_SANCTIONED_MAN_AMT2)
+                </td>
+                <td>
+                    @Html.DisplayFor(model => model.IMS_SANCTIONED_MAN_AMT2)
+                </td>
+            </tr>
+
+            <tr>
+                <td>
+                    @Html.LabelFor(model => model.IMS_SANCTIONED_MAN_AMT3)
+
+                </td>
+                <td>
+                    @Html.DisplayFor(model => model.IMS_SANCTIONED_MAN_AMT3)
+                </td>
+
+                <td>
+                    @Html.LabelFor(model => model.IMS_SANCTIONED_MAN_AMT4)
+
+                </td>
+                <td>
+                    @Html.DisplayFor(model => model.IMS_SANCTIONED_MAN_AMT4)
+                </td>
+            </tr>
+
+            <tr>
+                <td>
+                    @Html.LabelFor(model => model.IMS_SANCTIONED_MAN_AMT5)
+                </td>
+                <td>
+                    @Html.DisplayFor(model => model.IMS_SANCTIONED_MAN_AMT5)
+                </td>
+                @if (Model.PMGSYScheme == 4 || Model.PMGSYScheme == 3)
+                {
+                    <td>
+                        @Html.LabelFor(model => model.IMS_SANCTIONED_RENEWAL_AMT)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(model => model.IMS_SANCTIONED_RENEWAL_AMT)
+                    </td>
+                }
+            </tr>
+
+            <tr>
+                <td>Total Maintenance Cost</td>
+                <td colspan="3">
+                    @Html.DisplayFor(model => model.TotalMaintenanceCost)
+                </td>
+            </tr>
+
+
+            <tr>
+                <td>
+                    @Html.LabelFor(model => model.IMS_REMARKS)
+                </td>
+                <td colspan="3">
+                    @Html.DisplayFor(model => model.IMS_REMARKS)
+                </td>
+            </tr>
+
+        </table>
+    </div>
+
+
+    <div id="tabs-2">
+        <div id="divHabitation">
+            <table id="tbHabitation"></table>
+            <div id="dvHabitationPager"></div>
+        </div>
+    </div>
+
+
+    <div id="tabs-3">
+        <div id="divTraffic">
+            <table id="tbTraffic"></table>
+            <div id="dvTrafficPager"></div>
+        </div>
+    </div>
+
+
+    <div id="tabs-4">
+        <div id="divCBR">
+            <table id="tbCBR"></table>
+            <div id="dvCBRPager"></div>
+        </div>
+    </div>
+
+
+    <div id="tabs-5">
+        <div id="divUpload">
+
+            <div id="dvPDFFiles" style="margin-top: 20px; width: 100%;">
+                <table id="tbPDFFilesList"></table>
+                <div id="dvPDFFilesListPager"></div>
+            </div>
+
+            <div id="dvFiles" style="margin-top: 20px; width: 100%">
+                <table id="tbFilesList"></table>
+                <div id="dvFilesListPager"></div>
+            </div>
+
+        </div>
+    </div>
+
+
+    <div id="tabs-6">
+        <div id="dvlstTechnology" style="margin-top: 20px; width: 100%;">
+            <table id="tblistTechnologyDetails"></table>
+            <div id="dvpagerTechnology"></div>
+        </div>
+    </div>
+
+
+    @* ----------------- STA Section ----------------- *@
+
+    <div id="tabs-7" style="text-align: left">
+        @if (PMGSY.Extensions.PMGSYSession.Current.RoleCode == 22 || PMGSY.Extensions.PMGSYSession.Current.RoleCode == 38 || PMGSY.Extensions.PMGSYSession.Current.RoleCode == 2 || PMGSY.Extensions.PMGSYSession.Current.RoleCode == 37 || PMGSY.Extensions.PMGSYSession.Current.RoleCode == 25 || PMGSY.Extensions.PMGSYSession.Current.RoleCode == 54 || PMGSY.Extensions.PMGSYSession.Current.RoleCode == 55 || PMGSY.Extensions.PMGSYSession.Current.RoleCode == 65)//Changes for RCPLWE and Mord View
+        {
+
+            if (Model.IMS_ISCOMPLETED == "D" && Model.IMS_ISCOMPLETED != "S" && Model.STA_SANCTIONED == "N")
+            {
+            <span style="text-align: left">
+                <strong>Proposal Sent to STA for Scrutiny.</strong>
+            </span>
+            }
+
+            if (Model.STA_SANCTIONED == "N" && Model.IMS_SANCTIONED == "N")
+            {
+            <span style="text-align: left">
+                <strong>Proposal is pending to be scrutinized by STA</strong>
+            </span>
+            }
+            else if (Model.STA_SANCTIONED == "Y" || Model.STA_SANCTIONED == "U")
+            {                
+            <table class="rowstyle" style="border: ridge 0.1em #ccc; padding: 5px 5px 5px 5px; width: 100%">
+
+                @if (Model.STA_SANCTIONED == "Y")
+                { 
+                    <tr>
+                        <td colspan="2" style="text-align: left">
+                            <div class="ui-corner-all ui-state-default" style="height: 20px; padding-top: 5px; padding-left: 5px">
+                                Proposal has been Scrutinized by STA.
+                            </div>
+                        </td>
+                    </tr>
+                }
+                else if (Model.STA_SANCTIONED == "U")
+                {
+                    <tr>
+                        <td colspan="2" style="text-align: left">
+                            <div class="ui-corner-all ui-state-default" style="height: 20px; padding-top: 5px; padding-left: 5px">
+                                Proposal has been Un-Scrutinized by STA.
+                            </div>
+                        </td>
+                    </tr>
+                }
+                <tr>
+                    <td style="width: 15%; text-align: left; font-weight: bold">
+                        @Html.LabelFor(model => model.STA_SANCTIONED_BY)
+                    </td>
+                    <td style="text-align: left; width: 85%">
+                        @Html.DisplayFor(model => model.STA_SANCTIONED_BY)
+                        @Html.HiddenFor(model => model.STA_SANCTIONED_BY)
+                    </td>
+                </tr>
+
+                <tr>
+                    <td style="width: 15%; text-align: left; font-weight: bold">
+                        @Html.LabelFor(model => model.STA_SANCTIONED_DATE)
+                    </td>
+                    <td style="text-align: left; width: 85%">
+                        @Html.DisplayFor(model => model.STA_SANCTIONED_DATE)
+                        @Html.HiddenFor(model => model.STA_SANCTIONED_DATE)
+                    </td>
+                </tr>
+
+                <tr>
+                    <td style="text-align: left; font-weight: bold;">
+                        @Html.LabelFor(model => model.MS_STA_REMARKS)
+                    </td>
+                    <td style="text-align: left">
+                        @Html.DisplayFor(model => model.MS_STA_REMARKS)
+                        @Html.HiddenFor(model => model.MS_STA_REMARKS)
+                    </td>
+                </tr>
+
+            </table>
+            }
+            else
+            {
+                if (Model.STA_SANCTIONED.Equals("U"))
+                {
+            <span style="text-align: left">
+                <strong>Proposal UnScrutinized by STA.</strong>
+            </span> 
+                }
+                else
+                {
+            <span style="text-align: left">
+                <strong>Proposal Not Finalized,Only Finalized Proposal are sent to STA For Scrutiny.</strong>
+            </span> 
+                }
+            }
+        }
+        else
+        {   
+            <div id="divStaSanctionDetails">
+            </div>
+        }
+    </div>
+
+    @* ---------------------- STA Section Ends Here ---------------------- *@
+
+
+    @* ---------------------- PTA Section Starts Here ---------------------- *@
+
+    <div id="tabs-8" style="text-align: left">
+        @if (PMGSY.Extensions.PMGSYSession.Current.RoleCode == 3 || PMGSY.Extensions.PMGSYSession.Current.RoleCode == 25 || PMGSY.Extensions.PMGSYSession.Current.RoleCode == 22 || PMGSY.Extensions.PMGSYSession.Current.RoleCode == 38 || PMGSY.Extensions.PMGSYSession.Current.RoleCode == 2 || PMGSY.Extensions.PMGSYSession.Current.RoleCode == 37 || PMGSY.Extensions.PMGSYSession.Current.RoleCode == 54 || PMGSY.Extensions.PMGSYSession.Current.RoleCode == 55 || PMGSY.Extensions.PMGSYSession.Current.RoleCode == 65)//Changes for RCPLWE and Mord View
+        {
+            if (Model.STA_SANCTIONED == "N" && Model.PTA_SANCTIONED == "N" && (Model.IMS_ISCOMPLETED == "E" || Model.IMS_ISCOMPLETED == "H"))
+            {
+            <span style="text-align: left">
+                <strong>Proposal Not Finalized.</strong>
+            </span>
+            }
+            else if (Model.STA_SANCTIONED == "N" && Model.PTA_SANCTIONED == "N")
+            {
+            <span style="text-align: left">
+                <strong>Proposal sent to STA for Scrutiny.</strong>
+            </span>
+            }
+            else if (Model.STA_SANCTIONED == "Y" && Model.PTA_SANCTIONED == "N")
+            {
+                if (Model.IMS_SANCTIONED != "N")
+                { 
+            <span style="text-align: left">
+                <strong>PTA Scrutiny not available. Action is taken by Mord.</strong>
+            </span>
+                }
+                else
+                {
+            <span style="text-align: left">
+                <strong>Proposal sent to PTA for Scrutiny.</strong>
+            </span>
+                }
+            }
+            else if (Model.PTA_SANCTIONED == "Y" || Model.PTA_SANCTIONED == "U")
+            {                
+            <table class="rowstyle" style="border: ridge 0.1em #ccc; padding: 5px 5px 5px 5px; width: 100%">
+
+                @if (Model.PTA_SANCTIONED == "Y")
+                { 
+                    <tr>
+                        <td colspan="2" style="text-align: left">
+                            <div class="ui-corner-all ui-state-default" style="height: 20px; padding-top: 5px; padding-left: 5px">
+                                Proposal has been Scrutinized by PTA.
+                            </div>
+                        </td>
+                    </tr>
+                }
+                else if (Model.PTA_SANCTIONED == "U")
+                {
+                    <tr>
+                        <td colspan="2" style="text-align: left">
+                            <div class="ui-corner-all ui-state-default" style="height: 20px; padding-top: 5px; padding-left: 5px">
+                                Proposal has been Un-Scrutinized by PTA.
+                            </div>
+                        </td>
+                    </tr>
+                }
+                <tr>
+                    <td style="width: 15%; text-align: left; font-weight: bold">
+                        @Html.LabelFor(model => model.NAME_OF_PTA)
+                    </td>
+                    <td style="text-align: left; width: 85%">
+                        @Html.DisplayFor(model => model.NAME_OF_PTA)
+                        @Html.HiddenFor(model => model.NAME_OF_PTA)
+                    </td>
+                </tr>
+
+                <tr>
+                    <td style="width: 15%; text-align: left; font-weight: bold">
+                        @Html.LabelFor(model => model.PTA_SANCTIONED_DATE)
+                    </td>
+                    <td style="text-align: left; width: 85%">
+                        @Html.DisplayFor(model => model.PTA_SANCTIONED_DATE)
+                        @Html.HiddenFor(model => model.PTA_SANCTIONED_DATE)
+                    </td>
+                </tr>
+
+                <tr>
+                    <td style="text-align: left; font-weight: bold;">
+                        @Html.LabelFor(model => model.MS_PTA_REMARKS)
+                    </td>
+                    <td style="text-align: left">
+                        @Html.DisplayFor(model => model.MS_PTA_REMARKS)
+                        @Html.HiddenFor(model => model.MS_PTA_REMARKS)
+                    </td>
+                </tr>
+
+            </table>
+            }
+            else
+            {
+                if (Model.STA_SANCTIONED.Equals("U"))
+                {
+            <span style="text-align: left">
+                <strong>Proposal UnScrutinized by STA.</strong>
+            </span> 
+                }
+                else
+                {
+            <span style="text-align: left">
+                <strong>Proposal Not Scrutinized, Only Scrutinized Proposals are sent to PTA for Scrutiny.</strong>
+            </span> 
+                }
+
+
+            }
+        }
+        else
+        {
+            if (Model.IMS_SANCTIONED.Equals("D"))
+            {
+            <span style="text-align: left">
+                <strong>Proposal has been Dropped by MORD.</strong><br />
+                <strong>Reason : @Model.Reason</strong>
+            </span>   
+            }
+            else if (Model.IMS_SANCTIONED.Equals("R"))
+            {
+            <span style="text-align: left">
+                <strong>Proposal has been Recommended by MoRD for Improvement.</strong><br />
+                <strong>Reason : @Model.Reason</strong>
+            </span>   
+            }
+            else if (Model.IMS_SANCTIONED.Equals("Y") && ViewBag.IsTechnologyExist == "N")
+            {
+            <span style="text-align: left">
+                <strong>Proposal has been Sanctioned by MoRD.</strong><br />
+            </span>   
+            }
+            else
+            {
+            <div id="divPtaSanctionDetails">
+            </div> 
+            }
+        }
+
+    </div>
+
+    @* ---------------------- PTA Section Ends Here ---------------------- *@
+
+
+    <div id="tabs-9">
+        <div id="divTestResultDetails">
+            <div id="dvTestResultForm" style="margin-top: 20px; width: 100%;">
+            </div>
+        </div>
+    </div>
+
+
+
+    @* ----------------- Mord Section ----------------- *@
+    <div id="tabs-10" style="text-align: left">
+        @if (PMGSY.Extensions.PMGSYSession.Current.RoleCode == 22 || PMGSY.Extensions.PMGSYSession.Current.RoleCode == 38 || PMGSY.Extensions.PMGSYSession.Current.RoleCode == 2 || PMGSY.Extensions.PMGSYSession.Current.RoleCode == 37 || PMGSY.Extensions.PMGSYSession.Current.RoleCode == 54 || PMGSY.Extensions.PMGSYSession.Current.RoleCode == 55)///Changes for RCPLWE
+        {
+            if (Model.STA_SANCTIONED == "Y" && Model.IMS_SANCTIONED == "N")
+            {
+            <span style="text-align: left">
+                <strong>Proposal Sent to Mord For Sanctioning.</strong>
+            </span>
+            }
+            if (Model.STA_SANCTIONED == "N" && Model.IMS_SANCTIONED == "N" && (Model.IMS_ISCOMPLETED == "E" || Model.IMS_ISCOMPLETED == "H"))
+            {
+            <span style="text-align: left">
+                <strong>Proposal Not Finalized.</strong>
+            </span>
+            }
+            if (Model.STA_SANCTIONED == "N" && Model.IMS_ISCOMPLETED == "D")
+            {
+            <span style="text-align: left">
+                <strong>Proposal Sent to STA for Scrutiny.</strong>
+            </span>    
+            }
+            if (Model.STA_SANCTIONED == "U")
+            {
+            <span style="text-align: left">
+                <strong>Proposal Un-Scrutinised by STA.</strong>
+            </span>                    
+            }
+            if (Model.IMS_ISCOMPLETED == "M" && Model.IMS_SANCTIONED == "D")
+            {
+            <span style="text-align: left">
+                <strong>Proposal has been Dropped by MORD.</strong><br />
+                <strong>Reason : @Model.Reason</strong>
+            </span>                
+            }
+            if (Model.IMS_ISCOMPLETED == "M" && Model.IMS_SANCTIONED == "R")
+            { 
+            <span style="text-align: left">
+                <strong>Proposal has been Recommended by MoRD for Improvement.</strong><br />
+                <strong>Reason : @Model.Reason</strong>
+            </span>                
+            }
+            //if (Model.IMS_ISCOMPLETED == "M" && Model.IMS_SANCTIONED == "U")
+            if (Model.IMS_SANCTIONED == "U")
+            {
+            <span style="text-align: left">
+                <strong>Proposal has been UnSanctioned by MoRD.</strong>
+            </span>
+            }
+
+            if (Model.IMS_ISCOMPLETED != "E" && Model.IMS_ISCOMPLETED != "H" && Model.IMS_ISCOMPLETED != "D" && Model.IMS_SANCTIONED == "Y")
+            {
+            <div id="divMordSanctionDetails">
+            </div>                
+            }
+        }
+        @if (PMGSY.Extensions.PMGSYSession.Current.RoleCode == 25 || PMGSY.Extensions.PMGSYSession.Current.RoleCode == 65)//Changes by SAMMED A. PATIL for Mord View
+        {
+            if (Model.STA_SANCTIONED == "N" && Model.IMS_SANCTIONED == "N")
+            {
+            <span style="text-align: left">
+                <strong>Proposal is pending to be scrutinized by STA</strong>
+            </span>
+            }
+            else
+            {
+            <div id="divMordSanctionDetails">
+            </div>
+            }
+        }
+        @if (PMGSY.Extensions.PMGSYSession.Current.RoleCode == 3 || PMGSY.Extensions.PMGSYSession.Current.RoleCode == 15)
+        {
+            if (Model.STA_SANCTIONED == "N" && Model.IMS_SANCTIONED == "N")
+            {
+            <span style="text-align: left">
+                <strong>Proposal Not Scrutinized by STA.</strong>
+            </span>                
+            }
+            else if (Model.STA_SANCTIONED == "Y" && Model.IMS_SANCTIONED == "N")
+            {
+                if (Model.PTA_SANCTIONED == "N")
+                {
+            <span style="text-align: left">
+                <strong>Proposal sent to Mord For Sanctioning, but not scrutinized by PTA.</strong>
+            </span>
+                }
+                else if (Model.PTA_SANCTIONED == "Y")
+                {
+            <span style="text-align: left">
+                <strong>Proposal sent to Mord For Sanctioning & is scrutinized by PTA.</strong>
+            </span>
+                }
+                else if (Model.PTA_SANCTIONED == "U")
+                {
+            <span style="text-align: left">
+                <strong>Proposal sent to Mord For Sanctioning & is UnScrutinized by PTA.</strong>
+            </span>
+                }
+            }
+            else if (Model.STA_SANCTIONED == "U")
+            {
+            <span style="text-align: left">
+                <strong>Proposal UnScrutinized by STA.</strong>
+            </span>                    
+            }
+            else if (Model.IMS_ISCOMPLETED == "M" && Model.IMS_SANCTIONED == "Y")
+            { 
+            <div id="divMordSanctionDetails">
+            </div>             
+            }
+            else if (Model.IMS_ISCOMPLETED == "M" && Model.IMS_SANCTIONED == "D")
+            {
+            <span style="text-align: left">
+                <strong>Proposal has been Dropped by MORD.</strong><br />
+                <strong>Reason : @Model.Reason</strong>
+            </span>                
+            }
+            else if (Model.IMS_ISCOMPLETED == "M" && Model.IMS_SANCTIONED == "R")
+            { 
+            <span style="text-align: left">
+                <strong>Proposal has been Recommended by MoRD for Improvement.</strong><br />
+                <strong>Reason : @Model.Reason</strong>
+            </span>                
+            }
+            //else if (Model.IMS_ISCOMPLETED == "M" && Model.IMS_SANCTIONED == "U")
+            else if (Model.IMS_SANCTIONED == "U")
+            {
+            <span style="text-align: left">
+                <strong>Proposal has been UnSanctioned by MoRD.</strong>
+            </span>
+            }
+            else
+            {
+            <div id="divMordSanctionDetails">
+            </div>
+            }
+        }
+    </div>
+
+
+    <div id="tabs-11" style="text-align: left">
+        <div id="divRevisedRoadlength"></div>
+    </div>
+
+    <div id="tabs-12" style="text-align: left">
+        <div id="divAgreementDetails"></div>
+    </div>
+
+    <div id="tabs-13" style="text-align: left">
+        <div id="divExecutionDetails">
+
+            @* <table id="tbPhysicalRoadList" style="width:95%"></table>
+            <div id="pagerPhysicalRoadList"></div>
+            <br />
+            <table id="tbLSBPhysicalRoadList" style="width:95%"></table>
+            <div id="pagerLSBPhysicalRoadList"></div>
+            <br />
+            <table id="tbFinancialList" style="width:95%"></table>
+            <div id="pagerFinancialList"></div>*@
+
+        </div>
+    </div>
+
+    <div id="tabs-14" style="text-align: left">
+        <div id="divMaintenanceDetails"></div>
+    </div>
+    @if (PMGSY.Extensions.PMGSYSession.Current.RoleCode == 2 || PMGSY.Extensions.PMGSYSession.Current.RoleCode == 3 || PMGSY.Extensions.PMGSYSession.Current.RoleCode == 15 || PMGSY.Extensions.PMGSYSession.Current.RoleCode == 55)///Changes for RCPLWE
+    {
+        <div id="tabs-15">
+            <div id="divSTASRRDAUpload">
+                <div id="dvSTASRRDAPDFFiles" style="margin-top: 20px; width: 100%;">
+                    <table id="tbSTASRRDAPDFFilesList"></table>
+                    <div id="dvSTASRRDAPDFFilesListPager"></div>
+                </div>
+            </div>
+        </div>
+    }
+    <div id="tabs-16">
+        <div id="divForest">
+            <table id="tbPDFFilesListForest"></table>
+            <div id="tbPDFFilesListForest"></div>
+        </div>
+    </div>
+</div>
+
+<div style="text-align: center">
+
+    @if ((PMGSY.Extensions.PMGSYSession.Current.RoleCode == 22 || PMGSY.Extensions.PMGSYSession.Current.RoleCode == 38 || PMGSY.Extensions.PMGSYSession.Current.RoleCode == 54) && (Model.IMS_ISCOMPLETED == "E" || Model.IMS_ISCOMPLETED == "H" || Model.IMS_SANCTIONED == "R") && Model.IMS_DPR_STATUS == "N")
+    {
+        <input type="button" id="btnFinalize" name="btnFinalize" class="jqueryButton" value="Finalize" style="height: 35px; width: 100px" />
+    }
+
+</div>
+

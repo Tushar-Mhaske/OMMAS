@@ -1,0 +1,40 @@
+﻿@using PMGSY.Models
+@model PMGSY.Models.Report.CBSingleModel
+
+<table>
+    @{ 
+        if(Model.ListPaymentCB != null && Model.ListPaymentCB.Count > 0)
+        {
+            <tr>
+                <td>Date</td>
+                <td>Money Receipt</td>
+                <td>Perticulars of Transactions</td>
+                <td>Cash(Rs.)</td>
+                <td>Cheque Number</td>
+                <td>Bank Authorization</td>
+                <td>Account Code</td>
+            </tr>
+            foreach (SP_ACC_CASHBOOK_Payment_SIDE_Result item in Model.ListPaymentCB)
+            {
+           
+		    <tr>
+                <td>@item.bill_date.ToString()</td>
+                <td>@item.bill_no</td>
+                <td>@item.narration</td>
+                <td>@item.cash</td>
+                <td>@item.cheque_epay</td>
+                <td>@item.bank_auth</td>
+                <td>@item.head_code</td>
+            </tr>
+            
+            }
+        }
+        else
+        {
+            <tr>
+                <td colspan="7">No Records to show</td>
+            </tr>   
+        }
+             
+    }           
+</table>

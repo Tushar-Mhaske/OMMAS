@@ -1,0 +1,39 @@
+﻿@model PMGSY.Models.LoginModel
+@{Layout = null;}
+
+<link href="~/Content/Login/Login.css" rel="stylesheet" />
+<script src="~/Scripts/Login/SwitchRole.js"></script>
+<script src="~/Scripts/Login/md5.js"></script>
+
+<div id="dialog-form" title="Switch Role">
+@using (Html.BeginForm("Login","Login"))
+{
+         <input type="hidden" value="@Session["SessionSalt"]" id="sessionSalt" />     
+         <span id="showError"></span>
+         @Html.HiddenFor(m => m.DefaultRoleId)
+         @Html.HiddenFor(m => m.UserName)
+        <div>
+            <table>
+                <tr>
+                    <td id="inputs">
+                        &nbsp;&nbsp;@Html.LabelFor(m => m.UserName) : 
+                        @Html.DisplayFor(m => m.UserName, new { @id = "username", @placeholder="User Name"})
+                    </td> 
+                </tr>
+                <tr>
+                    <td id="inputs">
+                        @Html.PasswordFor(m => m.Password, new {@id="password", @placeholder="Password"})
+                    </td> 
+                </tr>
+                <tr>
+                <td style="text-align:left;" id="btnFieldSet"> &nbsp;&nbsp;
+                    <input type="submit" id="btnSubmitLogin" class="" title="Click to log in" value="Log in">
+                    <input type="button" id="btnCancelLogin" class="" title="Click to cancel" value="Cancel">
+                </td>
+                </tr>
+            </table>
+        </div>
+
+ }
+</div>
+ 

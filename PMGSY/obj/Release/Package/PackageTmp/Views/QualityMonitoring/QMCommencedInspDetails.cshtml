@@ -1,0 +1,113 @@
+﻿@*
+    * Project Id    :
+    * Project Name  :   OMMAS II
+    * Name          :   QMCommencedInspDetails.cshtml
+    * Description   :   Renders Commenced Work's Inspection Details in HTML Format
+    * Author        :   Shyam Yadav
+    * Creation Date :   28/July/2014
+*@
+
+@model PMGSY.Models.QualityMonitoring.QMCommencedWorkModel
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html>
+<head>
+    <script src="~/Scripts/QualityMonitoring/QMCommencedWorkDetails.js"></script>
+</head>
+<body>
+    @Html.HiddenFor(model => model.STATE_NAME)
+    @Html.HiddenFor(model => model.DURATION)
+    <div id="divCommencedInspTbl" class="dataTable" style="width:100%;">
+        <table class="head">
+           <tr>
+               <th style="width:30px;"> Sr. No.</th>
+                <th style="width:80px;"> Monitor </th>
+                <th style="width:70px;"> State </th>
+                <th style="width:70px;"> District </th>
+                @*<th style="width:70px;"> Block </th>*@
+                <th style="width:70px;"> Package </th>
+                <th style="width:80px;"> Sanction Year </th>
+                <th style="width:130px;"> Work Name </th>
+                <th style="width:50px;"> Type </th>
+                <th style="width:90px;padding-left:0px;padding-right:0px;"> Chainage (Km)
+                    <table  style="border-top:1px solid #CCC;vertical-align:bottom;">
+                        <tr>
+                            <th style="width:42px;border-bottom:none;">Start</th>
+                            <th style="width:42px;border-bottom:none;border-right:none;">End</th>
+                        <tr>
+                    </table>
+                </th>
+                <th style="width:80px;"> Inspection Date </th>
+                <th style="width:80px;"> Status </th>
+                <th style="width:50px;"> Enquiry Inspection </th>
+                <th style="width:90px;"> Overall Grade </th>
+                <th style="width:40px;"> View </th>
+                <th style="width:22px;"></th>
+        </tr>
+      </table>
+        <div id="divRecords" class="innerTable" style="height: 540px;">
+         <table id="tblRecords" style="width:99.5%;">
+            @{
+                var srNo = 1;
+             }
+
+            @if (Model.ERROR != null)
+            {
+                 <tr>
+                    <td colspan="17" style="color:#FF0000;">
+                        @Model.ERROR
+                    </td>
+                </tr>
+            }
+            else if (Model.INSP_LIST != null && Model.INSP_LIST.Count > 0)
+            {
+                foreach (var item in Model.INSP_LIST)
+                {
+                        <tr>
+                            <td style="width:30px;text-align:center;">@srNo</td>
+                            <td style="width:80px;">@item.MONITOR_NAME</td>
+                            <td style="width:70px;">@item.STATE_NAME</td>
+                            <td style="width:70px;">@item.DISTRICT_NAME</td>
+                            @*<td style="width:70px;">@item.BLOCK_NAME</td>*@
+                            <td style="width:70px;">@item.IMS_PACKAGE_ID</td>
+                            <td style="width:80px;">@(item.IMS_YEAR.ToString() + "-" + (item.IMS_YEAR+1).ToString()) </td>
+                            <td style="width:130px;">@item.IMS_ROAD_NAME</td>
+                            <td style="width:50px;">@(item.IMS_PROPOSAL_TYPE.Equals("P") ? "Road" : "LSB")</td>
+                            <td style="width:45px;padding-left:0px;padding-right:0px;">@item.QM_INSPECTED_START_CHAINAGE</td>
+                            <td style="width:45px;padding-left:0px;padding-right:0px;">@item.QM_INSPECTED_END_CHAINAGE</td>
+                            <td style="width:80px;">@item.QM_INSPECTION_DATE</td>
+                            <td style="width:80px;">@item.IMS_ISCOMPLETED</td>
+                            <td style="width:50px;">@( item.ADMIN_IS_ENQUIRY.Equals("N") ? "No" : "Yes")</td>
+                            <td style="width:90px;">@item.OVERALL_GRADE</td>
+                            <td style="width:40px;">@Html.Raw( "<a href='#' title='Click here to view details' class='ui-icon ui-icon-zoomin ui-align-center' onClick='ShowObsDetails(\"" + item.QM_OBSERVATION_ID.ToString().Trim() + "\"); return false;'>View</a>" )</td>
+                            @if(Model.INSP_LIST.Count < 10)
+                            {
+                                <td style="width:11px;"></td>
+                            }
+                        </tr>
+                        srNo++;
+                }
+            }
+            else
+            {
+                <tr>
+                    <td colspan="17">
+                        No records found
+                    </td>
+                </tr>
+            }
+        </table>
+        </div>
+    </div>
+
+<div id="accordionCommencedObsDetails" style="display:none;width:100%;margin-top:10px;">            
+    <h3 style="text-align:left"><a id="" href="#" style=" font-size:.9em;" >Inspection Details</a>
+        <a href="#"  style="float: right;">
+            <img style="border:none" class="ui-icon ui-icon-closethick" onclick="CloseCommencedObsDetails();" /></a>
+    </h3>
+    <div id="divCommencedObsDetails" style="display:none;"></div>                     
+</div>
+     
+
+</body>
+</html>

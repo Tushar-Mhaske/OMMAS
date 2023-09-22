@@ -1,0 +1,148 @@
+﻿<!DOCTYPE html>
+
+<html>
+<head>
+
+    <script src="~/Scripts/UserManager/GetMenuItems.js"></script>
+</head>
+<body>
+    <div>
+       <form id="frmCombination">
+    @{
+           
+                List< PMGSY.Models.Menu.MenuLevelCombinationDTO> lstMenu = ViewData["MenuItemDetails"] as List< PMGSY.Models.Menu.MenuLevelCombinationDTO>;
+                if (lstMenu != null)
+                {
+                    if (lstMenu.Count > 0)
+                    {
+                       
+                        <table id="tblChilds" class="class-table-content1 ui-corner-all">
+                        <tr>
+                        <td colspan="2">
+                        Menu selected for level mapping
+                        </td>
+                        </tr>    
+                       
+                        
+        @foreach ( PMGSY.Models.Menu.MenuLevelCombinationDTO itrChild in lstMenu)
+        {
+                           
+                            <tr>
+                            <td align="right" style="width:50%">
+                            <input type="radio" class="chkLevel" id="@itrChild.LevelCombination" name="rdoLevels" value="@itrChild.MenuId" />
+                            </td>
+                            <td align="left" style="width:50%">
+                            <span id="S$@itrChild.MenuId ">
+                            @itrChild.MenuName
+                            </span>
+                            </td>
+                            </tr>   
+                            
+        }
+           
+                            
+                        </table>
+                            
+                 
+        }
+                    else
+                    {
+                       
+                    <table id="tblFirstLevel" class="class-table-content1 ui-corner-all">
+                    <tr>
+                    <td>
+                    lblFirstLevelNote
+                    </td>
+                    </tr>
+                      <tr>
+                    <td>
+                    lblFirstLevelDescription
+                    </td>
+                    </tr>
+                    </table> 
+                       
+                    }
+                }
+                else
+                {
+                   
+                    <table id="tblFirstLevel1" class="class-table-content1 ui-corner-all">
+                    <tr>
+                    <td>
+                    lblFirstLevelNote
+                    </td>
+                    </tr>
+                    <tr>
+                    <td>
+                   lblFirstLevelDesc
+                    </td>
+                    </tr>
+                    </table>
+                    
+                     
+                }
+            
+    <table class="class-table-content1 ui-corner-all" id="tblAddLevelComb">
+        <tr>
+            <td colspan="2">
+              Please check the levels to which you want to map the menu.
+            </td>
+        </tr>
+        <tr>
+            <td style="width:50%">
+                <input type="checkbox" class="chkoprby" id="chkAdmin" name="chkAdmin" value="7" />
+                <span id="idlblchkAdmin">
+                   admin </span>
+            </td>
+            <td style="width:50%">
+                <input type="checkbox" class="chkoprby" id="chkMinistry" name="chkMinistry" value="1" />
+                <span id="idlblchkMinistry">
+                  Ministry </span>
+            </td>
+        </tr>
+        <tr>
+            <td>
+                <input type="checkbox" class="chkoprby" id="chkNRRDA" name="chkNRRDA" value="2" />
+                <span id="idlblchkStateNRRDA">
+                  NRRDA </span>
+            </td>
+            <td>
+                <input type="checkbox" class="chkoprby" id="chkNational" name="chkNational" value="3" />
+                <span id="idlblchkNational">
+                  National </span>
+            </td>
+        </tr>
+        <tr>
+            <td>
+                <input type="checkbox" class="chkoprby" id="chkDistState" name="chkDistState" value="4" />
+                <span id="idlblchkDistState">
+                  State </span>
+            </td>
+            <td>
+                <input type="checkbox" class="chkoprby" id="chkDistrict" name="chkDistrict" value="5" />
+                <span id="idlblchkDistrict">
+                 District   </span>
+            </td>
+        </tr>
+        <tr>
+            <td>
+                <input type="checkbox" class="chkoprby" id="chkMoRD" name="chkMoRD" value="6" />
+                <span id="idlblchkMoRD">
+                   MoRD
+            </span>
+            </td>
+            <td></td>
+            
+        </tr>
+        <tr>
+            <td align="center" colspan="2">
+                <input type="button" id="btnSubmit" style="height: 25px" class="ui-state-default ui-corner-all"
+                    value='Add' />
+            </td>
+        </tr>
+    </table>
+    }
+</form> 
+    </div>
+</body>
+</html>

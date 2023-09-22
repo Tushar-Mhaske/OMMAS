@@ -1,0 +1,17 @@
+﻿@using MvcReportViewer
+
+@model PMGSY.Areas.Feedback.Models.HabitationClusterModel
+
+    @Html.MvcReportViewer("/PMGSYCitizen/ClusterDetails",
+     new
+     {
+         LEVEL= (Model.Mast_District_Code==0 ? 1 : 2),
+         STATE = Model.Mast_State_Code,
+         DISTRICT = Model.Mast_District_Code,
+         PMGSY= PMGSY.Extensions.PMGSYSession.Current.PMGSYScheme,
+         StateName = Model.StateName,
+         DistrictName = Model.DistName
+         
+     },
+     new { Height = 600, Width = "100%", style = "border:none;" })
+

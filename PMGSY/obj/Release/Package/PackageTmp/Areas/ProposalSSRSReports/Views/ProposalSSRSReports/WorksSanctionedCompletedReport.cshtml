@@ -1,0 +1,11 @@
+﻿@using MvcReportViewer
+
+@model PMGSY.Areas.ProposalSSRSReports.Models.WorksSanctionedCompletedViewModel
+
+@Html.MvcReportViewer("/PMGSYCitizen/Works_Sanction_Pending_Report",
+     new
+     {
+         Month = Model.Month,
+         Year = Model.Year,
+     },
+       new { Height = 675, Width = "100%", style = "border:none;" })

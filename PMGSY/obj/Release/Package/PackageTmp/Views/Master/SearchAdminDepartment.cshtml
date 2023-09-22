@@ -1,0 +1,29 @@
+﻿@{
+    ViewBag.Title = "SearchAdminDepartment";
+}
+<script src="~/Scripts/custom/Generic.js"></script>
+<script src="~/Scripts/Master/SearchAdminDepartment.js"></script>
+<form id="frmSearchAdmin">
+    <div id="adminList" style="width: 100%">
+        <div id="dvhdSearch" class="ui-corner-top ui-widget-header panelheader" style="text-align: left; height: 20px;">
+            @*margin-left:10px;margin-right:10px;margin-top:10px;*@
+            <span class="ui-jqgrid-title" style="float: left">&nbsp;Search</span>
+            <span id="spCollapseIconS" class="ui-icon ui-icon-circle-triangle-n" style="float: right"></span>
+        </div>
+        <div id="dvSearchParameter" class="ui-corner-bottom" style="display: block; border: 1px solid #B5B8C8;">
+            @*margin-left: 10px; margin-right: 10px;*@
+            <table style="width: 100%" class="rowstyle">
+                <tr>
+                    <td style="width: 20%;"></td>
+                    <td style="text-align: left; width: 8%;">@Html.Label("State")</td>
+                    <td style="text-align: left; width: 20%">@Html.DropDownList("State", null, new { @title = "State" })</td>
+                    <td style="text-align: left; width: 8%;">@Html.Label("Agency")</td>
+                    <td style="text-align: left; width: 20%">@Html.DropDownList("Agency", null, new { @title = "Agency" })</td>
+                    <td style="text-align: left">
+                        <input type="button" id="btnAdminSearch" name="btnAdminSearch" value="Search" class="jqueryButton" title="Search SRRDA" />
+                    </td>
+                </tr>
+            </table>
+        </div>
+    </div>
+</form>

@@ -1,0 +1,49 @@
+﻿@model PMGSY.Models.Proposal.ProposalUpdateViewModel
+
+
+<script src="~/Scripts/custom/Generic.js"></script>
+<script src="~/Scripts/Proposal/UpdateProposalDetails.js"></script>
+
+<form id="frmUpdateDetails">
+    <div style="margin-left: 100px">
+        @Html.AntiForgeryToken()
+        @Html.ValidationSummary(true)
+    </div>
+    <div id="divError" class="ui-state-error ui-corner-all" style="text-align: left; display: none; width: 100%">
+        <span class="ui-icon ui-icon-alert" style="float: left;"></span>
+        <span></span>
+    </div>
+    <div style="height: 20px; width: 100%; text-align: left; padding-top: 0.6em;" class="ui-state-default ui-corner-all">
+        &nbsp; <strong>Note :</strong>  Fields marked with * are mandatory.
+    </div>
+    <table id="tb" cellpadding="3px" class="rowstyle" style="margin-top: 10px; text-align: left; border: ridge 0.1em #ccc; width: 100%; padding-top: 5px 5px 5px 5px;">
+        <tr></tr>
+        <tr>
+            <td style="width:20%">
+                @Html.HiddenFor(model=>model.EncryptedProposalCode)
+            </td>
+            <td style="width: 10%;">
+                @Html.LabelFor(model=>model.Year)<label style="color:red">*</label>
+            </td>
+            <td style="width: 30%;">
+                @Html.DropDownListFor(model=>model.Year,Model.lstYears,new{@id="ddlYear",@title= "Select Year",@tabindex = 1})
+                @Html.ValidationMessageFor(model=>model.Year)
+            </td>
+            <td style="width: 10%;">
+                @Html.LabelFor(model=>model.Batch)<label style="color:red">*</label>
+            </td>
+            <td style="width: 30%;">
+                @Html.DropDownListFor(model=>model.Batch,Model.lstBatchs,new{@id="ddlBatch",@title= "Select Batch",@tabindex = 2})
+                @Html.ValidationMessageFor(model=>model.Batch)
+            </td>
+        </tr>
+        <tr>
+            <td colspan="5">
+                <center>
+                <input type="button" id="btnUpdate" name="btnUpdate" value="Update" class= "jqueryButton" title="Update Details" tabindex="3"  />  
+                <input type="reset" id="btnReset" name="btnReset" value="Reset" class= "jqueryButton" title="Reset" tabindex="4"  />
+                </center>
+            </td>
+        </tr>
+    </table>
+</form>

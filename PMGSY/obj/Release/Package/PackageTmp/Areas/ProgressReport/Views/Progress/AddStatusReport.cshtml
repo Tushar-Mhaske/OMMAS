@@ -1,0 +1,13 @@
+﻿@using MvcReportViewer
+@using PMGSY
+@model PMGSY.Areas.ProgressReport.Models.ProgressViewModel
+
+    @Html.MvcReportViewer("/PMGSYCitizen/Annexure_I",
+     new
+     {   State=Model.StateCode,
+         Month=Model.Month,
+         year=Model.Year,
+         PMGSY=PMGSY.Extensions.PMGSYSession.Current.PMGSYScheme
+         
+     },
+     new { Height = 575, Width = "100%", style = "border:none;" })

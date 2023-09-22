@@ -1,0 +1,274 @@
+﻿@*
+    * Project Id    :
+    * Project Name  :   OMMAS II
+    * Name          :   ReportsLayout.cshtml
+    * Description   :   Renders Main Layout for Reports
+    * Author        :   Shyam Yadav
+    * Creation Date :   26/August/2013    
+*@
+
+
+@using MVCHtmlHelper.Helpers;
+@using PMGSY.Extensions;
+@{Layout = null;}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8" />
+    <title>PMGSY</title>
+    <link href="~/favicon.ico" rel="shortcut icon" type="image/x-icon" />
+    <meta name="viewport" content="width=device-width" />
+
+<style>
+    #accordion .ui-accordion-content {
+    min-height: 100px;
+    overflow-y: auto;
+}
+     
+  #tabs-report-content .ui-tabs-nav {
+            margin:-6px 0 0 0;
+            padding:0.1em 0.2em 0;
+        }  
+
+   #tabs-report-content  .ui-tabs-panel {
+            background: none repeat scroll 0 0 transparent;
+            border-width: 0;
+            display: block;
+            padding: 0 1.4em;
+        }
+
+  #tabs-report-content li .ui-icon-close { float: left; margin: 0.4em 0.2em 0 0; cursor: pointer; }
+
+  .ui-tabs-panel{overflow: auto;}
+
+  /*.ui-jqgrid .ui-jqgrid-titlebar {
+    border-left: 0 none;
+    border-right: 0 none;
+    border-top: 0 none;
+    padding: 0.0em 0.2em 0.0em 0.1em;
+    position: relative;
+}*/
+
+</style>
+
+
+    @Styles.Render("~/Content/css")
+    @Scripts.Render("~/bundles/jquery")
+    @Scripts.Render("~/bundles/menubar")
+    @Scripts.Render("~/bundles/plugins")
+    @Scripts.Render("~/bundles/jqueryBlockUI")
+
+    
+    <script src="~/Scripts/jquery.validate.js"></script>
+    <script src="~/Scripts/jquery.validate.unobtrusive.min.js"></script>
+    <script src="~/Scripts/i18n/grid.locale-en.min.js"></script>
+    <script src="~/Scripts/i18n/jquery.jqGrid.src.js"></script>
+    <script src="~/Scripts/Layout.js" type="text/javascript"></script>
+    <script src="~/Scripts/jquery.ui.accordion.js" type="text/javascript"></script>
+    <script src="~/Scripts/jquery.ui.tabs.js"></script>
+    <script src="~/Scripts/ReportsLayout/ReportsLayout.js"></script>
+    <script src="~/Scripts/jquery-ui.js"></script>  
+</head>
+<body id="mainbody">
+    @Html.Hidden("PMGSY2StateCode",PMGSYSession.Current.StateCode)
+     <div id="header" class="ui-corner-all" style="border: solid #CCC 1px; margin-top: 5px; height: 5%;">
+
+         <div id="UserLogin" style="cursor:pointer;font-size: 10.5px; color: #7D0000; float: right; padding: 2px 2px 3px 2px; margin-bottom: 1px; margin-right:170px; border: none; border-radius: 8px;">
+            <table>
+                <tr>
+                    <td> <span> <img src="~/Content/images/User-yellow-icon.png" /> </span> </td>
+                    <td>
+                            @if (PMGSYSession.Current.UserName != null)
+                            {
+                                @Html.Hidden("hdnRoleHomePage", PMGSYSession.Current.HomePageURL.ToString())
+                                <span style=" border-radius: 8px;padding-bottom:5px;">&nbsp;&nbsp;Welcome <b>@PMGSYSession.Current.UserName</b></span>
+                            }
+                            @if (PMGSYSession.Current.RoleName != null)
+                            {
+                                <span style="padding-bottom:5px;"> ( @PMGSYSession.Current.RoleName ) </span>
+                            }
+
+                            &nbsp;<b class="verticalSeparator"></b>&nbsp;
+                            <span><b>Reports</b></span>
+                            @if (PMGSYSession.Current.PMGSYScheme != null)
+                            {
+                                 <b class="verticalSeparator"></b>
+                                 <span id="spnScheme" style="padding-bottom:5px;">&nbsp;&nbsp;<b>PMGSY-</b>@PMGSYSession.Current.PMGSYScheme  </span>
+                            }
+                    </td>
+                </tr>
+            </table>
+        </div>
+    </div>
+
+ 
+     <div id="userProfile" class="" style="float:none;display:none;">
+ 
+        <div style="padding: 2px 2px 2px 2px;width:100%;">
+            <table style="width:102%;padding-left:-10px;">
+                <tr>
+                    <td>
+                         <div style="padding-bottom: 5px; float: left;">
+                            <fieldset class="ui-corner-all" style="border: ridge 0.1em #CCC; color: #464646; padding: 2px 2px 2px 2px; width: 270px; height: 25px;">
+                                @if (PMGSYSession.Current.PMGSYScheme != null)
+                                {
+                                    if (PMGSYSession.Current.PMGSYScheme == 1)
+                                    {
+                                        <input type="radio" id="rdoScheme1" name="rdoScheme" checked="checked" /><label style="font-size: 10.5px; color: #464646;">PMGSY-1</label>
+                                        <span id="spnPMGSY2"> <input type="radio" id="rdoScheme2" name="rdoScheme" /><label style="font-size: 10.5px; color: #464646;">PMGSY-2</label></span>
+                                    }
+                                    else
+                                    {
+                                        <input type="radio" id="rdoScheme1" name="rdoScheme" /><label style="font-size: 10.5px; color: #464646;">PMGSY-1</label>
+                                         <span id="spnPMGSY2"><input type="radio" id="rdoScheme2" name="rdoScheme" checked="checked" /><label style="font-size: 10.5px; color: #464646;">PMGSY-2</label></span>
+                                    }
+                                }
+                                else
+                                {
+                                    <input type="radio" id="rdoScheme1" name="rdoScheme" /><label style="font-size: 10.5px; color: #464646;">PMGSY-1</label>
+                                     <span id="spnPMGSY2"><input type="radio" id="rdoScheme2" name="rdoScheme" /><label style="font-size: 10.5px; color: #464646;">PMGSY-2</label></span>
+                                }
+                                &nbsp;<a href="/ReportsLayout/ReportsLayout" title="Switch to reports" style="text-decoration: none; color: #464646; font-size: 10.5px;">&nbsp;|&nbsp;Reports  &nbsp;|  </a>
+                                &nbsp;<a href="/Home/Index" title="Switch to data entry" style="text-decoration: none; color: #464646; font-size: 10.5px;">Data Entry </a>
+                            </fieldset>
+                        </div>
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        @{Html.RenderAction("ValidateRoles", "Login", new { id = @PMGSYSession.Current.UserName });}
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        <div id="switcher" style="padding-bottom:10px;padding-top:5px;"></div>
+                    </td>
+                </tr>
+               
+            </table>
+        </div>
+        <div style="border-top: ridge 0.1em #000000; background-color: #e8e8e2; margin: 0 0 -15px -10px; padding-top: 5px; padding-bottom: 2px; width: 300px; height: 45px;">
+            <input type="button" value="Log Off" style="font-size: 11px; color: #464646; width: 80px; height: 25px; background-color: transparent; border: ridge 0.1em #807e7e; margin: 2px 2px 2px 18px;" onclick="window.location.href = '/login/logout'" />
+            <input type="button" value="Change Password" style="font-size: 11px; color: #464646; width: 120px; height: 25px; background-color: transparent; border: ridge 0.1em #807e7e; margin: 2px 2px 2px 25px;" onclick="window.location.href = '/login/ChangePassword'" />
+        </div>
+  </div>
+
+
+    
+
+    <br />
+    <br /><br />
+
+    <!-------------------  Main Div for Reports Starts Here  ------------------------------>
+    <!-- Layout for jgGrid Reports, contains toggle Divs for Menus, Filters & Contents  --->
+    <!-- Code for Rezsizing is totally depends on id of Table "tblRptContents"          --->
+    <!-- User Should call following js code to resize the grid  in their doc.ready()    --->
+    <!-- Exapmle code in Form1.js
+            $('#tblRptContents').bind('resize', function () {
+                resizeJqGrid('id of jgGrid');
+            }).trigger('resize');
+    --->
+
+    <div id="mainDivReports" style="width:100%;">
+        
+         <div style="width:99%; border:none; margin-top:2px; margin-bottom:2px; display:none">
+           @* @{Html.RenderAction("ReportsFilters", "ReportsLayout");}*@
+        </div>
+        
+         <table id="tblRptContents" style="width:98%; height:98%;">
+            <tr id="trRptContentArea" style="height:100%;">
+                <td class=" ui-state-default ui-corner-all"  id="tdViewMenu" style="background-color:#f6f3ec;display: none; width: 10px; height:100%; vertical-align:central;text-align:center;  background:url('/Content/images/ui-bg_glass_65_ffffff_1x400.png') repeat-x scroll 50% 50% #FFFFFF" >
+                      <span  id="spCollapseIconRight" class="ui-icon ui-icon-triangle-1-e" title="Click to show Menu" style="float:initial;"></span>
+                </td>
+                <td id="tdMenues" style="width:220px;background-color:#f6f3ec; vertical-align:top;height:100%; " class="ui-widget-content ui-corner-all">
+                     <div id="accordion" style="height:100%;width:100%;">
+                            <h3 style="background:none;background-color:#f6f3ec;">
+                                <a href="#">Menu</a>
+                                <span  id="spCollapseIconLeft" class="ui-icon ui-icon-triangle-1-w" title="Click to hide Menu" style="float:right;"></span>  
+                            </h3>
+                            <div id="dvReportsMenu" style="padding:0px 0px 0px 0px;border:none;height:600px;">
+                                @{Html.RenderAction("ReportsMenu", "ReportsLayout");}
+                            </div>
+                     </div>
+                </td> 
+                <td style="width:0.1%;"></td>
+                <td style="vertical-align:top;height:100%">
+					<div id="dvLoadReport" class="ui-corner-all" style="padding:0 0 0 0; background-color:#fff;width: 100%;height:100%;">
+						<!-- f6f3ec -->	
+                                    <input type="hidden" id="tab_title" />
+                                    <input type="hidden" id="tab_counter" value="2" />
+
+                                    <div id="tabs-report-content" style="display:none;">
+                                          <ul><li></li></ul>
+                                          <div id="dvLoadReport-1">
+                                                <!-- actual contents of the report will be loaded here -->
+                                          </div>
+                                    </div>	
+					</div> 
+				</td>
+            </tr>
+        </table>
+
+     </div>
+
+   
+    <!-------------------  Main for Div Reports Ends Here  ---------------------------->
+
+
+
+    <strong>
+        <hr class="ui-corner-all" style="background-color:#feddba;border:none;height:3px;width:100%;" />
+    </strong>     
+    <footer id="footer" style="margin-top:-4px;" class="ui-corner-all">
+        <div class="content-wrapper" style="vertical-align:middle;">
+            <table style="font-size:10.5px;width:100%;color: #2e2d2d;vertical-align:middle;">
+                <tr>
+                    <td style="width:73.5%;text-align:left;">
+                        <table style="margin-top:-5px;">
+                            <tr>
+                                <td>
+                                    @if (PMGSYSession.Current.StateName != null)
+                                    {
+                                        <span><b>&nbsp;&nbsp;State :  @PMGSYSession.Current.StateName</b></span>
+                                    }
+                                    @if (PMGSYSession.Current.DistrictName != null)
+                                    {
+                                        <span><b>|&nbsp;District :  @PMGSYSession.Current.DistrictName</b></span>
+                                    }
+                                    @if (PMGSYSession.Current.DepartmentName != null)
+                                    {
+                                        <span><b>|&nbsp;Department : @PMGSYSession.Current.DepartmentName</b></span>
+                                    }
+                                    @if (!string.IsNullOrEmpty(PMGSYSession.Current.FundType))
+                                    {
+                                        <span><b>|&nbsp;Fund Type : 
+                                                                    @if (PMGSYSession.Current.FundType.Equals("P"))
+                                                                    {
+                                                                        <label>Programme Fund</label>
+                                                                    }
+                                                                    else if (PMGSYSession.Current.FundType.Equals("A"))
+                                                                    {
+                                                                        <label>Administrative Fund</label>
+                                                                    }
+                                                                    else if (PMGSYSession.Current.FundType.Equals("M"))
+                                                                    {
+                                                                        <label>Maintenance Fund</label>
+                                                                    }
+                                        </b></span>
+                                    }
+                                </td>
+                            </tr>
+                        </table>
+                    </td>
+                    <td class="verticalLine"> </td>
+                    <td rowspan="2" style="width:26.5%;padding-left:10px;text-align:right;padding-right:10px;vertical-align:top;">
+                        <span>&copy; @DateTime.Now.Year NRRDA. All rights reserved.</span>
+                    </td>
+                </tr>
+            </table>
+        </div>
+    </footer>
+
+
+</body>
+</html>

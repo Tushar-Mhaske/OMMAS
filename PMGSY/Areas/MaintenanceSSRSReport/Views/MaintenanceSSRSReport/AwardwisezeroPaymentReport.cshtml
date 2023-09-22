@@ -1,0 +1,32 @@
+﻿@using MvcReportViewer
+
+@model PMGSY.Areas.MaintenanceSSRSReport.Models.AwardwisePayment
+
+
+
+@Html.MvcReportViewer("/PMGSYCitizen/Awardwise_Zeropayment_abstract",
+     new
+     {   
+         //Level = Model.LevelCode,
+         State = Model.StateCode,
+         District = 0,
+         //Model.Mast_District_Code,
+         Block = 0,
+          Month =Model.MonthCode,
+         Year=Model.PhaseYear,
+          Collaboration=0,
+         //Model.Mast_Block_Code,         
+         //PMGSY = PMGSY.Extensions.PMGSYSession.Current.PMGSYScheme,
+         PMGSY=Model.schemeCode,
+         
+         //StateName = Model.StateName,
+        // DistrictName = Model.DistName,
+        // BlockName = Model.BlockName,
+         AGENCY =0,
+        
+        
+         AwardStatus=Model.AwardCode
+         
+     },
+     new { Height = 600, Width = "100%", style = "border:none;" })
+

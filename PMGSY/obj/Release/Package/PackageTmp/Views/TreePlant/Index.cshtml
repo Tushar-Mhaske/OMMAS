@@ -1,0 +1,267 @@
+﻿@model PMGSY.Model.Maintenance.ManeTreePlantHeaderViewModel
+
+
+<script src="~/Scripts/custom/Generic.js"></script>
+
+<script src="~/Scripts/Bootstrap/bootstrap.min.js"></script>
+<script src="~/Scripts/jquery-ui.js"></script>
+
+
+<script type="text/javascript">
+    var isTrueAdd = false;
+    $(document).ready(function () {
+
+        if ($('#roleCode').val() == 6) {
+            if ($('#verifyCount').val() > 0) {
+                $("#btnShowAddForm").hide('slow');
+            }
+            else {
+                $("#btnShowAddForm").show('slow');
+            }
+        }
+
+        var roadId = $("#RoadCode").val();
+        $("#btnShowAddForm").click(function () {
+            var url = "/TreePlant/TreePlantAdd/" + roadId;
+            // alert(url);
+            $("#dvCreateTreePlant").load(url, function () {
+                //alert("Success");
+            });
+
+            toggle();
+        });
+
+        GetTreePlant(roadId);
+    });
+
+    function GetTreePlant(roadid) {
+        $.post("/TreePlant/TreePlantJson/" + roadid, function (recordList) {
+            //alert(JSON.stringify(response));
+            //alert($('#roleCode').val());
+            ($('#roleCode').val() == 6) ? GenerateRowNQM(recordList) : GenerateRow(recordList);
+            //alert(strRecord);
+        });
+    }
+
+    function DeleteTree() {
+
+        $(".treeDelete").click(function () {
+            debugger;
+            //alert($('input[name="__RequestVerificationToken"]').val());
+            var retVal = confirm("Do you want to continue ?");
+            if (retVal == true) {
+
+                var url = $(this).attr("url");
+                $.ajax({
+                    type: "POST",
+                    url: url,
+                    data: { __RequestVerificationToken: $('input[name="__RequestVerificationToken"]').val() },//$('#frmIndex').serializeArray(),
+                    success: function (response) {
+                        if (response.recordList != null) {
+                            GenerateRow(response.recordList);
+                            //alert("Record Successfully Deleted.");
+                        }
+                        alert(response.message);
+                    },
+                    error: function (xhr, ajaxOptions, throwError) {
+                        //alert(xhr.responseText);
+                        alert("error");
+                        $.unblockUI();
+                    }
+                });
+
+                //var url = $(this).attr("url");
+                //$.post(url, { __RequestVerificationToken: $('input[name="__RequestVerificationToken"]').val() }, function (recordList) {
+                //    // alert(url);
+                //    // toggle();
+                //}).done(function (recordList) {
+                //    alert(recordList == null);
+                //    GenerateRow(recordList);
+                //    alert("Record Successfully Deleted.");
+                //}).fail(function () {
+                //    alert("error");
+                //});
+            }
+        });
+    }
+
+    function GenerateRow(recordList) {
+        var strRecord = "";
+        $.each(recordList, function (index, record) {
+            strRecord += '<tr><td style="text-align:center;">' + record.SrNo + '</td><td style="text-align:center;">' + record.TREE_PLANT_MONTH_NAME + ', ' + record.TREE_PLANT_YEAR + '</td><td style="text-align:center;">' + record.TREE_PLANT_OLD + '</td><td style="text-align:center;">' + record.TREE_PLANT_NEW + '</td>' +
+                '<td style="text-align:center;">' +
+                '<span class="treeDelete" url="/TreePlant/TreePlantDelete?id=' + record.TREE_PLANT_ID + '"><u>Delete</u></span>' +
+                //'<span class="treeDelete" url="' + record.TREE_PLANT_ID + '"><u>Delete</u></span>' +
+                '</td></tr>';
+        });
+        $("#tblTreePlant tr:gt(0)").remove();
+        $('#tblTreePlant').append(strRecord);
+        DeleteTree();
+    }
+
+    function GenerateRowNQM(recordList) {
+        var strRecord = "";
+
+        $.each(recordList, function (index, record) {
+            //alert('index= ' + index);
+            //alert('record= ' + record);
+            //alert(record.verifyCount);
+            (index == recordList.length - 1 && record.verifyCount == 0)
+            ?
+            strRecord += '<tr><td style="text-align:center;">' + record.SrNo + '</td><td style="text-align:center;">' + record.TREE_PLANT_MONTH_NAME + ', ' + record.TREE_PLANT_YEAR + '</td><td style="text-align:center;">' + record.TREE_PLANT_OLD + '</td><td style="text-align:center;">' + record.TREE_PLANT_NEW + '</td>' +
+                '<td style="padding-left:9.25%;"><a style="text-align:center;" href="#" class="ui-icon ui-icon-plusthick"  onClick="TreePlantVerification()"><u></u></a></td></tr>'
+            :
+            (index == recordList.length - 1 && record.verifyCount > 0)
+            ?
+            strRecord += '<tr><td style="text-align:center;">' + record.SrNo + '</td><td style="text-align:center;">' + record.TREE_PLANT_MONTH_NAME + ', ' + record.TREE_PLANT_YEAR + '</td><td style="text-align:center;">' + record.TREE_PLANT_OLD + '</td><td style="text-align:center;">' + record.TREE_PLANT_NEW + '</td>' +
+                '<td style="text-align:center;">' + record.Verify + '</td></tr>'
+            :
+            strRecord += '<tr><td style="text-align:center;">' + record.SrNo + '</td><td style="text-align:center;">' + record.TREE_PLANT_MONTH_NAME + ', ' + record.TREE_PLANT_YEAR + '</td><td style="text-align:center;">' + record.TREE_PLANT_OLD + '</td><td style="text-align:center;">' + record.TREE_PLANT_NEW + '</td>' +
+                '<td style="padding-left:10%;">-</td>' + '</tr>'
+            ;
+        });
+        $("#tblTreePlant tr:gt(0)").remove();
+        $('#tblTreePlant').append(strRecord);
+        DeleteTree();
+    }
+
+    function toggle() {
+        $("#dvCreateTreePlant").toggle("slow");
+        $("#btnShowAddForm").toggle("slow");
+    }
+
+    function TreePlantVerification() {
+
+        $.ajax({
+            url: "/TreePlant/TreePlantVerify/" + $('#obsId').val() + "$" + $('#RoadCode').val(),
+            type: "GET",
+            async: false,
+            cache: false,
+            dataType: 'html',
+            success: function (data) {
+                //alert("Success" + id);
+                $('#dvVerify').html(data);
+                $('#dvVerify').show('slow');
+            },
+            error: function (xhr, ajaxOptions, thrownError) {
+                alert('Error occurred while processing your request.');
+            }
+        });
+    }
+
+</script>
+
+<form id="frmIndex">
+    @Html.AntiForgeryToken()
+    @Html.ValidationSummary(true)
+
+    @Html.HiddenFor(model => model.RoadCode)
+    @Html.HiddenFor(model => model.roleCode)
+    @Html.HiddenFor(model => model.obsId)
+    @Html.HiddenFor(model => model.verifyCount)
+
+    <div style="width: 90%; border: none; margin-top: -15px; margin-bottom: 10px; text-align: left" class="ui-state-default">
+
+
+        <table style="margin-top: 10px; margin-bottom: 5px; width: 100%">
+            <tr>
+                <td style="text-align: center;" colspan="3">
+                    <span style="font-weight: bold; font-size: medium">Tree Plantation Details</span>
+                </td>
+
+            </tr>
+            <tr>
+                <td style="text-align: center; width: 33%;">
+                    <span style="font-weight: bold">Block :</span> @Model.BlockName
+                </td>
+                <td style="text-align: left; width: 33%;">
+                    <span style="font-weight: bold">Package:</span> @Model.Package
+                </td>
+
+                <td style="text-align: left; width: 33%;">
+                    <span style="font-weight: bold">Sanctioned Year:</span> @Model.SanctionYear
+                </td>
+            </tr>
+            <tr>
+                <td style="text-align: center;">
+                    <span style="font-weight: bold">Road Name:</span>
+                </td>
+                <td colspan="2" style="text-align: left">
+                    @Model.RoadName
+                </td>
+
+            </tr>
+        </table>
+    </div>
+
+
+    <div id="dvListTreePlant" class="ui-corner-bottom" style="border-bottom: 1px solid #E4C7B1; border-left: 1px solid #E4C7B1; border-right: 1px solid #E4C7B1;">
+        <div id="dvhdListTreePlantDetails" class="ui-corner-top ui-widget-header panelheader" style="text-align: left; height: 20px;">
+            <span class="ui-jqgrid-title" style="float: left">&nbsp;List of Tree Plantaition Details</span>
+
+        </div>
+
+        <table id="tblTreePlant" style="margin-top: 10px; margin-bottom: 5px; width: 70%;" class="rowstyle">
+            <tr>
+                <td style="text-align: center; width: 10px;">
+                    <span style="font-weight: bold">Sr.No.</span>
+                </td>
+                <td style="text-align: center; width: 22%;">
+                    <span style="font-weight: bold">Month and Year</span>
+                </td>
+                <td style="text-align: center; width: 22%;">
+                    <span style="font-weight: bold">No of Old Plant</span>
+                </td>
+
+                <td style="text-align: center; width: 22%;">
+                    <span style="font-weight: bold">No of New Plant</span>
+                </td>
+                @if (PMGSY.Extensions.PMGSYSession.Current.RoleCode == 6)
+                {
+                    <td style="text-align: center; width: 22%;">
+                        <span style="font-weight: bold">Verification</span>
+                    </td>
+                }
+                else
+                {
+                    <td style="text-align: center; width: 22%;">
+                        <span style="font-weight: bold">Delete</span>
+                    </td>
+                }
+            </tr>
+            <tr>
+                <td style="text-align: center;">item
+                </td>
+                <td style="text-align: center;">item
+                </td>
+                <td style="text-align: center;">item
+                </td>
+
+                <td style="text-align: center;">item
+                </td>
+                @if (PMGSY.Extensions.PMGSYSession.Current.RoleCode == 6)
+                {
+                    <td id="tdVerify">item
+                    </td>
+                }
+                else
+                {
+                    <td style="text-align: center;">item
+                    </td>
+                }
+            </tr>
+
+        </table>
+
+
+
+        <div style="text-align: left; margin-left:10px; margin-bottom:10px;">
+            @if (PMGSY.Extensions.PMGSYSession.Current.RoleCode != 6)
+            {
+                <input type="button" id="btnShowAddForm" value="Add Tree Details" />
+            }
+            <div id="dvCreateTreePlant" style="width: 98%; display: none"></div>
+        </div>
+    </div>
+    <div id="dvVerify" style="margin-top: 10px;"></div>
+</form>

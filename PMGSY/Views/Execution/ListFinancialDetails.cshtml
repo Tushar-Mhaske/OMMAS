@@ -1,0 +1,85 @@
+﻿@model PMGSY.Models.Execution.ExecutionProgressViewModel
+
+@{
+    ViewBag.Title = "ListFinancialDetails";
+}
+
+<script src="~/Scripts/custom/Generic.js"></script>
+<script src="~/Scripts/jquery.ui.dialog.js"></script>
+<script src="~/Scripts/Execution/ListFinancialDetails.js"></script>
+
+<div style="height:auto; width: 99%; text-align:left; padding-top: 0.6em;"> 
+
+    <table class="rowstyle ui-corner-all" style="width:100%; border:solid black 1px;">
+        <tr>
+            <td style="width:5%"></td>
+            <td style="width:12%;font-weight:bold">
+                Block 
+            </td>
+            <td style="width:15%">
+                @Model.BlockName
+            </td>
+            <td style="width:12%;font-weight:bold">
+                Package No.
+            </td>
+            <td style="width:15%">
+                @Model.Package
+            </td>
+        </tr>
+        <tr>
+            <td></td>
+            <td style="font-weight:bold">
+                Road Name:
+            </td>
+            <td>
+                @Model.RoadName
+            </td>
+            <td style="font-weight:bold">
+                Agreement Date
+            </td>
+            <td>
+                @Model.AgreementDate
+            </td>
+        </tr>
+        <tr>
+            <td></td>
+            <td style="font-weight:bold">
+                Overall Cost(Rs. in Lakh):
+            </td>
+            <td>
+                @Model.AgreementCost<label id="lblView" onclick="ViewDetails()" style="color:blue;cursor:pointer">  (View Details)</label>
+            </td>
+            <td style="font-weight:bold">
+                Sanction Length(in Km)
+            </td>
+            <td>
+                @Model.Sanction_length
+            </td>
+        </tr>
+    </table>
+
+</div>
+<br />
+<div id="dvRoadDetails">
+    <table id="tbRoadDetails"></table>
+    <div id="pgRoadDetails"></div>
+</div>
+<br />
+<div id="divFinancialDetails">
+    <table id="tbFinancialList">
+
+    </table>
+    <div id="pagerFinancialList">
+
+    </div>
+</div>
+<br />
+@*<div style="text-align:left">
+    <input type="button" class="jqueryButton" id="btnAddFinancialProgress" value="Add Road Progress Details"/>
+</div>*@
+<div id="divAddFinancialProgress">
+
+</div>
+@Html.HiddenFor(model=>model.IMS_PR_ROAD_CODE, new {@id="prRoadCode" })
+@Html.HiddenFor(model=>model.EXEC_PROGRESS_TYPE, new {@id="prType" })
+

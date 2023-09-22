@@ -1,0 +1,13 @@
+﻿@using MvcReportViewer
+
+@model PMGSY.Areas.ProgressReport.Models.TargetAchievementViewModel
+
+@Html.MvcReportViewer("/PMGSYCitizen/Achievement_Report",
+         new
+         {
+             fromDate = Model.fromDate,
+             toDate = Model.toDate,
+         },
+     new { Height = 600, Width = "100%", style = "border:none;" })
+
+

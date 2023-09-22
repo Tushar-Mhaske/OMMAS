@@ -1,0 +1,102 @@
+﻿@*----------------------------------------------------------------------------------------
+
+ * Project Id:
+
+ * Project Name:OMMAS2
+
+ * File Name: PeriodicMaintenancelayout.cshtml
+
+ * Author : Pradip Patil
+
+ * Creation Date :25/April/2017
+
+ * Desc : This is main view to disaply completed road as per search paramenters.
+ * ---------------------------------------------------------------------------------------*@
+
+@model PMGSY.Models.MaintenanceAgreement.PeriodicMaintenanceModel 
+
+<script src="@Url.Content("~/Scripts/custom/Generic.js")" type="text/javascript" ></script>
+<script type="text/javascript" src="@Url.Content("~/Scripts/jquery.ui.accordion.js")"> </script>
+<script type="text/javascript" src="@Url.Content("~/Scripts/MaintenanceAgreement/PeriodicMaintenamceLayout.js")"> </script>
+
+<center>
+
+ <div id="dvAgreement" style="width:98%; margin-top:10px;">
+<div id="dvSearchProposedRoad">
+<div style="height:20px;border:none; margin-top:5px; margin-bottom:-15px; " class="ui-state-default">
+    <span style="float:right;margin-right:2Px; margin-top:2px" id="spCollapseIconS" class="ui-icon ui-icon-circle-triangle-n"></span>     
+</div>
+<div id="dvSearchParameter" class="ui-state-default" style=" border:none; ">
+   <form id="frmSearchProposedRoad">
+
+         <table style="width:100%;">
+            <tr>
+                <td style="width:8%;">@Html.LabelFor(model=>model.Block)</td>
+                <td style="width:15%;" >@Html.DropDownListFor(model=>model.Block, Model.BlockList, new { @id = "ddlBlocks", @title = "Block", @tabindex = 1 })</td>
+
+                <td style="text-align:left;width:10%;"  >@Html.LabelFor(model=>model.FinancialYear)</td>
+                <td style="width:15%;">@Html.DropDownListFor(model=>model.FinancialYear,Model.YearList, new { @id = "ddlFinancialYears", @title = "Financial Year", @tabindex = 2 })</td>
+
+                <td style="text-align:left;width:8%;" >@Html.LabelFor(model=>model.Package)</td>
+                <td style="width:15%;">@Html.DropDownListFor(model=>model.Package, Model.PackageList, new { @id = "ddlPackages", @title = "Package", @tabindex = 3 })</td>
+
+                <td style="text-align:left;width:8%;" >@Html.LabelFor(model=>model.Batch)</td>
+                <td style="width:15%;">@Html.DropDownListFor(model=>model.Batch, Model.BatchList, new { @id = "ddlBatchs", @title = "Batch", @tabindex = 4 })</td>
+            </tr>
+            <tr>
+                <td style="width:8%;"></td>
+                <td style="width:15%;" >@Html.ValidationMessageFor(model=>model.Block)</td>
+
+                <td style="text-align:left;width:10%;"  ></td>
+                <td style="width:15%;">@Html.ValidationMessageFor(model=>model.FinancialYear)</td>
+
+                <td style="text-align:left;width:8%;" ></td>
+                <td style="width:15%;">@Html.ValidationMessageFor(model=>model.Package)</td>
+
+                <td style="text-align:left;width:8%;" ></td>
+                <td style="width:15%;">@Html.ValidationMessageFor(model=>model.Batch)</td>
+            </tr>
+             <tr>
+                <td style="text-align:left;width:8%;" >@Html.LabelFor(model=>model.FundingAgency)</td>
+                <td style="width:15%;">@Html.DropDownListFor(model=>model.FundingAgency,Model.FundingAgencyList, new { @id = "ddlCollaborations", @title = "Collaboration", @tabindex = 5 })</td>
+
+                <td style="text-align:left;width:8%;" >@Html.LabelFor(model=>model.NewUpgradation)</td>
+                <td style="width:15%;">@Html.DropDownListFor(model=>model.NewUpgradation, Model.NewUpgradationList, new { @id = "ddlUpgradations", @title = "New / Upgradation", @tabindex = 6 })</td>
+
+                <td style="text-align:left"><input type="button" id="btnSearch" name="btnSearch" value="View" class= "jqueryButton" title="Search Proposed Roads " tabindex="7"  /> </td>
+            </tr>
+
+             <tr>
+                <td style="text-align:left;width:8%;" ></td>
+                <td style="width:15%;">@Html.ValidationMessageFor(model=>model.FundingAgency)</td>
+
+                <td style="text-align:left;width:8%;" ></td>
+                <td style="width:15%;">@Html.ValidationMessageFor(model=>model.NewUpgradation)</td>
+
+                <td> </td>
+            </tr>
+         </table>
+   </form>
+</div>
+</div>
+<div id="dvProposedRoadList" style="width:100%; margin-top:25px;">
+    <table id="tbProposedRoadList"></table>
+    <div id="dvProposedRoadListPager"></div>
+</div>
+<div id="accordion" style="display:none;margin-top:20px;">            
+    <h3  style="text-align:left">
+        <a id="accheader" href="#" style=" font-size:.9em;" >Add Periodic Maintenance Details</a>
+        <a href="#"  style="float: right;">
+            <img style="border:none" alt="Close" class="ui-icon ui-icon-closethick" id="imgCloseAgreementDetails" /></a>
+    </h3>
+    <div id="dvAddMaintenanceAgreementAgainstRoad" style="display:none"></div>  
+         
+</div>
+
+</div>
+</center>
+
+@section Scripts {
+    @Scripts.Render("~/bundles/jqueryval")
+
+}

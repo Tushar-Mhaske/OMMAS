@@ -1,0 +1,389 @@
+﻿@model PMGSY.Models.Bank.BankDetailsViewModel
+@using PMGSY.Extensions
+
+@{
+    Int32 DPIURoleCode = PMGSYSession.Current.LevelId;
+}
+
+
+<script type="text/javascript" src="~/Scripts/jquery.ui.datepicker.js"></script>
+<script type="text/javascript" src="@Url.Content("~/Scripts/custom/Generic.js")"> </script>
+<script type="text/javascript" src="@Url.Content("~/Scripts/jquery.ui.autocomplete.js")"> </script>
+<script type="text/javascript" src="@Url.Content("~/Scripts/Bank/AddEditBankDetails.js")"> </script>
+<script type="text/javascript">var DPIUCode = '@PMGSYSession.Current.LevelId';</script>
+
+
+@if (PMGSYSession.Current.LevelId == 5 || Model.Operation == "V")
+{
+
+    <div class="ui-widget-header ui-corner-top" style="margin-left: 0; margin-right: 0; margin-bottom: 0; text-align: left">
+        Bank Details
+    <a href="#" style="float: right;">
+        <img style="margin-right: 5px" alt="Close" src="" class="ui-icon ui-icon-closethick" id="imgCloseBankDetails" /></a>
+    </div>
+    
+    @Html.Hidden("currentDate", System.DateTime.Now)
+    
+    if (ViewBag.Status != "")
+    {
+@*<table class="table-content ui-table-border" style="width:100%;margin-top:20px" cellspacing="1px" id="tblBankDetails" >*@
+    <table class="ui-state-default ui-corner-all" style="border: 0.1em solid gray; width: 100%; margin-top: 20px" cellspacing="1px" id="tblBankDetails">
+
+        <tr>
+            <td>
+                <center><b>@ViewBag.Status</b></center>
+            </td>
+        </tr>
+
+    </table>
+    }
+    else
+    {
+@*<table class="table-content ui-table-border" style="width:100%" cellspacing="1px" id="tblBankDetails" >*@
+    <table class="ui-state-default ui-corner-all" style="border: 0.1em solid gray; width: 100%;" cellspacing="1px" id="tblBankDetails">
+        <tr>
+            <td style="width: 2%"></td>
+            <td style="width: 3%; color: black">
+                @Html.LabelFor(model => model.BANK_NAME) :
+            </td>
+            <td style="width: 3%">
+                @Html.DisplayFor(model => model.BANK_NAME)
+            </td>
+            <td style="width: 3%; color: black">
+                @Html.LabelFor(model => model.BANK_BRANCH) :
+            </td>
+            <td style="width: 3%">
+                @Html.DisplayFor(model => model.BANK_BRANCH)
+            </td>
+        </tr>
+        <tr>
+            <td></td>
+            <td style="color: black">
+                @Html.LabelFor(model => model.BANK_ACC_NO) :
+            </td>
+            <td>
+                @Html.DisplayFor(model => model.BANK_ACC_NO)
+            </td>
+            <td style="color: black">
+                @Html.LabelFor(model => model.BANK_AGREEMENT_DATE) :
+            </td>
+            <td>
+                @Html.DisplayFor(model => model.BANK_AGREEMENT_DATE)
+            </td>
+        </tr>
+        <tr>
+            <td></td>
+            <td style="color: black">
+                @Html.LabelFor(model => model.BANK_ADDRESS1) :
+            </td>
+            <td>
+                @Html.DisplayFor(model => model.BANK_ADDRESS1)
+            </td>
+            <td style="color: black">
+                @Html.LabelFor(model => model.BANK_ADDRESS2) :
+            </td>
+            <td>
+                @Html.DisplayFor(model => model.BANK_ADDRESS2)
+            </td>
+        </tr>
+        <tr>
+            <td></td>
+            <td style="color: black">
+                @Html.LabelFor(model => model.BANK_PIN) :
+            </td>
+            <td>
+                @Html.DisplayFor(model => model.BANK_PIN)
+            </td>
+            <td style="color: black">
+                @Html.LabelFor(model => model.MAST_DISTRICT_CODE) :
+            </td>
+            <td>
+                @Html.DisplayFor(model => model.DistrictName)
+            </td>
+        </tr>
+        <tr>
+            <td></td>
+            <td style="color: black">
+                @Html.LabelFor(model => model.BANK_STD1) :
+            </td>
+            <td>
+                @Html.DisplayFor(model => model.BANK_STD1)@Html.DisplayFor(model => model.BANK_PHONE1)
+            </td>
+            <td style="color: black">
+                @Html.LabelFor(model => model.BANK_STD2) :
+            </td>
+            <td>
+                @Html.DisplayFor(model => model.BANK_STD2)@Html.DisplayFor(model => model.BANK_PHONE2)
+            </td>
+        </tr>
+        <tr>
+            <td></td>
+            <td style="color: black">
+                @Html.LabelFor(model => model.BANK_EMAIL) :
+            </td>
+            <td>
+                @Html.DisplayFor(model => model.BANK_EMAIL)
+            </td>
+            <td style="color: black">
+                @Html.LabelFor(model => model.BANK_STD_FAX) :
+            </td>
+            <td>
+                @Html.DisplayFor(model => model.BANK_STD_FAX)@Html.DisplayFor(model => model.BANK_FAX)
+            </td>
+        </tr>
+        <tr>
+            <td></td>
+            <td style="color: black">
+                @Html.LabelFor(model => model.BANK_ACC_OPEN_DATE) :
+            </td>
+            <td>
+                @Html.DisplayFor(model => model.BANK_ACC_OPEN_DATE)
+            </td>
+            <td style="color: black">
+                @Html.LabelFor(model => model.BANK_ACC_CLOSE_DATE) :
+            </td>
+            <td>
+                @Html.DisplayFor(model => model.BANK_ACC_CLOSE_DATE)
+            </td>
+        </tr>
+        <tr>
+            <td></td>
+            <td style="color: black">
+                @Html.LabelFor(model => model.BANK_REMARKS) :
+            </td>
+            <td colspan="3">
+                @Html.DisplayFor(model => model.BANK_REMARKS)
+            </td>
+        </tr>
+    </table>
+    }
+
+
+}
+else
+{
+    <form id="frmAddBankDetails">
+        @Html.ValidationSummary(true)
+        @Html.AntiForgeryToken()
+        <div class="ui-widget-header ui-corner-top" style="margin-left: 0; margin-right: 0; margin-bottom: 0; text-align: left; height: 20px">
+            Add/Edit Bank Details
+     <a href="#" style="float: right;">
+         <img style="margin-right: 5px" alt="Close" src="" class="ui-icon ui-icon-closethick" id="imgCloseBankDetails" /></a>
+        </div>
+
+        <div id="divBank">
+            <table class="ui-state-default ui-corner-all" style="border: 0.1em solid gray; width: 100%" id="tblOBMaster">
+                <tr>
+                    <td colspan="5">
+                        <div id="divBankDetailsError" class="ui-state-error ui-corner-all" style="text-align: left; display: none; width: 100%">
+                            <span class="ui-icon ui-icon-alert" style="float: left;"></span>
+                            <span></span>
+                        </div>
+                    </td>
+                </tr>
+                <tr>
+                    <td style="width: 5%">
+                        @Html.HiddenFor(model => model.MAST_STATE_CODE)
+                        @Html.HiddenFor(model => model.FUND_TYPE)
+                        @Html.HiddenFor(model => model.ADMIN_ND_CODE)
+                        @Html.HiddenFor(model => model.Operation)
+                        @Html.HiddenFor(model => model.EncryptedBankCode)
+                        @Html.HiddenFor(model => model.OldCloseDate)
+                    </td>
+                    <td style="width: 5%">
+                        @Html.LabelFor(model => model.BANK_NAME)<label style="color: red">*</label>
+                    </td>
+                    <td style="width: 15%">
+                        @*@Html.TextBoxFor(model => model.BANK_NAME, new { @title = "Enter Bank Name", @placeholder = "Enter Bank Name...", @tabindex = 1, @maxlength = 50 })
+                        @Html.ValidationMessageFor(model => model.BANK_NAME)*@
+                        @Html.DropDownListFor(model => model.BANK_NAME, new SelectList(Model.lstBankNames, "Value", "Text"), new { @id = "ddlBankName", @tabindex = 3 })
+                        <br />
+                        @Html.ValidationMessageFor(x => x.BANK_NAME)
+                    </td>
+                    <td style="width: 5%">
+                        @Html.LabelFor(model => model.MAST_IFSC_CODE)<label style="color: red">*</label>
+                        <br />
+                        <label>(e.g.AAAA0123456/AAAA0ABCDEF)</label>
+                    </td>
+                    <td style="width: 15%">
+                        @Html.TextBoxFor(model => model.MAST_IFSC_CODE, new { maxlength = 11, @title = "IFSC Code", @placeholder = "Enter IFSC Code...", @tabindex = 4 })
+                        <br />
+                        @Html.ValidationMessageFor(model => model.MAST_IFSC_CODE)
+                        @*@Html.DropDownListFor(model => model.MAST_IFSC_CODE, new SelectList(Model.lstIfscCodes, "Value", "Text"), new { @id = "ddlIfscCode", @tabindex = 3 })
+                <br />
+                @Html.ValidationMessageFor(x => x.MAST_IFSC_CODE)*@
+                    </td>
+                </tr>
+                <tr>
+                    <td></td>
+                    <td style="width: 5%">
+                        @Html.LabelFor(model => model.BANK_BRANCH)<label style="color: red">*</label>
+                    </td>
+                    <td style="width: 15%">
+                        @Html.TextBoxFor(model => model.BANK_BRANCH, new { @title = "Enter Branch Name", @placeholder = "Enter Branch Name...", @tabindex = 2, @maxlength = 100 })
+                        @Html.ValidationMessageFor(model => model.BANK_BRANCH)
+                    </td>
+
+                    <td>
+                        @Html.LabelFor(model => model.BANK_ACC_NO)<label style="color: red">*</label>
+                    </td>
+                    <td>
+                        @Html.TextBoxFor(model => model.BANK_ACC_NO, new { @title = "Enter Account No.", @placeholder = "Enter Account No...", @tabindex = 3, @maxlength = 30 })
+                        @Html.ValidationMessageFor(model => model.BANK_ACC_NO)
+                    </td>
+                </tr>
+                <tr>
+                    <td></td>
+                    <td>
+                        @Html.LabelFor(model => model.BANK_AGREEMENT_DATE)
+                    </td>
+                    <td>
+                        @Html.TextBoxFor(model => model.BANK_AGREEMENT_DATE, new { @title = "Enter Agreement Date", @placeholder = "Enter Agreement Date...", @tabindex = 4, @maxlength = 30 })
+                        @Html.ValidationMessageFor(model => model.BANK_AGREEMENT_DATE)
+                    </td>
+
+                    <td>
+                        @Html.LabelFor(model => model.BANK_ADDRESS1)<label style="color: red">*</label>
+                    </td>
+                    <td>
+                        @Html.TextAreaFor(model => model.BANK_ADDRESS1, new { @title = "Enter Address1", @placeholder = "Enter Address1...", @tabindex = 5, @maxlength = 150 })
+                        @Html.ValidationMessageFor(model => model.BANK_ADDRESS1)
+                    </td>
+                </tr>
+                <tr>
+                    <td></td>
+                    <td>
+                        @Html.LabelFor(model => model.BANK_ADDRESS2)
+                    </td>
+                    <td>
+                        @Html.TextAreaFor(model => model.BANK_ADDRESS2, new { @title = "Enter Address2", @placeholder = "Enter Address2...", @tabindex = 6, @maxlength = 150 })
+                        @Html.ValidationMessageFor(model => model.BANK_ADDRESS2)
+                    </td>
+
+                    <td>
+                        @Html.LabelFor(model => model.BANK_PIN)
+                    </td>
+                    <td>
+                        @Html.TextBoxFor(model => model.BANK_PIN, new { @title = "Enter Pin Code.", @placeholder = "Enter Pin Code...", @tabindex = 7, @maxlength = 6 })
+                        @Html.ValidationMessageFor(model => model.BANK_PIN)
+                    </td>
+                </tr>
+                <tr>
+                    <td></td>
+                    <td>
+                        @Html.LabelFor(model => model.MAST_DISTRICT_CODE)
+                    </td>
+                    <td>
+                        @Html.DropDownListFor(model => model.MAST_DISTRICT_CODE, new SelectList(Model.DISTRICT, "Value", "Text"), new { @title = "Select District", @tabindex = 8 })
+                        @Html.ValidationMessageFor(model => model.MAST_DISTRICT_CODE)
+                    </td>
+
+                    <td>
+                        @Html.LabelFor(model => model.BANK_STD1)<label style="color: red">*</label>
+                    </td>
+                    <td>
+                        @Html.TextBoxFor(model => model.BANK_STD1, new { @style = "width:15%", @title = "Enter STD Code", @placeholder = "Enter STD...", @tabindex = 9, @maxlength = 5 })
+                        @Html.LabelFor(model => model.BANK_PHONE1)
+                        @Html.TextBoxFor(model => model.BANK_PHONE1, new { @style = "width:20.5%", @title = "Enter Phone Number", @placeholder = "Enter Phone...", @tabindex = 10, @maxlength = 8 })
+                        @Html.ValidationMessageFor(model => model.BANK_STD1)
+                        @Html.ValidationMessageFor(model => model.BANK_PHONE1)
+                    </td>
+                    <tr>
+                        <td></td>
+                        <td>
+                            @Html.LabelFor(model => model.BANK_STD2)
+                        </td>
+                        <td>
+                            @Html.TextBoxFor(model => model.BANK_STD2, new { @style = "width:15%", @title = "Enter STD Code", @placeholder = "Enter STD Code...", @tabindex = 11, @maxlength = 5 })
+                            @Html.LabelFor(model => model.BANK_PHONE2)
+                            @Html.TextBoxFor(model => model.BANK_PHONE2, new { @style = "width:20.5%", @title = "Enter Phone Number", @placeholder = "Enter Phone...", @tabindex = 12, @maxlength = 8 })
+                            @Html.ValidationMessageFor(model => model.BANK_STD2)
+                            @Html.ValidationMessageFor(model => model.BANK_PHONE2)
+                        </td>
+                        <td>
+                            @Html.LabelFor(model => model.BANK_EMAIL)<label style="color: red">*</label>
+                        </td>
+                        <td>
+                            @Html.TextBoxFor(model => model.BANK_EMAIL, new { @title = "Enter Email ID", @placeholder = "Enter Email...", @tabindex = 13, @maxlength = 50 })
+                            @Html.ValidationMessageFor(model => model.BANK_EMAIL)
+                        </td>
+                    </tr>
+                <tr>
+                    <td></td>
+                    <td>
+                        @Html.LabelFor(model => model.BANK_STD_FAX)
+                    </td>
+                    <td>
+                        @Html.TextBoxFor(model => model.BANK_STD_FAX, new { @style = "width:15%", @title = "Enter STD Code", @placeholder = "Enter STD...", @tabindex = 14, @maxlength = 6 })
+                        @Html.LabelFor(model => model.BANK_FAX)
+                        @Html.TextBoxFor(model => model.BANK_FAX, new { @style = "width:20.5%", @title = "Enter Fax Number", @placeholder = "Enter Fax...", @tabindex = 15, @maxlength = 11 })
+                        @Html.ValidationMessageFor(model => model.BANK_STD_FAX)
+                        @Html.ValidationMessageFor(model => model.BANK_FAX)
+                    </td>
+
+                    <td>
+                        @Html.LabelFor(model => model.BANK_ACC_OPEN_DATE)<label style="color: red">*</label>
+                    </td>
+                    <td>
+                        @Html.TextBoxFor(model => model.BANK_ACC_OPEN_DATE, new { @title = "Enter Account Opening Date", @placeholder = "Enter Account Open Date...", @tabindex = 16, @maxlength = 50 })
+                        @Html.ValidationMessageFor(model => model.BANK_ACC_OPEN_DATE)
+                    </td>
+                </tr>
+                <tr>
+                    <td></td>
+                    @if (Model.Operation == "E")
+                    {
+                        <td>
+                            @Html.LabelFor(model => model.BANK_ACC_CLOSE_DATE)
+                        </td>
+                        <td>
+                            @Html.TextBoxFor(model => model.BANK_ACC_CLOSE_DATE, new { @title = "Enter Account Closing Date", @placeholder = "Enter Account Close Date...", @tabindex = 17, @maxlength = 50 })
+                            @Html.ValidationMessageFor(model => model.BANK_ACC_CLOSE_DATE)
+                        </td>
+                    }
+
+                    <td>
+                        @Html.LabelFor(model => model.BANK_REMARKS)
+                    </td>
+                    <td>
+                        @Html.TextAreaFor(model => model.BANK_REMARKS, new { @title = "Enter Remarks", @placeholder = "Enter Remarks...", @tabindex = 18, @maxlength = 255 })
+                        @Html.ValidationMessageFor(model => model.BANK_REMARKS)
+                    </td>
+                </tr>
+                <tr>
+                    <center>
+        @if (DPIURoleCode != 5)
+        {
+        <td style="text-align:center" colspan="5">
+          @{if (Model.Operation == "A")
+            {<input type="button" id="btnSaveBankDetails" value="Save" class="jqueryButton" tabindex="19">}
+            else
+            { <input type="button" id="btnEditBankDetails" value="Update" class="jqueryButton" tabindex="19"> } }
+            &nbsp;
+          @{if (Model.Operation == "A")
+            {<input type="reset" id="btnResetBankDetails" value="Reset" class="jqueryButton" tabindex="20">
+            }
+            else
+            { <input type="button" id="btnCancelBankDetails" value="Cancel" class="jqueryButton" tabindex="20"> } }
+        </td>
+        }
+        </center>
+                </tr>
+            </table>
+        </div>
+        @if (!string.IsNullOrEmpty(Model.pfmsErrorMessage))
+        {
+            <tr>
+                <td colspan="5" style="text-align: center;">
+                    <label style="color: red;">
+                        <b>*  @Model.pfmsErrorMessage</b>
+                    </label>
+                </td>
+            </tr>
+        }
+    </form>
+}
+
+@section Scripts {
+    @Scripts.Render("~/bundles/jqueryval")
+}

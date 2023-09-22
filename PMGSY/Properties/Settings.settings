@@ -1,0 +1,15 @@
+﻿<?xml version='1.0' encoding='utf-8'?>
+<SettingsFile xmlns="http://schemas.microsoft.com/VisualStudio/2004/01/settings" CurrentProfile="(Default)" GeneratedClassNamespace="PMGSY.Properties" GeneratedClassName="Settings">
+  <Profiles />
+  <Settings>
+    <Setting Name="PMGSY_NREGAWebReference_pmgsyplantation" Type="(Web Service URL)" Scope="Application">
+      <Value Profile="(Default)">http://164.100.129.6/netnrega/nregapost/pmgsyplantation.asmx</Value>
+    </Setting>
+    <Setting Name="PMGSY_GePNICWebReference_PullTenderService" Type="(Web Service URL)" Scope="Application">
+      <Value Profile="(Default)">https://pmgsytenders.gov.in/nicgep_general_webservice/services/PullTenderService.PullTenderServiceHttpsSoap11Endpoint/</Value>
+    </Setting>
+    <Setting Name="PMGSY_GePNICWebReferencePush_PushTenderService" Type="(Web Service URL)" Scope="Application">
+      <Value Profile="(Default)">https://pmgsytenders.gov.in/nicgep_general_webservice/services/PushTenderService.PushTenderServiceHttpsSoap11Endpoint/</Value>
+    </Setting>
+  </Settings>
+</SettingsFile>

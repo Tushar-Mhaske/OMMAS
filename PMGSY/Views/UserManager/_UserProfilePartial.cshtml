@@ -1,0 +1,52 @@
+﻿@model PMGSY.Models.UserManager.UserProfileModel
+
+<table id="tableContentName" style="width:100%; color:#0094ff"  cellspacing="0" cellpadding="2" border="0" >
+    <tr>
+        <td colspan="2">
+               @Html.DisplayFor(model => model.Name) ( @Html.DisplayFor(model => model.UserName) )
+        <hr />
+        </td>
+    </tr>
+    <tr>
+        <td>@Html.LabelFor(model => model.LevelName) : </td>
+        <td>
+            @Html.DisplayFor(model => model.LevelName)
+        </td>
+    </tr>
+    <tr>
+       <td>@Html.LabelFor(model => model.State) : </td>
+        <td>
+            @Html.DisplayFor(model => model.State)
+        </td>
+    </tr>
+    <tr>
+        <td>@Html.LabelFor(model => model.District) : </td>
+        <td>
+            @Html.DisplayFor(model => model.District)
+        </td>
+    </tr>
+    <tr>
+        <td>@Html.LabelFor(model => model.Department) : </td>
+        <td>
+            @Html.DisplayFor(model => model.Department)
+        </td>
+    </tr>
+    <tr>
+        <td>@Html.LabelFor(model => model.PreferredCss) : </td>
+        <td>
+            @Html.DisplayFor(model => model.PreferredCss)
+        </td>
+    </tr>
+    <tr>
+        <td>@Html.LabelFor(model => model.PreferredLanguage) : </td>
+        <td>
+            @Html.DisplayFor(model => model.PreferredLanguage)
+        </td>
+    </tr>
+    <tr>
+        <td>@Html.LabelFor(model => model.IsActive) : </td>
+        <td>
+            @Html.DisplayFor(model => model.IsActive)
+        </td>
+    </tr>
+</table>

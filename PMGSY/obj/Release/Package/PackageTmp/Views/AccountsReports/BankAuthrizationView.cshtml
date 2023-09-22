@@ -1,0 +1,157 @@
+﻿
+@using PMGSY.Models
+@using PMGSY.Models.Report
+@model PMGSY.Models.AccountsReports.BankAuthrizationViewModel
+@using PMGSY.Extensions
+
+
+<style type="text/css">
+
+div.CBHeader{
+			padding:5px;
+            width:98%;
+			display:inline-block;
+			cursor:default;
+			/*font:12px/14px Arial, Helvetica, sans-serif;*/
+            font-family: Trebuchet MS,Tahoma,Verdana,Arial,sans-serif;
+			color:#000;
+			background-color:#eee;
+			-moz-border-radius:10px;
+			-webkit-border-radius:10px;
+			-moz-box-shadow:#999 2px 0px 3px;
+			-webkit-box-shadow:#999 2px 0px 3px;
+		}
+</style>
+<link href="~/Content/demo_page.css" rel="stylesheet" />
+<link href="~/Content/demo_table_jui.css" rel="stylesheet" />
+<link href="~/Content/TableTools.css" rel="stylesheet" />
+<link href="~/Content/TableTools_JUI.css" rel="stylesheet" />
+
+<script src="~/Scripts/custom/Generic.js"></script>
+<script src="~/Scripts/DataTables/jquery.dataTables.js"></script>
+<script src="~/Scripts/DataTables/ZeroClipboard.js"></script>
+<script src="~/Scripts/DataTables/TableTools.js"></script>
+<script src="~/Scripts/AccountsReports/BankAuthrizationView.js"></script>
+<br/>
+<div  class="ui-widget-header innerDivHeader" style="margin-bottom:5px;height:20px">Register Of Bank Authrization</div>
+<form id="frmBankAuthrization" >
+    @Html.ValidationSummary(true)
+   @Html.Hidden("LevelId",PMGSYSession.Current.LevelId)
+
+    @Html.HiddenFor(model=>model.DPIUName)
+   @* @Html.HiddenFor(model=>model.HeadName)*@
+    @Html.HiddenFor(model=>model.MonthName)
+    @Html.HiddenFor(model=>model.SRRDAName)
+    @Html.HiddenFor(model=>model.YearName)
+     @Html.Hidden("SelectedYear",ViewBag.SelectedYear as String)
+    @Html.Hidden("SelectedMonth",ViewBag.SelectedMonth as String)
+
+
+<center>
+   
+
+<div class="CBHeader ui-corner-all" id="dvFundTransfer" style="width:99%">
+
+<table class="ui-state-default ui-corner-all" style="border: 0.1em solid gray; width: 100%; margin-top: 1px" id="tblFilter">
+
+     @if(PMGSYSession.Current.LevelId!=5)
+     {
+       <tr>
+       
+        <td style="width:5%"></td>
+        <td style="width:5%">
+             @Html.Label("Month") <label style="color:red">*</label></td>
+           <td style="width:20%">
+             @Html.DropDownListFor(m => m.Month, ViewBag.Month as IEnumerable<SelectListItem>, new { id = "ddlMonth",@title="Month"})  
+        </td>
+        <td style="width:4%" >
+        @Html.Label("Year")<label style="color:red">*</label></td>
+           <td style="width:21%">
+         @Html.DropDownListFor(m => m.Year, ViewBag.Year as IEnumerable<SelectListItem>, new { id = "ddlYear",@title="Year"})
+        </td>
+      
+        <td style="width:4%">
+            @Html.Label("State")<label style="color:red">*</label></td>
+             @if (PMGSYSession.Current.LevelId == 4)
+             {                
+                 <td style="width:21%"> @Html.DropDownListFor(m => m.State, ViewBag.SRRDA as IEnumerable<SelectListItem>, new { id = "ddlSRRDA", disabled = "disabled" ,@title="State"})</td>     
+             }
+             else
+             {
+              <td style="width:21%">   @Html.DropDownListFor(m => m.State, ViewBag.SRRDA as IEnumerable<SelectListItem>, new { id = "ddlSRRDA" ,@title="State"})  </td>
+             }
+            
+        <td style="width:4%">
+           @Html.Label("DPIU") <label style="color:red">*</label></td>
+           <td style="width:16%">
+            @Html.DropDownListFor(m => m.DPIU, ViewBag.DPIU as IEnumerable<SelectListItem>, new { id = "ddlDPIU" ,@title="DPIU"})    
+        </td>          
+    </tr>
+      <tr>
+        <td></td>
+        <td></td>
+        <td>@Html.ValidationMessageFor(m=>m.Month)</td>
+          <td></td>
+        <td>@Html.ValidationMessageFor(m=>m.Year)</td>
+          <td></td>
+        <td>@Html.ValidationMessageFor(m=>m.State)</td>
+          <td></td>
+        <td>@Html.ValidationMessageFor(m=>m.DPIU)</td>
+    </tr>
+        }
+     else if (PMGSYSession.Current.LevelId == 5)
+     {
+         <tr>
+             <td style="width:10%"></td>
+             <td style="width:4%">
+                @Html.Label("Month") <label style="color:red">*</label></td>
+             <td style="width:28%">
+                @Html.DropDownListFor(m => m.Month, ViewBag.Month as IEnumerable<SelectListItem>, new { id = "ddlMonth",@title="Month"})  
+             </td>
+             <td style="width:4%;text-align:center">
+               @Html.Label("Year")<label style="color:red">*</label></td>
+             <td style="width:28%">
+               @Html.DropDownListFor(m => m.Year, ViewBag.Year as IEnumerable<SelectListItem>, new { id = "ddlYear",@title="Year"})
+             </td>
+             <td style="width:26%">
+                 <input type="button" id="btnViewDetails" value="View Details" class="jqueryButton" title="Click here to view details" />
+             </td>
+         </tr>
+         <tr>
+        <td></td>
+        <td></td>
+        <td>@Html.ValidationMessageFor(m=>m.Month)</td>
+        <td></td>
+        <td>@Html.ValidationMessageFor(m=>m.Year)</td>
+        <td></td>       
+    </tr>
+     }
+    
+   @* <tr id="trDPIUSelect">
+        <td></td>
+       <td>DPIU Selection</td>
+        <td>
+           
+        </td>
+        
+        <td></td>
+
+    </tr>*@
+    @if(PMGSYSession.Current.LevelId!=5)
+    {
+    <tr>
+        <td colspan="9" style="text-align:center">
+            <input type="button" id="btnViewDetails" value="View Details" class="jqueryButton" title="Click here to view details" />
+        </td>
+    </tr>
+    }
+
+
+    </table>
+    </div>
+    </center>
+    <div id="BankAuthrizationDetails">
+
+    </div>  
+
+    </form>

@@ -1,0 +1,21 @@
+﻿@using MvcReportViewer
+
+@model PMGSY.Areas.LocationSSRSReports.Models.ForthNightelyReportViewModel
+
+@Html.MvcReportViewer("/PMGSYCitizen/Forth_Nightely_Report",
+     new
+     {
+         Level = 1,
+         State = 0,
+         District = 0,
+         Block = 0,
+         FromMonth = Model.FromMonth,
+         FromYear = Model.FromYear,
+         ToMonth = Model.ToMonth,
+         ToYear = Model.ToYear,
+         Collaboration = Model.Stream,
+         PMGSY = Model.pmgsyScheme,
+         AGENCY = 0
+
+     },
+       new { Height = 600, Width = "100%", style = "border:none;" })

@@ -1,0 +1,92 @@
+﻿@model PMGSY.Areas.PMIS.Models.UpdateCompletionDateLengthModel
+
+@{
+    ViewBag.Title = "GetPlanDetailsToEdit";
+}
+
+<script src="~/Areas/PMIS/Scripts/GetPlanDetailsToEdit.js"></script>
+
+<form id="frmPlanDetailsEdit">
+    <div style="margin-left: 100px">
+        @Html.ValidationSummary(true)
+        @Html.AntiForgeryToken()
+    </div>
+    <center>
+
+        <table style="margin-top: 0px; margin-bottom: 0px; width: 100%;" class="rowstyle">
+
+             <tr style="margin-right:10px;"> 
+                 <td style="width:5%"></td>
+                       
+                <td>@Html.Label("State:")</td>
+                <td>@Html.DisplayFor(model => model.StateName)</td> 
+                  
+                
+                 <td style="width:5%"></td>
+
+                <td>@Html.Label("District:")</td>   
+                <td>@Html.DisplayFor(model => model.DistrictName)</td> 
+                                   
+            </tr>
+
+             <tr style="line-height:80%; margin-top:12px; margin-right:10px;"> 
+                 <td style="width:10%"></td>
+                       
+                <td>@Html.Label("Block:")</td>   
+                <td>@Html.DisplayFor(model => model.BlockName)</td>    
+
+                 <td style="width:5%"></td> 
+
+                 <td style="width:15%">@Html.Label("Sanction Year:")</td>   
+                 <td>@Html.DisplayFor(model => model.SanctionYear)</td>
+            </tr>
+
+            <tr style="margin-right:10px; margin-right:10px;"> 
+                 <td style="width:5%"></td>
+                    <td style="width:15%">@Html.Label("Road Name:")</td>
+                    <td>@Html.DisplayFor(model => model.RoadName)</td>  
+            </tr>
+
+            <tr style="line-height:80%; margin-top:10px;">
+             
+                <td style="width:15%">
+                         @Html.HiddenFor(model => model.PlanId, new { @disabled = "disabled", @id = "planId"})
+                         @Html.HiddenFor(model => model.BaselineNo, new { @disabled = "disabled", @id = "baselineNo"})
+                 </td>
+                 <td style="width: 8%">
+                    @Html.Label("Completion Length")<span style="color: red">*</span>
+                </td>
+                <td style="width:10%">
+                    @Html.TextBoxFor(model => model.CompletedLength, new { @id = "completionlength", @tabindex = 1, Class = "textWidth", @maxlength = "10", @onkeypress = "return isNumericKeyStroke(event)", @placeholder = "completion length", @width = "50px", @align = "center" }) 
+                    @Html.ValidationMessageFor(model => model.CompletedLength)
+                </td>
+
+               <td style="width:5%"></td>
+                  <td style="width: 10%">
+                    @Html.Label("Completion Date")<span style="color: red">*</span>
+                </td>
+                <td>
+                  @*@Html.EditorFor(model => model.CompletedDate)*@
+                     @Html.TextBoxFor(model => model.CompletedDate, "{0:d}", new { @title = "Completion Date", @placeholder = "dd/mm/yy",@class="plcd", @id = "completiondate", @type = "text", @width = "50px", @align = "center" })                            
+                  
+                    @Html.ValidationMessageFor(model => model.CompletedDate)
+                </td>
+                
+          </tr>
+        
+      <tr>
+        <td colspan="12">
+            <center>
+            <table>
+                <td style ="flex-align:center; margin-top:10px;">
+                    <input type="button"  class="jqueryButton" value="Update" title="Update Road Details" id="btnUpdateRoadDetail" name="btnUpdateRoadDetail" /> <input type="reset" class="jqueryButton" value="Reset" id="btnReset"  />
+                </td>
+            </table>
+                </center>
+        </td>              
+    </tr>
+        </table>
+            </center>
+
+</form>
+

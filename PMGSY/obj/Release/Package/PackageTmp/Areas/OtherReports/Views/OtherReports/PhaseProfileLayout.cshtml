@@ -1,0 +1,61 @@
+﻿@model PMGSY.Areas.OtherReports.Models.PhaseProfileModel
+ <script src="~/Scripts/custom/Generic.js"></script>
+<script src="~/Scripts/jquery.validate.min.js"></script>
+<script src="~/Scripts/jquery.validate.unobtrusive.js"></script>
+<script src="~/Areas/OtherReports/Scripts/PhaseProfile.js"></script>
+<div id="loadFilters">
+    <div id="dvhdCreateNewReportDetails" class="ui-corner-top ui-widget-header panelheader" style="text-align: left; width: 99.9%;height: 20px;margin-top:3px;">
+    <span class="ui-jqgrid-title" style="float: left;margin-top:1px;">&nbsp;DPIU profile</span>
+</div>
+    <form id="phaseProfileForm" >
+
+        @Html.AntiForgeryToken()
+
+        <table class=" ui-state-default ui-corner-bottom" style="width: 100%;">
+            <tr>
+                <td style="width: 2%;"></td>
+                <td style="text-align: left; width: 2%;">
+                    @Html.LabelFor(model => model.StateCode)
+                </td>
+                <td style="width: 7%;">
+                    @Html.DropDownListFor(model => model.StateCode, new SelectList(Model.StateList, "Value", "Text"), new { @tabindex = 1, @id = "StateDPIU", @style = "width:150px" })
+                    @Html.ValidationMessageFor(m => m.StateCode)
+                </td>
+                <td style="text-align: left; width: 2%;">
+                    @Html.LabelFor(model => model.AgencyCode)
+                </td>
+                <td style="width: 7%;">
+
+                    @Html.DropDownListFor(model => model.AgencyCode, new SelectList(Model.AgencyList, "Value", "Text"), new { @id = "AgencgyDPIU", @tabindex = 2, @style = "width:150px" })
+                    @Html.ValidationMessageFor(m => m.AgencyCode)
+                </td>
+                <td style="text-align: left; width: 2%;">
+                    @Html.LabelFor(model => model.Collaboration)
+                </td>
+                <td style="width: 7%;">
+                    @Html.DropDownListFor(model => model.Collaboration, new SelectList(Model.ColaborationList, "Value", "Text"), new { @id = "Collaboration", @tabindex = 3, @style = "width:150px" })
+                    <br /> @Html.ValidationMessageFor(m => m.Collaboration)
+                </td>
+              
+               @*<td style="text-align: left; width: 2%;">
+                    @Html.LabelFor(model => model.PMGSY)
+                </td>
+                <td style="width: 5%;">
+                    @Html.DropDownListFor(model => model.PMGSY, new SelectList(Model.PMGSYList, "Value", "Text"),"Select PMGSY", new { @id = "pmgsy", @tabindex = 4, @style = "width:150px" })
+                </td>*@
+                <td style="text-align: left; width: 2%;">
+
+                    <input type="button" id="btnPhaseProfile" value="View" class="button" title="View" tabindex="7"  style="width:100px;"/>
+
+                </td>
+
+            </tr>
+        </table>
+    </form>
+
+</div>
+
+<div id="loadPhaseProfileReport" class="divLoadReport"></div>
+
+
+

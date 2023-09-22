@@ -1,0 +1,16 @@
+﻿@using MvcReportViewer
+@model PMGSY.Areas.PackageAgreementSanctionList.Models.PackageAgreementViewModel
+
+
+
+
+@Html.MvcReportViewer("/PMGSYCitizen/FacilityDownload",
+     new
+     {
+         
+      
+         BLOCK = @Model.Mast_Block_Code
+       
+       
+     },
+     new { Height = 600, Width = "100%", style = "border:none;" })

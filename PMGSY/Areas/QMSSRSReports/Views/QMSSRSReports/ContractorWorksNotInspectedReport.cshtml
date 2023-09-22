@@ -1,0 +1,15 @@
+﻿@using MvcReportViewer
+
+@model PMGSY.Areas.QMSSRSReports.Models.ContractorWorksNotInspectedViewModel
+
+@Html.MvcReportViewer("/PMGSYCitizen/Contractor_Works_Not_Inspected_Report",
+     new
+     {
+         
+         StateCode = Model.StateCode,
+         FromYear = Model.fromYear,
+         ToYear = Model.toYear,
+         StateName = Model.StateName
+     },
+     new { Height = 675, Width = "100%", style = "border:none;" })
+

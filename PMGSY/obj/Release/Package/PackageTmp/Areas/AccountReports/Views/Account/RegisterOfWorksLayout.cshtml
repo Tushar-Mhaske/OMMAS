@@ -1,0 +1,106 @@
+﻿@model PMGSY.Areas.AccountReports.Models.RegisterOfWorksModel
+@using PMGSY.Extensions
+@{ 
+    Layout = Request.IsAjaxRequest() ? null : "~/Areas/AccountReports/Views/Account/_Layout.cshtml";
+}
+<script src="~/Scripts/custom/Generic.js"></script>
+<script src="~/Areas/AccountReports/Scripts/RegisterOfWorksReport.js"></script>
+
+<div class="ui-widget-header innerDivHeader" style="margin-bottom: 5px">Register Of Works</div>
+<form id="frmRegisterOfWorks">
+    <div id="divError" class="ui-state-error ui-corner-all" style="text-align: left; display: none; width: 100%">
+        <span class="ui-icon ui-icon-alert" style="float: left;"></span>
+        <span></span>
+    </div>
+    @Html.ValidationSummary(true)
+    @Html.Hidden("LevelId", PMGSY.Extensions.PMGSYSession.Current.LevelId)
+    @Html.Hidden("AdminNdCode", PMGSY.Extensions.PMGSYSession.Current.AdminNdCode)
+    <center>
+        <div class="CBHeader ui-corner-all">
+        <table class="ui-state-default ui-corner-all" style="border:0.1em solid gray; width:100%; margin-top:1px" id="tblViewDetails">
+                <tr>
+                    @if (PMGSY.Extensions.PMGSYSession.Current.LevelId == 4) //State
+                    {
+                        <td style="width:10%;font-weight:bold;text-align:right">@Html.Label("Agency") <label style="color:red">*</label> : </td>
+                        <td style="width:15%">@Html.DropDownListFor(m => m.ParentAdminNdCode, ViewBag.SRRDA as IEnumerable<SelectListItem>, new { id = "ddlSRRDA", disabled = "disabled", @title = "Agency" })</td>
+                        <td style="text-align:right; font-weight:bold; width:10%">@Html.LabelFor(model => model.ADMIN_ND_CODE)<label style="color:red;"> *</label>:</td>
+                        <td style="width:15%"> @Html.DropDownListFor(model => model.ADMIN_ND_CODE, new SelectList(Model.DEPARTMENT_LIST, "Value", "Text"), new { @title = "DPIU" })</td>
+                    }
+                    else if (PMGSY.Extensions.PMGSYSession.Current.LevelId == 5)  //District
+                    {
+                        <td style="text-align:right; font-weight:bold; width:01%"></td>
+                        <td style="width:15%"> @Html.HiddenFor(model => model.ADMIN_ND_CODE)</td>
+                    }
+                    else if (PMGSY.Extensions.PMGSYSession.Current.LevelId == 6) //MORD
+                    {                        
+                        <td style="width:10%;font-weight:bold;text-align:right">@Html.Label("Agency") <label style="color:red">* </label>:</td>
+                        <td style="width:15%">@Html.DropDownListFor(m => m.ParentAdminNdCode, ViewBag.SRRDA as IEnumerable<SelectListItem>, new { id = "ddlSRRDA", @title = "Agency" })</td>
+                        <td style="text-align:right; font-weight:bold; width:10%">@Html.LabelFor(model => model.ADMIN_ND_CODE)<label style="color:red;"> *</label>:</td>
+                        <td style="width:15%"> @Html.DropDownListFor(model => model.ADMIN_ND_CODE, new SelectList(Model.DEPARTMENT_LIST, "Value", "Text"), new { @title = "DPIU" })</td>
+                    }
+                    
+                    
+                    <td style="text-align:right; font-weight:bold; width:10%">@Html.LabelFor(model => model.MAST_CON_ID)<label style="color:red;"> *</label>:</td>
+                    <td style="width:15%"> @Html.DropDownListFor(model => model.MAST_CON_ID, new SelectList(Model.CONTRACTOR_LIST, "Value", "Text"), new { @title = "Contractor" })</td>
+                    <td style="text-align:right; font-weight:bold; width:10%">@Html.LabelFor(model => model.TEND_AGREEMENT_CODE)<label style="color:red;"> *</label>:</td>
+                    <td style="width:20%"> @Html.DropDownListFor(model => model.TEND_AGREEMENT_CODE, new SelectList(Model.AGREEEMENT_LIST, "Value", "Text"), new { @title = "Agreement" })</td>
+                    <td style="width:15%"><input type="button" id="btnView" value="View Details" class="jqueryButton" title="View Details"></td>        
+                </tr>
+            <tr>
+                @if (PMGSY.Extensions.PMGSYSession.Current.LevelId == 4)
+                {
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                    <td>@Html.ValidationMessageFor(m => m.ADMIN_ND_CODE)</td>
+                }
+                else if (PMGSY.Extensions.PMGSYSession.Current.LevelId == 5)
+                {
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                    <td>@Html.ValidationMessageFor(m => m.ADMIN_ND_CODE)
+                        @Html.ValidationMessageFor(m => m.MAST_CON_ID)
+                    </td>
+                    
+                }
+                else if (PMGSY.Extensions.PMGSYSession.Current.LevelId == 6)
+                {
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                    <td>@Html.ValidationMessageFor(m => m.ADMIN_ND_CODE)</td>
+                    
+                }
+                <td></td>
+                <td>
+                    @if (PMGSYSession.Current.LevelId == 4 || PMGSYSession.Current.LevelId == 6)
+                    {
+                    @Html.ValidationMessageFor(m => m.MAST_CON_ID)
+                    }
+                    else
+                    {
+                        @Html.ValidationMessageFor(m => m.TEND_AGREEMENT_CODE)
+                    }
+
+
+                </td>
+                <td>
+                </td>
+                <td>
+                    @if (PMGSYSession.Current.LevelId == 4 || PMGSYSession.Current.LevelId == 6)
+                    {
+                    @Html.ValidationMessageFor(m => m.TEND_AGREEMENT_CODE)
+                    }
+                </td>
+
+            </tr>
+        </table>
+       
+        </div>
+       
+        <br />
+         <div id="dvRegisterOfWorksPartial" style="width:100%"></div>
+   
+    </center>
+</form>

@@ -1,0 +1,336 @@
+﻿@if (Layout == null)
+{
+    //Layout = "~/Views/Shared/_ExternalLinkLayout.cshtml";
+    Layout = Request.IsAjaxRequest() ? null : "~/Areas/AccountReports/Views/Account/_Layout.cshtml";
+}
+<script src="@Url.Content("~/Scripts/custom/Generic.js")" type="text/javascript"></script>
+
+
+<script src="~/Areas/EmargDataPull/Scripts/PullData.js"></script>
+
+<div id="dvhdCreateNewReportDetails" class="ui-corner-top ui-widget-header panelheader" style="text-align: left; height: 20px;">
+    @*margin-left:0px;margin-right:0px;margin-top:0px; *@
+<span class="ui-jqgrid-title" style="float: left">&nbsp;Emarg Data</span>
+
+<span id="spCollapseIconCN" class="ui-icon ui-icon-circle-triangle-n" style="float: right"></span>
+</div>
+<div id="dvSearchParameter" class="ui-corner-bottom" style="display: block; border: 1px solid #B5B8C8;">
+    <form id="frmPackageWiseReport">
+
+        <table style="width: 100%;" class="rowstyle">
+
+            <tr>
+                <td style="width: 2%;"></td>
+                <td style="text-align: left; width: 4%;">
+
+                <td>
+                    @*<input type="button" id="btnViewAckDetails" value="[First Level Service] Get Acknowledgement" class="jqueryButton" title="[First Level Service] Get Acknowledgement" tabindex="1" />*@
+
+
+                </td>
+
+                <td>
+
+                    @*  <input type="button" id="btnViewPackageWiseDetails" value="[Get NEW ROAD CODE details in omms.EMARG_ROAD_DETAILS]" class="jqueryButton" title="[Get NEW ROAD CODE details in omms.EMARG_ROAD_DETAILS]" tabindex="2" />*@
+
+                </td>
+
+
+
+
+
+
+
+            </tr>
+
+            <tr></tr>
+            <tr></tr>
+            <tr></tr>
+            <tr></tr>
+            <tr></tr>
+            <tr></tr>
+            <tr>
+                <td style="width: 2%;"></td>
+                <td style="text-align: left; width: 4%;">
+
+                <td>
+                    @*<input type="button" id="btnViewAckDetails" value="[First Level Service] Get Acknowledgement" class="jqueryButton" title="[First Level Service] Get Acknowledgement" tabindex="1" />*@
+                </td>
+                <td>
+                    <input type="button" id="btnGetDataFromFirst" value="[Get data in omms.EMARG_FIRST_LEVEL_ACK_SERVICE from First Level Service]" class="jqueryButton" title="[Get data in omms.EMARG_FIRST_LEVEL_ACK_SERVICE from First Level Service]" tabindex="3" />
+                </td>
+            </tr>
+
+
+
+            <tr></tr>
+            <tr></tr>
+            <tr></tr>
+            <tr></tr>
+            <tr></tr>
+            <tr></tr>
+            <tr>
+                <td style="width: 2%;"></td>
+                <td style="text-align: left; width: 4%;">
+
+                <td>
+                    @*<input type="button" id="btnViewAckDetails" value="[First Level Service] Get Acknowledgement" class="jqueryButton" title="[First Level Service] Get Acknowledgement" tabindex="1" />*@
+
+
+                </td>
+
+
+
+
+                <td>
+                    <input type="button" id="btnGetDataFromSecond" value="[Get data in omms.EMARG_ROAD_CORRECTION_SERVICEII from Second Level Service]" class="jqueryButton" title="[Get data in omms.EMARG_ROAD_CORRECTION_SERVICEII from Second Level Service]" tabindex="4" />
+
+
+                </td>
+
+
+
+
+            </tr>
+
+
+
+
+
+            <tr></tr>
+            <tr></tr>
+            <tr></tr>
+            <tr></tr>
+            <tr></tr>
+            <tr></tr>
+            <tr>
+                <td style="width: 2%;"></td>
+                <td style="text-align: left; width: 4%;">
+
+                <td>
+                    @*<input type="button" id="btnViewAckDetails" value="[First Level Service] Get Acknowledgement" class="jqueryButton" title="[First Level Service] Get Acknowledgement" tabindex="1" />*@
+                </td>
+                <td>
+                    <input type="button" id="btnGetEmargPayment" value="[Get data in a Table from Emarg Payment Details Service]" class="jqueryButton" title="[Get data in a Table from Emarg Payment Details Service]" tabindex="5" />
+                </td>
+            </tr>
+
+            <tr></tr>
+            <tr></tr>
+            <tr></tr>
+            <tr></tr>
+            <tr></tr>
+            <tr></tr>
+            <tr>
+                <td style="width: 2%;"></td>
+                <td style="text-align: left; width: 4%;">
+
+                <td></td>
+                <td>
+                    <input type="button" id="btnGetEmargPaymentNew" value="[Get data in a Table from Emarg Payment New Details Service]" class="jqueryButton" title="[Get data in a Table from Emarg Payment New Details Service]" tabindex="5" />
+                </td>
+            </tr>
+            <tr></tr>
+            <tr></tr>
+            <tr></tr>
+            <tr></tr>
+            <tr></tr>
+            <tr></tr>
+            <tr>
+                <td style="width: 2%;"></td>
+                <td style="text-align: left; width: 4%;">
+
+                <td>
+                    @*<input type="button" id="btnViewAckDetails" value="[First Level Service] Get Acknowledgement" class="jqueryButton" title="[First Level Service] Get Acknowledgement" tabindex="1" />*@
+
+
+                </td>
+                <td>
+                    <input type="button" id="btnGetEmargKPI" value="[Get Emarg KPI Data]" class="jqueryButton" title="[Get Emarg KPI Data]" tabindex="6" />
+
+
+                </td>
+            </tr>
+            @*   // CHANGES STARTED HERE*@
+            <tr></tr>
+            <tr></tr>
+            <tr></tr>
+            <tr></tr>
+            <tr></tr>
+            <tr></tr>
+            <tr>
+                <td style="width: 2%;"></td>
+                <td style="text-align: left; width: 4%;">
+                <td>
+                </td>
+                <td>
+                    <input type="button" id="btnReadLockPackage" value="[Read Lock Package]" class="jqueryButton" title="[Read Lock Package]" tabindex="7" />
+                </td>
+
+            </tr>
+            <tr></tr>
+            <tr></tr>
+            <tr></tr>
+            <tr></tr>
+            <tr></tr>
+            <tr></tr>
+            <tr>
+                <td style="width: 2%;"></td>
+                <td style="text-align: left; width: 4%;">
+                <td>
+                </td>
+                <td>
+                    <input type="button" id="btnReadBalanceWork" value="[Read Balance Work]" class="jqueryButton" title="[Read Balance Work]" tabindex="8" />
+                </td>
+
+            </tr>
+            <tr></tr>
+            <tr></tr>
+            <tr></tr>
+            <tr></tr>
+            <tr></tr>
+            <tr></tr>
+            <tr>
+                <td style="width: 2%;"></td>
+                <td style="text-align: left; width: 4%;">
+                <td>
+                </td>
+                <td>
+                    <input type="button" id="btnReadBalanceWorkExpenditure" value="[Read Balance Work Expenditure]" class="jqueryButton" title="[Read Balance Work Expenditure]" tabindex="9" />
+                </td>
+
+            </tr>
+
+            @*  // CHANGES ENDED HERE*@
+
+
+            @*Changes made on 18-08-2022*@
+            <tr></tr>
+            <tr></tr>
+            <tr></tr>
+            <tr></tr>
+            <tr></tr>
+            <tr></tr>
+            <tr>
+                <td style="width: 2%;"></td>
+                <td style="text-align: left; width: 4%;">
+                <td>
+                </td>
+                <td>
+                    <input type="button" id="btnReadKPIPMAwardsDetails" value="[Read KPI PM Awards Details]" class="jqueryButton" title="[Read KPI PM Awards Details]" tabindex="10" />
+                </td>
+
+            </tr>
+            @*============*@
+
+
+
+
+
+            <tr></tr>
+            <tr></tr>
+            <tr></tr>
+            <tr></tr>
+            <tr></tr>
+            <tr></tr>
+            <tr>
+                <td style="width: 2%;"></td>
+                <td style="text-align: left; width: 4%;">
+                <td>
+                </td>
+                <td>
+                    <input type="button" id="btnCancelChequeDetails" value="[Read Cancel Cheque Details]" class="jqueryButton" title="[Read Cancel Cheque Details]" tabindex="10" />
+                </td>
+
+            </tr>
+            @*============*@
+
+
+
+
+
+            <tr></tr>
+            <tr></tr>
+            <tr></tr>
+            <tr></tr>
+            <tr></tr>
+            <tr></tr>
+            <tr>
+                <td style="width: 2%;"></td>
+                <td style="text-align: left; width: 4%;">
+
+                <td>
+                    @*<input type="button" id="btnViewAckDetails" value="[First Level Service] Get Acknowledgement" class="jqueryButton" title="[First Level Service] Get Acknowledgement" tabindex="1" />*@
+                </td>
+                <td>
+                    @*  <input type="button" id="sendMailToSQC" value="[ (Testing Purpose Only. Local Mails ) Send Email to SQC]" class="jqueryButton" title="[Send Email to SQC]" tabindex="6" />*@
+                </td>
+            </tr>
+
+
+
+
+
+
+
+
+            <tr></tr>
+            <tr></tr>
+            <tr></tr>
+            <tr></tr>
+            <tr></tr>
+            <tr></tr>
+            <tr>
+                <td style="width: 2%;"></td>
+                <td style="text-align: left; width: 4%;">
+
+                <td>
+                    @*<input type="button" id="btnViewAckDetails" value="[First Level Service] Get Acknowledgement" class="jqueryButton" title="[First Level Service] Get Acknowledgement" tabindex="1" />*@
+                </td>
+
+                <td>
+                    @*
+                        <input type="button" id="sendMailToSQM1" value="[ 1 Send Mail to SQM]" class="jqueryButton" title="[Send Email to SQM]" tabindex="6" />
+                        <input type="button" id="sendMailToSQM2" value="[ 2 Send Mail to SQM]" class="jqueryButton" title="[Send Email to SQM]" tabindex="6" />
+                        <input type="button" id="sendMailToSQM3" value="[ 3 Send Mail to SQM]" class="jqueryButton" title="[Send Email to SQM]" tabindex="6" />
+                        <input type="button" id="sendMailToSQM4" value="[ 4 Send Mail to SQM]" class="jqueryButton" title="[Send Email to SQM]" tabindex="6" />
+                              <input type="button" id="sendMailToSQM5" value="[ 5 Send Mail to SQM]" class="jqueryButton" title="[Send Email to SQM]" tabindex="6" />
+                        <input type="button" id="sendMailToSQM6" value="[ 6 Send Mail to SQM]" class="jqueryButton" title="[Send Email to SQM]" tabindex="6" />
+                    *@
+                </td>
+
+
+
+
+
+            </tr>
+
+            <tr>
+                <td style="width: 2%;"></td>
+                <td style="text-align: left; width: 4%;">
+
+                <td>
+                    @*<input type="button" id="btnViewAckDetails" value="[First Level Service] Get Acknowledgement" class="jqueryButton" title="[First Level Service] Get Acknowledgement" tabindex="1" />*@
+                </td>
+
+                <td>
+                </td>
+
+
+
+
+
+            </tr>
+
+
+        </table>
+    </form>
+
+</div>
+@*<div id="divCommonReport" class="modal" style="margin-top: 12px; float: right; margin-left: 915px">
+        <span id="spnCommonReport" class="close">X</span>
+
+    </div>*@
+@*<div id="loadPackageWiseReport" class="divLoadReport"></div>*@
+
+

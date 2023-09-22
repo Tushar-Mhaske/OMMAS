@@ -1,0 +1,442 @@
+﻿@model PMGSY.Models.Master.MasterAdminQualityMonitorViewModel
+@using PMGSY.Extensions
+
+@section Scripts {
+    @Scripts.Render("~/bundles/jqueryval")
+}
+
+
+
+<style>
+    .ui-datepicker td {
+        border: 1px solid #CCC;
+        padding: 0;
+    }
+
+    textarea {
+        resize: none;
+    }
+</style>
+<script src="~/Scripts/jquery.ui.datepicker.js"></script>
+<link href="~/Content/jquery.multiselect.css" rel="stylesheet" />
+<script src="~/Scripts/jquery.multiselect.min.js"></script>
+<script src="~/Scripts/custom/Generic.js" type="text/javascript"></script>
+<script src="~/Scripts/Master/Master_CreateQualityMonitor.js" type="text/javascript"></script>
+
+<div id="dvhdCreateNewQualityMonitorDetails" class="ui-corner-top ui-widget-header panelheader" style="text-align: left; height: 20px;">
+    <span class="ui-jqgrid-title" style="float: left">&nbsp;Quality Monitor Details</span>
+    <span id="spCollapseIconCN" class="ui-icon ui-icon-circle-triangle-n" style="float: right"></span>
+</div>
+
+<div id="dvCreateNewQualityMonitorDetails" style="display: block; border: 1px solid #B5B8C8;">
+    <div id="dvErrorMessage" class="ui-widget ui-state-error ui-corner-all" style="padding: 0.7em .7em; display: none; margin: 5px 5px 5px 5px; text-align: left">
+        <span class="ui-icon ui-icon-alert" style="float: left; margin-right: .3em;"></span>
+        <strong>Alert:</strong> <span id="message"></span>
+    </div>
+
+    <form id="frmMasterQualityMonitor">
+        @Html.AntiForgeryToken()
+        <center>@Html.ValidationSummary(true)</center>
+
+        <table style="width: 100%; margin-top: 10px;" class="rowstyle">
+
+            <tr style="display: none">
+                <td colspan="5">
+                    @Html.HiddenFor(model => model.EncryptedQmCode)
+                    <input type="hidden" id="currentYear" value="@DateTime.Now.Year" />
+                    <input type="hidden" id="currentDate" value="@DateTime.Now.ToString("dd/MM/yyyy")" />
+                    <input type="hidden" id="monitor_type" value="@PMGSYSession.Current.RoleCode" />
+                </td>
+            </tr>
+
+
+            <tr>
+                <td style="width: 8%;"></td>
+                <td style="text-align: left; width: 15%;">
+                    @Html.Label("Type")<label style="color: red">*</label>
+                </td>
+                <td style="text-align: left; width: 30%;">
+
+                    @if (Model.EncryptedQmCode == null)
+                    {
+                        if (PMGSYSession.Current.RoleCode == 5)          //CQCAdmin
+                        {                                                
+                        @Html.RadioButtonFor(model => model.ADMIN_QM_TYPE, "I", new { @title = "NQM", @tabindex = 1, @checked = "checked", @id = "rdoNQM" }) @Html.Label("NQM")
+                        @Html.ValidationMessageFor(model => model.ADMIN_QM_TYPE)
+                        @Html.RadioButtonFor(model => model.ADMIN_QM_TYPE, "S", new { @title = "SQM", @tabindex = 2, @style = "margin-left:10px;", @id = "rdoSQM", disabled = "disabled" }) @Html.Label("SQM")                                  
+                        }
+                        else if (PMGSYSession.Current.RoleCode == 8 || PMGSYSession.Current.RoleCode == 69)    //SQC    
+                        {      
+                        @Html.RadioButtonFor(model => model.ADMIN_QM_TYPE, "I", new { @title = "NQM", @tabindex = 1, @id = "rdoNQM", disabled = "disabled" }) @Html.Label("NQM")
+                        @Html.RadioButtonFor(model => model.ADMIN_QM_TYPE, "S", new { @title = "SQM", @tabindex = 2, @style = "margin-left:10px;", @id = "rdoSQM", @checked = "checked" }) @Html.Label("SQM")  
+                        @Html.ValidationMessageFor(model => model.ADMIN_QM_TYPE)
+                        }
+                        else
+                        {
+                        @Html.RadioButtonFor(model => model.ADMIN_QM_TYPE, "I", new { @title = "NQM", @tabindex = 1, @checked = "checked", @id = "rdoNQM" }) @Html.Label("NQM")
+                        @Html.RadioButtonFor(model => model.ADMIN_QM_TYPE, "S", new { @title = "SQM", @tabindex = 2, @style = "margin-left:10px;", @id = "rdoSQM" }) @Html.Label("SQM")                                  
+                        @Html.ValidationMessageFor(model => model.ADMIN_QM_TYPE)
+                        }
+                    }
+                    else
+                    {
+                        switch (Model.ADMIN_QM_TYPE)
+                        {
+                            case "I":
+                        @Html.Label("NQM")
+                                break;
+
+                            case "S":
+                        @Html.Label("SQM")
+                                break;
+                        }
+                        @Html.HiddenFor(model => model.ADMIN_QM_TYPE)                         
+                    }
+
+                </td>
+                <td style="text-align: left; width: 15%;"></td>
+
+                <td></td>
+            </tr>
+            @if (PMGSYSession.Current.RoleCode == 9 && (Model.ADMIN_QM_TYPE == "I" || Model.ADMIN_QM_TYPE == null))
+            {
+                                  
+                <tr id="NQMRowID">
+                    <td></td>
+
+                    <td>
+
+                        @Html.LabelFor(model => model.ADMIN_SERVICE_TYPE)
+                        <label style="color: red">*</label>
+                    </td>
+                    <td>
+                        @Html.DropDownListFor(model => model.ADMIN_SERVICE_TYPE, Model.ServiceTypeList)
+                        @Html.ValidationMessageFor(model => model.ADMIN_SERVICE_TYPE)
+                    </td>
+                    <td>
+                        <div id="divlblCadreState" style="display: none;">
+                            @Html.LabelFor(model => model.MAST_CADRE_STATE_CODE)
+
+                            <label style="color: red">*</label>
+                        </div>
+                    </td>
+
+                    <td>
+
+
+                        <div id="divAgency" style="display: none;">
+                            @Html.ListBoxFor(model => model.MAST_CADRE_STATE_CODE, Model.CadreStates)
+                            <input type="hidden" id="cadreStatesMapp" value="@ViewBag.cadreStatesMapp" />
+                        </div>
+                        <div id="divState" style="display: none;">
+                            @Html.DropDownListFor(model => model.MAST_STATE_CODE, Model.States)
+                        </div>
+
+
+
+
+
+                    </td>
+
+
+                </tr>
+            }
+            <tr>
+                <td></td>
+                <td style="text-align: left; width: 15%;">
+                    @Html.LabelFor(model => model.MAST_STATE_CODE_ADDR)
+                    <label style="color: red">*</label>
+                </td>
+
+                <td>
+
+                    @Html.DropDownListFor(model => model.MAST_STATE_CODE_ADDR, Model.States, new { @title = "State", @tabindex = 3, @id = "stateCode" })
+                    @Html.ValidationMessageFor(model => model.MAST_STATE_CODE_ADDR)
+                    @if (PMGSYSession.Current.RoleCode == 8 || PMGSYSession.Current.RoleCode == 69)
+                    {
+                        @Html.HiddenFor(model => model.ADMIN_SERVICE_TYPE)
+                    }
+                </td>
+
+                <td>
+                    @Html.LabelFor(model => model.MAST_DISTRICT_CODE)
+                    <label style="color: red">*</label>
+                </td>
+
+                <td>
+                    @Html.DropDownListFor(model => model.MAST_DISTRICT_CODE, Model.Districts, new { @title = "District", @tabindex = 10 })
+                    @Html.ValidationMessageFor(model => model.MAST_DISTRICT_CODE)
+                </td>
+            </tr>
+
+            <tr>
+                <td></td>
+                <td>
+                    @Html.LabelFor(model => model.ADMIN_QM_FNAME)
+                    <label style="color: red">*</label>
+                </td>
+
+                <td>
+                    @Html.TextBoxFor(model => model.ADMIN_QM_FNAME, new { maxlength = 50, @title = "First Name", @tabindex = 4, @placeholder = "Enter First Name..." })
+                    @Html.ValidationMessageFor(model => model.ADMIN_QM_FNAME)
+                </td>
+
+                <td>
+                    @Html.LabelFor(model => model.ADMIN_QM_MNAME)
+                </td>
+                <td>
+                    @Html.TextBoxFor(model => model.ADMIN_QM_MNAME, new { maxlength = 50, @title = "Middle Name", @tabindex = 5, @placeholder = "Enter Middle Name..." })
+                    @Html.ValidationMessageFor(model => model.ADMIN_QM_MNAME)
+                </td>
+            </tr>
+
+            <tr>
+                <td></td>
+                <td>
+                    @Html.LabelFor(model => model.ADMIN_QM_LNAME)
+                </td>
+
+                <td>
+                    @Html.TextBoxFor(model => model.ADMIN_QM_LNAME, new { maxlength = 50, @title = "Last Name", @tabindex = 6, @placeholder = "Enter Last Name..." })
+                    @Html.ValidationMessageFor(model => model.ADMIN_QM_LNAME)
+                </td>
+                <td>
+                    @Html.LabelFor(model => model.ADMIN_QM_DESG)<label style="color: red">*</label>
+                </td>
+                <td>
+                    @Html.DropDownListFor(model => model.ADMIN_QM_DESG, Model.QmDesignations, new { @title = "Designation", @tabindex = 7 })
+                    @Html.ValidationMessageFor(model => model.ADMIN_QM_DESG)
+                </td>
+
+            </tr>
+
+            <tr>
+                <td></td>
+                <td>
+                    @Html.Label("Address")
+                    <label style="color: red">*</label>
+                </td>
+                <td>
+                    @Html.TextBoxFor(model => model.ADMIN_QM_ADDRESS1, new { maxlength = 50, @title = "Address1", @tabindex = 8, @placeholder = "Enter Address1..." })
+                    @Html.ValidationMessageFor(model => model.ADMIN_QM_ADDRESS1)
+                </td>
+
+                <td>
+                    @Html.LabelFor(model => model.ADMIN_QM_BIRTH_DATE)
+                    <label id="strDOB" style="color: red">*</label>
+                </td>
+                @*added by DEENDAYAL on 20JUN2017 to authorize sqc to modify sqm details*@
+                <td>
+                    @Html.TextBoxFor(model => model.ADMIN_QM_BIRTH_DATE, new { maxlength = 50, @title = "Birth Date", @tabindex = 8, @value = "02/02/2015", @readonly = "readonly" })
+                    @Html.ValidationMessageFor(model => model.ADMIN_QM_BIRTH_DATE)
+                </td>
+            </tr>
+
+            <tr>
+                <td></td>
+
+                <td></td>
+                <td>
+                    @Html.TextBoxFor(model => model.ADMIN_QM_ADDRESS2, new { maxlength = 50, @title = "Address2", @tabindex = 9, @placeholder = "Enter Address2..." })
+                    @Html.ValidationMessageFor(model => model.ADMIN_QM_ADDRESS2)
+                </td>
+
+                <td>
+                    @Html.LabelFor(model => model.ADMIN_QM_PIN)
+                </td>
+
+                <td>
+                    @Html.TextBoxFor(model => model.ADMIN_QM_PIN, new { maxlength = 6, @title = "PIN Code", @tabindex = 11, @placeholder = "Enter PIN Code..." })
+                    @Html.ValidationMessageFor(model => model.ADMIN_QM_PIN)
+                </td>
+            </tr>
+            <tr>
+                <td></td>
+
+                <td>
+                    @Html.LabelFor(model => model.ADMIN_QM_PHONE1)
+                </td>
+                <td>
+                    @Html.TextBoxFor(model => model.ADMIN_QM_STD1, new { maxlength = 5, @title = "STD Code", @tabindex = 12, @placeholder = "STD Code...", style = "width:50px" })-                                         
+                    @Html.TextBoxFor(model => model.ADMIN_QM_PHONE1, new { maxlength = 8, @title = "Phone1", @tabindex = 13, @placeholder = "Enter Phone Number1...", @style = "width:88px" })
+                    @Html.ValidationMessageFor(model => model.ADMIN_QM_STD1)
+                    @Html.ValidationMessageFor(model => model.ADMIN_QM_PHONE1)
+                </td>
+
+                <td>
+                    @Html.LabelFor(model => model.ADMIN_QM_PHONE2)
+                </td>
+
+                <td>
+                    @Html.TextBoxFor(model => model.ADMIN_QM_STD2, new { maxlength = 5, @title = "STD Code", @tabindex = 14, @placeholder = "STD Code...", style = "width:50px" })-                                         
+                    @Html.TextBoxFor(model => model.ADMIN_QM_PHONE2, new { maxlength = 8, @title = "Phone2", @tabindex = 15, @placeholder = "Enter phone number2...", style = "width:88px" })
+                    @Html.ValidationMessageFor(model => model.ADMIN_QM_STD2)
+                    @Html.ValidationMessageFor(model => model.ADMIN_QM_PHONE2)
+                </td>
+            </tr>
+
+            <tr>
+                <td></td>
+                <td>
+                    @Html.LabelFor(model => model.ADMIN_QM_MOBILE1)
+                    <label style="color: red">*</label>
+                </td>
+
+                <td>
+                    @Html.TextBoxFor(model => model.ADMIN_QM_MOBILE1, new { maxlength = 10, @title = "Mobile1", @tabindex = 16, @placeholder = "Enter Mobile Number1..." })
+                    @Html.ValidationMessageFor(model => model.ADMIN_QM_MOBILE1)
+                </td>
+
+                <td>
+                    @Html.LabelFor(model => model.ADMIN_QM_MOBILE2)
+                </td>
+                <td>
+                    @Html.TextBoxFor(model => model.ADMIN_QM_MOBILE2, new { maxlength = 10, @title = "Mobile2", @tabindex = 17, @placeholder = "Enter Mobile Number2..." })
+                    @Html.ValidationMessageFor(model => model.ADMIN_QM_MOBILE2)
+                </td>
+            </tr>
+
+            <tr>
+                <td></td>
+                <td>
+                    @Html.LabelFor(model => model.ADMIN_QM_FAX)
+
+                </td>
+                <td>
+                    @Html.TextBoxFor(model => model.ADMIN_QM_STD_FAX, new { maxlength = 5, @title = "Std Code", @tabindex = 18, @placeholder = "STD Code", style = "width:50px" })-                                         
+                    @Html.TextBoxFor(model => model.ADMIN_QM_FAX, new { maxlength = 8, @title = "Fax", @tabindex = 19, @placeholder = "Enter fax number...", @style = "width:88px" })
+                    @Html.ValidationMessageFor(model => model.ADMIN_QM_STD_FAX)
+                    @Html.ValidationMessageFor(model => model.ADMIN_QM_FAX)
+                </td>
+
+                <td>
+                    @Html.LabelFor(model => model.ADMIN_QM_EMAIL)<label style="color: red">*</label>
+                </td>
+
+                <td>
+                    @Html.TextBoxFor(model => model.ADMIN_QM_EMAIL, new { maxlength = 50, @title = "Email", @tabindex = 20, @placeholder = "Enter Email..." })
+                    @Html.ValidationMessageFor(model => model.ADMIN_QM_EMAIL)
+                </td>
+            </tr>
+
+
+
+            <tr>
+                <td></td>
+                <td>
+                    @Html.LabelFor(model => model.ADMIN_QM_PAN)
+                    <label id="strPAN" style="color: red">*</label>
+                </td>
+                <td>
+                    @Html.TextBoxFor(model => model.ADMIN_QM_PAN, new { maxlength = 10, @title = "PAN", @tabindex = 21, @placeholder = "Enter PAN..." })
+                    @Html.ValidationMessageFor(model => model.ADMIN_QM_PAN)
+                </td>
+                <td>
+                    @Html.LabelFor(model => model.ADMIN_QM_AADHAR_NO)
+
+                </td>
+                <td>
+                    @Html.TextBoxFor(model => model.ADMIN_QM_AADHAR_NO, new { maxlength = 12, @title = "Adhar", @tabindex = 22, @placeholder = "Enter Adhar..." })
+                    @Html.ValidationMessageFor(model => model.ADMIN_QM_AADHAR_NO)
+                </td>
+            </tr>
+
+            <tr>
+                <td></td>
+                <td>
+                    @Html.LabelFor(model => model.ADMIN_QM_EMPANELLED)
+                </td>
+                <td id="tdEMPANELLED">
+                    @Html.RadioButtonFor(model => model.ADMIN_QM_EMPANELLED, "Y", new { @title = "Yes", id = "rdoEMPANELLEDYes", @tabindex = 23, @checked = "checked" }) Yes &nbsp;&nbsp;
+                    @Html.RadioButtonFor(model => model.ADMIN_QM_EMPANELLED, "N", new { @title = "No", id = "rdoEMPANELLEDNo", @tabindex = 24 })No
+                    @Html.ValidationMessageFor(model => model.ADMIN_QM_EMPANELLED)
+                </td>
+                <td></td>
+                <td></td>
+
+
+
+            </tr>
+
+            <tr id="empanelledMonthYearRow">
+                <td></td>
+                <td>
+                    @Html.LabelFor(model => model.ADMIN_QM_EMPANELLED_MONTH)<label style="color: red">*</label>
+                </td>
+                <td>
+                    @Html.DropDownListFor(model => model.ADMIN_QM_EMPANELLED_MONTH, Model.MonthList, new { @title = "Month", @tabindex = 28, @placeholder = "Select Month" })
+                    @Html.ValidationMessageFor(model => model.ADMIN_QM_EMPANELLED_MONTH)
+                </td>
+                <td id="tdlblEMPANELLEDYear">
+                    @Html.LabelFor(model => model.ADMIN_QM_EMPANELLED_YEAR)<label style="color: red">*</label>
+                </td>
+                <td id="tdddlEMPANELLEDYear">
+                    @Html.DropDownListFor(model => model.ADMIN_QM_EMPANELLED_YEAR, Model.Years, new { @title = "Empanelled Year", @tabindex = 25 })
+                    @Html.ValidationMessageFor(model => model.ADMIN_QM_EMPANELLED_YEAR)
+                </td>
+
+            </tr>
+
+
+            <tr>
+                <td></td>
+                <td>
+                    @Html.LabelFor(model => model.ADMIN_QM_REMARKS)
+                </td>
+                <td colspan="1">
+                    @Html.TextAreaFor(model => model.ADMIN_QM_REMARKS, new { @cols = 5, @rows = 1, maxlength = 255, @title = "Remark", @tabindex = 28, @placeholder = "Enter Remark..." })
+                    @Html.ValidationMessageFor(model => model.ADMIN_QM_REMARKS)
+                </td>
+                @if (Model.isOpEdit == 'E')
+                {
+                    
+                    <td id="LblDeEmpanelledRemark">
+                        @Html.LabelFor(model => model.DeEmpanelledRemark)<label style="color: red"> *</label>
+                    </td>
+                    <td colspan="3" id="TxtDeEmpanelledRemark">
+                        @Html.TextAreaFor(model => model.DeEmpanelledRemark, new { @cols = 5, @rows = 1, maxlength = 255, @title = "Remark", @tabindex = 28, @placeholder = "Enter Remark..." })
+                        @Html.ValidationMessageFor(model => model.DeEmpanelledRemark)
+                    </td>
+                    
+                }
+            </tr>
+
+            <tr class=ui-state-hover>
+                <td></td>
+                <td >
+                    @Html.LabelFor(model => model.admin_nd_code)<label style="color: red"> *</label>
+                </td>
+                <td>
+                    @Html.DropDownListFor(model => model.admin_nd_code, Model.AdminDepartmentList)
+                    @Html.ValidationMessageFor(model => model.admin_nd_code)
+                </td>
+                <td colspan="2"></td>
+            </tr>
+
+            <tr>
+                <td></td>
+                <td></td>
+                @if (Model.EncryptedQmCode == null)
+                { 
+                    <td style="text-align: right">
+                        <input type="button" id="btnSave" name="btnSave" value="Save" class="jqueryButton" title="Save Quality Monitor Details" tabindex="28" /></td> 
+                    <td colspan="2" style="text-align: left">
+                        <input type="reset" id="btnReset" name="reset" value="Reset" class="jqueryButton" title="Reset" tabindex="29" /></td>
+                }
+                else
+                {
+                    <td style="text-align: right">
+                        <input type="button" id="btnUpdate" name="btnUpdate" value="Update" class="jqueryButton" title="Update Quality Monitor Details" tabindex="28" />
+                    </td>
+                    <td colspan="2" style="text-align: left">
+                        <input type="button" id="btnCancel" name="btnCancel" value="Cancel" class="jqueryButton" title="Cancel" tabindex="29" /></td>
+                }
+            </tr>
+            <tr>
+                <td colspan="5">
+                    <label style="border: none">[ Note: Fields marked with <span style="color: red">* </span>are mandatory. ] </label>
+                </td>
+            </tr>
+        </table>
+    </form>
+</div>

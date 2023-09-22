@@ -1,0 +1,283 @@
+﻿@model IEnumerable<PMGSY.Areas.PMIS.Models.AddPlanPMISViewModel>
+@{
+    ViewBag.Title = "UpdatePMISRoadProjectPlanLayout";
+}
+
+<script src="~/Scripts/custom/Generic.js"></script>
+<script src="~/Scripts/jquery.ui.datepicker.js" type="text/javascript"></script>
+<script src="~/Scripts/jquery.ui.css" type="text/javascript"></script>
+<script src="~/Areas/PMIS/Scripts/AddPMISRoadProjectPlan.js"></script>
+
+    <form id="frmAddProjectPlan">
+        <div style="margin-left: 100px">
+            @Html.ValidationSummary(true)
+            @Html.AntiForgeryToken()
+        </div>
+
+        <div id="divError" class="ui-state-error ui-corner-all" style="text-align: left; display: none; width: 100%">
+            <span></span>
+            <span></span>
+        </div>
+
+        <center>
+            <table class="rowstyle ui-corner-all" id="tblAddProjectPlan" style="width:100%; border:solid black 1px;">
+                <tr style="height:20px;text-align:left">
+                    <td id="roadcode" style="width:5%;">
+                        @Html.Hidden("hdnOperation", ((string)ViewBag.Operation))
+                        @Html.Hidden("Road Code", ViewBag.IMS_PR_ROAD_CODE as Int32?, new { @id = "roadCode" })
+                    </td>
+                    <td style="width:5%;">
+                        Road Name :
+                    </td>
+                    <td style="width:20%">
+                        <strong>
+                            @ViewBag.IMS_ROAD_NAME
+                        </strong>
+                    </td>
+                    <td style="width:10%;">Sanction Year : </td>
+                    <td style="width:20%">
+                        <strong>
+                            @ViewBag.IMS_YEAR
+                        </strong>
+                    </td>
+                    <td style="width:10%;">Sanctioned Length : </td>
+                    <td style="width:20%">
+                        <strong>
+                            <p id="txtSancLength">@ViewBag.IMS_PAV_LENGTH</p>
+                        </strong>
+                    </td>
+                </tr>
+
+                <tr style="height:20px;text-align:left">
+                    <td style="width:5%;"></td>
+                    <td style="width:7%;">Package No: </td>
+                    <td style="width:20%">
+                        <strong>
+                            @ViewBag.IMS_PACKAGE_ID
+                        </strong>
+                    </td>
+                    <td style="width:5%;">District : </td>
+                    <td style="width:20%">
+                        <strong>
+                            @PMGSY.Extensions.PMGSYSession.Current.DistrictName
+                        </strong>
+                    </td>
+                    <td style="width:5%">Agreement Value (Rs. Lakhs) :</td>
+                    <td style="width:20%">
+                        <strong>
+                            @ViewBag.AGREEMENT_VALUE
+                        </strong>
+                    </td>
+                </tr>
+
+                <tr style="height:20px;text-align:left">
+                    <td style="width:5%;"></td>
+                    <td style="width:7%;">State Share(Rs. Lakhs) : </td>
+                    <td style="width:20%">
+                        <strong>
+                            @ViewBag.StateShare
+                        </strong>
+                    </td>
+                    <td style="width:5%;">MoRD Share(Rs. Lakhs) : </td>
+                    <td style="width:20%">
+                        <strong>
+                            @ViewBag.MordShare
+                        </strong>
+                    </td>
+                    <td style="width:5%">Total Sanctioned Cost(Rs. Lakhs) :</td>
+                    <td style="width:20%">
+                        <strong>
+                            @ViewBag.TotalSanctionedCost
+                        </strong>
+                    </td>
+                </tr>
+                <tr>
+                    <td style="width:5%;"></td>
+                    <td style="width:5%">Baseline No :</td>
+                    <td style="width:20%">
+                        <strong>
+                            @ViewBag.BASELINE_NO
+                        </strong>
+                    </td>
+                    <td style="width:5%">Technology Name :</td>
+                    <td style="width:20%">
+                        <strong>
+                            @ViewBag.TechName
+                        </strong>
+                    </td>
+                    <td></td>
+                    <td></td>
+                </tr>
+                <tr></tr>
+
+                <tr style="text-align:left;height:25px">
+                    <td colspan="8" class="ui-widget-header" style="width:10%">
+                        <strong>Add Plan Details </strong>
+                    </td>
+                </tr>
+                <tr>
+                    <td colspan="10" style="text-align:left;font-size:1em;width: 7%;color:forestgreen;">
+                        <span><strong>[Note]</strong></span>
+                        <br>
+                        <span><strong>1: Fill quantity in Km/m/No. and agreement cost in Lakhs only</strong></span>
+                        <br>
+                        <span><strong>2: FDR Stabilized Base and Crack Relief Layer is required for road projects utilizing (FDR) Cement stabilization technology.</strong></span>
+                    </td>
+                </tr>
+                <tr style="text-align:left;height:20px">
+                    <td class="ui-jqgrid-sortable" style=" width:10%;text-align:center;">
+                        <strong>Activity</strong>
+                    </td>
+                    <td class="ui-jqgrid-sortable" style=" width:10%;text-align:center;">
+                        <strong>Unit</strong>
+                    </td>
+                    <td class="ui-jqgrid-sortable" style=" width:10%;text-align:center;">
+                        <strong>Quantity</strong>
+                    </td>
+                    <td class="ui-jqgrid-sortable" style="width:10%;text-align:center;">
+                        <strong>Agreement Cost(Rs. Lakhs)</strong>
+                    </td>
+                    <td class="ui-jqgrid-sortable" style="width:10%;text-align:center;">
+                        <strong>Planned Start</strong>
+                    </td>
+                    <td class="ui-jqgrid-sortable" style="width:12%;text-align:center;">
+                        <strong>Planned Completion</strong>
+                    </td>
+                    <td class="ui-jqgrid-sortable" style="width:12%;text-align:center;">
+                        <strong>Planned Duration(Days)</strong>
+                    </td>
+                </tr>
+
+                @{ int i = 0;
+                    foreach (var item in Model)
+                    {
+                        <tr id="@item.ACTIVITY_DESC">
+                            <td style="text-align:left">
+                                @item.ACTIVITY_DESC
+                            </td>
+                            <td style="text-align:center">
+                                @item.ACTIVITY_UNIT
+                            </td>
+                            @if (@item.QUANTITY_APPL_U.Equals("Y") && (@item.ACTIVITY_DESC.Equals("CD Works") || @item.ACTIVITY_DESC.Equals("Protection Works") || @item.ACTIVITY_DESC.Equals("Road Furniture")))
+                            {
+                                <td style="text-align:center">
+                                    @Html.TextBoxFor(model => item.QUANTITY, new { @title = "Quantity", @id = "quantity", @maxlength = "10", @onkeypress = "return isNumericKeyStroke(event)", @placeholder = "Input(in No.)", @width = "50px", @align = "center" })
+                                </td>
+                            }
+                            else if (@item.QUANTITY_APPL_U.Equals("Y") && @item.ACTIVITY_DESC.Equals("Longitudinal Drains"))
+                            {
+                                <td style="text-align:center">
+                                    @Html.TextBoxFor(model => item.QUANTITY, new { @title = "Quantity", @id = "quantity", @maxlength = "10", @onkeypress = "return isNumericKeyStroke(event)", @placeholder = "Input(in m)", @width = "50px", @align = "center" })
+                                </td>
+                            }
+                            else if (@item.QUANTITY_APPL_U.Equals("Y"))
+                            {
+                                <td style="text-align:center">
+                                    @Html.TextBoxFor(model => item.QUANTITY, new { @class = "QKm", @title = "Quantity", @id = "quantity" + i, @maxlength = "10", @onkeypress = "return isNumericKeyStroke(event)", @placeholder = "Input(in Km)", @width = "50px", @align = "center" })
+                                </td>
+                            }
+                            else
+                            {
+                                <td style="text-align:center">
+                                    @Html.HiddenFor(model => item.QUANTITY, new { @disabled = "disabled", @id = "quantity", @maxlength = "10", @onkeypress = "return isNumericKeyStroke(event)", @placeholder = "Input(Qty)", @width = "50px", @align = "center" })
+                                </td>
+                            }
+                            @if (@item.AGRCOST_APPL_U.Equals("Y"))
+                            {
+                                <td style="text-align:center">
+                                    @Html.TextBoxFor(model => item.AGREEMENT_COST, new { @class = "TAC", @title = "Cost", @id = "cost", @maxlength = "10", @onkeypress = "return isNumericKeyStroke(event)", @placeholder = "Input(in Lakhs)", @width = "50px", @align = "center" })
+                                    @Html.ValidationMessageFor(model => item.AGREEMENT_COST)
+                                </td>
+                            }
+                            else
+                            {
+                                <td style="text-align:center">
+                                    @Html.HiddenFor(model => item.AGREEMENT_COST, new { @disabled = "disabled", @class = "TAC", @id = "cost", @maxlength = "10", @onkeypress = "return isNumericKeyStroke(event)", @placeholder = "Input(Rs.)", @width = "50px", @align = "center" })
+                                </td>
+                            }
+                            @if (@item.PLANNED_START_DATE_APPL_U.Equals("Y"))
+                            {
+                                <td style="text-align:center">
+                                    @Html.TextBoxFor(model => item.PLANNED_START_DATE, "{0:d}", new { @type = "text", @class = "TPS", @id = "StartDate" + i, @title = "Planned Start Date", @placeholder = "dd/mm/yy", @width = "50px", @align = "center" })
+                                </td>
+                            }
+                            else
+                            {
+                                <td style="text-align:center">
+                                    @Html.HiddenFor(model => item.PLANNED_START_DATE, new { @disabled = "disabled", @id = "StartDate" + i, @placeholder = "dd/mm/yy", @width = "50px", @align = "center" })
+                                </td>
+                            }
+
+                            @if (@item.PLANNED_COMPLETION_DATE_APPL_U.Equals("Y"))
+                            {
+                                <td style="text-align:center">
+                                    @Html.TextBoxFor(model => item.PLANNED_COMPLETION_DATE, "{0:d}", new { @title = "Completion Date", @id = "completionDate" + i, @class = "TCD", @value = 0, @placeholder = "AutoCalculated ", @width = "50px", @align = "center" })
+                                </td>
+
+                            }
+                            else
+                            {
+                                <td style="text-align:center">
+                                    @Html.HiddenFor(model => item.PLANNED_COMPLETION_DATE, new { @disabled = "disabled", @id = "completionDate" + i, @value = 0, @placeholder = "AutoCalculated ", @width = "50px", @align = "center" })
+                                </td>
+
+                            }
+                            @if (@item.PLANNED_DURATION_APPL_U.Equals("Y"))
+                            {
+                                <td style="text-align:center">
+                                    @*     @Html.TextBoxFor(model => item.PLANNED_DURATION, new { @title = "Duration",@type = "number", @class = "TDR", @oninput="addDays(this.value, " + i + ")", @onkeypress = "return isNumericKeyStroke(event)",@min = "0", @id = "duration", @maxlength = "5", @placeholder = "Input(Days)", @width = "50px", @align = "center" })*@
+                                    @Html.TextBoxFor(model => item.PLANNED_DURATION, new { @title = "Duration", @class = "TDR", @readonly = "true", @id = "duration" + i, @min = "0", @maxlength = "5", @placeholder = "AutoCalulated", @width = "50px", @align = "center" })
+                                </td>
+                            }
+                            else
+                            {
+                                <td style="text-align:center">
+                                    @Html.HiddenFor(model => item.PLANNED_DURATION, new { @disabled = "disabled", @class = "TDR", @min = "0", @id = "duration" + i, @maxlength = "5", @placeholder = "Input(AutoCalulated)", @width = "50px", @align = "center" })
+                                </td>
+                            }
+                        </tr>
+                        i++;
+                    }
+                }
+
+                <tr style="text-align:left;height:20px">
+                    <td class="ui-jqgrid-sortable" style=" width:10%;text-align:center">
+                        <strong>TOTAL</strong>
+                    </td>
+                    <td style="width:5%">Agreement Value (Rs. Lakhs):</td>
+                    <td style="width:20%"> <strong> @ViewBag.AGREEMENT_VALUE </strong></td>
+                    <td style="text-align:center">
+                        @Html.TextBox("Total Cost", ViewBag.TotalAgreementCost as Decimal?, new { @id = "txtTotalAgreementCost", @value = 0, @title = "Total Cost", @readonly = "true", @placeholder = "AutoCal", @width = "50px", @align = "center" })
+                    </td>
+                    <td style="text-align:center">
+                        @Html.TextBox("Total Start Date", ViewBag.TotalPlannedStartDate as DateTime?, "{0:d}", new { @id = "txtTotalPlannedStartDate", @readonly = "true", @placeholder = "AutoCal", @width = "50px", @align = "center" })
+                    </td>
+                    <td style="text-align:center">
+                        @Html.TextBox("Total Completion Date", ViewBag.TotalPlannedCompletion as DateTime?, "{0:d}", new { @id = "txtTotalPlannedCompletion", @readonly = "true", @placeholder = "AutoCal", @width = "50px", @align = "center" })
+                    </td>
+                    <td style="text-align:center">
+                        @Html.TextBox("Total Duration", ViewBag.TotalPlannedDuration as Int32?, new { @id = "txtTotalPlannedDuration", @title = "Total Duration", @readonly = "true", @placeholder = "AutoCal", @width = "50px", @align = "center" })
+                    </td>
+
+                </tr>
+
+                <tr style="height:10px;">
+                </tr>
+
+                <tr style="text-align:right;">
+
+                    <td colspan="4" style="text-align:right">
+                        @*<input type="button" value="Calculate Total" class="jqueryButton" id="btnFTotal"/>*@
+                        <input type="button" value="Update" class="jqueryButton" id="btnSubmit" />
+                    </td>
+                    <td colspan="4" style="text-align:left">
+                        <input type="button" class="jqueryButton" value="Cancel" id="btnCancel" name="btnCancel" />
+                    </td>
+
+                </tr>
+            </table>       
+        </center>
+    </form>
+
+
+

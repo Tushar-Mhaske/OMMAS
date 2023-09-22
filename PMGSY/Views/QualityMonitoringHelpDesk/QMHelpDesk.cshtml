@@ -1,0 +1,206 @@
+﻿@model System.DateTime?
+<!DOCTYPE html>
+
+<html>
+<head>
+    <meta name="viewport" content="width=device-width" />
+    <title>PMGSY</title>
+    <style type="text/css">
+        #message {
+            color: red;
+            text-decoration: solid;
+        }
+
+        #message2 {
+            color: red;
+            text-decoration: solid;
+        }
+
+        .ui-datepicker td {
+            border: 1px solid #CCC;
+            padding: 0;
+        }
+    </style>
+    <noscript>
+        <meta http-equiv="refresh" content="0;url=/Error/Index" />
+
+    </noscript>
+
+    <script src="@Url.Content("~/Scripts/jquery.ui.datepicker.js")"></script>
+    <script src="~/Scripts/QualityMonitoringHelpDesk/QMHelpDesk.js"></script>
+    <script src="~/Scripts/custom/Generic.js"></script>
+    <script src="~/Scripts/jquery.ui.accordion.js"></script>
+
+</head>
+<body>
+    <center>
+
+    <div style="width: 98%; border:none; margin-top:2px; margin-bottom:10px;" class="ui-state-default ui-corner-all"> 
+        <input type="radio" class="rg" name="mabqsm" id="atrdetails" value="userATR" />Regrade ATR
+        &nbsp;&nbsp;&nbsp;&nbsp;
+        <input type="radio" class="rg" name="mabqsm" id="scheduledetails" value="userSchedule" checked="checked" />Schedule Details
+        &nbsp;&nbsp;&nbsp;&nbsp;
+        <input type="radio" class="rg" name="mabqsm" id="observdetails" value="userObserv" />Observation Details
+        &nbsp;&nbsp;&nbsp;&nbsp;
+        <input type="radio" class="rg" name="mabqsm" id="rbtnNotificationdetails" value="rbtnNotificationdetails" />Notification Details
+        &nbsp;&nbsp;&nbsp;&nbsp;
+        <input type="radio" class="rg" name="mabqsm" id="rbtnBroadCastNotificationdetails" value="rbtnBroadCastNotificationdetails" />Broadcast Notification 
+        &nbsp;&nbsp;&nbsp;&nbsp;
+        <input type="radio" class="rg" name="mabqsm" id="rbtnQMIMEIResetdetails" value="rbtnQMIMEIResetdetails" />Reset IMEI
+       <br />
+       <br />
+
+        <div id="userScehduleDetails">
+                Year : 
+                @Html.DropDownList("yearList", (IEnumerable<SelectListItem>)ViewData["yearRows"])
+                &nbsp;&nbsp;&nbsp;&nbsp;
+                 Month : 
+                @Html.DropDownList("monthList", (IEnumerable<SelectListItem>)ViewData["mnthRows"])
+                &nbsp;&nbsp;&nbsp;&nbsp;
+                Type : 
+                @Html.DropDownList("qmTypeList", (IEnumerable<SelectListItem>)ViewData["qmType"])
+                &nbsp;&nbsp;&nbsp;&nbsp;
+
+                    <input type="button" id="search" value="Go"  class="jqueryButton"/><br />
+                <br />
+        </div>
+
+        <div id="observDetails" style="display:none">
+                From : &nbsp;
+                                @Html.TextBox("FromDate", (Model.HasValue ? Model.Value.ToString("dd/MM/yyyy") : new DateTime(DateTime.Now.Year, DateTime.Now.Month, 1).ToString("dd/MM/yyyy")), new { id = "fromDate" })
+                @Html.ValidationMessage("FromDate", "Invalid Date!!", new { id = "message" })
+
+
+                To : &nbsp;
+                            @Html.TextBox("ToDate", (Model.HasValue ? Model.Value.ToString("dd/MM/yyyy") : new DateTime(DateTime.Now.Year, DateTime.Now.Month, 1).AddMonths(1).AddDays(-1).ToString("dd/MM/yyyy")), new { id = "toDate" })
+                @Html.ValidationMessage("ToDate", "Invalid Date!!", new { id = "message2" })
+
+                &nbsp;&nbsp;&nbsp;&nbsp;
+
+                    @Html.DropDownList("myList4", (IEnumerable<SelectListItem>)ViewData["qmType"])
+                &nbsp;&nbsp;&nbsp;&nbsp;
+                    <input type="button" id="search1" value="Go" class="jqueryButton" /><br />
+                <br />
+        </div>
+        
+             <div id="notificationDetails" style="display:none">
+                Type : 
+                @Html.DropDownList("qmTypeNotList", (IEnumerable<SelectListItem>)ViewData["qmType"], new { @title = "Type", @tabindex = 1 })
+                 &nbsp;&nbsp;
+                 <label  id="lblNotificationState">State :</label>                   
+                @Html.DropDownList("qmTypeStateList", (IEnumerable<SelectListItem>)ViewData["state"], new { @title = "State", @tabindex = 2 })
+                &nbsp;&nbsp;&nbsp;&nbsp;
+                    <input type="button" id="btnNotificationGo" value="List Notification" title="List Notification" class="jqueryButton" tabindex=3 />
+                 &nbsp;&nbsp;&nbsp;&nbsp;
+                     <input type="button" id="btnNotificationAdd" value="Add Notification" title="Add Notification" class="jqueryButton" tabindex=4/>       
+                 <br />
+                <br />
+        </div>
+
+         <div id="broadCastnotificationDetails" style="display:none">
+                Type : 
+                @Html.DropDownList("qmTypeBroadNotList", (IEnumerable<SelectListItem>)ViewData["qmType"], new { @title = "Type", @tabindex = 1 })
+                &nbsp;&nbsp;
+                 <label  id="lblBroadNotListState">State :</label>                     
+                @Html.DropDownList("qmTypeBroadNotStateList", (IEnumerable<SelectListItem>)ViewData["state"], new { @title = "State", @tabindex = 2 })
+             
+                &nbsp;&nbsp;&nbsp;&nbsp;
+
+                    <input type="button" id="btnBroadCastNotificationGo" value="List Broadcast Notification" title="List Broadcast Notification" class="jqueryButton" tabindex=3 />
+                 &nbsp;&nbsp;&nbsp;&nbsp;
+                     <input type="button" id="btnBroadCastNotificationAdd" value="Add Broadcast Notification" title="Add Broadcast Notification" class="jqueryButton" tabindex=4 />       
+                 <br />
+                <br />
+        </div>
+       
+    </div> 
+    
+
+
+    <div id="userAndScheduleGrids" style="margin-top:5px;width: 98%;">
+        <div id="monitorGrid"">
+            <table id="tableMonitorDetails"></table>
+            <div id="navGridMonitorDetails"></div>
+        </div>
+        
+        <div id="scheduleDetailsGrid" style="margin-top:5px;">
+            <table id="tableScheduleDetails"></table>
+            <div id="navGridScheduleDetails"></div>
+        </div>
+        
+       
+        <div id="logDetailsGrid" style="margin-top:5px;">
+            <table id="tableLogDetails"></table>
+            <div id="navGridLogDetails"></div>
+        </div>
+
+    </div>
+
+   
+
+        <div id="observationAndImageGrids" style="margin-top:5px;width: 98%;">
+       @* <div id="observationGrid">*@
+            <table id="observTable"></table>
+            <div id="observNavGrid"></div>
+       @* </div>*@
+        
+        <div id="imageGrid" style="margin-top:5px;">
+            <table id="imageTable"></table>
+            <div id="imageNavGrid"></div>
+        </div>
+
+    </div>
+
+         <div id="notificationDetailsGrids" style="margin-top:5px;width: 98%;">
+       
+            <table id="tblNotificationDetails"></table>
+            <div id="divPagerNotificationDetails"></div>
+       
+
+               <div id="accordion" style="display:none;width:100%;margin-top:10px;">            
+            <h3 style="text-align:left"><a id="" href="#" style=" font-size:.9em;" >Add Message Notification Details</a>
+                <a href="#"  style="float: right;">
+                    <img style="border:none" src="" class="ui-icon ui-icon-closethick" onclick="CloseNotificationDetails();" /></a>
+            </h3>
+            <div id="divNotificationForm">
+
+             </div>                    
+     </div>
+            
+    </div>
+
+
+        <div id="brodcastnotificationDetailsGrids" style="margin-top:5px;width: 98%;">
+      
+        <div>
+            <table id="tblbrodcastNotificationDetails"></table>
+            <div id="divPagerbrodcastNotificationDetails"></div>
+        </div>
+
+    <div id="accordionBroadcast" style="display:none;width:100%;margin-top:10px;">            
+            <h3 style="text-align:left"><a id="" href="#" style=" font-size:.9em;" >Add Broadcast Message Notification Details</a>
+                <a href="#"  style="float: right;">
+                    <img style="border:none" src="" class="ui-icon ui-icon-closethick" onclick="CloseBroadCastNotificationDetails();" /></a>
+            </h3>
+            <div id="divbrodcastNotificationForm">
+
+             </div>                    
+     </div>
+            
+    </div>
+
+
+    <div id="qmIMEINoRestGrids" style="margin-top:5px;width: 98%;">
+
+       
+    <table id="tblQmIMEINoResetDetails"></table>
+    <div id="divQmIMEINoResetDetails"></div>
+        
+              
+    </div>
+        
+    <div id="divRegradeATR" style="margin-top:5px;width: 98%;display:none;"></div>
+
+</center>
+</body>
+</html>

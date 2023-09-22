@@ -1,0 +1,884 @@
+﻿@**
+        * Project Id    :
+        * Project Name  :   OMMAS II
+        * Name          :   QMFillObservations.cshtml
+        * Description   :   View for QMFillObservations
+        * Author        :   Shyam Yadav 
+        * Creation Date :   10/Jun/2013
+ **@
+
+
+@model PMGSY.Models.QualityMonitoring.QMFillObservationModel
+
+<style>
+    .ui-datepicker td {
+    border: 1px solid #CCC;
+    padding: 0;
+}
+</style>
+<script src="~/Scripts/custom/Generic.js"></script>
+<script src="~/Scripts/QualityMonitoring/QMFillObservations.js"></script>
+
+ <form id="frmFillObservations">
+    <div id="divFillObservationsError" class="ui-state-error ui-corner-all" style="text-align: left; display: none; width: 100%">
+        <span class="ui-icon ui-icon-alert" style="float: left;"></span>
+        <span></span>
+        <span style="float: right;"><a style="float: right;" href="#">
+            <img class="ui-icon ui-icon-closethick" onclick="closeDivError();" style="border:none;color:red;border-width: 0;">
+        </a></span>
+    </div>
+      @Html.HiddenFor(model => model.ADMIN_SCHEDULE_CODE)
+      @Html.HiddenFor(model => model.IMS_PR_ROAD_CODE)
+      @Html.HiddenFor(model => model.SCHEDULE_MONTH_YEAR_START_DATE)
+      @Html.HiddenFor(model => model.SCHEDULE_MONTH_YEAR_END_DATE)  @*Added by deendayal on 15/9/2017 to restrict the monitor to select any other month's day*@
+      @Html.HiddenFor(model => model.CURRENT_DATE)
+      @Html.HiddenFor(model => model.IMS_ISCOMPLETED)
+      @Html.HiddenFor(model => model.IMS_PAV_LENGTH)
+      @Html.HiddenFor(model => model.IMS_PROPOSAL_TYPE)
+      @Html.Hidden("hdnRole",PMGSY.Extensions.PMGSYSession.Current.RoleCode.ToString())
+     <center>
+         @* <div class="ui-widget-header ui-corner-top" style="text-align:center;width:100%;height:20px; font-size:12px; font-weight:bold;">
+                          INSPECTION ENTRIES OR MONITORS
+         </div>*@
+         <table class="rowstyle" id="tblFillObsDetails" style="margin-top:0px; text-align:left; border:ridge 0.1em #ccc; width:100%; padding:5px 5px 5px 5px;">
+                    
+                    <tr style="text-align:left;">
+                        <td style="width:15%;font-weight:bold;" >
+                            @Html.LabelFor(model => model.STATE_NAME)
+                        </td>
+                        <td style="width:10%" >                            
+                            @Html.DisplayFor(model => model.STATE_NAME)
+                        </td>
+                        <td style="width:10%;font-weight:bold;" >
+                            @Html.LabelFor(model => model.DISTRICT_NAME)
+                        </td>
+                         <td style="width:10%">                            
+                            @Html.DisplayFor(model => model.DISTRICT_NAME)
+                        </td>
+                        @if (Model.IMS_PROPOSAL_TYPE.Equals("P"))
+                        {
+                            <td colspan="3">
+                                @Html.LabelFor(model => model.IMS_ROAD_NAME)
+                            </td>
+                            <td>                            
+                                @Html.DisplayFor(model => model.IMS_ROAD_NAME)
+                            </td>
+                        }
+                        else
+                        {
+                            <td style="width:12%;font-weight:bold;" >
+                                @Html.LabelFor(model => model.IMS_ROAD_NAME)
+                            </td>
+                            <td>                            
+                                @Html.DisplayFor(model => model.IMS_ROAD_NAME)
+                            </td>
+                            <td style="width:12%;font-weight:bold;" >
+                                @Html.LabelFor(model => model.IMS_BRIDGE_NAME)
+                            </td>
+                            <td>                            
+                                @Html.DisplayFor(model => model.IMS_BRIDGE_NAME)
+                            </td> 
+                        }
+                    </tr>
+                    <tr>
+                        <td style="width:15%;font-weight:bold;">
+                            @Html.LabelFor(model => model.SCHEDULE_MONTH_YEAR)
+                        </td>
+                        <td style="width:10%;">
+                            @Html.DisplayFor(model => model.SCHEDULE_MONTH_YEAR)
+                        </td>
+                        <td style="width:10%;font-weight:bold;">
+                            @Html.LabelFor(model => model.IMS_YEAR)
+                        </td>
+                        <td style="width:10%">                            
+                            @Html.DisplayFor(model => model.IMS_YEAR)
+                        </td>
+                        <td style="width:15%;font-weight:bold;">
+                            @Html.LabelFor(model => model.IMS_PACKAGE_ID)
+                        </td>
+                        <td colspan="3">                            
+                            @Html.DisplayFor(model => model.IMS_PACKAGE_ID)
+                        </td>
+                    </tr>
+                    <tr style="text-align:left;">
+                        @if (Model.IMS_PROPOSAL_TYPE.Equals("P"))
+                        {
+                            <td style="width:10%;font-weight:bold;" >
+                                @Html.LabelFor(model => model.IMS_PAV_LENGTH)
+                            </td>
+                            <td style="width:10%" >                            
+                                @Html.DisplayFor(model => model.IMS_PAV_LENGTH)
+                            </td>
+                        }
+                        else
+                        {
+                            <td style="width:10%;font-weight:bold;" >
+                                @Html.LabelFor(model => model.IMS_BRIDGE_LENGTH)
+                            </td>
+                            <td style="width:10%" >                            
+                                @Html.DisplayFor(model => model.IMS_BRIDGE_LENGTH)
+                            </td>
+                        }
+                        <td style="width:10%;font-weight:bold;">
+                            @*@Html.LabelFor(model => model.IMS_ISCOMPLETED)*@
+                            Work Status
+                        </td>
+                        <td style="width:10%;">  
+                            @if (Model.IMS_ISCOMPLETED.Equals("C"))
+                            {
+                                 <b>Completed</b>
+                            }
+                            else if (Model.IMS_ISCOMPLETED.Equals("P"))
+                            {
+                                <b>In Progress</b>
+                            }
+                            else if (Model.IMS_ISCOMPLETED.Equals("M"))
+                            {
+                                <b>Maintenance</b>
+                            }
+                        </td>
+                        <td style="width:12%;font-weight:bold;" >
+                            @Html.LabelFor(model => model.QM_INSPECTION_DATE)
+                            <span style="color:red">*</span>
+                        </td>
+                        <td colspan="3">
+                            @Html.EditorFor(m => m.QM_INSPECTION_DATE, String.Format("{0:dd/MM/yyyy}", Model.QM_INSPECTION_DATE))
+                            @Html.ValidationMessageFor(model => model.QM_INSPECTION_DATE) 
+                        </td>
+                    </tr>
+                    @if (Model.IMS_PROPOSAL_TYPE.Equals("P"))
+                    {
+                        if (Model.IMS_ISCOMPLETED.Equals("M"))
+                        {
+                            <tr style="text-align:left;">
+                                <td style="width:15%;font-weight:bold;">
+                                    @Html.LabelFor(model => model.FROM_ROAD_LENGTH)
+                                    <span style="color:red">*</span>
+                                </td>
+                                <td colspan="3"> 
+                                    @Html.TextBoxFor(model => model.FROM_ROAD_LENGTH, new { @maxlength="8", style="width:150px;" }) @* , @readonly="readonly", @disabled="disabled"*@
+                                </td>
+                                <td style="width:12%;font-weight:bold;" >
+                                    @Html.LabelFor(model => model.TO_ROAD_LENGTH)
+                                    <span style="color:red">*</span>
+                                </td>
+                                <td colspan="3">                            
+                                    @Html.TextBoxFor(model => model.TO_ROAD_LENGTH, new { @maxlength="8", style="width:150px;" })@* , @readonly="readonly" , @disabled="disabled" *@
+                                </td>
+                            </tr>
+                            <tr style="text-align:left;">
+                                <td colspan="4">
+                                    @Html.ValidationMessageFor(model => model.FROM_ROAD_LENGTH) 
+                                </td>
+                                <td colspan="4">
+                                    @Html.ValidationMessageFor(model => model.TO_ROAD_LENGTH) 
+                                </td>
+                            </tr>
+                        }
+                        else
+                        {
+                            <tr style="text-align:left;">
+                                <td style="width:15%;font-weight:bold;">
+                                    @Html.LabelFor(model => model.FROM_ROAD_LENGTH)
+                                    <span style="color:red">*</span>
+                                </td>
+                                <td colspan="3">                            
+                                    @Html.TextBoxFor(model => model.FROM_ROAD_LENGTH, new { @maxlength="8", style="width:150px;"})
+                                </td>
+                                <td style="width:12%;font-weight:bold;" >
+                                    @Html.LabelFor(model => model.TO_ROAD_LENGTH)
+                                    <span style="color:red">*</span>
+                                </td>
+                                <td colspan="3">                            
+                                    @Html.TextBoxFor(model => model.TO_ROAD_LENGTH, new { @maxlength="8", style="width:150px;"})
+                                </td>
+                            </tr>
+                            <tr style="text-align:left;">
+                                <td colspan="4">
+                                    @Html.ValidationMessageFor(model => model.FROM_ROAD_LENGTH) 
+                                </td>
+                                <td colspan="4">
+                                    @Html.ValidationMessageFor(model => model.TO_ROAD_LENGTH) 
+                                </td>
+                            </tr>
+                        }
+                        
+                    }
+                    @if (Model.IMS_PROPOSAL_TYPE.Equals("P") && Model.IMS_ISCOMPLETED.Equals("M"))
+                    {
+                        
+                        <tr>
+                            <td colspan="8">
+                                <table  style="margin-top:1px; text-align:left; border:ridge 0.1em #ccc; width:100%; padding:5px 5px 5px 5px;"> 
+                                    <tr>
+                                        <td colspan="8" class="ui-state-highlight" style="text-align:center;">
+                                            <strong> PCI Details </strong>
+                                        </td>
+                                    </tr>
+                                    @if (Model.PCI_LIST == null || Model.PCI_LIST.Count == 0)
+                                    {
+                                        <tr style="text-align:left;">
+                                            <td  colspan="8" style="font-weight:bold;" >
+                                                    <b> No PCI Entry exist for the road </b>
+                                            </td>
+                                        </tr>
+                                    }
+                                    else
+                                    {
+                                        <tr style="text-align:center;">
+                                            <td colspan="2" style="text-align:center;font-weight:bold;">Segment No.</td>
+                                            <td colspan="2" style="text-align:center;font-weight:bold;">Start Chainage (Km.)</td>
+                                            <td colspan="2" style="text-align:center;font-weight:bold;">End Chainage (Km.)</td>
+                                            <td colspan="2" style="text-align:center;font-weight:bold;">PCI Index</td>
+                                        </tr>
+                            
+                                        foreach (var item in Model.PCI_LIST)
+                                        { 
+                                            <tr style="text-align:center;">
+                                                    <td colspan="2" style="text-align:center;">@item.MANE_SEGMENT_NO</td>
+                                                    <td colspan="2" style="text-align:center;">@item.MANE_STR_CHAIN</td>
+                                                    <td colspan="2" style="text-align:center;">@item.MANE_END_CHAIN</td>
+                                                    <td colspan="2" style="text-align:center;">@item.MANE_PCIINDEX</td>
+                                            </tr>
+                                        }
+                                    }
+                                </table>
+                            </td>
+                        </tr>
+                       
+                    }    
+        </table>
+       
+           @if (Model.IMS_PROPOSAL_TYPE.Equals("P") && Model.IMS_ISCOMPLETED.Equals("M"))
+           {
+             <div class="ui-state-default ui-corner-top" style="text-align:left; width:98.5%;height:20px;padding-left:15px; padding-top:3px; font-size:11px; font-weight:bold;">
+                Note : Overall Grading denotes, [ <strong> U </strong> - No Maintenance | <strong> SRI </strong> - Low Maintenance | <strong> S </strong> - Maintenance Not Required / Proper Maintenance ]
+             </div> 
+           }
+
+        <table style="margin-top:1px; text-align:left; margin-top:-1px; vertical-align:top; border:ridge 0.1em #ccc; width:100%; padding:5px 5px 5px 5px;">
+        <tr>  
+        @{ int i = 0; }   
+        @*//------- Road Proposals*@
+        @if(Model.IMS_PROPOSAL_TYPE.Equals("P"))
+        {
+            @*//---------------------------------------------------------- NQM/CQC /SQM Grading for Completed & In Progress Roads Starts here ------------------------------------------------------------------------*@
+           
+            if ((PMGSY.Extensions.PMGSYSession.Current.RoleCode == 6 && (Model.IMS_ISCOMPLETED.Equals("C") || Model.IMS_ISCOMPLETED.Equals("P"))) || (PMGSY.Extensions.PMGSYSession.Current.RoleCode == 9 && (Model.IMS_ISCOMPLETED.Equals("C") || Model.IMS_ISCOMPLETED.Equals("P"))) || PMGSY.Extensions.PMGSYSession.Current.RoleCode == 7 && (Model.IMS_ISCOMPLETED.Equals("C") || Model.IMS_ISCOMPLETED.Equals("P")))        //for NQM & CQC for Completed & In Progress Road  (also SQM for Completed & In Progress Road added on 08-11-21)
+            {             
+                          <td style="width:49%; vertical-align:top;">
+                             <table  id="tblObsGrading" style="margin-top:1px; text-align:left; border:ridge 0.1em #ccc; width:100%; padding:5px 5px 5px 5px;">  
+                              @while (i < Model.MASTER_GRADE_ITEM_LIST.Count)
+                              {
+                                    //if (Model.MASTER_GRADE_ITEM_LIST[i].MAST_ITEM_STATUS.Equals("O")) //For Overall Grade
+                                    if (Model.MASTER_GRADE_ITEM_LIST[i].MAST_ITEM_STATUS.Equals("C") && Model.MASTER_GRADE_ITEM_LIST[i].MAST_ITEM_CODE==20) //For Overall Grade
+                                    {
+                                        <tr class="ui-state-default">
+                                            <td style="width:5%">&nbsp;</td>
+                                            <td style="text-align:center; width:40%;">
+                                                @Model.MASTER_GRADE_ITEM_LIST[i].MAST_ITEM_NAME
+                                            </td>
+                                            <td style="width:7%;">
+                                                @Html.RadioButton("item" + Model.MASTER_GRADE_ITEM_LIST[i].NO_OF_ITEM, "1", new { @id = "item" + Model.MASTER_GRADE_ITEM_LIST[i].NO_OF_ITEM, @disabled = "disabled" }) <b> S </b>
+                                            </td>
+                                            <td style="width:10%;">
+                                                @Html.RadioButton("item" + Model.MASTER_GRADE_ITEM_LIST[i].NO_OF_ITEM, "2", new { @id = "item" + Model.MASTER_GRADE_ITEM_LIST[i].NO_OF_ITEM, @disabled = "disabled" }) <b> SRI </b>
+                                            </td>
+                                            <td style="width:8%;">
+                                                @Html.RadioButton("item" + Model.MASTER_GRADE_ITEM_LIST[i].NO_OF_ITEM, "3", new { @id = "item" + Model.MASTER_GRADE_ITEM_LIST[i].NO_OF_ITEM, @disabled = "disabled" }) <b> U </b>
+                                            </td>
+                                            <td style="width:10%;">
+                                                @Html.RadioButton("item" + Model.MASTER_GRADE_ITEM_LIST[i].NO_OF_ITEM, "4", new { @id = "item" + Model.MASTER_GRADE_ITEM_LIST[i].NO_OF_ITEM, @disabled = "disabled", @checked = true }) <b> NA </b>
+                                            </td>
+                                            <td style="width:20%;"></td>
+                                                @Html.Hidden("hiddenitem" + Model.MASTER_GRADE_ITEM_LIST[i].NO_OF_ITEM, "4", new { @id = "hiddenitem" + Model.MASTER_GRADE_ITEM_LIST[i].NO_OF_ITEM })
+                                        </tr>
+                                    }
+                                    else if (Model.MASTER_GRADE_ITEM_LIST[i].MAST_ITEM_STATUS.Equals("P") && Model.MASTER_GRADE_ITEM_LIST[i].MAST_ITEM_CODE==18) //For Overall Grade
+                                    {
+                                        <tr class="ui-state-default">
+                                            <td style="width:5%">&nbsp;</td>
+                                            <td style="text-align:center; width:40%;">
+                                                @Model.MASTER_GRADE_ITEM_LIST[i].MAST_ITEM_NAME
+                                            </td>
+                                            <td style="width:7%;">
+                                                @Html.RadioButton("item" + Model.MASTER_GRADE_ITEM_LIST[i].NO_OF_ITEM, "1", new { @id = "item" + Model.MASTER_GRADE_ITEM_LIST[i].NO_OF_ITEM, @disabled = "disabled" }) <b> S </b>
+                                            </td>
+                                            <td style="width:10%;">
+                                                @Html.RadioButton("item" + Model.MASTER_GRADE_ITEM_LIST[i].NO_OF_ITEM, "2", new { @id = "item" + Model.MASTER_GRADE_ITEM_LIST[i].NO_OF_ITEM, @disabled = "disabled" }) <b> SRI </b>
+                                            </td>
+                                            <td style="width:8%;">
+                                                @Html.RadioButton("item" + Model.MASTER_GRADE_ITEM_LIST[i].NO_OF_ITEM, "3", new { @id = "item" + Model.MASTER_GRADE_ITEM_LIST[i].NO_OF_ITEM, @disabled = "disabled" }) <b> U </b>
+                                            </td>
+                                            <td style="width:10%;">
+                                                @Html.RadioButton("item" + Model.MASTER_GRADE_ITEM_LIST[i].NO_OF_ITEM, "4", new { @id = "item" + Model.MASTER_GRADE_ITEM_LIST[i].NO_OF_ITEM, @disabled = "disabled", @checked = true }) <b> NA </b>
+                                            </td>
+                                            <td style="width:20%;"></td>
+                                                @Html.Hidden("hiddenitem" + Model.MASTER_GRADE_ITEM_LIST[i].NO_OF_ITEM, "4", new { @id = "hiddenitem" + Model.MASTER_GRADE_ITEM_LIST[i].NO_OF_ITEM })
+                                        </tr>
+                                    }
+                                    else if (Model.MASTER_GRADE_ITEM_LIST[i].MAST_SUB_ITEM_CODE == 0)      //For Main Grade Item
+                                    {
+                                        <tr class="ui-state-default">
+                                            @if(Model.MASTER_GRADE_ITEM_LIST[i].MAST_ITEM_STATUS.Equals("C"))
+                                            {
+                                                if (Model.MASTER_GRADE_ITEM_LIST[i].MAST_ITEM_CODE == 3 || Model.MASTER_GRADE_ITEM_LIST[i].MAST_ITEM_CODE == 4 || Model.MASTER_GRADE_ITEM_LIST[i].MAST_ITEM_CODE == 5 || Model.MASTER_GRADE_ITEM_LIST[i].MAST_ITEM_CODE == 6 || Model.MASTER_GRADE_ITEM_LIST[i].MAST_ITEM_CODE == 7 || Model.MASTER_GRADE_ITEM_LIST[i].MAST_ITEM_CODE == 8 || Model.MASTER_GRADE_ITEM_LIST[i].MAST_ITEM_CODE == 9)
+                                                {
+                                                    <td style="width:5%;color:red;">
+                                                        @Model.MASTER_GRADE_ITEM_LIST[i].MAST_ITEM_CODE                   
+                                                    </td>
+                                                }
+                                                else
+                                                {
+                                                    <td style="width:5%;">
+                                                        @Model.MASTER_GRADE_ITEM_LIST[i].MAST_ITEM_CODE                   
+                                                    </td>
+                                                }    
+                                            }
+                                            else if(Model.MASTER_GRADE_ITEM_LIST[i].MAST_ITEM_STATUS.Equals("P"))
+                                            {
+                                                if (Model.MASTER_GRADE_ITEM_LIST[i].MAST_ITEM_CODE == 4 || Model.MASTER_GRADE_ITEM_LIST[i].MAST_ITEM_CODE == 5 || Model.MASTER_GRADE_ITEM_LIST[i].MAST_ITEM_CODE == 6 || Model.MASTER_GRADE_ITEM_LIST[i].MAST_ITEM_CODE == 7 || Model.MASTER_GRADE_ITEM_LIST[i].MAST_ITEM_CODE == 8 || Model.MASTER_GRADE_ITEM_LIST[i].MAST_ITEM_CODE == 9  )
+                                                {
+                                                    <td style="width:5%;color:red;">
+                                                        @Model.MASTER_GRADE_ITEM_LIST[i].MAST_ITEM_CODE                   
+                                                    </td>
+                                                }
+                                                else
+                                                {
+                                                    <td style="width:5%;">
+                                                        @Model.MASTER_GRADE_ITEM_LIST[i].MAST_ITEM_CODE                   
+                                                    </td>
+                                                }    
+                                            }
+                                               
+                                        <td style="text-align:left; width:40%;">
+                                            @Model.MASTER_GRADE_ITEM_LIST[i].MAST_ITEM_NAME
+                                        </td>
+                                               
+                                        <td style="width:7%;">
+                                            @Html.RadioButton("item" + Model.MASTER_GRADE_ITEM_LIST[i].MAST_ITEM_CODE, "1", new { @id = "item" + Model.MASTER_GRADE_ITEM_LIST[i].MAST_ITEM_CODE, @disabled = "disabled" }) <b> S </b>
+                                        </td>
+                                        <td style="width:10%;">
+                                                    @if (Model.MASTER_GRADE_ITEM_LIST[i].MAST_GRADE_CODE == 4)
+                                                    {
+                                                        @Html.RadioButton("item" + Model.MASTER_GRADE_ITEM_LIST[i].MAST_ITEM_CODE, "2", new { @id = "item" + Model.MASTER_GRADE_ITEM_LIST[i].MAST_ITEM_CODE, @disabled = "disabled" }) <b> SRI </b>
+                                                    }
+                                                    else
+                                                    {
+                                                        <b> &nbsp; </b>
+                                                    }
+                                        </td>
+                                        <td style="width:8%;">
+                                            @Html.RadioButton("item" + Model.MASTER_GRADE_ITEM_LIST[i].MAST_ITEM_CODE, "3", new { @id = "item" + Model.MASTER_GRADE_ITEM_LIST[i].MAST_ITEM_CODE, @disabled = "disabled" }) <b> U </b>
+                                        </td>
+                                        <td style="width:10%;">
+                                            @Html.RadioButton("item" + Model.MASTER_GRADE_ITEM_LIST[i].MAST_ITEM_CODE, "4", new { @id = "item" + Model.MASTER_GRADE_ITEM_LIST[i].MAST_ITEM_CODE, @disabled = "disabled", @checked = true }) <b> NA </b>
+                                        </td>
+                                        <td style="width:20%;"></td>
+                                            @Html.Hidden("hiddenitem" + Model.MASTER_GRADE_ITEM_LIST[i].MAST_ITEM_CODE, "4", new { @id = "hiddenitem" + Model.MASTER_GRADE_ITEM_LIST[i].MAST_ITEM_CODE })
+                                      </tr>    
+                                    }
+                                    else                                    //Sub Grade Items
+                                    {
+                                      <tr class="ui-state-hover">
+                                        <td>&nbsp;</td>
+                                        <td style="width:40%;">
+                                            @Model.MASTER_GRADE_ITEM_LIST[i].MAST_SUB_ITEM_CODE  <b>.</b> @Model.MASTER_GRADE_ITEM_LIST[i].MAST_ITEM_NAME             
+                                        </td>
+                                        <td style="width:7%;">
+                                            @Html.RadioButton("subitem" + Model.MASTER_GRADE_ITEM_LIST[i].MAST_ITEM_CODE + Model.MASTER_GRADE_ITEM_LIST[i].MAST_SUB_ITEM_CODE, "1", new { @id = "subitem" + Model.MASTER_GRADE_ITEM_LIST[i].MAST_ITEM_CODE + Model.MASTER_GRADE_ITEM_LIST[i].MAST_SUB_ITEM_CODE, onclick = "ItemGrade(" + Model.MASTER_GRADE_ITEM_LIST[i].NO_OF_ITEM + "," + Model.MASTER_GRADE_ITEM_LIST[i].MAST_ITEM_CODE + "," + Model.MASTER_GRADE_ITEM_LIST[i].NO_OF_SUB_ITEM + ")" }) <b> S </b>
+                                        </td>
+                                        <td style="width:10%;">
+                                                    @if (Model.MASTER_GRADE_ITEM_LIST[i].MAST_GRADE_CODE == 4)
+                                                    {
+                                                        @Html.RadioButton("subitem" + Model.MASTER_GRADE_ITEM_LIST[i].MAST_ITEM_CODE + Model.MASTER_GRADE_ITEM_LIST[i].MAST_SUB_ITEM_CODE, "2", new { @id = "subitem" + Model.MASTER_GRADE_ITEM_LIST[i].MAST_ITEM_CODE + Model.MASTER_GRADE_ITEM_LIST[i].MAST_SUB_ITEM_CODE, onclick = "ItemGrade(" + Model.MASTER_GRADE_ITEM_LIST[i].NO_OF_ITEM + "," + Model.MASTER_GRADE_ITEM_LIST[i].MAST_ITEM_CODE + "," + Model.MASTER_GRADE_ITEM_LIST[i].NO_OF_SUB_ITEM + ")" }) <b> SRI </b>
+                                                    }
+                                                    else
+                                                    {
+                                                        <b> &nbsp; </b>
+                                                    }
+                                        </td>
+                                        <td style="width:8%;">
+                                            @Html.RadioButton("subitem" + Model.MASTER_GRADE_ITEM_LIST[i].MAST_ITEM_CODE + Model.MASTER_GRADE_ITEM_LIST[i].MAST_SUB_ITEM_CODE, "3", new { @id = "subitem" + Model.MASTER_GRADE_ITEM_LIST[i].MAST_ITEM_CODE + Model.MASTER_GRADE_ITEM_LIST[i].MAST_SUB_ITEM_CODE, onclick = "ItemGrade(" + Model.MASTER_GRADE_ITEM_LIST[i].NO_OF_ITEM + "," + Model.MASTER_GRADE_ITEM_LIST[i].MAST_ITEM_CODE + "," + Model.MASTER_GRADE_ITEM_LIST[i].NO_OF_SUB_ITEM + ")" }) <b> U </b>
+                                        </td>
+                                        <td style="width:10%;">
+                                            @Html.RadioButton("subitem" + Model.MASTER_GRADE_ITEM_LIST[i].MAST_ITEM_CODE + Model.MASTER_GRADE_ITEM_LIST[i].MAST_SUB_ITEM_CODE, "4", new { @id = "subitem" + Model.MASTER_GRADE_ITEM_LIST[i].MAST_ITEM_CODE + Model.MASTER_GRADE_ITEM_LIST[i].MAST_SUB_ITEM_CODE, @checked = true, onclick = "ItemGrade(" + Model.MASTER_GRADE_ITEM_LIST[i].NO_OF_ITEM + "," + Model.MASTER_GRADE_ITEM_LIST[i].MAST_ITEM_CODE + "," + Model.MASTER_GRADE_ITEM_LIST[i].NO_OF_SUB_ITEM + ")" }) <b> NA </b>
+                                        </td>
+                                        <td style="width:20%;">
+                                            @Html.TextArea("remarks" + Model.MASTER_GRADE_ITEM_LIST[i].MAST_ITEM_CODE + Model.MASTER_GRADE_ITEM_LIST[i].MAST_SUB_ITEM_CODE, new { @style = "width: 100%;display:none;", @maxlength = "255", @placeholder = "Enter Remarks", @id = "remarks" + Model.MASTER_GRADE_ITEM_LIST[i].MAST_ITEM_CODE + Model.MASTER_GRADE_ITEM_LIST[i].MAST_SUB_ITEM_CODE , @class="textArea"})
+                                            <span class="txtAreaSpn" style="display:none;color:#FF0000;" id="spnremarks@(Model.MASTER_GRADE_ITEM_LIST[i].MAST_ITEM_CODE.ToString() + Model.MASTER_GRADE_ITEM_LIST[i].MAST_SUB_ITEM_CODE.ToString())" ></span>
+                                        </td>
+                                      </tr> 
+                                    }
+                                    
+                                  i++;
+                                  
+                                }           @*While Ends Here*@
+                            </table>
+                        </td>
+                   
+                } //If ends here
+            
+                
+                
+                
+            //---------------------------------------------------------- NQM / CQC Grading for Completed & In Progress Roads Ends here ------------------------------------------------------------------------              
+            
+            
+            //---------------------------------------------------------- NQM / CQC Grading for Maintenance Roads Starts Here ------------------------------------------------------------------------------------       
+            
+            else if ( (PMGSY.Extensions.PMGSYSession.Current.RoleCode == 6 &&  Model.IMS_ISCOMPLETED.Equals("M")) || (PMGSY.Extensions.PMGSYSession.Current.RoleCode == 9 &&  Model.IMS_ISCOMPLETED.Equals("M")) )       
+            {
+                    <td style="width:49%; vertical-align:top;">
+                        <table  id="tblObsGrading"  style="margin-top:1px; text-align:left; border:ridge 0.1em #ccc; width:100%; padding:5px 5px 5px 5px;"> 
+                    
+                              @while (i < Model.MASTER_GRADE_ITEM_LIST.Count)
+                              {
+                                  if (Model.MASTER_GRADE_ITEM_LIST[i].MAST_SUB_ITEM_CODE == 7) //For Overall Grade
+                                    {
+                                        <tr class="ui-state-default">
+                                            <td style="width:5%">&nbsp;</td>
+                                            <td style="text-align:center; width:55%;">
+                                                @Model.MASTER_GRADE_ITEM_LIST[i].MAST_ITEM_NAME
+                                            </td>
+                                            <td style="width:5%;">
+                                                @Html.RadioButton("optItem", "1", new { @id = "optItem", @disabled = "disabled" }) <b> S </b>
+                                            </td>
+                                            <td style="width:5%;">
+                                                @Html.RadioButton("optItem", "2", new { @id = "optItem", @disabled = "disabled" }) <b> SRI </b>
+                                            </td>
+                                            <td style="width:5%;">
+                                                @Html.RadioButton("optItem", "3", new { @id = "optItem", @disabled = "disabled" }) <b> U </b>
+                                            </td>
+                                            <td style="width:5%;">
+                                                @Html.RadioButton("optItem", "4", new { @id = "optItem", @disabled = "disabled", @checked = true }) <b> NA </b>
+                                            </td>
+                                            <td style="width:20%;"></td>
+                                                @Html.Hidden("overAllGrade", "4", new { @id = "overAllGrade" })
+                                        </tr>
+                                    }
+                                    else if(Model.MASTER_GRADE_ITEM_LIST[i].MAST_SUB_ITEM_CODE != 0)
+                                    {
+                                        <tr class="ui-state-hover">
+                                                <td>@Model.MASTER_GRADE_ITEM_LIST[i].MAST_SUB_ITEM_CODE<b>.</b></td>
+                                                <td style="width:55%;">
+                                                       @Model.MASTER_GRADE_ITEM_LIST[i].MAST_ITEM_NAME             
+                                                </td>
+                                                <td style="width:5%;">
+                                                    @Html.RadioButton("optItem" + Model.MASTER_GRADE_ITEM_LIST[i].MAST_SUB_ITEM_CODE, "1", new { @id = "optItem" + Model.MASTER_GRADE_ITEM_LIST[i].MAST_SUB_ITEM_CODE, onclick = "fnGradeValidateForMaintenanceRoad(" + Model.MASTER_GRADE_ITEM_LIST[i].MAST_SUB_ITEM_CODE + ")"  }) <b> S </b>
+                                                </td>
+                                                <td style="width:5%;">
+                                                        @if (Model.MASTER_GRADE_ITEM_LIST[i].MAST_GRADE_CODE == 4)
+                                                        {
+                                                            @Html.RadioButton("optItem" + Model.MASTER_GRADE_ITEM_LIST[i].MAST_SUB_ITEM_CODE, "2", new { @id = "optItem" + Model.MASTER_GRADE_ITEM_LIST[i].MAST_SUB_ITEM_CODE, onclick = "fnGradeValidateForMaintenanceRoad(" + Model.MASTER_GRADE_ITEM_LIST[i].MAST_SUB_ITEM_CODE + ")"  }) <b> SRI </b>
+                                                        }
+                                                        else
+                                                        {
+                                                            <b> &nbsp; </b>
+                                                        }
+                                                </td>
+                                                <td style="width:5%;">
+                                                    @Html.RadioButton("optItem" + Model.MASTER_GRADE_ITEM_LIST[i].MAST_SUB_ITEM_CODE, "3", new { @id = "optItem" + Model.MASTER_GRADE_ITEM_LIST[i].MAST_SUB_ITEM_CODE, onclick = "fnGradeValidateForMaintenanceRoad(" + Model.MASTER_GRADE_ITEM_LIST[i].MAST_SUB_ITEM_CODE + ")"  }) <b> U </b>
+                                                </td>
+                                                <td style="width:5%;">
+                                                    @Html.RadioButton("optItem" + Model.MASTER_GRADE_ITEM_LIST[i].MAST_SUB_ITEM_CODE, "4", new { @id = "optItem" + Model.MASTER_GRADE_ITEM_LIST[i].MAST_SUB_ITEM_CODE, @checked = true, onclick = "fnGradeValidateForMaintenanceRoad(" + Model.MASTER_GRADE_ITEM_LIST[i].MAST_SUB_ITEM_CODE + ")" }) <b> NA </b>
+                                                </td>
+                                                <td style="width:20%;">
+                                                    @Html.TextArea("remarks" + Model.MASTER_GRADE_ITEM_LIST[i].MAST_SUB_ITEM_CODE, new { @style = "width: 100%;display:none;", @maxlength = "255", @placeholder = "Enter Remarks", @id = "remarks" + Model.MASTER_GRADE_ITEM_LIST[i].MAST_SUB_ITEM_CODE , @class="textArea"})
+                                                    <span class="txtAreaSpn" style="display:none;color:#FF0000;" id="spnremarks@(Model.MASTER_GRADE_ITEM_LIST[i].MAST_SUB_ITEM_CODE.ToString())" ></span>
+                                                </td>
+                                         </tr>
+                                     }
+                                    
+                                  i++;
+                                
+                              }     @*While Ends Here*@
+
+                        </table>
+                    </td>
+                
+            }   @*If Ends Here*@
+
+            //---------------------------------------------------------- NQM/CQC Grading for Maintenance Roads Ends Here ----------------------------------------------------------------------------              
+            
+            
+            
+            //---------------------------------------------------------- SQM Grading for Completed & In Progress Roads Starts Here ----------------------------------------------------------
+            
+         @*   else if (PMGSY.Extensions.PMGSYSession.Current.RoleCode == 7 && (Model.IMS_ISCOMPLETED.Equals("C") || Model.IMS_ISCOMPLETED.Equals("P")))        
+            {
+                    <td style="width:49%; vertical-align:top;">
+                        <table  id="tblObsGrading" style="margin-top:1px; text-align:left; border:ridge 0.1em #ccc; width:100%; padding:5px 5px 5px 5px;"> 
+                    
+                              @while (i < Model.MASTER_GRADE_ITEM_LIST.Count)
+                              {
+                                    if (Model.MASTER_GRADE_ITEM_LIST[i].MAST_ITEM_STATUS.Equals("O")) //For Overall Grade
+                                    {
+                                        <tr class="ui-state-default">
+                                            <td style="width:5%">&nbsp;</td>
+                                            <td style="text-align:center; width:40%;">
+                                                @Model.MASTER_GRADE_ITEM_LIST[i].MAST_ITEM_NAME
+                                            </td>
+                                            <td style="width:7%;">
+                                                @Html.RadioButton("optItem", "1", new { @id = "optItem", @disabled = "disabled" }) <b> S </b>
+                                            </td>
+                                            <td style="width:10%;">
+                                                @Html.RadioButton("optItem", "2", new { @id = "optItem", @disabled = "disabled" }) <b> SRI </b>
+                                            </td>
+                                            <td style="width:8%;">
+                                                @Html.RadioButton("optItem", "3", new { @id = "optItem", @disabled = "disabled" }) <b> U </b>
+                                            </td>
+                                            <td style="width:10%;">
+                                                @Html.RadioButton("optItem", "4", new { @id = "optItem", @disabled = "disabled", @checked = true }) <b> NA </b>
+                                            </td>
+                                            <td style="width:20%"></td>
+                                                @Html.Hidden("overAllGrade", "4", new { @id = "overAllGrade" })
+                                        </tr>
+                                    }
+                                    else if(Model.MASTER_GRADE_ITEM_LIST[i].MAST_SUB_ITEM_CODE != 0)
+                                    {
+                                        <tr class="ui-state-hover">
+                                            <td>&nbsp;</td>
+                                            <td style="width:40%;">
+                                                @Model.MASTER_GRADE_ITEM_LIST[i].MAST_SUB_ITEM_CODE  <b>.</b> @Model.MASTER_GRADE_ITEM_LIST[i].MAST_ITEM_NAME             
+                                            </td>
+                                            <td style="width:7%;">
+                                                @Html.RadioButton("optItem" + Model.MASTER_GRADE_ITEM_LIST[i].MAST_SUB_ITEM_CODE, "1", new { @id = "optItem" + Model.MASTER_GRADE_ITEM_LIST[i].MAST_SUB_ITEM_CODE, onclick = "fnGradeValidate(" + Model.MASTER_GRADE_ITEM_LIST[i].MAST_SUB_ITEM_CODE + ")" }) <b> S </b>
+                                            </td>
+                                            <td style="width:10%;">
+                                                        @if (Model.MASTER_GRADE_ITEM_LIST[i].MAST_GRADE_CODE == 4)
+                                                        {
+                                                            @Html.RadioButton("optItem" + Model.MASTER_GRADE_ITEM_LIST[i].MAST_SUB_ITEM_CODE, "2", new { @id = "optItem" + Model.MASTER_GRADE_ITEM_LIST[i].MAST_SUB_ITEM_CODE, onclick = "fnGradeValidate(" + Model.MASTER_GRADE_ITEM_LIST[i].MAST_SUB_ITEM_CODE + ")" }) <b> SRI </b>
+                                                        }
+                                                        else
+                                                        {
+                                                            <b> &nbsp; </b>
+                                                        }
+                                            </td>
+                                            <td style="width:8%;">
+                                                @Html.RadioButton("optItem" + Model.MASTER_GRADE_ITEM_LIST[i].MAST_SUB_ITEM_CODE, "3", new { @id = "optItem" + Model.MASTER_GRADE_ITEM_LIST[i].MAST_SUB_ITEM_CODE, onclick = "fnGradeValidate(" + Model.MASTER_GRADE_ITEM_LIST[i].MAST_SUB_ITEM_CODE + ")" }) <b> U </b>
+                                            </td>
+                                            <td style="width:10%;">
+                                                @Html.RadioButton("optItem" + Model.MASTER_GRADE_ITEM_LIST[i].MAST_SUB_ITEM_CODE, "4", new { @id = "optItem" + Model.MASTER_GRADE_ITEM_LIST[i].MAST_SUB_ITEM_CODE, @checked = true, onclick = "fnGradeValidate(" + Model.MASTER_GRADE_ITEM_LIST[i].MAST_SUB_ITEM_CODE + ")" }) <b> NA </b>
+                                            </td>
+                                            <td style="width:20%;">
+                                                @Html.TextArea("remarks" + Model.MASTER_GRADE_ITEM_LIST[i].MAST_SUB_ITEM_CODE, new { @style = "width: 100%;display:none;", @maxlength = "255", @placeholder = "Enter Remarks", @id = "remarks" + Model.MASTER_GRADE_ITEM_LIST[i].MAST_SUB_ITEM_CODE , @class="textArea"})
+                                                <span class="txtAreaSpn" style="display:none;color:#FF0000;" id="spnremarks@(Model.MASTER_GRADE_ITEM_LIST[i].MAST_SUB_ITEM_CODE.ToString())" ></span>
+                                            </td>
+                                      </tr>
+                                    }
+                                    
+                                  i++;
+                               
+                              }  *@   @*While Ends Here*@
+            @*
+                        </table>
+                    </td>
+                
+            } *@  @*If Ends Here*@
+
+            //---------------------------------------------------------- SQM Grading for Completed & In Progress Roads Ends Here ----------------------------------------------------------------------------              
+
+
+            //---------------------------------------------------------- SQM Grading for Maintenance Roads Starts Here ---------------------------------------------------------------------------------------
+             
+            else if (PMGSY.Extensions.PMGSYSession.Current.RoleCode == 7 &&  Model.IMS_ISCOMPLETED.Equals("M"))       
+            {
+                    <td style="width:49%; vertical-align:top;">
+                        <table  id="tblObsGrading"  style="margin-top:1px; text-align:left; border:ridge 0.1em #ccc; width:100%; padding:5px 5px 5px 5px;"> 
+                    
+                              @while (i < Model.MASTER_GRADE_ITEM_LIST.Count)
+                              {
+                                  if (Model.MASTER_GRADE_ITEM_LIST[i].MAST_SUB_ITEM_CODE == 7) //For Overall Grade
+                                    {
+                                        <tr class="ui-state-default">
+                                            <td style="width:5%">&nbsp;</td>
+                                            <td style="text-align:center; width:55%;">
+                                                @Model.MASTER_GRADE_ITEM_LIST[i].MAST_ITEM_NAME
+                                            </td>
+                                            <td style="width:5%;">
+                                                @Html.RadioButton("optItem", "1", new { @id = "optItem", @disabled = "disabled" }) <b> S </b>
+                                            </td>
+                                            <td style="width:5%;">
+                                                @Html.RadioButton("optItem", "2", new { @id = "optItem", @disabled = "disabled" }) <b> SRI </b>
+                                            </td>
+                                            <td style="width:5%;">
+                                                @Html.RadioButton("optItem", "3", new { @id = "optItem", @disabled = "disabled" }) <b> U </b>
+                                            </td>
+                                            <td style="width:5%;">
+                                                @Html.RadioButton("optItem", "4", new { @id = "optItem", @disabled = "disabled", @checked = true }) <b> NA </b>
+                                            </td>
+                                            <td style="width:20%;"></td>
+                                                @Html.Hidden("overAllGrade", "4", new { @id = "overAllGrade" })
+                                        </tr>
+                                    }
+                                    else if(Model.MASTER_GRADE_ITEM_LIST[i].MAST_SUB_ITEM_CODE != 0)
+                                    {
+                                        <tr class="ui-state-hover">
+                                                <td>@Model.MASTER_GRADE_ITEM_LIST[i].MAST_SUB_ITEM_CODE<b>.</b></td>
+                                                <td style="width:55%;">
+                                                       @Model.MASTER_GRADE_ITEM_LIST[i].MAST_ITEM_NAME             
+                                                </td>
+                                                <td style="width:5%;">
+                                                    @Html.RadioButton("optItem" + Model.MASTER_GRADE_ITEM_LIST[i].MAST_SUB_ITEM_CODE, "1", new { @id = "optItem" + Model.MASTER_GRADE_ITEM_LIST[i].MAST_SUB_ITEM_CODE, onclick = "fnGradeValidateForMaintenanceRoad(" + Model.MASTER_GRADE_ITEM_LIST[i].MAST_SUB_ITEM_CODE + ")"  }) <b> S </b>
+                                                </td>
+                                                <td style="width:5%;">
+                                                        @if (Model.MASTER_GRADE_ITEM_LIST[i].MAST_GRADE_CODE == 4)
+                                                        {
+                                                            @Html.RadioButton("optItem" + Model.MASTER_GRADE_ITEM_LIST[i].MAST_SUB_ITEM_CODE, "2", new { @id = "optItem" + Model.MASTER_GRADE_ITEM_LIST[i].MAST_SUB_ITEM_CODE, onclick = "fnGradeValidateForMaintenanceRoad(" + Model.MASTER_GRADE_ITEM_LIST[i].MAST_SUB_ITEM_CODE + ")"  }) <b> SRI </b>
+                                                        }
+                                                        else
+                                                        {
+                                                            <b> &nbsp; </b>
+                                                        }
+                                                </td>
+                                                <td style="width:5%;">
+                                                    @Html.RadioButton("optItem" + Model.MASTER_GRADE_ITEM_LIST[i].MAST_SUB_ITEM_CODE, "3", new { @id = "optItem" + Model.MASTER_GRADE_ITEM_LIST[i].MAST_SUB_ITEM_CODE, onclick = "fnGradeValidateForMaintenanceRoad(" + Model.MASTER_GRADE_ITEM_LIST[i].MAST_SUB_ITEM_CODE + ")"  }) <b> U </b>
+                                                </td>
+                                                <td style="width:5%;">
+                                                    @Html.RadioButton("optItem" + Model.MASTER_GRADE_ITEM_LIST[i].MAST_SUB_ITEM_CODE, "4", new { @id = "optItem" + Model.MASTER_GRADE_ITEM_LIST[i].MAST_SUB_ITEM_CODE, @checked = true, onclick = "fnGradeValidateForMaintenanceRoad(" + Model.MASTER_GRADE_ITEM_LIST[i].MAST_SUB_ITEM_CODE + ")"  }) <b> NA </b>
+                                                </td>
+                                                <td style="width:20%;">
+                                                    @Html.TextArea("remarks" + Model.MASTER_GRADE_ITEM_LIST[i].MAST_SUB_ITEM_CODE, new { @style = "width: 100%;display:none;", @maxlength = "255", @placeholder = "Enter Remarks", @id = "remarks" + Model.MASTER_GRADE_ITEM_LIST[i].MAST_SUB_ITEM_CODE , @class="textArea"})
+                                                    <span class="txtAreaSpn" style="display:none;color:#FF0000;" id="spnremarks@(Model.MASTER_GRADE_ITEM_LIST[i].MAST_SUB_ITEM_CODE.ToString())" ></span>
+                                                </td>
+                                            </tr>
+                                    }
+                                    
+                                  i++;
+                                
+                              }     @*While Ends Here*@
+
+                        </table>
+                    </td>
+                
+            }   @*If Ends Here*@
+                
+             @*//---------------------------------------------------------- SQM Grading for Maintenance Roads Ends Here ---------------------------------------------------------------------------------------*@
+            
+        }@*//---------------------------------------------------------- Road Proposals Ends Here ---------------------------------------------------------------------------------------*@
+        else if (Model.IMS_PROPOSAL_TYPE.Equals("L"))
+        { 
+             <td style="width:49%; vertical-align:top;">
+                        <table  id="tblObsGrading" style="margin-top:1px; text-align:left; border:ridge 0.1em #ccc; width:100%; padding:5px 5px 5px 5px;"> 
+                    
+                            @while (i < Model.MASTER_GRADE_ITEM_LIST.Count)
+                              {
+                                    if (Model.MASTER_GRADE_ITEM_LIST[i].MAST_ITEM_CODE == 10) //For Overall Grade
+                                    {
+                                        <tr class="ui-state-default">
+                                            <td style="width:5%">&nbsp;</td>
+                                            <td style="text-align:center; width:40%;">
+                                                @Model.MASTER_GRADE_ITEM_LIST[i].MAST_ITEM_NAME
+                                            </td>
+                                            <td style="width:7%;">
+                                                @Html.RadioButton("optItem" + Model.MASTER_GRADE_ITEM_LIST[i].NO_OF_ITEM, "1", new { @id = "optItem" + Model.MASTER_GRADE_ITEM_LIST[i].NO_OF_ITEM, @disabled = "disabled" }) <b> S </b>
+                                            </td>
+                                            <td style="width:10%;">
+                                                @Html.RadioButton("optItem" + Model.MASTER_GRADE_ITEM_LIST[i].NO_OF_ITEM, "2", new { @id = "optItem" + Model.MASTER_GRADE_ITEM_LIST[i].NO_OF_ITEM, @disabled = "disabled" }) <b> SRI </b>
+                                            </td>
+                                            <td style="width:8%;">
+                                                @Html.RadioButton("optItem" + Model.MASTER_GRADE_ITEM_LIST[i].NO_OF_ITEM, "3", new { @id = "optItem" + Model.MASTER_GRADE_ITEM_LIST[i].NO_OF_ITEM, @disabled = "disabled" }) <b> U </b>
+                                            </td>
+                                            <td style="width:10%;">
+                                                @Html.RadioButton("optItem" + Model.MASTER_GRADE_ITEM_LIST[i].NO_OF_ITEM, "4", new { @id = "optItem" + Model.MASTER_GRADE_ITEM_LIST[i].NO_OF_ITEM, @disabled = "disabled", @checked = true }) <b> NA </b>
+                                            </td>
+                                            <td style="width:20%"></td>
+                                                @Html.Hidden("hiddenitem" + Model.MASTER_GRADE_ITEM_LIST[i].NO_OF_ITEM, "4", new { @id = "hiddenitem" + Model.MASTER_GRADE_ITEM_LIST[i].NO_OF_ITEM })
+                                        </tr>
+                                    }
+                                    else if (Model.MASTER_GRADE_ITEM_LIST[i].MAST_SUB_ITEM_CODE == 0)      //For Main Grade Item
+                                    {
+                                        <tr class="ui-state-default">
+                                        <td style="width:5%;">
+                                            @Model.MASTER_GRADE_ITEM_LIST[i].MAST_ITEM_CODE                   
+                                        </td>
+                                               
+                                        <td style="text-align:left; width:20%;">
+                                            @Model.MASTER_GRADE_ITEM_LIST[i].MAST_ITEM_NAME
+                                        </td>
+                                               
+                                        <td style="width:7%;">
+                                           
+                                            @if (Model.MASTER_GRADE_ITEM_LIST[i].MAST_ITEM_CODE==9)
+                                            {
+                                            @Html.TextArea("remarks" + Model.MASTER_GRADE_ITEM_LIST[i].MAST_ITEM_CODE, new { @style = "width: 200%;", @maxlength = "255", @placeholder = "Enter Result", @id = "remarks9" + Model.MASTER_GRADE_ITEM_LIST[i].MAST_ITEM_CODE , @class="txt"})
+                                                 <span class="txtAreaSp" style="color:#FF0000;" id="spn@(Model.MASTER_GRADE_ITEM_LIST[i].MAST_ITEM_CODE.ToString())" ></span>
+                                            }
+                                            else
+                                            {
+                                                if (Model.MASTER_GRADE_ITEM_LIST[i].MAST_ITEM_CODE == 1 || Model.MASTER_GRADE_ITEM_LIST[i].MAST_ITEM_CODE == 2 || Model.MASTER_GRADE_ITEM_LIST[i].MAST_ITEM_CODE == 3 || Model.MASTER_GRADE_ITEM_LIST[i].MAST_ITEM_CODE == 4 || Model.MASTER_GRADE_ITEM_LIST[i].MAST_ITEM_CODE == 5 || Model.MASTER_GRADE_ITEM_LIST[i].MAST_ITEM_CODE == 7 || Model.MASTER_GRADE_ITEM_LIST[i].MAST_ITEM_CODE == 8 || Model.MASTER_GRADE_ITEM_LIST[i].MAST_ITEM_CODE == 6)
+                                            {
+                                                @Html.RadioButton("optItem" + Model.MASTER_GRADE_ITEM_LIST[i].MAST_ITEM_CODE, "1", new { @id = "optItem" + Model.MASTER_GRADE_ITEM_LIST[i].MAST_ITEM_CODE, @disabled = "disabled" }) <b> S </b>
+                                            }
+                                            else
+                                            {
+                                                @Html.RadioButton("optItem" + Model.MASTER_GRADE_ITEM_LIST[i].MAST_ITEM_CODE, "1", new { @id = "optItem" + Model.MASTER_GRADE_ITEM_LIST[i].MAST_ITEM_CODE, onclick = "fnGradeValidateForLSB(" + Model.MASTER_GRADE_ITEM_LIST[i].MAST_ITEM_CODE + ")"   }) <b> S </b>
+                                            }
+                                            }
+                                        </td>
+                                         
+                             
+                                        <td style="width:10%;">
+                                                @if (Model.MASTER_GRADE_ITEM_LIST[i].MAST_GRADE_CODE == 4)
+                                                {
+
+
+                                                    if (Model.MASTER_GRADE_ITEM_LIST[i].MAST_ITEM_CODE == 1 || Model.MASTER_GRADE_ITEM_LIST[i].MAST_ITEM_CODE == 2 || Model.MASTER_GRADE_ITEM_LIST[i].MAST_ITEM_CODE == 3 || Model.MASTER_GRADE_ITEM_LIST[i].MAST_ITEM_CODE == 4 || Model.MASTER_GRADE_ITEM_LIST[i].MAST_ITEM_CODE == 5 || Model.MASTER_GRADE_ITEM_LIST[i].MAST_ITEM_CODE == 7 || Model.MASTER_GRADE_ITEM_LIST[i].MAST_ITEM_CODE == 8 || Model.MASTER_GRADE_ITEM_LIST[i].MAST_ITEM_CODE == 6)
+                                                    {
+                                                        @Html.RadioButton("optItem" + Model.MASTER_GRADE_ITEM_LIST[i].MAST_ITEM_CODE, "2", new { @id = "optItem" + Model.MASTER_GRADE_ITEM_LIST[i].MAST_ITEM_CODE, @disabled = "disabled" }) <b> SRI </b>
+                                                    }
+                                                    else if (Model.MASTER_GRADE_ITEM_LIST[i].MAST_ITEM_CODE != 9)
+                                                    {
+                                                        @Html.RadioButton("optItem" + Model.MASTER_GRADE_ITEM_LIST[i].MAST_ITEM_CODE, "2", new { @id = "optItem" + Model.MASTER_GRADE_ITEM_LIST[i].MAST_ITEM_CODE, onclick = "fnGradeValidateForLSB(" + Model.MASTER_GRADE_ITEM_LIST[i].MAST_ITEM_CODE + ")"   }) <b> SRI </b>
+                                                    }
+                                                    
+                                                    
+                                                    
+                                                }
+                                                else
+                                                {
+                                                    <b> &nbsp; </b>
+                                                }
+                                        </td>
+                                        <td style="width:8%;">
+
+                                            @if (Model.MASTER_GRADE_ITEM_LIST[i].MAST_ITEM_CODE == 1 || Model.MASTER_GRADE_ITEM_LIST[i].MAST_ITEM_CODE == 2 || Model.MASTER_GRADE_ITEM_LIST[i].MAST_ITEM_CODE == 3 || Model.MASTER_GRADE_ITEM_LIST[i].MAST_ITEM_CODE == 4 || Model.MASTER_GRADE_ITEM_LIST[i].MAST_ITEM_CODE == 5 || Model.MASTER_GRADE_ITEM_LIST[i].MAST_ITEM_CODE == 7 || Model.MASTER_GRADE_ITEM_LIST[i].MAST_ITEM_CODE == 8 || Model.MASTER_GRADE_ITEM_LIST[i].MAST_ITEM_CODE == 6)
+                                            {
+                                                @Html.RadioButton("optItem" + Model.MASTER_GRADE_ITEM_LIST[i].MAST_ITEM_CODE, "3", new { @id = "optItem" + Model.MASTER_GRADE_ITEM_LIST[i].MAST_ITEM_CODE, @disabled = "disabled" }) <b> U </b>
+                                            }
+                                            else if (Model.MASTER_GRADE_ITEM_LIST[i].MAST_ITEM_CODE !=9)
+                                            {
+                                                @Html.RadioButton("optItem" + Model.MASTER_GRADE_ITEM_LIST[i].MAST_ITEM_CODE, "3", new { @id = "optItem" + Model.MASTER_GRADE_ITEM_LIST[i].MAST_ITEM_CODE, onclick = "fnGradeValidateForLSB(" + Model.MASTER_GRADE_ITEM_LIST[i].MAST_ITEM_CODE + ")"   }) <b> U </b>
+                                            }
+                                        </td>
+                                        <td style="width:10%;">
+                                            @if (Model.MASTER_GRADE_ITEM_LIST[i].MAST_ITEM_CODE == 1 || Model.MASTER_GRADE_ITEM_LIST[i].MAST_ITEM_CODE == 2 || Model.MASTER_GRADE_ITEM_LIST[i].MAST_ITEM_CODE == 3 || Model.MASTER_GRADE_ITEM_LIST[i].MAST_ITEM_CODE == 4 || Model.MASTER_GRADE_ITEM_LIST[i].MAST_ITEM_CODE == 5 || Model.MASTER_GRADE_ITEM_LIST[i].MAST_ITEM_CODE == 7 || Model.MASTER_GRADE_ITEM_LIST[i].MAST_ITEM_CODE == 8 || Model.MASTER_GRADE_ITEM_LIST[i].MAST_ITEM_CODE == 6)
+                                            {
+                                                @Html.RadioButton("optItem" + Model.MASTER_GRADE_ITEM_LIST[i].MAST_ITEM_CODE, "4", new { @id = "optItem" + Model.MASTER_GRADE_ITEM_LIST[i].MAST_ITEM_CODE, @disabled = "disabled", @checked = true }) <b> NA </b>
+                                            }
+                                            else if (Model.MASTER_GRADE_ITEM_LIST[i].MAST_ITEM_CODE !=9)
+                                            {
+                                                @Html.RadioButton("optItem" + Model.MASTER_GRADE_ITEM_LIST[i].MAST_ITEM_CODE, "4", new { @id = "optItem" + Model.MASTER_GRADE_ITEM_LIST[i].MAST_ITEM_CODE, @checked = true, onclick = "fnGradeValidateForLSB(" + Model.MASTER_GRADE_ITEM_LIST[i].MAST_ITEM_CODE + ")"   }) <b> NA </b>
+                                            }
+                                        </td>
+                                        <td style="width:20%;">
+                                            @Html.TextArea("remarks" + Model.MASTER_GRADE_ITEM_LIST[i].MAST_ITEM_CODE, new { @style = "width: 100%;display:none;", @maxlength = "255", @placeholder = "Enter Remarks", @id = "remarks" + Model.MASTER_GRADE_ITEM_LIST[i].MAST_ITEM_CODE , @class="textArea"})
+                                            <span class="txtAreaSpn" style="display:none;color:#FF0000;" id="spnremarks@(Model.MASTER_GRADE_ITEM_LIST[i].MAST_ITEM_CODE.ToString())" ></span>
+                                        </td>
+                                            @Html.Hidden("hiddenitem" + Model.MASTER_GRADE_ITEM_LIST[i].MAST_ITEM_CODE, "4", new { @id = "hiddenitem" + Model.MASTER_GRADE_ITEM_LIST[i].MAST_ITEM_CODE })
+                                      </tr>    
+                                    }
+                                    else if(Model.MASTER_GRADE_ITEM_LIST[i].MAST_SUB_ITEM_CODE != 0)
+                                    {
+                                       <tr class="ui-state-hover">
+                                            <td>&nbsp;</td>
+                                            <td style="width:40%;">
+                                                @Model.MASTER_GRADE_ITEM_LIST[i].MAST_SUB_ITEM_CODE  <b>.</b> @Model.MASTER_GRADE_ITEM_LIST[i].MAST_ITEM_NAME             
+                                            </td>
+                                           <td style="width:7%;">
+                                           @if ((Model.MASTER_GRADE_ITEM_LIST[i].MAST_ITEM_CODE == 6 && Model.MASTER_GRADE_ITEM_LIST[i].MAST_SUB_ITEM_CODE==1))
+                                               
+                                               
+                                           { 
+                                                
+                                            <b>Bearing Type</b>
+                                             
+                                            
+                                           }
+                                           else
+                                           {
+                                             @Html.RadioButton("subitem" + Model.MASTER_GRADE_ITEM_LIST[i].MAST_ITEM_CODE +Model.MASTER_GRADE_ITEM_LIST[i].MAST_SUB_ITEM_CODE, "1", new { @id = "subitem" + Model.MASTER_GRADE_ITEM_LIST[i].MAST_ITEM_CODE + Model.MASTER_GRADE_ITEM_LIST[i].MAST_SUB_ITEM_CODE, onclick = "ItemGradeForLSB(" + Model.MASTER_GRADE_ITEM_LIST[i].NO_OF_ITEM + "," + Model.MASTER_GRADE_ITEM_LIST[i].MAST_ITEM_CODE + "," + Model.MASTER_GRADE_ITEM_LIST[i].NO_OF_SUB_ITEM + ")" }) <b> S </b>
+                                            
+                                           }
+                                               </td>
+                                            
+
+                                            <td style="width:10%;">
+                                                    @if (Model.MASTER_GRADE_ITEM_LIST[i].MAST_GRADE_CODE == 4)
+                                                    {
+                                                       
+                                                        @Html.RadioButton("subitem" + Model.MASTER_GRADE_ITEM_LIST[i].MAST_ITEM_CODE +Model.MASTER_GRADE_ITEM_LIST[i].MAST_SUB_ITEM_CODE, "2", new { @id = "subitem" + Model.MASTER_GRADE_ITEM_LIST[i].MAST_ITEM_CODE + Model.MASTER_GRADE_ITEM_LIST[i].MAST_SUB_ITEM_CODE, onclick = "ItemGradeForLSB(" + Model.MASTER_GRADE_ITEM_LIST[i].NO_OF_ITEM + "," + Model.MASTER_GRADE_ITEM_LIST[i].MAST_ITEM_CODE + "," + Model.MASTER_GRADE_ITEM_LIST[i].NO_OF_SUB_ITEM + ")" }) <b> SRI </b>
+                                                        
+                                                    }
+                                                    else
+                                                    {
+                                                        <b> &nbsp; </b>
+                                                    }
+                                            </td>
+
+                                             <td style="width:7%;">
+                                           @if ((Model.MASTER_GRADE_ITEM_LIST[i].MAST_ITEM_CODE == 6 && Model.MASTER_GRADE_ITEM_LIST[i].MAST_SUB_ITEM_CODE==1))
+                                               
+                                               
+                                           { 
+                                                
+                                             @Html.DropDownListFor(model => model.BearingCode, new SelectList(Model.BearingTypeList, "Value", "Text"), new { @title = "Bearing", @id = "Bearing", @tabindex = 4, @style = "width:150px" })
+                                             
+                                            
+                                           }
+                                           else
+                                           {
+                                             @Html.RadioButton("subitem" + Model.MASTER_GRADE_ITEM_LIST[i].MAST_ITEM_CODE +Model.MASTER_GRADE_ITEM_LIST[i].MAST_SUB_ITEM_CODE, "3", new { @id = "subitem" + Model.MASTER_GRADE_ITEM_LIST[i].MAST_ITEM_CODE + Model.MASTER_GRADE_ITEM_LIST[i].MAST_SUB_ITEM_CODE, onclick = "ItemGradeForLSB(" + Model.MASTER_GRADE_ITEM_LIST[i].NO_OF_ITEM + "," + Model.MASTER_GRADE_ITEM_LIST[i].MAST_ITEM_CODE + "," + Model.MASTER_GRADE_ITEM_LIST[i].NO_OF_SUB_ITEM + ")" }) <b> U </b>
+                                            
+                                           }
+                                               </td>
+
+
+                                              <td style="width:7%;">
+                                           @if ((Model.MASTER_GRADE_ITEM_LIST[i].MAST_ITEM_CODE == 6 && Model.MASTER_GRADE_ITEM_LIST[i].MAST_SUB_ITEM_CODE==1))
+                                               
+                                               
+                                           { 
+                                                
+                                            
+                                            
+                                           }
+                                           else
+                                           {
+                                             @Html.RadioButton("subitem" + Model.MASTER_GRADE_ITEM_LIST[i].MAST_ITEM_CODE +Model.MASTER_GRADE_ITEM_LIST[i].MAST_SUB_ITEM_CODE, "4", new { @id = "subitem" + Model.MASTER_GRADE_ITEM_LIST[i].MAST_ITEM_CODE + Model.MASTER_GRADE_ITEM_LIST[i].MAST_SUB_ITEM_CODE, @checked = true, onclick = "ItemGradeForLSB(" + Model.MASTER_GRADE_ITEM_LIST[i].NO_OF_ITEM + "," + Model.MASTER_GRADE_ITEM_LIST[i].MAST_ITEM_CODE + "," + Model.MASTER_GRADE_ITEM_LIST[i].NO_OF_SUB_ITEM + ")" }) <b> NA </b>
+                                            
+                                           }
+                                               </td>
+
+
+
+
+                                           
+                                         <td style="width:20%;">
+                                                @Html.TextArea("remarks" + Model.MASTER_GRADE_ITEM_LIST[i].MAST_ITEM_CODE + Model.MASTER_GRADE_ITEM_LIST[i].MAST_SUB_ITEM_CODE, new { @style = "width: 100%;display:none;", @maxlength = "255", @placeholder = "Enter Remarks", @id = "remarks" + Model.MASTER_GRADE_ITEM_LIST[i].MAST_ITEM_CODE + Model.MASTER_GRADE_ITEM_LIST[i].MAST_SUB_ITEM_CODE , @class="textArea"})
+                                                <span class="txtAreaSpn" style="display:none;color:#FF0000;" id="spnremarks@(Model.MASTER_GRADE_ITEM_LIST[i].MAST_ITEM_CODE.ToString() + Model.MASTER_GRADE_ITEM_LIST[i].MAST_SUB_ITEM_CODE.ToString())" ></span>
+                                            </td>
+                                       </tr>
+                                    }
+                                    
+                                  i++;
+                               
+                              }     @*While Ends Here*@
+
+                        </table>
+                    </td>
+        }
+                        
+        </tr> 
+        <tr  id="trGradeError" style="display:none;">    
+            <td colspan="2" style="text-align:right">
+                <div id="divGradeError" class="ui-state-error ui-corner-all" style="text-align: left; float:right; display: none; width: 50%">
+                    <span class="ui-icon ui-icon-alert" style="float: left;"></span>
+                    <span></span>
+                    <span style="float: right;"><a style="float: right;" href="#">
+                        <img class="ui-icon ui-icon-closethick" onclick="closeDivError();" style="border:none;border-width: 0;">
+                    </a></span>
+                </div>
+            </td>
+        </tr>
+        <tr>
+            <td colspan="2" style="text-align:right">
+                <input type="button" value="Save" class="jqueryButton" id="btnSave"/>
+                <input type="button" value="Cancel" class="jqueryButton" id="btnCancel"/>
+            </td>
+        </tr>
+
+    </table>  
+  </center>
+</form>

@@ -1,0 +1,65 @@
+﻿@*
+    * Project Id    :
+    * Project Name  :   OMMAS II
+    * Name          :   QMGradingComparision.cshtml
+    * Description   :   Renders Grading Comparision of NQM & SQMs dor particula=r Road in Particular Month Or Year
+    * Author        :   Shyam Yadav
+    * Creation Date :   03/December/2013    
+*@
+
+@model PMGSY.Models.QualityMonitoring.QMReportsViewModel
+
+
+<script src="~/Scripts/QualityMonitoring/QMGradingComparision.js"></script>
+
+<form id="frmGradingComparisionReport">
+    <div id="divGradingComparisionReport" class="ui-state-default ui-corner-all" style="text-align: center; width: 100%">
+            <table id="tblGradingComparisionReport" style="margin-top:0px; text-align:center; border:ridge 0.1em #ccc; width:100%; padding:5px 5px 5px 5px;">
+                    <tr>
+                       <td style="width:15%;font-weight:bold;" >
+                            @Html.LabelFor(model => model.STATE)
+                        </td>
+                        <td style="width:10%" >  
+                            @if(PMGSY.Extensions.PMGSYSession.Current.RoleCode == 8)
+                            {                          
+                                @Html.DropDownListFor(model => model.STATE, new SelectList(Model.STATE_LIST, "value", "text"), new { @id = "ddlStateGradingComparision", @disabled = "disabled"})
+                            }
+                            else
+                            {
+                                @Html.DropDownListFor(model => model.STATE, new SelectList(Model.STATE_LIST, "value", "text"), new { @id = "ddlStateGradingComparision"})
+                            }
+                        </td>
+                        <td style="width:15%;font-weight:bold;" >
+                            @Html.LabelFor(model => model.DISTRICT)
+                        </td>
+                        <td style="width:10%" >                            
+                            @Html.DropDownListFor(model => model.DISTRICT, new SelectList(Model.DISTRICT_LIST, "value", "text"), new { @id = "ddlDistrictGradingComparision"})
+                        </td>
+                        <td rowspan="2" style="text-align:left;">
+                             <input type="button" id="btnViewGradingComparision" value="View Details" class="jquerybutton"  style="margin-left:20px;"/>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td style="width:15%;font-weight:bold;">
+                            @Html.LabelFor(model => model.YEAR)
+                        </td>
+                        <td style="width:10%">                            
+                            @Html.DropDownListFor(model => model.YEAR, new SelectList(Model.YEAR_LIST, "value", "text"), new { @id = "ddlYearGradingComparision"})
+                        </td>
+                        <td style="width:15%;font-weight:bold;">
+                            @Html.LabelFor(model => model.MONTH)
+                        </td>
+                        <td style="width:10%">                            
+                            @Html.DropDownListFor(model => model.MONTH, new SelectList(Model.MONTH_LIST, "value", "text"), new { @id = "ddlMonthGradingComparision"})
+                        </td>
+                    </tr>
+                    
+            </table>
+    </div>
+    <br />
+
+    <table id="tbGradingComparisionReport"></table>
+    <div id="dvGradingComparisionPager"></div>
+    
+    
+ </form>

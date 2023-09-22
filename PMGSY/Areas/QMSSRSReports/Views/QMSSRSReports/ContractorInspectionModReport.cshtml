@@ -1,0 +1,11 @@
+﻿@using MvcReportViewer
+
+@model PMGSY.Areas.QMSSRSReports.Models.ContractorInspectionViewModel
+
+@Html.MvcReportViewer("/PMGSYCitizen/QMContractorInspection_Modified",
+     new
+     {
+        FYEAR = Model.fromYear,
+        TYEAR = Model.toYear
+     },
+       new { Height = 675, Width = "100%", style = "border:none;" })

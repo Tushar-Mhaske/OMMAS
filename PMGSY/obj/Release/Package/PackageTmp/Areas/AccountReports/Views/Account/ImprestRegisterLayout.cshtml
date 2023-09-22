@@ -1,0 +1,94 @@
+﻿@model PMGSY.Areas.AccountReports.Models.ImprestSettlementViewModel
+@using PMGSY.Extensions
+@{ 
+    Layout = Request.IsAjaxRequest() ? null : "~/Areas/AccountReports/Views/Account/_Layout.cshtml";
+}
+<script src="~/Scripts/custom/Generic.js"></script>
+<script src="~/Areas/AccountReports/Scripts/ImprestRegisterReport.js"></script>
+<div id="dvHeader" class="ui-widget-header innerDivHeader" style="margin-bottom: 05px; margin-top: 5px; height: 20px;">
+    <label style="margin-left: 5px">Imprest Register</label>
+    <span style="float: right; margin-right: 2Px; margin-top: 2px" id="spnImprestSettlement" class="ui-icon ui-icon-circle-triangle-n"></span>
+</div>
+<center>
+<div>
+    <form id="frmImprestSettlement">
+         @Html.AntiForgeryToken()
+        @Html.HiddenFor(model => model.LevelId)
+        @Html.HiddenFor(m => m.NodalAgency)
+        @Html.HiddenFor(m => m.DPIUName)
+        <table id="tblImprestSettlement" class="ui-state-default ui-corner-all" style="border:0.1em solid gray; background:none; width:100%; margin-top:1px">
+            <tr>
+                @if (PMGSYSession.Current.LevelId != 5)
+                {
+                    <td style="width:10%"></td>
+                    <td style="width:20%">@Html.LabelFor(model => model.ReportLevel):</td>
+                    <td style ="width:20%">
+                        @Html.RadioButtonFor(model => model.ReportLevel, "S", new { @id = "rdbSrrda", @title = "SRRDA", @checked = "checked" })
+                        @Html.Label("SRRDA")
+                    </td>
+                    <td style="width:10%">
+                        @Html.RadioButtonFor(model => model.ReportLevel, "D", new { @id = "rdbDpiu", @title = "DPIU" })
+                        @Html.Label("DPIU")
+                    </td>
+                    <td></td>
+                    <td></td>
+                }
+            </tr>
+            @if (PMGSYSession.Current.LevelId != 5)
+            {
+             <tr class="trSrrdaDpiu">
+                <td style="width:10%"></td>
+                <td style="width:20%;">@Html.LabelFor(model => model.SrrdaAdminCode): <label style="color:red"> *</label></td>
+                <td>
+                    @if (PMGSYSession.Current.LevelId == 4)
+                    {
+                        @Html.DropDownListFor(model => model.SrrdaAdminCode, new SelectList(Model.lstSrrda, "Value", "Text"), new { @id = "ddlSrrda", @title = "Select Nodal Agency", @disabled = "disabled" })
+                        @Html.ValidationMessageFor(model => model.SrrdaAdminCode)
+                    }
+                    else
+                    {
+                        @Html.DropDownListFor(model => model.SrrdaAdminCode, new SelectList(Model.lstSrrda, "Value", "Text"), new { @id = "ddlSrrda", @title = "Select Nodal Agency" })
+                        @Html.ValidationMessageFor(model => model.SrrdaAdminCode)
+                    }
+                </td>
+                <td class="tdDpiu" style="width:10%;">@Html.LabelFor(model => model.DpiuAdminCode): <label style="color:red"> *</label></td>
+                <td class="tdDpiu">
+                    @Html.DropDownListFor(model => model.DpiuAdminCode, Model.lstDpiu, new { @id = "ddlDpiu", @title = "Select DPIU" })
+                    @Html.ValidationMessageFor(model => model.DpiuAdminCode)
+                </td>
+                 <td></td>
+            </tr>
+            }
+            <tr>
+                @{
+                    String widthYear = PMGSYSession.Current.LevelId == 5 ? "30" : "0";
+                 }
+                <td style="width:10%"></td>
+                <td style="width:15%;">@Html.LabelFor(model => model.FinancialYear): <label style="color:red"> *</label></td>
+                <td colspan="4" style="width:@widthYear%">
+                    @Html.DropDownListFor(model => model.FinancialYear, Model.lstFinancialYears, new { @id = "ddlFinancialYear", @title = "Financial Years" })
+                    @Html.ValidationMessageFor(model => model.FinancialYear)
+                </td>
+                @if(PMGSYSession.Current.LevelId==5){
+                
+                    <td>
+                        <input type="button" value="View Details" id="btnView" class="jqueryButton" title="View Details" style="text-align:center" />
+                    </td>
+                }
+
+            </tr>
+            @if (PMGSYSession.Current.LevelId != 5)
+            {
+            <tr>
+                <td colspan="6">
+                    <center><input type="button" value="View Details" id="btnView" class="jqueryButton" title="View Details" style="text-align:center"/></center>
+                </td>
+            </tr>
+            }
+        </table>
+    </form>
+</div>
+<div id="dvLoadReport" style="display:none">
+    
+</div>
+</center>

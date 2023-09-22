@@ -1,0 +1,80 @@
+﻿@using MvcReportViewer
+@model PMGSY.Areas.AccountReports.Models.RunningAccountViewModel
+@{ 
+    if(Model.SSRSReport=="AC")
+    {
+        <div id="RunningAccountAllDPIUCredit" style="width:100%;height:590px;overflow-x:hidden;overflow-y:hidden;">
+        @Html.MvcReportViewer("/PMGSYCitizen/RunningAccountAllDPIUCredit",
+        new {  
+         IsSRRDAorDPIU=Model.ReportType,
+         PINTAdminNDCode=PMGSY.Extensions.PMGSYSession.Current.AdminNdCode,
+         PINTAccMonth=Model.Month,
+         PINTAccYear=Model.Year,
+         PCHARfundType=PMGSY.Extensions.PMGSYSession.Current.FundType,
+         PCHARCreditDebit=Model.Balance
+         
+         },
+         new { Height = 600, Width = 1220, style = "border:none;" })
+         </div>
+
+   }
+
+    if(Model.SSRSReport=="AD")
+    {
+        <div id="RunningAccountAllDPIUDebit" style="width:100%;height:590px;overflow-x:hidden;overflow-y:hidden;">
+        @Html.MvcReportViewer("/PMGSYCitizen/RunningAccountAllDPIUDebit",
+        new
+        {  
+            PINTAdminNDCode=PMGSY.Extensions.PMGSYSession.Current.AdminNdCode,
+            PINTAccMonth=Model.Month,
+            PINTAccYear=Model.Year,
+            PCHARfundType=PMGSY.Extensions.PMGSYSession.Current.FundType,
+            PCHARCreditDebit=Model.Balance,
+            IsSRRDAorDPIU=Model.ReportType
+       
+            
+        },
+         new { Height = 600, Width = 1220, style = "border:none;" })
+        </div>
+
+   }
+
+    if(Model.SSRSReport=="SC")
+    {
+         <div id="RunningAccountSelfCredit" style="width:100%;height:590px;overflow-x:hidden;overflow-y:hidden;">
+        @Html.MvcReportViewer("/PMGSYCitizen/RunningAccountSelfCredit",
+        new {  
+        PINTAdminNDCode=Model.AdminCode,
+        PINTAccMonth=Model.Month,
+        PINTAccYear=Model.Year,
+        PCHARfundType=PMGSY.Extensions.PMGSYSession.Current.FundType,
+        PCHARCreditDebit=Model.Balance,
+        IsSRRDAorDPIU=Model.ReportType,
+        SRRDAAgencyCode=Model.SRRDANDCode
+        
+         },
+         new { Height = 600, Width = 1220, style = "border:none;" })
+         </div>
+
+   }
+   
+    if(Model.SSRSReport=="SD")
+    {
+      <div id="RunningAccountSelfDebit" style="width:100%;height:590px;overflow-x:hidden;overflow-y:hidden;">
+      @Html.MvcReportViewer("/PMGSYCitizen/RunningAccountSelfDebit",
+      new {  
+      PINTAdminNDCode=Model.AdminCode,
+      PINTAccMonth=Model.Month,
+      PINTAccYear=Model.Year,
+      PCHARfundType=PMGSY.Extensions.PMGSYSession.Current.FundType,
+      PCHARCreditDebit=Model.Balance,
+      IsSRRDAorDPIU=Model.ReportType,
+      SRRDAAgencyCode=Model.SRRDANDCode
+        
+         },
+         new { Height = 600, Width = 1220, style = "border:none;" })
+      </div>
+
+   }
+   
+}

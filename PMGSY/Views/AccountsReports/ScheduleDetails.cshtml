@@ -1,0 +1,415 @@
+﻿
+@model PMGSY.Models.Report.Account.ScheduleModel
+@using PMGSY.Models
+@using System.Globalization
+@using PMGSY.Common
+<link href="~/Content/demo_page.css" rel="stylesheet" />
+<link href="~/Content/demo_table_jui.css" rel="stylesheet" />
+<link href="~/Content/TableTools.css" rel="stylesheet" />
+<link href="~/Content/TableTools_JUI.css" rel="stylesheet" />
+
+
+<script src="~/Scripts/DataTables/jquery.dataTables.js"></script>
+<script src="~/Scripts/DataTables/ZeroClipboard.js"></script>
+<script src="~/Scripts/DataTables/TableTools.js"></script>
+
+<script src="~/Scripts/custom/Generic.js"></script>
+<script src="~/Scripts/AccountsReports/ScheduleDetails.js"></script>
+
+@Html.HiddenFor(m => m.Month)
+@Html.HiddenFor(m => m.Year)
+@Html.HiddenFor(m => m.HeadCode)
+@Html.HiddenFor(m => m.FundingAgency)
+@Html.HiddenFor(m => m.State)
+@Html.HiddenFor(m => m.Piu)
+@Html.Hidden("Count", Model.lstSchedule.Count)
+
+@{
+    CommonFunctions objCommonFunction = new CommonFunctions();
+}
+<div class="CBHeader ui-corner-all" style="width: 99%">
+
+    <table class="ui-state-default ui-corner-all" style="border: 0.1em solid gray; width: 100%; margin-top: 1px" id="tblFilter">
+        <tr>
+            <td style="text-align: right; color: green" colspan="4">
+                @Html.DisplayFor(m => m.FormNumber)
+            </td>
+        </tr>
+        <tr>
+            <td style="text-align: center; color: green" colspan="4">
+                @Html.DisplayFor(m => m.FundType)
+            </td>
+        </tr>
+        <tr>
+            <td style="text-align: center; color: green" colspan="4">
+                @Html.DisplayFor(m => m.Header)
+            </td>
+        </tr>
+        <tr>
+            <td style="text-align: center; color: green" colspan="4">
+                @Html.DisplayFor(m => m.Paragraph1)
+            </td>
+        </tr>
+        <tr>
+            <td style="width: 10%; color: green">
+                @Html.Label("Nodal Agency"):
+            </td>
+            <td style="width: 15%">
+                @Html.Label(ViewBag.StateName as string)
+            </td>
+
+            <td style="width: 10%; color: green">
+                @Html.Label("PIU Name"):
+
+            </td>
+            <td style="width: 15%">
+                @Html.Label(ViewBag.DPIUName as string)
+            </td>
+        </tr>
+        <tr>
+            <td style="width: 10%; color: green">
+                @Html.Label("Month - Year"):
+            </td>
+            <td style="width: 15%">
+                @Html.Label(ViewBag.MonthName as string) - @Html.Label(ViewBag.YearName as string)
+            </td>
+            <td style="width: 10%; color: green">
+                @Html.Label("Head"):
+            </td>
+            <td style="width: 15%">
+                @Html.Label(ViewBag.HeadName as string)
+            </td>
+        </tr>
+    </table>
+
+</div>
+
+
+@if (Model.lstSchedule != null)
+{
+    <table id="tblSchedule">
+        @{ 
+            <thead>
+                <tr>
+                    <th>Sr. No</th>
+                    <th>Name Of Road</th>
+                    <th>Amount Inner Column 1</th>
+                    <th>Inner Column 2
+                        <br />
+                        (sub-total of inner col.1)</th>
+                    <th>Outer Column 
+                        <br />
+                        (sub-total of inner col.2)</th>
+
+                </tr>
+
+            </thead>@*
+            <tfoot>
+                @if (Model.lstFundTransfer.Count > 0)
+                {
+                    <tr>
+                        <td></td>
+                        <td></td>                   
+                        <td></td>
+                        <td><b>Total for the month</b></td>
+                        <td></td>
+                        <td style="text-align:right"><b>@Model.TotalDebit</b> </td>
+                        <td style="text-align:right"><b>@Model.TotalCredit</b></td>
+                        <td style="text-align:right"><b>@(Convert.ToDecimal(Model.TotalDebit)- Convert.ToDecimal(Model.TotalCredit))</b> </td>
+                        <td style="text-align:right"><b>@(Convert.ToDecimal(Model.OpeningBalance) + (Convert.ToDecimal(Model.TotalDebit)- Convert.ToDecimal(Model.TotalCredit)))</b></td>
+                        
+                       
+                        
+                    </tr> 
+                }                                     
+        </tfoot>*@
+            <tbody>
+                @if (Model.lstSchedule.Count > 0)
+                {
+
+                    var duration = Model.lstSchedule.Select(s => s.DURATION).Distinct();
+                    var fundingAgency = Model.lstSchedule.Select(m => m.FA_CODE).Distinct();
+
+                    var FundingAgencyDetails = (from data in Model.lstSchedule
+                                                select new
+                                                {
+                                                    data.FA_CODE,
+                                                    data.FA_NAME
+                                                }).Distinct();
+                    
+                    
+                   // decimal? adbTotal = 0;
+                   // decimal? mordTotal = 0;
+                   // decimal? worldTotal = 0;
+                  //  decimal? worldBankTotal = 0;
+                    
+                    
+                    //Added By Abhishek kamble 10-Apr-2014                                        
+                    decimal?[] agencyTotalArray = new decimal?[FundingAgencyDetails.Count()];
+                    //var data=Model.ls
+
+                    foreach (var agencyItem in fundingAgency)
+                    {
+                        decimal? packageTotal = 0;
+                        decimal? phaseTotal = 0;
+                        decimal? previousTotal = 0;
+                        decimal? currentTotal = 0;
+                        decimal? progressTotal = 0;
+                        int count = 0;
+
+                        foreach (var item in duration)
+                        {
+
+                            // if(item ==0  || item== -1)
+                            //  {
+                            decimal? allPhaseTotal = 0;
+                            var FaName = Model.lstSchedule.Where(m => m.FA_CODE == agencyItem).Select(s => s.FA_NAME).FirstOrDefault();
+                    <tr>
+                        <td><b>Roads funded by the @FaName </b></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                    </tr>
+                    <tr>
+                        <td></td>
+                        <td><b>@(item == -1 ? "Completed Roads upto the end of the last month/year" : item == 0 ? "Completed during the month/year" : "Roads in Progress") </b></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                    </tr>
+                            var phasesRecords = Model.lstSchedule.Where(m => m.DURATION == item && m.FA_CODE == agencyItem).ToList();
+                            var phases = Model.lstSchedule.Where(m => m.DURATION == item && m.FA_CODE == agencyItem).Select(s => s.PHASE).Distinct();
+
+                            foreach (var phaseitem in phases)
+                            {
+
+                                var phase = phasesRecords.Where(m => m.PHASE == phaseitem).Select(s => s.PHASE).FirstOrDefault();
+                    <tr>
+                        <td><b>Phase: @phase</b></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                    </tr>
+                                var packages = Model.lstSchedule.Where(m => m.PHASE == phaseitem && m.DURATION == item && m.FA_CODE == agencyItem).Select(s => s.PACKAGE_NUMBER).Distinct().ToList();
+                                var packageRec = Model.lstSchedule.Where(m => m.PHASE == phaseitem && m.DURATION == item && m.FA_CODE == agencyItem).ToList();
+                                foreach (var packageitem in packages)
+                                {
+                                    var packageName = packageRec.Where(m => m.PACKAGE_NUMBER == packageitem).Select(m => m.PACKAGE_NUMBER).FirstOrDefault();
+                    <tr>
+                        <td></td>
+                        <td><b>Package : @packageName </b></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                    </tr>
+                                   
+                                    var roads = Model.lstSchedule.Where(m => m.PACKAGE_NUMBER == packageitem && m.PHASE == phaseitem && m.DURATION == item && m.FA_CODE == agencyItem).ToList();
+
+                                    int srCount = 1;
+                                    foreach (var roaditem in roads)
+                                    {
+                    <tr>
+                        <td style="text-align: center">@srCount</td>
+                        <td>@roaditem.IMS_ROAD_NAME </td>
+                        <td style="text-align: right">
+                            @{ 
+                                @objCommonFunction._IndianFormatAmount(roaditem.AMOUNT == null ? "0" : roaditem.AMOUNT.ToString());
+                            }
+                        </td>
+                        <td></td>
+                        <td></td>
+                    </tr>
+                                                                                                                                  srCount++;
+                                    }
+                                    packageTotal = packageRec.Where(m => m.PACKAGE_NUMBER == packageitem).Sum(m => m.AMOUNT);
+                    <tr>
+                        <td></td>
+                        <td style="text-align: right"><b>Package Total:</b></td>
+                        <td style="text-align: right"><b>@String.Format(new CultureInfo("en-IN"), "{0:C}", packageTotal)</b> </td>
+                        <td></td>
+                        <td></td>
+                    </tr>
+                                }
+                                if (item == -1)
+                                {
+                                    phaseTotal = phasesRecords.Where(m => m.PHASE == phaseitem).Sum(m => m.AMOUNT);
+                                    previousTotal += phaseTotal;
+                                }
+                                if (item == 0)
+                                {
+                                    phaseTotal = phasesRecords.Where(m => m.PHASE == phaseitem).Sum(m => m.AMOUNT);
+                                    currentTotal += phaseTotal;
+                                }
+                                if (item == 1)
+                                {
+                                    phaseTotal = phasesRecords.Where(m => m.PHASE == phaseitem).Sum(m => m.AMOUNT);
+                                    progressTotal = phaseTotal;
+                                }
+                               
+                             
+                             
+                    <tr>
+                        <td></td>
+                        <td></td>
+                        <td style="text-align: right"><b>Phase Total:</b></td>
+                        <td style="text-align: right"><b>@String.Format(new CultureInfo("en-IN"), "{0:C}", phaseTotal)</b></td>
+                        <td></td>
+                    </tr>
+                                allPhaseTotal += phaseTotal;
+                                if (item == 1)
+                                {
+                                    progressTotal = allPhaseTotal;
+                                }
+                            }
+                           
+                    <tr>
+                        <td></td>
+                        <td></td>
+                        <td style="text-align: right"><b>All Phase Total:</b></td>
+                        <td style="text-align: right"><b>@String.Format(new CultureInfo("en-IN"), "{0:C}", allPhaseTotal)</b></td>
+                        <td></td>
+                    </tr>
+                       
+                            if (count == 1)
+                            {
+                    <tr>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td style="text-align: right"><b>Total Completed Road:</b></td>
+                        <td style="text-align: right"><b>@String.Format(new CultureInfo("en-IN"), "{0:C}", (previousTotal + currentTotal))</b>  </td>
+                    </tr>
+                            }
+                            
+                            
+                            
+                            count++;
+                        }
+                        
+                        //Added By Abhishek kamble 10-Apr-2014 start
+
+                        int agencyCounter=0;
+                        foreach (var fundingAgencyData in FundingAgencyDetails)
+                        {   
+                             if (agencyItem == fundingAgencyData.FA_CODE)
+                            {
+                            
+                         <tr>
+                            <td></td>
+                            <td></td>
+                            <td></td>
+                            <td style="text-align: right"><b>@fundingAgencyData.FA_NAME</b></td>
+                            <td style="text-align: right"><b>@String.Format(new CultureInfo("en-IN"), "{0:C}", (previousTotal + currentTotal + progressTotal))</b>  </td>
+                         </tr>   
+                            
+                            agencyTotalArray[agencyCounter]=previousTotal + currentTotal + progressTotal;                                                        
+                            }
+                            agencyCounter++;      
+                        }
+                        //Added By Abhishek kamble 10-Apr-2014 end
+                    }
+                    
+                    <tr>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td style="text-align: right"><b>Grand Total:</b></td>
+                        @*<td style="text-align: right"><b>@String.Format(new CultureInfo("en-IN"), "{0:C}", (adbTotal + mordTotal + worldTotal + worldBankTotal))</b>  </td>*@
+                        <td style="text-align: right"><b>@String.Format(new CultureInfo("en-IN"), "{0:C}", agencyTotalArray.Sum(m=>m.Value))</b>  </td>                        
+                    </tr>  
+
+                      
+                     
+                    // }                         
+                }
+                else
+                {
+                    <tr>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+
+                        <td></td>
+                    </tr>
+                            
+                }
+
+            </tbody>
+        }
+    </table>
+}
+
+
+
+
+
+
+
+
+
+@*<div>
+    <table id="tblScheduleDetails"></table>
+    <div id="dvPgrScheduleDetails"></div>
+</div>*@
+
+
+@*if (agencyItem == 1)
+                        { 
+                    <tr>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td style="text-align: right"><b>Total For Asian Development Bank:</b></td>
+                        <td style="text-align: right"><b>@String.Format(new CultureInfo("en-IN"), "{0:C}", 
+(previousTotal + currentTotal + progressTotal))</b>  </td>
+                    </tr> 
+                            adbTotal = previousTotal + currentTotal + progressTotal;
+                        }
+
+                        if (agencyItem == 2)
+                        {
+                         
+                        
+                    <tr>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td style="text-align: right"><b>Total For MORD:</b></td>
+                        <td style="text-align: right"><b>@String.Format(new CultureInfo("en-IN"), "{0:C}", 
+(previousTotal + currentTotal + progressTotal))</b>  </td>
+                    </tr>  
+                            mordTotal = previousTotal + currentTotal + progressTotal;
+                        }
+
+                        if (agencyItem == 3)
+                        {
+                         
+                        
+                    <tr>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td style="text-align: right"><b>Total For World Bank (RRP-I):</b></td>
+                        <td style="text-align: right"><b>@String.Format(new CultureInfo("en-IN"), "{0:C}", 
+(previousTotal + currentTotal + progressTotal))</b>  </td>
+                    </tr> 
+                            worldTotal = previousTotal + currentTotal + progressTotal;
+                        }
+
+                        if (agencyItem == 4)
+                        {
+                         
+                        
+                    <tr>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td style="text-align: right"><b>Total For World Bank (RRP-II):</b></td>
+                        <td style="text-align: right"><b>@String.Format(new CultureInfo("en-IN"), "{0:C}", 
+(previousTotal + currentTotal + progressTotal))</b>  </td>
+
+                    </tr>  
+                            worldBankTotal = previousTotal + currentTotal + progressTotal;*@

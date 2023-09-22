@@ -1,0 +1,79 @@
+﻿@model PMGSY.Models.Master.ConnectivityStatusViewModel
+
+<script src="~/Scripts/Master/Form3ConnectivityStatusLayout.js"></script>
+
+<div style="width: 100%; height: 20px; border: none; margin-top: 5px; margin-bottom: -15px;" class="ui-state-default">
+    <span style="float: right; margin-right: 2Px; margin-top: 2px" id="idFilterDiv" class="ui-icon ui-icon-circle-triangle-s"></span>
+</div>
+@*<div style="width: 98%; border: none; margin-top: -15px; margin-bottom: 10px;" class="ui-state-default">*@
+<div id="divConnectivityStatusLayout" style="width: 99%; border: none; margin-top: 15px; margin-bottom: 10px;" class="ui-widget-header innerDivHeader">
+    <form id="frmConnectivityStatusLayout">
+        @Html.ValidationSummary(true)
+        @Html.HiddenFor(m => m.flag)
+
+        <table class="ui-state-default ui-corner-all" style="width: 100%; margin-top: 16px;">
+            <tr>
+                <td style="width: 2%; vertical-align: top;"></td>
+
+                <td style="text-align: left; width: 3%; vertical-align: top;">
+                    @Html.LabelFor(model => model.StateCode)
+                </td>
+
+                <td style="width: 15%; vertical-align: top;">
+                    @if (Model.StateCode == 0)
+                    {
+                        @Html.DropDownListFor(model => model.StateCode, new SelectList(Model.StateList, "Value", "Text"), new { @title = "State", @tabindex = 1, @id = "ddlState", @style = "width:150px" })
+                        <br />
+                        @Html.ValidationMessageFor(m => m.StateCode)
+                    }
+                    else
+                    {
+                        @Html.DisplayFor(model => model.StateName)
+                        @Html.Hidden("StateCode", Model.StateCode)                             
+                    }
+                </td>
+                <td style="text-align: left; width: 3%; vertical-align: top;">
+                    @Html.LabelFor(model => model.DistrictCode)
+                </td>
+                <td style="width: 15%; vertical-align: top;">
+                    @if (Model.DistrictCode == 0)
+                    {
+                        @Html.DropDownListFor(model => model.DistrictCode, new SelectList(Model.DistrictList, "Value", "Text"), new { @title = "District", @id = "ddlDistrict", @tabindex = 2, @style = "width:150px" })
+                        <br />
+                        @Html.ValidationMessageFor(m => m.DistrictCode)
+                    }
+                    else
+                    {
+                        @Html.DisplayFor(model => model.DistrictName)
+                        @Html.Hidden("DistrictCode", Model.DistrictCode)                             
+                    }
+                </td>
+                <td style="width: 2%; vertical-align: top;">
+                    <input type="button" id="btnView" title="View" value="View" class="jqueryButton" />
+                </td>
+            </tr>
+        </table>
+
+    </form>
+</div>
+<div id="dvLoadSaveButton" style="width: 99%; margin-top: 20px; display:none;">
+    <table style="border: 1px;">
+        <tr>
+            <td style="height: 30px; vertical-align: top; text-align: center;">
+                <input type="button" id="btnAdd" title="Add" value="Add" class="jqueryButton" />
+            </td>
+        </tr>
+    </table>
+</div>
+<div id="dvLoadButtons" style="width: 99%; margin-top: 20px; display:none;">
+    <table style="border: 1px;">
+        <tr>
+            <td style="height: 30px; vertical-align: top; text-align: center;">
+                <input type="button" id="btnUpdate" title="Update" value="Update" class="jqueryButton" />
+                <input type="button" id="btnDelete" title="Delete" value="Delete" class="jqueryButton" />
+            </td>
+        </tr>
+    </table>
+</div>
+
+<div id="dvLoadReport" style="width: 100%; margin-top: 5px;"></div>

@@ -1,0 +1,132 @@
+﻿
+@model PMGSY.Areas.RoadwiseQualityDetails.Models.PropsalDetailModel
+
+@{
+    ViewBag.Title = "GetProposalDetails";
+}
+
+<script src="~/Scripts/custom/Generic.js"></script>
+<script src="~/Scripts/jquery-ui.js"></script>
+<script src="~/Areas/RoadwiseQualityDetails/Scripts/ViewRoadwiseDetails.js"></script>
+
+@if (Model.ErrorMessage != null)
+{
+    <div id="divError" class="ui-state-error ui-corner-all" style="text-align: left; display: none; width: 100%">
+        <div>
+            <lable style="color:red"> * @Model.ErrorMessage </lable>
+        </div>
+    </div>
+}
+else
+{
+<div id="dvProposalDetailMain" class="ui-corner-all" style="display: block; border: 1px solid #B5B8C8; margin-top: 10px;">
+    <div class="ui-corner-top ui-widget-header panelheader" style="text-align: left; height: 20px;">
+        <b>
+            <span id="spnHeaderSummarysrchFB1" class="ui-jqgrid-title" style="float: left;margin:5px"> Proposal Details </span>
+            <span id="spnHeaderSummarysrchFB2" class="ui-icon ui-icon-circle-close" onclick="closeCurrentDiv('dvProposalDetailMain', 'Proposal Detail');" style="float: right"></span>
+        </b>
+        <div class="box-tools pull-right">  </div>
+    </div>
+
+
+
+    <div class="row">
+        <!-- Left col -->
+        <div class="col-md-12">
+            <div class="box-body no-padding" style="display:block;">
+                <div class="row">
+                    <div class="col-md-12 col-sm-12">
+                        <div class="pad">
+                            <div id="divContentCNPropDetails" class="tblContent dataTable" style="overflow:scroll;">
+                                <table class="head" style="width: 100%">
+                                    <tr>
+                                        <th style="width: 5%;"></th>
+                                        <th style="width:200px;text-align:center"> Road/Bridge Name </th>
+                                        <th style="text-align: center"> Package</th>
+                                        <th style="text-align: center"> Phase </th>
+                                        <th style="text-align: center"> Length of Roads(in Kms.) / Bridge (in Mtrs.) </th>
+                                        <th style="text-align: center"> Sanctioned Cost (Rs. in Lacs) </th>
+                                        <th style="text-align: center"> Type Of Proposal </th>
+                                    </tr>
+                                    @*</table>*@
+                                    <div class="innerTable">
+                                        @*<table style="width: 100%" class="toptable">*@
+                                        @if (Model.lstIMSProposalDetails.Count() > 0)
+                                        {
+                                            foreach (var item1 in Model.lstIMSProposalDetails)
+                                            {
+                                            <tbody>
+                                                <tr class="collapserow subHeaderDataTable" style="font-weight: bold; color: #003E74">
+                                                    @{int proposalCode = item1.IMS_PR_ROAD_CODE;}
+                                                    <td class="collapseRowLnk" style="width: 5%;"> <span class="ui ui-icon ui-icon-plusthick" id="mainTable+@proposalCode" style="margin-left: auto; margin-right: auto;" onclick="ViewSubTableDetails(@proposalCode);"></span> </td>
+                                                    <td style="width: 200px; font-weight: bold"><a href="#" title="Click To View Details" onclick="ViewQualityDetails(@item1.IMS_PR_ROAD_CODE);">@(item1.PROPOSAL_NAME)</td>
+                                                    <td>@item1.IMS_PACKAGE_ID</td>
+                                                    <td>@(item1.IMS_YEAR + "-" + (item1.IMS_YEAR + 1))</td>
+                                                    <td>@(item1.PROPOSAL_LENGTH)</td>
+                                                    <td>@(item1.IMS_PROPOSAL_TYPE == "Road" ? Math.Round(Convert.ToDecimal(item1.ROAD_AMT), 2) : Math.Round(Convert.ToDecimal(item1.BRIDGE_AMT), 2))</td>
+                                                    <td>@(item1.IMS_PROPOSAL_TYPE == "Road" ? "Road" : "Bridge")</td>
+                                                </tr>
+                                                <tr>
+                                                    <td colspan="7">
+                                                        <table class="nested" style="width: 95%; margin-left: 5%; border: none;display:none;"  id="subTable+@proposalCode">
+                                                            <tbody>
+                                                                @if (item1.IMS_PR_ROAD_CODE == proposalCode)
+                                                                {
+                                                                <tr>
+                                                                    <td style="background-color: antiquewhite; font-weight: bold; width: 205px"> Batch </td>
+                                                                    <td style="width: 20%">@("BATCH " + item1.IMS_BATCH)</td>
+                                                                    <td style="background-color: antiquewhite; font-weight: bold; width: 20% "> Collaboration </td>
+                                                                    <td style="width: 20% ">@(item1.MAST_FUNDING_AGENCY_NAME)</td>
+                                                                    <td style="background-color: antiquewhite; font-weight: bold; width: 20% "> CC Length (in Km.) </td>
+                                                                    <td style="width: 20%">@(item1.IMS_CC_LENGTH == null ? "-" : item1.IMS_CC_LENGTH.ToString())</td>
+                                                                </tr>
+                                                                    <tr>
+                                                                        <td style="background-color: antiquewhite; font-weight: bold"> BT Length (in Km.) </td>
+                                                                        <td>@(item1.IMS_BT_LENGTH == null ? "-" : item1.IMS_BT_LENGTH.ToString())</td>
+                                                                        <td style="background-color: antiquewhite; font-weight: bold"> Pavement Length </td>
+                                                                        <td>@item1.PROPOSAL_LENGTH</td>
+                                                                        <td style="background-color: antiquewhite; font-weight: bold"> Sanctioned Date </td>
+                                                                        <td>@(item1.IMS_SANCTIONED_DATE == null ? "NA" : Convert.ToDateTime(item1.IMS_SANCTIONED_DATE).ToString("dd/MM/yyyy"))</td>
+                                                                    </tr>
+                                                                    <tr>
+                                                                        <td style="background-color: antiquewhite; font-weight: bold"> Final Payment Made </td>
+                                                                        <td>@(item1.IMS_FINAL_PAYMENT_FLAG == "Y" ? "Yes" : "No")</td>
+                                                                        <td style="background-color: antiquewhite; font-weight: bold"> Payment Made (in Lakhs.) </td>
+                                                                        <td>@(item1.IMS_PAYMENT_MADE == null ? 0 : item1.IMS_PAYMENT_MADE)</td>
+                                                                        <td style="background-color: antiquewhite; font-weight: bold"> No. of CDWorks </td>
+                                                                        <td>@(item1.IMS_NO_OF_CDWORKS == null ? 0 : item1.IMS_NO_OF_CDWORKS)</td>
+                                                                    </tr>
+                                                                    <tr>
+                                                                        <td style="background-color: antiquewhite; font-weight: bold"> No. of Bridge Works </td>
+                                                                        <td>@(item1.IMS_NO_OF_BRIDGEWRKS == null ? 0 : item1.IMS_NO_OF_BRIDGEWRKS)</td>
+                                                                        <td style="background-color: antiquewhite; font-weight: bold"> 	New/Upgradation </td>
+                                                                        <td>@(item1.IMS_UPGRADE_CONNECT == "U" ? "Upgrade" : "New")</td>
+                                                                        <td style="background-color: antiquewhite; font-weight: bold"> Carriage Way Width (in Mtrs.) </td>
+                                                                        <td>@(item1.IMS_CARRIAGED_WIDTH)</td>
+                                                                    </tr>
+                                                                }
+                                                            </tbody>
+                                                        </table>
+                                                    </td>
+                                                </tr>
+                                            </tbody>
+                                                            }
+                                                        }
+                                                        else
+                                                        {
+                                        <tr>
+                                            <td colspan="7">
+                                                <label style="color: red; float:right;font-weight:bold;">No Proposal Details Found.</label>
+                                            </td>
+                                        </tr>
+                                                        }
+                                    </table>
+                                </div>
+                            </div>
+                        </div>
+                    </div><!-- /.col -->
+                </div><!-- /.row -->
+            </div><!-- /.box-body -->
+        </div> <!-- /.col -->
+    </div><!-- /.row -->
+}

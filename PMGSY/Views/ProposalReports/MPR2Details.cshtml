@@ -1,0 +1,126 @@
+﻿@{
+    ViewBag.Title = "MPR2Details";
+}
+
+
+
+@model PMGSY.Models.ProposalReports.ProposalReportsModel
+<script type="text/javascript" src="@Url.Content("~/Scripts/jquery.ui.dialog.js")"> </script>
+<script src="~/Scripts/ProposalReports/MPR2Details.js" type="text/javascript"></script>
+<script src="~/Scripts/custom/Generic.js"></script>
+
+<form id="frmCN1StateLevelReport">
+    @Html.Hidden("hdnLevelId", PMGSY.Extensions.PMGSYSession.Current.LevelId.ToString())
+    <div style="width: 100%">
+        <table class="ui-state-default ui-corner-all" style="width: 100%;">
+            <tr>
+                <td style="width: 6%;"></td>
+                <td style="text-align: left; width: 5%;">
+                    @Html.Label("Year")
+                </td>
+                <td style="width: 15%;">
+                    @Html.DropDownList("ddYear_MPR2Details", ViewData["YEAR"] as IEnumerable<SelectListItem>, new { @title = "Year",@tabindex = 1 })
+                </td>
+                <td style="text-align: left; width: 5%;">
+                    @Html.Label("Month")
+                </td>
+                <td style="width: 15%;">
+                    @Html.DropDownList("ddMonth_MPR2Details", ViewData["MONTH"] as IEnumerable<SelectListItem>, new { @title = "Month",@tabindex = 2 })
+                </td>
+               <td style="text-align: left; width: 10%;">
+                    @Html.Label("Funding Agency")
+                </td>
+                <td style="width: 15%;">
+                    @Html.DropDownList("ddAgency_MPR2Details", ViewData["AGENCY"] as IEnumerable<SelectListItem>,new { @title = "Funding Agency",@tabindex = 3 })
+                </td>
+               <td>
+                    <input type="button" value="View" class="jqueryButton" id="btnMPR2Details" title="View Details"  tabindex="4"/>
+                </td>
+            </tr>
+        </table>
+    </div>
+    <br />
+
+
+    @if (PMGSY.Extensions.PMGSYSession.Current.StateCode != 0)
+    {           
+        @Html.Hidden("STATE_NAME", PMGSY.Extensions.PMGSYSession.Current.StateName.ToString())
+    }
+
+    @if (PMGSY.Extensions.PMGSYSession.Current.DistrictCode != 0)
+    {
+        @Html.Hidden("DISTRICT_NAME", PMGSY.Extensions.PMGSYSession.Current.DistrictName.ToString())   
+    }
+
+    @Html.HiddenFor(model => model.BLOCK_NAME)
+
+    @if (PMGSY.Extensions.PMGSYSession.Current.LevelId == 6)     //Mord
+    {    
+      
+        <div id="MPR2StateReport">
+            <table id="MPR2StateReportTable"></table>
+        </div>
+        <div id="MPR2StateReportPager"></div>
+        <br />
+
+        <div id="MPR2DistrictReport">
+            <table id="MPR2DistrictReportTable"></table>
+        </div>
+        <div id="MPR2DistrictReportPager"></div>
+
+        <br />
+        <div id="MPR2BlockReport">
+            <table id="MPR2BlockReportTable"></table>
+        </div>
+        <div id="MPR2BlockReportPager"></div>
+
+        <br />
+        <div id="MPR2FinalReport">
+            <table id="MPR2FinalReportTable"></table>
+        </div>
+        <div id="MPR2FinalReportPager"></div>
+        
+    }
+
+    else if (PMGSY.Extensions.PMGSYSession.Current.LevelId == 4)     //State
+    {
+        @Html.HiddenFor(model => model.MAST_STATE_CODE)
+        <div id="MPR2DistrictReport">
+            <table id="MPR2DistrictReportTable"></table>
+        </div>
+        <div id="MPR2DistrictReportPager"></div>
+
+        <br />
+        <div id="MPR2BlockReport">
+            <table id="MPR2BlockReportTable"></table>
+        </div>
+        <div id="MPR2BlockReportPager"></div>
+
+        <br />
+        <div id="MPR2FinalReport">
+            <table id="MPR2FinalReportTable"></table>
+        </div>
+        <div id="MPR2FinalReportPager"></div>
+    }
+    else if (PMGSY.Extensions.PMGSYSession.Current.LevelId == 5)     //District
+    {
+        @Html.HiddenFor(model => model.MAST_STATE_CODE)
+        @Html.HiddenFor(model => model.MAST_DISTRICT_CODE)
+        <div id="MPR2BlockReport">
+            <table id="MPR2BlockReportTable"></table>
+        </div>
+        <div id="MPR2BlockReportPager"></div>
+
+        <br />
+        <div id="MPR2FinalReport">
+            <table id="MPR2FinalReportTable"></table>
+        </div>
+        <div id="MPR2FinalReportPager"></div>
+    }
+</form>
+
+
+
+
+
+

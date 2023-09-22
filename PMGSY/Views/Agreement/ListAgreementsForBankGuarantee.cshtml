@@ -1,0 +1,102 @@
+﻿@model PMGSY.Models.Agreement.BankGuaranteeModel
+<!-- ----------------------------------------------------------------------------------------
+
+ * Project Id:
+
+ * Project Name:OMMAS2
+
+ * File Name: ListAgreementsForbankGuarantee.cshtml
+
+ * Author : Pradip Patil
+
+ * Creation Date :20/March/2017
+
+ * Desc : This page contains filter for listing asgreement
+ * --------------------------------------------------------------------------------------- -->
+<script src="~/Scripts/jquery.validate.min.js"></script>
+<script src="~/Scripts/jquery.validate.unobtrusive.min.js"></script>
+<script src="~/Scripts/custom/Generic.js"></script>
+<script type="text/javascript" src="@Url.Content("~/Scripts/jquery.ui.dialog.js")"> </script>
+<script src="~/Scripts/Agreement/BankGuaranteeListing.js"></script>
+
+
+@* <div class="ui-state-default " style="height:20px;border:none; margin-top:5px; margin-bottom:0px; ">
+     <span id="spCollapseIconS" class="ui-icon ui-icon-circle-triangle-n" style="float:right;margin-right:2Px; margin-top:2px"></span>
+</div>
+<div id="filterForm" class="ui-state-default">*@
+
+<center>
+<div class="ui-state-default" style="width:96%; height:26px;border:none; margin-top:5px; margin-bottom:0px; ">
+     <span id="spCollapseIconS" class="ui-icon ui-icon-circle-triangle-n" style="float:right;margin-right:2Px; margin-top:2px"><//span>
+</div>
+    <div class="ui-state-default" style="width: 96%; border:none; margin-top:-15px; margin-bottom:10px;">
+<div id="filterForm">
+ 
+      <form id="frmFilterbankGuarantee">
+    <div style="margin-left: 100px">
+        @Html.ValidationSummary(true)
+    </div>
+    @Html.AntiForgeryToken()
+    <table id="tb" class="" cellpadding="3px" style="margin-top: 10px; text-align: left; width: 100%; padding-top: 5px 5px 5px 5px;">
+        <tr>
+            <td>@Html.LabelFor(model => model.Year)</td>
+            <td>@Html.DropDownListFor(model => model.Year, Model.lstYears, new { @id = "ddlYears", @title = "Please select year", @tabindex = 1 })
+                @Html.ValidationMessageFor(model => model.Year)
+            </td>
+            <td>@Html.LabelFor(model => model.Block)</td>
+            <td>@Html.DropDownListFor(model => model.Block, Model.lstBlocks, new { @id = "ddlBlocks", @title = "Please select block", @tabindex = 2 })
+                @Html.ValidationMessageFor(model => model.Block)
+            </td>
+
+            <td>@Html.LabelFor(model => model.Package)</td>
+            <td>@Html.DropDownListFor(model => model.Package, Model.lstPackages, new { @id = "ddlPackages", @title = "Please select package", @tabindex = 3 })
+                @Html.ValidationMessageFor(model => model.Package)
+            </td>
+            <td>@Html.LabelFor(model => model.ProposalType)</td>
+            <td>@Html.DropDownListFor(model => model.ProposalType, Model.lstProposalType, new { @id = "ddlProposalType", @title = "Please select proposal type", @tabindex = 4 })
+                @Html.ValidationMessageFor(model => model.ProposalType)
+            </td>
+        </tr>
+        <tr>
+            <td>@Html.LabelFor(model => model.AgreementStatus)</td>
+            <td>@Html.DropDownListFor(model => model.AgreementStatus, Model.lstStatus, new { @id = "ddlAgreementStatus", @title = "Please select Agreement Status", @tabindex = 5 })
+                @Html.ValidationMessageFor(model => model.AgreementStatus)
+            </td>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td></td>
+        </tr>
+        <tr>
+            <td colspan="12">
+                <center>
+                <input type="button" id="btnListAgreementsBankGuarantee" name="btnListAgreementsBankGuarantee" value="View Details" class= "jqueryButton" title="List Agreement Details" tabindex="5"  />  
+                </center>
+            </td>
+        </tr>
+    </table>
+</form>
+    </div>
+</div>
+
+</center>
+<center>
+    <div id="dvAgreementListBankGuarantee" style="margin-top:20px;width:98%">
+        <table id="tblstAgreementsBankGuarantee"></table>
+
+        <div id="dvlstPagerAgreementsBankGuarantee"></div>
+    </div>
+
+    
+    <div id="dvListBankGuarantee" style="margin-top:20px;width:98%">
+        <table id="tblstBankGuarantee"></table>
+
+        <div id="dvlstPagerBankGuarantee"></div>
+    </div>
+    <div id="dvViewAgreementMasterBankGuarantee" style="width:98%; margin-top:2%">
+
+    </div>
+     <div id="dvViewBankDiadlog" style="width:98%; margin-top:2%">
+
+    </div>
+</center>

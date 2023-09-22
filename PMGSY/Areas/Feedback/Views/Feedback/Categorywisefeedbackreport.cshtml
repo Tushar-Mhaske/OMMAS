@@ -1,0 +1,11 @@
+﻿@using MvcReportViewer
+
+@model PMGSY.Areas.Feedback.Models.CategorywiseFeedbackModel
+
+    @Html.MvcReportViewer("/PMGSYCitizen/Category_FeedbackStateWiseCitizen_Data",
+     new
+     {
+         FROMDATE = Model.FROM_DATE,
+         TODATE = Model.TO_DATE,
+     },
+       new { Height = 600, Width = "100%", style = "border:none;" })

@@ -1,0 +1,71 @@
+﻿@using MvcReportViewer
+
+@model PMGSY.Areas.WorkAwardedArea.Models.WorkAwardedModel
+
+
+@if(Model.RoadWise==false)
+{
+
+@Html.MvcReportViewer("/PMGSYCitizen/Tend_Agr_DetailsReport1",
+     new
+     {  
+         Level = Convert.ToString(Model.LevelCode),
+         State = Model.Mast_State_Code,
+         District = Model.Mast_District_Code,
+         Year = Model.Year,
+         Collaboration = Model.Collab,
+         PMGSY = PMGSY.Extensions.PMGSYSession.Current.PMGSYScheme,
+         StateName = Model.StateName,
+         DistName = Model.DistName,
+         YearName =Model.YearName,
+         CollaborationName =Model.CollaborationName
+       
+     },
+     new {  Height = 600, Width = "100%", style = "border:none;"})
+
+}
+else
+{
+
+@Html.MvcReportViewer("/PMGSYCitizen/Tend_Agr_Details_LVLReport2",
+     new
+     {  
+         Level =Convert.ToString(Model.LevelCode),
+         State = Model.Mast_State_Code,
+         District = Model.Mast_District_Code,
+         Year = Model.Year,
+         Collaboration = Model.Collab,
+         PMGSY = PMGSY.Extensions.PMGSYSession.Current.PMGSYScheme,
+         StateName = Model.StateName,
+         DistName = Model.DistName,
+         YearName =Model.YearName,
+         CollaborationName =Model.CollaborationName,
+         BLOCK=Model.BlockCode,
+         BlockName=Model.BlockName
+       
+     },
+     new { Height = 600, Width = "100%", style = "border:none;"  })
+
+
+
+
+
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

@@ -1,0 +1,32 @@
+﻿<script src="~/Scripts/custom/Generic.js"></script>
+<script src="~/Scripts/Proposal/DropLetterRequestLayout.js"></script>
+
+<center>
+    </center>
+<form id="frmDropLetterRequestLayout">
+    @Html.ValidationSummary(true)
+    @Html.AntiForgeryToken()
+    
+    <div style="width: 100%">
+        <div style="height:25px;border:none; margin-top:5px;" class="ui-corner-top ui-widget-header panelheader" @*class="ui-state-default"*@>
+            <span class="ui-jqgrid-title" style="float: left">&nbsp;Request Letter</span>
+            @*<span style="float:right;margin-right:2Px; margin-top:2px" id="idFilterDiv" class="ui-icon ui-icon-circle-triangle-n"></span>  *@
+        </div>
+        <table id="tbDropReqLetter" cellpadding="3px" class="rowstyle" style="margin-top: 0px; text-align: left; border: ridge 0.1em #ccc; width: 99%; padding-top: 5px 5px 5px 5px;">
+            <tr>
+                <td style="width: 10%"></td>
+                <td style="width: 5%">
+                    <label tabindex="1">Letter No.</label><span style="color: red">*</span>
+                </td>
+                <td style="width: 5%">
+                    @Html.TextBox("LetterNo", null, new { @id = "txtLetterNo", @placeholder = "Enter Letter No.", @tabindex = "2", @maxlength = "25" })
+                </td>
+                <td style="width: 5%">
+                    <input type="button" value="Submit" name="btnSubmit" id="btnSubmit" class="jqueryButton" tabindex="3" />
+                </td>
+                <td style="width: 10%"></td>
+            </tr>
+        </table>
+    </div>
+</form>
+

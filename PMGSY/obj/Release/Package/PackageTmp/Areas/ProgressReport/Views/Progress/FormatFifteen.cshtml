@@ -1,0 +1,13 @@
+﻿
+
+@using MvcReportViewer
+
+@model PMGSY.Areas.ProgressReport.Models.MonthYear
+
+@Html.MvcReportViewer("/PMGSYCitizen/Format15InterestLoss",
+         new
+         {
+
+             //YEAR =  Model.Year
+         },
+     new { Height = "100%", Width = "100%", style = "border:none;" })

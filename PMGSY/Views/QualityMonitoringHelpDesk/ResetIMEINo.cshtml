@@ -1,0 +1,47 @@
+﻿@{
+    ViewBag.Title = "ResetIMEINo";
+}
+
+<head>
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+
+    <noscript>
+        <!--If JS is Desable or Not supported-->
+        <meta http-equiv="refresh" content="0;url=/Error/Index" />  <!--Refresh page immidiatly annd show error page-->
+    </noscript>
+
+    <script src="~/Scripts/QualityMonitoringHelpDesk/ResetImeiAdminMenu.js"></script>
+    @*<script src="~/Scripts/QualityMonitoringHelpDesk/QMHelpDesk.js"></script>*@
+    <script src="~/Scripts/custom/Generic.js"></script>
+    <script src="~/Scripts/jquery.ui.accordion.js"></script>
+
+    <link href="~/Content/Bootstrap/bootstrap.min.css" rel="stylesheet" />
+    <script src="~/Scripts/Bootstrap/bootstrap.min.js"></script>
+</head>
+
+@*@Html.Hidden("RoleCode",roleCode)  --Not Working *@
+
+@* hide rolecode and will access in js to show resetcount hide?true:false*@
+@Html.Hidden("RoleCode", PMGSY.Extensions.PMGSYSession.Current.RoleCode)   @*Used to access the session property*@
+@*@PMGSY.Extensions.PMGSYSession.Current.RoleCode*@
+
+<div>
+    <div id="divForGrid" class="ui-corner-top ui-widget-header panelheader" style="text-align: left; height: 20px; width: 99%;">
+        <span class="ui-jqgrid-title" style="float: left">&nbsp;Reset IMEI Details</span>
+        <span id="closeGridId" class="ui-icon ui-icon-circle-triangle-n" style="float: right"></span>
+    </div>
+
+    <div id="qmIMEINoRestGridsAdmin" style="margin-top:5px;width: 98%;">
+        <table id="tblQmIMEINoResetDetailsAdmin"></table>   <!--JQGrid Will Load On this table-->
+        <div id="divQmIMEINoResetDetailsAdmin"></div>   <!--use to show details in botton like "No Records Found and xyz No Of REcords Found"-->
+
+    </div>
+
+    <center>
+        <div id="divShowIMEIResetDetailsGrid" style="margin-top:5px; width:40%; ">
+            <table id="tblShowIMEIDetails"></table>    <!--JQGrid Will Load On this table-->
+            <div id="bottomNavDivShowIMEIReset"></div> <!--use to show details in botton like "No Records Found and xyz No Of REcords Found"-->
+        </div>
+    </center>
+
+</div>

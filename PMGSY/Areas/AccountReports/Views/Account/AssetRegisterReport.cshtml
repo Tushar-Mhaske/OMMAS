@@ -1,0 +1,25 @@
+﻿@using MvcReportViewer
+@model PMGSY.Areas.AccountReports.Models.AssetRegisterViewModel
+
+@{ PMGSY.Models.Report.ReportFilter objParam = new PMGSY.Models.Report.ReportFilter();}
+
+@Html.MvcReportViewer("/PMGSYCitizen/Acc_Asset_Register_Report",
+     new
+     {
+         PrmFundType = Model.FundType,
+         PrmAdminNdCode = Model.AdminNdCode,
+         Prmflag = Model.monthlyPeriodicFundWise,
+         PrmMonth = Model.Month,
+         PrmYear = Model.Year,
+         PrmFromDate = Model.StartDate,
+         PrmToDate = Model.EndDate,
+         PrmCentralState = Model.FundStateCentralName,
+         SRRDAName = Model.NodalAgencyName,
+         Year = Model.YearName,
+         FormName = Model.ReportFormNumber,
+         ReportHeading = Model.ReportName,
+         Paragraph = Model.ReportParagraphName,
+         PiuName = Model.DPIUName
+
+     },
+     new { Height = 600, Width = "100%", style = "border:none;" })

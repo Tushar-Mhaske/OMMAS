@@ -1,0 +1,15 @@
+﻿@using MvcReportViewer
+@model PMGSY.Areas.AccountReports.Models.AbstractFundTransferredViewModel
+
+<div id="AccAbstractFundTransferred" style="width: 100%; height: 590px; overflow-x: hidden; overflow-y: hidden">
+@Html.MvcReportViewer("/PMGSYCitizen/AccAbstractFundTransferred",
+     new {  
+         PrmFundType=PMGSY.Extensions.PMGSYSession.Current.FundType,
+         PrmYear=Model.Year,
+         PrmHead=Model.Head,
+         PrmStateNDCode=Model.State,
+         PrmDPIUNDCode=Model.DPIU,
+         HeadName=Model.HeadName
+         },
+     new { Height = 600, Width = 1201, style = "border:none;" })
+</div>

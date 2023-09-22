@@ -1,0 +1,110 @@
+﻿@model PMGSY.Models.ExistingRoads.MapNotFeasibleRoads
+
+<script src="~/Scripts/custom/Generic.js"></script>
+<script src="~/Scripts/ExistingRoads/AddReason.js" type="text/javascript"></script>
+
+<center>
+<form id="frmUpdateDetails" style="width:98%">
+    <div style="margin-left: 100px">
+        @Html.AntiForgeryToken()
+        @Html.ValidationSummary(true)
+        @Html.HiddenFor(model=>model.PLAN_CN_ROAD_CODE)
+        @Html.HiddenFor(model=>model.Year)
+        @Html.HiddenFor(model=>model.Batch)
+@*        @Html.HiddenFor(model=>model.ProposalType)
+        @Html.HiddenFor(model=>model.UpgradeConnect)*@
+    </div>
+    <div id="divError" class="ui-state-error ui-corner-all" style="text-align: left; display: none; width: 100%">
+        <span class="ui-icon ui-icon-alert" style="float: left;"></span>
+        <span></span>
+    </div>
+    <div style="height: 20px; width: 100%; text-align: left; padding-top: 0.6em;" class="ui-state-default ui-corner-all">
+        &nbsp; <strong>Note : </strong>Fields marked with <label style="color:red">*</label> are mandatory.
+    </div>
+    <table id="tb" cellpadding="3px" class="rowstyle" style="margin-top: 10px; text-align: left; border: ridge 0.1em #ccc; width: 100%; padding-top: 5px 5px 5px 5px;">
+        <tr></tr>
+          <tr>
+            <td style="width:10%">
+            </td>
+            <td style="width: 10%;">
+                @Html.Label("Work Name : ")
+            </td>
+            <td style="width: 30%;">
+              @Html.DisplayFor(m=>m.WorkName)
+            </td>
+            <td style="width: 10%;">
+               @Html.Label("Road Number : ")
+            </td>
+            <td style="width: 30%;">
+                @Html.DisplayFor(m=>m.PackageName)
+            </td>
+        </tr>
+
+        <tr>
+            <td style="width:10%">
+            </td>
+            <td style="width: 10%;">
+                 @Html.LabelFor(model=>model.ReasonCode)<label style="color:red">*</label>
+            </td>
+            <td style="width: 30%;  ">
+                @Html.DropDownListFor(model=>model.ReasonCode,Model.ReasonList,new{@id="ddlCoreNetworks",@title= "Select Reason ",@tabindex = 2,@style="width:200px"})
+                @Html.ValidationMessageFor(model=>model.ReasonCode) 
+            </td>
+            <td style="width: 10%;">
+                @Html.LabelFor(model=>model.Block)
+            </td>
+            <td style="width: 30%;">
+                @Html.DropDownListFor(model=>model.Block,Model.lstBlocks,new{@id="ddlBlocks",@title= "Block",@tabindex = 1,@disabled = "disabled"})
+                @Html.ValidationMessageFor(model=>model.Block)
+            </td>
+        </tr>
+
+
+          <tr>
+            <td style="width:10%">
+            </td>
+            <td style="width: 10%;">
+                 @Html.LabelFor(model=>model.REQUEST_REMARKS_EXEMPTION)<label style="color:red">*</label>
+            </td>
+            <td style="width: 30%;  ">
+
+                
+      
+
+         @Html.TextAreaFor(model => model.REQUEST_REMARKS_EXEMPTION, new { maxlength = 200, @tabindex = 3, @title = "Request Remarks",style="width: 100%", @placeholder = "Enter Request Remarks..." })
+         @Html.ValidationMessageFor(model => model.REQUEST_REMARKS_EXEMPTION)
+            </td>
+            <td style="width: 10%;">
+              
+            </td>
+            <td style="width: 30%;">
+               
+            </td>
+        </tr>
+
+
+           <tr>
+            <td style="width:100%" colspan="5">
+               
+
+                  &nbsp; <strong>Request Remarks <label style="color:red">*</label> </strong>field only contains Alphanumeric Values (examples are  A to Z and a to z) and Symbols (examples are ._() ) <label style="color:red"></label> 
+            </td>
+           
+         
+        </tr>
+
+        <tr>
+            <td colspan="5">
+
+
+               <center>
+                <input type="button" id="btnUpdate" name="btnUpdate" value="Save" class= "jqueryButton" title="Save Details" tabindex="3"  />  
+                <input type="reset" id="btnReset" name="btnReset" value="Reset" class= "jqueryButton" title="Reset" tabindex="4"  />
+                <input type="button" id="btnCancel" name="btnCancel" value="Cancel" class= "jqueryButton" title="Cancel Details" tabindex="4"  />
+                </center>
+                
+            </td>
+        </tr>
+    </table>
+</form>
+</center>

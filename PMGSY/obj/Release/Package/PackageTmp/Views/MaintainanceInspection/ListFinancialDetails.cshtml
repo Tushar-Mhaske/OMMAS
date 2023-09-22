@@ -1,0 +1,72 @@
+﻿@model PMGSY.Models.MaintainanceInspection.MaintenanceProgressViewModel
+
+<script src="~/Scripts/custom/Generic.js"></script>
+<script src="~/Scripts/jquery.ui.dialog.js"></script>
+<script src="~/Scripts/MainatinanceInspection/ListFinancialDetails.js"></script>
+
+<center>
+<div style="height: auto; width: 98%; text-align: left; padding-top: 0.6em;">
+    <table class="rowstyle ui-corner-all" style="width: 100%; border: solid black 1px;">
+        <tr>
+            @Html.Hidden("urlparameter", Convert.ToString(ViewData["urlparameter"]))
+            <td></td>
+            <td style="font-weight:bold">Maintenance Number</td>
+            @*<td>@Model.ContractNumber</td>*@
+            <td>@Html.DropDownListFor(m => m.ContractNumber, new SelectList(Model.lstMaintenanceNo, "Value", "Text"), new { @id = "ddlMaintenanceNo", @title = "Maintenance Contract Number", @style = "width:20%" })</td>
+            @*<td style="font-weight:bold">Maintenance Agreement No.</td>
+            <td>
+                @Html.DropDownListFor(model => model.ProposalContractCode, new SelectList(Model.lstMANEAgreements, "Value", "Text"), new { @id="ddlAgreements",@title="Maintenance Agreements"})
+            </td>*@
+            <td></td>
+            <td></td>
+        </tr>
+        <tr>
+            <td style="width: 5%"></td>
+            <td style="width: 12%; font-weight: bold">Block</td>
+            <td style="width: 15%">@Model.BlockName</td>
+            <td style="width: 12%; font-weight: bold">Package No.</td>
+            <td style="width: 15%">@Model.Package</td>
+        </tr>
+        <tr>
+            <td></td>
+            <td style="font-weight: bold">Road Name:</td>
+            <td><label id="lblRoadName">@Model.RoadName</label></td>
+            <td style="font-weight: bold">Agreement Date</td>
+            <td><label id="lblAggDate">@Model.AgreementDate</label></td>
+        </tr>
+        @*<tr>
+            <td></td>
+            <td style="font-weight:bold">Overall Cost</td>
+            <td><label id="lblOverAllCost">@Model.OverallCost</label></td>
+            <td></td>
+            <td></td>
+        </tr>*@
+        <tr>
+            <td></td>
+            @*<td style="font-weight: bold">Total Maintenance Cost(Rs. in Lakh):</td>
+            <td><label id="lblAggCost">@Model.AgreementCost</label></td>*@
+            <td style="font-weight:bold">Overall Cost(Rs. in Lakh):</td>
+            <td><label id="lblOverAllCost">@Model.OverallCost</label><label id="lblView" onclick="ViewDetails()" style="color:blue;cursor:pointer">  (View Details)</label></td>
+            <td style="font-weight: bold">Sanction Length(in Km)</td>
+            <td><label id="lblRoadLength">@Model.SanctionLength</label></td>
+        </tr>
+    </table>
+</div>
+<br />
+<div id="dvRoadDetails">
+    <table id="tbMaintenanceDetails"></table>
+    <div id="pgMaintenanceDetails"></div>
+</div>
+<br />
+<div id="divFinancialDetails" style="width:98%">
+    <table id="tbFinancialList"></table>
+    <div id="pagerFinancialList"></div>
+</div>
+<br />
+<div id="divAddFinancialProgress" style="width:98%">
+</div>
+</center>
+@Html.HiddenFor(model => model.ProposalCode, new { @id = "prRoadCode" })
+
+
+

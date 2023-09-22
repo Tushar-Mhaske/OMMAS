@@ -1,0 +1,23 @@
+﻿@model PMGSY.Models.Proposal.MrdDroppedViewModel
+
+<script src="~/Scripts/custom/Generic.js"></script>
+<script src="~/Scripts/Proposal/LoadMrdDroppedLetter.js"></script>
+<form id="frmMrdDropLetter">
+    @Html.AntiForgeryToken()
+    @Html.ValidationSummary(true)
+
+    @Html.HiddenFor(m=>m.EncryptedClearanceCode)
+    @Html.HiddenFor(m=>m.MRD_CLEARANCE_CODE)
+    <div id="MrdDropLetterList" style="width: 100%">
+        <div id="dvLoadMrdDroppedList" style="margin-top: 10px;">
+            <table id="tblMrdDroppedLetterList">
+            </table>
+            <div id="divMrdMrdDroppedLetterpager">
+            </div>
+        </div>
+
+        <input type="button" id="btnAddMRDDroppedLetter" title="Add" value="Add" class="jqueryButton" />
+
+        <div id="dvLoadSaveDroppedLetters" style="width: 100%; margin-top: 10px;"></div>
+    </div>
+</form>

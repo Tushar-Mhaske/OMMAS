@@ -1,0 +1,39 @@
+﻿@model PMGSY.Models.ARRR.LMMRateViewModel
+
+<script src="~/Scripts/custom/Generic.js"></script>
+<script src="~/Scripts/ARRR/LoadLabourRate.js"></script>
+
+
+<form id="frmLoadLabourRate">
+    <div id="dvLoadLabourRate" style="width: 100%; border: none; margin-bottom: 10px;">
+    </div>
+    <div id="dvLR">
+    <div id="dvhdLabourRateDetails" class="ui-corner-top ui-widget-header panelheader" style="text-align: left; height: 20px;">
+        Labour Rates Details<span style="float: right; margin-right: 2Px; margin-top: 2px" id="idFilterDivL" class="ui-icon ui-icon-circle-triangle-n"></span>
+    </div>
+    <table class="rowstyle" style="width: 100%; margin-bottom: 5px; border: 1px solid #B5B8C8;">
+         <tr>
+                <td style="width: 2%;"></td>
+                <td style="text-align: left; width: 15%;">
+                    @Html.Label("Year")
+                </td>
+                <td style="width: 20%;">
+                    @Html.DropDownListFor(model => model.Year, new SelectList(Model.yearList, "Value", "Text"), new { @title = "Year", @id = "ddlYearWise", @style = "width:300px;", @tabindex = 6 })
+                    <br />
+                    @Html.ValidationMessageFor(model => model.Year)
+                </td>
+                <td style="width: 5%"></td>
+              <td style="width:35%"><input type="button" id="btnView" value="View Year-Wise List" class="jqueryButton"></td>        
+            </tr>
+        </table>
+    <input type="button" id="btnAdd" title="Add New Rates" value="Add" class="jqueryButton" />
+     </div>
+    <center>
+    <div id="dvLoadLabourRateList" style="margin-top: 10px;flex-align: center;">
+        <table id="tblLoadLabourRateList">
+        </table>
+        <div id="dvLoadLabourRateListpager">
+        </div>
+    </div>
+    </center>
+</form>

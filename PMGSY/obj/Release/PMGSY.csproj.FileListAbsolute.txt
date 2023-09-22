@@ -1,0 +1,77 @@
+E:\Bhushan\Working Code\production\GovtSection\19-04-2022_Evening\PMGSY\bin\PMGSY.dll.config
+E:\Bhushan\Working Code\production\GovtSection\19-04-2022_Evening\PMGSY\bin\PMGSY.dll
+E:\Bhushan\Working Code\production\GovtSection\19-04-2022_Evening\PMGSY\bin\PMGSY.XmlSerializers.dll
+E:\Bhushan\Working Code\production\GovtSection\19-04-2022_Evening\PMGSY\bin\PMGSY.pdb
+E:\Bhushan\Working Code\production\GovtSection\19-04-2022_Evening\PMGSY\bin\AttributeRouting.dll
+E:\Bhushan\Working Code\production\GovtSection\19-04-2022_Evening\PMGSY\bin\AttributeRouting.Web.dll
+E:\Bhushan\Working Code\production\GovtSection\19-04-2022_Evening\PMGSY\bin\AttributeRouting.Web.Mvc.dll
+E:\Bhushan\Working Code\production\GovtSection\19-04-2022_Evening\PMGSY\bin\EntityFramework.SqlServer.dll
+E:\Bhushan\Working Code\production\GovtSection\19-04-2022_Evening\PMGSY\bin\ExifLib.dll
+E:\Bhushan\Working Code\production\GovtSection\19-04-2022_Evening\PMGSY\bin\Google.Protobuf.dll
+E:\Bhushan\Working Code\production\GovtSection\19-04-2022_Evening\PMGSY\bin\WebActivator.dll
+E:\Bhushan\Working Code\production\GovtSection\19-04-2022_Evening\PMGSY\bin\System.Data.SqlServerCe.dll
+E:\Bhushan\Working Code\production\GovtSection\19-04-2022_Evening\PMGSY\bin\Microsoft.SqlServer.Types.dll
+E:\Bhushan\Working Code\production\GovtSection\19-04-2022_Evening\PMGSY\bin\AttributeRouting.xml
+E:\Bhushan\Working Code\production\GovtSection\19-04-2022_Evening\PMGSY\bin\AttributeRouting.Web.xml
+E:\Bhushan\Working Code\production\GovtSection\19-04-2022_Evening\PMGSY\bin\AttributeRouting.Web.Mvc.xml
+E:\Bhushan\Working Code\production\GovtSection\19-04-2022_Evening\PMGSY\bin\EntityFramework.SqlServer.xml
+E:\Bhushan\Working Code\production\GovtSection\19-04-2022_Evening\PMGSY\bin\WebActivator.pdb
+E:\Bhushan\Working Code\production\GovtSection\19-04-2022_Evening\PMGSY\obj\Release\PMGSY.csproj.CoreCompileInputs.cache
+E:\Bhushan\Working Code\production\GovtSection\19-04-2022_Evening\PMGSY\obj\Release\PMGSY.csproj.CopyComplete
+E:\Bhushan\Working Code\production\GovtSection\19-04-2022_Evening\PMGSY\obj\Release\PMGSY.dll
+E:\Bhushan\Working Code\production\GovtSection\19-04-2022_Evening\PMGSY\obj\Release\PMGSY.pdb
+E:\Bhushan\Working Code\production\GovtSection\19-04-2022_Evening\PMGSY\obj\Release\PMGSY.XmlSerializers.dll
+E:\Bhushan\Production_Code\EF_6_Onward\Government\19-04-2022_Evening\PMGSY\obj\Release\PMGSY.csprojAssemblyReference.cache
+E:\Bhushan\Production_Code\EF_6_Onward\Government\19-04-2022_Evening\PMGSY\obj\Release\PMGSY.csproj.CoreCompileInputs.cache
+E:\Bhushan\Production_Code\EF_6_Onward\Government\19-04-2022_Evening\PMGSY\obj\Release\PMGSY.dll
+E:\Bhushan\Production_Code\EF_6_Onward\Government\19-04-2022_Evening\PMGSY\obj\Release\PMGSY.pdb
+E:\Bhushan\Production_Code\EF_6_Onward\Government\19-04-2022_Evening\PMGSY\obj\Release\PMGSY.XmlSerializers.dll
+E:\Bhushan\Production_Code\EF_6_Onward\Government\19-04-2022_Evening\PMGSY\bin\PMGSY.dll.config
+E:\Bhushan\Production_Code\EF_6_Onward\Government\19-04-2022_Evening\PMGSY\bin\PMGSY.dll
+E:\Bhushan\Production_Code\EF_6_Onward\Government\19-04-2022_Evening\PMGSY\bin\PMGSY.XmlSerializers.dll
+E:\Bhushan\Production_Code\EF_6_Onward\Government\19-04-2022_Evening\PMGSY\bin\PMGSY.pdb
+E:\Bhushan\Production_Code\EF_6_Onward\Government\19-04-2022_Evening\PMGSY\bin\AttributeRouting.dll
+E:\Bhushan\Production_Code\EF_6_Onward\Government\19-04-2022_Evening\PMGSY\bin\AttributeRouting.Web.dll
+E:\Bhushan\Production_Code\EF_6_Onward\Government\19-04-2022_Evening\PMGSY\bin\AttributeRouting.Web.Mvc.dll
+E:\Bhushan\Production_Code\EF_6_Onward\Government\19-04-2022_Evening\PMGSY\bin\EntityFramework.SqlServer.dll
+E:\Bhushan\Production_Code\EF_6_Onward\Government\19-04-2022_Evening\PMGSY\bin\ExifLib.dll
+E:\Bhushan\Production_Code\EF_6_Onward\Government\19-04-2022_Evening\PMGSY\bin\Google.Protobuf.dll
+E:\Bhushan\Production_Code\EF_6_Onward\Government\19-04-2022_Evening\PMGSY\bin\WebActivator.dll
+E:\Bhushan\Production_Code\EF_6_Onward\Government\19-04-2022_Evening\PMGSY\bin\System.Data.SqlServerCe.dll
+E:\Bhushan\Production_Code\EF_6_Onward\Government\19-04-2022_Evening\PMGSY\bin\Microsoft.SqlServer.Types.dll
+E:\Bhushan\Production_Code\EF_6_Onward\Government\19-04-2022_Evening\PMGSY\bin\AttributeRouting.xml
+E:\Bhushan\Production_Code\EF_6_Onward\Government\19-04-2022_Evening\PMGSY\bin\AttributeRouting.Web.xml
+E:\Bhushan\Production_Code\EF_6_Onward\Government\19-04-2022_Evening\PMGSY\bin\AttributeRouting.Web.Mvc.xml
+E:\Bhushan\Production_Code\EF_6_Onward\Government\19-04-2022_Evening\PMGSY\bin\EntityFramework.SqlServer.xml
+E:\Bhushan\Production_Code\EF_6_Onward\Government\19-04-2022_Evening\PMGSY\bin\WebActivator.pdb
+E:\Bhushan\Production_Code\EF_6_Onward\Government\19-04-2022_Evening\PMGSY\obj\Release\PMGSY.csproj.CopyComplete
+C:\Users\brohit\Desktop\PMGSY\bin\PMGSY.dll.config
+C:\Users\brohit\Desktop\PMGSY\bin\PMGSY.dll
+C:\Users\brohit\Desktop\PMGSY\bin\PMGSY.XmlSerializers.dll
+C:\Users\brohit\Desktop\PMGSY\bin\PMGSY.pdb
+C:\Users\brohit\Desktop\PMGSY\bin\AttributeRouting.dll
+C:\Users\brohit\Desktop\PMGSY\bin\AttributeRouting.Web.dll
+C:\Users\brohit\Desktop\PMGSY\bin\AttributeRouting.Web.Mvc.dll
+C:\Users\brohit\Desktop\PMGSY\bin\EntityFramework.SqlServer.dll
+C:\Users\brohit\Desktop\PMGSY\bin\ExifLib.dll
+C:\Users\brohit\Desktop\PMGSY\bin\Google.Protobuf.dll
+C:\Users\brohit\Desktop\PMGSY\bin\Syncfusion.Compression.Base.dll
+C:\Users\brohit\Desktop\PMGSY\bin\Syncfusion.Licensing.dll
+C:\Users\brohit\Desktop\PMGSY\bin\Syncfusion.Pdf.Base.dll
+C:\Users\brohit\Desktop\PMGSY\bin\WebActivator.dll
+C:\Users\brohit\Desktop\PMGSY\bin\System.Data.SqlServerCe.dll
+C:\Users\brohit\Desktop\PMGSY\bin\Microsoft.SqlServer.Types.dll
+C:\Users\brohit\Desktop\PMGSY\bin\AttributeRouting.xml
+C:\Users\brohit\Desktop\PMGSY\bin\AttributeRouting.Web.xml
+C:\Users\brohit\Desktop\PMGSY\bin\AttributeRouting.Web.Mvc.xml
+C:\Users\brohit\Desktop\PMGSY\bin\EntityFramework.SqlServer.xml
+C:\Users\brohit\Desktop\PMGSY\bin\Syncfusion.Compression.Base.xml
+C:\Users\brohit\Desktop\PMGSY\bin\Syncfusion.Licensing.xml
+C:\Users\brohit\Desktop\PMGSY\bin\Syncfusion.Pdf.Base.xml
+C:\Users\brohit\Desktop\PMGSY\bin\WebActivator.pdb
+C:\Users\brohit\Desktop\PMGSY\obj\Release\PMGSY.csproj.AssemblyReference.cache
+C:\Users\brohit\Desktop\PMGSY\obj\Release\PMGSY.csproj.CoreCompileInputs.cache
+C:\Users\brohit\Desktop\PMGSY\obj\Release\PMGSY.csproj.CopyComplete
+C:\Users\brohit\Desktop\PMGSY\obj\Release\PMGSY.dll
+C:\Users\brohit\Desktop\PMGSY\obj\Release\PMGSY.pdb
+C:\Users\brohit\Desktop\PMGSY\obj\Release\PMGSY.XmlSerializers.dll

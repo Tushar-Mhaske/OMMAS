@@ -1,0 +1,211 @@
+﻿@*
+    * Project Id    :
+    * Project Name  :   OMMAS II
+    * Name          :   QMCommencedWorkDetails.cshtml
+    * Description   :   Renders Commenced Works in HTML Format
+    * Author        :   Shyam Yadav
+    * Creation Date :   25/July/2014
+*@
+
+@model PMGSY.Models.QualityMonitoring.QMCommencedWorkModel
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html>
+<head>
+    <script src="~/Scripts/QualityMonitoring/QMCommencedWorkDetails.js"></script>
+</head>
+<body>
+    <div class="ui-state-default" style="text-align:center;font-weight:bold;padding:10px;">
+       Commenced Work Yet Incomplete as on @DateTime.Now.ToString("dd-MMM-yyyy")
+    </div>
+    <div id="divCommencedWorksTbl" class="dataTable" style="width:100%;">
+        <table class="head">
+           <tr>
+               <th style="width:30px;"> Sr. No.</th>
+               <th style="width:80px;"> State </th>
+               <th style="width:100px;"></th>
+               <th style="width:50px;"> < 1 Month </th>
+               <th style="width:50px;"> 1-3 Month </th>
+               <th style="width:50px;"> 3-6 Month </th>
+               <th style="width:50px;"> 6-9 Month </th>
+               <th style="width:50px;"> 9-12 Month </th>
+               <th style="width:50px;"> > 12 Month </th>
+               <th style="width:10px;"></th>
+        </tr>
+      </table>
+        <div class="innerTable" style="height: 640px;">
+         <table style="width:99.5%;">
+            @{
+                var srNo = 1;
+             }
+
+            @if (Model.ERROR != null)
+            {
+                 <tr>
+                    <td colspan="9" style="color:#FF0000;">
+                        @Model.ERROR
+                    </td>
+                </tr>
+            }
+            else if (Model.WORK_LIST != null && Model.WORK_LIST.Count > 0)
+            {
+                foreach (var item in Model.WORK_LIST)
+                {
+                        <tr>
+                            <td style="width:30px;text-align:center;">@srNo</td>
+                            <td style="width:80px;">@item.MAST_STATE_NAME</td>
+                            <td style="width:433px;border-bottom:none;">
+                                <table>
+                                    <tr style="background-color:#fbf0d4;">
+                                        <td style="width:100px;">Commence Work</td>
+
+                                        @if(item.COM1 > 0)
+                                        {
+                                            <td style="width:50px;text-align:right;">
+                                                <a href="#" title="click to see details" style="text-decoration:none;color:#003e74;" onclick="showCommencementDetails(@item.MAST_STATE_CODE, 1)" >@item.COM1</a>
+                                            </td>
+                                        }
+                                        else
+                                        {
+                                            <td style="width:50px;text-align:right;">@item.COM1</td>
+                                        }
+                                        @if (item.COM2 > 0)
+                                        {
+                                            <td style="width:50px;text-align:right;">
+                                                <a href="#" title="click to see details" style="text-decoration:none;color:#003e74;" onclick="showCommencementDetails(@item.MAST_STATE_CODE, 2)" >@item.COM2</a>
+                                            </td>
+                                        }
+                                        else
+                                        {
+                                            <td style="width:50px;text-align:right;">@item.COM2</td>
+                                        }
+                                        @if (item.COM3 > 0)
+                                        {
+                                            <td style="width:50px;text-align:right;">
+                                                <a href="#" title="click to see details" style="text-decoration:none;color:#003e74;" onclick="showCommencementDetails(@item.MAST_STATE_CODE, 3)" >@item.COM3</a>
+                                            </td>
+                                        }
+                                        else
+                                        {
+                                            <td style="width:50px;text-align:right;">@item.COM3</td>
+                                        }
+                                        @if (item.COM4 > 0)
+                                        {
+                                            <td style="width:50px;text-align:right;">
+                                                <a href="#" title="click to see details" style="text-decoration:none;color:#003e74;" onclick="showCommencementDetails(@item.MAST_STATE_CODE, 4)" >@item.COM4</a>
+                                            </td>
+                                        }
+                                        else
+                                        {
+                                            <td style="width:50px;text-align:right;">@item.COM4</td>
+                                        }
+                                        @if (item.COM5 > 0)
+                                        {
+                                            <td style="width:50px;text-align:right;">
+                                                <a href="#" title="click to see details" style="text-decoration:none;color:#003e74;" onclick="showCommencementDetails(@item.MAST_STATE_CODE, 5)" >@item.COM5</a>
+                                            </td>
+                                        }
+                                        else
+                                        {
+                                            <td style="width:50px;text-align:right;">@item.COM5</td>
+                                        }
+                                        @if (item.COM6 > 0)
+                                        {
+                                            <td style="width:50px;text-align:right;">
+                                                <a href="#" title="click to see details" style="text-decoration:none;color:#003e74;" onclick="showCommencementDetails(@item.MAST_STATE_CODE, 6)" >@item.COM6</a>
+                                            </td>
+                                        }
+                                        else
+                                        {
+                                            <td style="width:50px;text-align:right;">@item.COM6</td>
+                                        }
+                                    </tr>
+                                    <tr>
+                                        <td style="width:100px;">SQM Inspection</td>
+                                        @if(item.SQM1 > 0)
+                                        {
+                                            <td style="width:50px;text-align:right;">
+                                                <a href="#" title="click to see details" style="text-decoration:none;color:#003e74;" onclick="showInspDetails(@item.MAST_STATE_CODE, 1, 'S')" >@item.SQM1</a>
+                                            </td>
+                                        }
+                                        else
+                                        {
+                                            <td style="width:50px;text-align:right;">@item.SQM1</td>
+                                        }
+                                        @if(item.SQM2 > 0)
+                                        {
+                                            <td style="width:50px;text-align:right;">
+                                                <a href="#" title="click to see details" style="text-decoration:none;color:#003e74;" onclick="showInspDetails(@item.MAST_STATE_CODE, 2, 'S')" >@item.SQM2</a>
+                                            </td>
+                                        }
+                                        else
+                                        {
+                                            <td style="width:50px;text-align:right;">@item.SQM2</td>
+                                        }
+                                        @if(item.SQM3 > 0)
+                                        {
+                                            <td style="width:50px;text-align:right;">
+                                                <a href="#" title="click to see details" style="text-decoration:none;color:#003e74;" onclick="showInspDetails(@item.MAST_STATE_CODE, 3, 'S')" >@item.SQM3</a>
+                                            </td>
+                                        }
+                                        else
+                                        {
+                                            <td style="width:50px;text-align:right;">@item.SQM3</td>
+                                        }
+                                        @if(item.SQM4 > 0)
+                                        {
+                                            <td style="width:50px;text-align:right;">
+                                                <a href="#" title="click to see details" style="text-decoration:none;color:#003e74;" onclick="showInspDetails(@item.MAST_STATE_CODE, 4, 'S')" >@item.SQM4</a>
+                                            </td>
+                                        }
+                                        else
+                                        {
+                                            <td style="width:50px;text-align:right;">@item.SQM4</td>
+                                        }
+                                        @if(item.SQM5 > 0)
+                                        {
+                                            <td style="width:50px;text-align:right;">
+                                                <a href="#" title="click to see details" style="text-decoration:none;color:#003e74;" onclick="showInspDetails(@item.MAST_STATE_CODE, 5, 'S')" >@item.SQM5</a>
+                                            </td>
+                                        }
+                                        else
+                                        {
+                                            <td style="width:50px;text-align:right;">@item.SQM5</td>
+                                        }
+                                        @if(item.SQM6 > 0)
+                                        {
+                                            <td style="width:50px;text-align:right;">
+                                                <a href="#" title="click to see details" style="text-decoration:none;color:#003e74;" onclick="showInspDetails(@item.MAST_STATE_CODE, 6, 'S')" >@item.SQM6</a>
+                                            </td>
+                                        }
+                                        else
+                                        {
+                                            <td style="width:50px;text-align:right;">@item.SQM6</td>
+                                        }
+                                    </tr>
+                                </table>
+                            </td>
+                        </tr>
+                        srNo++;
+                }
+            }
+            else
+            {
+                <tr>
+                    <td colspan="9">
+                        No records found
+                    </td>
+                </tr>
+            }
+        </table>
+        </div>
+    </div>
+
+<div id="divCommencedInspDetailsHeader" class="ui-corner-top" style="margin-top:5px;height:20px;width:100%;display:none;border:1px solid #CCC;">
+    <span id="lblCommencedInspDetailsHeader" style="float:left;padding:2px 5px;font-weight:bold;"></span>
+    <img  style="float:right;border:none;border-width:0;margin-top:2px;margin-right:2px;cursor:pointer;" title="Close" class="ui-icon ui-icon-closethick" onclick="CloseCommencedInspDetails();" />
+</div>
+<div id="divCommencedInspDetails" style="display:none;width:100%;"></div>
+
+</body>
+</html>

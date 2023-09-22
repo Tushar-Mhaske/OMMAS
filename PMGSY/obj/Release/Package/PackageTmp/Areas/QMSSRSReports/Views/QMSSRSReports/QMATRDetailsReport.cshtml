@@ -1,0 +1,43 @@
+﻿@using MvcReportViewer
+
+@model PMGSY.Areas.QMSSRSReports.Models.QualityReportsViewModel
+
+@if (Model.ValueType=="N")
+{
+    @Html.MvcReportViewer("/PMGSYCitizen/QM_ATR_NQM",
+     new
+     {
+         //level = Model.Level,
+        // state = Model.State,
+         fromyear = Model.FromYear,
+         frommonth = Model.FromMonth,
+         toyear = Model.ToYear,
+         tomonth = Model.ToMonth,
+        // statename = Model.StateName,
+     },
+       new { Height = 600, Width = "100%", style = "border:none;" })
+}
+else
+{
+    @Html.MvcReportViewer("/PMGSYCitizen/QMActionTakenReport",
+     new
+     {
+         level = Model.Level,
+         state = Model.State,
+         fromyear = Model.FromYear,
+         frommonth = Model.FromMonth,
+         toyear = Model.ToYear,
+         tomonth = Model.ToMonth,
+         statename = Model.StateName,
+     },
+       new { Height = 600, Width = "100%", style = "border:none;" })
+}
+
+
+
+
+
+
+
+
+

@@ -1,0 +1,82 @@
+﻿
+@model PMGSY.Models.QualityMonitoring.ProficiencyTestScoreModel
+
+@{
+    ViewBag.Title = "GetMonitorFilter";
+}
+<script src="~/Scripts/custom/Generic.js"></script>
+<script src="~/Scripts/jquery-ui.js"></script>
+<script src="~/Scripts/jquery.validate.min.js"></script>
+<script src="~/Scripts/jquery.validate.unobtrusive.min.js"></script>
+<script src="~/Scripts/QualityMonitoring/GetMonitorFilter.js"></script>
+
+@*
+    <style>
+        .html {
+            font-family: Helvetica,Arial,sans-serif;
+            font-size: 1em;
+        }
+    </style>*@
+
+<body>
+    @*    @Html.AntiForgeryToken()
+        <center>@Html.ValidationSummary(true)</center>*@
+    <div id="pageDiv" style="width:98%">
+        <center>
+
+
+            <form id="MonitorsDeatilsFormId">
+                <div id="allDiv">
+                    <div id="headingDiv" class="ui-corner-top ui-widget-header panelheader" style="text-align: center; margin-top: 20px; height: 20px; width: 100%">
+                        <span class="ui-jqgrid-title" id="operationId" style="float: left">&nbsp;&nbsp;Monitors Deatils</span>
+                        @*<span id="clooseIconId" class="ui-icon ui-icon-circle-close" style="float: right"></span>*@
+                    </div>
+
+                    <table class="rowstyle" style="width: 100%; margin-top: 0px; border: 1px solid grey; border-radius:0.5rem; padding: 0.5%">
+                        <tbody>
+                            <tr>
+                                <td style="padding: 0.5rem; width: 20%; text-align:center">@Html.LabelFor(model => model.NQM_SQM) <span style="color:red">*</span></td>
+
+                                <td style="width: 20%; text-align:center">
+                                    @Html.DropDownListFor(model => model.NQM_SQM, new SelectList(Model.NQM_SQM_LIST, "Value", "Text"), new { @id = "nqmSqmDropdownListId" })
+                                    @Html.ValidationMessageFor(model => model.NQM_SQM)
+                                </td>
+
+                                <td style="width: 20%; text-align: center">
+                                    <span style="display:none" class="stateRow">
+                                        @Html.Label("State Name") <span style="color:red">*</span>
+                                    </span>
+                                </td>
+
+                                <td style=" width: 20%; text-align: center">
+                                    <span style="display:none;" class="stateRow">
+                                        @Html.DropDownListFor(model => model.STATE_CODE, new SelectList(Model.STATE_LIST, "Value", "Text"), new { @id = "stateListId" })
+                                        @Html.ValidationMessageFor(model => model.STATE_CODE)
+                                    </span>
+                                </td>
+
+                                <td style="width: 20%; text-align: center"> <button id="btnlistMonitorNamesId" type="button" @*class="jqueryButton"*@><span @*style="font-size:1.2em"*@>List Details</span></button></td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </form>
+        </center>
+        <div style="height:10px"></div>
+        <!--New Grid To Show Monitor Exam Details-->
+        <div id="divMonitorExamDetails" style="display: none;">
+            <table id="tblMonitorExamDetailsList"></table>
+            <div id="divPagerNav"></div>
+        </div>
+
+        <button type="button" id="generateMonitorId" @*class="jqueryButton"*@ style="display:none">Get Monitors List</button>
+
+    </div>
+
+    <div style="padding-top:20px; float:right">
+        <button id="backToMonitorListId" type="button" style="display:none" @*class="jqueryButton"*@>Back To Monitors List</button>
+    </div>
+
+    <div id="monitorReportId"> </div>
+
+</body>

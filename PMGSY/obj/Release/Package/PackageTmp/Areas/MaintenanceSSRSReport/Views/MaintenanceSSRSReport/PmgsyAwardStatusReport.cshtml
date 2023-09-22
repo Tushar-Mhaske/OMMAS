@@ -1,0 +1,30 @@
+﻿@using MvcReportViewer
+
+@model PMGSY.Areas.MaintenanceSSRSReport.Models.AwardStatus
+
+@Html.MvcReportViewer("/PMGSYCitizen/AwardStatus",
+     new
+     {
+        // Level = Model.Level,
+         State = 0,//Model.StateCode,
+         District = 0,//Model.DistrictCode,
+         Block = 0,//Model.BlockCode,
+         Month = System.DateTime.Now.Month,
+         Year = System.DateTime.Now.Year,//Model.Year,
+         Collaboration = 0,//Model.CollabCode,
+         PMGSY = Model.schemeCode,
+         AGENCY = 0,//Model.Agency,
+         AwardStatus=0,
+         
+         
+         
+         //StateName = Model.StateName,
+         //DistrictName = Model.DistrictName,
+         //BlockName = Model.BlockName,
+         //MonthName = Model.MonthName,
+         //CollabName = Model.CollabName,
+         //YearName = Model.YearName,
+         //AgencyName = Model.AgencyName
+
+     },
+       new { Height = 550, Width = "100%", style = "border:none;" })

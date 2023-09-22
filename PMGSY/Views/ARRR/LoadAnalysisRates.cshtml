@@ -1,0 +1,64 @@
+﻿@model PMGSY.Models.ARRR.AnalysisRatesViewModel
+
+<script src="~/Scripts/custom/Generic.js"></script>
+<script src="~/Scripts/ARRR/LoadAnalysisRates.js"></script>
+
+
+<form id="frmLoadAnalysisRates">
+    <div id="dvAnalysisRatesFilter" style="width: 100%; border: none; margin-bottom: 10px;">
+        @*<div id="dvhdAnalysisRatesFilter" class="ui-corner-top ui-widget-header panelheader" style="text-align: left; height: 20px;">
+            Analysis of Rates <span style="float: right; margin-right: 2Px; margin-top: 2px" id="spnFilterDiv" class="ui-icon ui-icon-circle-triangle-n"></span>
+        </div>
+        <table class="rowstyle" style="width: 100%; margin-bottom: 5px; border: 1px solid #B5B8C8;">
+            <tr>
+                <td style="width: 10%"></td>
+                <td style="width: 5%;">
+                    <label>Year</label><label style="color: red;"> *</label>
+                </td>
+                <td colspan="6">
+                    @Html.DropDownListFor(model => model.Year, new SelectList(Model.YearList, "Value", "Text"), new { @title = "Year", @id = "ddlYear", @style = "width:150px;", @tabindex = 1 })
+                    <br />
+                    @Html.ValidationMessageFor(m => m.Year)
+                </td>
+            </tr>
+            <tr id="trbtn" style="display: none; text-align: center;">
+                <td colspan="8">
+                    <input type="button" id="btnCopy" title="Copy Data" value="Copy Data for Previous Year" class="jqueryButton" />
+                </td>
+            </tr>
+            <tr id="trYear" style="display: none;">
+                <td style="width: 10%"></td>
+                <td style="width: 10%;">
+                    <label>Analysis Year</label><label style="color: red;"> *</label></td>
+                <td colspan="6">
+                    @Html.DropDownListFor(model => model.copyYear, new SelectList(Model.copyYearList, "Value", "Text"), new { @title = "Year", @id = "ddlAnalysisYear", @style = "width:150px;", @tabindex = 1, })
+                    <br />
+                    @Html.ValidationMessageFor(m => m.copyYear)
+                </td>
+            </tr>
+            <tr>
+                <td colspan="8" style="text-align:center;">
+                    <input type="reset" id="btnResetYear" title="Reset" value="Reset" class="jqueryButton" />
+                </td>
+            </tr>
+        </table>*@
+    </div>
+    <div id="dvLoadAnalysisRates" style="width: 100%; border: none; margin-bottom: 10px;">
+    </div>
+
+    <input type="button" id="btnAdd" title="Add" value="Add" class="jqueryButton" />
+
+    <div id="dvLoadAnalysisRatesList" style="margin-top: 10px;">
+        <table id="tblLoadAnalysisRatesList">
+        </table>
+        <div id="dvLoadAnalysisRatespager">
+        </div>
+    </div>
+
+    <div id="dvLoadAnalysisRatesYearList" style="margin-top: 10px;">
+        <table id="tblLoadAnalysisRatesYearList">
+        </table>
+        <div id="dvLoadAnalysisRatesYearpager">
+        </div>
+    </div>
+</form>

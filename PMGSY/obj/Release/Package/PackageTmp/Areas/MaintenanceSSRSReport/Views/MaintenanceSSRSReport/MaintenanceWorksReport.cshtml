@@ -1,0 +1,20 @@
+﻿@using MvcReportViewer
+
+@model PMGSY.Areas.MaintenanceSSRSReport.Models.MaintenanceExpenditureModel
+
+
+@Html.MvcReportViewer("/PMGSYCitizen/MaintenanceStateAbstract",
+     new
+     {   
+         LEVEL = 1,
+         CYEAR=Model.PhaseYear,
+         STATE = Model.Mast_State_Code,
+         DISTRICT = Model.Mast_District_Code,
+         BLOCK = Model.Mast_Block_Code,         
+         SCHEME = Model.schemeCode
+        
+         //StateName = Model.StateName,
+         //DistrictName = Model.DistName,
+         //BlockName = Model.BlockName
+     },
+     new { Height = 600, Width = "100%", style = "border:none;" })

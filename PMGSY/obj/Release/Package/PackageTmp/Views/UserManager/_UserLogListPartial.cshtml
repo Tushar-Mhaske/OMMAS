@@ -1,0 +1,63 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <script src="~/Scripts/custom/Generic.js"></script>
+    <script src="~/Scripts/UserManager/UserManager.js"></script>
+</head>
+<body>
+
+    <center>
+      <div style="text-align:left;margin-left:5px;margin-bottom:5px;">
+          <table  style="width: 100%;">
+        <tr>
+            <td style="width: 5%;"></td>
+             <td style="text-align: left; width: 5%;">
+                @Html.Label("Role")
+            </td>
+            <td style="width: 20%;">
+                @Html.DropDownList("ddRole_UserLogDetails", ViewData["ROLE"] as IEnumerable<SelectListItem>, new { @title = "Role", @tabindex = 1 })
+            </td>
+              <td style="text-align: left; width: 5%;">
+                @Html.Label("State")
+            </td>
+            <td style="width: 20%;">
+                @Html.DropDownList("ddState_UserLogDetails", ViewData["STATE"] as IEnumerable<SelectListItem>, new { @title = "State", @tabindex = 2 })
+            </td>
+                <td style="text-align: left; width: 5%;">
+                @Html.Label("User")
+            </td>
+            <td style="width: 20%;">
+                @Html.DropDownList("ddUser_UserLogDetails", ViewData["USER"] as IEnumerable<SelectListItem>, new { @title = "User", @tabindex = 3 })
+            </td>
+            </tr>
+            <tr>
+            <td style="width: 5%;"></td>        
+            <td style="text-align: left; width: 5%;">
+                @Html.Label("Year")
+            </td>
+            <td style="width: 20%;">
+                @Html.DropDownList("ddYear_UserLogDetails", ViewData["YEAR"] as IEnumerable<SelectListItem>, new { @title = "Year", @tabindex = 4 })
+            </td>
+            <td style="text-align: left; width: 5%;">
+                @Html.Label("Month")
+            </td>
+            <td style="width: 20%;">
+                @Html.DropDownList("ddMonth_UserLogDetails", ViewData["MONTH"] as IEnumerable<SelectListItem>, new { @title = "Month", @tabindex = 5 })
+            </td>
+            <td >
+                <input type="button" value="View" title="View Details" class="jqueryButton" id="btnViewLogDetails" tabindex="6"/>
+            </td>
+             <td></td>
+        </tr>
+       
+
+    </table>
+        
+    </div>
+    <table id="tblLogList" class="scroll">
+    </table>
+    <div id="divLogListPager"></div>    
+  
+</center>
+</body>
+</html>

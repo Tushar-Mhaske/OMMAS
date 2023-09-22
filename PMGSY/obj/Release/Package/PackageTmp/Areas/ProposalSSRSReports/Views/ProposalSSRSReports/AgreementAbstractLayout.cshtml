@@ -1,0 +1,64 @@
+﻿@model PMGSY.Areas.ProposalSSRSReports.Models.AgreementAbstractViewModel
+
+@if (Layout == null)
+{
+    Layout = Request.IsAjaxRequest() ? null : "~/Areas/AccountReports/Views/Account/_Layout.cshtml";
+}
+
+<script src="@Url.Content("~/Scripts/custom/Generic.js")" type="text/javascript" ></script>
+<script src="~/Areas/ProposalSSRSReports/Scripts/AgreementAbstractLayout.js"></script>
+
+@*@{
+    PMGSY.Common.FetchCookieData fetchCookie = new PMGSY.Common.FetchCookieData();
+    System.Globalization.CultureInfo CultureInfo = null;
+    CultureInfo = new System.Globalization.CultureInfo(fetchCookie.Language.ToString());
+}*@
+
+<div id="dvhdAgreementAbstract" class="ui-corner-top ui-widget-header panelheader" style="text-align: left; height: 20px;">@*margin-left:0px;margin-right:0px;margin-top:0px; *@
+    <span class="ui-jqgrid-title" style="float: left">&nbsp;Agreement Abstract</span>
+
+    <span id="spCollapseIconCN" class="ui-icon ui-icon-circle-triangle-n" style="float: right"></span>
+</div>
+<div id="dvAgreementAbstract" class="ui-corner-bottom" style="display: block; border: 1px solid #B5B8C8;">
+    <form id="frmAgreementAbstract">
+        @Html.ValidationSummary(true)
+
+        <table style="width: 100%;" class="rowstyle">
+            <tr>
+                <td style="width: 5%;"></td>
+                <td style="width: 10%;">
+                    @Html.Label("Month")
+                </td>
+                <td style="width: 25%;">
+                    @Html.DropDownListFor(model => model.Month, new SelectList(Model.lstMonth, "Value", "Text"), new { @id = "ddlMonth", style = "width:170px;", title = "Month" })
+                    <br />
+                    @Html.ValidationMessageFor(m => m.Month)
+                </td>
+                <td style="width: 10%;">
+                    @*@Html.LabelFor(model => model.StateCode)*@
+                    @Html.Label("Year")
+                </td>
+                <td style="width: 25%;">
+                    @Html.DropDownListFor(model => model.Year, new SelectList(Model.lstYear, "Value", "Text"), new { @id = "ddlAgency", style = "width:170px;", title = "Year" })
+                    <br />
+                    @Html.ValidationMessageFor(m => m.Year)
+                </td>
+
+                <td style="width: 10%;">
+                    @Html.Label("Pmgsy Scheme")
+                </td>
+                <td style="width: 25%;">
+                    @Html.DropDownListFor(model => model.pmgsyScheme, new SelectList(Model.lstPmgsyScheme, "Value", "Text"), new { @id = "ddlPmgsyScheme", style = "width:170px;" })
+                    <br />
+                    @Html.ValidationMessageFor(m => m.pmgsyScheme)
+                </td>
+                <td style="text-align: left;" style="width: 5%;">
+                    <input type="button" id="btnView" value="View" class="jqueryButton" />
+                </td>
+                <td style="width: 5%;"></td>
+            </tr>
+        </table>
+    </form>
+</div>
+
+<div id="divLoadReport"></div>

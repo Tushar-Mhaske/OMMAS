@@ -1,0 +1,67 @@
+﻿@model PMGSY.Models.Menu.UserRoleMapping
+<!DOCTYPE html>
+
+<html>
+<head>
+    <script src="~/Scripts/UserManager/MenuRightsMapping.js"></script>
+</head>
+<body>
+    
+ 
+
+<form id="frmMenuRightsMapping">
+    @Html.HiddenFor(model => model.UserID)
+    <table id="Table1"  cellspacing="0" cellpadding="2" class="rowstyle" style="margin-top:10px; text-align:left; border:ridge 0.1em #ccc; width:100%; padding:5px 5px 5px 5px;">
+        <tr>
+            <td colspan="2" align="left" valign="top">
+                <center>
+                    <div>
+                        <table id="tblMenuRightsMapping" width="100%" class="class-table-content1">
+                            <tr>
+                                <td style="width: 10%">
+                                   <b>Role :</b>
+                                    <span style="color:red">*</span>
+                                </td>
+                                <td align="left" style="width:90%">
+                                    @Html.DropDownList("RoleList", new SelectList(ViewBag.RoleList,  "Value", "Text" ), new { @class = "dropdown", style = "width:150px" })
+                                </td>
+                            </tr>
+                        </table>
+                    </div>
+               </center>
+            </td>
+        </tr>
+        <tr>
+            <td colspan="2" valign="top" align="center">
+                   <center>
+                        <div id="divMenuItems" style="overflow: auto">
+                        <table style="width:100%;">
+                            <tr>
+                                <td style="width: 33%" valign="top">
+                                    <table id="tblParent" class="scroll">
+                                    </table>
+                                    <div id="divMenuRightsGrid" class="scroll">
+                                    </div>
+                                </td>
+                            </tr>
+                        </table>
+                        </div>
+                  </center>
+             </td>
+            @*<td style="width:40%" valign="top">
+                <div id="divUserProfile" style="display:none;height:100%;">
+                <h3><a href="#">User Profile</a></h3>
+                    <div id="tblUserProfile" style="height:100%;">
+                        Select user name to view profile
+                    </div>
+                </div>
+          </td>*@
+      </tr>
+ </table>
+
+
+
+</form>
+
+</body>
+</html>

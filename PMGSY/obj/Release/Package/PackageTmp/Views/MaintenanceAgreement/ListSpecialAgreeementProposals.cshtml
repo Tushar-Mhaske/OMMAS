@@ -1,0 +1,74 @@
+﻿@*----------------------------------------------------------------------------------------
+
+ * Project Id:
+
+ * Project Name:OMMAS2
+
+ * File Name: ListSpecialAgreementProposals.cshtml
+
+ * Author : Vikram Nandanwar
+
+ * Creation Date :13/Jan/2015
+
+ * Desc : This is main view to disaply completed road as per search paramenters.
+ * ---------------------------------------------------------------------------------------*@
+
+@{
+    ViewBag.Title = "ListSpecialAgreementProposals";
+}
+
+<script src="@Url.Content("~/Scripts/custom/Generic.js")" type="text/javascript" ></script>
+<script type="text/javascript" src="@Url.Content("~/Scripts/jquery.ui.accordion.js")"> </script>
+<script type="text/javascript" src="@Url.Content("~/Scripts/MaintenanceAgreement/ListSpecialAgreementProposals.js")"> </script>
+
+<center>
+
+ <div id="dvAgreement" style="width:98%; margin-top:10px;">
+<div id="dvSearchProposedRoad">
+<div style="height:20px;border:none; margin-top:5px; margin-bottom:-15px; " class="ui-state-default">
+    <span style="float:right;margin-right:2Px; margin-top:2px" id="spCollapseIconS" class="ui-icon ui-icon-circle-triangle-n"></span>     
+</div>
+<div id="dvSearchParameter" class="ui-state-default" style=" border:none; ">
+   <form id="frmSearchProposedRoad">
+
+         <table style="width:100%;">
+            <tr>
+                <td style="width:8%;">@Html.Label("Block")</td>
+                <td style="width:15%;" >@Html.DropDownList("ddlBlocks", ViewData["BlockList"] as IEnumerable<SelectListItem>, new { @id = "ddlBlocks", @title = "Block", @tabindex = 1 })</td>
+                <td style="text-align:left;width:10%;"  >@Html.Label("Financial Year")</td>
+                <td style="width:15%;">@Html.DropDownList("ddlFinancialYears", ViewData["FinancialYearList"] as IEnumerable<SelectListItem>, new { @id = "ddlFinancialYears", @title = "Financial Year", @tabindex = 2 })</td>
+                <td style="text-align:left;width:8%;" >@Html.Label("Package")</td>
+                <td style="width:15%;">@Html.DropDownList("ddlPackages", ViewData["PackageList"] as IEnumerable<SelectListItem>, new { @id = "ddlPackages", @title = "Package", @tabindex = 3 })</td>
+                <td style="text-align:left;width:8%;" >@Html.Label("Batch")</td>
+                <td style="width:15%;">@Html.DropDownList("ddlBatchs", ViewData["BatchList"] as IEnumerable<SelectListItem>, new { @id = "ddlBatchs", @title = "Batch", @tabindex = 4 })</td>
+            </tr>
+            <tr>
+                <td style="text-align:left;width:8%;" >@Html.Label("Funding Agency")</td>
+                <td style="width:15%;">@Html.DropDownList("ddlCollaborations", ViewData["CollaborationList"] as IEnumerable<SelectListItem>, new { @id = "ddlCollaborations", @title = "Collaboration", @tabindex = 5 })</td>
+                <td style="text-align:left;width:8%;" >@Html.Label("New / Upgradation")</td>
+                <td style="width:15%;">@Html.DropDownList("ddlUpgradations", ViewData["UpgradationList"] as IEnumerable<SelectListItem>, new { @id = "ddlUpgradations", @title = "New / Upgradation", @tabindex = 6 })</td>
+                <td style="text-align:left"><input type="button" id="btnSearch" name="btnSearch" value="View" class= "jqueryButton" title="Search Proposed Roads " tabindex="7"  /> </td>
+            </tr>
+         </table>
+   </form>
+</div>
+</div>
+<div id="dvProposedRoadList" style="width:100%; margin-top:25px;">
+    <table id="tbProposedRoadList"></table>
+    <div id="dvProposedRoadListPager"></div>
+</div>
+<div id="accordion" style="display:none;margin-top:20px;">            
+    <h3 style="text-align:left"><a id="" href="#" style=" font-size:.9em;" >Add Special Maintenance Agreement Details</a>
+        <a href="#"  style="float: right;">
+            <img style="border:none" alt="Close" class="ui-icon ui-icon-closethick" id="imgCloseAgreementDetails" /></a>
+    </h3>
+    <div id="dvAddMaintenanceAgreementAgainstRoad" style="display:none"></div>      
+</div>
+
+</div>
+</center>
+
+@section Scripts {
+    @Scripts.Render("~/bundles/jqueryval")
+
+}

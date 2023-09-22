@@ -1,0 +1,332 @@
+﻿@model PMGSY.Models.AccountReports.CheckBookDetailsViewFilterModel
+@using PMGSY.Models
+@using PMGSY.Common
+<style type="text/css">
+    div.CBHeader {
+        padding: 5px;
+        width: 98%;
+        display: inline-block;
+        cursor: default;
+        /*font:12px/14px Arial, Helvetica, sans-serif;*/
+        font-family: Trebuchet MS,Tahoma,Verdana,Arial,sans-serif;
+        color: #000;
+        background-color: #eee;
+        -moz-border-radius: 10px;
+        -webkit-border-radius: 10px;
+        -moz-box-shadow: #999 2px 0px 3px;
+        -webkit-box-shadow: #999 2px 0px 3px;
+    }
+</style>
+
+<link href="~/Content/demo_page.css" rel="stylesheet" />
+<link href="~/Content/demo_table_jui.css" rel="stylesheet" />
+<link href="~/Content/TableTools.css" rel="stylesheet" />
+<link href="~/Content/TableTools_JUI.css" rel="stylesheet" />
+<script src="~/Scripts/DataTables/jquery.dataTables.js"></script>
+<script src="~/Scripts/DataTables/ZeroClipboard.js"></script>
+<script src="~/Scripts/DataTables/TableTools.js"></script>
+<script src="~/Scripts/AccountsReports/ChequebookDetails/ShowChequebookDetails.js"></script>
+<script src="~/Scripts/AccountsReports/ChequebookDetails/ShowChequebookAbstractDetails.js"></script>
+<script src="~/Scripts/AccountsReports/ChequebookDetails/ShowChequebookOutstandingDetails.js"></script>
+  @{
+    CommonFunctions objCommonFunction = new CommonFunctions();
+   }
+<div class="CBHeader ui-corner-all">
+    <table class="ui-state-default ui-corner-all" style="border: 0.1em solid gray; width: 100%; margin-top: 1px" id="tblViewDetails">
+        
+        
+        <tr>
+            <td colspan="6" style="color: green;text-align:right">@Html.DisplayFor(model=>model.ReportFormNumber)</td>
+        </tr>
+        <tr>
+            <td colspan="6" style="color: green;text-align:center">@Html.DisplayFor(model=>model.FundTypeName)</td>
+        </tr>
+        <tr>
+            <td colspan="6" style="color: green;text-align:center">@Html.DisplayFor(model=>model.ReportName)</td>
+        </tr>
+        <tr>
+            <td colspan="6" style="color: green;text-align:center">@Html.DisplayFor(model=>model.ReportParagraphName)</td>
+        </tr>
+        <tr>
+            <td colspan="6"><br /></td>
+        </tr>
+        
+        <tr>
+            <td style="color: green; width: 15%">@Html.LabelFor(m => m.NodalAgencyName):</td>
+            <td style="width: 20%">@Html.DisplayFor(m => m.NodalAgencyName)</td>
+
+            <td style="color: green; width: 15%">@Html.LabelFor(m => m.PIUName, new { @id = "lblNameForAgency_PIU" }):</td>
+            <td style="width: 20%">@Html.DisplayFor(m => m.PIUName)</td>
+
+            <td style="width: 15%; color: green">@Html.LabelFor(m => m.StateName):</td>
+            <td style="width: 20%">@Html.DisplayFor(m => m.StateName)</td>
+        </tr>
+
+        <tr>
+            <td style="color: green; width: 0%">@Html.LabelFor(m => m.BankName):</td>
+            <td style="width: 0%">
+                @if (Model.BankName == null)
+                { 
+                    @Html.Label("-")
+                }
+                else
+                {
+                    @Html.DisplayFor(m => m.BankName)
+                }
+            </td>
+            <td style="color: green; width: 0%;">@Html.LabelFor(m => m.MonthlyOrChequebookWiseSelection):</td>
+            <td style="width: 0%;">@Html.DisplayFor(m => m.MonthlyOrChequebookWiseSelection)</td>
+
+            <td class="tdMonthYearName" style="color: green; width: 0%">@Html.LabelFor(m => m.MonthName)-@Html.LabelFor(m => m.YearName)</td>
+            <td class="tdMonthYearName" style="width: 0%">@Html.DisplayFor(m => m.MonthName)-@Html.DisplayFor(m => m.YearName)</td>
+
+            <td class="tdChequebookSeriesNo" style="color: green; width: 0%; display: none">@Html.LabelFor(m => m.CheckbookSeriesName):</td>
+            <td class="tdChequebookSeriesNo" style="width: 0%; display: none">@Html.DisplayFor(m => m.CheckbookSeriesName)</td>
+        </tr>
+    </table>
+</div>
+
+<br /><br />
+
+
+<div id="dvhdrChequeBookDetails" class="ui-state-default ui-corner-all" style="margin-bottom: 05px; height: 20px">Cheque Book Details<span style="float: right; margin-right: 2Px; margin-top: 2px" id="spnChequeBookDetails" class="ui-icon ui-icon-circle-triangle-n"></span>  </div>
+@Html.HiddenFor(model => model.totalRecords)
+@*@Html.Hidden("chqIssueAbstractCount",Model.lstChequeIssuedAbstract.Count)
+@Html.Hidden("chqOutstatndingCount",Model.lstChequeIssuedAbstract.Count)*@
+@*new change done by Vikram on 1-10-2013*@
+@if(Model.CheckbookMonthYearWise == "M")
+{
+@Html.Hidden("chqIssueAbstractCount",Model.lstChequeIssuedAbstract.Count)
+@Html.Hidden("chqOutstatndingCount",Model.lstChequeIssuedAbstract.Count)
+}
+@*end of change*@
+<table id="tblCheckbookDetails">
+    @{ 
+        <thead>
+            <tr>
+                 <th>Sr. No.</th>
+                
+                <th>Voucher No.</th>
+                <th>Cheque/ePay No.</th>
+                <th>Cheque/ePay Issue Date</th>
+                <th>Payee Name</th>
+                <th>Amount (in Rs.)</th>
+                <th>Cheque/ePay Status</th>
+                <th>Date Of Encashment By Bank</th>
+            </tr>
+        </thead>
+            
+        <tbody>
+            @{
+                decimal totalAmountChequeIssueDetails = 0;
+             }
+
+            @if (Model.lstCheckbookDetails.Count > 0)
+            {
+                foreach (SP_ACC_RPT_PIU_CHEQUE_ISSUED_DETAILS_Result item in Model.lstCheckbookDetails)
+                {                    
+                <tr>
+                    <td></td>
+                    <td>@item.Voucher_no</td>
+                    <td>@item.Cheque_no</td>
+                    <td>@item.Cheque_issue_date</td>
+                    <td>@item.Payee_Name</td>
+                    @*<td style="text-align: right">@item.Amount</td>*@
+                    <td>
+                          @{ 
+                              @objCommonFunction._IndianFormatAmount(item.Amount== null ? "0" : item.Amount.ToString());
+                           }
+                    </td>
+                    <td>@item.Cheque_Status</td>
+                    <td>@item.Bank_Date_Encashment</td>
+                </tr>   
+                    totalAmountChequeIssueDetails = totalAmountChequeIssueDetails +  @item.Amount.Value;
+                }
+            }
+            else
+            {
+                <tr>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                    <td><b>No Records To Display</b></td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                </tr>
+            }
+
+        </tbody>
+            
+        <tfoot>
+            @if (Model.lstCheckbookDetails.Count > 0)
+            {
+                <tr>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                    <td style="font-weight:bold">TOTAL </td>
+                    @*<td style="text-align: right;font-weight:bold">@totalAmountChequeIssueDetails</td>*@
+                    <td>
+                        @String.Format(new System.Globalization.CultureInfo("en-IN"),"{0:C}",(totalAmountChequeIssueDetails== null ? 0 : totalAmountChequeIssueDetails))
+                    </td>
+                    <td></td>
+                    <td></td>
+                </tr> 
+            }
+        </tfoot>
+    }
+</table>
+
+<br />
+@if (Model.CheckbookMonthYearWise == "M" && Model.Month > 0 && Model.Year > 0)
+{
+    <div id="dvhdrChequeAbstractDetails" class="ui-state-default ui-corner-all" style="margin-bottom: 05px; height: 20px">Abstract at the end of the month<span style="float: right; margin-right: 2Px; margin-top: 2px" id="spnChequeBookAbstractDetails" class="ui-icon ui-icon-circle-triangle-n"></span>  </div>    
+    <table id="tblChequeIssueAbstractDetails">
+        @{  
+            <thead>
+                <tr>
+                    <th>Sr.No.</th>
+                    <th>Description</th>
+                    <th>Amount (in Rs.)</th>
+                </tr>
+            </thead>
+            
+            <tbody>
+               
+                @if (Model.lstChequeIssuedAbstract!=null)
+                {
+                    foreach (SP_ACC_RPT_PIU_CHEQUE_ISSUED_ABSTRACT_Result item in Model.lstChequeIssuedAbstract)
+                    {    
+                    <tr>
+                        <td></td>
+                        <th style="text-align: left">Un-cashed cheques outstanding at the end of the previous month</th>
+                        @*<td style="text-align: right">@item.Uncashed_Previous</td>*@
+                        <td style="text-align: right">
+                            @{ 
+                              @objCommonFunction._IndianFormatAmount(item.Uncashed_Previous== null ? "0" : item.Uncashed_Previous.ToString());
+                            }  
+                        </td>
+                    </tr>                    
+                    <tr>
+                        <td></td>
+                        <th style="text-align: left">Deduct the cheques encashed during the month</th>
+                        @*<td style="text-align: right">@item.Encash_Month</td>*@
+                         <td style="text-align: right">
+                              @{ 
+                                 @objCommonFunction._IndianFormatAmount(item.Encash_Month== null ? "0" : item.Encash_Month.ToString());
+                               } 
+                        </td>
+                    </tr>                    
+                    <tr>
+                        <td></td>
+                        <th style="text-align: left">Balance (1 - 2)</th>
+                        @*<td style="text-align: right">@item.Balance</td>*@
+                         <td style="text-align: right">
+                             @{ 
+                                 @objCommonFunction._IndianFormatAmount(item.Balance== null ? "0" : item.Balance.ToString());
+                              } 
+                        </td>
+                    </tr>                
+                    <tr>
+                        <td></td>
+                        <th style="text-align: left">Add cheques issued during the month</th>
+                        @*<td style="text-align: right">@item.Cheques_issued_in_month</td>*@
+                         <td style="text-align: right">
+                             @{ 
+                                 @objCommonFunction._IndianFormatAmount(item.Cheques_issued_in_month== null ? "0" : item.Cheques_issued_in_month.ToString());
+                              } 
+                        </td>
+                    </tr>                
+                    <tr>
+                        <td></td>
+                        <th style="text-align: left">Total (3 + 4)</th>
+                        @*<td style="text-align: right">@item.Total_Amount</td>*@
+                         <td style="text-align: right">
+                             @{ 
+                                 @objCommonFunction._IndianFormatAmount(item.Total_Amount== null ? "0" : item.Total_Amount.ToString());
+                              } 
+                        </td>
+                    </tr>
+                    }
+                }
+                else
+                {
+                    <tr>
+                        <td></td>
+                        <td style="text-align: center"><b>No Records To Display</b></td>
+                        <td></td>
+                    </tr>
+                }
+            </tbody>
+        }
+    </table>
+    
+    <br />      
+    <div id="dvhdrChequeOutstandingDetails" class="ui-state-default ui-corner-all" style="margin-bottom: 05px; height: 20px">Details of outstanding cheques as on<span style="float: right; margin-right: 2Px; margin-top: 2px" id="spnChequeBookOutstandingDetails" class="ui-icon ui-icon-circle-triangle-n"></span></div>
+        <table id="tblChequeOutstandingDetails">
+        @{  
+            <thead>
+                <tr>
+                    <th>Sr. No.</th>
+                    <th>PIU</th>
+                    <th>Cheque/ePay No.</th>
+                    <th>Amount (in Rs.)</th>
+                </tr>
+           </thead>
+                 
+            <tbody>
+                @{
+                    decimal? totalAmountChequeOutstandingDetails = 0;
+                }
+                @if (Model.lstChequeOutstandingDetails != null)
+                {
+                    foreach (SP_ACC_RPT_PIU_CHEQUE_OUTSTANDING_DETAILS_Result item in Model.lstChequeOutstandingDetails)
+                    {    
+                    <tr>
+                        <td></td>
+                        <td>@item.ADMIN_ND_NAME</td>
+                        <td>@item.CHQ_NO</td>
+                        @*<td style="text-align: right">@item.CHQ_AMOUNT</td>*@
+                        <td style="text-align: right">
+                            @{ 
+                                 @objCommonFunction._IndianFormatAmount(item.CHQ_AMOUNT== null ? "0" : item.CHQ_AMOUNT.ToString());
+                             } 
+                        </td>
+                    </tr>
+                        totalAmountChequeOutstandingDetails = totalAmountChequeOutstandingDetails + @item.CHQ_AMOUNT;
+                    }
+                }
+                else
+                {
+                    <tr>
+                        <td></td>
+                        <td></td>
+                        <td style="text-align: center"><b>No Records To Display</b></td>
+                        <td></td>
+                    </tr>
+                }
+            </tbody>
+            
+            <tfoot>
+                @if (Model.lstChequeOutstandingDetails!=null)
+                {
+                    <tr>
+                        <td></td>
+                        <td></td>
+                        <td style="text-align: right;font-weight:bold">TOTAL </td>
+                        @*<td style="text-align: right;font-weight:bold">@totalAmountChequeOutstandingDetails</td>*@
+                        <td style="text-align: right">
+                            @String.Format(new System.Globalization.CultureInfo("en-IN"),"{0:C}",totalAmountChequeOutstandingDetails==null?0:totalAmountChequeOutstandingDetails)
+                            as
+                        </td>
+                    </tr> 
+                }
+            </tfoot>
+        }
+    </table>
+}
+
+

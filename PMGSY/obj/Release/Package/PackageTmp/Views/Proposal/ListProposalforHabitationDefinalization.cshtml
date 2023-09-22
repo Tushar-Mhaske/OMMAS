@@ -1,0 +1,97 @@
+﻿@model PMGSY.Models.Proposal.ProposalFilterViewModel
+
+
+
+<script src="~/Scripts/custom/Generic.js"></script>
+<script src="~/Scripts/jquery.ui.accordion.js"></script>
+<script src="~/Scripts/jquery.ui.tabs.js"></script>
+<script src="~/Scripts/Bootstrap/bootstrap.min.js"></script>
+<script src="~/Scripts/Proposal/ListProposalforHabitationDefinalization.js"></script>
+
+
+<div style="width:98%; height:20px;border:none; margin-top:5px; margin-bottom:-15px; " class="ui-state-default">
+            <span style="float:right;margin-right:2Px; margin-top:2px" id="idFilterDiv" class="ui-icon ui-icon-circle-triangle-n"></span>     
+        </div>
+        <div style="width: 98%; border:none; margin-top:-15px; margin-bottom:10px;" class="ui-state-default">      
+        <div id="divFilterForm">
+            <center>
+            <form id="FilterForm">     
+                <table style="margin-top:10px; margin-bottom:5px">
+                            <tr>
+                                <td>
+                                    @Html.LabelFor(model => model.IMS_YEAR)
+                                </td>
+                                <td>                            
+                                    @Html.DropDownListFor(model => model.IMS_YEAR, new SelectList(Model.Years, "Value", "Text"), new { @id = "ddlImsYear" })
+                                </td>
+                                <td>
+                                    @Html.LabelFor(model => model.MAST_STATE_CODE)
+                                </td>
+                                <td>
+                                    @Html.DropDownListFor(model => model.MAST_STATE_CODE, new SelectList(Model.STATES, "Value", "Text"), new { @id = "ddlState",@disabled="disabled" })
+                                </td>
+                                <td>
+                                    @Html.LabelFor(model => model.MAST_DISTRICT_CODE)
+                                </td>
+                                <td>
+                                    @Html.DropDownListFor(model => model.MAST_DISTRICT_CODE, new SelectList(Model.DISTRICTS, "Value", "Text"), new { @id = "ddlDistrict" })
+                                </td>
+                                <td>
+                                    @Html.LabelFor(model => model.IMS_BATCH)
+                                </td>
+                                <td>
+                                    @Html.DropDownListFor(model => model.IMS_BATCH, new SelectList(Model.BATCHS, "Value", "Text"), new { @id = "ddlImsBatch" })
+                                </td>
+                                
+                                <td>
+                                    @Html.LabelFor(model => model.IMS_COLLABORATION)
+                                </td>
+                                <td>
+                                    @Html.DropDownListFor(model => model.IMS_COLLABORATION, new SelectList(Model.COLLABORATIONS, "Value", "Text"), new { @id = "ddlImsStreams" })
+                                </td>
+
+                            </tr>
+                            @*<tr>
+                                <td>@Html.LabelFor(model => model.IMS_PROPOSAL_STATUS)</td>
+                                <td>
+                                    @Html.DropDownListFor(model => model.PROPOSAL_STATUS, new SelectList(Model.PROPOSAL_STATUS, "Value", "Text"), new { @id = "ddlProposalStatus" })
+                                </td>
+                                <td>
+                                    @Html.LabelFor(model => model.IMS_PROPOSAL_TYPE)
+                                </td>
+                                <td>
+                                    @Html.DropDownListFor(model => model.IMS_PROPOSAL_TYPE, new SelectList(Model.PROPOSAL_TYPES, "Value", "Text"), new { @id = "ddlImsProposalTypes" })
+                                </td>
+                            </tr>*@
+                        </table>
+                       
+                        <table style="margin-top : -7px">
+                            <tr>
+                                <td>
+                                    <input type="button" class="jqueryButton" value="List Proposals" id="btnListProposal" name ="btnListProposal"/>
+                                </td>
+                            </tr>
+                       </table>    
+                 </form>  
+            </center>
+        </div>
+    </div>
+
+<div id="divMORDProposal" style="margin-top:20px;width:98%;">
+                
+        <table id="tbMORDProposalList"></table>
+            <div id="dvMORDProposalListPager"></div>
+           
+            <div style="margin-top:5px;">
+            <table id="tbMORDLSBProposalList"></table>
+            <div id="dvMORDLSBProposalListPager"></div>
+        </div>
+</div>
+@*<div id="accordion" style="display:none;width:98%;margin-top:10px;">            
+            <h3 style="text-align:left"><a id="" href="#" style=" font-size:.9em;" >Add Proposal Details</a>
+                <a href="#"  style="float: right;">
+                    <img style="border:none" src="" class="ui-icon ui-icon-closethick" onclick="CloseProposalDetails();" /></a>
+            </h3>
+            <div id="divProposalForm" style="display:none;">
+            </div>                     
+     </div>*@

@@ -1,0 +1,1062 @@
+﻿@model PMGSY.Models.ProposalReports.ProposalReportsModel
+<script type="text/javascript" src="@Url.Content("~/Scripts/jquery.ui.dialog.js")"> </script>
+<script src="~/Scripts/custom/Generic.js"></script>
+
+<script src="~/Scripts/jquery.ui.accordion.js"></script>
+<script src="~/Scripts/jquery.ui.tabs.js"></script>
+<script type="text/javascript" src="~/Scripts/ProposalReports/PropDataGapDetails.js"></script>
+@*<style>
+    .ui-jqgrid-bdiv {
+        overflow-x: hidden !important;
+    }
+</style>*@
+
+<style>
+    .ui-jqgrid-bdiv {
+        overflow-x: hidden !important;
+    }
+</style>
+@Html.Hidden("hdnLevelId", PMGSY.Extensions.PMGSYSession.Current.LevelId.ToString())
+
+@if (PMGSY.Extensions.PMGSYSession.Current.StateCode != 0)
+{           
+    @Html.Hidden("STATE_NAME", PMGSY.Extensions.PMGSYSession.Current.StateName.ToString())
+}
+
+@if (PMGSY.Extensions.PMGSYSession.Current.DistrictCode != 0)
+{
+    @Html.Hidden("DISTRICT_NAME", PMGSY.Extensions.PMGSYSession.Current.DistrictName.ToString())   
+}
+
+@Html.HiddenFor(model => model.BLOCK_NAME)
+@Html.HiddenFor(model => model.MAST_STATE_CODE)
+@Html.HiddenFor(model => model.MAST_DISTRICT_CODE)
+@* Start of Main Proposals DataGap tab *@
+<div id="tabMain" style="width: 98%">
+    @*  <span class="ui-jqgrid-title">PROPOSAL MODULE DATAGAP REPORTS</span>*@
+
+    <ul>
+        <li><a href="#tab-1">Proposal not mapped to CN</a></li>
+        <li><a href="#tab-2">Road Number based on CN</a></li>
+        <li><a href="#tab-3">Multiple Proposals mapped to CN Road</a></li>
+        <li><a href="#tab-4">Proposals with Single Habitation  </a></li>
+        <li><a href="#tab-5">Proposals with Zero Maintenance Cost</a></li>
+        <li><a href="#tab-6">Proposals and Carriage way width</a></li>
+        <li><a href="#tab-7">Variation in Proposed Length w.r.t. Core Network</a></li>
+        <li><a href="#tab-8">Proposal Misclassification</a></li>
+
+    </ul>
+
+    @* Start of Proposals Not Mapped tab *@
+    <div id="tab-1" style="text-align: left; margin-top: 1px">
+        <div style="width: 100%; margin-top: 2px;">
+            <center> <b>Proposals with Roads not mapped to Core Network. </b>  </center>
+        </div>
+        <div style="width: 100%; margin-top: 2px;">
+            <table class="ui-state-default ui-corner-all" style="width: 100%;">
+                <tr>
+                    <td style="width: 2%;"></td>
+                    <td style="text-align: left; width: 5%;">
+                        @Html.Label("State")
+                    </td>
+                    <td style="width: 10%;">
+                        @Html.DropDownList("ddState_PropNotMappedDetails", ViewData["STATEALL"] as IEnumerable<SelectListItem>, new { @title = "State", @tabindex = 1 })
+                    </td>
+                    <td style="text-align: left; width: 5%;">
+                        @Html.Label("District")
+                    </td>
+                    <td style="width: 10%;">
+                        @Html.DropDownList("ddDistrict_PropNotMappedDetails", ViewData["DISTRICTALL"] as IEnumerable<SelectListItem>, new { @title = "District", @tabindex = 2 })
+                    </td>
+                    <td style="text-align: left; width: 5%;">
+                        @Html.Label("Block")
+                    </td>
+                    <td style="width: 10%;">
+                        @Html.DropDownList("ddBlock_PropNotMappedDetails", ViewData["BLOCKALL"] as IEnumerable<SelectListItem>, new { @title = "Block", @tabindex = 3 })
+                    </td>
+                    <td style="text-align: left; width: 5%;">
+                        @Html.Label("Year")
+                    </td>
+                    <td style="width: 10%;">
+                        @Html.DropDownList("ddYear_PropNotMappedDetails", ViewData["YEAR"] as IEnumerable<SelectListItem>, new { @title = "Year", @tabindex = 4 })
+                    </td>
+                </tr>
+                <tr>
+                    <td style="width: 2%;"></td>
+                    <td style="text-align: left; width: 5%;">
+                        @Html.Label("Batch")
+                    </td>
+                    <td style="width: 5%;">
+                        @Html.DropDownList("ddBatch_PropNotMappedDetails", ViewData["BATCH"] as IEnumerable<SelectListItem>, new { @title = "Batch", @tabindex = 5 })
+                    </td>
+                    <td style="text-align: left; width: 5%;">
+                        @Html.Label("Collaboration")
+                    </td>
+                    <td style="width: 5%;">
+                        @Html.DropDownList("ddCollaboration_PropNotMappedDetails", ViewData["COLLABORATION"] as IEnumerable<SelectListItem>, new { @title = "Collaboration", @tabindex = 6 })
+                    </td>
+                    <td style="text-align: left; width: 5%;">
+                        @Html.Label("Agency")
+                    </td>
+                    <td style="width: 5%;">
+                        @Html.DropDownList("ddAgency_PropNotMappedDetails", ViewData["AGENCY"] as IEnumerable<SelectListItem>, new { @title = "Agency", @tabindex = 7 })
+                    </td>
+                    <td style="text-align: left; width: 5%;">
+                        @Html.Label("STA Status")
+                    </td>
+                    <td style="width: 5%;">
+                        @Html.DropDownList("ddStaStatus_PropNotMappedDetails", ViewData["StaSTATUS"] as IEnumerable<SelectListItem>, new { @title = "STA Status", @tabindex = 8 })
+                    </td>
+                </tr>
+                <tr>
+                    <td style="width: 2%;"></td>
+
+                    <td style="text-align: left; width: 5%;">
+                        @Html.Label("MRD Status")
+                    </td>
+                    <td style="width: 5%;">
+                        @Html.DropDownList("ddMrdStatus_PropNotMappedDetails", ViewData["MrdSTATUS"] as IEnumerable<SelectListItem>, new { @title = "MRD Status", @tabindex = 9 })
+                    </td>
+                    <td style="text-align: left; width: 5%;">
+                        @Html.Label("Sanctioned")
+                    </td>
+                    <td style="width: 5%;">
+                        @Html.DropDownList("ddSanctioned_PropNotMappedDetails", ViewData["SANCTION"] as IEnumerable<SelectListItem>, new { @title = "Sanctioned", @tabindex = 10 })
+                    </td>
+                    <td colspan="2" style="text-align: center; width: 20%; margin-left: 5px;">
+                        <input type="button" id="btnGoPropNotMapped" value="View" class="jqueryButton" title="View Details" tabindex="11" />
+                    </td>
+                    <td colspan="2"></td>
+                </tr>
+
+
+            </table>
+        </div>
+
+        <div style="width: 100%; margin-top: 2px;">
+
+
+            @if (PMGSY.Extensions.PMGSYSession.Current.LevelId == 6)     //6-mord &4-State & 5- District
+            {
+                <table style="width: 100%">
+                    <tr>
+
+                        <td style="width: 50%">
+
+                            <div id="accordionPropNotMap" style="width: 570px;">
+
+                                <h3 id="accrodiontabState" style="width: 90%; text-align: center;" class="ui-accordion-header ui-helper-reset ui-state-default ui-accordion-icons ui-accordion-header-active ui-state-active ui-corner-top">State View</h3>
+                                <div style="width: 86.5%">
+                                    <div id="divPropNotMappedStateDetail" style="margin-top: 1px; height: 330px;">
+
+                                        <table id="tbPropNotMappedStateDetailReport"></table>
+                                        <div id="dvPropNotMappedStateDetailReportPager"></div>
+
+                                    </div>
+                                </div>
+
+                                <h3 id="accrodiontabPhase" style="width: 90%; text-align: center;" class="ui-accordion-header ui-helper-reset ui-state-default ui-accordion-icons ui-accordion-header-active ui-state-active ui-corner-top">Phase View</h3>
+                                <div style="width: 86.5%">
+                                    <div id="divPropNotMappedPhaseViewDetail" style="margin-top: 1px; height: 330px;">
+                                        <span></span>
+                                        <table id="tbPropNotMappedPhaseViewDetailReport"></table>
+                                        <div id="dvPropNotMappedPhaseViewDetailReportPager"></div>
+                                    </div>
+                                </div>
+                            </div>
+                        </td>
+
+                        <td style="width: 50%; vertical-align: top;">
+
+                            <div align="right" id="divPropNotMappedDistrictDetail" style="width: 100%; margin-top: 4px;">
+
+                                <table id="tbPropNotMappedDistrictDetailReport"></table>
+                                <div id="dvPropNotMappedDistrictDetailReportPager"></div>
+
+                            </div>
+
+                        </td>
+                    </tr>
+                    <tr>
+                        <td colspan="2" style="width: 100%">
+                            <div id="divPropNotMappedDetail" style="width: 100%; margin-top: 10px;">
+
+                                <table id="tbPropNotMappedDetailReport"></table>
+                                <div id="dvPropNotMappedDetailReportPager"></div>
+
+                            </div>
+                        </td>
+
+                    </tr>
+
+                </table>
+            }
+            else
+            {
+                   
+                <table style="width: 100%">
+                    <tr>
+
+                        <td style="width: 50%">
+
+                            <div id="accordionPropNotMap" style="width: 570px;">
+                                <h3 id="accrodiontabPhase" style="width: 90%; text-align: center;" class="ui-accordion-header ui-helper-reset ui-state-default ui-accordion-icons ui-accordion-header-active ui-state-active ui-corner-top">Phase View</h3>
+                                <div style="width: 86.5%">
+                                    <div id="divPropNotMappedPhaseViewDetail" style="margin-top: 1px; height: 360px;">
+                                        <span></span>
+                                        <table id="tbPropNotMappedPhaseViewDetailReport"></table>
+                                        <div id="dvPropNotMappedPhaseViewDetailReportPager"></div>
+                                    </div>
+                                </div>
+                            </div>
+                        </td>
+
+                        <td style="width: 50%; vertical-align: top;">
+
+                            <div align="right" id="divPropNotMappedDistrictDetail" style="width: 100%; margin-top: 4px;">
+
+                                <table id="tbPropNotMappedDistrictDetailReport"></table>
+                                <div id="dvPropNotMappedDistrictDetailReportPager"></div>
+
+                            </div>
+
+                        </td>
+                    </tr>
+                    <tr>
+                        <td colspan="2" style="width: 100%">
+                            <div id="divPropNotMappedDetail" style="width: 100%; margin-top: 10px;">
+
+                                <table id="tbPropNotMappedDetailReport"></table>
+                                <div id="dvPropNotMappedDetailReportPager"></div>
+
+                            </div>
+                        </td>
+
+                    </tr>
+
+                </table>
+            }
+        </div>
+    </div>
+
+    @* End of Proposals Not Mapped tab *@
+
+
+    @* Start of Road Number Based CN tab *@
+    <div id="tab-2">
+        <div style="width: 100%; margin-top: 2px;">
+            <center> <b>Details of Core Network roads with same L or T Number . </b>  </center>
+        </div>
+        <div id="dvBaseCNFilter" style="width: 100%; margin-top: 2px;">
+            <table class="ui-state-default ui-corner-all" style="width: 100%;">
+                <tr>
+                    <td style="width: 6%;"></td>
+                    <td style="text-align: left; width: 5%;">
+                        @Html.Label("State")
+                    </td>
+                    <td style="width: 15%;">
+                        @Html.DropDownList("ddState_PropNumberBaseCNDetails", ViewData["STATE"] as IEnumerable<SelectListItem>, new { @title = "State", @tabindex = 1 })
+                    </td>
+                    <td style="text-align: left; width: 5%;">
+                        @Html.Label("District")
+                    </td>
+                    <td style="width: 15%;">
+                        @Html.DropDownList("ddDistrict_PropNumberBaseCNDetails", ViewData["DISTRICT"] as IEnumerable<SelectListItem>, new { @title = "District", @tabindex = 2 })
+                    </td>
+                    <td style="text-align: left; width: 5%;">
+                        @Html.Label("Block")
+                    </td>
+                    <td style="width: 15%;">
+                        @Html.DropDownList("ddBlock_PropNumberBaseCNDetails", ViewData["BLOCK"] as IEnumerable<SelectListItem>, new { @title = "Block", @tabindex = 3 })
+                    </td>
+                    <td style="text-align: center; width: 20%; margin-left: 5px;">
+                        <input type="button" id="btnGoPropNumberBaseCN" value="View" class="jqueryButton" title="View Details" tabindex="4" />
+                    </td>
+                    <td style="width: 5%;"></td>
+                </tr>
+
+            </table>
+        </div>
+
+        <div id="dvBaseCN" style="width: 100%; margin-top: 0px;">
+            <table>
+                <tr>
+                    <td>
+                        <div id="divPropNumberBaseCNDistrictDetail" style="width: 100%; margin-top: 2px;">
+
+                            <table id="tbPropNumberBaseCNDistrictDetailReport"></table>
+                            <div id="dvPropNumberBaseCNDistrictDetailReportPager"></div>
+
+
+                        </div>
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+
+                        <div id="divPropNumberBaseCNRoadDetail" style="width: 100%; margin-top: 10px;">
+
+                            <table id="tbPropNumberBaseCNRoadDetailReport"></table>
+                            <div id="dvPropNumberBaseCNRoadDetailReportPager"></div>
+
+
+                        </div>
+                    </td>
+                </tr>
+            </table>
+        </div>
+
+
+
+    </div>
+    @* End of Proposals Not Mapped tab *@
+
+
+    @* Start of Multiple Proposals mapped to CN Road tab *@
+    <div id="tab-3">
+        <div style="width: 100%; margin-top: 2px;">
+            <center> <b>Multiple Proposals wherein roads mapped to the same T or L Number  </b>  </center>
+        </div>
+        <div id="divPropMultipleFilter" style="width: 100%; margin-top: 2px;">
+            <table class="ui-state-default ui-corner-all" style="width: 100%;">
+                <tr>
+                    <td style="width: 2%;"></td>
+                    <td style="text-align: left; width: 5%;">
+                        @Html.Label("State")
+                    </td>
+                    <td style="width: 10%;">
+                        @Html.DropDownList("ddState_PropMultipleDetails", ViewData["STATE"] as IEnumerable<SelectListItem>, new { @title = "State", @tabindex = 1 })
+                    </td>
+                    <td style="text-align: left; width: 5%;">
+                        @Html.Label("District")
+                    </td>
+                    <td style="width: 10%;">
+                        @Html.DropDownList("ddDistrict_PropMultipleDetails", ViewData["DISTRICT"] as IEnumerable<SelectListItem>, new { @title = "District", @tabindex = 2 })
+                    </td>
+                    <td style="text-align: left; width: 8%;">
+                        @Html.Label("Block")
+                    </td>
+                    <td style="width: 10%;">
+                        @Html.DropDownList("ddBlock_PropMultipleDetails", ViewData["BLOCK"] as IEnumerable<SelectListItem>, new { @title = "Block", @tabindex = 3 })
+                    </td>
+                    <td style="text-align: left; width: 5%;">
+                        @Html.Label("Year")
+                    </td>
+                    <td style="width: 10%;">
+                        @Html.DropDownList("ddYear_PropMultipleDetails", ViewData["YEAR"] as IEnumerable<SelectListItem>, new { @title = "Year", @tabindex = 4 })
+                    </td>
+                    <td style="text-align: left; width: 5%;">
+                        @Html.Label("Batch")
+                    </td>
+                    <td style="width: 5%;">
+                        @Html.DropDownList("ddBatch_PropMultipleDetails", ViewData["BATCH"] as IEnumerable<SelectListItem>, new { @title = "Batch", @tabindex = 5 })
+                    </td>
+                </tr>
+                <tr>
+                    <td style="width: 2%;"></td>
+
+                    <td style="text-align: left; width: 5%;">
+                        @Html.Label("Collaboration")
+                    </td>
+                    <td style="width: 5%;">
+                        @Html.DropDownList("ddCollaboration_PropMultipleDetails", ViewData["COLLABORATION"] as IEnumerable<SelectListItem>, new { @title = "Collaboration", @tabindex = 6 })
+                    </td>
+                    <td style="text-align: left; width: 5%;">
+                        @Html.Label("Agency")
+                    </td>
+                    <td style="width: 5%;">
+                        @Html.DropDownList("ddAgency_PropMultipleDetails", ViewData["AGENCY"] as IEnumerable<SelectListItem>, new { @title = "Agency", @tabindex = 7 })
+                    </td>
+                    <td style="text-align: left; width: 8%;">
+                        @Html.Label("STA Status")
+                    </td>
+                    <td style="width: 5%;">
+                        @Html.DropDownList("ddStaStatus_PropMultipleDetails", ViewData["StaSTATUS"] as IEnumerable<SelectListItem>, new { @title = "STA Status", @tabindex = 8 })
+                    </td>
+                    <td style="text-align: left; width: 5%;">
+                        @Html.Label("Sanctioned")
+                    </td>
+                    <td style="width: 15%;">
+                        @Html.DropDownList("ddSanctioned_PropMultipleDetails", ViewData["SANCTION"] as IEnumerable<SelectListItem>, new { @title = "Sanctioned", @tabindex = 2 })
+                    </td>
+                    @*  <td style="width: 15%;">
+                        @Html.CheckBox("chkDistrictWise", false, new { @title = "Districtwise", @tabindex = 3 }) @Html.Label("Districtwise Details")
+                    </td>*@
+                    <td colspan="2" style="text-align: center; width: 20%; margin-left: 5px;">
+                        <input type="button" id="btnGoPropMultiple" value="View" class="jqueryButton" title="View Details" tabindex="4" />
+                    </td>
+                </tr>
+
+
+            </table>
+        </div>
+        <div id="dvPropMultiple" style="width: 100%; margin-top: 0px;">
+            <table>
+                <tr>
+                    <td>
+                        <div id="divPropMultipleDistrictDetail" style="width: 100%; margin-top: 2px;">
+
+                            <table id="tbPropMultipleDistrictDetailReport"></table>
+                            <div id="dvPropMultipleDistrictReportPager"></div>
+
+                        </div>
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+
+                        <div id="divPropMultipleDetail" style="width: 100%; margin-top: 10px;">
+
+                            <table id="tbPropMultipleDetailReport"></table>
+                            <div id="dvPropMultipleReportPager"></div>
+
+                        </div>
+                    </td>
+                </tr>
+            </table>
+        </div>
+
+    </div>
+    @* End of Multiple Proposals mapped to CN Road tab *@
+
+
+    @* Start of Single Habitation tab *@
+    <div id="tab-4">
+        <div style="width: 100%; margin-top: 2px;">
+            <center> <b>Proposals with Roads mapped to Single Habitation with identification of Hilly States and IAP District.  </b>  </center>
+        </div>
+        <div style="width: 100%; margin-top: 2px;">
+            <table class="ui-state-default ui-corner-all" style="width: 100%;">
+                <tr>
+                    <td style="width: 2%;"></td>
+                    <td style="text-align: left; width: 12%;">
+                        @Html.Label("State")
+                    </td>
+                    <td style="width: 10%;">
+                        @Html.DropDownList("ddState_PropSingleHabDetails", ViewData["STATEALL"] as IEnumerable<SelectListItem>, new { @title = "State", @tabindex = 1, @style = "width:100px" })
+                    </td>
+                    <td style="text-align: left; width: 5%;">
+                        @Html.Label("District")
+                    </td>
+                    <td style="width: 10%;">
+                        @Html.DropDownList("ddDistrict_PropSingleHabDetails", ViewData["DISTRICTALL"] as IEnumerable<SelectListItem>, new { @title = "District", @tabindex = 2, @style = "width:100px" })
+                    </td>
+                    <td style="text-align: left; width: 5%;">
+                        @Html.Label("Block")
+                    </td>
+                    <td style="width: 10%;">
+                        @Html.DropDownList("ddBlock_PropSingleHabDetails", ViewData["BLOCKALL"] as IEnumerable<SelectListItem>, new { @title = "Block", @tabindex = 3, @style = "width:100px" })
+                    </td>
+                    <td style="text-align: left; width: 8%;">
+                        @Html.Label("Proposal Year")
+                    </td>
+                    <td style="width: 10%;">
+                        @Html.DropDownList("ddYear_PropSingleHabDetails", ViewData["YEAR"] as IEnumerable<SelectListItem>, new { @title = "Year", @tabindex = 4, @style = "width:100px" })
+                    </td>
+                    <td style="text-align: left; width: 5%;">
+                        @Html.Label("Batch")
+                    </td>
+                    <td style="width: 5%;">
+                        @Html.DropDownList("ddBatch_PropSingleHabDetails", ViewData["BATCH"] as IEnumerable<SelectListItem>, new { @title = "Batch", @tabindex = 5, @style = "width:100px" })
+                    </td>
+                </tr>
+                <tr>
+                    <td style="width: 2%;"></td>
+                    <td style="text-align: left; width: 12%;">
+                        @Html.Label("Population of Habitation")
+                    </td>
+                    <td style="width: 10%;">
+                        @Html.DropDownList("ddPopulation_PropSingleHabDetails", ViewData["POPULATION"] as IEnumerable<SelectListItem>, new { @title = "Population of Habitation", @tabindex = 6, @style = "width:100px" })
+                    </td>
+
+                    <td style="text-align: left; width: 5%;">
+                        @Html.Label("Collaboration")
+                    </td>
+                    <td style="width: 5%;">
+                        @Html.DropDownList("ddCollaboration_PropSingleHabDetails", ViewData["COLLABORATION"] as IEnumerable<SelectListItem>, new { @title = "Collaboration", @tabindex = 7, @style = "width:100px" })
+                    </td>
+                    <td style="text-align: left; width: 5%;">
+                        @Html.Label("Agency")
+                    </td>
+                    <td style="width: 5%;">
+                        @Html.DropDownList("ddAgency_PropSingleHabDetails", ViewData["AGENCY"] as IEnumerable<SelectListItem>, new { @title = "Agency", @tabindex = 8, @style = "width:100px" })
+                    </td>
+                    <td style="text-align: left; width: 8%;">
+                        @Html.Label("STA Status")
+                    </td>
+                    <td style="width: 5%;">
+                        @Html.DropDownList("ddStaStatus_PropSingleHabDetails", ViewData["StaSTATUS"] as IEnumerable<SelectListItem>, new { @title = "STA Status", @tabindex = 9, @style = "width:100px" })
+                    </td>
+                    <td style="text-align: left; width: 7%;">
+                        @Html.Label("Sanctioned")
+                    </td>
+                    <td style="width: 15%;">
+                        @Html.DropDownList("ddSanctioned_PropSingleHabDetails", ViewData["SANCTION"] as IEnumerable<SelectListItem>, new { @title = "Sanctioned", @tabindex = 10, @style = "width:100px" })
+                        <input type="button" id="btnGoPropSingleHab" value="View" class="jqueryButton" title="View Details" tabindex="5" />
+
+                    </td>
+                </tr>
+
+
+            </table>
+        </div>
+        <div style="width: 100%; margin-top: 0px;">
+
+            @if (PMGSY.Extensions.PMGSYSession.Current.LevelId == 6)     //6-mord &4-State & 5- District
+            {
+                <table style="width: 100%;">
+                    <tr>
+                        <td style="width: 50%">
+                            <div id="divPropSingleHabStateDetail" style="width: 100%; margin-top: 2px;">
+                                <table id="tbPropSingleHabStateDetailReport"></table>
+                                <div id="dvPropSingleHabStateReportPager"></div>
+
+                            </div>
+                        </td>
+
+                        <td style="width: 50%">
+
+                            <div align="right" id="divPropSingleHabDistrictDetail" style="width: 100%; margin-top: 2px; margin-right: 10px;">
+
+                                <table id="tbPropSingleHabDistrictDetailReport"></table>
+                                <div id="dvPropSingleHabDistrictReportPager"></div>
+
+                            </div>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td colspan="2" style="width: 100%; margin-top: 10px;">
+
+                            <div id="divPropSingleHabDetail" style="width: 100%; margin-top: 10px;">
+
+                                <table id="tbPropSingleHabDetailReport"></table>
+                                <div id="dvPropSingleHabReportPager"></div>
+
+                            </div>
+                        </td>
+                    </tr>
+                </table>
+            }
+            else
+            {
+                <table style="width: 100%;">
+                    <tr>
+
+                        <td style="width: 100%">
+                            <div id="divPropSingleHabDistrictDetail" style="width: 100%; margin-top: 2px;">
+                                <table id="tbPropSingleHabDistrictDetailReport"></table>
+                                <div id="dvPropSingleHabDistrictReportPager"></div>
+                            </div>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td style="width: 100%; margin-top: 10px;">
+
+                            <div id="divPropSingleHabDetail" style="width: 100%; margin-top: 10px;">
+                                <table id="tbPropSingleHabDetailReport"></table>
+                                <div id="dvPropSingleHabReportPager"></div>
+                            </div>
+                        </td>
+                    </tr>
+                </table>
+            }
+
+        </div>
+
+    </div>
+    @* End of Single Habitation tab *@
+
+
+    @* Start of Zero Maintenance Cost tab *@
+    <div id="tab-5">
+        <div style="width: 100%; margin-top: 2px;">
+            <center> <b>Proposals wherein Maintenance Costs have not been specified.(Excluding Stage-I and Bridge Proposals)  </b>  </center>
+        </div>
+        <div style="width: 100%; margin-top: 2px;">
+            <table class="ui-state-default ui-corner-all" style="width: 100%;">
+                <tr>
+                    <td style="width: 2%;"></td>
+                    <td style="text-align: left; width: 10%;">
+                        @Html.Label("State")
+                    </td>
+                    <td style="width: 10%;">
+                        @Html.DropDownList("ddState_PropZeroMaintDetails", ViewData["STATEALL"] as IEnumerable<SelectListItem>, new { @title = "State", @tabindex = 1, @style = "width:100px" })
+                    </td>
+                    <td style="text-align: left; width: 5%;">
+                        @Html.Label("District")
+                    </td>
+                    <td style="width: 10%;">
+                        @Html.DropDownList("ddDistrict_PropZeroMaintDetails", ViewData["DISTRICTALL"] as IEnumerable<SelectListItem>, new { @title = "District", @tabindex = 2, @style = "width:100px" })
+                    </td>
+                    <td style="text-align: left; width: 4%;">
+                        @Html.Label("Block")
+                    </td>
+                    <td style="width: 10%;">
+                        @Html.DropDownList("ddBlock_PropZeroMaintDetails", ViewData["BLOCKALL"] as IEnumerable<SelectListItem>, new { @title = "Block", @tabindex = 3, @style = "width:100px" })
+                    </td>
+                    <td style="text-align: left; width: 18%;">
+                        @Html.Label("Consider Proposals from the year")
+                    </td>
+                    <td style="width: 10%;">
+                        @Html.DropDownList("ddYear_PropZeroMaintDetails", ViewData["YEAR"] as IEnumerable<SelectListItem>, new { @title = " Consider Proposals from the year", @tabindex = 4, @style = "width:100px" })
+                    </td>
+                    <td style="text-align: left; width: 4%;">
+                        @Html.Label("Batch")
+                    </td>
+                    <td style="width: 20%;">
+                        @Html.DropDownList("ddBatch_PropZeroMaintDetails", ViewData["BATCH"] as IEnumerable<SelectListItem>, new { @title = "Batch", @tabindex = 5, @style = "width:100px" })
+                    </td>
+                </tr>
+                <tr>
+                    <td style="width: 2%;"></td>
+                    <td style="text-align: left; width: 10%;">
+                        @Html.Label("Construction Type")
+                    </td>
+                    <td style="width: 2%;">
+                        @Html.DropDownList("ddConstruction_PropZeroMaintDetails", ViewData["CONSTRUCTION"] as IEnumerable<SelectListItem>, new { @title = "Construction Type", @tabindex = 6, @style = "width:100px;" })
+                    </td>
+
+                    <td style="text-align: left; width: 5%;">
+                        @Html.Label("Collaboration")
+                    </td>
+                    <td style="width: 5%;">
+                        @Html.DropDownList("ddCollaboration_PropZeroMaintDetails", ViewData["COLLABORATION"] as IEnumerable<SelectListItem>, new { @title = "Collaboration", @tabindex = 7, @style = "width:100px" })
+                    </td>
+                    <td style="text-align: left; width: 4%;">
+                        @Html.Label("Agency")
+                    </td>
+                    <td style="width: 5%;">
+                        @Html.DropDownList("ddAgency_PropZeroMaintDetails", ViewData["AGENCY"] as IEnumerable<SelectListItem>, new { @title = "Agency", @tabindex = 8, @style = "width:100px" })
+                    </td>
+                    <td style="text-align: left; width: 18%;">
+                        @Html.Label("STA Status")
+                    </td>
+                    <td style="width: 5%;">
+                        @Html.DropDownList("ddStaStatus_PropZeroMaintDetails", ViewData["StaSTATUS"] as IEnumerable<SelectListItem>, new { @title = "STA Status", @tabindex = 9, @style = "width:100px" })
+                    </td>
+                    <td style="text-align: left; width: 4%;">
+                        @Html.Label("Sanctioned")
+                    </td>
+                    <td style="width: 20%;">
+                        @Html.DropDownList("ddSanctioned_PropZeroMaintDetails", ViewData["SANCTION"] as IEnumerable<SelectListItem>, new { @title = "Sanctioned", @tabindex = 10, @style = "width:100px" })
+                        <input type="button" id="btnGoPropZeroMaint" value="View" class="jqueryButton" title="View Details" tabindex="5" />
+                    </td>
+                </tr>
+            </table>
+        </div>
+
+
+        <div style="width: 100%; margin-top: 0px;">
+            @if (PMGSY.Extensions.PMGSYSession.Current.LevelId == 6)     //6-mord &4-State & 5- District
+            {
+         
+                <table style="width: 100%;">
+                    <tr>
+                        <td style="width: 50%;">
+                            <div id="divPropZeroMaintStateDetail" style="width: 100%; margin-top: 2px;">
+
+                                <table id="tbPropZeroMaintStateDetailReport"></table>
+                                <div id="dvPropZeroMaintStateReportPager"></div>
+
+                            </div>
+                        </td>
+
+                        <td style="width: 50%; margin-top: 5px;">
+
+                            <div align="right" id="divPropZeroMaintDistrictDetail" style="width: 100%; margin-top: 5px; margin-right: 10px">
+
+                                <table id="tbPropZeroMaintDistrictDetailReport"></table>
+                                <div id="dvPropZeroMaintDistrictReportPager"></div>
+                            </div>
+
+                        </td>
+                    </tr>
+                    <tr>
+                        <td colspan="2" style="width: 100%;">
+                            <div id="divPropZeroMaintDetail" style="width: 100%; margin-top: 10px;">
+
+                                <table id="tbPropZeroMaintDetailReport"></table>
+                                <div id="dvPropZeroMaintReportPager"></div>
+
+                            </div>
+                        </td>
+                    </tr>
+                </table>
+            }
+            else
+            {
+                <table style="width: 100%;">
+                    <tr>
+
+
+                        <td style="width: 100%; margin-top: 5px;">
+
+                            <div id="divPropZeroMaintDistrictDetail" style="width: 100%; margin-top: 5px; margin-right: 40px;">
+
+                                <table id="tbPropZeroMaintDistrictDetailReport"></table>
+                                <div id="dvPropZeroMaintDistrictReportPager"></div>
+                            </div>
+
+                        </td>
+                    </tr>
+                    <tr>
+                        <td style="width: 100%;">
+                            <div id="divPropZeroMaintDetail" style="width: 100%; margin-top: 10px;">
+
+                                <table id="tbPropZeroMaintDetailReport"></table>
+                                <div id="dvPropZeroMaintReportPager"></div>
+
+                            </div>
+                        </td>
+                    </tr>
+                </table>
+            }
+        </div>
+
+    </div>
+    @* End of Zero Maintenance Cost tab *@
+
+
+    @* Start of Carriage way width tab *@
+    <div id="tab-6">
+        <div style="width: 100%; margin-top: 2px;">
+            <center> <b>Proposals with different Carriage way width  </b>  </center>
+        </div>
+        <div id="divtab6" style="width: 100%; margin-top: 2px;">
+            <table class="ui-state-default ui-corner-all" style="width: 100%;">
+                <tr>
+                    <td style="width: 2%;"></td>
+                    <td style="text-align: left; width: 12%;">
+                        @Html.Label("State")
+                    </td>
+                    <td style="width: 10%;">
+                        @Html.DropDownList("ddState_PropCarriageWidthDetails", ViewData["STATEALL"] as IEnumerable<SelectListItem>, new { @title = "State", @tabindex = 1, @style = "width:100px" })
+                    </td>
+                    <td style="text-align: left; width: 5%;">
+                        @Html.Label("District")
+                    </td>
+                    <td style="width: 10%;">
+                        @Html.DropDownList("ddDistrict_PropCarriageWidthDetails", ViewData["DISTRICTALL"] as IEnumerable<SelectListItem>, new { @title = "District", @tabindex = 2, @style = "width:100px" })
+                    </td>
+                    <td style="text-align: left; width: 4%;">
+                        @Html.Label("Block")
+                    </td>
+                    <td style="width: 10%;">
+                        @Html.DropDownList("ddBlock_PropCarriageWidthDetails", ViewData["BLOCKALL"] as IEnumerable<SelectListItem>, new { @title = "Block", @tabindex = 3, @style = "width:100px" })
+                    </td>
+                    <td style="text-align: left; width: 8%;">
+                        @Html.Label("Year")
+                    </td>
+                    <td style="width: 10%;">
+                        @Html.DropDownList("ddYear_PropCarriageWidthDetails", ViewData["YEAR"] as IEnumerable<SelectListItem>, new { @title = " Consider Proposals from the year", @tabindex = 4, @style = "width:100px" })
+                    </td>
+                    <td style="text-align: left; width: 4%;">
+                        @Html.Label("Batch")
+                    </td>
+                    <td style="width: 20%;">
+                        @Html.DropDownList("ddBatch_PropCarriageWidthDetails", ViewData["BATCH"] as IEnumerable<SelectListItem>, new { @title = "Batch", @tabindex = 5, @style = "width:100px" })
+                    </td>
+                </tr>
+                <tr>
+                    <td style="width: 2%;"></td>
+                    <td style="text-align: left; width: 12%;">
+                        @Html.Label("Carriage Way Width")
+                    </td>
+                    <td style="width: 10%;">
+                        @Html.DropDownList("ddCarriage_PropCarriageWidthDetails", ViewData["CARRIAGEWIDTH"] as IEnumerable<SelectListItem>, new { @title = "Carriage Way Width", @style = "width:100px", @tabindex = 6 })
+                    </td>
+
+                    <td style="text-align: left; width: 5%;">
+                        @Html.Label("Collaboration")
+                    </td>
+                    <td style="width: 5%;">
+                        @Html.DropDownList("ddCollaboration_PropCarriageWidthDetails", ViewData["COLLABORATION"] as IEnumerable<SelectListItem>, new { @title = "Collaboration", @tabindex = 7, @style = "width:100px" })
+                    </td>
+                    <td style="text-align: left; width: 4%;">
+                        @Html.Label("Agency")
+                    </td>
+                    <td style="width: 5%;">
+                        @Html.DropDownList("ddAgency_PropCarriageWidthDetails", ViewData["AGENCY"] as IEnumerable<SelectListItem>, new { @title = "Agency", @tabindex = 8, @style = "width:100px" })
+                    </td>
+                    <td style="text-align: left; width: 8%;">
+                        @Html.Label("STA Status")
+                    </td>
+                    <td style="width: 5%;">
+                        @Html.DropDownList("ddStaStatus_PropCarriageWidthDetails", ViewData["StaSTATUS"] as IEnumerable<SelectListItem>, new { @title = "STA Status", @tabindex = 9, @style = "width:100px" })
+                    </td>
+                    <td style="text-align: left; width: 4%;">
+                        @Html.Label("Sanctioned")
+                    </td>
+                    <td style="width: 20%;">
+                        @Html.DropDownList("ddSanctioned_PropCarriageWidthDetails", ViewData["SANCTION"] as IEnumerable<SelectListItem>, new { @title = "Sanctioned", @tabindex = 10, @style = "width:100px" })
+                        <input type="button" id="btnGoPropCarriageWidth" value="View" class="jqueryButton" title="View Details" tabindex="2" />
+                    </td>
+                </tr>
+
+
+            </table>
+        </div>
+        <div style="width: 100%; margin-top: 0px;">
+            @if (PMGSY.Extensions.PMGSYSession.Current.LevelId == 6)     //6-mord &4-State & 5- District
+            {
+                <table style="width: 100%;">
+                    <tr>
+                        <td style="width: 50%;">
+                            <div id="divPropCarriageWidthStateDetail" style="width: 50%; margin-top: 4px;">
+
+                                <table id="tbPropCarriageWidthStateDetailReport"></table>
+                                <div id="dvPropCarriageWidthStateReportPager"></div>
+
+
+                            </div>
+                        </td>
+
+                        <td style="width: 50%; margin-top: 4px;">
+                            <div align="right" id="divPropCarriageWidthDistrictDetail" style="width: 100%; margin-top: 4px; margin-right: 10px;">
+
+                                <table id="tbPropCarriageWidthDistrictDetailReport"></table>
+                                <div id="dvPropCarriageWidthDistrictReportPager"></div>
+
+
+                            </div>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td colspan="2" style="width: 100%;">
+
+                            <div id="divPropCarriageWidthDetail" style="width: 100%; margin-top: 10px;">
+
+                                <table id="tbPropCarriageWidthDetailReport"></table>
+                                <div id="dvPropCarriageWidthReportPager"></div>
+
+
+                            </div>
+                        </td>
+                    </tr>
+                </table>
+            }
+            else
+            {
+                <table style="width: 100%;">
+                    <tr>
+
+                        <td style="width: 100%; margin-top: 4px;">
+                            <div id="divPropCarriageWidthDistrictDetail" style="width: 100%; margin-top: 4px; margin-left: 5px; margin-right: 10px;">
+
+                                <table id="tbPropCarriageWidthDistrictDetailReport"></table>
+                                <div id="dvPropCarriageWidthDistrictReportPager"></div>
+                            </div>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td style="width: 100%;">
+
+                            <div id="divPropCarriageWidthDetail" style="width: 100%; margin-top: 10px;">
+                                <table id="tbPropCarriageWidthDetailReport"></table>
+                                <div id="dvPropCarriageWidthReportPager"></div>
+                            </div>
+                        </td>
+                    </tr>
+                </table>
+            }
+        </div>
+
+
+
+
+    </div>
+    @* End of  Carriage way width tab *@
+
+    @* Start of Variation in Proposed tab *@
+
+    <div id="tab-7" style="width: 100%;">
+        <div style="width: 100%; margin-top: 2px;">
+            <center> <b>Variation in  Proposed Length w.r.t. Core Network </b>  </center>
+        </div>
+        <div style="width: 98%; margin-top: 2px;">
+            <table class="ui-state-default ui-corner-all" style="width: 100%;">
+                <tr>
+                    <td style="width: 2%;"></td>
+                    <td style="text-align: left; width: 5%;">
+                        @Html.Label("State")
+                    </td>
+                    <td style="width: 10%;">
+                        @Html.DropDownList("ddState_PropVariationLengthDetails", ViewData["STATE"] as IEnumerable<SelectListItem>, new { @title = "State", @tabindex = 1, @style = "width:100px" })
+                    </td>
+                    <td style="text-align: left; width: 5%;">
+                        @Html.Label("District")
+                    </td>
+                    <td style="width: 10%;">
+                        @Html.DropDownList("ddDistrict_PropVariationLengthDetails", ViewData["DISTRICT"] as IEnumerable<SelectListItem>, new { @title = "District", @tabindex = 2, @style = "width:100px" })
+                    </td>
+                    <td style="text-align: left; width: 4%;">
+                        @Html.Label("Block")
+                    </td>
+                    <td style="width: 10%;">
+                        @Html.DropDownList("ddBlock_PropVariationLengthDetails", ViewData["BLOCK"] as IEnumerable<SelectListItem>, new { @title = "Block", @tabindex = 3, @style = "width:100px" })
+                    </td>
+                    <td style="text-align: left; width: 8%;">
+                        @Html.Label("Proposed Year")
+                    </td>
+                    <td style="width: 10%;">
+                        @Html.DropDownList("ddYear_PropVariationLengthDetails", ViewData["YEAR"] as IEnumerable<SelectListItem>, new { @title = "Proposed year", @tabindex = 4, @style = "width:100px" })
+                    </td>
+                    <td style="text-align: left; width: 4%;">
+                        @Html.Label("Batch")
+                    </td>
+                    <td style="width: 10%;">
+                        @Html.DropDownList("ddBatch_PropVariationLengthDetails", ViewData["BATCH"] as IEnumerable<SelectListItem>, new { @title = "Batch", @tabindex = 5, @style = "width:100px" })
+                    </td>
+                </tr>
+                <tr>
+                    <td style="width: 2%;"></td>
+
+                    <td style="text-align: left; width: 5%;">
+                        @Html.Label("Collaboration")
+                    </td>
+                    <td style="width: 5%;">
+                        @Html.DropDownList("ddCollaboration_PropVariationLengthDetails", ViewData["COLLABORATION"] as IEnumerable<SelectListItem>, new { @title = "Collaboration", @tabindex = 7, @style = "width:100px" })
+                    </td>
+                    <td style="text-align: left; width: 4%;">
+                        @Html.Label("Agency")
+                    </td>
+                    <td style="width: 5%;">
+                        @Html.DropDownList("ddAgency_PropVariationLengthDetails", ViewData["AGENCY"] as IEnumerable<SelectListItem>, new { @title = "Agency", @tabindex = 8, @style = "width:100px" })
+                    </td>
+                    <td style="text-align: left; width: 8%;">
+                        @Html.Label("STA Status")
+                    </td>
+                    <td style="width: 5%;">
+                        @Html.DropDownList("ddStaStatus_PropVariationLengthDetails", ViewData["StaSTATUS"] as IEnumerable<SelectListItem>, new { @title = "STA Status", @tabindex = 9, @style = "width:100px" })
+                    </td>
+                    <td style="text-align: left; width: 4%;">
+                        @Html.Label("Sanctioned")
+                    </td>
+                    <td style="width: 15%;">
+                        @Html.DropDownList("ddSanctioned_PropVariationLengthDetails", ViewData["SANCTION"] as IEnumerable<SelectListItem>, new { @title = "Sanctioned", @tabindex = 10, @style = "width:100px" })
+                    </td>
+                    <td colspan="2">
+                        <input type="button" id="btnGoPropVariationLength" value="View" class="jqueryButton" title="View Details" tabindex="11" />
+                    </td>
+                </tr>
+
+            </table>
+        </div>
+
+        <div id="divPropVariationLengthDetail" style="width: 100%; margin-top: 20px;">
+            <table id="tbPropVariationLengthDetailReport"></table>
+            <div id="dvPropVariationLengthReportPager"></div>
+        </div>
+    </div>
+    @* End of  Variation in Proposed tab *@
+
+    @* Start of Misclassification Proposed tab *@
+
+    <div id="tab-8">
+        <div style="width: 100%; margin-top: 2px;">
+            <center> <b>Proposals Misclassification. </b>  </center>
+        </div>
+
+        <div style="width: 100%; margin-top: 2px;">
+            <table class="ui-state-default ui-corner-all" style="width: 100%;">
+                <tr>
+                    <td style="width: 2%;"></td>
+                    <td style="text-align: left; width: 12%;">
+                        @Html.Label("State")
+                    </td>
+                    <td style="width: 10%;">
+                        @Html.DropDownList("ddState_PropMisclassificationDetails", ViewData["STATE"] as IEnumerable<SelectListItem>, new { @title = "State", @tabindex = 1, @style = "width:100px" })
+                    </td>
+                    <td style="text-align: left; width: 5%;">
+                        @Html.Label("District")
+                    </td>
+                    <td style="width: 10%;">
+                        @Html.DropDownList("ddDistrict_PropMisclassificationDetails", ViewData["DISTRICT"] as IEnumerable<SelectListItem>, new { @title = "District", @tabindex = 2, @style = "width:100px" })
+                    </td>
+                    <td style="text-align: left; width: 4%;">
+                        @Html.Label("Block")
+                    </td>
+                    <td style="width: 10%;">
+                        @Html.DropDownList("ddBlock_PropMisclassificationDetails", ViewData["BLOCK"] as IEnumerable<SelectListItem>, new { @title = "Block", @tabindex = 3, @style = "width:100px" })
+                    </td>
+                    <td style="text-align: left; width: 8%;">
+                        @Html.Label("Proposed Year")
+                    </td>
+                    <td style="width: 10%;">
+                        @Html.DropDownList("ddYear_PropMisclassificationDetails", ViewData["YEAR"] as IEnumerable<SelectListItem>, new { @title = "Proposed year", @tabindex = 4, @style = "width:100px" })
+                    </td>
+                    <td style="text-align: left; width: 7%;">
+                        @Html.Label("Batch")
+                    </td>
+                    <td style="width: 15%;">
+                        @Html.DropDownList("ddBatch_PropMisclassificationDetails", ViewData["BATCH"] as IEnumerable<SelectListItem>, new { @title = "Batch", @tabindex = 5, @style = "width:100px" })
+                    </td>
+                </tr>
+                <tr>
+                    <td style="width: 2%;"></td>
+
+                    <td style="text-align: left; width: 5%;">
+                        @Html.Label("Collaboration")
+                    </td>
+                    <td style="width: 5%;">
+                        @Html.DropDownList("ddCollaboration_PropMisclassificationDetails", ViewData["COLLABORATION"] as IEnumerable<SelectListItem>, new { @title = "Collaboration", @tabindex = 7, @style = "width:100px" })
+                    </td>
+                    <td style="text-align: left; width: 4%;">
+                        @Html.Label("Agency")
+                    </td>
+                    <td style="width: 5%;">
+                        @Html.DropDownList("ddAgency_PropMisclassificationDetails", ViewData["AGENCY"] as IEnumerable<SelectListItem>, new { @title = "Agency", @tabindex = 8, @style = "width:100px" })
+                    </td>
+                    <td style="text-align: left; width: 8%;">
+                        @Html.Label("STA Status")
+                    </td>
+                    <td style="width: 5%;">
+                        @Html.DropDownList("ddStaStatus_PropMisclassificationDetails", ViewData["StaSTATUS"] as IEnumerable<SelectListItem>, new { @title = "STA Status", @tabindex = 9, @style = "width:100px" })
+                    </td>
+                  
+                    <td style="text-align: left; width: 7%;">
+                        @Html.Label("MRD Status")
+                    </td>
+                    <td style="width: 15%;">
+                        @Html.DropDownList("ddMrdStatus_PropMisclassificationDetails", ViewData["MrdSTATUS"] as IEnumerable<SelectListItem>, new { @title = "MRD Status", @tabindex = 10, @style = "width:100px" })
+                    </td>
+                    <td colspan="2">
+                          <input type="button" id="btnGoPropMisclassification" value="View" class="jqueryButton" title="View Details" tabindex="11" />
+                    </td>
+                </tr>
+
+
+            </table>
+        </div>
+        <div style="width: 100%; margin-top: 0px;">
+            <table style="width: 100%">
+                <tr>
+                    <td>
+                        <div id="divPropMisclassification" style="width: 100%; margin-top: 5px;">
+
+                            <table id="tbPropMisclassificationReport"></table>
+                            <div id="dvPropMisclassificationPager"></div>
+
+                        </div>
+                        @* [Click on Road Cost / Bridge Cost Column values to view proposal details] *@
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        <div id="divPropMisclassificationDetail" style="width: 100%; margin-top: 5px;">
+
+                            <table id="tbPropMisclassificationDetailReport"></table>
+                            <div id="dvPropMisclassificationReportPager"></div>
+
+                        </div>
+                    </td>
+                </tr>
+            </table>
+        </div>
+        @* End of Misclassification in Proposed tab *@
+
+
+
+    </div>
+@* End of Main  Proposals DataGap tab *@
+

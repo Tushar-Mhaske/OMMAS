@@ -1,0 +1,95 @@
+﻿<!DOCTYPE html>
+<html>
+    <head>
+
+<title></title>
+        <script src ="1.11.2.js"></script>
+        <script type="text/javascript">
+            $document.ready(function () {
+                $('#btn').click(function () {
+                    $.ajax({
+                        url: 'eMarg.asmx.cs/EmargRoadDetails',
+                        datatype: "json",
+                        method: 'post',
+                        success: function (data) {
+                            var tb = $('#btn tbody');
+                            $(data).each(function (index, emp) {
+                                tb.append('<tr><td>'+ emp.state + '</td><td>' +
+                                    
+                                    emp.district + '</td><td>' + emp.packageNo + '</td><td>' + emp.contractor + '</td><td>' + emp.pan + '</td><td>'
+                                    + emp.agreementNo + '</td><td>' + emp.agreementDate + '</td><td>' + emp.roadCode + '</td><td>' + emp.roadName + '</td><td>' + emp.completionDate + '</td><td>'
+                                    + emp.sanctionedLength + '</td><td>' + emp.completedLength + '</td><td>' + emp.carriageWidth + '</td><td>' + emp.trafficDensity + '</td><td>' + emp.remarks + '</td></tr>');
+                            });
+
+
+                           
+
+
+                        }
+                        ,
+                        error: function (err) {
+
+                            alert(err);
+
+                        }
+
+
+
+
+                    });
+
+
+
+                 
+
+
+                });
+
+               
+
+            });
+
+
+                
+
+
+
+        </script>
+    </head>
+    <body>
+        <input type="button" id="btn" value="click">
+        <table id="tabledata">
+            <tr>
+                <th>state </th>
+                <th>district </th>
+                <th>packageNo </th>
+                <th> contractor</th>
+                <th>pan </th>
+                <th> agreementNo</th>
+                <th>agreementDate </th>
+                <th>roadCode </th>
+                <th> roadName</th>
+                <th>completionDate </th>
+                <th>sanctionedLength </th>
+                <th>completedLength </th>
+                <th>carriageWidth </th>
+                <th>trafficDensity </th>
+                <th>remarks </th>
+               
+                
+
+            </tr>
+
+
+<tbody> </tbody>
+
+        </table>
+
+
+
+
+
+
+
+    </body>
+</html>

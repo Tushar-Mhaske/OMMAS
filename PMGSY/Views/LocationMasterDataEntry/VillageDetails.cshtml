@@ -1,0 +1,85 @@
+﻿@model IEnumerable<PMGSY.Models.MASTER_VILLAGE>
+
+@{
+    ViewBag.Title = "Index";
+}
+<script type="text/javascript" src="@Url.Content("~/Scripts/jquery.ui.dialog.js")"> </script>
+<script src="@Url.Content("~/Scripts/custom/Generic.js")" type="text/javascript" ></script>
+<script type="text/javascript" src="@Url.Content("~/Scripts/MasterDataEntry/Master_ListVillage.js")"> </script>
+
+<center>
+    @Html.Hidden("RoleCode", PMGSY.Extensions.PMGSYSession.Current.RoleCode)
+       @Html.Hidden("hdnPMGSYScheme", PMGSY.Extensions.PMGSYSession.Current.PMGSYScheme.ToString())
+         <div style="width:100%;">
+<div id="dvVillageDetails" style="display:none; ">
+       
+      </div>@* end of craete new div*@
+
+<div id="dvSearchVillage" >
+     
+    
+
+</div>
+
+
+
+
+<div id="dvVillageList">
+
+     <table style="width:100%; padding-top:1.5em;">
+    <tr>  
+      @*  <td style="width:8.5%;"></td> *@
+        <td  style="text-align:left">
+   @*   <input type="button" id="btnCreateNew" name="btnCreateNew" value="Add New Village" class= "jqueryButton" title="Add New Village"  /> 
+      <input type="button" id="btnSearchView" name="btnSearchView" value="Search Village" class= "jqueryButton" title="Search Village" style="display:none;"/> *@
+            @if (PMGSY.Extensions.PMGSYSession.Current.RoleCode == 36 || PMGSY.Extensions.PMGSYSession.Current.RoleCode == 22) //ITNO= 36 and PIU=22
+            {
+                if (ViewBag.MAST_LOCK_STATUS == "U")
+                {
+            <div class="ui-state-default ui-corner-all jqueryButton" id="btnCreateNew" title="Add Village">
+                <span style="float:left" class="ui-icon ui-icon-circle-plus"></span>
+                <span style="float:left; margin-right:5px">Add Village</span>
+            </div>
+                }
+            }
+            else
+            {
+              <div class="ui-state-default ui-corner-all jqueryButton" id="btnCreateNew" title="Add Village">
+                <span style="float:left" class="ui-icon ui-icon-circle-plus"></span>
+                <span style="float:left; margin-right:5px">Add Village</span>
+            </div>
+            }
+             <div class="ui-state-default ui-corner-all jqueryButton" id="btnSearchView" title="Search Village" style="display:none;">
+                <span style="float:left" class="ui-icon ui-icon-search"></span>
+                <span style="float:left; margin-right:5px">Search Village</span>
+            </div>
+
+            </td>
+        </tr>
+  @*  <tr></tr>
+    <tr></tr>*@
+    </table>
+
+    <table id="tbVillageList" style="width:100%">
+
+    </table>
+
+    <div id="dvVillageListPager"></div>
+</div>
+    
+             </div>
+      </center>
+
+<div id="dvShiftVillage">
+</div>
+
+
+<div id="dvShiftVillageBlock">
+</div>
+
+
+
+@section Scripts {
+    @Scripts.Render("~/bundles/jqueryval")
+
+}

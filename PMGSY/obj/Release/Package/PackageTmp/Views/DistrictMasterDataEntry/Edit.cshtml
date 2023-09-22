@@ -1,0 +1,189 @@
+﻿@model PMGSY.Models.MasterDataEntry.MASTER_DISTRICT
+
+@{
+    ViewBag.Title = "Edit";
+}
+
+<script type="text/javascript" src="@Url.Content("~/Scripts/MasterDataEntry/Master_EditDistrict.js")"> </script>
+
+<h2>Edit District Details </h2>
+
+@using (Html.BeginForm()) {
+    
+    @Html.ValidationSummary(true)
+
+    @*<div style="color:green;">
+        @Html.ValidationMessage("success")
+
+    </div>*@
+    <fieldset>
+        <legend>District Details</legend>
+
+            
+@*        <div class="editor-label">
+            @Html.LabelFor(model => model.MAST_DISTRICT_CODE)
+        </div>
+        <div class="editor-field">
+            @Html.EditorFor(model => model.MAST_DISTRICT_CODE)
+            @Html.ValidationMessageFor(model => model.MAST_DISTRICT_CODE)
+        </div>
+
+        <div class="editor-label">
+            @Html.LabelFor(model => model.MAST_DISTRICT_NAME)
+        </div>
+        <div class="editor-field">
+            @Html.EditorFor(model => model.MAST_DISTRICT_NAME)
+            @Html.ValidationMessageFor(model => model.MAST_DISTRICT_NAME)
+        </div>
+
+        <div class="editor-label">
+            @Html.LabelFor(model => model.MAST_STATE_CODE, "MASTER_STATE")
+        </div>
+        <div class="editor-field">
+            @Html.DropDownList("MAST_STATE_CODE", String.Empty)
+            @Html.ValidationMessageFor(model => model.MAST_STATE_CODE)
+        </div>
+
+        <div class="editor-label">
+            @Html.LabelFor(model => model.MAST_PMGSY_INCLUDED)
+        </div>
+        <div class="editor-field">
+            @Html.EditorFor(model => model.MAST_PMGSY_INCLUDED)
+            @Html.ValidationMessageFor(model => model.MAST_PMGSY_INCLUDED)
+        </div>
+
+        <div class="editor-label">
+            @Html.LabelFor(model => model.MAST_IAP_DISTRICT)
+        </div>
+        <div class="editor-field">
+            @Html.EditorFor(model => model.MAST_IAP_DISTRICT)
+            @Html.ValidationMessageFor(model => model.MAST_IAP_DISTRICT)
+        </div>
+
+        <div class="editor-label">
+            @Html.LabelFor(model => model.MAST_DISTRICT_ACTIVE)
+        </div>
+        <div class="editor-field">
+            @Html.EditorFor(model => model.MAST_DISTRICT_ACTIVE)
+            @Html.ValidationMessageFor(model => model.MAST_DISTRICT_ACTIVE)
+        </div>
+
+        <div class="editor-label">
+            @Html.LabelFor(model => model.MAST_NIC_STATE_CODE)
+        </div>
+        <div class="editor-field">
+            @Html.EditorFor(model => model.MAST_NIC_STATE_CODE)
+            @Html.ValidationMessageFor(model => model.MAST_NIC_STATE_CODE)
+        </div>
+
+        <div class="editor-label">
+            @Html.LabelFor(model => model.MAST_NIC_DISTRICT_CODE)
+        </div>
+        <div class="editor-field">
+            @Html.EditorFor(model => model.MAST_NIC_DISTRICT_CODE)
+            @Html.ValidationMessageFor(model => model.MAST_NIC_DISTRICT_CODE)
+        </div>
+
+        
+
+        <p>
+            <input type="submit" value="Save" />
+        </p>*@
+
+
+         <table style="width:100%">
+
+             <tr style="display: none">
+                 <td colspan="3">
+                     @Html.HiddenFor(model => model.EncryptedDistrictCode)
+                 </td>
+
+             </tr>
+                 <tr>
+                <td >
+                    @Html.LabelFor(model => model.MAST_STATE_CODE, "State")
+                </td>
+                <td>
+                   <label style="color:red;"> *</label>
+                </td>
+                <td>
+                     @Html.DropDownListFor(model => model.MAST_STATE_CODE, Model.States, new {@id="ddlStates", @title = "State", @tabindex = 1,disabled = "disabled" })
+                   
+                     @Html.ValidationMessageFor(model => model.MAST_STATE_CODE)
+                     
+                  
+                </td>
+            </tr>
+
+            <tr>
+                <td style="text-align:left;width:10%;">
+                      @Html.LabelFor(model => model.MAST_DISTRICT_NAME)
+                </td>
+                <td style="width:1%;">
+                   <label style="color:red;"> *</label>
+                </td>
+                <td>
+                     @Html.TextBoxFor(model => model.MAST_DISTRICT_NAME, new { maxlength = 50, @title = "District Name", @tabindex = 2 })
+                   
+                     @Html.ValidationMessageFor(model => model.MAST_DISTRICT_NAME)
+
+                </td>
+            </tr>
+            
+              <tr>
+                <td >
+                    @Html.LabelFor(model => model.MAST_PMGSY_INCLUDED)
+                </td>
+                <td>
+                   <label style="color:red;"> *</label>
+                </td>
+                <td>
+                    
+                    @Html.RadioButtonFor(model => model.IsPMGSYIncluded, true, new { id="rdoIsPMGSYIncludedYes",@tabindex = 3 }) <label> Yes</label> &nbsp;&nbsp;
+                    
+                    @Html.RadioButtonFor(model => model.IsPMGSYIncluded, false, new { id="rdoIsPMGSYIncludedNo"}) <label>No</label>
+
+                </td>
+            </tr>
+             
+            <tr>
+                <td >
+                    @Html.LabelFor(model => model.MAST_IAP_DISTRICT)
+                </td>
+                <td>
+                   <label style="color:red;"> *</label>
+                </td>
+                <td>
+                    
+                    @Html.RadioButtonFor(model => model.IsIAPDistrict, true,new { id="rdoIsIAPDistrictYes",@tabindex = 4 }) Yes &nbsp;&nbsp;
+                    
+                    @Html.RadioButtonFor(model => model.IsIAPDistrict, false,new { id="rdoIsIAPDistrictNo"}) No
+
+                </td>
+            </tr>
+
+      
+            <tr>
+                <td></td>
+                <td></td>
+                <td>
+                    <input type="button" id="btnUpdate" name="btnUpdate" value="Update" class= "ui-button ui-button-text-only ui-state-default normalButton" title="Update District Details" tabindex="5"  /> &nbsp;&nbsp;&nbsp;
+                    <input type="button" id="btnCancel" name="btnCancel" value="Cancel" class= "ui-button ui-button-text-only ui-state-default normalButton" title="Cancel" tabindex="6"  />
+                </td>
+
+            </tr>
+
+
+        </table>
+
+
+    </fieldset>
+}
+
+<div>
+    @Html.ActionLink("Back to List", "Index")
+</div>
+
+@section Scripts {
+    @Scripts.Render("~/bundles/jqueryval")
+}

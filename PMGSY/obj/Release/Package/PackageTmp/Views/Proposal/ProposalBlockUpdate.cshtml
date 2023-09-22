@@ -1,0 +1,157 @@
+﻿@*
+    * Project Id    :
+    * Project Name  :   OMMAS II
+    * Name          :   ProposalBlockUpdate.cshtml
+    * Description   :   This View updates the block of proposal.
+    * Author        :   Vikram Nandanwar
+    * Creation Date :   02/09/2014
+*@
+
+
+@model PMGSY.Models.Proposal.ProposalBlockUpdateViewModel
+
+<script src="~/Scripts/custom/Generic.js"></script>
+<script type="text/javascript">
+
+    $(document).ready(function () {
+
+        $.validator.unobtrusive.parse($('#dvblockDetails'));
+
+
+        $("#ddlUpdateDistricts").change(function () {
+
+            $.ajax({
+
+                type: 'POST',
+                url: '/Proposal/PopulateBlocks',
+                async: false,
+                cache: false,
+                beforeSend: function () {
+                    $.blockUI({ message: '<img src="/Content/images/ajax-loader.gif" />' });
+                },
+                data: { districtCode: $("#ddlUpdateDistricts").val(), value: Math.random() },
+                success: function (jsonData)
+                {
+                    $("#ddlUpdateBlocks").empty();
+                    for (var i = 0; i < jsonData.length; i++) {
+                        if (i == 0) {
+                            $("#ddlUpdateBlocks").append("<option value='0' selected=true>Select Block</option>");
+                        }
+                        else {
+                            $("#ddlUpdateBlocks").append("<option value='" + jsonData[i].Value + "'>" + jsonData[i].Text + "</option>");
+                        }
+                    }
+
+                    $.unblockUI();
+                },
+                error: function () {
+                    $.unblockUI();
+                }
+
+            });
+
+            $.ajax({
+
+                type: 'POST',
+                url: '/Proposal/PopulatePIUOfDistrict',
+                async: false,
+                cache: false,
+                beforeSend: function () {
+                    $.blockUI({ message: '<img src="/Content/images/ajax-loader.gif" />' });
+                },
+                data: { districtCode: $("#ddlUpdateDistricts").val(), value: Math.random() },
+                success: function (jsonData) {
+                    $("#ddlUpdatePIU").empty();
+                    for (var i = 0; i < jsonData.length; i++) {
+                        $("#ddlUpdatePIU").append("<option value='" + jsonData[i].Value + "'>" + jsonData[i].Text + "</option>");
+                    }
+                    $.unblockUI();
+                },
+                error: function () {
+                    $.unblockUI();
+                }
+
+            });
+
+        });
+
+
+        $("#btnUpdateBlock").click(function () {
+
+            //if (confirm('Updating the block details will clear the core network and habitation details. You will need to map the core network and habitations after updating the block details.')) {
+            if (confirm('Are you sure to update the details?')){
+                if ($("#dvblockDetails").valid()) {
+                    $.ajax({
+
+                        url: '/Proposal/UpdateBlockDetails',
+                        type: 'POST',
+                        cache: false,
+                        async: false,
+                        data: $("#dvblockDetails").serialize(),
+                        success: function (data) {
+                            if (data.success == true) {
+                                alert('Proposal block details update successfully');
+                                jQuery("#tbUpdateProposalList").trigger('reloadGrid');
+                                $("#dvBlockUpdate").dialog('close');
+                                return false;
+                            }
+                            else {
+                                alert('Error occurred while processing your request.');
+                                return false;
+                            }
+                        },
+                        error: function () {
+                            alert('Request can not be processed at this time . please try after some time!');
+                        }
+
+                    });
+                }
+                else {
+                    return false;
+                }
+            }
+        });
+    });
+</script>
+
+
+<form id="dvblockDetails"> 
+    @Html.AntiForgeryToken()
+    
+    <table>
+        <tr>
+            <td style="width:25%"></td>
+             <td style="width:15%">
+                @Html.LabelFor(model=>model.District)
+            </td>
+            <td style="width:70%">
+                @Html.DropDownListFor(model => model.District, new SelectList(Model.lstDistricts, "Value", "Text"), new { @id="ddlUpdateDistricts" , @title = "Please select District" , @tabindex = 1})
+                @Html.ValidationMessageFor(model=>model.District)
+            </td>
+            <td style="width:15%">
+                @Html.LabelFor(model=>model.PIU)
+            </td>
+            <td style="width:70%">
+                @Html.DropDownListFor(model => model.PIU, new SelectList(Model.lstPIU, "Value", "Text"), new { @id="ddlUpdatePIU" , @title = "Please select PIU" , @tabindex = 2})
+                @Html.ValidationMessageFor(model=>model.PIU)
+            </td>
+            <td style="width:15%">
+                @Html.HiddenFor(model=>model.ProposalCode)
+                @Html.LabelFor(model=>model.Block)
+            </td>
+            <td style="width:70%">
+                @Html.DropDownListFor(model => model.Block, new SelectList(Model.lstBlocks, "Value", "Text"), new { @id="ddlUpdateBlocks" , @title = "Please select Block" , @tabindex = 3})
+                @Html.ValidationMessageFor(model=>model.Block)
+            </td>
+        </tr>
+        <tr>
+            <td></td>
+            <td colspan="6">
+                <center>
+                <input type="button" id="btnUpdateBlock" name="btnUpdateBlock" value="Update Details" class="jqueryButton" title="Update Proposal Block Details" tabindex="4" />
+                </center>
+            </td>
+        </tr>
+    </table>
+</form>
+

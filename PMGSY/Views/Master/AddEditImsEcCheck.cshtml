@@ -1,0 +1,1244 @@
+﻿@model PMGSY.Models.Master.IMSECCheckListViewModel
+
+@{
+    ViewBag.Title = "AddEditImsEcCheck";
+}
+
+<script src="~/Scripts/custom/Generic.js" type="text/javascript"></script>
+<script src="~/Scripts/jquery.ui.datepicker.js" type="text/javascript"></script>
+<script src="~/Scripts/Master/AddEditImsEcCheck.js" type="text/javascript"></script>
+
+<div id="dvhdAddNewImsEcCheckDetails" class="ui-corner-top ui-widget-header panelheader" style="text-align: left; height: 20px;">
+    <span class="ui-jqgrid-title" style="float: left" id="spandivhdAddEditEC">&nbsp;Check List Details</span>
+
+    <span id="spCollapseIconCheckList" class="ui-icon ui-icon-circle-triangle-n" style="float: right"></span>
+</div>
+
+<div id="dvAddNewImsEcCheckDetails" class="ui-corner-bottom" style="display: block; border: 1px solid #B5B8C8; text-align: left">
+
+    <div id="dvErrorMessage" class="ui-widget ui-state-error ui-corner-all" style="padding: 0.7em .7em; display: none; margin: 5px 5px 5px 5px;">
+        <span class="ui-icon ui-icon-alert" style="float: left; margin-right: .3em;"></span>
+        <strong>Alert:</strong> <span id="message"></span>
+    </div>
+    <form id="frmAddImsEcCheck">
+        @Html.AntiForgeryToken()
+        <center>@Html.ValidationSummary(true)</center>
+        <table style="width: 100%; margin-top: 10px;" class="rowstyle">
+
+            <tr>
+                <td colspan="5" style="display: none">
+                    @Html.HiddenFor(model => model.EncryptedMastEcId)   
+                    @Html.HiddenFor(model => model.HdRoleTypeEntry)                
+                    @Html.HiddenFor(model => model.RoleCodeStringSRRDA)
+                    @Html.HiddenFor(model => model.RoleCodeStringMORD)
+                    @Html.Hidden("hdStateCode", PMGSY.Extensions.PMGSYSession.Current.StateCode)
+                    @Html.HiddenFor(model => model.IMS_EC_TYPE)
+
+                </td>
+            </tr>
+
+
+            <tr>
+                <td style="width: 5%;"></td>
+                <td style="text-align: left; width: 15%;">
+                    @Html.LabelFor(model => model.StateCode)<label style="color: red;"> *</label>
+                </td>
+                <td style="width: 25%;">
+                    @if (Model.EncryptedMastEcId == null)
+                    {
+                        if (Model.StateCode == null || Model.StateCode == 0)
+                        {
+                        @Html.DropDownListFor(model => model.StateCode, new SelectList(Model.StateList, "Value", "Text"), new { @title = "Select State", @id = "ddlState", @tabindex = 1 })
+                        }
+                        else
+                        {
+                        @Html.DropDownListFor(model => model.StateCode, new SelectList(Model.StateList, "Value", "Text"), new { @title = "Select State", @id = "ddlState", @tabindex = 1, @disabled = "disabled" })
+                        }
+                    }
+                    else
+                    {
+                        @Html.DropDownListFor(model => model.StateCode, new SelectList(Model.StateList, "Value", "Text"), new { @title = " Select State", @id = "ddlState", @tabindex = 1, @disabled = "disabled" })
+                    }
+                    @Html.ValidationMessageFor(model => model.StateCode)
+                </td>
+                  <td style="width: 23%">
+                    @Html.LabelFor(model => model.Mast_Agency)
+                    <label style="color: red;">*</label>
+                </td>
+                <td>
+                    @if (Model.EncryptedMastEcId == null)
+                    {
+                        if (Model.Mast_Agency != 0)
+                        {
+                        @Html.DropDownListFor(model => model.Mast_Agency, new SelectList(Model.Mast_AgencyList, "Value", "Text"), new { @id = "ddlAgency", @title = "Select Agency ", @tabindex = 2, @disabled = "disabled" })
+                        }
+                        else
+                        {
+                        @Html.DropDownListFor(model => model.Mast_Agency, new SelectList(Model.Mast_AgencyList, "Value", "Text"), new { @id = "ddlAgency", @title = "Select Agency ", @tabindex = 2 })
+                            
+                        }
+                    }
+                    else
+                    {
+                        @Html.DropDownListFor(model => model.Mast_Agency, new SelectList(Model.Mast_AgencyList, "Value", "Text"), new { @id = "ddlAgency", @title = "Select Agency ", @tabindex = 2, @disabled = "disabled" })
+                  
+                    }
+                    @Html.ValidationMessageFor(model => model.Mast_Agency)
+
+                </td>
+               
+            </tr>
+            <tr>
+                <td style="width: 5%;"></td>
+                 <td style="width: 25%">
+                    @Html.LabelFor(model => model.PhaseYear)
+                    <label style="color: red;">*</label>
+                </td>
+                <td>
+                    @if (Model.EncryptedMastEcId == null)
+                    {
+                        @Html.DropDownListFor(model => model.PhaseYear, new SelectList(Model.PhaseYearList, "Value", "Text"), new { @id = "ddlPhaseYear", @title = "Select Year", @tabindex = 3 })
+                    
+                    }
+                    else
+                    {
+                        @Html.DropDownListFor(model => model.PhaseYear, new SelectList(Model.PhaseYearList, "Value", "Text"), new { @id = "ddlPhaseYear", @title = "Select Year", @tabindex = 3, @disabled = "disabled" })
+                         
+                    }
+                    @Html.ValidationMessageFor(model => model.PhaseYear)
+
+                </td>
+                <td style="text-align: left; width: 15%;">
+                    @Html.LabelFor(model => model.Batch)<label style="color: red;"> *</label>
+                </td>
+                <td style="width: 23%;">
+                    @if (Model.EncryptedMastEcId == null)
+                    {
+                        @Html.DropDownListFor(model => model.Batch, new SelectList(Model.BatchList, "Value", "Text"), new { @title = "Select Batch", @id = "ddlBatch", @tabindex = 4 })
+                   
+                    }
+                    else
+                    {
+                        @Html.DropDownListFor(model => model.Batch, new SelectList(Model.BatchList, "Value", "Text"), new { @title = "Select Batch", @id = "ddlBatch", @tabindex = 4, @disabled = "disabled" })
+                          
+                    }
+                    @Html.ValidationMessageFor(model => model.Batch)
+                </td>
+              
+            </tr>
+              @if (PMGSY.Extensions.PMGSYSession.Current.RoleCode == 25) //MORD
+              {
+            <tr>
+                <td></td>
+                <td colspan="3"></td>
+                <td><b>SRRDA</b> &nbsp; &nbsp; &nbsp;&nbsp;&nbsp;&nbsp; &nbsp; &nbsp;&nbsp;&nbsp;&nbsp;<b>NRRDA</b></td>
+            </tr>
+              }
+            <tr>
+                <td>1.</td>
+                <td colspan="3">
+                    @Html.Label("Core Network ready")<label style="color: red;"> *</label>
+                </td>
+                <td id="tdIMS_CN_READY">
+                    @if (PMGSY.Extensions.PMGSYSession.Current.RoleCode == 2) //SRRDA
+                    {
+                        if (Model.EncryptedMastEcId == null)
+                        {
+                        @Html.RadioButtonFor(model => model.IMS_CN_READY, "Y", new { @id = "radioIMS_CN_READYYes",@tabindex = 5, @title = "Yes" })
+                        @Html.Label("Yes")
+                         @Html.RadioButtonFor(model => model.IMS_CN_READY, "N", new { @id = "radioIMS_CN_READYNo",@tabindex = 6, @title = "No" })
+                        @Html.Label("No")
+                        }
+                        else
+                        {
+                        @Html.HiddenFor(model => model.IMS_CN_READY_NRRDA)                       
+                        @Html.RadioButtonFor(model => model.IMS_CN_READY, "Y", new { @id = "radioIMS_CN_READYYes",@tabindex = 5, @title = "Yes" })
+                        @Html.Label("Yes")
+                        @Html.RadioButtonFor(model => model.IMS_CN_READY, "N", new { @id = "radioIMS_CN_READYNo",@tabindex = 6, @title = "No" })
+                        @Html.Label("No")
+
+                        }
+                        
+                        @Html.ValidationMessageFor(model => model.IMS_CN_READY)
+                    }
+                    else if (PMGSY.Extensions.PMGSYSession.Current.RoleCode == 25)       //MORD             
+                    {
+                        if (Model.EncryptedMastEcId != null)
+                        {
+
+                            if (Model.IMS_CN_READY == "Y")
+                            {
+                        @Html.Label("Yes", new { @style = "margin-right:50px" })
+                            }
+                            else
+                            {
+                        @Html.Label("No", new { @style = "margin-right:50px" })
+                            }
+                        @Html.HiddenFor(model => model.IMS_CN_READY)
+                     
+                       
+                        @Html.RadioButtonFor(model => model.IMS_CN_READY_NRRDA, "Y", new { @id = "radioIMS_CN_READY_NRRDAYes", @title = "Yes",@tabindex = 5, @style = "margin-left:10px" })
+                        @Html.Label("Yes")
+                        @Html.RadioButtonFor(model => model.IMS_CN_READY_NRRDA, "N", new { @id = "radioIMS_CN_READY_NRRDANo",@tabindex = 6, @title = "No" })
+                        @Html.Label("No")
+                       
+                        }
+                        @Html.ValidationMessageFor(model => model.IMS_CN_READY_NRRDA)
+                    }
+                </td>
+
+            </tr>
+
+            <tr>
+                <td>2.</td>
+                <td colspan="3">
+                    @Html.Label("Whether DRRP data entered in OMMS")<label style="color: red;"> *</label>
+                </td>
+                <td id="tdIMS_DRRP_OMMAS" colspan="1">
+                    @if (PMGSY.Extensions.PMGSYSession.Current.RoleCode == 2) //SRRDA
+                    {
+                        if (Model.EncryptedMastEcId == null)
+                        {
+                        @Html.RadioButtonFor(model => model.IMS_DRRP_OMMAS, "Y", new { @id = "radioIMS_DRRP_OMMASYes",@tabindex = 7, @title = "Yes" })
+                        @Html.Label("Yes")
+                            //@Html.RadioButtonFor(model => model.IMS_DRRP_OMMAS, "N", new { @id = "radioIMS_DRRP_OMMASNo",  @title = "No" })
+                        @Html.RadioButtonFor(model => model.IMS_DRRP_OMMAS, "N", new { @id = "radioIMS_DRRP_OMMASNo",@tabindex = 8, @title = "No" })
+                        @Html.Label("No")
+                        }
+                        else
+                        {
+                        @Html.HiddenFor(model => model.IMS_DRRP_OMMAS_NRRDA)                      
+                            
+                        @Html.RadioButtonFor(model => model.IMS_DRRP_OMMAS, "Y", new { @id = "radioIMS_DRRP_OMMASYes",@tabindex = 7, @title = "Yes" })
+                        @Html.Label("Yes")
+                        @Html.RadioButtonFor(model => model.IMS_DRRP_OMMAS, "N", new { @id = "radioIMS_DRRP_OMMASNo",@tabindex = 8, @title = "No" })
+                        @Html.Label("No")
+                        }
+                        @Html.ValidationMessageFor(model => model.IMS_DRRP_OMMAS)
+                    }
+                    else if (PMGSY.Extensions.PMGSYSession.Current.RoleCode == 25)       //MORD             
+                    {
+                        if (Model.EncryptedMastEcId != null)
+                        {
+
+                            if (Model.IMS_DRRP_OMMAS == "Y")
+                            {
+                        @Html.Label("Yes", new { @style = "margin-right:50px" })
+                            }
+                            else
+                            {
+                        @Html.Label("No", new { @style = "margin-right:50px" })
+                            }
+                        @Html.HiddenFor(model => model.IMS_DRRP_OMMAS)
+                     
+                       
+                        @Html.RadioButtonFor(model => model.IMS_DRRP_OMMAS_NRRDA, "Y", new { @id = "radioIMS_DRRP_OMMAS_NRRDAYes",@tabindex = 7, @title = "Yes", @style = "margin-left:10px" })
+                        @Html.Label("Yes")
+                        @Html.RadioButtonFor(model => model.IMS_DRRP_OMMAS_NRRDA, "N", new { @id = "radioIMS_DRRP_OMMAS_NRRDANo",@tabindex = 8, @title = "No" })
+                        @Html.Label("No")
+                       
+                        }
+                        @Html.ValidationMessageFor(model => model.IMS_DRRP_OMMAS_NRRDA)
+                    }
+                </td>
+
+            </tr>
+
+            <tr>
+                <td>3.</td>
+                <td colspan="3">
+                    @Html.Label("CNCP/CUP list used")<label style="color: red;"> *</label>
+                </td>
+                <td id="tdIMS_CNCUPL_READY" colspan="1">
+                    @if (PMGSY.Extensions.PMGSYSession.Current.RoleCode == 2) //SRRDA
+                    {
+                        if (Model.EncryptedMastEcId == null)
+                        {
+                        @Html.RadioButtonFor(model => model.IMS_CNCUPL_READY, "Y", new { @id = "radioIMS_CNCUPL_READYYes",@tabindex = 9, @title = "Yes" })
+                        @Html.Label("Yes")
+                          @Html.RadioButtonFor(model => model.IMS_CNCUPL_READY, "N", new { @id = "radioIMS_CNCUPL_READYNo",@tabindex = 10, @title = "No" })
+                        @Html.Label("No")
+                        }
+                        else
+                        {
+                        @Html.HiddenFor(model => model.IMS_CNCUPL_READY_NRRDA)                           
+                        @Html.RadioButtonFor(model => model.IMS_CNCUPL_READY, "Y", new { @id = "radioIMS_CNCUPL_READYYes",@tabindex = 9, @title = "Yes" })
+                        @Html.Label("Yes")
+                        @Html.RadioButtonFor(model => model.IMS_CNCUPL_READY, "N", new { @id = "radioIMS_CNCUPL_READYNo",@tabindex = 10, @title = "No" })
+                        @Html.Label("No")
+                        }
+                        @Html.ValidationMessageFor(model => model.IMS_CNCUPL_READY)
+                    }
+                    else if (PMGSY.Extensions.PMGSYSession.Current.RoleCode == 25)       //MORD             
+                    {
+                        if (Model.EncryptedMastEcId != null)
+                        {
+                            if (Model.IMS_CNCUPL_READY == "Y")
+                            {
+                        @Html.Label("Yes", new { @style = "margin-right:50px" })
+                            }
+                            else
+                            {
+                        @Html.Label("No", new { @style = "margin-right:50px" })
+                            }
+
+                        @Html.HiddenFor(model => model.IMS_CNCUPL_READY)
+                     
+                       
+                        @Html.RadioButtonFor(model => model.IMS_CNCUPL_READY_NRRDA, "Y", new { @id = "radioIMS_CNCUPL_READY_NRRDAYes", @title = "Yes",@tabindex = 9, @style = "margin-left:10px" })
+                        @Html.Label("Yes")
+                        @Html.RadioButtonFor(model => model.IMS_CNCUPL_READY_NRRDA, "N", new { @id = "radioIMS_CNCUPL_READY_NRRDANo",@tabindex = 10, @title = "No" })
+                        @Html.Label("No")
+                       
+                        }
+                        @Html.ValidationMessageFor(model => model.IMS_CNCUPL_READY_NRRDA)
+                    }
+                </td>
+
+            </tr>
+
+            <tr>
+                <td>4.</td>
+                <td colspan="3">
+                    @Html.Label("(a) Whether Proposal approved by District Panchayat")<label style="color: red;"> *</label>
+                </td>
+                <td id="tdIMS_DP_APPROVAL" colspan="1">
+                    @if (PMGSY.Extensions.PMGSYSession.Current.RoleCode == 2) //SRRDA
+                    {
+                        if (Model.EncryptedMastEcId == null)
+                        {
+                        @Html.RadioButtonFor(model => model.IMS_DP_APPROVAL, "Y", new { @id = "radioIMS_DP_APPROVALYes",@tabindex = 11, @title = "Yes" })
+                        @Html.Label("Yes")
+                            // @Html.RadioButtonFor(model => model.IMS_DP_APPROVAL, "N", new { @id = "radioIMS_DP_APPROVALNo", @checked = "checked", @title = "No" })
+                        @Html.RadioButtonFor(model => model.IMS_DP_APPROVAL, "N", new { @id = "radioIMS_DP_APPROVALNo",@tabindex = 12, @title = "No" })
+                        @Html.Label("No")
+                        }
+                        else
+                        {
+                        @Html.HiddenFor(model => model.IMS_DP_APPROVAL_NRRDA)                           
+                        @Html.RadioButtonFor(model => model.IMS_DP_APPROVAL, "Y", new { @id = "radioIMS_DP_APPROVALYes",@tabindex = 11, @title = "Yes" })
+                        @Html.Label("Yes")
+                        @Html.RadioButtonFor(model => model.IMS_DP_APPROVAL, "N", new { @id = "radioIMS_DP_APPROVALNo",@tabindex = 12, @title = "No" })
+                        @Html.Label("No")
+                        }
+                        @Html.ValidationMessageFor(model => model.IMS_DP_APPROVAL)
+                    }
+                    else if (PMGSY.Extensions.PMGSYSession.Current.RoleCode == 25)       //MORD             
+                    {
+                        if (Model.EncryptedMastEcId != null)
+                        {
+                            if (Model.IMS_DP_APPROVAL == "Y")
+                            {
+                        @Html.Label("Yes", new { @style = "margin-right:50px" })
+                            }
+                            else
+                            {
+                        @Html.Label("No", new { @style = "margin-right:50px" })
+                            }
+                        @Html.HiddenFor(model => model.IMS_DP_APPROVAL)                     
+                       
+                        @Html.RadioButtonFor(model => model.IMS_DP_APPROVAL_NRRDA, "Y", new { @id = "radioIMS_DP_APPROVAL_NRRDAYes",@tabindex = 11, @title = "Yes", @style = "margin-left:10px" })
+                        @Html.Label("Yes")
+                        @Html.RadioButtonFor(model => model.IMS_DP_APPROVAL_NRRDA, "N", new { @id = "radioIMS_DP_APPROVAL_NRRDANo",@tabindex = 12, @title = "No" })
+                        @Html.Label("No")
+                       
+                        }
+                        @Html.ValidationMessageFor(model => model.IMS_DP_APPROVAL_NRRDA)
+                    }
+                </td>
+
+            </tr>
+
+            <tr>
+                <td></td>
+                <td colspan="3">
+                    @Html.Label("(b) Whether Proceedings of SLSC attached")<label style="color: red;"> *</label>
+                </td>
+                <td id="tdIMS_SLSC_PROCEEDING" colspan="1">
+                    @if (PMGSY.Extensions.PMGSYSession.Current.RoleCode == 2) //SRRDA
+                    {
+                        if (Model.EncryptedMastEcId == null)
+                        {
+                        @Html.RadioButtonFor(model => model.IMS_SLSC_PROCEEDING, "Y", new { @id = "radioIMS_IMS_SLSC_PROCEEDINGYes",@tabindex = 13, @title = "Yes" })
+                        @Html.Label("Yes")
+                            // @Html.RadioButtonFor(model => model.IMS_SLSC_PROCEEDING, "N", new { @id = "radioIMS_IMS_SLSC_PROCEEDINGNo", @checked = "checked", @title = "No"  })
+                        @Html.RadioButtonFor(model => model.IMS_SLSC_PROCEEDING, "N", new { @id = "radioIMS_IMS_SLSC_PROCEEDINGNo",@tabindex = 14, @title = "No" })
+                        @Html.Label("No")
+                        }
+                        else
+                        {
+                        @Html.RadioButtonFor(model => model.IMS_SLSC_PROCEEDING, "Y", new { @id = "radioIMS_SLSC_PROCEEDINGYes",@tabindex = 13, @title = "Yes" })
+                        @Html.Label("Yes")
+                        @Html.RadioButtonFor(model => model.IMS_SLSC_PROCEEDING, "N", new { @id = "radioIMS_SLSC_PROCEEDINGNo",@tabindex = 14, @title = "No" })
+                        @Html.Label("No")
+                        }
+                        @Html.ValidationMessageFor(model => model.IMS_SLSC_PROCEEDING)
+                    }
+                    else if (PMGSY.Extensions.PMGSYSession.Current.RoleCode == 25)       //MORD             
+                    {
+                        if (Model.EncryptedMastEcId != null)
+                        {
+                            if (Model.IMS_SLSC_PROCEEDING == "Y")
+                            {
+                        @Html.Label("Yes", new { @style = "margin-right:50px" })
+                            }
+                            else
+                            {
+                        @Html.Label("No", new { @style = "margin-right:50px" })
+                            }
+                        @Html.HiddenFor(model => model.IMS_SLSC_PROCEEDING)
+                     
+                       
+                        @Html.RadioButtonFor(model => model.IMS_SLSC_PROCEEDING_NRRDA, "Y", new { @id = "radioIMS_SLSC_PROCEEDING_NRRDAYes",@tabindex = 13, @title = "Yes", @style = "margin-left:10px" })
+                        @Html.Label("Yes")
+                        @Html.RadioButtonFor(model => model.IMS_SLSC_PROCEEDING_NRRDA, "N", new { @id = "radioIMS_SLSC_PROCEEDING_NRRDANo",@tabindex = 14, @title = "No" })
+                        @Html.Label("No")                       
+                        }
+                        @Html.ValidationMessageFor(model => model.IMS_SLSC_PROCEEDING_NRRDA)
+                    }
+                </td>
+
+            </tr>
+
+            <tr>
+                <td>5.</td>
+                <td colspan="3">
+                    @Html.Label("DPRs scrutinised and entered in OMMS")<label style="color: red;"> *</label>
+                </td>
+                <td id="tdIMS_DPR_SCRUTINY" colspan="1">
+                    @if (PMGSY.Extensions.PMGSYSession.Current.RoleCode == 2) //SRRDA
+                    {
+                        if (Model.EncryptedMastEcId == null)
+                        {
+                        @Html.RadioButtonFor(model => model.IMS_DPR_SCRUTINY, "Y", new { @id = "radioIMS_DPR_SCRUTINYYes",@tabindex = 15, @title = "Yes" })
+                        @Html.Label("Yes")
+                        @Html.RadioButtonFor(model => model.IMS_DPR_SCRUTINY, "N", new { @id = "radioIMS_DPR_SCRUTINYNo",@tabindex = 16, @title = "No" })
+                        @Html.Label("No")
+                        }
+                        else
+                        {
+                        @Html.RadioButtonFor(model => model.IMS_DPR_SCRUTINY, "Y", new { @id = "radioIMS_DPR_SCRUTINYYes",@tabindex = 15, @title = "Yes" })
+                        @Html.Label("Yes")
+                        @Html.RadioButtonFor(model => model.IMS_DPR_SCRUTINY, "N", new { @id = "radioIMS_DPR_SCRUTINYNo",@tabindex = 16, @title = "No" })
+                        @Html.Label("No")
+                        }
+                        @Html.ValidationMessageFor(model => model.IMS_DPR_SCRUTINY)
+                    }
+                    else if (PMGSY.Extensions.PMGSYSession.Current.RoleCode == 25)       //MORD             
+                    {
+                        if (Model.EncryptedMastEcId != null)
+                        {
+                            if (Model.IMS_DPR_SCRUTINY == "Y")
+                            {
+                        @Html.Label("Yes", new { @style = "margin-right:50px" })
+                            }
+                            else
+                            {
+                        @Html.Label("No", new { @style = "margin-right:50px" })
+                            }
+                        @Html.HiddenFor(model => model.IMS_DPR_SCRUTINY)
+                     
+                       
+                        @Html.RadioButtonFor(model => model.IMS_DPR_SCRUTINY_NRRDA, "Y", new { @id = "radioIMS_DPR_SCRUTINY_NRRDAYes", @title = "Yes",@tabindex = 15, @style = "margin-left:10px" })
+                        @Html.Label("Yes")
+                        @Html.RadioButtonFor(model => model.IMS_DPR_SCRUTINY_NRRDA, "N", new { @id = "radioIMS_DPR_SCRUTINY_NRRDANo",@tabindex = 16, @title = "No" })
+                        @Html.Label("No")                       
+                        }
+                        @Html.ValidationMessageFor(model => model.IMS_DPR_SCRUTINY_NRRDA)
+                    }
+                </td>
+
+            </tr>
+
+            <tr>
+                <td>6.</td>
+                <td colspan="3">
+                    @Html.Label("If upgradation included, Whether PCI register Completed")<label style="color: red;"> *</label>
+                </td>
+                <td id="tdIMS_PCI_REGISTER" colspan="1">
+                    @if (PMGSY.Extensions.PMGSYSession.Current.RoleCode == 2) //SRRDA
+                    {
+                        if (Model.EncryptedMastEcId == null)
+                        {
+                        @Html.RadioButtonFor(model => model.IMS_PCI_REGISTER, "Y", new { @id = "radioIMS_PCI_REGISTERYes",@tabindex = 17, @title = "Yes" })
+                        @Html.Label("Yes")
+                        @Html.RadioButtonFor(model => model.IMS_PCI_REGISTER, "N", new { @id = "radioIMS_PCI_REGISTERNo",@tabindex = 18, @title = "No" })
+                        @Html.Label("No")
+                        }
+                        else
+                        {
+                        @Html.RadioButtonFor(model => model.IMS_PCI_REGISTER, "Y", new { @id = "radioIMS_PCI_REGISTERYes",@tabindex = 17, @title = "Yes" })
+                        @Html.Label("Yes")
+                        @Html.RadioButtonFor(model => model.IMS_PCI_REGISTER, "N", new { @id = "radioIMS_PCI_REGISTERNo",@tabindex = 18, @title = "No" })
+                        @Html.Label("No")
+                        }
+                        @Html.ValidationMessageFor(model => model.IMS_PCI_REGISTER)
+                    }
+                    else if (PMGSY.Extensions.PMGSYSession.Current.RoleCode == 25)       //MORD             
+                    {
+                        if (Model.EncryptedMastEcId != null)
+                        {
+                            if (Model.IMS_PCI_REGISTER == "Y")
+                            {
+                        @Html.Label("Yes", new { @style = "margin-right:50px" })
+                            }
+                            else
+                            {
+                        @Html.Label("No", new { @style = "margin-right:50px" })
+                            }
+                        @Html.HiddenFor(model => model.IMS_PCI_REGISTER)
+                     
+                       
+                        @Html.RadioButtonFor(model => model.IMS_PCI_REGISTER_NRRDA, "Y", new { @id = "radioIMS_PCI_REGISTER_NRRDAYes",@tabindex = 17, @title = "Yes", @style = "margin-left:10px" })
+                        @Html.Label("Yes")
+                        @Html.RadioButtonFor(model => model.IMS_PCI_REGISTER_NRRDA, "N", new { @id = "radioIMS_PCI_REGISTER_NRRDANo",@tabindex = 18, @title = "No" })
+                        @Html.Label("No")                       
+                        }
+                        @Html.ValidationMessageFor(model => model.IMS_PCI_REGISTER_NRRDA)
+                    }
+                </td>
+
+            </tr>
+
+            <tr>
+                <td>7.</td>
+                <td colspan="3">
+                    @Html.Label("Whether designed for unsealed surface for roads below 1000 population")<label style="color: red;"> *</label>
+                </td>
+                <td id="tdIMS_UNSEALED" colspan="1">
+                    @if (PMGSY.Extensions.PMGSYSession.Current.RoleCode == 2) //SRRDA
+                    {
+                        if (Model.EncryptedMastEcId == null)
+                        {
+                        @Html.RadioButtonFor(model => model.IMS_UNSEALED, "Y", new { @id = "radioIMS_UNSEALEDYes",@tabindex = 19, @title = "Yes" })
+                        @Html.Label("Yes")
+                        @Html.RadioButtonFor(model => model.IMS_UNSEALED, "N", new { @id = "radioIMS_UNSEALEDNo",@tabindex = 20, @title = "No" })
+                        @Html.Label("No")
+                        }
+                        else
+                        {
+                        @Html.RadioButtonFor(model => model.IMS_UNSEALED, "Y", new { @id = "radioIMS_UNSEALEDYes",@tabindex = 19, @title = "Yes" })
+                        @Html.Label("Yes")
+                        @Html.RadioButtonFor(model => model.IMS_UNSEALED, "N", new { @id = "radioIMS_UNSEALEDNo",@tabindex = 20, @title = "No" })
+                        @Html.Label("No")
+                        }
+                         
+                        @Html.ValidationMessageFor(model => model.IMS_UNSEALED)
+                    }
+                    else if (PMGSY.Extensions.PMGSYSession.Current.RoleCode == 25)       //MORD             
+                    {
+                        if (Model.EncryptedMastEcId != null)
+                        {
+                            if (Model.IMS_UNSEALED == "Y")
+                            {
+                        @Html.Label("Yes", new { @style = "margin-right:50px" })
+                            }
+                            else
+                            {
+                        @Html.Label("No", new { @style = "margin-right:50px" })
+                            }
+                        @Html.HiddenFor(model => model.IMS_UNSEALED)
+                     
+                       
+                        @Html.RadioButtonFor(model => model.IMS_UNSEALED_NRRDA, "Y", new { @id = "radioIMS_UNSEALED_NRRDAYes",@tabindex = 19, @title = "Yes", @style = "margin-left:10px" })
+                        @Html.Label("Yes")
+                        @Html.RadioButtonFor(model => model.IMS_UNSEALED_NRRDA, "N", new { @id = "radioIMS_UNSEALED_NRRDANo",@tabindex = 20, @title = "No" })
+                        @Html.Label("No")                       
+                        }
+                        @Html.ValidationMessageFor(model => model.IMS_UNSEALED_NRRDA)
+                    }
+
+
+                </td>
+
+            </tr>
+
+            <tr>
+                <td>8.</td>
+                <td colspan="3">
+                    @Html.Label("MP I, II and III received")<label style="color: red;"> *</label>
+                </td>
+                <td id="tdIMS_MP_DATA" colspan="1">
+                    @if (PMGSY.Extensions.PMGSYSession.Current.RoleCode == 2) //SRRDA
+                    {
+                        if (Model.EncryptedMastEcId == null)
+                        {
+                        @Html.RadioButtonFor(model => model.IMS_MP_DATA, "Y", new { @id = "radioIMS_MP_DATAYes",@tabindex = 21, @title = "Yes" })
+                        @Html.Label("Yes")
+                         @Html.RadioButtonFor(model => model.IMS_MP_DATA, "N", new { @id = "radioIMS_MP_DATANo",@tabindex = 22, @title = "No" })
+                        @Html.Label("No")
+                        }
+                        else
+                        {
+                        @Html.RadioButtonFor(model => model.IMS_MP_DATA, "Y", new { @id = "radioIMS_MP_DATAYes",@tabindex = 21, @title = "Yes" })
+                        @Html.Label("Yes")
+                        @Html.RadioButtonFor(model => model.IMS_MP_DATA, "N", new { @id = "radioIMS_MP_DATANo",@tabindex = 22, @title = "No" })
+                        @Html.Label("No")
+                        }
+                        @Html.ValidationMessageFor(model => model.IMS_MP_DATA)
+                    }
+                    else if (PMGSY.Extensions.PMGSYSession.Current.RoleCode == 25)       //MORD             
+                    {
+                        if (Model.EncryptedMastEcId != null)
+                        {
+                            if (Model.IMS_MP_DATA == "Y")
+                            {
+                        @Html.Label("Yes", new { @style = "margin-right:50px" })
+                            }
+                            else
+                            {
+                        @Html.Label("No", new { @style = "margin-right:50px" })
+                            }
+                        @Html.HiddenFor(model => model.IMS_MP_DATA)
+                     
+                       
+                        @Html.RadioButtonFor(model => model.IMS_MP_DATA_NRRDA, "Y", new { @id = "radioIMS_UNSEALED_NRRDAYes",@tabindex = 21, @title = "Yes", @style = "margin-left:10px" })
+                        @Html.Label("Yes")
+                        @Html.RadioButtonFor(model => model.IMS_MP_DATA_NRRDA, "N", new { @id = "radioIMS_UNSEALED_NRRDANo",@tabindex = 22, @title = "No" })
+                        @Html.Label("No")                       
+                        }
+                        @Html.ValidationMessageFor(model => model.IMS_MP_DATA_NRRDA)
+                    }
+                </td>
+
+            </tr>
+
+            <tr>
+                <td>9.</td>
+                <td colspan="3">
+                    @Html.Label("5-year maintenance lump sum estimates given year-wise")<label style="color: red;"> *</label>
+                </td>
+                <td id="tdIMS_MAINT_YEARWISE" colspan="1">
+                    @if (PMGSY.Extensions.PMGSYSession.Current.RoleCode == 2) //SRRDA
+                    {
+                        if (Model.EncryptedMastEcId == null)
+                        {
+                        @Html.RadioButtonFor(model => model.IMS_MAINT_YEARWISE, "Y", new { @id = "radioIMS_MAINT_YEARWISEYes",@tabindex = 23, @title = "Yes" })
+                        @Html.Label("Yes")
+                        @Html.RadioButtonFor(model => model.IMS_MAINT_YEARWISE, "N", new { @id = "radioIMS_MAINT_YEARWISENo",@tabindex = 24, @title = "No" })
+                        @Html.Label("No")
+                        }
+                        else
+                        {
+                        @Html.RadioButtonFor(model => model.IMS_MAINT_YEARWISE, "Y", new { @id = "radioIMS_MAINT_YEARWISEYes",@tabindex = 23,@title = "Yes"  })
+                        @Html.Label("Yes")
+                        @Html.RadioButtonFor(model => model.IMS_MAINT_YEARWISE, "N", new { @id = "radioIMS_MAINT_YEARWISENo",@tabindex = 24, @title = "No" })
+                        @Html.Label("No")
+                        }
+                        @Html.ValidationMessageFor(model => model.IMS_MAINT_YEARWISE)
+                    }
+                    else if (PMGSY.Extensions.PMGSYSession.Current.RoleCode == 25)       //MORD             
+                    {
+                        if (Model.EncryptedMastEcId != null)
+                        {
+                            if (Model.IMS_MAINT_YEARWISE == "Y")
+                            {
+                        @Html.Label("Yes", new { @style = "margin-right:50px" })
+                            }
+                            else
+                            {
+                        @Html.Label("No", new { @style = "margin-right:50px" })
+                            }
+                        @Html.HiddenFor(model => model.IMS_MAINT_YEARWISE)
+                     
+                       
+                        @Html.RadioButtonFor(model => model.IMS_MAINT_YEARWISE_NRRDA, "Y", new { @id = "radioIMS_MAINT_YEARWISE_NRRDAYes",@tabindex = 23, @title = "Yes", @style = "margin-left:10px" })
+                        @Html.Label("Yes")
+                        @Html.RadioButtonFor(model => model.IMS_MAINT_YEARWISE_NRRDA, "N", new { @id = "radioIMS_MAINT_YEARWISE_NRRDANo",@tabindex = 24, @title = "No" })
+                        @Html.Label("No")                       
+                        }
+                        @Html.ValidationMessageFor(model => model.IMS_MAINT_YEARWISE_NRRDA)
+                    }
+                </td>
+
+            </tr>
+
+            <tr>
+                <td>10.</td>
+                <td colspan="3">
+                    @Html.Label("(a) Whether estimates prepared using latest SSR for Rural Roads")<label style="color: red;"> *</label>
+                </td>
+                <td id="tdIMS_ESTIMATE_SSR" colspan="1">
+                    @if (PMGSY.Extensions.PMGSYSession.Current.RoleCode == 2) //SRRDA
+                    {
+                        if (Model.EncryptedMastEcId == null)
+                        {
+                        @Html.RadioButtonFor(model => model.IMS_ESTIMATE_SSR, "Y", new { @id = "radioIMS_ESTIMATE_SSRYes",@tabindex = 25, @title = "Yes" })
+                        @Html.Label("Yes")
+                         @Html.RadioButtonFor(model => model.IMS_ESTIMATE_SSR, "N", new { @id = "radioIMS_ESTIMATE_SSRNo",@tabindex = 26, @title = "No" })
+                        @Html.Label("No")
+                        }
+                        else
+                        {
+                        @Html.RadioButtonFor(model => model.IMS_ESTIMATE_SSR, "Y", new { @id = "radioIMS_ESTIMATE_SSRYes",@tabindex = 25, @title = "Yes" })
+                        @Html.Label("Yes")
+                        @Html.RadioButtonFor(model => model.IMS_ESTIMATE_SSR, "N", new { @id = "radioIMS_ESTIMATE_SSRNo",@tabindex = 26, @title = "No" })
+                        @Html.Label("No")
+                        }
+                        @Html.ValidationMessageFor(model => model.IMS_ESTIMATE_SSR)
+                    }
+                    else if (PMGSY.Extensions.PMGSYSession.Current.RoleCode == 25)       //MORD             
+                    {
+                        if (Model.EncryptedMastEcId != null)
+                        {
+                            if (Model.IMS_ESTIMATE_SSR == "Y")
+                            {
+                        @Html.Label("Yes", new { @style = "margin-right:50px" })
+                            }
+                            else
+                            {
+                        @Html.Label("No", new { @style = "margin-right:50px" })
+                            }
+                        @Html.HiddenFor(model => model.IMS_ESTIMATE_SSR)
+                     
+                       
+                        @Html.RadioButtonFor(model => model.IMS_ESTIMATE_SSR_NRRDA, "Y", new { @id = "radioIMS_ESTIMATE_SSR_NRRDAYes",@tabindex = 25, @title = "Yes", @style = "margin-left:10px" })
+                        @Html.Label("Yes")
+                        @Html.RadioButtonFor(model => model.IMS_ESTIMATE_SSR_NRRDA, "N", new { @id = "radioIMS_ESTIMATE_SSR_NRRDANo",@tabindex = 26, @title = "No" })
+                        @Html.Label("No")                       
+                        }
+                        @Html.ValidationMessageFor(model => model.IMS_ESTIMATE_SSR_NRRDA)
+                    }
+                </td>
+
+            </tr>
+            <tr>
+                <td></td>
+                <td colspan="3">
+                    @Html.Label("(b) Date of SSR:")<label style="color: red;"> *</label>
+                </td>
+                <td id="tdIMS_SSR_DATE" colspan="1">
+                    @if (PMGSY.Extensions.PMGSYSession.Current.RoleCode == 2) //SRRDA
+                    {
+                        @Html.TextBoxFor(model => model.IMS_SSR_DATE, new { @title = "Enter IMS SSR  Date", @placeholder = "Enter IMS SSR Date...", @tabindex = 27 })
+                        @Html.ValidationMessageFor(model => model.IMS_SSR_DATE)
+                    }
+                    else if (PMGSY.Extensions.PMGSYSession.Current.RoleCode == 25)       //MORD             
+                    {
+                        if (Model.EncryptedMastEcId != null)
+                        {
+                            // @Html.DisplayFor(model => model.IMS_SSR_DATE)
+                            <label new{@style="margin-right:50px"}>@Model.IMS_SSR_DATE</label>
+                        @Html.HiddenFor(model => model.IMS_SSR_DATE, new { @id = "txtSSRDate" })
+                     
+                       
+                        @Html.TextBoxFor(model => model.IMS_SSR_DATE_NRRDA, new { @title = "Enter IMS NRRDA  Date", @placeholder = "Enter IMS NRRDA Date...", @tabindex = 27, @style = "margin-left:10px" })
+                        @Html.ValidationMessageFor(model => model.IMS_SSR_DATE_NRRDA)
+                           
+                        }
+                    }
+
+                </td>
+            </tr>
+            <tr>
+                <td>11.</td>
+                <td colspan="3">
+                    @Html.Label("DPR clearence Okayed in OMMS by STA ")<label style="color: red;"> *</label>
+                </td>
+                <td id="tdIMS_DPR_STA" colspan="1">
+                    @if (PMGSY.Extensions.PMGSYSession.Current.RoleCode == 2) //SRRDA
+                    {
+                        if (Model.EncryptedMastEcId == null)
+                        {
+                        @Html.RadioButtonFor(model => model.IMS_DPR_STA, "Y", new { @id = "radioIMS_DPR_STAYes", @title = "Yes" ,@tabindex = 28})
+                        @Html.Label("Yes")
+                         @Html.RadioButtonFor(model => model.IMS_DPR_STA, "N", new { @id = "radioIMS_DPR_STANo", @title = "No",@tabindex = 29 })
+                        @Html.Label("No")
+                        }
+                        else
+                        {
+                        @Html.RadioButtonFor(model => model.IMS_DPR_STA, "Y", new { @id = "radioIMS_DPR_STAYes", @title = "Yes",@tabindex = 28 })
+                        @Html.Label("Yes")
+                        @Html.RadioButtonFor(model => model.IMS_DPR_STA, "N", new { @id = "radioIMS_DPR_STANo", @title = "No",@tabindex = 29 })
+                        @Html.Label("No")
+                        }
+                        @Html.ValidationMessageFor(model => model.IMS_DPR_STA)
+                    }
+                    else if (PMGSY.Extensions.PMGSYSession.Current.RoleCode == 25)       //MORD             
+                    {
+                        if (Model.EncryptedMastEcId != null)
+                        {
+                            if (Model.IMS_DPR_STA == "Y")
+                            {
+                        @Html.Label("Yes", new { @style = "margin-right:50px" })
+                            }
+                            else
+                            {
+                        @Html.Label("No", new { @style = "margin-right:50px" })
+                            }
+                        @Html.HiddenFor(model => model.IMS_DPR_STA)
+                     
+                       
+                        @Html.RadioButtonFor(model => model.IMS_DPR_STA_NRRDA, "Y", new { @id = "radioIMS_DPR_STA_NRRDAYes", @title = "Yes",@tabindex = 28, @style = "margin-left:10px" })
+                        @Html.Label("Yes")
+                        @Html.RadioButtonFor(model => model.IMS_DPR_STA_NRRDA, "N", new { @id = "radioIMS_DPR_STA_NRRDANo",@tabindex = 29, @title = "No" })
+                        @Html.Label("No")                       
+                        }
+                        @Html.ValidationMessageFor(model => model.IMS_DPR_STA_NRRDA)
+                    }
+                </td>
+
+            </tr>
+
+            <tr>
+                <td>12.</td>
+                <td colspan="3">
+                    @Html.Label("Whether Draft Tender Document uploaded in proposals module")<label style="color: red;"> *</label>
+                </td>
+                <td id="tdIMS_NIT_UPLOADED" colspan="1">
+                    @if (PMGSY.Extensions.PMGSYSession.Current.RoleCode == 2) //SRRDA
+                    {
+                        if (Model.EncryptedMastEcId == null)
+                        {
+                        @Html.RadioButtonFor(model => model.IMS_NIT_UPLOADED, "Y", new { @id = "radioIMS_NIT_UPLOADEDYes",@tabindex = 30, @title = "Yes" })
+                        @Html.Label("Yes")
+                         @Html.RadioButtonFor(model => model.IMS_NIT_UPLOADED, "N", new { @id = "radioIMS_NIT_UPLOADEDNo",@tabindex = 31, @title = "No" })
+                        @Html.Label("No")
+                        }
+                        else
+                        {
+                        @Html.RadioButtonFor(model => model.IMS_NIT_UPLOADED, "Y", new { @id = "radioIMS_NIT_UPLOADEDYes",@tabindex = 30, @title = "Yes" })
+                        @Html.Label("Yes")
+                        @Html.RadioButtonFor(model => model.IMS_NIT_UPLOADED, "N", new { @id = "radioIMS_NIT_UPLOADEDNo",@tabindex = 31, @title = "No" })
+                        @Html.Label("No")
+                        }
+                        @Html.ValidationMessageFor(model => model.IMS_NIT_UPLOADED)
+                    }
+                    else if (PMGSY.Extensions.PMGSYSession.Current.RoleCode == 25)       //MORD             
+                    {
+                        if (Model.EncryptedMastEcId != null)
+                        {
+                            if (Model.IMS_NIT_UPLOADED == "Y")
+                            {
+                        @Html.Label("Yes", new { @style = "margin-right:50px" })
+                            }
+                            else
+                            {
+                        @Html.Label("No", new { @style = "margin-right:50px" })
+                            }
+                        @Html.HiddenFor(model => model.IMS_NIT_UPLOADED)
+                     
+
+                        @Html.RadioButtonFor(model => model.IMS_NIT_UPLOADED_NRRDA, "Y", new { @id = "radioIMS_NIT_UPLOADED_NRRDAYes", @title = "Yes",@tabindex = 30, @style = "margin-left:10px" })
+                        @Html.Label("Yes")
+                        @Html.RadioButtonFor(model => model.IMS_NIT_UPLOADED_NRRDA, "N", new { @id = "radioIMS_NIT_UPLOADED_NRRDANo", @title = "No",@tabindex = 31 })
+                        @Html.Label("No")
+                        }
+                        @Html.ValidationMessageFor(model => model.IMS_NIT_UPLOADED_NRRDA)
+                    }
+                </td>
+
+            </tr>
+
+            <tr>
+                <td>13.</td>
+                <td colspan="3">
+                    @Html.Label("Whether capacity currently exists to take up the works  (Please give status of on-going works)")<label style="color: red;"> *</label>
+                    @* <br />
+                    @Html.Label("(Please give status of on-going works)")*@
+
+
+                </td>
+                <td id="tdIMS_WORK_CAPACITY" colspan="1">
+                    @if (PMGSY.Extensions.PMGSYSession.Current.RoleCode == 2) //SRRDA
+                    {
+                        if (Model.EncryptedMastEcId == null)
+                        {
+                        @Html.RadioButtonFor(model => model.IMS_WORK_CAPACITY, "Y", new { @id = "radioIMS_WORK_CAPACITYYes",@tabindex = 32, @title = "Yes" })
+                        @Html.Label("Yes")
+                        @Html.RadioButtonFor(model => model.IMS_WORK_CAPACITY, "N", new { @id = "radioIMS_WORK_CAPACITYNo",@tabindex = 33, @title = "No" })
+                        @Html.Label("No")
+                        }
+                        else
+                        {
+                        @Html.RadioButtonFor(model => model.IMS_WORK_CAPACITY, "Y", new { @id = "radioIMS_WORK_CAPACITYYes",@tabindex = 32, @title = "Yes" })
+                        @Html.Label("Yes")
+                        @Html.RadioButtonFor(model => model.IMS_WORK_CAPACITY, "N", new { @id = "radioIMS_WORK_CAPACITYNo", @tabindex = 33,@title = "No" })
+                        @Html.Label("No")
+                        }
+                        @Html.ValidationMessageFor(model => model.IMS_WORK_CAPACITY)
+                    }
+                    else if (PMGSY.Extensions.PMGSYSession.Current.RoleCode == 25)       //MORD             
+                    {
+                        if (Model.EncryptedMastEcId != null)
+                        {
+                            if (Model.IMS_WORK_CAPACITY == "Y")
+                            {
+                        @Html.Label("Yes", new { @style = "margin-right:50px" })
+                            }
+                            else
+                            {
+                        @Html.Label("No", new { @style = "margin-right:50px" })
+                            }
+                        @Html.HiddenFor(model => model.IMS_WORK_CAPACITY)
+                     
+                       
+                        @Html.RadioButtonFor(model => model.IMS_WORK_CAPACITY_NRRDA, "Y", new { @id = "radioIMS_WORK_CAPACITY_NRRDAYes", @title = "Yes", @tabindex = 32,@style = "margin-left:10px" })
+                        @Html.Label("Yes")
+                        @Html.RadioButtonFor(model => model.IMS_WORK_CAPACITY_NRRDA, "N", new { @id = "radioIMS_WORK_CAPACITY_NRRDANo",@tabindex = 33, @title = "No" })
+                        @Html.Label("No")                       
+                        }
+                        @Html.ValidationMessageFor(model => model.IMS_WORK_CAPACITY_NRRDA)
+                    }
+                </td>
+
+            </tr>
+
+            <tr>
+                <td>14.</td>
+                <td colspan="3">
+                    @Html.Label("Whether IPAI Accounts system adopted")<label style="color: red;"> *</label>
+                </td>
+                <td id="tdIMS_IPAI_ACCOUNTS" colspan="1">
+                    @if (PMGSY.Extensions.PMGSYSession.Current.RoleCode == 2) //SRRDA
+                    {
+                        if (Model.EncryptedMastEcId == null)
+                        {
+                        @Html.RadioButtonFor(model => model.IMS_IPAI_ACCOUNTS, "Y", new { @id = "radioIMS_IPAI_ACCOUNTSYes",@tabindex = 34, @title = "Yes" })
+                        @Html.Label("Yes")
+                        @Html.RadioButtonFor(model => model.IMS_IPAI_ACCOUNTS, "N", new { @id = "radioIMS_IPAI_ACCOUNTSNo",@tabindex = 35, @title = "No" })
+                        @Html.Label("No")
+                        }
+                        else
+                        {
+                        @Html.RadioButtonFor(model => model.IMS_IPAI_ACCOUNTS, "Y", new { @id = "radioIMS_IPAI_ACCOUNTSYes",@tabindex = 34, @title = "Yes" })
+                        @Html.Label("Yes")
+                        @Html.RadioButtonFor(model => model.IMS_IPAI_ACCOUNTS, "N", new { @id = "radioIMS_IPAI_ACCOUNTSNo",@tabindex = 35, @title = "No" })
+                        @Html.Label("No")
+                        }
+                        @Html.ValidationMessageFor(model => model.IMS_IPAI_ACCOUNTS)
+                    }
+                    else if (PMGSY.Extensions.PMGSYSession.Current.RoleCode == 25)       //MORD             
+                    {
+                        if (Model.EncryptedMastEcId != null)
+                        {
+                            if (Model.IMS_IPAI_ACCOUNTS == "Y")
+                            {
+                        @Html.Label("Yes", new { @style = "margin-right:50px" })
+                            }
+                            else
+                            {
+                        @Html.Label("No", new { @style = "margin-right:50px" })
+                            }
+                        @Html.HiddenFor(model => model.IMS_IPAI_ACCOUNTS)
+                     
+                       
+                        @Html.RadioButtonFor(model => model.IMS_IPAI_ACCOUNTS_NRRDA, "Y", new { @id = "radioIMS_IPAI_ACCOUNTS_NRRDAYes", @title = "Yes",@tabindex = 34, @style = "margin-left:10px" })
+                        @Html.Label("Yes")
+                        @Html.RadioButtonFor(model => model.IMS_IPAI_ACCOUNTS_NRRDA, "N", new { @id = "radioIMS_IPAI_ACCOUNTS_NRRDANo",@tabindex = 35, @title = "No" })
+                        @Html.Label("No")                       
+                        }
+                        @Html.ValidationMessageFor(model => model.IMS_IPAI_ACCOUNTS_NRRDA)
+                    }
+                </td>
+
+            </tr>
+
+            <tr>
+                <td>15.</td>
+                <td colspan="3">
+                    @Html.Label("For Border/LWE areas: Whether recommended by MHA")<label style="color: red;"> *</label>
+                </td>
+                <td id="tdIMS_LWE_MHA" colspan="1">
+                    @if (PMGSY.Extensions.PMGSYSession.Current.RoleCode == 2) //SRRDA
+                    {
+
+                        if (Model.EncryptedMastEcId == null)
+                        {
+                        @Html.RadioButtonFor(model => model.IMS_LWE_MHA, "Y", new { @id = "radioIMS_LWE_MHAYes",@tabindex = 36, @title = "Yes" })
+                        @Html.Label("Yes")
+                        @Html.RadioButtonFor(model => model.IMS_LWE_MHA, "N", new { @id = "radioIMS_LWE_MHANo", @tabindex = 37,@title = "No" })
+                        @Html.Label("No")
+                        }
+                        else
+                        {
+                        @Html.RadioButtonFor(model => model.IMS_LWE_MHA, "Y", new { @id = "radioIMS_LWE_MHAYes",@tabindex = 36, @title = "Yes" })
+                        @Html.Label("Yes")
+                        @Html.RadioButtonFor(model => model.IMS_LWE_MHA, "N", new { @id = "radioIMS_LWE_MHANo", @title = "No",@tabindex = 37 })
+                        @Html.Label("No")
+                        }
+                        @Html.ValidationMessageFor(model => model.IMS_LWE_MHA)
+                    }
+                    else if (PMGSY.Extensions.PMGSYSession.Current.RoleCode == 25)       //MORD             
+                    {
+                        if (Model.EncryptedMastEcId != null)
+                        {
+                            if (Model.IMS_LWE_MHA == "Y")
+                            {
+                        @Html.Label("Yes", new { @style = "margin-right:50px" })
+                            }
+                            else
+                            {
+                        @Html.Label("No", new { @style = "margin-right:50px" })
+                            }
+                        @Html.HiddenFor(model => model.IMS_LWE_MHA)
+                     
+                       
+                        @Html.RadioButtonFor(model => model.IMS_LWE_MHA_NRRDA, "Y", new { @id = "radioIMS_LWE_MHA_NRRDAYes", @title = "Yes",@tabindex = 36, @style = "margin-left:10px" })
+                        @Html.Label("Yes")
+                        @Html.RadioButtonFor(model => model.IMS_LWE_MHA_NRRDA, "N", new { @id = "radioIMS_LWE_MHA_NRRDANo",@tabindex = 37, @title = "No" })
+                        @Html.Label("No")                       
+                        }
+                        @Html.ValidationMessageFor(model => model.IMS_LWE_MHA_NRRDA)
+                    }
+                </td>
+
+            </tr>
+            <tr>
+                <td>16.</td>
+                <td colspan="4">
+                    @Html.Label("In case ADB/WB Proposals")
+                </td>
+            </tr>
+            <tr>
+                <td></td>
+                <td colspan="3">
+                    @Html.Label("(a) Value of proposals in relation to approved size of batch")<label style="color: red;"> *</label>
+                </td>
+                <td id="tdIMS_WB_BATCH_SIZE" colspan="1">
+                    @if (PMGSY.Extensions.PMGSYSession.Current.RoleCode == 2) //SRRDA
+                    {
+                        if (Model.EncryptedMastEcId == null)
+                        {
+                        @Html.RadioButtonFor(model => model.IMS_WB_BATCH_SIZE, "Y", new { @id = "radioIMS_WB_BATCH_SIZEYes",@tabindex = 38, @title = "Yes" })
+                        @Html.Label("Yes")
+                        @Html.RadioButtonFor(model => model.IMS_WB_BATCH_SIZE, "N", new { @id = "radioIMS_WB_BATCH_SIZENo",@tabindex = 39, @title = "No" })
+                        @Html.Label("No")
+                        }
+                        else
+                        {
+                        @Html.RadioButtonFor(model => model.IMS_WB_BATCH_SIZE, "Y", new { @id = "radioIMS_WB_BATCH_SIZEYes",@tabindex = 38, @title = "Yes" })
+                        @Html.Label("Yes")
+                        @Html.RadioButtonFor(model => model.IMS_WB_BATCH_SIZE, "N", new { @id = "radioIMS_WB_BATCH_SIZENo",@tabindex = 39, @title = "No" })
+                        @Html.Label("No")
+                        }
+                        @Html.ValidationMessageFor(model => model.IMS_WB_BATCH_SIZE)
+                    }
+                    else if (PMGSY.Extensions.PMGSYSession.Current.RoleCode == 25)       //MORD             
+                    {
+                        if (Model.EncryptedMastEcId != null)
+                        {
+                            if (Model.IMS_WB_BATCH_SIZE == "Y")
+                            {
+                        @Html.Label("Yes", new { @style = "margin-right:50px" })
+                            }
+                            else
+                            {
+                        @Html.Label("No", new { @style = "margin-right:50px" })
+                            }
+                        @Html.HiddenFor(model => model.IMS_WB_BATCH_SIZE)
+                     
+                       
+                        @Html.RadioButtonFor(model => model.IMS_WB_BATCH_SIZE_NRRDA, "Y", new { @id = "radioIMS_WB_BATCH_SIZE_NRRDAYes", @title = "Yes", @tabindex = 38,@style = "margin-left:10px" })
+                        @Html.Label("Yes")
+                        @Html.RadioButtonFor(model => model.IMS_WB_BATCH_SIZE_NRRDA, "N", new { @id = "radioIMS_WB_BATCH_SIZE_NRRDANo", @title = "No",@tabindex = 39 })
+                        @Html.Label("No")                       
+                        }
+                        @Html.ValidationMessageFor(model => model.IMS_WB_BATCH_SIZE_NRRDA)
+                    }
+                </td>
+
+            </tr>
+            <tr>
+                <td></td>
+                <td colspan="3">(b) Whether ECop etc. applied <label style="color: red;"> *</label>
+                </td>
+                <td id="tdIMS_WB_ECOP" colspan="2">
+                    @if (PMGSY.Extensions.PMGSYSession.Current.RoleCode == 2) //SRRDA
+                    {
+                        if (Model.EncryptedMastEcId == null)
+                        {
+                        @Html.RadioButtonFor(model => model.IMS_WB_ECOP, "Y", new { @id = "radioIMS_WB_ECOPYes", @title = "Yes",@tabindex = 40 })
+                        @Html.Label("Yes")
+                        @Html.RadioButtonFor(model => model.IMS_WB_ECOP, "N", new { @id = "radioIMS_WB_ECOPNo", @title = "No" ,@tabindex = 41})
+                        @Html.Label("No")
+                        }
+                        else
+                        {
+                        @Html.RadioButtonFor(model => model.IMS_WB_ECOP, "Y", new { @id = "radioIMS_WB_ECOPYes", @title = "Yes",@tabindex = 40  })
+                        @Html.Label("Yes")
+                        @Html.RadioButtonFor(model => model.IMS_WB_ECOP, "N", new { @id = "radioIMS_WB_ECOPNo", @title = "No" ,@tabindex = 41})
+                        @Html.Label("No")
+                        }
+                        @Html.ValidationMessageFor(model => model.IMS_WB_ECOP)
+                    }
+                    else if (PMGSY.Extensions.PMGSYSession.Current.RoleCode == 25)       //MORD             
+                    {
+                        if (Model.EncryptedMastEcId != null)
+                        {
+                            if (Model.IMS_WB_ECOP == "Y")
+                            {
+                        @Html.Label("Yes", new { @style = "margin-right:50px" })
+                            }
+                            else
+                            {
+                        @Html.Label("No", new { @style = "margin-right:50px" })
+                            }
+                        @Html.HiddenFor(model => model.IMS_WB_ECOP)
+                     
+                       
+                        @Html.RadioButtonFor(model => model.IMS_WB_ECOP_NRRDA, "Y", new { @id = "radioIMS_WB_ECOP_NRRDAYes", @title = "Yes",@tabindex = 40, @style = "margin-left:10px" })
+                        @Html.Label("Yes")
+                        @Html.RadioButtonFor(model => model.IMS_WB_ECOP_NRRDA, "N", new { @id = "radioIMS_WB_ECOP_NRRDANo", @title = "No",@tabindex = 41 })
+                        @Html.Label("No")                       
+                        }
+                        @Html.ValidationMessageFor(model => model.IMS_WB_ECOP_NRRDA)
+                    }
+                </td>
+
+            </tr>
+            <tr>
+                <td></td>
+                <td colspan="3">
+                    @Html.Label("(c) Whether sub-projects cleared by TE/PIC & STA ")<label style="color: red;"> *</label>
+                </td>
+                <td id="tdIMS_WB_STA_CLEARED" colspan="1">
+                    @if (PMGSY.Extensions.PMGSYSession.Current.RoleCode == 2) //SRRDA
+                    {
+                        if (Model.EncryptedMastEcId == null)
+                        {
+                        @Html.RadioButtonFor(model => model.IMS_WB_STA_CLEARED, "Y", new { @id = "radioIMS_WB_STA_CLEAREDYes", @title = "Yes",@tabindex = 42 })
+                        @Html.Label("Yes")
+                        @Html.RadioButtonFor(model => model.IMS_WB_STA_CLEARED, "N", new { @id = "radioIMS_WB_STA_CLEAREDNo", @title = "No" ,@tabindex = 43})
+                        @Html.Label("No")
+                        }
+                        else
+                        {
+                        @Html.RadioButtonFor(model => model.IMS_WB_STA_CLEARED, "Y", new { @id = "radioIMS_WB_STA_CLEAREDYes", @title = "Yes" ,@tabindex = 42})
+                        @Html.Label("Yes")
+                        @Html.RadioButtonFor(model => model.IMS_WB_STA_CLEARED, "N", new { @id = "radioIMS_WB_STA_CLEAREDNo", @title = "No" ,@tabindex = 43 })
+                        @Html.Label("No")
+                        }
+                        @Html.ValidationMessageFor(model => model.IMS_WB_STA_CLEARED)
+                    }
+                    else if (PMGSY.Extensions.PMGSYSession.Current.RoleCode == 25)       //MORD             
+                    {
+                        if (Model.EncryptedMastEcId != null)
+                        {
+                            if (Model.IMS_WB_STA_CLEARED == "Y")
+                            {
+                        @Html.Label("Yes", new { @style = "margin-right:50px" })
+                            }
+                            else
+                            {
+                        @Html.Label("No", new { @style = "margin-right:50px" })
+                            }
+                        @Html.HiddenFor(model => model.IMS_WB_STA_CLEARED)
+                   
+                       
+                        @Html.RadioButtonFor(model => model.IMS_WB_STA_CLEARED_NRRDA, "Y", new { @id = "radioIMS_WB_STA_CLEARED_NRRDAYes", @title = "Yes",@tabindex = 42, @style = "margin-left:10px" })
+                        @Html.Label("Yes")
+                        @Html.RadioButtonFor(model => model.IMS_WB_STA_CLEARED_NRRDA, "N", new { @id = "radioIMS_WB_STA_CLEARED_NRRDANo", @title = "No",@tabindex = 43  })
+                        @Html.Label("No")                       
+                        }
+                        @Html.ValidationMessageFor(model => model.IMS_WB_STA_CLEARED_NRRDA)
+                    }
+                </td>
+
+            </tr>
+
+
+
+            <tr>
+
+                <td>17.</td>
+                <td colspan="3">
+                    @Html.Label("CE Remarks (CE, SRRDA):")<label style="color: red;"> *</label>
+                </td>
+                <td colspan="1">
+                    @if (PMGSY.Extensions.PMGSYSession.Current.RoleCode == 2) //SRRDA
+                    {
+@*  @Html.TextBoxFor(model => model.IMS_CE_REMARKS, new { @maxlength = 255, @style = "width:300px;height:70px;", @title = "Enter CE Remark", @tabindex = 3, @placeholder = "Enter CE Remark..." })*@
+                        @Html.TextAreaFor(model => model.IMS_CE_REMARKS, new { cols = 75, @rows = 5, maxlength = 255, @style = "width:300px;height:70px;", @title = "Enter CE Remark", @tabindex = 44, @placeholder = "Enter CE Remark..." })
+                        <br />
+                        @Html.ValidationMessageFor(model => model.IMS_CE_REMARKS)
+                    }
+                    else if (PMGSY.Extensions.PMGSYSession.Current.RoleCode == 25)       //MORD             
+                    {
+                      <p>  @Html.DisplayFor(model => model.IMS_CE_REMARKS)</p>
+                            @Html.HiddenFor(model => model.IMS_CE_REMARKS)    
+                    }
+                </td>
+
+
+
+            </tr>
+            @if (PMGSY.Extensions.PMGSYSession.Current.RoleCode == 25)       //MORD   
+            {
+                <tr>
+                    <td>18.</td>
+                    <td colspan="3">
+                        @Html.Label("Comments/Recommendation of Director (Technical) NRRDA")
+                    </td>
+                    <td colspan="1">
+                        @Html.TextAreaFor(model => model.IMS_NRRDA_REMARKS, new { cols = 75, @rows = 5, maxlength = 255, @style = "width:300px;height:70px;", @title = "Enter NRRDA Remark", @tabindex = 45, @placeholder = "Enter NRRDA Remark..." })
+                        <br />
+                        @Html.ValidationMessageFor(model => model.IMS_NRRDA_REMARKS)
+                    </td>
+                </tr>
+            }
+            <tr>
+                <td>18.</td>
+
+                <td colspan="3">
+                    @Html.Label("Core Network Approval Date")<label style="color: red;"> *</label>
+                </td>
+                <td id="tdIMS_CN_APPROVAL_DATE" colspan="1">
+                    @Html.TextBoxFor(model => model.IMS_CN_APPROVAL_DATE, new { @title = "Enter Core Network APPROVAL Date", @placeholder = "Enter Core Network APPROVAL Date...", @tabindex = 46 })
+                    @Html.ValidationMessageFor(model => model.IMS_CN_APPROVAL_DATE)
+
+                </td>
+
+            </tr>
+            <tr>
+                <td></td>
+                <td></td>
+
+                @if (Model.EncryptedMastEcId == null)
+                {   
+                    <td style="text-align: right;">
+                        <input type="button" id="btnSave" name="btnSave" value="Save" class="jqueryButton" title="Save Check List Details" tabindex="47" />
+                    </td> 
+                    <td colspan="2">
+                        <input type="reset" id="btnReset" name="btnReset" value="Reset" class="jqueryButton" title="Reset" tabindex="48" /></td> 
+                }
+                else
+                {
+                    if (PMGSY.Extensions.PMGSYSession.Current.RoleCode == 25)       //MORD   
+                    {
+                  
+                      <td style="text-align: right;">
+                                   <input type="button" id="btnSameAsSRRDA" name="btnSameAsSRRDA" value="Same as SRRDA" class="jqueryButton" title="Update Same as SRRDA Check List Details" tabindex="47" />
+              &nbsp;&nbsp;
+                        <input type="button" id="btnUpdate" name="btnUpdate" value="Update" class="jqueryButton" title="Update  Check List Details" tabindex="48" />
+                    &nbsp; &nbsp; </td> 
+                    <td colspan="2">
+                        <input type="button" id="btnCancel" name="btnCancel" value="Cancel" class="jqueryButton" title="Cancel" tabindex="49" /></td> 
+                    }
+                    else
+                    {
+                            <td style="text-align: right;">
+                        <input type="button" id="btnUpdate" name="btnUpdate" value="Update" class="jqueryButton" title="Update  Check List Details" tabindex="47" />
+                    </td> 
+                    <td colspan="2" >
+                        <input type="button" id="btnCancel" name="btnCancel" value="Cancel" class="jqueryButton" title="Cancel" tabindex="48" /></td> 
+           
+                    }
+                }
+            </tr>
+
+
+
+            <tr>
+                <td colspan="5">
+                    <label style="border: none">
+                        [ Note: Fields marked with<label style="color: red;"> * </label>
+                        are mandatory.]</label>
+                </td>
+            </tr>
+        </table>
+
+    </form>
+</div>
+
+

@@ -1,0 +1,64 @@
+﻿@model PMGSY.Areas.QMSSRSReports.Models.MPVisitModel
+
+<script src="~/Scripts/custom/Generic.js" type="text/javascript"></script>
+<script src="~/Areas/QMSSRSReports/Scripts/MPVisit.js"></script>
+
+<div id="dvhdMPVisitLayout" class="ui-corner-top ui-widget-header panelheader" style="text-align: left; height: 20px;">
+    <span class="ui-jqgrid-title" style="float: left">&nbsp;MP Visit Report</span>
+
+    <span id="spCollapseIconCN" class="ui-icon ui-icon-circle-triangle-n" style="float: right"></span>
+</div>
+
+<div id="loadFilters" class="ui-corner-bottom" style="display: block; border: 1px solid #B5B8C8; text-align: left">
+
+    <form id="frmMPVisitLayout">
+       @Html.AntiForgeryToken()
+        <table style="width: 100%;" class="rowstyle">
+            <tr>
+                <td style="width: 2%;"></td>
+                <td style="text-align: left; width: 8%;">
+                    @Html.LabelFor(model => model.StateCode)
+                </td>
+                <td style="width: 15%;">
+                     
+                        @Html.DropDownListFor(model => model.StateCode, new SelectList(Model.StateList, "Value", "Text"), new { @title = "State", @tabindex = 1, @id = "ddlStates", @style = "width:150px" })
+                        @Html.ValidationMessageFor(m => m.StateCode)
+                    
+                </td>
+                <td style="text-align: left; width: 5%;">
+                    @Html.LabelFor(model => model.DistrictCode)
+                </td>
+                <td style="width: 15%;">
+                    
+                        @Html.DropDownListFor(model => model.DistrictCode, new SelectList(Model.DistrictList, "Value", "Text"), new { @title = "District", @id = "ddlDistricts", @tabindex = 2, @style = "width:150px" })
+                        @Html.ValidationMessageFor(m => m.DistrictCode)
+                </td>
+                <td style="text-align: left; width: 5%;">
+                    @Html.LabelFor(model => model.YearCode)
+                </td>
+
+                <td style="width: 15%;">
+                       @Html.DropDownListFor(model => model.YearCode, new SelectList(Model.YearList, "Value", "Text"), new { @title = "Year", @id = "ddlYears", @tabindex = 3, @style = "width:150px" })
+                        @Html.ValidationMessageFor(m => m.YearCode)
+                     
+                </td>
+                <td style="text-align: left; width: 8%;">
+                    @Html.LabelFor(model => model.VisitYearCode)
+                </td>
+                <td style="width: 15%;">
+                    @Html.DropDownListFor(model => model.VisitYearCode, new SelectList(Model.YearList, "Value", "Text"), new { @title = "Year", @id = "YearList_StateListRoadDetails", @tabindex = 4, @style = "width:150px" })
+                    @Html.ValidationMessageFor(model => model.VisitYearCode)
+                </td>
+            
+                <td style="text-align: left; width: 5%;">
+                    <input type="button" id="btnViewMPVisitReport" value="View" class="button jqueryButton ui-button ui-widget ui-state-default ui-corner-all ui-button-text-only" title="View" tabindex="5" />
+                </td>
+            </tr>
+        </table>
+    </form>
+ 
+</div>
+
+<div id="dvloadMPVisitReport" class="divLoadReport"></div>
+
+

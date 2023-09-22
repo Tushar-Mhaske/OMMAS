@@ -1,0 +1,13 @@
+﻿@using MvcReportViewer
+
+@model PMGSY.Areas.QMSSRSReports.Models.WorkNotInspectedByNQMModel
+
+@Html.MvcReportViewer("/PMGSYCitizen/WorkNotInspectedByNQM",
+     new
+     {
+        
+       STATE = Model.States,
+       StateName = Model.StateName
+     },
+     new { Height = 600, Width = "100%", style = "border:none;" })
+

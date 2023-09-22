@@ -1,0 +1,70 @@
+﻿@model PMGSY.Models.Payment.ChequeCancellModel
+
+<!DOCTYPE html>
+
+<html>
+<head>
+    <script src="~/Scripts/jquery.ui.datepicker.js"></script>
+    <script src="~/Scripts/custom/Generic.js"></script>
+<script src="~/Scripts/Payment/ChequeCancel.js"></script>
+</head>
+<body>
+    <form id="CancelationForm">
+        @Html.AntiForgeryToken()
+        @Html.HiddenFor(model=>model.CURRENT_DATE)
+    <table id="CheqCancelTable" class="rowstyle ui-corner-all" style="width: 98%; border: .1em solid gray;margin-bottom:5px;margin-top:5px;" cellspacing="1px">
+
+         <tr class="chequeTr" id="chqseriesTr">
+                    <td style="text-align: left;">
+                        @Html.LabelFor(model => model.CANCEL_FUND_TYPE)  
+
+                    </td>
+                    <td style="text-align: left;">
+
+                        @Html.DropDownListFor(model => model.CANCEL_FUND_TYPE,  new SelectList(Model.CANCEL_FUND_TYPE_List, "Value", "Text"), new { Title = "Fund Type", tabindex = "5", @class = "dropdown", @style = "width:60%" })
+                      <br />
+                        @Html.ValidationMessageFor(model => model.CANCEL_FUND_TYPE)
+                    </td>
+                     <td></td>
+                      <td></td>
+                </tr>
+           <tr>
+             
+            <td style="width:50%;text-align:left">
+                  @Html.LabelFor(model => model.CHEQUE_CANCEL_DATE)<label style="color:red">*</label>
+            </td>
+             <td style="width:50%;text-align:left">
+                  @Html.TextBoxFor(model => model.CHEQUE_CANCEL_DATE,new { @style = "width:20%" })
+                 <br />    
+                  @Html.ValidationMessageFor(model => model.CHEQUE_CANCEL_DATE)
+             </td>
+        </tr>
+
+           <tr>
+             
+            <td style="width:50%;text-align:left">
+                  @Html.LabelFor(model => model.CHEQUE_CANCEL_NARRATION)<label style="color:red">*</label>
+            </td>
+             <td style="width:50%;text-align:left">
+                   @Html.TextAreaFor(model => model.CHEQUE_CANCEL_NARRATION, new { Title = "Narration", @style = "width:82%", placeholder = "Enter the reason for cheque cancellation" })
+                 <br />   
+                 @Html.ValidationMessageFor(model => model.CHEQUE_CANCEL_NARRATION)
+             </td>
+        </tr>
+
+           <tr>
+                <td  style="text-align: right">
+                    <input type="button" id="btnChq_Cancel_Submit"  value="Cancel Cheque"  class="jqueryButton" title= "Cancel/Advice Cheque"/>
+                       
+
+                </td>
+                <td  style="text-align: left">
+                    <input type="reset" class="jqueryButton"
+                            name="btnChq_Cancel_reset" id="btnChq_Cancel_reset" title="Click here to cancel" value='Reset' />
+                </td>
+            </tr>
+
+       </table>
+</form>
+</body>
+</html>

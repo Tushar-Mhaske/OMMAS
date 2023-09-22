@@ -1,0 +1,89 @@
+﻿@using PMGSY.Models
+@using PMGSY.Models.Report
+@using PMGSY.Extensions
+@model PMGSY.Models.AccountsReports.AbstractBankAuthViewModel
+
+<style type="text/css">
+
+div.CBHeader{
+			padding:5px;
+            width:98%;
+			display:inline-block;
+			cursor:default;
+			/*font:12px/14px Arial, Helvetica, sans-serif;*/
+            font-family: Trebuchet MS,Tahoma,Verdana,Arial,sans-serif;
+			color:#000;
+			background-color:#eee;
+			-moz-border-radius:10px;
+			-webkit-border-radius:10px;
+			-moz-box-shadow:#999 2px 0px 3px;
+			-webkit-box-shadow:#999 2px 0px 3px;
+		}
+</style>
+<link href="~/Content/demo_page.css" rel="stylesheet" />
+<link href="~/Content/demo_table_jui.css" rel="stylesheet" />
+<link href="~/Content/TableTools.css" rel="stylesheet" />
+<link href="~/Content/TableTools_JUI.css" rel="stylesheet" />
+
+<script src="~/Scripts/custom/Generic.js"></script>
+<script src="~/Scripts/AccountsReports/AbstractBankAuthSearch.js"></script>
+
+@*<script src="~/Scripts/DataTables/jquery.dataTables.js"></script>
+<script src="~/Scripts/DataTables/ZeroClipboard.js"></script>
+<script src="~/Scripts/DataTables/TableTools.js"></script>*@
+
+<br/>
+    <div id="dvhdrAbstractBankAuthDetails" class="ui-widget-header innerDivHeader" style="margin-bottom: 05px; height: 20px">
+        Abstract of Outstanding Bank Authorisations
+        @*<span style="float: right; margin-right: 2Px; margin-top: 2px" id="spnAbstractBankAuthDetails" class="ui-icon ui-icon-circle-triangle-n"></span>*@
+    </div>
+
+<form id="frmAbstractBankAuthDetails" >
+    @Html.ValidationSummary(true)    
+
+    @Html.HiddenFor(model=>model.DisplayYear)
+    @Html.HiddenFor(model=>model.DisplayState)
+    @Html.HiddenFor(model=>model.DisplayDPIU)
+    @Html.Hidden("AdminNDCode",PMGSYSession.Current.AdminNdCode)
+    @Html.Hidden("LevelID",PMGSYSession.Current.LevelId)
+
+<center>
+
+<div class="CBHeader ui-corner-all" id="dvAbstractBankAuthSearch" style="width:99%">
+
+<table class="ui-state-default ui-corner-all" style="border:0.1em solid gray; width:100%; margin-top:1px" id="tblFilter">
+        <tr>
+            <td style="width:2%"></td>
+            <td style="width:2%;text-align:left">@Html.LabelFor(model=>model.Year)<label style="color:red;"> *</label></td>
+            <td style="width:05%;text-align:left; font-weight:bold;">
+                @Html.DropDownListFor(model=>model.Year,ViewBag.Year as IEnumerable<SelectListItem>,new{id="ddlYear",@title="Year"})
+                @Html.ValidationMessageFor(model=>model.Year)
+            </td>
+            <td style="width:05%;text-align:right">@Html.LabelFor(m=>m.SRRDA)<label style="color:red;"> *</label></td>
+            <td style="width:05%;text-align:left; font-weight:bold;">
+                @Html.DropDownListFor(model=>model.SRRDA,ViewBag.SRRDA as IEnumerable<SelectListItem>,new{id="ddlStateSRRDA",@title="State"})
+                @Html.ValidationMessageFor(model=>model.SRRDA)
+            </td>            
+            <td style="width:05%;text-align:right">@Html.LabelFor(m=>m.DPIU)<label style="color:red;"> *</label>:</td>
+            <td style="width:05%;text-align:left;">
+                @Html.DropDownListFor(m => m.DPIU, ViewBag.DPIU as IEnumerable<SelectListItem>, new { id="ddlDPIU",@title="DPIU"})
+                @Html.ValidationMessageFor(model=>model.DPIU)
+            </td>
+            <td style="width:5%;text-align:center"><input type="button" id="btnView" value="View Details" class="jqueryButton" title="Click here to view details"></td>        
+        </tr>
+    @*<tr>
+        <td style="width:25%;text-align:center" colspan="8" ><input type="button" id="btnView" value="View Details" class="jqueryButton"></td>        
+    </tr>*@
+</table>
+</div>
+
+   
+
+</center>
+</form>
+
+<div id="dvAbstractBankAuthDetails">
+    
+
+    
+</div>

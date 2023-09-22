@@ -1,0 +1,19 @@
+﻿@using MvcReportViewer
+
+@model PMGSY.Areas.QMSSRSReports.Models.grading
+
+    @Html.MvcReportViewer("/PMGSYCitizen/NQM_SQM_GRADE_Report",
+     new
+     {   pmgsy =Model.SchemeCode,
+         Fmonth = Model.FromMonth,
+         FYear = Model.FromYear,
+         Tmonth = Model.ToMonth,
+         Tyear = Model.ToYear,
+         NQMROADSTATUS = Model.nqmRoadStatus,
+         SQMROADSTATUS = Model.sqmRoadStatus,
+         NQMGRADE = Model.nqmoverall,
+         SQMGRADE=Model.sqmoverall,
+         State=Model.State
+         
+     },
+       new { Height = 600, Width = "100%", style = "border:none;" })

@@ -1,0 +1,240 @@
+﻿@model PMGSY.Models.EAuthorization.EAuthorizationMasterModel
+@{
+    ViewBag.Title = "AddEditEAuthorizationDetails";
+}
+
+
+@{
+    Layout = null;
+}
+
+<!DOCTYPE html>
+
+<html>
+<head>
+    <meta name="viewport" content="width=device-width" />
+    <title>Add Edit Master Payment</title>
+    <style>
+        .ui-autocomplete {
+            max-height: 200px;
+            overflow-y: auto;
+        }
+
+        html .ui-autocomplete {
+            height: 100px;
+        }
+    </style>
+
+    <style type="text/css" media="screen">
+        th.ui-th-column div {
+            white-space: normal !important;
+            height: auto !important;
+            padding: 2px;
+        }
+
+        .ui-jqgrid .ui-jqgrid-resize {
+            height: 100% !important;
+        }
+    </style>
+
+
+
+    <script type="text/javascript">
+        var opeartion = '@ViewBag.operationType';
+        var Bill_ID = '@ViewBag.Bill_id';
+        var Bill_finalized = '@ViewBag.BillFinalized';
+        // var availableCheques = @Html.Raw(Json.Encode(@ViewBag.availableCheques));
+       
+    </script>
+    <script src="~/Scripts/jquery.ui.autocomplete.js"></script>
+    <script src="~/Scripts/custom/Generic.js"></script>
+    <script src="~/Scripts/EAuthorization/AddEditEAuthorizationDetails.js"></script>
+
+
+
+</head>
+<body>
+
+    @Html.Hidden("LevelID")
+
+
+    @Html.Hidden("currentDate", DateTime.Now.ToString("dd/MM/yyyy"))
+
+    @Html.HiddenFor(model => model.CURRENT_DATE)
+    @Html.Hidden("fundType", PMGSY.Extensions.PMGSYSession.Current.FundType)
+
+    <table style="margin-right: 15px">
+        <tbody>
+            <tr>
+
+
+
+                <td>
+
+                    <div style="padding: 0pt 0.7em; cursor: pointer;" class="jqueryButton" id="btnGoToListPage">
+
+                        <span class="ui-icon ui-icon-circle-plus" style="float: left; margin-right: 0.3em;"></span><strong>Go To List Page
+                        </strong>
+                    </div>
+
+                </td>
+
+            </tr>
+        </tbody>
+    </table>
+
+    <form id="masterEAuthorizationForm">
+        @Html.AntiForgeryToken()
+
+        <table style="margin-left: 0px; margin-right: 15px; width: 99%">
+            <tr>
+                <td style="width: 20%">
+                    <div id="AccountStatusDiv" style="float: left">
+                        <table>
+                            <tbody>
+                                <tr id="TrMonthlyClosing" style="display: none">
+                                    <td style="text-align: center">
+                                        <div style="text-align: right; width: 100%;" id="1">
+                                            <label style="color: red">
+                                                <b>Last Month Closed
+                                        -
+                         
+                                        <label id="lblMonth">
+                                        </label>
+
+                                                    <label id="lblYear">
+                                                    </label>
+                                                </b>
+                                            </label>
+                                        </div>
+                                    </td>
+                                </tr>
+
+
+
+                            </tbody>
+                        </table>
+                    </div>
+                </td>
+            </tr>
+        </table>
+
+
+
+        @Html.ValidationSummary(true)
+
+
+        <table id="tblOptions" class="table-content ui-corner-all" style="width: 98%; border: .1em solid gray">
+            <tr>
+                <td style="text-align: center; width: 25%">Month
+                    <label style="color: red">*</label>
+
+                </td>
+                <td style="text-align: center; width: 25%">
+
+                    @Html.DropDownListFor(model => model.BILL_MONTH, new SelectList(Model.BILL_MONTH_List, "Value", "Text"), new { Title = "EAuthorization Month", tabindex = "1", @class = "dropdown" })
+                    <br />
+                    @Html.ValidationMessageFor(model => model.BILL_MONTH, null, new { @id = "spnErrMonth" })
+
+                    <label style="color: red; display: none" id="lblMonth1">
+                    </label>
+
+                </td>
+                <td style="text-align: center">Year
+                    <label style="color: red">*</label>
+                </td>
+                <td style="text-align: center; width: 25%">
+
+                    @Html.DropDownListFor(model => model.BILL_YEAR, new SelectList(Model.BILL_YEAR_List, "Value", "Text"), new { Title = "EAuthorization Year", tabindex = "2", @class = "dropdown" })
+                    <br />
+                    @Html.ValidationMessageFor(model => model.BILL_YEAR, null, new { @id = "spnErrYear" })
+                </td>
+            </tr>
+        </table>
+        <br />
+
+        <div id="EAuthorizationMasterDataEntryDiv" style="display: none">
+
+            <div id="divFormParameters">
+                <table id="formTable" class="ui-corner-all rowstyle" style="width: 98%; border: .1em solid gray" cellspacing="1px">
+                    <tr>
+                    </tr>
+                    <tr>
+                    </tr>
+
+
+                    <tr>
+
+                        <td style="text-align: left; width: 15%">
+                            @Html.LabelFor(model => model.EAUTHORIZATION_NO)<label style="color: red">*</label>
+                        </td>
+                        <td style="text-align: left; width: 25%">
+                            @Html.TextBoxFor(model => model.EAUTHORIZATION_NO, new { @style = "width:60%", @tabindex = "10", @title = "Authorization Number", @readonly = "readonly" })
+                            @*@Html.TextBoxFor(model => model.EAUTHORIZATION_NO, new { @style = "width:55%", @tabindex = "10", @title = "Voucher Number", @readonly = "readonly" })*@
+                            <br />
+                            @Html.ValidationMessageFor(model => model.EAUTHORIZATION_NO)
+
+                        </td>
+
+                        <td style="text-align: left; width: 15%">
+                            @Html.LabelFor(model => model.EAUTHORIZATION_DATE)
+                            <label style="color: red">*</label>
+                        </td>
+
+                        <td style="text-align: left; width: 25%">
+                            @Html.TextBoxFor(model => model.EAUTHORIZATION_DATE, new { @style = "width:20%", @tabindex = "11", @title = "Authorization Date" })
+                            <br />
+                            @Html.ValidationMessageFor(model => model.EAUTHORIZATION_DATE)
+                        </td>
+
+                    </tr>
+
+
+                    <tr>
+                        <td></td>
+                        <td></td>
+
+                    </tr>
+                    <tr>
+                    </tr>
+
+                    <tr>
+
+                        <td style="text-align: left; width: 15%">
+                            <b>@Html.LabelFor(model => model.TOTAL_BANK_AUTHORIZATION_AVAILABLE)</b>
+                        </td>
+
+                        <td style="text-align: left; width: 25%">
+                            <b>
+                                <label id="lblbankAuthAvailable"></label>
+                            </b>
+                        </td>
+
+
+                    </tr>
+
+
+
+
+                    <tr>
+                        <th colspan="2" style="text-align: right">
+                            @*Need To Change ..Should be Display =None*@
+                            <input tabindex="27" type="button" id="btnSaveAuthorizationDetails" style="display: initial" value=" Save" />
+                            <input tabindex="28" type="button" id="btnUpdate" style="display: none" value="Update " />
+                        </th>
+                        <th colspan="2" style="text-align: left">
+                            <input tabindex="27" type="reset" class="jqueryButton"
+                                name="btnMasterReset" id="btnMasterReset" title="Click here to reset" value='Reset' />
+                            <input tabindex="28" type="button" class="jqueryButton"
+                                name="btnMasterCancel" id="btnMasterCancel" title="Click here to cancel" value='Cancel' style="display: none" />
+                        </th>
+                    </tr>
+
+
+                </table>
+            </div>
+        </div>
+    </form>
+
+</body>
+</html>

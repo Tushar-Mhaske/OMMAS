@@ -1,0 +1,67 @@
+﻿@model PMGSY.Models.Execution.ExecutingOfficerViewModel
+
+<script src="~/Scripts/custom/Generic.js"></script>
+
+@*<script src="~/Scripts/Execution/ListPhysicalDetails.js"></script>*@
+<script src="~/Scripts/Execution/ListExecutingOfficerDetails.js"></script>
+<div style="height:auto; width: 100%; text-align:left; padding-top: 0.6em;" @*class="ui-state-default ui-corner-all"*@ > 
+    <table class="rowstyle ui-corner-all" style="width:100%; border:solid black 1px;">
+        <tr>
+            <td style="width:5%"></td>
+            <td style="width:12%;font-weight:bold">
+                Block 
+            </td>
+            <td style="width:15%">
+                @Model.BlockName
+            </td>
+            <td style="width:12%;font-weight:bold">
+                Package No.
+            </td>
+            <td style="width:15%">
+                @Model.Package
+            </td>
+        </tr>
+        <tr>
+            <td></td>
+            <td style="font-weight:bold">
+                Road Name:
+            </td>
+            <td>
+                @Model.RoadName
+            </td>
+            <td style="font-weight:bold">
+                Year
+            </td>
+            <td>
+                @Model.Year
+            </td>
+        </tr>
+        <tr>
+            <td></td>
+            <td style="font-weight:bold">
+                Sanction Cost(Rs. in Lakh):
+            </td>
+            <td>
+                @Model.Sanction_Cost
+            </td>
+            <td style="font-weight:bold">
+                Sanction Length(in Km)
+            </td>
+            <td>
+                @Model.Sanction_length
+            </td>
+        </tr>
+    </table>
+</div>
+@Html.HiddenFor(model=>model.IMS_PR_ROAD_CODE, new {@id="prRoadCode" })
+
+<div id="divExecutingOfficerDetails" style="margin-bottom:20px;margin-top:20px">
+    <table id="tbExecutingOfficerList">
+    </table>
+    <div id="pagerExecutingOfficerList">
+    </div>
+</div>
+
+<div id="divExecutingOfficer">
+</div>
+

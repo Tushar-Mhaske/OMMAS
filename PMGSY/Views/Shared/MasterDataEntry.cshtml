@@ -1,0 +1,600 @@
+﻿@using PMGSY.Extensions
+
+@{
+    ViewBag.Title = "Master Data Entry";
+}
+
+
+@{
+    string roleName = PMGSYSession.Current.RoleName;
+    int stateCode = PMGSYSession.Current.StateCode;
+    int roleCode = PMGSYSession.Current.RoleCode;
+        
+}
+
+
+<style type="text/css">
+    .sub-level a {
+        cursor: pointer;
+        display: block;
+        height: 25px;
+        line-height: 20px;
+        text-decoration: none;
+        width: 100%;
+        font-size: 1.1em;
+        text-wrap: normal;
+    }
+</style>
+
+<script type="text/javascript" src="@Url.Content("~/Scripts/jquery.ui.accordion.js")"> </script>
+<script type="text/javascript">
+
+
+
+    $(document).ready(function () {
+
+        $.blockUI({ message: '<img src="/Content/images/ajax-loader.gif"/>' });
+        $(function () {
+
+            $("#accordion").accordion({
+                header: "h3",
+                event: "click",
+                autoHeight: false,
+                navigation: true
+            });
+
+        });
+
+
+        $('#accordion.head').click(function () {
+            $(this).next().toggle('slow');
+            return false;
+        }).next().hide();
+
+        // Change done by Vikram
+        var roleCode = $("#RoleCode").val();
+        switch (roleCode) {
+            case '36':
+                $('#dvMasterDataEntry').load('/LocationMasterDataEntry/DistrictDetails', function (e) {
+                    $.unblockUI();
+                });
+                break;
+            case '8':
+                $('#dvMasterDataEntry').load('/Master/MasterQualityMonitor', function (e) {
+                    $.unblockUI();
+                });
+                break;
+            case '9':
+                $('#dvMasterDataEntry').load('/Master/MasterQualityMonitor', function (e) {
+                    $.unblockUI();
+                });
+                break;
+            case '22':
+                $('#dvMasterDataEntry').load('/Master/ListNodalOfficer', function (e) {
+                    $.unblockUI();
+                });
+                break;
+            case '2':
+                $('#dvMasterDataEntry').load('/Master/ListPIUDepartment', function (e) {
+                    $.unblockUI();
+                });
+
+                break;
+            case '25':
+                $('#dvMasterDataEntry').load('/Master/ListAdminTechnicalAgency', function (e) {
+                    $.unblockUI();
+                });
+                break;
+            case '37':
+                $('#dvMasterDataEntry').load('/Master/ListNodalOfficer', function (e) {
+                    $.unblockUI();
+                });
+                break;
+            case '38':
+                $('#dvMasterDataEntry').load('/Master/ListNodalOfficer', function (e) {
+                    $.unblockUI();
+                });
+                break;
+
+            case '47':
+                $('#dvMasterDataEntry').load('/Master/ListContractor', function (e) {  //ITNOOA
+                    $.unblockUI();
+                });
+                break;
+            case '56':
+                $('#dvMasterDataEntry').load('/Master/ListContractor', function (e) {  //ITNORCPLWE
+                    $.unblockUI();
+                });
+                break;
+            case '46':
+                $('#dvMasterDataEntry').load('/Master/ListContractorRegistration', function (e) {  //FC
+                    $.unblockUI();
+                });
+                break;
+            default:
+                $('#dvMasterDataEntry').load('/LocationMasterDataEntry/StateDetails', function (e) {
+                    $.unblockUI();
+                });
+                break;
+        }
+
+
+        $('.sub-level a').click(function (e) {
+            e.preventDefault();
+            var url = $(this).attr('href');
+
+            $.blockUI({ message: '<img src="/Content/images/ajax-loader.gif"/>' });
+
+            $('#dvMasterDataEntry').load(url, function (e) {
+                $.unblockUI();
+            });
+
+
+            $("#mainDiv").animate({
+                scrollTop: 0
+            });
+
+        });
+
+        var activatedAccordianIndex = 0;
+
+        $('#spCollapseIconLeft').click(function () {
+
+            if ($("#tdMenues").is(":visible")) {
+
+                $('#tdMenues').hide('left');
+
+                // $('#dvViewMenu').attr('style', 'display:block');
+                $('#tdViewMenu').show('slow');
+
+                activatedAccordianIndex = $("#accordion").accordion('option', 'active');
+
+            }
+        });
+
+        $('#spCollapseIconRight').click(function () {
+
+            if (!($("#tdMenues").is(":visible"))) {
+
+                $('#tdViewMenu').hide();
+
+                $('#tdMenues').show('right');
+
+                $("#accordion").accordion('activate', activatedAccordianIndex);
+                //                $('#dvViewMenu').attr('style', 'display:none');               
+            }
+        });
+
+
+        $.unblockUI();
+    });
+
+</script>
+
+
+
+<table style="width: 100%; padding-top: .5em; height: 100%;">
+    @Html.Hidden("RoleCode", roleCode)
+    <tr>
+        <td class=" ui-state-default ui-corner-all" id="tdViewMenu" style="display: none; width: 1%; height: 100%; vertical-align: central; text-align: center; background: url('/Content/images/ui-bg_glass_65_ffffff_1x400.png') repeat-x scroll 50% 50% #FFFFFF">
+            @* ui-state-default<div class="ui-state-active ui-corner-all">*@
+            @* <center>*@
+            V   
+            <br />
+            <br />
+            i   
+            <br />
+            <br />
+            e   
+            <br />
+            <br />
+            w   
+            <br />
+            <br />
+            <span id="spCollapseIconRight" class="ui-icon ui-icon-circle-triangle-e" style="float: initial;" title="View Menu"></span>
+            <br />
+            M
+            <br />
+            <br />
+            e
+            <br />
+            <br />
+            n  
+            <br />
+            <br />
+            u 
+
+                   @* </div>*@
+            @*  </center>*@
+
+
+        </td>
+        <td id="tdMenues" style="width: 18%; vertical-align: top">
+
+
+            <div id="accordion">
+
+
+                @if (stateCode != 0 && roleCode == 36)
+                {
+                    <h3>
+                        <a href="#">Location Master</a>
+
+                        <span id="spCollapseIconLeft" class="ui-icon ui-icon-circle-triangle-w" style="float: right;" title="Hide Menu"></span>
+
+                    </h3>
+                    <div style="padding-top: 1px;" class="sub-level">
+                        <span class="ui-icon ui-icon-triangle-1-e" style="float: left"></span>
+                        <a href="/LocationMasterDataEntry/DistrictDetails">District</a>
+
+                        <span class="ui-icon ui-icon-triangle-1-e" style="float: left"></span>
+                        <a href="/LocationMasterDataEntry/BlockDetails">Block</a>
+
+                        <span class="ui-icon ui-icon-triangle-1-e" style="float: left"></span>
+                        <a href="/LocationMasterDataEntry/VillageDetails">Village</a>
+
+                        <span class="ui-icon ui-icon-triangle-1-e" style="float: left"></span>
+                        <a href="/LocationMasterDataEntry/HabitationDetails">Habitation</a>
+                        @*    <span class="ui-icon ui-icon-triangle-1-e" style="float: left"></span>
+                        <a href="/Master/ListCluster">Cluster</a>*@
+
+                        <span class="ui-icon ui-icon-triangle-1-e" style="float: left"></span>
+                        <a href="/Master/ListClusterCN">Cluster </a>
+
+                        <span class="ui-icon ui-icon-triangle-1-e" style="float: left"></span>
+                        <a href="/LocationMasterDataEntry/MLAConstituencyDetails">MLA Constituency</a>
+
+                        <span class="ui-icon ui-icon-triangle-1-e" style="float: left"></span>
+                        <a href="/LocationMasterDataEntry/MPConstituencyDetails">MP Constituency</a>
+                    </div>
+                }
+
+                @if (stateCode == 0 && roleCode != 25)
+                {
+                      
+                    <h3>
+                        <a href="#">Location Master</a>
+
+                        <span id="spCollapseIconLeft" class="ui-icon ui-icon-circle-triangle-w" style="float: right;" title="Hide Menu"></span>
+
+                    </h3>
+                    <div style="padding-top: 1px;" class="sub-level">
+                        <span class="ui-icon ui-icon-triangle-1-e" style="float: left"></span>
+
+                        <a href="/LocationMasterDataEntry/StateDetails">State</a>
+
+                        <span class="ui-icon ui-icon-triangle-1-e" style="float: left"></span>
+                        <a href="/LocationMasterDataEntry/DistrictDetails">District</a>
+
+                        <span class="ui-icon ui-icon-triangle-1-e" style="float: left"></span>
+                        <a href="/LocationMasterDataEntry/BlockDetails">Block</a>
+
+                        <span class="ui-icon ui-icon-triangle-1-e" style="float: left"></span>
+                        <a href="/LocationMasterDataEntry/VillageDetails">Village</a>
+
+                        <span class="ui-icon ui-icon-triangle-1-e" style="float: left"></span>
+                        <a href="/LocationMasterDataEntry/HabitationDetails">Habitation</a>
+
+                        <span class="ui-icon ui-icon-triangle-1-e" style="float: left"></span>
+                        <a href="/LocationMasterDataEntry/PanchayatDetails">Panchayat</a>
+
+                        <span class="ui-icon ui-icon-triangle-1-e" style="float: left"></span>
+                        <a href="/LocationMasterDataEntry/MLAConstituencyDetails">MLA Constituency</a>
+
+                        <span class="ui-icon ui-icon-triangle-1-e" style="float: left"></span>
+                        <a href="/LocationMasterDataEntry/MPConstituencyDetails">MP Constituency</a>
+
+                        <span class="ui-icon ui-icon-triangle-1-e" style="float: left"></span>
+                        <a href="/Master/MasterRegion">Region</a>
+
+                        @* <span class="ui-icon ui-icon-triangle-1-e" style="float: left"></span>
+                        <a href="/Master/ListCluster">Cluster</a>*@
+
+                        <span class="ui-icon ui-icon-triangle-1-e" style="float: left"></span>
+                        <a href="/Master/ListClusterCN">Cluster</a>
+                    </div>
+                                     
+                    <h3>
+                        <a href="#">General</a>
+                    </h3>
+                    <div style="padding-top: 1px" class="sub-level">
+                        <span class="ui-icon ui-icon-triangle-1-e" style="float: left"></span>
+                        <a href="/Master/MasterAgency">Agency</a>
+
+                        <span class="ui-icon ui-icon-triangle-1-e" style="float: left"></span>
+                        <a href="/Master/AlertDetails">Alert</a>
+
+                        <span class="ui-icon ui-icon-triangle-1-e" style="float: left"></span>
+                        <a href="/Master/ListCarriageDetails">Carriage</a>
+
+                        <span class="ui-icon ui-icon-triangle-1-e" style="float: left"></span>
+                        <a href="/Master/MasterChecklist">Checklist Point</a>
+
+                        <span class="ui-icon ui-icon-triangle-1-e" style="float: left"></span>
+                        <a href="/Master/MasterComponentType">Component</a>
+
+                        <span class="ui-icon ui-icon-triangle-1-e" style="float: left"></span>
+                        <a href="/Master/ListContractor">Contractor/Supplier</a>
+
+
+
+                        <span class="ui-icon ui-icon-triangle-1-e" style="float: left"></span>
+                        <a href="/Master/ListWorksType">Cd Works Length</a>
+
+                        <span class="ui-icon ui-icon-triangle-1-e" style="float: left"></span>
+                        <a href="/Master/ListCDWorksTypeConstruction">Cd Works Type</a>
+
+                        <span class="ui-icon ui-icon-triangle-1-e" style="float: left"></span>
+                        <a href="/Master/ListMasterDesignation">Designation</a>
+
+                        <span class="ui-icon ui-icon-triangle-1-e" style="float: left"></span>
+                        <a href="/Master/ListMasterExecution">Execution Item</a>
+
+                        <span class="ui-icon ui-icon-triangle-1-e" style="float: left"></span>
+                        <a href="/Master/ListFeedbackDetails">Feedback Category</a>
+
+                        <span class="ui-icon ui-icon-triangle-1-e" style="float: left"></span>
+                        <a href="/Master/ListFundingAgency">Funding Agency</a>
+
+                        <span class="ui-icon ui-icon-triangle-1-e" style="float: left"></span>
+                        <a href="/Master/MasterGradeType">Grade</a>
+
+                        <span class="ui-icon ui-icon-triangle-1-e" style="float: left"></span>
+                        <a href="/Master/ListLoksabhaTerm">Lok Sabha Term</a>
+
+                        <span class="ui-icon ui-icon-triangle-1-e" style="float: left"></span>
+                        <a href="/Master/ListPMGSY2Details">PMGSY II</a>
+
+                        <span class="ui-icon ui-icon-triangle-1-e" style="float: left"></span>
+                        <a href="/Master/MasterQual/">Qualification</a>
+
+                        <span class="ui-icon ui-icon-triangle-1-e" style="float: left"></span>
+                        <a href="/Master/MasterReason/">Reason</a>
+
+                        <span class="ui-icon ui-icon-triangle-1-e" style="float: left"></span>
+                        <a href="/Master/ListRoadCategory">Road Category</a>
+
+                        <span class="ui-icon ui-icon-triangle-1-e" style="float: left"></span>
+                        <a href="/Master/MasterScourFoundationType">Scour/Foundation</a>
+
+                        <span class="ui-icon ui-icon-triangle-1-e" style="float: left"></span>
+                        <a href="/Master/ListSoilType">Soil Type</a>
+
+
+
+
+                        <span class="ui-icon ui-icon-triangle-1-e" style="float: left"></span>
+                        <a href="/Master/MasterListStreams/">Stream</a>
+
+                        <span class="ui-icon ui-icon-triangle-1-e" style="float: left"></span>
+                        <a href="/Master/MasterSurface/">Surface</a>
+
+                        <span class="ui-icon ui-icon-triangle-1-e" style="float: left"></span>
+                        <a href="/Master/ListTaxDetails/">Taxes</a>
+
+                        <span class="ui-icon ui-icon-triangle-1-e" style="float: left"></span>
+                        <a href="/Master/ListTechnologyDetails/">Technology</a>
+
+
+                        <span class="ui-icon ui-icon-triangle-1-e" style="float: left"></span>
+                        <a href="/Master/MasterTerrainType/">Terrain</a>
+
+                        <span class="ui-icon ui-icon-triangle-1-e" style="float: left"></span>
+                        <a href="/Master/ListTestDetails/">Test</a>
+
+                        <span class="ui-icon ui-icon-triangle-1-e" style="float: left"></span>
+                        <a href="/Master/ListTrafficType/">Traffic Type</a>
+
+                        <span class="ui-icon ui-icon-triangle-1-e" style="float: left"></span>
+                        <a href="/Master/MasterUnit/">Unit</a>
+
+                        <span class="ui-icon ui-icon-triangle-1-e" style="float: left"></span>
+                        <a href="/Master/GrowthScoreLayout">Growth Score</a>
+
+                        <span class="ui-icon ui-icon-triangle-1-e" style="float: left"></span>
+                        <a href="/Master/MatrixParametersLayout">Matrix Parameters</a>
+                    </div>
+
+                    
+                    
+                    <h3>
+                        <a href="#">Information</a>
+                    </h3>
+                    <div style="padding-top: 1px" class="sub-level">
+                        <span class="ui-icon ui-icon-triangle-1-e" style="float: left"></span>
+                        <a href="/Master/ListInfoDetails?id=A">Account Trainers</a>
+
+                        <span class="ui-icon ui-icon-triangle-1-e" style="float: left"></span>
+                        <a href="/Master/ListInfoDetails?id=M">MRD</a>
+
+                        <span class="ui-icon ui-icon-triangle-1-e" style="float: left"></span>
+                        <a href="/Master/ListInfoDetails?id=N">NRRDA</a>
+
+                        <span class="ui-icon ui-icon-triangle-1-e" style="float: left"></span>
+                        <a href="/Master/ListInfoDetails?id=T">Trainers</a>
+                    </div>
+                          
+                }
+                @if (roleCode == 36 || roleCode == 47 || roleCode == 25 || roleCode == 56) //ITNO=36 and ITNOOA=47 and MORD=25 and ITNORCPLWE
+                {
+                    <h3>
+                        <a href="#">General</a>
+                        <span id="spCollapseIconLeft" class="ui-icon ui-icon-circle-triangle-w" style="float: right;" title="Hide Menu"></span>
+                    </h3>
+                    <div style="padding-top: 1px" class="sub-level">
+                        <span class="ui-icon ui-icon-triangle-1-e" style="float: left"></span>
+                        <a href="/Master/ListContractor">Contractor/Supplier</a>
+                        @if (roleCode == 25)
+                        { 
+                            <span class="ui-icon ui-icon-triangle-1-e" style="float: left"></span>
+                            <a href="/Master/AlertDetails">Alert</a>
+                        }
+                    </div>
+                }
+
+                <h3>
+                    <a href="#">Office</a>
+
+                    @if (stateCode > 0 || (stateCode == 0 && roleCode == 25))
+                    {
+                        <span id="spCollapseIconLeft" class="ui-icon ui-icon-circle-triangle-w" style="float: right;" title="Hide Menu"></span>  
+                    }
+
+
+                </h3>
+
+                <div style="padding-top: 1px" class="sub-level">
+                    @*FC*@
+                    @if (roleCode == 22 || roleCode == 38 || roleCode == 54 || roleCode == 46)
+                    {
+                        <span class="ui-icon ui-icon-triangle-1-e" style="float: left"></span>
+                        <a href="/Master/ListContractorRegistration/">Contractor Registration</a>
+                        if (roleCode != 46)
+                        {
+                        <span class="ui-icon ui-icon-triangle-1-e" style="float: left"></span>
+                        <a href="/Master/ListContractorPanSearchDetail/">Contractor Details</a>
+                        }
+                    }
+@*FC*@
+                    @if (roleCode != 25 && roleCode != 22 && roleCode != 37 && roleCode != 38 && roleCode != 2 && roleCode != 46)
+                    {
+                        if (roleCode != 25 && roleCode != 22 && roleCode != 37 && roleCode != 38 && roleCode != 2 && roleCode != 47 && roleCode != 56)
+                        {
+                        <span class="ui-icon ui-icon-triangle-1-e" style="float: left"></span>
+                        <a href="/Master/MasterAdminAutonomousBody">Autonomous Body</a>
+                        
+                        
+                        <span class="ui-icon ui-icon-triangle-1-e" style="float: left"></span>
+                        <a href="/Master/MasterContractorClassType">Contractor Class Type </a>
+                        
+                        }
+                       
+                        <span class="ui-icon ui-icon-triangle-1-e" style="float: left"></span>
+                        <a href="/Master/ListContractorRegistration/">Contractor Registration</a>
+                        if (roleCode == 47 || roleCode == 56)
+                        {
+                        <span class="ui-icon ui-icon-triangle-1-e" style="float: left"></span>
+                        <a href="/Master/ListContractorPanSearchDetail/">Contractor Details</a>
+                        }
+                        if (roleCode != 25 && roleCode != 22 && roleCode != 37 && roleCode != 38 && roleCode != 2 && roleCode != 47 && roleCode != 56)
+                        {
+                        <span class="ui-icon ui-icon-triangle-1-e" style="float: left"></span>
+                        <a href="/Master/ListContractorPanSearchDetail/">Contractor Details</a>
+                            if (roleCode != 56)
+                            {
+                        <span class="ui-icon ui-icon-triangle-1-e" style="float: left"></span>
+                        <a href="/Master/ListMembers">MLA Member</a>
+                                    
+                        <span class="ui-icon ui-icon-triangle-1-e" style="float: left"></span>
+                        <a href="/Master/MasterMpMember">MP Member</a>              
+
+                                
+
+                        <span class="ui-icon ui-icon-triangle-1-e" style="float: left"></span>
+                        <a href="/Master/ListAdminSqc">SQC</a>
+                        
+                        <span class="ui-icon ui-icon-triangle-1-e" style="float: left"></span>
+                        <a href="/Master/MasterVidhanSabhaTerm/">Vidhan Sabha Term</a>
+                            }
+                        }
+                        if (roleCode != 56)
+                        {
+                        <span class="ui-icon ui-icon-triangle-1-e" style="float: left"></span>
+                        <a href="/Master/ListAdminDepartment">SRRDA</a>             
+                        }
+                    }
+
+                    @if (roleCode == 23 || roleCode == 2 || roleCode == 22 || roleCode == 36 || roleCode == 37 || roleCode == 38 || roleCode == 47 || roleCode == 56)
+                    {
+                        if (roleCode == 23 || roleCode == 2 || roleCode == 36 || roleCode == 47) //Master=23 and SRRDA=2 and ITNO=36 and ITNORCPLWE=56
+                        {
+                        <span class="ui-icon ui-icon-triangle-1-e" style="float: left"></span>
+                        <a href="/Master/ListPIUDepartment">DPIU</a> 
+                        }
+                        <span class="ui-icon ui-icon-triangle-1-e" style="float: left"></span>
+                        <a href="/Master/ListNodalOfficer">Nodal Officer</a>
+@* if (roleCode == 22) //PIU
+                        {
+                        <span class="ui-icon ui-icon-triangle-1-e" style="float: left"></span>
+                        <a href="/Master/ListContractorRegistration/">Contractor Registration</a>
+                        }*@
+
+
+                    }
+
+                    @if (roleCode == 23 || roleCode == 8 || roleCode == 9)
+                    {
+                        <span class="ui-icon ui-icon-triangle-1-e" style="float: left"></span>
+                        <a href="/Master/MasterQualityMonitor/">Quality Monitor</a>
+                    }
+
+                    @if (roleCode == 23 || roleCode == 36 || roleCode == 25 || roleCode == 39)
+                    {
+                        <span class="ui-icon ui-icon-triangle-1-e" style="float: left"></span>
+                        <a href="/Master/ListAdminTechnicalAgency/">Technical Agency</a>
+                        
+                        if (roleCode == 25)
+                        {
+                        <span class="ui-icon ui-icon-triangle-1-e" style="float: left"></span>
+                        <a href="/Master/ListAdminSqc">SQC</a>
+                        
+                        <span class="ui-icon ui-icon-triangle-1-e" style="float: left"></span>
+                        <a href="/Master/ListPMGSYStates">PMGSY States</a>
+                        }
+                    }
+
+
+
+
+                </div>
+                @if (roleCode == 22)
+                {
+                    <h3>
+                        <a href="#">Location Master</a>
+                        <span id="spCollapseIconLeft" class="ui-icon ui-icon-circle-triangle-w" style="float: right;" title="Hide Menu"></span>
+
+                    </h3>
+                    <div style="padding-top: 1px;" class="sub-level">
+                        <span class="ui-icon ui-icon-triangle-1-e" style="float: left"></span>
+                        <a href="/LocationMasterDataEntry/VillageDetails">Village</a>
+                        <span class="ui-icon ui-icon-triangle-1-e" style="float: left"></span>
+                        <a href="/LocationMasterDataEntry/HabitationDetails">Habitation</a>
+                    </div>
+                }
+
+                @if (roleCode == 23)
+                {
+                    <h3>
+                        <a href="#">Quality Inspections</a>
+                    </h3>
+                    <div style="padding-top: 1px;" class="sub-level">
+                        <span class="ui-icon ui-icon-triangle-1-e" style="float: left"></span>
+                        <a href="/Master/QualityLayout/I">Insp Details (3Tier) </a>
+                        <span class="ui-icon ui-icon-triangle-1-e" style="float: left"></span>
+                        <a href="/Master/QualityLayout/S">Insp Details (2Tier) </a>
+                        <span class="ui-icon ui-icon-triangle-1-e" style="float: left"></span>
+                        <a href="/Master/QualityATRFilters">ATR Details</a>
+                    </div>
+                }
+
+            </div>
+
+
+        </td>
+        <td style="width: 1%;"></td>
+
+        <td style="vertical-align: top;">
+            <div id="dvMasterDataEntry" style="" class="clsMasterDataEntry">
+                @*margin-top:-5px;*@
+
+
+            </div>
+
+        </td>
+
+    </tr>
+</table>
+
+@section Scripts {
+    @Scripts.Render("~/bundles/jqueryval")
+}

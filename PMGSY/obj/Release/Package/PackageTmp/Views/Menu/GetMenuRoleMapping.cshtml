@@ -1,0 +1,53 @@
+﻿@model PMGSY.Models.Menu.RoleActionMappingDTO
+<!DOCTYPE html>
+
+<html>
+<head>
+    <meta name="viewport" content="width=device-width" />
+    <title>Menu Role Mapping</title>
+</head>
+<body>
+    
+    <script src="~/Scripts/UserManager/MenuRoleMapping.js" type="text/javascript">></script>
+
+@*<div class="ui-accordion-header ui-helper-reset ui-state-default ui-corner-all">
+   Menu Role mapping 
+</div>*@
+<br />
+
+
+<div>
+    <form id="frmRoleActionMapping">
+       @Html.HiddenFor(model => model.RoleId)
+        @*<table id="tblRoleMapping" width="100%" class="class-table-content1">
+            <tr>
+                <td align="right" style="width: 35%">
+                   Role Name :
+                    <span style="color:red">*</span>
+                </td>
+                <td>
+                    @Html.DropDownList("ddlRole", ViewData["ddlRole"] as IEnumerable<SelectListItem>, new { @class = "dropdown", style = "width:200px" })
+                </td>
+            </tr>
+        </table>*@
+        
+        @*<table id="tblParent" class="scroll">
+        </table>*@
+        <div id="divMenuItems" style="position: relative; overflow:auto; height:250px;">
+            <center>
+                <table style="width: 96%;">
+                    <tr>
+                        <td style="width: 50%" valign="top">
+                            <table id="tblParent" class="scroll">
+                            </table>
+                            <div id="divtblParentPager"></div>
+                        </td>
+                    </tr>
+                </table>
+            </center>
+        </div>
+    </form>
+</div>
+
+</body>
+</html>

@@ -1,0 +1,322 @@
+﻿@model PMGSY.Areas.GPSVTSInstallationDetails.Models.GPSVTS_DetailsModel
+@{
+    Layout = null;
+    var VTS_InstallationDate = Model.VTS_InstallationDate;
+}
+
+<!DOCTYPE html>
+
+<html>
+<head>
+    <meta name="viewport" content="width=device-width" />
+    <title>AddGPSVTS_DetailsView</title>
+
+    <script src="~/Scripts/custom/Generic.js"></script>
+    <script src="~/Scripts/jquery.ui.datepicker.js"></script>
+    <script src="~/Scripts/jquery.ui.accordion.js"></script>
+    <script src="~/Scripts/jquery.ui.tabs.js"></script>
+    <script src="~/Scripts/Bootstrap/bootstrap.min.js"></script>
+    <script src="~/Areas/GPSVTSInstallationDetails/Scripts/AddGPSVTS_DetailsView.js"></script>
+    <style>
+        .tbl td {
+            padding: 5px;
+        }
+    </style>
+</head>
+<body>
+        <div>
+            <form id="frmAddViewGPSVTSDetail">
+                @Html.HiddenFor(m => m.RoadCode)
+                <div id="dvfirst">
+                    <table class="rowstyle tbl" style="font-size: 12px; text-align: left;" align="left" width="100%">
+                        <tr>
+                            <th colspan="1"> @Html.LabelFor(m => m.RoadName) </th>
+                            <td colspan="5"> @Html.DisplayFor(m => m.RoadName) </td>
+                        </tr>
+                        <tr>
+                            <th> @Html.LabelFor(m => m.Year) </th>
+                            <td> @Html.DisplayFor(m => m.Year)</td>
+
+                            <th> @Html.LabelFor(m => m.Batch) </th>
+                            <td> @Html.DisplayFor(m => m.Batch)</td>
+
+                            <th> @Html.LabelFor(m => m.Package) </th>
+                            <td> @Html.DisplayFor(m => m.Package)</td>
+                            <td style="width:250px"></td>
+                        </tr>
+
+                        <tr>
+                            <td colspan="6"> <hr style="border-top:1px solid black" /> </td>
+                        </tr>
+                        <tr>
+                            <th> @Html.LabelFor(m => m.Is_GPSVTS_Installed) </th>
+                            <td colspan="5">
+                                @Html.RadioButtonFor(m => m.Is_GPSVTS_Installed, "Y", new { @onclick = "onCheckGPSVTS_Installed();" }) @Html.Label("Yes")
+                                @Html.RadioButtonFor(m => m.Is_GPSVTS_Installed, "N", new { @onclick = "onCheckGPSVTS_Installed();" }) @Html.Label("No")
+                            </td>
+                        </tr>
+                        <tr>
+                            <td colspan="6"> @Html.Label("(vehicle details required only if gps/vts installed)")</td>
+                        </tr>
+                        <tr id="row1">
+                            <td>
+                                <button id="btnAddVehicle"> Add Vehicle </button>
+                                <button id="btnDeleteVehicle" type="button">
+                                    Delete Vehicle
+                                </button>
+                            </td>
+                            <td colspan="5"></td>
+                        </tr>
+
+
+
+                        <tr>
+                            <td colspan="6"> <hr style="border-bottom:2px solid grey;" /> </td>
+                        </tr>
+
+                        <tr class="row2">
+                            <td> @Html.LabelFor(m => m.Vehicle)</td>
+                            <td> @Html.DropDownListFor(m => m.Vehicle, new SelectList(Model.VehicleList, "Value", "Text"), new { @class = "Vehicle" }) </td>
+
+                            <td> @Html.LabelFor(m => m.VehiclesCount) </td>
+                            <td>
+                                @Html.TextBoxFor(m => m.VehiclesCount, new { @class = "VehiclesCount", onchange = "addVehiclesID(this)" })
+                            </td>
+                            <td> @Html.LabelFor(m => m.VTS_InstallationDate)</td>
+                        @*<td> @Html.LabelFor(m => m.VTS_InstallationDate, new { @class = "PaddingTop10", style = "padding-left:4px;" })</td>*@
+                        <td>
+                            @Html.TextBoxFor(m => m.VTS_InstallationDate, new { @placeholder = "dd/mm/yyyy", @class = "datepicker", @readonly = "readonly" })
+                       </td>
+
+                            <td colspan="2"></td>
+                        </tr>
+
+                        <tr class="row3">
+                            <td>@Html.LabelFor(m => m.VehiclesID)</td>
+                            <td colspan="5">
+                                <div id="vehiclesIdContainer"></div>
+                            </td>
+
+                        </tr>
+
+
+                        <tr style="height: 100px;">
+                            <td> @Html.LabelFor(m => m.TotalNoVehicles) </td>
+                            <td> @Html.TextBoxFor(m => m.TotalNoVehicles) </td>
+
+
+                            <td colspan="2"></td>
+                        </tr>
+                       
+                    </table>
+                </div>
+
+                <div>
+                    <table id="dvsecond">
+                        <tr>
+                            <td colspan="6" style="text-align: center;">
+                                <input type="submit" value="Submit" />
+                                <input type="reset" value="Reset" />
+                            </td>
+                        </tr>
+                    </table>
+                </div>
+            </form>
+        </div>
+    </body>
+<!--<body>
+    <div>
+        <form id="frmAddViewGPSVTSDetail">
+            @Html.HiddenFor(m => m.RoadCode)
+            <div id="dvfirst">
+                <table class="rowstyle tbl" style="font-size: 12px; text-align: left;" align="left" width="100%">-->
+<!-- Existing code ... -->
+<!--<tr id="row1">
+    <td colspan="6">
+        <button id="btnAddVehicle" type="button">Add Vehicle</button>
+        <button id="btnDeleteVehicle" type="button" style="display: none;">Delete Vehicle</button>
+    </td>
+</tr>
+<tr class="row2">
+    <td>@Html.LabelFor(m => m.Vehicle)</td>
+    <td>@Html.DropDownListFor(m => m.Vehicle, new SelectList(Model.VehicleList, "Value", "Text"), new { @class = "Vehicle" })</td>
+    <td>@Html.LabelFor(m => m.VehiclesCount)</td>
+    <td>
+        @Html.TextBoxFor(m => m.VehiclesCount, new { @class = "VehiclesCount", onchange = "addVehiclesID(this)" })
+    </td>
+    <td colspan="2"></td>
+</tr>
+<tr class="row3">
+    <td>@Html.LabelFor(m => m.VehiclesID)</td>
+    <td colspan="5">
+        <div id="vehiclesIdContainer"></div>
+    </td>
+</tr>-->
+<!-- Remaining code ... -->
+<!--<tr style="height: 100px;">
+                    <td> @Html.LabelFor(m => m.TotalNoVehicles) </td>
+                    <td> @Html.TextBoxFor(m => m.TotalNoVehicles) </td>
+
+                    <td> @Html.LabelFor(m => m.VTS_InstallationDate)</td>
+                    <td> @Html.TextBoxFor(m => m.VTS_InstallationDate, new { @placeholder = "dd/mm/yyyy", @class = "datepicker", @readonly = "readonly" }) </td>
+
+                    <td colspan="2"></td>
+                </tr>
+                <tr>
+                    <td colspan="6" style="text-align: center;">
+                        <input type="submit" value="Submit" />
+                        <input type="reset" value="Reset" />
+                    </td>
+                </tr>
+            </table>
+        </div>
+
+        <div>
+            <table id="dvsecond">
+            </table>
+        </div>
+        </table>
+</div>-->
+<!-- Remaining code ... -->
+<!--</form>
+    </div>
+
+    <script>
+        $(document).ready(function () {
+            $("#btnAddVehicle").click(function () {
+                var newRow2 = $(".row2:last").clone();
+
+                // Clear values of the cloned elements
+                newRow2.find('input[type=text]').val('');
+
+                // Append the cloned elements to the table
+                $(".tbl").append(newRow2);
+
+                // Show the delete button
+                $("#btnDeleteVehicle").show();
+            });
+
+            $("#btnDeleteVehicle").click(function () {
+                var rowCount = $(".row2").length;
+
+                if (rowCount > 1) {
+                    $(".row2:last").remove(); // Remove the last row2
+                } else {
+                    alert("At least one row should be present.");
+                }
+
+                // Hide the delete button if there is only one row
+                if ($(".row2").length === 1) {
+                    $("#btnDeleteVehicle").hide();
+                }
+            });
+        });
+
+        function addVehiclesID(element) {
+            var count = parseInt(element.value);
+            var vehiclesIdContainer = $("#vehiclesIdContainer");
+
+            vehiclesIdContainer.empty();
+
+            for (var i = 0; i < count; i++) {
+                var vehiclesId = $("<input>", { type: "text", name: "VehiclesID", class: "VehiclesID", style: "margin 5px;" });
+                vehiclesIdContainer.append(vehiclesId);
+            }
+        }
+    </script>
+</body>-->
+<!--<body>
+    <div>
+        <form id="frmAddViewGPSVTSDetail">
+            @Html.HiddenFor(m => m.RoadCode)
+            <div id="dvfirst">
+                <table class="rowstyle tbl" style="font-size: 12px; text-align: left;" align="left" width="100%">
+                    <tr>
+                        <th colspan="1"> @Html.LabelFor(m => m.RoadName) </th>
+                        <td colspan="5"> @Html.DisplayFor(m => m.RoadName) </td>
+                    </tr>
+                    <tr>
+                        <th> @Html.LabelFor(m => m.Year) </th>
+                        <td> @Html.DisplayFor(m => m.Year)</td>
+
+                        <th> @Html.LabelFor(m => m.Batch) </th>
+                        <td> @Html.DisplayFor(m => m.Batch)</td>
+
+                        <th> @Html.LabelFor(m => m.Package) </th>
+                        <td> @Html.DisplayFor(m => m.Package)</td>
+                        <td style="width: 250px"></td>
+                    </tr>
+
+                    <tr>
+                        <td colspan="6"> <hr style="border-top:1px solid black" /> </td>
+                    </tr>
+                    <tr>
+                        <th> @Html.LabelFor(m => m.Is_GPSVTS_Installed) </th>
+                        <td colspan="5">
+                            @Html.RadioButtonFor(m => m.Is_GPSVTS_Installed, "Y", new { @onclick = "onCheckGPSVTS_Installed();" }) @Html.Label("Yes")
+                            @Html.RadioButtonFor(m => m.Is_GPSVTS_Installed, "N", new { @onclick = "onCheckGPSVTS_Installed();" }) @Html.Label("No")
+                        </td>
+                    </tr>
+                    <tr>
+                        <td colspan="6"> @Html.Label("(vehicle details required only if gps/vts installed)")</td>
+                    </tr>
+                    <tr id="row1">
+                        <td colspan="6">
+                            <button id="btnAddVehicle"> Add Vehicle </button>
+                            <button id="btnDeleteVehicle" type="button">
+                                Delete Vehicle
+                            </button>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td colspan="6"> <hr style="border-bottom:2px solid grey;" /> </td>
+                    </tr>
+                    <tr class="row2">
+                        <td> @Html.LabelFor(m => m.Vehicle)</td>
+                        <td> @Html.DropDownListFor(m => m.Vehicle, new SelectList(Model.VehicleList, "Value", "Text"), new { @class = "Vehicle" }) </td>
+
+                        <td> @Html.LabelFor(m => m.VehiclesCount) </td>
+                        <td>
+                            @Html.TextBoxFor(m => m.VehiclesCount, new { @class = "VehiclesCount", onchange = "addVehiclesID(this)" })
+                        </td>
+                        <td> @Html.LabelFor(m => m.VTS_InstallationDate)</td>
+                        <td> @Html.TextBoxFor(m => m.VTS_InstallationDate, new { @placeholder = "dd/mm/yyyy", @class = "datepicker", @readonly = "readonly" }) </td>
+                    </tr>
+                    <tr class="row3">
+                        <td>@Html.LabelFor(m => m.VehiclesID)</td>
+                        <td colspan="5">
+                            <div id="vehiclesIdContainer"></div>
+                        </td>
+                    </tr>
+                    <tr style="height: 100px;">
+                        <td> @Html.LabelFor(m => m.TotalNoVehicles) </td>
+                        <td> @Html.TextBoxFor(m => m.TotalNoVehicles) </td>
+                        <td colspan="4"></td>
+                    </tr>-->
+                    @*<tr>
+                        <td colspan="6" style="text-align: center;">
+                            <input type="submit" value="Submit" />
+                            <input type="reset" value="Reset" />
+                        </td>
+                    </tr>*@
+                <!--</table>
+            </div>
+            <div>
+                <table id="dvsecond">
+                    <tr>
+                        <td colspan="6" style="text-align: center;">
+                            <input type="submit" value="Submit" />
+                            <input type="reset" value="Reset" />
+                        </td>
+                    </tr>
+                </table>
+            </div>
+        </form>
+    </div>
+</body>-->
+
+
+
+
+
+</html>

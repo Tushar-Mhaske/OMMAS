@@ -1,0 +1,70 @@
+﻿@using PMGSY.Extensions
+
+
+<script src="~/Areas/QMSSRSReports/Scripts/NQMList.js"></script>
+
+<div id="dvSearchParameter" class="ui-corner-bottom" style="display: block; border: 1px solid #B5B8C8;">@*margin-left: 10px; margin-right: 10px;*@
+    <form id="frmSearchQualityMonitor">
+
+        @*<input type="hidden" id="QMType" name="QMType" value="I" />*@
+        <input type="hidden" id="QMType" name="QMType" value="S" />
+        <input type="hidden" id="QMEmp" name="QMEmp" value="Y" />
+        <table style="width: 100%;" class="rowstyle">
+            <tr>
+                <td style="text-align: right; width: 20%;">
+                    @Html.Label("State")
+                </td>
+                <td style="width: 20%;">
+                    @Html.DropDownList("QMState", ViewBag.StateList as IEnumerable<SelectListItem>, new { @id = "QMState", @title = "State", @tabindex = 1 })
+                    
+                </td>
+               @* <td style="text-align: right; width: 20%;">
+                    Empanelled
+                </td>
+
+                <td style="width: 20%;">
+                    @Html.DropDownList("QMEmp", ViewBag.EmpanelledList as IEnumerable<SelectListItem>, new { @id = "QMEmp", @title = "Empanelled", @tabindex = 3 })
+                </td>*@
+                <td style="text-align: center; width: 20%;">
+                    <input type="button" id="btnSearch" name="btnSearch" value="Search" class="jqueryButton" title="Search Quality Monitor " tabindex="5" />
+
+                </td>
+            </tr>
+        </table>
+
+    </form>
+</div>
+<div id="dvQualityMonitorList" >   
+@*<script type="text/javascript">
+    $(document).ready(function () {
+       // var json = JSON.stringify($("#frmSearchQualityMonitor").serialize());
+       // alert(json);
+        LoadMonitorReport();
+        $("#btnSearch").click(function () {
+            LoadMonitorReport();
+        });
+    });
+
+    function LoadMonitorReport()
+    {
+        
+    $.blockUI({ message: '<img src="/Content/images/ajax-loader.gif" />' });
+    $.ajax({
+        url: '/QMSSRSReports/QMSSRSReports/MonitorReport/',
+        type: 'POST',
+        catche: false,
+        data: $("#frmSearchQualityMonitor").serialize(),
+        async: false,
+        success: function (response) {
+            $("#dvQualityMonitorList").html(response);
+            $.unblockUI();
+        },
+        error: function () {
+            $.unblockUI();
+            alert("Error ocurred");
+            return false;
+        },
+    });
+    
+    }
+</script>*@

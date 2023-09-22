@@ -1,0 +1,440 @@
+﻿@model PMGSY.Models.NQMTourClaimModels.NQM_LODGE_CLAIM_DETAILS_MODEL
+
+@{
+    ViewBag.Title = "AddLodgeClaim";
+}
+
+<script src="~/Scripts/custom/Generic.js"></script>
+<script src="~/Scripts/jquery-ui.js"></script>
+<script src="~/Scripts/TourClaim/TourDetails.js"></script>
+<script src="~/Scripts/TourClaim/AddBankAndTourDetails.js"></script>
+<script src="~/Scripts/jquery.validate.min.js"></script>
+<script src="~/Scripts/jquery.validate.unobtrusive.min.js"></script>
+
+<style>
+    .ui-icon-circle-zoomin {
+        transform: scale(1.3);
+    }
+
+    .ui-icon-circle-arrow-n {
+        transform: scale(1.3);
+    }
+</style>
+
+
+<div id="showLodgeForm">
+
+    <div id="dvErrorMessage" class="ui-widget ui-state-error ui-corner-all" style="padding: 0.7em .7em; display: none; margin: 5px 5px 5px 5px; text-align: left">
+        <span class="ui-icon ui-icon-alert" style="float: left; margin-right: .3em; text-align: left"></span>
+        <strong>Alert:</strong> <span id="message"></span>
+    </div>
+
+    <form id="formAddLodgeClaim">
+        @Html.AntiForgeryToken()
+        <center>@Html.ValidationSummary(true)</center>
+        @Html.HiddenFor(m => m.TOUR_CLAIM_ID, new { @id = "tourClaimId" })
+        @Html.HiddenFor(m => m.ADMIN_SCHEDULE_CODE, new { @id = "scheduleCodelLodge" })
+        @Html.HiddenFor(m => m.LODGE_CLAIM_ID, new { @id = "lodgeClaimId" })
+
+        @if (Model.ADD_EDIT == 1)
+        {
+            <table class="rowstyle" style="width: 100%; margin-top: 20px">
+
+                <tr>
+                    <td style="padding: 0.5rem">
+                        @Html.LabelFor(model => model.DATE_FROM)<label style="color: red">*</label>
+                    </td>
+                    <td>
+                        @Html.TextBoxFor(model => model.DATE_FROM, new { style = "margin-bottom:0.6rem; margin-left:0.6", Value = "", @id = "dateFromLodge", @readonly = "readonly" })
+                        @Html.ValidationMessageFor(model => model.DATE_FROM)
+                    </td>
+
+                    <td style="padding: 0.5rem">
+                        @Html.LabelFor(model => model.DATE_TO)<label style="color: red">*</label>
+                    </td>
+                    <td>
+                        @Html.TextBoxFor(model => model.DATE_TO, new { style = "margin-bottom:0.6rem; margin-left:0.6", Value = "", @id = "dateToLodge", @readonly = "readonly" })
+                        @Html.ValidationMessageFor(model => model.DATE_TO)
+                    </td>
+                    <td colspan="2"></td>
+                </tr>
+
+                <tr>
+                    <td>
+                        @Html.LabelFor(model => model.TYPE_OF_CLAIM)<label style="color: red;">*</label>
+                    </td>
+                    <td>
+                        @Html.DropDownListFor(model => model.TYPE_OF_CLAIM, new SelectList(Model.LST_TYPE_OF_CLAIM, "Value", "Text"), new { @id = "typeOfClaim" })
+                        @Html.ValidationMessageFor(model => model.TYPE_OF_CLAIM)
+                    </td>
+
+
+                    <td>
+                        @Html.LabelFor(model => model.HOTEL_NAME, new { style = "display: none;", @id = "hotelNameLabel", @class = "hotel" })
+                    </td>
+                    <td>
+                        @Html.TextBoxFor(model => model.HOTEL_NAME, new { style = "display: none;", @id = "hotelName", @class = "hotel" })
+                        @Html.ValidationMessageFor(model => model.HOTEL_NAME, "", new { @class = "hotel" })
+                    </td>
+
+                    <td>
+                        @Html.LabelFor(model => model.AMOUNT_CLAIMED_HOTEL, new { style = "display: none;", @id = "amountClaimedHotelLabel", @class = "hotel" })
+                    </td>
+                    <td>
+                        @Html.TextBoxFor(model => model.AMOUNT_CLAIMED_HOTEL, new { style = "display: none; margin-left:0.6", @id = "amountClaimedHotel", Value = "", @class = "hotel" })
+                        @Html.ValidationMessageFor(model => model.AMOUNT_CLAIMED_HOTEL, "", new { @class = "hotel" })
+                    </td>
+
+                </tr>
+
+                <tr>
+                    <td>
+                        @Html.LabelFor(model => model.GUEST_HOUSE_NAME, new { style = "display: none;", @id = "guestHouseNameLabel", @class = "guest" })
+                    </td>
+                    <td>
+                        @Html.TextAreaFor(model => model.GUEST_HOUSE_NAME, new { style = "display: none;", @id = "guestHouseName", @class = "guest" })
+                        @Html.ValidationMessageFor(model => model.GUEST_HOUSE_NAME, "", new { @class = "guest" })
+                    </td>
+
+                    <td>
+                        @Html.LabelFor(model => model.AMOUNT_CLAIMED_GUEST, "Amount Claimed: ", new { style = "display: none;", @id = "amountClaimedGuestLabel", @class = "guest" })
+                    </td>
+                    <td>
+                        @Html.TextBoxFor(model => model.AMOUNT_CLAIMED_GUEST, new { style = "display: none; margin-left:0.6", @id = "amountClaimedGuest", Value = "", @class = "guest" })
+                        @Html.ValidationMessageFor(model => model.AMOUNT_CLAIMED_GUEST, "", new { @class = "guest" })
+                    </td>
+
+                    <td>
+                        @Html.LabelFor(model => model.GUEST_HOUSE_BILL, new { @class = "guest", style = "display: none" })
+                    </td>
+                    <td>
+                        @Html.TextBoxFor(model => model.GUEST_HOUSE_BILL, new { @id = "BGFile3", @class = "guest", type = "file", @tabindex = 1, style = "display: none" })
+                        @Html.ValidationMessageFor(model => model.GUEST_HOUSE_BILL, "", new { @class = "guest" })
+                    </td>
+                </tr>
+
+                <tr>
+                    <td>
+                        @Html.LabelFor(model => model.HOTEL_BILL, new { @class = "hotel", style = "display: none" })
+                    </td>
+                    <td>
+                        @Html.TextBoxFor(model => model.HOTEL_BILL, new { @id = "BGFile1", @class = "hotel", type = "file", @tabindex = 1, style = "display: none" })
+                        @Html.ValidationMessageFor(model => model.HOTEL_BILL, "", new { @class = "hotel" })
+
+                    </td>
+
+                    <td>
+                        @Html.LabelFor(model => model.HOTEL_RECEIPT, new { @class = "hotel", style = "display: none" })
+                    </td>
+                    <td>
+                        @Html.TextBoxFor(model => model.HOTEL_RECEIPT, new { @id = "BGFile2", @class = "hotel", type = "file", @tabindex = 1, style = "display: none" })
+                        @Html.ValidationMessageFor(model => model.HOTEL_RECEIPT, "", new { @class = "hotel" })
+
+                    </td>
+
+                    <td style="padding: 0.5rem;" colspan="3" class="hotel">
+                        <label style="border: none; display: none">
+                            [ Note: File size should not be greater than 15MB.]
+                        </label>
+                    </td>
+                </tr>
+
+                <tr>
+                    <td></td>
+                    <td style="text-align: center" colspan="2">
+                        <input type="button" id="btnSaveLodgeClaim" name="btnSave" value="Save" class="jqueryButton" title="Save Lodge Claim Details" tabindex="5" />
+                        <input type="reset" id="btnResetLodgeClaim" name="btnReset" value="Reset" class="jqueryButton" title="Reset Lodge Claim Details" tabindex="6" />
+                    </td>
+                    <td style="text-align: left" colspan="4">
+                    </td>
+                </tr>
+
+                <tr>
+                    <td colspan="5">
+                        <label style="border: none">
+                            [ Note: Fields marked with<label style="color: red;"> * </label>
+                            are mandatory.]
+                        </label>
+                    </td>
+                </tr>
+
+            </table>
+        }
+        else
+        {
+            <table class="rowstyle" style="width: 100%; margin-top: 20px">
+
+                <tr>
+                    <td style="padding: 0.5rem">
+                        @Html.LabelFor(model => model.DATE_FROM)<label style="color: red">*</label>
+                    </td>
+                    <td>
+                        @Html.TextBoxFor(model => model.DATE_FROM, new { style = "margin-bottom:0.6rem; margin-left:0.6", Value = Model.DATE_FROM.ToShortDateString(), @id = "dateFromLodge", @readonly = "readonly" })
+                        @Html.ValidationMessageFor(model => model.DATE_FROM)
+                    </td>
+
+                    <td style="padding: 0.5rem">
+                        @Html.LabelFor(model => model.DATE_TO)<label style="color: red">*</label>
+                    </td>
+                    <td>
+                        @Html.TextBoxFor(model => model.DATE_TO, new { style = "margin-bottom:0.6rem; margin-left:0.6", Value = Model.DATE_TO.ToShortDateString(), @id = "dateToLodge", @readonly = "readonly" })
+                        @Html.ValidationMessageFor(model => model.DATE_TO)
+                    </td>
+                    <td colspan="2"></td>
+                </tr>
+
+                <tr>
+                    <td>
+                        @Html.LabelFor(model => model.TYPE_OF_CLAIM)<label style="color: red;">*</label>
+                    </td>
+                    <td>
+                        @Html.DropDownListFor(model => model.TYPE_OF_CLAIM, new SelectList(Model.LST_TYPE_OF_CLAIM, "Value", "Text", Model.TYPE_OF_CLAIM), new { @id = "typeOfClaim", @disabled = "disabled", @readonly = "readonly" })
+                        @Html.ValidationMessageFor(model => model.TYPE_OF_CLAIM)
+                    </td>
+
+                    @if (Model.TYPE_OF_CLAIM == "H")
+                    {
+                        <td>
+                            @Html.LabelFor(model => model.HOTEL_NAME, new { @id = "hotelNameLabel", @class = "hotel" })
+                        </td>
+                        <td>
+                            @Html.TextBoxFor(model => model.HOTEL_NAME, new { @id = "hotelName", @class = "hotel" })
+                            @Html.ValidationMessageFor(model => model.HOTEL_NAME, "", new { @class = "hotel" })
+                        </td>
+
+                        <td>
+                            @Html.LabelFor(model => model.AMOUNT_CLAIMED_HOTEL, new { @id = "amountClaimedHotelLabel", @class = "hotel" })
+                        </td>
+                        <td>
+                            @Html.TextBoxFor(model => model.AMOUNT_CLAIMED_HOTEL, new { style = "margin-left:0.6", @id = "amountClaimedHotel", @class = "hotel" })
+                            @Html.ValidationMessageFor(model => model.AMOUNT_CLAIMED_HOTEL, "", new { @class = "hotel" })
+                        </td>
+                    }
+                    else
+                    {
+                        <td>
+                            @Html.LabelFor(model => model.HOTEL_NAME, new { style = "display: none;", @id = "hotelNameLabel", @class = "hotel" })
+                        </td>
+                        <td>
+                            @Html.TextBoxFor(model => model.HOTEL_NAME, new { style = "display: none;", @id = "hotelName", @class = "hotel" })
+                            @Html.ValidationMessageFor(model => model.HOTEL_NAME, "", new { @class = "hotel" })
+                        </td>
+
+                        <td>
+                            @Html.LabelFor(model => model.AMOUNT_CLAIMED_HOTEL, new { style = "display: none;", @id = "amountClaimedHotelLabel", @class = "hotel" })
+                        </td>
+                        <td>
+                            @Html.TextBoxFor(model => model.AMOUNT_CLAIMED_HOTEL, new { style = "display: none; margin-left:0.6", @id = "amountClaimedHotel", Value = "", @class = "hotel" })
+                            @Html.ValidationMessageFor(model => model.AMOUNT_CLAIMED_HOTEL, "", new { @class = "hotel" })
+                        </td>
+                    }
+
+                </tr>
+
+                @if (Model.TYPE_OF_CLAIM == "G")
+                {
+                    <tr>
+                        <td>
+                            @Html.LabelFor(model => model.GUEST_HOUSE_NAME, new { @id = "guestHouseNameLabel", @class = "guest" })
+                        </td>
+                        <td>
+                            @Html.TextAreaFor(model => model.GUEST_HOUSE_NAME, new { @id = "guestHouseName", @class = "guest" })
+                            @Html.ValidationMessageFor(model => model.GUEST_HOUSE_NAME, "", new { @class = "guest" })
+                        </td>
+
+                        <td>
+                            @Html.LabelFor(model => model.AMOUNT_CLAIMED_GUEST, "Amount Claimed: ", new { @id = "amountClaimedGuestLabel", @class = "guest" })
+                        </td>
+                        <td>
+                            @Html.TextBoxFor(model => model.AMOUNT_CLAIMED_GUEST, new { style = "margin-left:0.6", @id = "amountClaimedGuest", @class = "guest" })
+                            @Html.ValidationMessageFor(model => model.AMOUNT_CLAIMED_GUEST, "", new { @class = "guest" })
+                        </td>
+
+                        <td>
+                            @Html.LabelFor(model => model.GUEST_HOUSE_BILL, new { @class = "guest" })
+                        </td>
+
+                        <td>
+                            <table>
+                                <tr>
+                                    <td><label>@Model.DEC_UPLOADED_BILL_NAME</label></td>
+                                    <td style='border-color:white' class="viewAndDeleteGuest"><a href="@Url.Action("ViewUploadedLodgeBill", "TourClaim", new { id1 = @Model.UPLOADED_BILL_NAME })" title='Click here to view uploaded bill' class='ui-icon ui-icon-circle-zoomin ui-align-center' target=_blank></a></td>
+                                    <td>
+                                        @Html.TextBoxFor(model => model.GUEST_HOUSE_BILL, new { @id = "BGFile3", @class = "ui-icon ui-icon-circle-arrow-n guest", type = "file", @tabindex = 1 })
+                                    </td>
+                                </tr>
+                            </table>
+                        </td>
+                    </tr>
+
+                }
+                else
+                {
+                    <tr>
+                        <td>
+                            @Html.LabelFor(model => model.GUEST_HOUSE_NAME, new { style = "display: none;", @id = "guestHouseNameLabel", @class = "guest" })
+                        </td>
+                        <td>
+                            @Html.TextAreaFor(model => model.GUEST_HOUSE_NAME, new { style = "display: none;", @id = "guestHouseName", @class = "guest" })
+                            @Html.ValidationMessageFor(model => model.GUEST_HOUSE_NAME, "", new { @class = "guest" })
+                        </td>
+
+                        <td>
+                            @Html.LabelFor(model => model.AMOUNT_CLAIMED_GUEST, "Amount Claimed: ", new { style = "display: none;", @id = "amountClaimedGuestLabel", @class = "guest" })
+                        </td>
+                        <td>
+                            @Html.TextBoxFor(model => model.AMOUNT_CLAIMED_GUEST, new { style = "display: none; margin-left:0.6", @id = "amountClaimedGuest", Value = "", @class = "guest" })
+                            @Html.ValidationMessageFor(model => model.AMOUNT_CLAIMED_GUEST, "", new { @class = "guest" })
+                        </td>
+
+                        <td>
+                            @Html.LabelFor(model => model.GUEST_HOUSE_BILL, new { @class = "guest", style = "display: none" })
+                        </td>
+                        <td>
+                            @Html.TextBoxFor(model => model.GUEST_HOUSE_BILL, new { @id = "BGFile3", @class = "guest", type = "file", @tabindex = 1, style = "display: none" })
+                            @Html.ValidationMessageFor(model => model.GUEST_HOUSE_BILL, "", new { @class = "guest" })
+                        </td>
+                    </tr>
+
+                }
+
+
+                <tr>
+                    @if (Model.TYPE_OF_CLAIM == "H")
+                    {
+                        <td>
+                            @Html.LabelFor(model => model.HOTEL_BILL, new { @class = "hotel" })
+                        </td>
+                        <td>
+                            <table>
+                                <tr>
+                                    <td style="background-color: #f6f3ec"><label>@Model.DEC_UPLOADED_BILL_NAME</label></td>
+                                    <td style='border-color:white' class="viewAndDeleteGuest"><a href="@Url.Action("ViewUploadedLodgeBill", "TourClaim", new { id1 = @Model.UPLOADED_BILL_NAME })" title='Click here to view uploaded receipt' class='ui-icon ui-icon-circle-zoomin ui-align-center' target=_blank></a></td>
+                                    <td>
+                                        @Html.TextBoxFor(model => model.HOTEL_BILL, new { @id = "BGFile1", @class = "ui-icon ui-icon-circle-arrow-n hotel", type = "file", @tabindex = 1 })
+                                    </td>
+                                </tr>
+                            </table>
+                        </td>
+
+
+                        <td>
+                            @Html.LabelFor(model => model.HOTEL_RECEIPT, new { @class = "hotel" })
+                        </td>
+
+                        <td>
+                            <table>
+                                <tr>
+                                    <td><label>@Model.DEC_UPLOADED_RECEIPT_NAME</label></td>
+                                    <td style='border-color:white' class="viewAndDeleteGuest"><a href="@Url.Action("ViewUploadedLodgeBill", "TourClaim", new { id1 = @Model.UPLOADED_RECEIPT_NAME })" title='Click here to view uploaded receipt' class='ui-icon ui-icon-circle-zoomin ui-align-center' target=_blank></a></td>
+                                    <td>
+                                        @Html.TextBoxFor(model => model.HOTEL_RECEIPT, new { @id = "BGFile2", @class = "ui-icon ui-icon-circle-arrow-n hotel", type = "file", @tabindex = 1 })
+                                        @Html.ValidationMessageFor(model => model.HOTEL_RECEIPT, "", new { @class = "hotel" })
+                                    </td>
+                                </tr>
+                            </table>
+                        </td>
+
+
+                    }
+                    else
+                    {
+                        <td>
+                            @Html.LabelFor(model => model.HOTEL_BILL, new { @class = "hotel", style = "display: none" })
+                        </td>
+                        <td>
+                            @Html.TextBoxFor(model => model.HOTEL_BILL, new { @id = "BGFile1", @class = "hotel", type = "file", @tabindex = 1, style = "display: none" })
+                            @Html.ValidationMessageFor(model => model.HOTEL_BILL, "", new { @class = "hotel" })
+
+                        </td>
+
+                        <td>
+                            @Html.LabelFor(model => model.HOTEL_RECEIPT, new { @class = "hotel", style = "display: none" })
+                        </td>
+                        <td>
+                            @Html.TextBoxFor(model => model.HOTEL_RECEIPT, new { @id = "BGFile2", @class = "hotel", type = "file", @tabindex = 1, style = "display: none" })
+                            @Html.ValidationMessageFor(model => model.HOTEL_RECEIPT, "", new { @class = "hotel" })
+
+                        </td>
+                    }
+
+
+                    <td style="padding: 0.5rem;" colspan="6" class="hotel">
+                        <label style="border: none; display: none">
+                            [ Note: File size should not be greater than 15MB.]
+                        </label>
+                    </td>
+                </tr>
+
+                <tr>
+                    @if (Model.TYPE_OF_CLAIM == "S")
+                    {
+                        <td></td>
+                        <td style="text-align: center" colspan="2">
+                            <input type="button" id="btnUpdateLodgeClaim" name="btnUpdate" value="Update" class="jqueryButton" title="Update Lodge Claim Details" tabindex="5" />
+                            <input type="button" class="jqueryButton" value="Back" id="btnBackLodge" name="btnBackLodge" title="Click here to go back to Lodge Details" />
+                        </td>
+                        <td style="text-align: left" colspan="2">
+                        </td>
+                    }
+                    else if (Model.TYPE_OF_CLAIM == "G")
+                    {
+                        <td></td>
+                        <td></td>
+                        <td style="text-align: center" colspan="2">
+                            <input type="button" id="btnUpdateLodgeClaim" name="btnUpdate" value="Update" class="jqueryButton" title="Update Lodge Claim Details" tabindex="5" />
+                            <input type="button" class="jqueryButton" value="Back" id="btnBackLodge" name="btnBackLodge" title="Click here to go back to Lodge Details" />
+                        </td>
+                        <td style="text-align: left" colspan="2">
+                        </td>
+                    }
+                    else
+                    {
+                        <td></td>
+                        <td></td>
+                        <td style="text-align: left" colspan="2">
+                            <input type="button" id="btnUpdateLodgeClaim" name="btnUpdate" value="Update" class="jqueryButton" title="Update Lodge Claim Details" tabindex="5" />
+                            <input type="button" class="jqueryButton" value="Back" id="btnBackLodge" name="btnBackLodge" title="Click here to go back to Lodge Details" />
+                        </td>
+                        <td style="text-align: left" colspan="2">
+                        </td>
+                    }
+
+                </tr>
+
+                @if (Model.TYPE_OF_CLAIM == "G")
+                {
+                    <tr>
+                        <td colspan="6" style="background-color: #f6f3ec">
+                            <label style="border: none">
+                                [ Note: Fields marked with<label style="color: red;"> * </label>
+                                are mandatory.]
+                            </label>
+                        </td>
+                    </tr>
+                }
+                else
+                {
+                    <tr>
+                        <td colspan="6">
+                            <label style="border: none">
+                                [ Note: Fields marked with<label style="color: red;"> * </label>
+                                are mandatory.]
+                            </label>
+                        </td>
+                    </tr>
+
+                }
+
+
+
+            </table>
+        }
+
+    </form>
+
+</div>
+
+
+
+

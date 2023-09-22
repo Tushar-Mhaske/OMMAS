@@ -1,0 +1,153 @@
+﻿@model PMGSY.Models.EpaymentOrderModel
+@{
+    Layout = null;
+}
+<html>
+<body>
+    <div id="dvPrintEpaymentDetails">
+        <table style="width: 100%;" border="1">
+
+            <tr>
+                <td colspan="2" style="vertical-align: central"><b>Epayments Instruction Details :</b> @Model.EpayNumber </td>
+            </tr>
+            <tr>
+                <td style="width: 20%">Email Sender</td>
+                <td style="width: 80%"><b>omms.pmgsy@nic.in</b></td>
+            </tr>
+            <tr>
+                <td style="width: 20%">Email Recepient </td>
+                <td id="EmailRecepient"><b>@Model.EmailRecepient</b></td>
+            </tr>
+            <tr>
+                <td style="width: 20%">Email Subject</td>
+                <td><b>An Epayment transaction is made by <span id="DPIUName">@Model.DPIUName  </span>of <span id="STATEName">@Model.STATEName</span>on https://omms.nic.in,
+                     Epayment No:<span id="EpayNo">@Model.EpayNumber</span></b>
+                </td>
+            </tr>
+            <tr>
+                <td style="width: 20%">Email Date</td>
+                <td id="EmailDate"><b>@Model.EmailDate</b></td>
+            </tr>
+            <tr>
+                <td style="width: 20%">Email is for</td>
+                <td id="Bankaddress"><b>@Model.Bankaddress</b></td>
+            </tr>
+            <tr>
+                <td style="width: 20%">Account Number </td>
+                <td id="BankAcNumber"><b>@Model.BankAcNumber</b></td>
+            </tr>
+            <tr>
+                <td  style="width: 20%"> Authorised Signatory Name </td>
+                <td id ="AuthSignName">@Model.AuthorisedSignName</td>
+            </tr>
+             <tr>
+                <td  style="width: 20%">Authorised Signatory Phone Number  </td>
+                <td id ="AuthSignPhoneNumber">@Model.AuthorisedSignMobile</td>
+            </tr>
+	
+        </table>
+        <table style="width: 100%;" border="1">
+            <tr>
+                <td colspan="2"><b>Epayment Transaction Details :</b>@Model.EpayNumber </td>
+            </tr>
+        </table>
+        <table style="width: 100%;" border="1">
+            <tr>
+                <td style="width: 20%; height: 0">Epayment Number </td>
+                <td id="EpayNumber" style="width: 70%; height: 0"><b>@Model.EpayNumber </b></td>
+            </tr>
+            <tr>
+                <td style="width: 20%">Epayment Date </td>
+                <td id="EpayDate"><b>@Model.EpayDate </b></td>
+            </tr>
+            <tr>
+                <td style="width: 20%">State </td>
+                <td id="EpayState"><b>@Model.EpayState </b></td>
+            </tr>
+
+            <tr>
+                <td style="width: 30%">DPIU</td>
+                <td id="EpayDPIU"><b>@Model.EpayDPIU </b></td>
+            </tr>
+            <tr>
+                <td style="width: 20%">Voucher Number</td>
+                <td id="EpayVNumber"><b>@Model.EpayVNumber </b></td>
+            </tr>
+            <tr>
+                <td style="width: 30%">Voucher Date </td>
+                <td id="EpayVDate"><b>@Model.EpayVDate </b></td>
+            </tr>
+            <tr>
+                <td style="width: 20%">Package(s) </td>
+                <td id="EpayVPackages"><b>@Model.EpayVPackages </b></td>
+            </tr>
+           
+                @if (PMGSY.Extensions.PMGSYSession.Current.FundType.Equals("A"))
+                {
+                         <tr>
+                            <td style="width: 20%">Payee/Supllier Name </td>
+                            <td id="EpayConName"><b>@Model.EpayConName </b></td>
+                         </tr>
+                }
+                else
+                {
+                          <tr>
+                           
+                            <td style="width: 20%">Contractor Name </td>
+                            <td id="EpayConName"><b>@Model.EpayConName </b></td>
+                         </tr>
+                }
+
+
+
+
+            @* Added By Abhishek kamble 29-May-2014 *@
+            @if (Model.EpayContLegalHeirName != "" && Model.EpayContLegalHeirName!=null)
+            {
+            <tr>
+                <td style="width: 20%">Contractor Legal Heir Name test</td>
+                <td id="EpayConLegalHeirName"><b>@Model.EpayContLegalHeirName</b></td>
+            </tr>
+            }
+            <tr>
+                <td style="width: 20%">Contractor Account Number </td>
+                <td id="EpayConAcNum"><b>@Model.EpayConAcNum </b></td>
+            </tr>
+
+            <tr>
+                @if (PMGSY.Extensions.PMGSYSession.Current.FundType.Equals("A"))
+                {
+                 <td style="width: 20%">Payee/Supllier Name </td>
+                }
+                else
+                {
+                    <td style="width: 20%">Contractor Bank Name </td> 
+                }
+                
+               <td id="EpayConBankName"><b>@Model.EpayConBankName </b></td>
+            </tr>
+
+            <tr>
+                @if (PMGSY.Extensions.PMGSYSession.Current.FundType.Equals("A"))
+                {
+                       <td style="width: 20%">Payee/Supllier Bank IFSC Code </td>
+                }
+                else
+                {
+                       <td style="width: 20%">Contractor Bank IFSC Code </td>
+                }
+                    <td id="EpayConBankIFSCCode"><b>@Model.EpayConBankIFSCCode </b></td>
+            </tr>
+            <tr>
+                <td style="width: 20%">Net Amount </td>
+                <td id="EpayAmount"><b>@Model.EpayAmount
+                    <br />
+                    @Model.EpayAmountInWord  </b></td>
+
+            </tr>
+
+        </table>
+    </div> 
+      
+</body>
+</html>

@@ -1,0 +1,47 @@
+﻿@model PMGSY.Models.ProposalReports.ProposalReportsModel
+<script type="text/javascript" src="@Url.Content("~/Scripts/jquery.ui.dialog.js")"> </script>
+<script type="text/javascript" src="~/Scripts/ProposalReports/PendingWorksDetails.js"></script>
+<script src="~/Scripts/custom/Generic.js"></script>
+@Html.Hidden("hdnLevelId", PMGSY.Extensions.PMGSYSession.Current.LevelId.ToString())
+
+@if (PMGSY.Extensions.PMGSYSession.Current.StateCode != 0)
+{           
+    @Html.Hidden("STATE_NAME", PMGSY.Extensions.PMGSYSession.Current.StateName.ToString())
+}
+
+@if (PMGSY.Extensions.PMGSYSession.Current.DistrictCode != 0)
+{
+    @Html.Hidden("DISTRICT_NAME", PMGSY.Extensions.PMGSYSession.Current.DistrictName.ToString())   
+}
+
+@Html.HiddenFor(model => model.BLOCK_NAME)
+@Html.HiddenFor(model => model.MAST_STATE_CODE)
+@Html.HiddenFor(model => model.MAST_DISTRICT_CODE)
+<div style="width: 100%">
+    <table class="ui-state-default ui-corner-all" style="width: 100%;">
+        <tr>
+            <td style="width: 6%;"></td>
+            <td style="text-align: left; width: 5%;">
+                @Html.Label("State")
+            </td>
+            <td style="width: 15%;">
+                @Html.DropDownList("ddState_PendingWorksDetails", ViewData["STATE"] as IEnumerable<SelectListItem>, new { @title = "State", @tabindex = 1 })
+            </td>
+            <td style="text-align: left; width: 5%;">
+                @Html.Label("Reason")
+            </td>
+            <td style="width: 15%;">
+                @Html.DropDownList("ddReason_PendingWorksDetails", ViewData["REASON"] as IEnumerable<SelectListItem>, new { @title = "Reason", @tabindex = 2 })
+            </td>
+            <td style="text-align: center; width: 20%; margin-left: 5px;">
+                <input type="button" id="btnGoPendingWorks" value="View" class="jqueryButton" title="View Details" tabindex="3" />
+            </td>
+        </tr>
+
+    </table>
+</div>
+
+<div id="divPendingWorksDetails" style="width: 100%; margin-top: 20px;">
+    <table id="tbPendingWorksReport"></table>
+    <div id="dvPendingWorksReportPager"></div>
+</div>

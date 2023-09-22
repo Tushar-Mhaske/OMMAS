@@ -1,0 +1,165 @@
+﻿@*
+    * Project Id    :
+    * Project Name  :   OMMAS II
+    * Name          :   QualityLayoutSQC.cshtml
+    * Description   :   Render View for QualityLayoutSQC.
+    * Author        :   Shyam Yadav
+    * Creation Date :   11/Jun/2013
+*@
+
+<!DOCTYPE html>
+
+<html>
+<head>
+    <style type="text/css">
+        #preview {
+            border: 1px solid #ccc;
+            position: absolute;
+            background: #333;
+            padding: 5px;
+            display: none;
+            color: #fff;
+        }
+
+        td {
+            height: 20px;
+            text-align: left;
+        }
+
+        body {
+            text-align: left;
+        }
+    </style>
+
+
+    <script src="~/Scripts/custom/Generic.js"></script>
+    <script src="~/Scripts/jquery.ui.tabs.js"></script>
+    <script src="~/Scripts/Bootstrap/bootstrap.min.js"></script>
+    <script src="~/Scripts/jquery-ui.js"></script>
+    <script src="~/Scripts/QualityMonitoring/QualityLayoutSQC.js"></script>
+
+</head>
+<body>
+
+    @Html.Hidden("hdnRoleCodeOnSqcLayout3Tier", PMGSY.Extensions.PMGSYSession.Current.RoleCode.ToString())
+    <div id="divError" class="ui-state-error ui-corner-all" style="text-align: left; display: none; width: 99%">
+        <span class="ui-icon ui-icon-alert" style="float: left;"></span>
+        <span></span>
+        <span style="float: right;"><a style="float: right;" href="#">
+            <img class="ui-icon ui-icon-closethick" onclick="closeDivError();" style="border: none; border-width: 0;">
+        </a></span>
+    </div>
+    @if (PMGSY.Extensions.PMGSYSession.Current.RoleCode == 8 || PMGSY.Extensions.PMGSYSession.Current.RoleCode == 69 || PMGSY.Extensions.PMGSYSession.Current.RoleCode == 48)
+    {
+        <div style="text-align: right; height: 25px; width: 99%; font-size: 11px; font-weight: bold;">
+            <input type="button" class="jqueryButton" style="width: 150px;" value="3rd Tier" id="btn3Tier" name="btn3Tier" />
+            <input type="button" class="jqueryButton" style="width: 150px;" value="2nd Tier" id="btn2Tier" name="btn3Tier" />
+            <input type="button" class="jqueryButton" style="width: 150px;" value="1st Tier" id="btn1TierPIU" name="btn1TierPIU" />
+            @*New change added by deepak 16-Sept- 2014*@
+
+        </div>
+@*<div class="ui-state-default ui-corner-top" style="text-align:center;width: 99%; font-size:11px; font-weight:bold;">
+                                3rd Tier Quality Monitoring
+                </div>*@
+        <div id="tabs-3TierDetailsSqc" style="width: 99%;">
+            <ul>
+                <li><a href="#tabs-3TierDetailsSqc-0" onclick="Show3TierSqcInspectionDetails();return false;">Inspection Details</a></li>
+                <li><a href="#tabs-3TierDetailsSqc-1" onclick="Show3TierSqcScheduleListGrid(0,0);return false;">Schedule Details</a></li>
+                
+                <li><a href="#tabs-3TierDetailsSqc-3" onclick="ShowATR();return false;">ATR Details</a></li>
+                <li><a href="#tabs-3TierDetails-4" onclick="ShowSQCATR();return false;">Maintenance ATR</a></li>
+                <div style="width: 98%; text-align: right; padding-top: 5px;">3rd Tier Quality Monitoring </div>
+            </ul>
+
+
+            <div id="tabs-3TierDetailsSqc-0">
+                <div id="div3TierSQCInspFilters"></div>
+                <div id="div3TierSqcInspectionDetails" style="width: 100%; margin-top: 15px;">
+                    <table id="tb3TierSqcInspList"></table>
+                    <div id="dv3TierSqcInspListPager"></div>
+                </div>
+
+                <div id="accordion3TierSqcInspection" style="display: none; width: 100%; margin-top: 10px;">
+                    <h3 style="text-align: left"><a id="" href="#" style="font-size: .9em;">Inspections Details</a>
+                        <a href="#" style="float: right;">
+                            <img style="border: none" class="ui-icon ui-icon-closethick" onclick="Close3TierSqcInspDetails();" /></a>
+                    </h3>
+                    <div id="div3TierSqcInspDetails" style="display: none;"></div>
+                </div>
+            </div>
+
+            <div id="tabs-3TierDetailsSqc-1">
+                <div id="div3TierSqcScheduleFilters" style="width: 100%">
+                    @{Html.RenderAction("ScheduleFilters3TierSQC", "QualityMonitoring");}
+                </div>
+                <div id="div3TierSqcSchedulePreparation" style="width: 100%; margin-top: 15px;">
+                    <table id="tb3TierSqcScheduleList"></table>
+                    <div id="dv3TierSqcScheduleListPager"></div>
+                </div>
+
+                <div id="accordion3TierSqcSchedule" style="display: none; width: 100%; margin-top: 10px;">
+                    <h3 style="text-align: left"><a id="" href="#" style="font-size: .9em;">Schedule Details</a>
+                        <a href="#" style="float: right;">
+                            <img style="border: none" class="ui-icon ui-icon-closethick" onclick="Close3TierSqcScheduleDetails();" /></a>
+                    </h3>
+                    <div id="div3TierSqcScheduleDetails" style="display: none;"></div>
+                </div>
+            </div>
+           
+                <div id="tabs-3TierDetailsSqc-3">
+                    <div id="div3TierATRQualityFiltersHtml"></div>
+                    <div style="width: 99%; height: 20px; border: none; margin-top: 5px; margin-bottom: -15px;" class="ui-state-default">
+                        @*<span style="float: left; margin-left: 5px; padding: 2px;">Action Taken Report</span>*@
+                        <span style="float: right; margin-right: 2Px; margin-top: 2px" id="spn3TierATRHtml" class="ui-icon ui-icon-circle-triangle-n"></span>
+                    </div>
+                    <div id="div3TierATRDetailsHtml" style="width: 99%; overflow: auto; height: 350px;"></div>
+                    <br />
+                    <div id="accordionATR3TierCqc" style="display: none; width: 100%; margin-top: 10px;">
+                        <h3 style="text-align: left"><a id="" href="#" style="font-size: .9em;">ATR Details</a>
+                            <a href="#" style="float: right;">
+                                <img style="border: none" class="ui-icon ui-icon-closethick" onclick="CloseATR3TierSqcDetails();" /></a>
+                        </h3>
+                        <div id="divATR3TierCqcDetails" style="display: none;"></div>
+                    </div>
+                    <div id="accordionATR3TierSqcLab" class="ui-state-default ui-corner-all" style="display: none; width: 100%; margin-top: 10px;">
+                        @* Added by Deendayal*@
+                        <h3 class="ui-accordion-header ui-helper-reset ui-state-default ui-accordion-header-active ui-state-active ui-corner-top">@*<a id="" href="#" style=" font-size:.9em;" >Lab Details</a>
+                            <a href="#"  style="float: right;">
+                                <img style="border:none" class="ui-icon ui-icon-closethick" onclick="CloseATR3TierSqcLabDetails();" /></a>*@
+                        </h3>
+                        <div id="divATR3TierSqcLabDetails" style="display: none;"></div>
+                    </div>
+                </div>
+            
+                <div id="tabs-3TierDetails-4">
+                    <div id="div2TierATRQualityFiltersHtml"></div>
+                    <div style="width: 99%; height: 20px; border: none; margin-top: 5px; margin-bottom: -15px;" class="ui-state-default">
+                        <span style="float: left; margin-left: 5px; padding: 2px;">Maintenance ATR Details</span>
+                        <span style="float: right; margin-right: 2Px; margin-top: 2px" id="spn2TierATRHtml" class="ui-icon ui-icon-circle-triangle-n"></span>
+                    </div>
+                    <div id="div2TierATRDetailsHtml" style="width: 99%; overflow: auto; height: 350px;"></div>
+                    <br />
+                    <div id="accordionATR2TierSqc" style="display: none; width: 100%; margin-top: 10px;">
+                        <h3 style="text-align: left"><a id="" href="#" style="font-size: .9em;">Maintenance ATR Details</a>
+                            <a href="#" style="float: right;">
+                                <img style="border: none" class="ui-icon ui-icon-closethick" onclick="CloseATR2TierSqcDetails();" /></a>
+                        </h3>
+                        <div id="divATR2TierSqcDetails" style="display: none;"></div>
+                    </div>
+
+                    <div id="accordionBulkSQCATRDetails" style="display: none; width: 100%; margin-top: 10px;">
+                        <h3 style="text-align: left"><a id="" href="#" style="font-size: .9em;">Regrade ATR</a>
+                            <a href="#" style="float: right;">
+                                <img style="border: none" class="ui-icon ui-icon-closethick" onclick="CloseBulkSQCATRDetails();" /></a>
+                        </h3>
+                        <div id="divBulkSQCATRDetails" style="display: none;"></div>
+                    </div>
+                </div>
+            
+        </div>
+    }
+
+
+
+</body>
+</html>

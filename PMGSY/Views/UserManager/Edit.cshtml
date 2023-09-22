@@ -1,0 +1,182 @@
+﻿@model PMGSY.Models.UM_User_Master
+
+@{
+    ViewBag.Title = "Edit";
+}
+<script src="~/Scripts/UserManager/UserManager.js"></script>
+<script src="~/Scripts/custom/Generic.js"></script>
+<script type="text/javascript">
+    
+    $(document).ready(function () {
+        $("#btnUpdate").click(function () {
+            encrypt();    
+        });        
+    });
+
+    function encrypt() {
+        if ($('#UserName').val() != '') {
+            $('#hiddenPassword').val(hex_md5($('#UserName').val()));
+            return true;
+        }
+    }
+</script>
+<h2>Edit User</h2>
+
+@using (Html.BeginForm())
+{
+    @Html.ValidationSummary(true)
+       
+    <fieldset>
+        <legend>User Information</legend>
+        <center>
+       <table style="border:solid 0.1em gray;" class="rowstyle"  >
+        <tr>
+            <td class="editor-label">
+                @Html.LabelFor(model => model.UserName)
+            </td>
+            <td class="editor-field">
+                @Html.EditorFor(model => model.UserName)
+            </td>
+            <td>
+                @Html.ValidationMessageFor(model => model.UserName)
+            </td>
+            @Html.HiddenFor(model => model.UserID, new { @id= "hiddenUserID"})            
+            @Html.HiddenFor(model => model.Password, new { @id = "hiddenPassword" })
+            
+            @Html.HiddenFor(model => model.CreationDate, new { @id = "hiddenCDate" })
+            @Html.HiddenFor(model => model.IsActive, new { @id = "hiddenIsActive" })
+            @Html.HiddenFor(model => model.IsFirstLogin, new { @id = "hiddenIsFirstLogin" })
+            @Html.HiddenFor(model => model.IsLocked, new { @id = "hiddenIsLocked" })
+            @Html.HiddenFor(model => model.CreatedBy, new { @id = "hiddenCreatedBy" })
+            @Html.HiddenFor(model => model.Admin_DPIU_Code, new { @id = "hiddenAdmin_DPIU_Code" })
+            @Html.HiddenFor(model => model.UserRoleID, new { @id = "hiddenUserRoleID"  })
+            @Html.Hidden("hdnOperationType", "U")
+        </tr>
+        <tr>
+            <td class="editor-label">
+                @Html.LabelFor(model => model.LevelID)
+            </td>
+            <td class="editor-field">
+                @Html.DropDownList("LevelID", "Select Level")
+              
+            </td>
+            <td>
+                  @Html.ValidationMessageFor(model => model.LevelID)
+            </td>
+        </tr>
+        <tr>
+            <td class="editor-label">
+                @Html.Label("Role")
+            </td>
+            <td class="editor-field">
+                @Html.DropDownList("RoleID")
+
+            </td>
+            <td>
+                @Html.ValidationMessageFor(model => model.RoleID)                
+            </td>
+        </tr>
+        <tr>
+            <td class="editor-label">
+                @Html.LabelFor(model => model.Mast_State_Code)
+            </td>
+            <td class="editor-field">
+                @Html.DropDownList("Mast_State_Code")
+                
+            </td>
+            <td>
+                @Html.ValidationMessageFor(model => model.Mast_State_Code)
+            </td>
+        </tr>
+        <tr>
+            <td class="editor-label">
+                @Html.LabelFor(model => model.Mast_District_Code)
+            </td>
+            <td class="editor-field">
+                @Html.DropDownList("Mast_District_Code", "Select District")
+                
+            </td>
+            <td>
+                @Html.ValidationMessageFor(model => model.Mast_District_Code)
+            </td>
+        </tr>
+        <tr>
+            <td class="editor-label">
+                @Html.LabelFor(model => model.Admin_DPIU_Code)
+            </td>
+            <td class="editor-field">
+                @Html.DropDownList("Admin_DPIU_Code", "Select DPIU")                
+                
+            </td>
+            <td>
+                @Html.ValidationMessageFor(model => model.Admin_DPIU_Code)
+            </td>
+        </tr>
+        <tr>
+            <td class="editor-label">
+                @Html.LabelFor(model => model.PreferedLanguageID)
+            </td>
+            <td class="editor-field">
+                @Html.DropDownList("PreferedLanguageID", "Select Language")                   
+
+            </td>
+            <td>
+                @Html.ValidationMessageFor(model => model.PreferedLanguageID)
+            </td>
+        </tr>
+        <tr>
+            <td class="editor-label">
+                @Html.LabelFor(model => model.PreferedCssID)
+            </td>
+            <td class="editor-field">
+                @Html.DropDownList("PreferedCssID", "Select Css")
+                
+            </td>
+            <td>
+                @Html.ValidationMessageFor(model => model.PreferedCssID)
+            </td>
+        </tr>
+        <tr>
+            <td class="editor-label">
+                @Html.LabelFor(model => model.MaxConcurrentLoginsAllowed)
+            </td>
+            <td class="editor-field">
+                @Html.EditorFor(model => model.MaxConcurrentLoginsAllowed)
+                
+            </td>
+            <td>
+                @Html.ValidationMessageFor(model => model.MaxConcurrentLoginsAllowed)
+            </td>
+        </tr>
+        <tr>
+            <td class="editor-label">
+                @Html.LabelFor(model => model.Remarks)
+            </td>
+            <td class="editor-field">
+                @Html.EditorFor(model => model.Remarks)
+                
+            </td>
+            <td>
+                @Html.ValidationMessageFor(model => model.Remarks)
+            </td>
+        </tr>
+        <tr>
+            <td style="text-align:center" colspan="2">
+                <input type="submit" value="Update" class="jqueryButton" id="btnUpdate"/>
+            </td>            
+            <td>
+
+            </td>
+        </tr>
+        </table>
+
+    </fieldset>    
+}
+
+<div>
+    @Html.ActionLink("Back to List", "Index")
+</div>
+
+@section Scripts {
+    @Scripts.Render("~/bundles/jqueryval")
+}

@@ -1,0 +1,21 @@
+﻿@using MvcReportViewer
+@model PMGSY.Areas.AccountReports.Models.PfmsPendingBills
+
+@Html.MvcReportViewer("/PMGSYCitizen/PFMS_Daywise_PendingBills",
+     new
+     {
+  
+         SrrdaCode = Model.AdminNdCode,
+         DpiuCode = Model.DPIU,
+         Duration = Model.rType,
+         Month = 0,
+         Year = 0,
+         FundType = Model.FundType,
+         startdate = Model.StartDate,
+         Endate = Model.EndDate,
+         Flag="BP"
+         
+     },
+     new { Height = 600, Width = "100%", style = "border:none;" })
+
+

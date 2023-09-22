@@ -1,0 +1,26 @@
+﻿@model PMGSY.Models.Execution.ExecutionLSBStatusViewModel
+@{
+    ViewBag.Title = "AddLSBPhysicalDetails";
+}
+
+<script src="~/Scripts/custom/Generic.js"></script>
+<script src="~/Scripts/Execution/AddLSBPhysicalDetails.js"></script>
+
+<div style="margin-left: 100px">
+    @Html.ValidationSummary(true)             
+</div>            
+<div id="divError" class="ui-state-error ui-corner-all" style="text-align: left; display: none; width: 100%">
+        <span class="ui-icon ui-icon-alert" style="float: left;"></span>                   
+        <span></span>
+</div>
+<div style="height:20px; width: 100%; text-align:left; padding-top: 0.6em;" class="ui-state-default ui-corner-all" > 
+            &nbsp;<strong> Note :</strong>  Fields marked with * are mandatory.
+</div>
+<table id="tbAddLSBDetails"  cellpadding="3px" class="rowstyle" style="margin-top:10px; text-align:left; border:ridge 0.1em #ccc; width:100%; padding-top:5px 5px 5px 5px;">
+    <tr>
+        <td style="width:5%"></td>
+        <td style="width:8%">
+            @Html.LabelFor()
+        </td>
+    </tr>
+</table>

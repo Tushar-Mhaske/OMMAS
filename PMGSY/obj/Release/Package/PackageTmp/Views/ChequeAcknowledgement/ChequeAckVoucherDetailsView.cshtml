@@ -1,0 +1,79 @@
+﻿@model PMGSY.Models.ChequeAcknowledgement.CheckAckModel
+
+@{
+    Layout = null;
+}
+
+<!DOCTYPE html>
+
+<html>
+ <script src="~/Scripts/jquery.ui.datepicker.js"></script>
+ <script src="~/Scripts/custom/Generic.js"></script>
+ 
+    <script>
+        $(document).ready(function () {
+
+            $.validator.unobtrusive.parse($("#chqAcknowledgement"));
+
+            //$("#BILL_DATE").datepicker({
+            //    showOn: 'button',
+            //    buttonImage: '/Content/images/calendar_2.png',
+            //    buttonImageOnly: true,
+            //    changeMonth: true,
+            //    changeYear: true,
+            //    dateFormat: "dd/mm/yy"
+
+            //});
+          
+        });
+
+    </script>
+
+<body>
+    <div>
+        <form id="chqAcknowledgement">
+      
+          @Html.AntiForgeryToken()
+       
+         @Html.ValidationSummary(true)
+
+        <table id="tblForm" class="table-content ui-corner-all" style="width: 98%; border: .1em solid gray;margin-top:10px ;display:none">
+
+            <tr>
+                <td style="text-align: left; width: 15%">  @Html.LabelFor(model => model.BILL_NO) <label style="color:red">*</label>
+                    @Html.Hidden("HiddenSelectedAckID")
+                    @Html.Hidden("STR_NA_BILL_ID")
+                     @Html.Hidden("SelectedIDArray")
+                     @Html.Hidden("Finalize")
+                     @Html.Hidden("BILL_MONTH_VOUCHER")
+                     @Html.Hidden("BILL_YEAR_VOUCHER")
+                      @Html.Hidden("DPIU_CODE")
+                        @* Added By Abhishek kamble 23-Aug-2014 *@
+                     @Html.Hidden("AckBillIDArray")
+
+
+                    
+                    
+                </td>
+                <td style="text-align: center; width: 35%">
+                 
+                   @Html.TextBoxFor(model => model.BILL_NO)
+                    <br />
+                   @Html.ValidationMessageFor(model => model.BILL_NO)
+                </td>
+                <td style="text-align: left ; width: 15%"> @Html.LabelFor(model => model.BILL_DATE) <label style="color:red">*</label>
+                </td>
+                <td style="text-align: center; width: 35%">
+                   
+                @Html.TextBoxFor(model => model.BILL_DATE,new { @style = "width:25%",@readonly="readonly"})
+                    <br />
+                @Html.ValidationMessageFor(model => model.BILL_DATE)
+                </td>
+               
+            </tr>
+        </table>
+         
+  </form>
+    </div>
+</body>
+</html>

@@ -1,0 +1,117 @@
+﻿@{
+    ViewBag.Title = "CNPriorityReportDetails";
+}
+
+
+@model PMGSY.Models.CoreNetworkReports.CoreNetworkReportViewModel
+<script type="text/javascript" src="~/Scripts/CoreNetworkReports/CNPriorityReportDetails.js"></script>
+<script type="text/javascript" src="@Url.Content("~/Scripts/jquery.ui.dialog.js")"> </script>
+<script src="~/Scripts/custom/Generic.js"></script>
+<form id="frmCNPriorityStateLevelReport">
+    @Html.Hidden("hdnLevelId", PMGSY.Extensions.PMGSYSession.Current.LevelId.ToString())
+
+    @if (PMGSY.Extensions.PMGSYSession.Current.StateCode != 0)
+    {           
+        @Html.Hidden("STATE_NAME", PMGSY.Extensions.PMGSYSession.Current.StateName.ToString())
+    }
+
+    @if (PMGSY.Extensions.PMGSYSession.Current.DistrictCode != 0)
+    {
+        @Html.Hidden("DISTRICT_NAME", PMGSY.Extensions.PMGSYSession.Current.DistrictName.ToString())   
+    }
+
+    @Html.HiddenFor(model => model.BLOCK_NAME)
+    <div style="width: 100%">
+        <table class="ui-state-default ui-corner-all" style="width: 100%;">
+            <tr>
+                <td style="width: 2%;"></td>
+                  <td style="text-align: left; width: 3%;">
+                   @Html.Label("Category") &nbsp;
+                </td>
+                <td style="width: 12%;">
+                @Html.DropDownList("ddPriority_CNPriorityDetails", ViewData["Priority"] as IEnumerable<SelectListItem>,new { @title = "Category",@style="width:400px;", @tabindex = 1 })
+                  
+                </td>
+                <td style="text-align: left; width: 3%;">
+                    @Html.Label("Route") &nbsp;
+                </td>
+                <td style="width: 2%;">
+                    @Html.DropDownList("Route_CNPriorityDetails", ViewData["Route"] as IEnumerable<SelectListItem>,new { @title = "Route", @tabindex = 2 })
+                </td>
+                <td style="width: 20%;">
+                    <input type="button" value="View" class="jqueryButton" id="btCNPriorityDetails" title="View Details" tabindex="3" />
+                </td>
+            </tr>
+        </table>
+    </div>  
+    
+    <br />
+
+    @if (PMGSY.Extensions.PMGSYSession.Current.LevelId == 6)     //Mord
+    {
+        <div id="CNPriorityStateReport">
+            <table id="CNPriorityStateReportTable"></table>
+        </div>
+        <div id="CNPriorityStateReportPager"></div>
+
+        <br />
+        <div id="CNPriorityDistrictReport">
+            <table id="CNPriorityDistrictReportTable"></table>
+        </div>
+        <div id="CNPriorityDistrictReportPager"></div>
+
+        <br />
+        <div id="CNPriorityBlockReport">
+            <table id="CNPriorityBlockReportTable"></table>
+        </div>
+        <div id="CNPriorityBlockReportPager"></div>
+
+        <br />
+        <div id="CNPriorityFinalReport">
+            <table id="CNPriorityFinalReportTable"></table>
+        </div>
+        <div id="CNPriorityFinalReportPager"></div>
+        
+    }
+
+    else if (PMGSY.Extensions.PMGSYSession.Current.LevelId == 4)     //State
+    {
+        @Html.HiddenFor(model => model.MAST_STATE_CODE)
+        <div id="CNPriorityDistrictReport">
+            <table id="CNPriorityDistrictReportTable"></table>
+        </div>
+        <div id="CNPriorityDistrictReportPager"></div>
+
+        <br />
+        <div id="CNPriorityBlockReport">
+            <table id="CNPriorityBlockReportTable"></table>
+        </div>
+        <div id="CNPriorityBlockReportPager"></div>
+
+        <br />
+        <div id="CNPriorityFinalReport">
+            <table id="CNPriorityFinalReportTable"></table>
+        </div>
+        <div id="CNPriorityFinalReportPager"></div>
+    }
+    else if (PMGSY.Extensions.PMGSYSession.Current.LevelId == 5)     //District
+    {
+        @Html.HiddenFor(model => model.MAST_STATE_CODE)
+        @Html.HiddenFor(model => model.MAST_DISTRICT_CODE)
+        <div id="CNPriorityBlockReport">
+            <table id="CNPriorityBlockReportTable"></table>
+        </div>
+        <div id="CNPriorityBlockReportPager"></div>
+
+        <br />
+        <div id="CNPriorityFinalReport">
+            <table id="CNPriorityFinalReportTable"></table>
+        </div>
+        <div id="CNPriorityFinalReportPager"></div>
+    }
+</form>
+
+
+
+
+

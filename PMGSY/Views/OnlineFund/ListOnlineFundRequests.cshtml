@@ -1,0 +1,182 @@
+﻿@*
+    * Project Id    :
+    * Project Name  :   OMMAS II
+    * Name          :   ListOnlineFundRequests.cshtml
+    * Description   :   This View lists the requests for online fund transfer
+    * Author        :   Vikram Nandanwar
+    * Creation Date :   10/02/2015
+*@
+
+@model PMGSY.Models.OnlineFundRequest.FundRequestFilterModel
+
+<script src="~/Scripts/jquery.ui.datepicker.js"></script>
+<script src="~/Scripts/custom/Generic.js"></script>
+<script src="~/Scripts/OnlineFundProcess/ListOnlineFundRequests.js"></script>
+
+<style type="text/css">
+    #request {
+        height: 50px;
+        width: 50px;
+        position: fixed;
+        bottom: 10%;
+        right:12%;
+        z-index: 999;
+        filter: progid:DXImageTransform.Microsoft.BasicImage(rotation=3);
+    }
+
+        #request span {
+            display: block;
+            background: #F2D5A5;
+            height: 15px;
+            width: 140px;
+            padding: 8px 16px;
+            color: #333;
+            font-family: Arial, sans-serif;
+            font-size: 12px;
+            font-weight: bold;
+            text-decoration: none;
+            /*border-bottom: solid 1px #333;
+            border-left: solid 1px #333;
+            border-right: solid 1px #fff;*/
+        }
+
+            #request span:hover {
+                 cursor:pointer;
+                background: #F2D5A5;
+            }
+</style>
+
+<div id="dvFilterRequest">
+    <form id="frmFilterRequest">
+        <div style="margin-left: 100px">
+            @Html.ValidationSummary(true)
+        </div>
+        <div id="divError" class="ui-state-error ui-corner-all" style="text-align: left; display: none; width: 100%">
+            <span class="ui-icon ui-icon-alert" style="float: left;"></span>
+            <span></span>
+        </div>
+        <table cellpadding="3px" style="margin-top: 10px; text-align: left; border: ridge 0.1em #ccc; width: 100%; padding-top: 5px 5px 5px 5px;">
+            <tr>
+                <td>
+                    @Html.LabelFor(model => model.State)
+                </td>
+                <td>
+                    @if (PMGSY.Extensions.PMGSYSession.Current.RoleCode == 2)
+                    {
+                        @Html.DropDownListFor(model => model.State, Model.lstStates, new { @id = "ddlStates", @title = "Please select state", @tabindex = 1, @disabled = "disabled" })
+                    }
+                    else
+                    {
+                        @Html.DropDownListFor(model => model.State, Model.lstStates, new { @id = "ddlStates", @title = "Please select state", @tabindex = 1 })
+                    }
+                </td>
+                <td>
+                    @Html.LabelFor(model => model.Year)
+                </td>
+                <td>
+                    @Html.DropDownListFor(model => model.Year, Model.lstYears, new { @id = "ddlYears", @title = "Please select year", @tabindex = 2, @style = "width:100px" })
+                </td>
+                <td>
+                    @Html.LabelFor(model => model.Batch)
+                </td>
+                <td>
+                    @Html.DropDownListFor(model => model.Batch, Model.lstBatches, new { @id = "ddlBatch", @title = "Please select Batch", @tabindex = 3, @style = "width:100px" })
+                </td>
+                <td>
+                    @Html.LabelFor(model => model.Collaboration)
+                </td>
+                <td>
+                    @Html.DropDownListFor(model => model.Collaboration, Model.lstCollaborations, new { @id = "ddlCollaboration", @title = "Please select Stream", @tabindex = 4 })
+                </td>
+                <td>
+                    @Html.LabelFor(model => model.Agency)
+                </td>
+                <td>
+                    @Html.DropDownListFor(model => model.Agency, Model.lstAgencies, new { @id = "ddlAgencies", @title = "Please select Agency", @tabindex = 5 })
+                </td>
+                <td>
+                    @Html.LabelFor(model => model.PMGSYScheme)
+                </td>
+                <td>
+                    @Html.DropDownListFor(model => model.PMGSYScheme, Model.lstSchemes, new { @id = "ddlSchemes", @title = "Please select Scheme", @tabindex = 6 })
+                </td>
+            </tr>
+            <tr>
+                <td></td>
+                <td>
+                    @Html.ValidationMessageFor(model => model.State)
+                </td>
+                <td></td>
+                <td>
+                    @Html.ValidationMessageFor(model => model.Year)
+                </td>
+                <td></td>
+                <td>
+                    @Html.ValidationMessageFor(model => model.Batch)
+                </td>
+                <td></td>
+                <td>
+                    @Html.ValidationMessageFor(model => model.Collaboration)
+                </td>
+                <td></td>
+                <td>
+                    @Html.ValidationMessageFor(model => model.Agency)
+                </td>
+                <td></td>
+                <td>
+                    @Html.ValidationMessageFor(model => model.PMGSYScheme)
+                </td>
+            </tr>
+            <tr>
+                <td colspan="12">
+                    <center>
+                <input type="button" id="btnListRequest" name="btnListRequest" value="View Details" class= "jqueryButton" title="List Request Details" tabindex="7"  />  
+                </center>
+                </td>
+            </tr>
+        </table>
+    </form>
+</div>
+<div id="divAddRequestDetails" style="display: none"></div>
+@if (PMGSY.Extensions.PMGSYSession.Current.RoleCode == 2)
+{
+    <div style="margin-top: 10px">
+        <table style="margin-left: 10px; margin-right: 15px; margin-top: 2px; margin-bottom: 10px">
+            <tbody>
+                <tr>
+                    <td>
+                        <div style="padding: 0pt 0.7em; cursor: pointer;" class="jqueryButton" id="btnAddRequestForm">
+                            <span class="ui-icon ui-icon-circle-plus" style="float: left; margin-right: 0.3em;"></span><strong>Add Request
+                            </strong>
+                        </div>
+                    </td>
+                    <td>
+                        <div style="float: left; padding: 0pt 0.7em; cursor: pointer; display: none" class="jqueryButton" id="btnSearchRequest">
+                            <span class="ui-icon ui-icon-circle-zoomin " style="float: left; margin-right: 0.3em;"></span>
+                            <strong>Search Request</strong>
+                        </div>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+}
+<div id="dvRequestList" style="margin-top: 10px; width: 98%">
+    <table id="tblstRequests"></table>
+    <div id="dvlstPagerRequests"></div>
+</div>
+<div id="accordion" style="display: none; width: 98%; margin-top: 10px;">
+    <h3 style="text-align: left"><a id="" href="#" style="font-size: .9em;">View Proposal Details</a>
+        <a href="#" style="float: right;">
+            <img style="border: none" class="ui-icon ui-icon-closethick" onclick="CloseProposalDetails();" /></a>
+    </h3>
+    <div id="divProposalForm" style="display: none;">
+    </div>
+</div>
+<div id="draggable" style="width: 600px; height: 300px; display: none">
+</div>
+<div id="request">
+    <span>Request Notifications
+        <img style="height:10px;width:10px;text-align:center" src="~/Content/images/icon-arrow-up.png" />
+    </span>
+</div>

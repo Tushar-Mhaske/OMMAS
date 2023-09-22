@@ -1,0 +1,162 @@
+﻿@model PMGSY.Models.ARRR.ChapterItemsViewModel
+
+<script src="~/Scripts/custom/Generic.js"></script>
+<script src="~/Scripts/ARRR/ChapterItemsLayout.js"></script>
+
+
+
+<div id="dvChapterItems">
+    <div id="dvhdChapterItems" class="ui-corner-top ui-widget-header panelheader" style="text-align: left; height: 20px;">
+        Chapter Items<span style="float: right; margin-right: 2Px; margin-top: 2px" id="idFilterDiv" class="ui-icon ui-icon-circle-triangle-n"></span>
+    </div>
+    <form id="frmChapterItems">
+        @Html.AntiForgeryToken()
+        @Html.ValidationSummary(true)
+        @Html.HiddenFor(m => m.User_Action)
+        @Html.HiddenFor(m => m.ItemCode)
+        @Html.HiddenFor(m => m.hdnItemType)
+        @Html.HiddenFor(m => m.Parent)
+        @Html.HiddenFor(m => m.MinorItem)
+        @Html.HiddenFor(m => m.hdnMajorItem)
+        @Html.HiddenFor(m => m.ItemActive)
+        <table class="rowstyle" style="width: 100%; margin-bottom: 5px; border: 1px solid #B5B8C8;">
+            <tr>
+                <td style="width: 2%;"></td>
+                <td style="width: 5%;">
+                    @Html.RadioButtonFor(model => model.ItemType, "I", new { @id = "rdbItem", @name = "rdbItem", @checked = "checked", @tabindex = 1 })
+                    <label>Item</label>
+                    <br />
+                    @Html.ValidationMessageFor(m => m.ItemType)
+                </td>
+                <td style="width: 5%;">
+                    @Html.RadioButtonFor(model => model.ItemType, "M", new { @id = "rdbMajorItem", @name = "rdbMajorItem", @tabindex = 2 })
+                    <label>Major Item</label>
+                    <br />
+                    @Html.ValidationMessageFor(m => m.ItemType)
+                </td>
+                <td style="width: 5%;">
+                    @Html.RadioButtonFor(model => model.ItemType, "N", new { @id = "rdbMinorItem", @name = "rdbMinorItem", @tabindex = 3 })
+                    <label>Minor Item</label>
+                    <br />
+                    @Html.ValidationMessageFor(m => m.ItemType)
+                </td>
+                <td style="width: 5%"></td>
+            </tr>
+            @*<tr>
+                <td style="width: 2%"></td>
+                <td style="width: 5%;">
+                    @Html.Label("Active")<label style="color: red;"> *</label>
+                </td>
+                <td colspan="3">
+                    @Html.DropDownListFor(model => model.ItemActive, new SelectList(Model.ItemActiveList, "Value", "Text"), new { @title = "Item Active", @id = "ddlItemActive", @style="width:100px;",  @tabindex = 4 })
+                    <br />
+                    @Html.ValidationMessageFor(m => m.ItemActive)
+                </td>
+            </tr>*@
+            <tr>
+                <td style="width: 2%"></td>
+                <td style="width: 5%;">
+                    @Html.Label("Chapter")<label style="color: red;"> *</label>
+                </td>
+                <td colspan="6">
+                    @Html.DropDownListFor(model => model.Chapter, new SelectList(Model.ChapterList, "Value", "Text"), new { @title = "Chapter", @id = "ddlChapter", @style = "width:300px;", @tabindex = 5 })
+                    <br />
+                    @Html.ValidationMessageFor(m => m.Chapter)
+                </td>
+            </tr>
+            <tr class="MinMajitem">
+                <td style="width: 2%"></td>
+                <td style="width: 5%;">
+                    @Html.Label("Item")<label style="color: red;"> *</label>
+                </td>
+                <td colspan="3">
+                    @Html.DropDownListFor(model => model.Item, new SelectList(Model.ItemList, "Value", "Text"), new { @title = "Chapter", @id = "ddlItem", @style = "width:300px;", @tabindex = 6 })
+                    <br />
+                    @Html.ValidationMessageFor(m => m.Item)
+                </td>
+            </tr>
+            <tr class="Minitem">
+                <td style="width: 2%"></td>
+                <td style="width: 5%;">
+                    @Html.Label("Major Item")<label style="color: red;"> *</label>
+                </td>
+                <td colspan="6">
+                    @Html.DropDownListFor(model => model.MajorItem, new SelectList(Model.MajorItemList, "Value", "Text"), new { @title = "Major Item", @id = "ddlMajorItem", @style = "width:300px;", @tabindex = 7 })
+                    <br />
+                    @Html.ValidationMessageFor(m => m.MajorItem)
+                </td>
+            </tr>
+            @*<tr class="Majitem">
+                <td style="width: 2%"></td>
+                <td style="width: 5%;">
+                    @Html.Label("Major Item Name")<label style="color: red;"> *</label>
+                </td>
+                <td colspan="5">
+                    @Html.TextBoxFor(m => m.MajorItemName, new { @id = "txtMajItemName", @maxlength = "50", placeholder = "Please enter Major Item Name", @tabindex = 1 })
+                    <br />
+                    @Html.ValidationMessageFor(m => m.MajorItemName)
+                </td>
+            </tr>*@
+            <tr>
+                <td style="width: 2%"></td>
+                <td style="width: 5%;">
+                    @Html.Label("Item Name")<label style="color: red;"> *</label>
+                </td>
+                <td colspan="5">
+                    @Html.TextAreaFor(m => m.ItemName, new { @id = "txtItemName", @maxlength = "255", placeholder = "Please enter Item Name", @style = "width:300px;resize:none;", @tabindex = 7, })
+                    <br />
+                    @Html.ValidationMessageFor(m => m.ItemName)
+                </td>
+            </tr>
+            <tr>
+                <td style="width: 2%"></td>
+                <td style="width: 5%;">
+                    @Html.Label("Item Description")
+                </td>
+                <td colspan="5">
+                    @Html.TextAreaFor(m => m.ItemDesc, new { @id = "txtItemDesc", @maxlength = "8000", @style = "width:300px;resize:none;", @tabindex = 8 })
+                    <br />
+                    @Html.ValidationMessageFor(m => m.ItemDesc)
+                </td>
+            </tr>
+            <tr>
+                <td style="width: 2%"></td>
+                <td style="width: 5%;">
+                    <label>Item User Code</label><label style="color: red;"> *</label>
+                </td>
+                <td colspan="5">
+                    @Html.TextBoxFor(m => m.itemUserCode, new { @id = "txtitemUserCode", @maxlength = "11", placeholder = "Please enter Item User Code", @style = "width:300px;", @tabindex = 8 })
+                    <br />
+                    @Html.ValidationMessageFor(m => m.itemUserCode)
+                </td>
+            </tr>
+            <tr>
+                <td style="width: 2%"></td>
+                <td style="width: 5%;">
+                    <label>Mord Reference Number</label>
+                </td>
+                <td colspan="5">
+                    @Html.TextBoxFor(m => m.mordRef, new { @id = "txtMordRef", @maxlength = "250", @style = "width:300px;", @tabindex = 8 })
+                    <br />
+                    @Html.ValidationMessageFor(m => m.mordRef)
+                </td>
+            </tr>
+            <tr style="text-align: center;">
+                <td colspan="5">
+                    @if (Model.User_Action == null)
+                    {
+                        <input type="button" id="btnSave" name="Save" value="Save" class="jqueryButton" title="Save" tabindex="9" />
+                    }
+                    else
+                    {
+                        <input type="button" id="btnUpdate" name="Update" value="Update" class="jqueryButton" title="Save" tabindex="9" />
+                    }
+                    <input type="reset" id="btnReset" name="Reset" value="Reset" class="jqueryButton" title="Reset" tabindex="10" />
+                    <input type="button" id="btnCancel" name="Cancel" value="Cancel" class="jqueryButton" title="Cancel" tabindex="11" />
+
+                </td>
+            </tr>
+        </table>
+    </form>
+</div>
+

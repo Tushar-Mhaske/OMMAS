@@ -1,0 +1,26 @@
+﻿@using MvcReportViewer
+
+@model PMGSY.Areas.ProposalSSRSReports.Models.ProposalScrutinyViewModel
+
+
+    
+    @Html.MvcReportViewer("/PMGSYCitizen/Proposal_Scrutiny_Report",
+     new
+     {
+         TYPE = Model.TechType,
+         STATE = Model.State,
+         DISTRICT = Model.District,
+         YEAR = Model.Year,
+         BATCH = Model.Batch,
+         SCHEME = Model.Collaboration,
+         TACODE = Model.Agency,
+         TANAME = Model.TAName,
+         PMGSY = PMGSY.Extensions.PMGSYSession.Current.PMGSYScheme,
+         StateName = Model.StateName,
+         DistName = Model.DistrictName,
+         BatchName = Model.BatchName,
+         AgencyName = Model.AgencyName,
+         CollabName = Model.CollabName,
+         
+     },
+       new { Height = 600, Width = "100%", style = "border:none;" })

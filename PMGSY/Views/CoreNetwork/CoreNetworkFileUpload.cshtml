@@ -1,0 +1,165 @@
+﻿@model PMGSY.Models.CoreNetwork.CoreNetworkUploadFileViewModel
+
+<link href="~/Content/Bootstrap/bootstrap.css" rel="stylesheet" />
+<link href="~/Content/Bootstrap/bootstrap-responsive.css" rel="stylesheet" />
+<link href="~/Content/jquery.fileupload-ui.css" rel="stylesheet" />
+
+<script src="~/Scripts/FileUpload/tmpl.js"></script>
+<script src="~/Scripts/FileUpload/load-image.js"></script>
+<script src="~/Scripts/FileUpload/canvas-to-blob.js"></script>
+<script src="~/Scripts/FileUpload/jquery.iframe-transport.js"></script>
+<script src="~/Scripts/FileUpload/jquery.fileupload.js"></script>
+<script src="~/Scripts/FileUpload/jquery.fileupload-fp.js"></script>
+<script src="~/Scripts/FileUpload/jquery.fileupload-ui.js"></script>
+<script src="~/Scripts/knockout-2.1.0.debug.js"></script>
+<script src="~/Scripts/knockout-2.1.0.js"></script>
+<script src="~/Scripts/custom/Generic.js"></script>
+<script src="~/Scripts/CoreNetwork/DocumentUpload.js"></script>
+
+<div>
+    <ul style="text-align:left">
+        <li>
+            File Type Extenssion should be [*.kml,*.KML].
+        </li>
+        <li>
+            Maximum five files allowed to upload & size of file should be less than 4 MB.
+        </li>
+        <li>
+            Start chainage and End Chainage are in Kms.
+        </li>
+    </ul>      
+</div>
+
+<div id="divSuccess" class="ui-state-default ui-corner-all" style="text-align: left; display: none; height:25px">
+    <span class="" style="float: left; height:20px; margin-top:5px; margin-left:5px;">
+        File Uploaded Successfully.
+    </span>                   
+    <span></span>
+</div>
+<div id="divError" class="ui-state-error ui-corner-all" style="text-align: left; display: none; width: 100%">
+        <span class="ui-icon ui-icon-alert" style="float: left;"></span>
+        <span></span>
+</div>
+<br />
+<br />
+
+<form id="fileupload" action="@Url.Action("KmlFileUpload")" method="POST" enctype="multipart/form-data" >
+@Html.HiddenFor(model=> model.PLAN_CN_ROAD_CODE)
+@Html.HiddenFor(model => model.NumberOfFiles)
+
+
+<!-- The fileupload-buttonbar contains buttons to add/delete files and start/cancel the upload -->
+<center>
+    <div class="row fileupload-buttonbar">
+   
+    <div style="text-align:left" class="span5">           
+        
+    <table>
+        <tr>
+            <td style="text-align:left">                     
+                <!-- The fileinput-button span is used to style the file input field as button -->
+                <span class="btn btn-success fileinput-button" >
+                    <i class="icon-plus icon-white"></i>
+                    <span>Add files</span>
+                    <input type="file" name="files[]" multiple>
+                </span>        
+            </td>
+
+            <td style="text-align:left">               
+                <button type="submit" class="btn btn-primary start">
+                    <i class="icon-upload icon-white"></i>
+                    <span>Upload All</span>
+                </button>
+            </td>
+        
+            <td style="text-align:left">                           
+                <button type="reset" class="btn btn-warning cancel">
+                    <i class="icon-ban-circle icon-white"></i>
+                    <span>Cancel upload</span>
+                </button>
+            </td>
+        </tr>
+    </table>
+    </div>
+        
+    <div id="divGlobalProgress" class="span4 fileupload-progress fade">
+        <div class="progress progress-success progress-striped active" role="progressbar" aria-valuemin="0" aria-valuemax="100">
+            <div class="bar" style="width:0%;"></div>
+        </div>
+        <div class="progress-extended" style="font-weight:bold; text-align:center">&nbsp;</div>
+    </div>
+
+</div>
+</center>
+<br>
+<table id="tblPresentation" role="presentation" class="table table-striped"><tbody class="files" data-toggle="modal-gallery" data-target="#modal-gallery"></tbody></table>
+</form>
+
+<script id="template-upload" type="text/x-tmpl">
+<tr>
+<td></td>
+<td>Name</td>
+<td>Size</td>
+<td></td>
+@*<td>Description</td>*@
+<td>Start Chainage<label style='color:red'>*</label></td>
+<td>End Chainage<label style='color:red'>*</label></td>
+<td colspan="2"></td>
+</tr>
+
+{% for (var i=0, file; file=o.files[i]; i++) { %}
+<tr class="template-upload fade">
+    <td class="preview"><span class="fade"></span></td>
+    <td class="name"><span>{%=file.name%}</span></td>
+    <td class="size"><span>{%=o.formatFileSize(file.size)%}</span></td>
+    {% if (file.error) { %}
+        <td class="error" colspan="2"><span class="label label-important">Error</span> {%=file.error%}</td>
+    {% } else if (o.files.valid && !i) { %}
+        <td>
+            <div class="progress progress-success progress-striped active" role="progressbar" aria-valuemin="0" aria-valuemax="100" aria-valuenow="0"><div class="bar" style="width:0%;"></div></div>
+        </td>
+        <td class="title"><label><input id="txtStartChainage" class = 'File' name="StartChainage[]"  maxlength=16  required></label>
+                @Html.HiddenFor(model=>model.PLAN_START_CHAINAGE)
+                @Html.HiddenFor(model=>model.PLAN_CN_ROAD_CODE)
+        </td>
+        <td class="title"><label><input id="txtEndChainage" name="EndChainage[]" maxlength=16 required></label>
+                @Html.HiddenFor(model=>model.PLAN_END_CHAINAGE)
+                @Html.HiddenFor(model=>model.EncryptedUploadCode)
+        </td>
+        <td class="start">{% if (!o.options.autoUpload) { %}
+            <button class="btn btn-primary">
+                <i class="icon-upload icon-white"></i>
+                <span>Upload</span>
+            </button>
+        {% } %}</td>
+    {% } else { %}
+        <td colspan="2"></td>
+    {% } %}
+    <td class="cancel">{% if (!i) { %}
+        <button class="btn btn-warning">
+            <i class="icon-ban-circle icon-white"></i>
+            <span>Cancel</span>
+        </button>
+    {% } %}</td>
+</tr>
+{% } %}
+</script>
+
+
+<!-- The template to display files available for download -->
+<script id="template-download" type="text/x-tmpl">    
+{% for (var i=0, file; file=o.files[i]; i++) { %}
+<tr class="template-download fade">
+    {% if (file.error) { %}                        
+        <td class="name"><span>{%=file.name%}</span></td>
+        <td class="size"><span>{%=o.formatFileSize(file.size)%}</span></td>
+        <td class="error" colspan="2"><span class="label label-important">Error</span> : File Uploading Failed.Please try again.</td>    
+    {% } %}
+</tr>
+{% } %}
+</script>
+
+<div id="dvPDFFiles" style="margin-top:20px; width:100%">
+    <table id="tbPDFFilesList"></table>
+    <div id="dvPDFFilesListPager"></div>
+</div>

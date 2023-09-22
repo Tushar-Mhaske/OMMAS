@@ -1,0 +1,8 @@
+﻿@model PMGSY.Models.CommonFiltersModel
+@{
+    ViewBag.Title = "UserFilters";
+}
+
+<div> 
+    @{Html.RenderAction("CommonFilters", "CommonFilters", new { comFilterCollObj = @ViewBag.FilterCollection });} 
+</div> 

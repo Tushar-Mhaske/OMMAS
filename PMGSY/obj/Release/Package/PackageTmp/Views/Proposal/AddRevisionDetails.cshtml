@@ -1,0 +1,413 @@
+﻿@*
+    * Project Name  :   OMMAS II
+    * Name          :   AddRevisionDetails.cshtml
+    * Description   :   This View is for adding the updated cost and length
+    * Author        :   Vikram Nandanwar        
+    * Creation Date :   24/Sep/2013    
+*@
+
+@model PMGSY.Models.Proposal.RevisedCostLengthViewModel
+
+@{
+    ViewBag.Title = "AddRevisionDetails";
+}
+
+<script src="~/Scripts/custom/Generic.js"></script>
+<script src="~/Scripts/Proposal/AddRevisionDetails.js"></script>
+
+
+<form id="frmAddRevisedCostLength">
+    <div style="margin-left: 100px">
+        @Html.ValidationSummary(true)
+        @Html.HiddenFor(model=>model.SharePercent)
+    </div>
+    <div id="divError" class="ui-state-error ui-corner-all" style="text-align: left; display: none; width: 100%">
+        <span class="ui-icon ui-icon-alert" style="float: left;"></span>
+        <span></span>
+    </div>
+    <div style="height: 20px; width: 100%; text-align: left; padding-top: 0.6em;" class="ui-state-default ui-corner-all">
+        &nbsp;<strong> Note :</strong>  Fields marked with * are mandatory. All Amounts are in Lakhs and All Lengths in Kms. 
+    </div>
+    <table id="tbAddRevisedCostLength" cellpadding="3px" class="rowstyle" style="margin-top: 0px; text-align: left; border: ridge 0.1em #ccc; width: 100%; padding-top: 5px 5px 5px 5px;">
+
+        @if (Model.Operation == "E")
+        {
+            @Html.HiddenFor(model => model.IMS_REVISION_CODE)
+            @Html.HiddenFor(model => model.IMS_PR_ROAD_CODE)
+        }
+
+        @if (Model.ProposalType == "P")
+        {
+            <tr>
+                <td style="width: 5%">
+                    @Html.HiddenFor(model => model.ProposalType)
+                    @Html.HiddenFor(model => model.IMS_PR_ROAD_CODE)
+                </td>
+                <td style="width: 15%">
+                    @Html.LabelFor(model => model.IMS_OLD_PAV_COST)<label style="color: red">*</label>
+                </td>
+                <td style="width: 15%">
+                    @Html.DisplayFor(model => model.IMS_OLD_PAV_COST)
+                    @Html.HiddenFor(model => model.IMS_OLD_PAV_COST)
+                </td>
+                <td style="width: 15%">
+                    @Html.LabelFor(model => model.IMS_NEW_PAV_COST)<label style="color: red">*</label>
+                </td>
+                <td style="width: 20%">
+                    @Html.TextBoxFor(model => model.IMS_NEW_PAV_COST, new { @title = "Enter New Pavement Cost", @placeholder = "Enter New Pavement Cost...", @tabindex = 1 })
+                    @Html.ValidationMessageFor(model => model.IMS_NEW_PAV_COST)
+                </td>
+            </tr>
+            <tr>
+                <td style="width: 5%"></td>
+                <td style="width: 10%">
+                    @Html.LabelFor(model => model.IMS_OLD_CD_COST)<label style="color: red">*</label>
+                </td>
+                <td style="width: 20%">
+                    @Html.DisplayFor(model => model.IMS_OLD_CD_COST)
+                    @Html.HiddenFor(model => model.IMS_OLD_CD_COST)
+                </td>
+                <td style="width: 10%">
+                    @Html.LabelFor(model => model.IMS_NEW_CD_COST)<label style="color: red">*</label>
+                </td>
+                <td style="width: 20%">
+                    @Html.TextBoxFor(model => model.IMS_NEW_CD_COST, new { @title = "Enter New CDWorks Cost", @placeholder = "Enter New CDWorks Cost...", @tabindex = 2 })
+                    @Html.ValidationMessageFor(model => model.IMS_NEW_CD_COST)
+                </td>
+            </tr>
+            <tr>
+                <td style="width: 5%"></td>
+                <td style="width: 10%">
+                    @Html.LabelFor(model => model.IMS_OLD_PW_COST)<label style="color: red">*</label>
+                </td>
+                <td style="width: 20%">
+                    @Html.DisplayFor(model => model.IMS_OLD_PW_COST)
+                    @Html.HiddenFor(model => model.IMS_OLD_PW_COST)
+                </td>
+                <td style="width: 10%">
+                    @Html.LabelFor(model => model.IMS_NEW_PW_COST)<label style="color: red">*</label>
+                </td>
+                <td style="width: 20%">
+                    @Html.TextBoxFor(model => model.IMS_NEW_PW_COST, new { @title = "Enter New Protection Works Cost", @placeholder = "Enter New Protection Works Cost...", @tabindex = 2 })
+                    @Html.ValidationMessageFor(model => model.IMS_NEW_PW_COST)
+                </td>
+            </tr>
+            <tr>
+                <td style="width: 5%"></td>
+                <td style="width: 10%">
+                    @Html.LabelFor(model => model.IMS_OLD_OW_COST)<label style="color: red">*</label>
+                </td>
+                <td style="width: 20%">
+                    @Html.DisplayFor(model => model.IMS_OLD_OW_COST)
+                    @Html.HiddenFor(model => model.IMS_OLD_OW_COST)
+                </td>
+                <td style="width: 10%">
+                    @Html.LabelFor(model => model.IMS_NEW_OW_COST)<label style="color: red">*</label>
+                </td>
+                <td style="width: 20%">
+                    @Html.TextBoxFor(model => model.IMS_NEW_OW_COST, new { @title = "Enter New Other Works Cost", @placeholder = "Enter New Other Works Cost...", @tabindex = 2 })
+                    @Html.ValidationMessageFor(model => model.IMS_NEW_OW_COST)
+                </td>
+            </tr>
+             if (PMGSY.Extensions.PMGSYSession.Current.PMGSYScheme == 2)
+            {
+            <tr>
+                <td style="width: 5%"></td>
+                <td style="width: 10%">
+                    @Html.LabelFor(model => model.IMS_OLD_FC_COST)<label style="color: red">*</label>
+                </td>
+                <td style="width: 20%">
+                    @Html.DisplayFor(model => model.IMS_OLD_FC_COST)
+                    @Html.HiddenFor(model => model.IMS_OLD_FC_COST)
+                </td>
+                <td style="width: 10%">
+                    @Html.LabelFor(model => model.IMS_NEW_FC_COST)<label style="color: red">*</label>
+                </td>
+                <td style="width: 20%">
+                    @Html.TextBoxFor(model => model.IMS_NEW_FC_COST, new { @title = "Enter New Furniture Cost", @placeholder = "Enter New Furniture Cost...", @tabindex = 2 })
+                    @Html.ValidationMessageFor(model => model.IMS_NEW_FC_COST)
+                </td>
+            </tr>
+            <tr>
+                <td style="width: 5%"></td>
+                <td style="width: 10%">
+                    @Html.LabelFor(model => model.IMS_OLD_HS_COST)<label style="color: red">*</label>
+                </td>
+                <td style="width: 20%">
+                    @Html.DisplayFor(model => model.IMS_OLD_HS_COST)
+                    @Html.HiddenFor(model => model.IMS_OLD_HS_COST)
+                </td>
+                <td style="width: 10%">
+                    @Html.LabelFor(model => model.IMS_NEW_HS_COST)<label style="color: red">*</label>
+                </td>
+                <td style="width: 20%">
+                    @Html.TextBoxFor(model => model.IMS_NEW_HS_COST, new { @title = "Enter New Higher Specification Cost", @placeholder = "Enter New Higher Specification Cost...", @tabindex = 2 })
+                    @Html.ValidationMessageFor(model => model.IMS_NEW_HS_COST)
+                </td>
+            </tr>
+            
+            }
+            if(PMGSY.Extensions.PMGSYSession.Current.PMGSYScheme == 1)
+            {
+            <tr>
+                <td style="width: 5%"></td>
+                <td style="width: 10%">
+                    @Html.LabelFor(model => model.IMS_OLD_RS_COST)<label style="color: red">*</label>
+                </td>
+                <td style="width: 20%">
+                    @Html.DisplayFor(model => model.IMS_OLD_RS_COST)
+                    @Html.HiddenFor(model => model.IMS_OLD_RS_COST)
+                </td>
+                <td style="width: 10%">
+                    @Html.LabelFor(model => model.IMS_NEW_RS_COST)<label style="color: red">*</label>
+                </td>
+                <td style="width: 20%">
+                    @Html.TextBoxFor(model => model.IMS_NEW_RS_COST, new { @title = "Enter New State Share Cost", @placeholder = "Enter New State Share Cost...", @tabindex = 2 })
+                    @Html.ValidationMessageFor(model => model.IMS_NEW_RS_COST)
+                </td>
+            </tr>
+        }
+        else
+        {
+                <tr>
+                <td style="width: 5%"></td>
+                <td style="width: 10%">
+                    Old State Share <label style="color: red">*</label>
+                </td>
+                <td style="width: 20%">
+                    @Html.DisplayFor(model => model.Scheme2OldStateShare)
+                    @Html.HiddenFor(model => model.Scheme2OldStateShare)
+                </td>
+                <td style="width: 10%">
+                    New State Share<label style="color: red">*</label>
+                </td>
+                <td style="width: 20%">
+                    <label id="lblStateShare"></label>
+                </td>
+                </tr>
+                <tr>
+                <td style="width: 5%"></td>
+                <td style="width: 10%">
+                    Old MoRD Share <label style="color: red">*</label>
+                </td>
+                <td style="width: 20%">
+                    @Html.DisplayFor(model => model.Scheme2OldMoRDShare)
+                    @Html.HiddenFor(model => model.Scheme2OldMoRDShare)
+                </td>
+                <td style="width: 10%">
+                    New MoRD Share<label style="color: red">*</label>
+                </td>
+                <td style="width: 20%">
+                    <label id="lblMoRDShare"></label>
+                </td>
+                </tr>
+            }
+           
+        }
+        else
+        {
+            <tr>
+                <td style="width: 5%">
+                    @Html.HiddenFor(model => model.ProposalType)
+                    @Html.HiddenFor(model => model.IMS_PR_ROAD_CODE)
+                </td>
+                <td style="width: 10%">
+                    @Html.LabelFor(model => model.IMS_OLD_BW_COST)<label style="color: red">*</label>
+                </td>
+                <td style="width: 20%">
+                    @Html.DisplayFor(model => model.IMS_OLD_BW_COST)
+                    @Html.HiddenFor(model => model.IMS_OLD_BW_COST)
+                </td>
+                <td style="width: 10%">
+                    @Html.LabelFor(model => model.IMS_NEW_BW_COST)<label style="color: red">*</label>
+                </td>
+                <td style="width: 20%">
+                    @Html.TextBoxFor(model => model.IMS_NEW_BW_COST, new { @title = "Enter New Bridge Work Cost", @placeholder = "Enter New Bridge Works Cost...", @tabindex = 2 })
+                    @Html.ValidationMessageFor(model => model.IMS_NEW_BW_COST)
+                </td>
+            </tr>
+            <tr>
+                <td style="width: 5%"></td>
+                <td style="width: 10%">
+                    @Html.LabelFor(model => model.IMS_OLD_BS_COST)<label style="color: red">*</label>
+                </td>
+                <td style="width: 20%">
+                    @Html.DisplayFor(model => model.IMS_OLD_BS_COST)
+                    @Html.HiddenFor(model => model.IMS_OLD_BS_COST)
+                </td>
+                <td style="width: 10%">
+                    @Html.LabelFor(model => model.IMS_NEW_BS_COST)<label style="color: red">*</label>
+                </td>
+                <td style="width: 20%">
+                    @Html.TextBoxFor(model => model.IMS_NEW_BS_COST, new { @title = "Enter New State Share Cost", @placeholder = "Enter New State Share Cost...", @tabindex = 2 })
+                    @Html.ValidationMessageFor(model => model.IMS_NEW_BS_COST)
+                </td>
+            </tr>
+        }
+        @if (Model.ProposalType == "P")
+        {
+            <tr>
+                <td style="width: 5%"></td>
+                <td style="width: 10%">
+                    @Html.LabelFor(model => model.IMS_OLD_MAINT1)<label style="color: red">*</label>
+                </td>
+                <td style="width: 20%">
+                    @Html.DisplayFor(model => model.IMS_OLD_MAINT1)
+                    @Html.HiddenFor(model => model.IMS_OLD_MAINT1)
+                </td>
+                <td style="width: 10%">
+                    @Html.LabelFor(model => model.IMS_NEW_MAINT1)<label style="color: red">*</label>
+                </td>
+                <td style="width: 20%">
+                    @Html.TextBoxFor(model => model.IMS_NEW_MAINT1, new { @title = "Enter New Maintenance Cost", @placeholder = "Enter New Maintenance Cost...", @tabindex = 2 })
+                    @Html.ValidationMessageFor(model => model.IMS_NEW_MAINT1)
+                </td>
+            </tr>
+            <tr>
+                <td style="width: 5%"></td>
+                <td style="width: 10%">
+                    @Html.LabelFor(model => model.IMS_OLD_MAINT2)<label style="color: red">*</label>
+                </td>
+                <td style="width: 20%">
+                    @Html.DisplayFor(model => model.IMS_OLD_MAINT2)
+                    @Html.HiddenFor(model => model.IMS_OLD_MAINT2)
+                </td>
+                <td style="width: 10%">
+                    @Html.LabelFor(model => model.IMS_NEW_MAINT2)<label style="color: red">*</label>
+                </td>
+                <td style="width: 20%">
+                    @Html.TextBoxFor(model => model.IMS_NEW_MAINT2, new { @title = "Enter New Maintenance Cost", @placeholder = "Enter New Maintenance Cost...", @tabindex = 2 })
+                    @Html.ValidationMessageFor(model => model.IMS_NEW_MAINT2)
+                </td>
+            </tr>
+            <tr>
+                <td style="width: 5%"></td>
+                <td style="width: 10%">
+                    @Html.LabelFor(model => model.IMS_OLD_MAINT3)<label style="color: red">*</label>
+                </td>
+                <td style="width: 20%">
+                    @Html.DisplayFor(model => model.IMS_OLD_MAINT3)
+                    @Html.HiddenFor(model => model.IMS_OLD_MAINT3)
+                </td>
+                <td style="width: 10%">
+                    @Html.LabelFor(model => model.IMS_NEW_MAINT3)<label style="color: red">*</label>
+                </td>
+                <td style="width: 20%">
+                    @Html.TextBoxFor(model => model.IMS_NEW_MAINT3, new { @title = "Enter New Maintenance Cost", @placeholder = "Enter New Maintenance Cost...", @tabindex = 2 })
+                    @Html.ValidationMessageFor(model => model.IMS_NEW_MAINT3)
+                </td>
+            </tr>
+            <tr>
+                <td style="width: 5%"></td>
+                <td style="width: 10%">
+                    @Html.LabelFor(model => model.IMS_OLD_MAINT4)<label style="color: red">*</label>
+                </td>
+                <td style="width: 20%">
+                    @Html.DisplayFor(model => model.IMS_OLD_MAINT4)
+                    @Html.HiddenFor(model => model.IMS_OLD_MAINT4)
+                </td>
+                <td style="width: 10%">
+                    @Html.LabelFor(model => model.IMS_NEW_MAINT4)<label style="color: red">*</label>
+                </td>
+                <td style="width: 20%">
+                    @Html.TextBoxFor(model => model.IMS_NEW_MAINT4, new { @title = "Enter New Maintenance Cost", @placeholder = "Enter New Maintenance Cost...", @tabindex = 2 })
+                    @Html.ValidationMessageFor(model => model.IMS_NEW_MAINT4)
+                </td>
+            </tr>
+            <tr>
+                <td style="width: 5%"></td>
+                <td style="width: 10%">
+                    @Html.LabelFor(model => model.IMS_OLD_MAINT5)<label style="color: red">*</label>
+                </td>
+                <td style="width: 20%">
+                    @Html.DisplayFor(model => model.IMS_OLD_MAINT5)
+                    @Html.HiddenFor(model => model.IMS_OLD_MAINT5)
+                </td>
+                <td style="width: 10%">
+                    @Html.LabelFor(model => model.IMS_NEW_MAINT5)<label style="color: red">*</label>
+                </td>
+                <td style="width: 20%">
+                    @Html.TextBoxFor(model => model.IMS_NEW_MAINT5, new { @title = "Enter New Maintenance Cost", @placeholder = "Enter New Maintenance Cost...", @tabindex = 2 })
+                    @Html.ValidationMessageFor(model => model.IMS_NEW_MAINT5)
+                </td>
+            </tr>
+            if (PMGSY.Extensions.PMGSYSession.Current.PMGSYScheme == 2)
+            {
+            <tr>
+                <td style="width: 5%"></td>
+                <td style="width: 10%">
+                    @Html.LabelFor(model => model.IMS_OLD_MAINT6)<label style="color: red">*</label>
+                </td>
+                <td style="width: 20%">
+                    @Html.DisplayFor(model => model.IMS_OLD_MAINT6)
+                    @Html.HiddenFor(model => model.IMS_OLD_MAINT6)
+                </td>
+                <td style="width: 10%">
+                    @Html.LabelFor(model => model.IMS_NEW_MAINT6)<label style="color: red">*</label>
+                </td>
+                <td style="width: 20%">
+                    @Html.TextBoxFor(model => model.IMS_NEW_MAINT6, new { @title = "Enter New Maintenance Cost Year6", @placeholder = "Enter New Maintenance Cost...", @tabindex = 2 })
+                    @Html.ValidationMessageFor(model => model.IMS_NEW_MAINT6)
+                </td>
+            </tr>
+            }
+        }
+        <tr>
+            <td style="width: 5%"></td>
+            <td style="width: 10%">
+                @if (Model.ProposalType == "P")
+                {
+                    <label>Road Length(in Kms)</label> <label style="color: red">*</label>
+                }
+                else
+                {
+                    <label>Bridge Length(in Mtrs)</label> <label style="color: red">*</label>
+                }
+            </td>
+            <td style="width: 20%">
+                @Html.DisplayFor(model => model.IMS_OLD_LENGTH)
+                @Html.HiddenFor(model => model.IMS_OLD_LENGTH)
+            </td>
+            <td style="width: 10%">
+                @if (Model.ProposalType == "P")
+                {
+                    <label>Road Length(in Kms)</label> <label style="color: red">*</label>
+                }
+                else
+                {
+                    <label>Bridge Length(in Mtrs)</label> <label style="color: red">*</label>
+                }
+            </td>
+            <td style="width: 20%">
+                @Html.TextBoxFor(model => model.IMS_NEW_LENGTH, new { @title = "Enter New Length", @placeholder = "Enter New Length...", @tabindex = 2 })
+                @Html.ValidationMessageFor(model => model.IMS_NEW_LENGTH)
+            </td>
+        </tr>
+        <tr>
+            <td colspan="5">
+                @if (Model.Operation == "A")
+                {
+                    <center>
+            <table>
+                <td>
+                    <input type="button" value="Save" name="btnAddDetails" id="btnAddDetails" class="jqueryButton" />
+                    <input type="reset" value="Reset" name="btnResetDetails" id="btnResetDetails" class="jqueryButton" />
+                </td>
+            </table>
+            </center>
+                }
+                else
+                {
+                    <center>
+            <table>
+                <td>
+                <input type="button" value="Update" name="btnUpdateDetails" id="btnUpdateDetails" class="jqueryButton" />
+                <input type="reset" value="Cancel" name="btnCancelDetails" id="btnCancelDetails" class="jqueryButton" />
+                </td>
+            </table>
+            </center>
+                }
+            </td>
+        </tr>
+    </table>
+</form>

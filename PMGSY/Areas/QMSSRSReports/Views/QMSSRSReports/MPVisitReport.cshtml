@@ -1,0 +1,11 @@
+﻿@using MvcReportViewer
+@model PMGSY.Areas.QMSSRSReports.Models.MPVisitModel
+@Html.MvcReportViewer("/PMGSYCitizen/MP_Visit_Details",
+     new
+     {
+         STATE = Model.StateCode,
+         DISTRICT = Model.DistrictCode,
+         YEAR = Model.YearCode,
+         VISITYEAR = Model.VisitYearCode,
+     },
+     new { Height = 600, Width = "100%", style = "border:none;" })

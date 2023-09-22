@@ -1,0 +1,90 @@
+﻿@model PMGSY.Models.Feedback.SearchFeedback
+
+@*<script src="~/Areas/Feedback/Scripts/FBList.js"></script>*@
+<script src="~/Scripts/custom/Generic.js"></script>
+<form id="frmFBList">
+    @Html.AntiForgeryToken()
+    @Html.ValidationSummary(true)
+
+    @Html.HiddenFor(m => m.feedbackId)
+    @Html.HiddenFor(m => m.searchDetails)
+    @Html.HiddenFor(m => m.contactDetails)
+    @Html.HiddenFor(m => m.FBToken)
+    <div class="dataTable" style="margin-top: 10px; width: 99%; margin-left: .5px; border-radius: 5px;">
+        @{
+            System.Globalization.CultureInfo CultureInfo = null;
+            CultureInfo = new System.Globalization.CultureInfo(Request.Cookies["language"] == null ? "en" : Request.Cookies["language"].Value.ToString());
+        }
+        <table class="head" style="width: 100%;">
+            <tr style="background-color: #FCCC6B;">
+                <th style="width: 3.5%; height: 25px; text-align: center"><b>Sr.No.</b></th>
+
+                <th style="width: 10%; text-align: center" colspan="2">
+                    <b>Name</b>
+                </th>
+                <th style="width: 8%; text-align: center" colspan="2">
+                    <b>Feedback Token</b>
+                </th>
+                <th style="width: 10%; text-align: center" colspan="2">
+                    <b>Feedback Against</b>
+                </th>
+                <th style="width: 12%; text-align: center" colspan="2">
+                    <b>Feedback Status</b>
+                </th>
+                <th style="width: 25%; text-align: center" colspan="2">
+                    <b>Feedback</b>
+                </th>
+                <th style="width: 8%; text-align: center" colspan="3">
+                    <b>Feedback Date</b>
+                </th>
+                @* <th>
+                <a href="#"><img id="imgNewsListExpand" src="~/Content/images/bullet_toggle_plus.png" /></a>
+            </th>*@
+            </tr>
+        </table>
+        <div id="divFBDataList" class="innerTable" style="height: 150px; width: 100%; border-radius: 5px;">
+            <table class="rowstyle">
+                @if (Model.feedList != null)
+                {
+                    foreach (PMGSY.Models.Feedback.feedListing item in Model.feedList)
+                    {
+                    <tr>
+                        <td style="width: 3.5%; text-align: center">
+                            @item.SrNo
+                        </td>
+                        <td style="width: 10%; text-align: left;" colspan="2">
+                            <a href="#" style="text-decoration:underline !important" onclick="loadFBDesc(@item.feedId) ">@item.name.Trim()</a>
+                        </td>
+                        <td style="width: 8%; text-align: center">
+                            @item.feedToken
+                        </td>
+                        <td style="width: 10%; text-align: center">
+                            @item.fbAgainst
+                        </td>
+                        <td style="width: 12%; text-align: center">
+                            @item.fbStatus
+                        </td>
+                        <td style="width: 25%; text-align: left" colspan="2">
+                            @*@item.feedsubject.Trim()*@
+                            @item.feedComment.Trim()
+                        </td>
+                        <td style="width: 8%; text-align: center" colspan="3">
+                            @item.Date.Trim()
+                        </td>
+                    </tr>
+                    }
+                }
+                else
+                {
+                    <tr>
+                        <td>
+                            @Html.Label("No Data Found", new { @style = "color:red;" })
+                            @*<span style="color: red">@HttpContext.GetLocalResourceObject(@"~\Views\Shared\NewsFeedback", "lblNoData", CultureInfo)</span>*@
+                        </td>
+                    </tr>
+                }
+            </table>
+        </div>
+    </div>
+
+</form>

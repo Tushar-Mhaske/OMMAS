@@ -1,0 +1,112 @@
+﻿@model PMGSY.Models.Proposal.GepnicProposalSearch
+
+<script src="~/Scripts/custom/Generic.js"></script>
+<script src="~/Scripts/Proposal/GepnicProposalSearch.js"></script>
+
+
+<div style="width: 98%; height: 20px; border: none; margin-top: 5px; margin-bottom: -15px;" class="ui-state-default">
+    <span style="float: right; margin-right: 2Px; margin-top: 2px" id="idFilterDiv" class="ui-icon ui-icon-circle-triangle-n"></span>
+</div>
+<div style="width: 98%; border: none; margin-top: -15px; margin-bottom: 10px;" class="ui-state-default">
+    <div id="divFilterForm">
+        <center>
+            <form id="frmGepnicFilterForm">     
+                        @Html.Hidden("hdnRole", PMGSY.Extensions.PMGSYSession.Current.RoleCode)
+                        <table style="margin-top:10px; margin-bottom:5px">
+                            <tr>
+                                 <td>
+                                    
+
+                                      @Html.LabelFor(model => model.State)
+
+                                </td>
+                                <td>
+                             
+                                     @Html.DropDownListFor(model => model.State, Model.lstState, new { @id = "ddlState" })
+                                    @Html.ValidationMessageFor(m=>m.State)
+                                </td> 
+
+
+                                 <td>
+                                     @Html.LabelFor(model => model.District)
+                                </td>
+                                <td>                            
+                                    @Html.DropDownListFor(model => model.District, Model.lstDistricts, new { @id = "ddlDisticts" })
+                                </td>
+
+
+                                <td>
+                                    @Html.LabelFor(model => model.Block)
+                                </td>
+                                <td>                            
+                                     @Html.DropDownListFor(model => model.Block, Model.lstBlocks, new { @id = "ddlBlocks" })
+                                </td>
+                                <td>
+                                  @Html.LabelFor(model => model.SanctionYear)
+                                </td>
+
+
+                                <td>
+                                @Html.DropDownListFor(model => model.SanctionYear, Model.lstSanctionYears, new { @id = "ddlSanctionYears" })
+
+                                </td>
+                                <td>
+                                    @Html.LabelFor(model => model.ProposalType)
+                                </td>
+                                <td>
+                                    @Html.DropDownListFor(model => model.ProposalType, Model.lstProposalTypes, new { @id = "ddlProposalTypes" })
+                                </td>
+                                <td>
+                                    @Html.LabelFor(model => model.Package)
+                                </td>
+                                <td>
+                                    @Html.DropDownListFor(model => model.Package, Model.lstPackages, new { @id = "ddlPackages" })
+                                </td>
+                            </tr>            
+                            <tr>
+                                <td>
+                                </td>
+                                <td>        
+                                     @Html.ValidationMessageFor(model => model.ProposalType)                     
+                                   
+                                </td>
+                                <td>
+                                </td>
+                                <td>
+                                    @Html.ValidationMessageFor(model => model.District)
+                                </td> 
+                                <td>
+                                </td>
+                                <td>
+                                    @Html.ValidationMessageFor(model => model.Block)
+                                </td>
+                                <td>
+                                </td>
+                                <td>
+                                  
+                                     @Html.ValidationMessageFor(model => model.SanctionYear)
+                                </td>
+                                <td>
+                                </td>
+                                <td>
+                                    @Html.ValidationMessageFor(model => model.Package)
+                                </td>
+                            </tr>                    
+                        </table>
+                        <table>
+                            <tr>
+                                <td>
+                                    <input type="button" class="jqueryButton" value="List Proposals" id="btnListProposal" name ="btnListProposal"/>
+                                </td>
+                            </tr>
+                       </table> 
+                        </form>  
+            </center>
+    </div>
+</div>
+<div style="margin-top: 5px;">
+    <table id="tbGepnicProposalList"></table>
+    <div id="dvGepnicProposalListPager"></div>
+</div>
+
+<div id="dvGepnicProposalModal"></div>

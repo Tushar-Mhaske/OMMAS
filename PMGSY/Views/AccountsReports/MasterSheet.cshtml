@@ -1,0 +1,62 @@
+﻿@{
+    ViewBag.Title = "MasterSheet";
+}
+
+@model PMGSY.Models.AccountsReports.MasterSheetViewModel
+<style>
+ 
+.masterSheettable 
+{
+    white-space: nowrap;
+}
+
+</style>
+@* Added By Abhishek Kamble 15-nov-2013 *@
+<style type="text/css">
+    div.CBHeader {
+        padding: 5px;
+        width: 98%;
+        /*display: inline-block;*/
+        cursor: default;
+        /*font:12px/14px Arial, Helvetica, sans-serif;*/
+        font-family: Trebuchet MS,Tahoma,Verdana,Arial,sans-serif;
+        color: #000;
+        background-color: #eee;
+        -moz-border-radius: 10px;
+        -webkit-border-radius: 10px;
+        -moz-box-shadow: #999 2px 0px 3px;
+        -webkit-box-shadow: #999 2px 0px 3px;
+    }
+    
+</style>
+
+
+<script src="~/Scripts/custom/Generic.js"></script>
+<script src="~/Scripts/AccountsReports/MasterSheet.js"></script>
+
+  <div id="dvhdrMasterSheet" class="ui-widget-header innerDivHeader" style="margin-bottom: 05px; height: 20px;">
+        Master Sheet
+        @*<span style="float: right; margin-right: 2Px; margin-top: 2px" id="spnMonthlyStateSRRDA" class="ui-icon ui-icon-circle-triangle-n"></span>*@
+  </div>
+<div id="divError" style="display:none;"></div>
+
+@*border: 0.1em solid gray; width: 100%; margin-top: 1px*@
+
+<div id="dvMainReportHeader" style="width:99%;">
+    <div class="CBHeader ui-corner-all" id="dvDdlYearSelection" style="width:99%;">
+        <table class="ui-state-default ui-corner-all" style="border: 0.1em solid gray; width: 100%; margin-top: 1px">
+            <tr>
+                <td style="width:30%"></td>
+                <td style="width:07%">@Html.LabelFor(model => model.Year) : </td>
+                <td style="width:20%">@Html.DropDownListFor(model => model.Year, new SelectList(Model.YEARS_LIST, "Value", "Text"), new { @tabindex="1"})</td>
+                <td><input type="button" value="View Details" class="jqueryButton" id="btnViewDetails" name="btnCreate" title="View Details" tabindex="2" /></td>
+            </tr>
+        </table>
+    </div>  
+</div>
+
+<div id="masterSheetDetails" style="/*border: 0.1em solid gray;*/margin-top: 5px">
+</div>
+
+  
+

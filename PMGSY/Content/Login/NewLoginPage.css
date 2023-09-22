@@ -1,0 +1,238 @@
+﻿
+
+.text-wrap {
+    background-image: linear-gradient(180deg, #edbb90, #fea963fa,#fecd63de);
+}
+
+.wrap {
+    border: 1px solid #ff893f;
+    border-radius: 5px;
+}
+
+.form-control {
+    height: 30px;
+    background: rgba(0, 0, 0, 0);
+    color: #000;
+    font-size: 14px;
+    border-radius: 0px;
+    -webkit-box-shadow: none;
+    box-shadow: none;
+    border: 1px solid transparent;
+    padding-left: 5px;
+    padding-right: 5px;
+    -webkit-transition: all 0.2s ease-in-out;
+    -o-transition: all 0.2s ease-in-out;
+    transition: all 0.2s ease-in-out;
+}
+
+.btn {
+    cursor: pointer;
+    -webkit-box-shadow: none !important;
+    box-shadow: none !important;
+    font-size: 15px;
+    padding: 5px 20px;
+    border-radius: 5px;
+    border-top-left-radius: 5px;
+    border-bottom-left-radius: 5px;
+}
+
+a {
+    -webkit-transition: .3s all ease;
+    -o-transition: .3s all ease;
+    transition: .3s all ease;
+    color: #0d6efd;
+}
+
+
+
+.bg-highlight {
+    background-color: #ff893f !important;
+    color: #ffffff !important;
+}
+
+.hr {
+    border-bottom: 3px solid transparent;
+    border-image: linear-gradient(0.25turn, orangered, #fec671);
+    border-image-slice: 100%;
+    border-image-slice: 1;
+    width: auto;
+}
+
+.bgGradient {
+    margin: 0px !important;
+    background-image: linear-gradient(180deg, #ff4500ad, #fea963fa, #fecd63de);
+    background-size: cover;
+}
+
+.img-fluid {
+    max-width: 90%;
+    height: auto;
+}
+
+input {
+    width: 70% !important;
+}
+
+.fa-solid {
+    width: 15px;
+}
+
+input {
+    border: none;
+    outline: none;
+}
+
+    input:focus,
+    input.form-control:focus {
+        background: #ffffff !important;
+        outline: none !important;
+        outline-width: 0 !important;
+        box-shadow: none !important;
+        -moz-box-shadow: none !important;
+        -webkit-box-shadow: none !important;
+    }
+
+.credentialbox {
+    border-bottom: 2px solid transparent;
+    border-image: linear-gradient(0.25turn, orangered, #fec671);
+    border-image-slice: 1;
+}
+
+
+.error {
+    color: #D65B5B;
+    font-family: Trebuchet, Sans-serif;
+    font-weight: bold;
+    font-size: 13px;
+    letter-spacing: 0px;
+    margin-bottom: 10px;
+    text-align: center;
+}
+
+.validation-error {
+    font-size: 12px;
+    border-color: #a94442;
+    color: #D65B5B !important;
+    font-family: Trebuchet, Sans-serif;
+    font-weight: bold;
+    letter-spacing: 0px;
+    margin-bottom: 10px;
+    padding: 3px 0px;
+    text-align: center;
+}
+
+#captcha-input {
+    padding: 5px 5px 5px 25px;
+    width: 180px;
+    border: 1px solid #BBB;
+    font-family: Trebuchet, Sans-Serif;
+    color: #144371;
+}
+
+.newCaptcha {
+    /*padding-left: 42px;*/
+}
+
+.shadow-lg {
+    box-shadow: 1rem 1rem 2rem rgba(0,0,0,0.500) !important;
+}
+
+#trCapcha input {
+    width: 25%;
+}
+
+#dvspacecitizensection {
+    min-height: 10vh;
+}
+
+#Captcha {
+    border-bottom: 3px solid transparent;
+    border-image: linear-gradient(0.25turn, orangered, #fec671);
+    border-image-slice: 100%;
+    border-image-slice: 1;
+    width: auto;
+}
+
+@media only screen and (max-width: 480px) {
+    .logo {
+        height: 80px !important;
+        margin: auto;
+        display: block;
+    }
+
+    .mainSection {
+        margin-bottom: 260px;
+    }
+}
+
+
+@media only screen and (max-width: 1280px) and (min-width: 1220) {
+    #headlinetitle {
+        line-height: 0.2;
+    }
+}
+
+@media only screen and (max-width: 1220px) {
+    #headlinetitle {
+        line-height: 1.2;
+    }
+}
+
+
+
+/*@media only screen and (max-width: 1280px) {
+	
+	.wrap {
+		height: 80vh;
+		margin-top: -2vh;
+	}
+
+	h5 {
+		font-size:1.4rem;
+		line-height:0.8;
+	}
+
+	.omms {
+		font-size: smaller;
+	}
+
+	p {
+		margin-top: 0;
+		margin-bottom: 0.4rem;
+	}
+
+	.fa-3x {
+		font-size: 2em;
+	}
+
+	.img-fluid {
+		max-width: 75%;
+		height: auto;
+	}
+
+	.error {
+		margin-bottom: 5px;
+	}
+
+	.form-control{
+		height: 25px;
+		font-size: 12px;
+	}
+
+	#dvrowfooter {
+		font-size:12px;
+	}
+
+	.formtopmargin {
+		margin-top:20px;
+	}
+
+	#dvspacecitizensection {
+		min-height: 20vh;
+	}
+
+}
+*/
+
+
+

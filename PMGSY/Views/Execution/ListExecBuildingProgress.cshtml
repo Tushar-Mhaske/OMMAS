@@ -1,0 +1,106 @@
+﻿@model PMGSY.Models.Execution.ProposalFilterViewModel
+@{
+    ViewBag.Title = "ListExecutionProgress";
+}
+
+
+<script src="~/Scripts/custom/Generic.js"></script>
+<script src="~/Scripts/jquery.ui.accordion.js"></script>
+<script src="~/Scripts/Execution/ListExecBuildingProgress.js"></script>
+
+<center>
+<div style="width:98%; height:20px;border:none; margin-top:5px; margin-bottom:-15px; " class="ui-state-default">
+            <span style="float:right;margin-right:2Px; margin-top:2px" id="idFilterDiv" class="ui-icon ui-icon-circle-triangle-n"></span>     
+</div>
+<div id="divSearchExecution">
+<div style="width: 98%; border:none; margin-top:-15px; margin-bottom:10px;" class="ui-state-default">
+<center>
+<form id="searchExecution">
+                    <div style="width: 98%; border:none; margin-top:0px; margin-bottom:10px;" class="ui-state-default">
+                        @Html.HiddenFor(model => model.Urlparameter)
+                        <table style="margin-top:10px; margin-bottom:5px;">
+                            <tr>
+                                <td>
+                                    @Html.LabelFor(model => model.MAST_BLOCK_CODE)
+                                </td>
+                                <td>
+                                    @Html.DropDownListFor(model => model.MAST_BLOCK_CODE, new SelectList(Model.BLOCKS, "Value", "Text"), new { @id = "ddlMastBlockCode" })
+                                </td>
+                                <td>
+                                    @Html.LabelFor(model => model.IMS_YEAR)
+                                </td>
+                                <td>                            
+                                    @Html.DropDownListFor(model => model.IMS_YEAR, new SelectList(Model.Years, "Value", "Text"), new { @id = "ddlImsYear" })
+                                </td>
+                                <td>
+                                    @Html.LabelFor(model => model.Batch)
+                                </td>
+                                <td>                            
+                                    @Html.DropDownListFor(model => model.Batch, new SelectList(Model.lstBatchs, "Value", "Text"), new { @id = "ddlBatchs" })
+                                </td>
+                                <td>
+                                    @Html.LabelFor(model => model.IMS_PACKAGE)
+                                </td>
+                                <td>
+                                    @Html.DropDownListFor(model => model.PACKAGES, new SelectList(Model.PACKAGES, "Value", "Text"), new { @id = "ddlImsPackages" })
+                                </td>
+                                
+                            </tr>
+                            <tr>
+                                <td>
+                                    @Html.LabelFor(model => model.Collaboration)
+                                </td>
+                                <td>
+                                    @Html.DropDownListFor(model => model.Collaboration, new SelectList(Model.lstCollaborations, "Value", "Text"), new { @id = "ddlCollaborations" })
+                                </td>
+                                <td>
+                                    @Html.LabelFor(model => model.IMS_PROPOSAL_TYPE)
+                                </td>
+                                <td>
+                                    @Html.DropDownListFor(model => model.IMS_PROPOSAL_TYPE, new SelectList(Model.PROPOSAL_TYPES, "Value", "Text"), new { @id = "ddlImsProposalTypes" })
+                                </td>
+                                <td>
+                                    @Html.LabelFor(model => model.UpgradeConnect)
+                                </td>
+                                <td>
+                                    @Html.DropDownListFor(model => model.UpgradeConnect, new SelectList(Model.lstUpgradations, "Value", "Text"), new { @id = "ddlUpgradations" })
+                                </td>
+                                <td></td>
+                                 <td>
+                                    <center>
+                                    <table>
+                                        <tr>
+                                            <input type="button" style="margin-top:5px" class="jqueryButton" value="List Execution Details" id="btnListExecution1" name ="btnListExecution" title="Click here to list Execution Details"/>
+                                        </tr>
+                                    </table>
+                                    </center>
+                                </td>
+                            </tr>
+                        </table>
+                        
+                    </div>
+</form>
+</center>
+</div>
+</div>
+    <div id="divListExecution" style="margin-top:20px; width:96%">
+    <table id="tbExecutionList">
+
+    </table>
+    <div id="pagerExecution">
+
+    </div>
+    </div>
+
+<div id="accordion" style="display:none;width:96%;margin-top:20px;margin-bottom:20px" >
+    <h3 style="text-align:left"><a id="" href="#" style=" font-size:.9em;" >Execution Details</a>
+                <a href="#"  style="float: right;">
+                    <img src="" class="ui-icon ui-icon-closethick" onclick="CloseExecutionDetails();" /></a>
+            </h3>
+    <div id="divAddExecution" style="display:none">
+
+    </div>
+</div>
+</center>
+
+

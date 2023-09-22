@@ -1,0 +1,388 @@
+﻿@model PMGSY.Models.Ticket.TicketAcceptModel
+<script src="~/Scripts/Ticket/ViewTicketDetails.js"></script>
+<style>
+    #divError {
+        height: 17px;
+        margin: 5px;
+        padding-left: 5px;
+        text-align: left;
+        vertical-align: middle;
+        width: 100%;
+    }
+</style>
+
+<form id="frmAcceptticket">
+    <div style="margin-left: 100px">
+        @Html.AntiForgeryToken()
+        @Html.Hidden("TicketNo", ViewBag.TicketNo as String, new { @id = "TicketNo" })
+    </div>
+
+    <div id="divError" class="ui-state-error ui-corner-all" style="text-align: left; display: none; width: 100%">
+        <span></span>
+        <span></span>
+    </div>
+
+    <center>
+    
+          @if (PMGSY.Extensions.PMGSYSession.Current.RoleCode==39 && Model.listTicketMatserDetail.Count > 0 && Model.IsApproved == false)
+          { 
+         <div style="height:20px; width: 100%; text-align:left; padding-top: 0.6em;" class="ui-state-default ui-corner-all" > 
+             &nbsp;&nbsp; &nbsp; &nbsp; 
+             &nbsp;( <strong> Note :</strong>  Fields marked with * are mandatory.)
+            </div>   
+         <table id="Table1"  cellspacing="0" cellpadding="3px" class="rowstyle ui-corner-all" style="margin-top:10px; text-align:left; border:ridge 0.1em #ccc; width:100%; padding-top:5px 5px 5px 5px;">
+        <tr style="height:8px;"></tr>
+        <tr>
+             <td style="width:5%;">
+           </td>
+           <td  style="text-align:left;width:10%;">
+                   <b> @Html.LabelFor(s => s.listTicketMatserDetail[0].TicketNo)</b>
+                 
+            </td>
+            <td  style="width:10%;">
+                    <b>@Html.DisplayFor(s => s.listTicketMatserDetail[0].TicketNo)</b>
+            </td>
+            <td colspan="2">
+
+            </td>
+        </tr>
+        <tr>
+            <td style="width:5%;">
+           </td>
+           <td  style="text-align:left;width:10%;">
+                    @Html.LabelFor(s => s.listTicketMatserDetail[0].Name)
+                 
+            </td>
+            <td  style="width:20%;">
+                    @Html.DisplayFor(s => s.listTicketMatserDetail[0].Name)
+            </td>
+            <td  style="text-align:left;width:10%;">
+                    @Html.LabelFor(s => s.listTicketMatserDetail[0].Contact)
+                 
+            </td>
+            <td  style="width:20%;">
+                    @Html.DisplayFor(s => s.listTicketMatserDetail[0].Contact)
+            </td>
+         </tr>
+          <tr>
+                <td></td>
+                  <td  style="text-align:left;width:10%;">
+                    @Html.LabelFor(s => s.listTicketMatserDetail[0].Email)  
+                 </td>
+                 <td  style="width:20%;">
+                    @Html.DisplayFor(s => s.listTicketMatserDetail[0].Email)
+                 </td>
+          </tr>
+          <tr>
+                 <td></td>
+                  <td  style="text-align:left;width:10%;">
+                      @Html.LabelFor(s => s.listTicketMatserDetail[0].ModuleName)
+                  </td>
+                  <td  style="text-align:left;width:10%;">
+                      @Html.DisplayFor(s => s.listTicketMatserDetail[0].ModuleName)
+                  </td>
+                   <td  style="text-align:left;width:10%;" >
+                      @Html.LabelFor(s => s.listTicketMatserDetail[0].CategoryName)
+                  </td>
+                  <td  style="text-align:left;width:20%;">
+                      @Html.DisplayFor(s => s.listTicketMatserDetail[0].CategoryName)
+                  </td>
+          </tr>
+          <tr>
+                <td style="width:5%;">
+               </td>
+               <td  style="text-align:left;width:10%;">
+                    @Html.LabelFor(s => s.listTicketMatserDetail[0].Subject)
+                </td>
+                <td  style="width:20%;">
+                     @Html.DisplayFor(s => s.listTicketMatserDetail[0].Subject)
+                </td>
+                  
+           </tr>
+             <tr>
+               <td style="width:5%;">
+               </td>
+                 <td style="text-align:left;width:10%;">
+                    @Html.LabelFor(s => s.listTicketMatserDetail[0].Description)
+                </td>
+                <td  style="width:20%;word-wrap:break-word" colspan="3">
+                     @Html.DisplayFor(s => s.listTicketMatserDetail[0].Description)
+                </td>
+             </tr>
+            <tr>
+                <td style="width:5%;"></td>
+                <td style="text-align:left;width:10%;">
+                    <label> Files :</label>
+                </td>
+                <td  style="text-align:left;width:20%;">
+                       <ul>
+                         @foreach (string fileurl in Model.listTicketMatserDetail[0].FilesUrls)
+                         {
+                             <li>@Html.Raw(fileurl)</li>
+                         }      
+                       </ul>
+                </td>
+                <td  style="width:10%;">
+                </td>
+            </tr>
+           <tr>
+               <td style="width:5%;">
+               </td>
+               <td  style="text-align:left;width:10%;">
+                    @Html.LabelFor(s => s.AcceptReject)<label style="color:red"> *</label>
+                </td>
+                <td  style="width:20%;">
+                     @Html.DropDownListFor(s => s.AcceptReject, Model.AcceptRejectList, new { tabindex = 1 })
+                    @Html.ValidationMessageFor(s => s.AcceptReject)
+                </td>
+                 <td class="tdfwdto"  style="text-align:left;width:10%;">
+                    @Html.LabelFor(s => s.ForwardTo)<label style="color:red"> *</label>
+                </td>
+                <td  class="tdfwdto" style="width:20%;">
+                     @Html.DropDownListFor(s => s.ForwardTo, Model.ForwardToList, new { tabindex = 2 })
+                    @Html.ValidationMessageFor(s => s.ForwardTo)
+                </td>
+           </tr>
+              <tr>
+               <td style="width:5%;">
+               </td>
+               <td class="tdcategory" style="text-align:left;width:10%;">
+                    @Html.LabelFor(s => s.Category)<label style="color:red"> *</label>
+                </td>
+                <td class="tdcategory"  style="width:20%;">
+                     @Html.DropDownListFor(s => s.Category, Model.lstCategory, new { tabindex = 4 })
+                     @Html.ValidationMessageFor(s => s.Category)
+                </td>
+            </tr>
+          <tr>
+               <td style="width:5%;">
+               </td>
+               <td style="text-align:left;width:10%;">
+                    @Html.LabelFor(s => s.ActionTakenRemark)<label style="color:red"> *</label>
+                </td>
+                <td  style="width:25%;" colspan="3">
+                     @Html.TextAreaFor(s => s.ActionTakenRemark, new { tabindex = 3 ,style="width:500px;resize:none"})
+                     @Html.ValidationMessageFor(s => s.ActionTakenRemark)
+                </td>
+               @*<td class="tdcategory" style="text-align:left;width:10%;">
+                    @Html.LabelFor(s => s.Category)<label style="color:red"> *</label>
+                </td>
+                <td class="tdcategory"  style="width:20%;">
+                     @Html.DropDownListFor(s => s.Category, Model.lstCategory, new { tabindex = 4 })
+                     @Html.ValidationMessageFor(s => s.Category)
+                </td>*@
+            </tr>
+             <tr>
+                <td style="width:5%;">
+                </td>
+                <td style="text-align:left;width:10%;">
+                </td>
+                <td  style="width:20%;">
+                  <span>Special character allowed:(,()/. and space)</span><br/>
+                    <span>Max characters : 1000</span>
+                </td>
+                <td class="" style="text-align:left;width:10%;">
+                </td>
+                <td class=""  style="width:20%;">
+                </td>
+            </tr>
+              
+              <tr>
+                <td></td>
+                <td></td>
+                   <td  style="text-align:right;">
+                         <input type="button" id="btnSubmit" name="btnSubmit" value="Submit" class= "jqueryButton ui-button ui-widget ui-state-default ui-corner-all ui-button-text-only" title="Submit" tabindex="5"  /> 
+                         <input type="reset" id="btnReset" name="btnSubmit" value="Reset" class= "jqueryButton ui-button ui-widget ui-state-default ui-corner-all ui-button-text-only" title="Reset" tabindex="6"  /></td> 
+                  <td></td>
+                  <td></td>
+            </tr>
+        </table>
+          }
+          else
+          {
+           <table id="Table2"  cellspacing="0" cellpadding="3px" class="rowstyle ui-corner-all" style="margin-top:10px; text-align:left; border:ridge 0.1em #ccc; width:100%; padding-top:5px 5px 5px 5px;">
+            <tr style="height:8px;"></tr>
+             <tr>
+             <td style="width:5%;">
+           </td>
+            <td  style="text-align:left;width:10%;">
+                   <b> @Html.LabelFor(s => s.listTicketMatserDetail[0].TicketNo)</b>
+                 
+            </td>
+            <td  style="width:10%;">
+                    <b>@Html.DisplayFor(s => s.listTicketMatserDetail[0].TicketNo)</b>
+            </td>
+            <td colspan="2">
+
+            </td>
+        </tr>
+         <tr>
+            <td style="width:5%;">
+           </td>
+            <td  style="text-align:left;width:10%;">
+                    @Html.LabelFor(s => s.listTicketMatserDetail[0].Name)
+            </td>
+            <td  style="width:20%;">
+                    @Html.DisplayFor(s => s.listTicketMatserDetail[0].Name)
+            </td>
+            <td  style="text-align:left;width:10%;">
+                    @Html.LabelFor(s => s.listTicketMatserDetail[0].Contact)
+                 
+            </td>
+            <td  style="width:20%;">
+                    @Html.DisplayFor(s => s.listTicketMatserDetail[0].Contact)
+            </td>
+         </tr>
+            <tr>
+            <td></td>
+                <td  style="text-align:left;width:10%;">
+                @Html.LabelFor(s => s.listTicketMatserDetail[0].Email)  
+                </td>
+                <td  style="width:20%;">
+                @Html.DisplayFor(s => s.listTicketMatserDetail[0].Email)
+                </td>
+        </tr>
+            <tr>
+                <td></td>
+                <td  style="text-align:left;width:10%;">
+                    @Html.LabelFor(s => s.listTicketMatserDetail[0].ModuleName)
+                </td>
+                <td  style="text-align:left;width:10%;">
+                    @Html.DisplayFor(s => s.listTicketMatserDetail[0].ModuleName)
+                </td>
+                <td  style="text-align:left;width:10%;" >
+                    @Html.LabelFor(s => s.listTicketMatserDetail[0].CategoryName)
+                </td>
+                <td  style="text-align:left;width:20%;">
+                    @Html.DisplayFor(s => s.listTicketMatserDetail[0].CategoryName)
+                </td>
+        </tr>
+            <tr>
+            <td style="width:5%;">
+            </td>
+                <td  style="text-align:left;width:10%;">
+                @Html.LabelFor(s => s.listTicketMatserDetail[0].Subject)
+            </td>
+                <td  style="width:20%;">
+                    @Html.DisplayFor(s => s.listTicketMatserDetail[0].Subject)
+            </td>
+              
+        </tr>
+           <tr>
+               <td style="width:5%;">
+               </td>
+                 <td style="text-align:left;width:10%;">
+                    @Html.LabelFor(s => s.listTicketMatserDetail[0].Description)
+                </td>
+                <td  style="width:20%;word-wrap:break-word" colspan="3">
+                     @Html.DisplayFor(s => s.listTicketMatserDetail[0].Description)
+                </td>
+             </tr>
+            <tr>
+            <td style="width:5%;"></td>
+            <td style="text-align:left;width:10%;">
+                <label> Files :</label>
+            </td>
+            <td  style="text-align:left;width:20%;">
+                    <ul>
+                        @if (Model.listTicketMatserDetail[0].FilesUrls.Count>0)
+                        {
+                            foreach (string fileurl in Model.listTicketMatserDetail[0].FilesUrls)
+                            {
+                                <li>@Html.Raw(fileurl)</li>
+                            } 
+                        }     
+                    </ul>
+            </td>
+            <td  style="width:10%;">
+            </td>
+        </tr>
+        <tr>
+               
+            @if (Model.listReplymodel.Count > 0)
+            {
+
+                for (int i = 0; i < Model.listReplymodel.Count; i++)
+                {
+                 <table class="rowstyle ui-corner-all" style="margin-top:10px; text-align:left; border:ridge 0.1em #ccc; width:100%; padding-top:5px 5px 5px 5px;">
+                        
+                    <tr>
+                     <td style="width:5%"></td>
+                    <td><b> Internal Forwarding : @(Model.listReplymodel.Count- i)</b></td>
+                    </tr>  
+                     <tr>
+                          
+                    <td style="width:5%;">  </td>
+                    <td  style="text-align:left;width:10%;">
+                        @Html.LabelFor(s => s.listReplymodel[i].ReplyBy)
+                    </td>
+                    <td  style="width:20%;">
+                            @Html.DisplayFor(s => s.listReplymodel[i].ReplyBy)
+                    </td>
+                     <td  style="text-align:left;width:10%;">
+                        @Html.LabelFor(s => s.listReplymodel[i].ReplyDate)
+                    </td>
+                    <td  style="width:20%;word-wrap:break-word">
+                            @*@Html.DisplayFor(s => s.listReplymodel[i].ReplyDate)*@
+                            <span>
+                                @if (@Model.listReplymodel[i].ReplyDate != null)
+                                {
+                                    @Model.listReplymodel[i].ReplyDate.Value.ToString("dd/MM/yyyy hh:mm tt") 
+                                }
+                            </span>
+                    </td>
+                    </tr>
+                        <tr>
+                            <td style="width:5%;">  </td>
+                        <td  style="text-align:left;width:10%;">
+                            @Html.LabelFor(s => s.listReplymodel[i].Reply)
+                        </td>
+                        <td  style="width:20%;">
+                                @Html.DisplayFor(s => s.listReplymodel[i].Reply)
+                        </td>
+                        <td  style="text-align:left;width:10%;">
+                             @Html.LabelFor(s => s.listReplymodel[i].Status)
+                        </td>
+                        <td  style="width:20%;word-wrap:break-word">
+                              <b>  @Html.DisplayFor(s => s.listReplymodel[i].Status)</b>
+                        </td>
+                    </tr>
+                     <tr>
+                            <td style="width:5%;"></td>
+                            <td style="text-align:left;width:10%;">
+                                <label> Files :</label>
+                            </td>
+                            <td  style="text-align:left;width:20%;">
+                                    <ul>
+                                        @if (Model.listReplymodel[i].FilesUrls !=null )
+                                        {
+                                            
+                                                <li>@Html.Raw(Model.listReplymodel[i].FilesUrls)</li>
+                                            
+                                         }      
+                                    </ul>
+                            </td>
+                            <td  style="width:10%;">
+                           </td>
+                  </tr>
+                   <tr>
+                        <td style="width:5%;">  </td>
+                        <td  style="text-align:left;width:10%;">
+                            @Html.LabelFor(s => s.listReplymodel[i].ForwardedTo)
+                        </td>
+                        <td  style="width:20%;">
+                                @Html.DisplayFor(s => s.listReplymodel[i].ForwardedTo)
+                        </td>
+                  </tr>
+                  </table>
+                }
+
+            }
+            
+        </tr>
+         
+          </table>
+          }
+         
+    </center>
+</form>

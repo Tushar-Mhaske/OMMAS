@@ -1,0 +1,17 @@
+﻿@using MvcReportViewer
+@model PMGSY.Areas.QMSSRSReports.Models.SchedulePriorityViewModel
+
+
+
+<h3 style="text-align:left" class="ui-state-default"><a id="" href="#" style=" font-size:.9em;" >Work Priority List</a>
+        <a href="#"  style="float: right;">
+            <img style="border:none" class="ui-icon ui-icon-closethick" onclick="CloseRoadPriority();" /></a>
+    </h3>
+
+@Html.MvcReportViewer("/PMGSYCitizen/QMSchedulePriorityRoad",
+new
+{
+    DISTRICT =Model.DistrictCode
+	
+},
+new { Height = 600, Width = "100%", style = "border:none;" })        

@@ -1,0 +1,16 @@
+﻿@using MvcReportViewer
+@model PMGSY.Areas.QMSSRSReports.Models.QMJIViewModel
+
+@Html.MvcReportViewer("/PMGSYCitizen/QMJIReport",
+     new
+     {
+        STATE=Model.MAST_STATE_CODE,
+        REP=Model.PublicRepresentativeCode,
+        FYEAR=Model.FROM_YEAR,
+        TYEAR=Model.TO_YEAR,
+        FMONTH=Model.FROM_MONTH,
+        TMONTH=Model.TO_MONTH,
+        ATR="Y"
+     },
+     new { Height = 500, Width = "100%", style = "border:none;" })
+

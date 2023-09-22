@@ -1,0 +1,119 @@
+﻿@model PMGSY.Models.OnlineFundRequest.OnlineFundRequestViewModel
+
+<script src="~/Scripts/custom/Generic.js"></script>
+<table id="tbAddRevisedCostLength" cellpadding="3px" style="margin-top: 0px; text-align: left; border: ridge 0.1em #ccc; width: 97%; padding-top: 5px 5px 5px 5px;" class="rowstyle">
+    <tr>
+        <td style="width: 5%"></td>
+        <td style="width: 10%">
+            State
+        </td>
+        <td style="width: 15%">
+            @Html.DisplayFor(model => model.StateName)
+        </td>
+        <td style="width: 10%">
+            Agency
+        </td>
+        <td  style="width: 15%">
+            @Html.DisplayFor(model => model.AgencyName)
+        </td>
+    </tr>
+    <tr>
+        <td></td>
+        <td>
+            @Html.LabelFor(model => model.INSTALLMENT)
+        </td>
+        <td>
+            @Html.DisplayFor(model => model.INSTALLMENT)
+        </td>
+        <td>
+            @Html.LabelFor(model => model.YEAR)
+        </td>
+        <td>
+            @Html.DisplayFor(model => model.YearName)
+        </td>
+    </tr>
+    <tr>
+        <td></td>
+        <td>
+            @Html.LabelFor(model => model.BATCH)
+        </td>
+        <td>
+            @Html.DisplayFor(model => model.BatchName)
+        </td>
+        <td>
+            @Html.LabelFor(model => model.COLLABORATION)
+        </td>
+        <td>
+            @Html.DisplayFor(model => model.CollaborationName)
+        </td>
+    </tr>
+
+    <tr>
+        <td></td>
+        <td>
+            @Html.LabelFor(model => model.PMGSY_SCHEME)
+        </td>
+        <td>
+            PMGSY @Html.DisplayFor(model => model.PMGSY_SCHEME)
+        </td>
+        <td>
+            @Html.LabelFor(model => model.AMOUNT)
+        </td>
+        <td>
+            @Html.DisplayFor(model => model.AMOUNT)
+        </td>
+    </tr>
+    <tr>
+        <td></td>
+        <td>Total No. of Roads
+        </td>
+        <td>
+            <label id="lblRoads">@ViewBag.FundDetails.totalRoads</label>
+        </td>
+        <td>Total No. of Bridges
+        </td>
+        <td>
+            <label id="lblBridges">@ViewBag.FundDetails.totalBridges</label>
+        </td>
+
+    </tr>
+    <tr>
+        <td></td>
+        <td>Total Pavement Length (in Km.)
+        </td>
+        <td>
+            <label id="lblPavLength">@ViewBag.FundDetails.totalPavementLength</label>
+        </td>
+        <td>Total Length of Bridges (in Mtrs.)
+        </td>
+        <td>
+            <label id="lblBridgeLength">@ViewBag.FundDetails.totalBridgeLength</label>
+        </td>
+    </tr>
+    <tr>
+        <td></td>
+        <td>Total Mord Cost (in Cr.)
+        </td>
+        <td>
+            <label id="lblMordCost">@ViewBag.FundDetails.totalMordCost</label>
+        </td>
+        <td>Total State Cost (in Cr.)
+        </td>
+        <td>
+            <label id="lblStateCost">@ViewBag.FundDetails.totalStateCost</label>
+        </td>
+    </tr>
+    <tr>
+        <td></td>
+        <td>Total Sanction Cost (in Cr.)
+        </td>
+        <td>
+            <label id="lblSanctionCost">@ViewBag.FundDetails.totalSanctionCost</label>
+        </td>
+        <td>Total Maintenance Cost (in Cr.)
+        </td>
+        <td>
+            <label id="lblMaintenanceCost">@ViewBag.FundDetails.totalMaintenanceCost</label>
+        </td>
+    </tr>
+</table>

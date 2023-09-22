@@ -1,0 +1,115 @@
+﻿<script type="text/javascript" src="@Url.Content("~/Scripts/custom/Generic.js")"> </script>
+<script type="text/javascript" src="@Url.Content("~/Scripts/ChequeBook/AddEditChequeBook.js")"> </script>
+
+
+@*@using (Html.BeginForm()) { *@
+<form id="frmChequeBookDetails">
+    @Html.ValidationSummary(true)
+    <div id="divError" class="ui-state-error ui-corner-all" style="padding: 0.2em; text-align:left; display:none; width:80%">
+    <span class="ui-icon ui-icon-alert" style="float: left;"></span>
+    <span></span>
+    </div>
+    <center>    
+        <table class="ui-corner-all" style="width:80%; border:1px solid gray">
+        <tr>
+            <td class="ui-state-highlight ui-corner-all"  style="text-align:left; border:none" colspan="3">
+                <span class="ui-icon ui-icon-info" style="float: left;"></span>
+                <span style="float: left; font-weight:bold">Bank Details</span>
+            </td>
+        </tr>
+            @{
+                if (ViewBag.Name != null)
+                {
+                
+        <tr class="ui-state-hover">
+                    <td style="width:30%; height:19px"></td>
+                    <td style="text-align:left; width:15%; height:19px">Name of PIU/ SRRDA</td>
+                    <td style="width:55%; height:19px">@ViewBag.Name</td>
+        </tr>
+        <tr style="width:19px">
+                    <td style="height:19px"></td>
+                    <td style="text-align:left; height:19px; font-weight:bold;">Bank Name</td>
+                     <td style="height:19px; font-weight:bold;">@ViewBag.BankName</td>
+        </tr>
+        <tr class="ui-state-hover">
+                    <td style="height:19px"></td>
+                    <td style="text-align:left; height:19px">Branch Name</td>
+                    <td style="height:19px">@ViewBag.BankBranch</td>
+        </tr>
+      
+            }
+            else{
+          <tr class="ui-state-hover">
+             <td style="width:30%; height:19px"></td>      
+              <td style="text-align:right; width:15px; height:19px">Bank</td>
+              <td style="width:55%; height:19px"> Details Not Present</td>
+              @* <td colspan="3" style="text-align:center;">Bank Details not Present</td>*@
+
+             </tr>       
+            }
+            }
+         <tr>
+            <td colspan="3" class="ui-state-highlight ui-corner-all" style="border:none">
+                <span class="ui-icon ui-icon-circle-plus" style="float: left;"></span>
+                <span style="float: left; font-weight:bold;">Cheque Book Details</span>                
+    
+            </td>
+        </tr>
+
+            <tr class="ui-state-hover" style="font-weight:normal">
+            <td style="width:30px"></td>
+            <td style="width:15px">
+            @Html.LabelFor(model => model.ISSUE_DATE) <label style="color:red;"> *</label>
+        </td>
+       <td style="width:55px">
+           @Html.EditorFor(m => m.ISSUE_DATE, String.Format("{0:dd/MM/yyyy}", Model.ISSUE_DATE), new { id = "ISSUE_DATE" })
+            @Html.ValidationMessageFor(model => model.ISSUE_DATE)
+           
+        </td>
+        </tr>
+        <tr>
+        <td></td>    
+        <td>
+            @Html.LabelFor(model => model.LEAF_START) <label style="color:red;"> *</label>
+        </td>
+       <td>
+            @Html.EditorFor(model => model.LEAF_START)
+            @Html.ValidationMessageFor(model => model.LEAF_START)
+        </td>
+                </tr>
+            <tr class="ui-state-hover" style="font-weight:normal">
+                <td></td>    
+        <td>	
+            @Html.LabelFor(model => model.LEAF_END) <label style="color:red;"> *</label>
+        </td>
+       <td>
+            @Html.EditorFor(model => model.LEAF_END)
+            @Html.ValidationMessageFor(model => model.LEAF_END)
+        </td>
+                </tr>
+        <tr>
+            <td></td>    
+            <td style="text-align:right">
+           
+            </td>
+            <td>
+                <input type="button" value="@(Model.ISSUE_DATE == null ? "Save" : "Update")" id="btnSave" class="jqueryButton" title="Click here to save details"/>
+                &nbsp;
+                @{
+                if (Model.ISSUE_DATE == null)
+                {
+                <input type="reset" value="Reset" id="btnReset" class="jqueryButton" title="Click here to reset"/>
+                }
+                else
+                {
+                <input type="button" value="Cancel" id="btnCancel" class="jqueryButton" title="Click here to cancel"/>
+                }
+                }
+            </td>
+        </tr>
+            </table>
+        </center>
+</form>
+@*}*@
+
+

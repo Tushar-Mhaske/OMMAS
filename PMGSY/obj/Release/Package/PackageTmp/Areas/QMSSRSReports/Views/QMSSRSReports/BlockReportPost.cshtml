@@ -1,0 +1,16 @@
+﻿@using MvcReportViewer
+
+@model PMGSY.Areas.QMSSRSReports.Models.DRRPReportModel
+
+@Html.MvcReportViewer("/PMGSYCitizen/DRRPreport",
+     new
+     {
+        
+         STATE = Model.States,
+         DISTRICT = Model.Districts,
+         BLOCK = Model.Blocks,
+         StateName = Model.StateName,
+         DistName = Model.DistName,
+         BlockName = Model.BlockName
+     },
+     new { Height = 600, Width = "100%", style = "border:none;" })

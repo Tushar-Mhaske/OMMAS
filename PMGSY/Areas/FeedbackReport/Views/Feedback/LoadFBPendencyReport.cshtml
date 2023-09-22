@@ -1,0 +1,13 @@
+﻿@using MvcReportViewer
+
+@model PMGSY.Areas.FeedbackReport.Models.SearchModelForReport
+
+@Html.MvcReportViewer("/PMGSYCitizen/Feedback_Pendency_Report",
+     new
+     {
+         STATE = Model.stateId,
+         StateName = Model.stateName,
+         FBTHROUGH = Model.fbThrough
+
+     },
+     new { Height = 600, Width = "100%", style = "border:0.75px;" })

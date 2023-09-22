@@ -1,0 +1,42 @@
+﻿@*
+    * Project Id    :
+    * Project Name  :   OMMAS II
+    * Name          :   AddRepackagingDetails.cshtml
+    * Description   :   This View updates the PIU of proposal.
+    * Author        :   Vikram Nandanwar
+    * Creation Date :   02/09/2014
+*@
+
+
+@model PMGSY.Models.Proposal.ProposalPIUUpdateViewModel_New
+
+
+<script src="~/Scripts/custom/Generic.js"></script>
+<script src="~/Scripts/Proposal/ProposalPIUUpdate.js"></script>
+
+
+<form id="dvpiuDetails"> 
+    <table>
+        <tr>
+            <td style="width:5%"></td>
+            <td style="width:25%">
+                @Html.HiddenFor(model => model.PackageId)
+                @Html.HiddenFor(model => model.DistrictCode)
+                @Html.LabelFor(model => model.AdminNdCode)
+            </td>
+            <td style="width:70%">
+                @Html.DropDownListFor(model => model.AdminNdCode, new SelectList(Model.lstPIU, "Value", "Text"), new { @id="ddlPIU" , @title = "Please select PIU" , @tabindex = 1})
+                @Html.ValidationMessageFor(model=>model.AdminNdCode)
+            </td>
+        </tr>
+        <tr>
+            <td></td>
+            <td colspan="2">
+                <center>
+                <input type="button" id="btnUpdatePIU" name="btnUpdatePIU" value="Update Details" class="jqueryButton" title="Update Proposal PIU Details" tabindex="2" />
+                </center>
+            </td>
+        </tr>
+    </table>
+</form>
+

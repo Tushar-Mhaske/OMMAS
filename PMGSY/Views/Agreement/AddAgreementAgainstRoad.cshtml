@@ -1,0 +1,204 @@
+﻿@*----------------------------------------------------------------------------------------
+
+ * Project Id:
+
+ * Project Name:OMMAS2
+
+ * File Name: AddAgreementAgainstRoad.cshtml
+
+ * Author : Koustubh Nakate
+
+ * Creation Date :18/June/2013
+
+ * Desc : This is partial view which consist add/edit agreement details view and listing of agreement for road and other road.
+ * ---------------------------------------------------------------------------------------*@
+
+@model PMGSY.Models.Agreement.AgreementDetails
+@using PMGSY.Common;
+<script type="text/javascript" src="@Url.Content("~/Scripts/jquery.ui.dialog.js")"> </script>
+<script src="@Url.Content("~/Scripts/custom/Generic.js")" type="text/javascript" ></script>
+
+@*<script type="text/javascript">
+
+    var isAgreementActive = '@ViewBag.isAgreementActive'; 
+</script>*@
+<script type="text/javascript" src="@Url.Content("~/Scripts/Agreement/AddAgreementAgainstRoad.js")"> </script>
+
+
+@{
+    Dictionary<string, string> decryptedParameters = null;
+    String[] encryptedParameters = null;
+    string proposalType = string.Empty;
+
+    encryptedParameters = Model.EncryptedIMSPRRoadCode.Split('/');
+
+    if ((encryptedParameters.Length == 3))
+    {
+        decryptedParameters = URLEncrypt.DecryptParameters1(new String[] { encryptedParameters[0], encryptedParameters[1], encryptedParameters[2] });
+
+        proposalType = decryptedParameters["ProposalType"].ToString();
+    }
+
+    
+    
+}
+
+
+<style>
+    /*div {
+        font-size:1em;
+    }*/
+    #accordion .ui-accordion-content {
+        font-size: 1em;
+    }
+</style>
+
+<div id="dvRoadDetails" class="ui-state-default ui-corner-all" style="width: 100%; border: 1px solid #EEEEEE">
+    @Html.Hidden("isCompleted", ViewBag.isCompleted as string)
+    <table width="100%" class="rowstyle">
+        <tr>
+            <td style="width: 5%; text-align: left">
+                @Html.Label("Year")
+            </td>
+            <td style="width: 10%; text-align: left;">
+                @if (!(string.IsNullOrEmpty(ViewBag.SanctionedYear)))
+                {
+                    @Html.Label("SanctionedYear", ViewBag.SanctionedYear as String)  
+                }
+                else
+                {
+                    @Html.Label("SanctionedYear", "NA")   
+                }
+            </td>
+
+            <td style="width: 5%; text-align: left">
+                @Html.Label("Package")
+            </td>
+
+            <td style="width: 10%; text-align: left;">
+                @if (!(string.IsNullOrEmpty(ViewBag.Package)))
+                {
+                    @Html.Label("Package", ViewBag.Package as String)   
+                }
+                else
+                {
+                    @Html.Label("Package", "NA")   
+                }
+            </td>
+            <td style="width: 7%; text-align: left">
+                @if (proposalType.Equals("P"))
+                { 
+                    @Html.Label("Road Name")
+                }
+                else if (proposalType.Equals("L"))
+                {
+                    @Html.Label("Bridge Name")
+                }
+                else
+                {
+                    @Html.Label("Building Name")
+                }
+            </td>
+
+            <td style="width: 15%; text-align: left;">
+                @if (!(string.IsNullOrEmpty(ViewBag.RoadName)))
+                {
+                    @Html.Label("RoadName", ViewBag.RoadName as String)   
+                }
+                else
+                {
+                    @Html.Label("RoadName", "NA")  
+                }
+
+            </td>
+            @if (!proposalType.Equals("B"))
+            {
+                <td style="width: 11%; text-align: left">
+                    @if (proposalType.Equals("P"))
+                    {
+                        @Html.Label("Road Length (In Kms)")
+                    }
+                    else
+                    {
+                        @Html.Label("Bridge Length (In Mtrs)")
+                    }
+
+                </td>
+
+                <td style="width: 10%; text-align: left;">
+                    @if (!(string.IsNullOrEmpty(ViewBag.RoadLength)))
+                    {
+                        @Html.Label("RoadLength", ViewBag.RoadLength as String)  
+                    }
+                    else
+                    {
+                        @Html.Label("RoadLength", "NA")   
+                    }
+
+                </td>
+
+
+                <td style="width: 10%; text-align: left">
+                    @Html.Label("Sanctioned Date")
+                </td>
+                <td style="width: 10%; text-align: left;">
+                    @if (!(string.IsNullOrEmpty(ViewBag.SanctionedDate)))
+                    {
+                        @Html.Label("SanctionedDate", ViewBag.SanctionedDate as String)  
+                    }
+                    else
+                    {
+                        @Html.Label("SanctionedDate", "NA")   
+                    }
+                </td>
+            }
+        </tr>
+    </table>
+
+</div>
+
+<div id="dvAgreementDetails" style="display: none">
+
+
+
+    @Html.Partial("AgreementDetails", Model)
+</div>
+
+<div id="dvAgreementDetailsList" style="margin-top: 20px; margin-bottom: 15px;">
+
+
+    <table id="tbAgreementDetailsList">
+    </table>
+
+    <div id="dvAgreementDetailsListPager"></div>
+
+    <table id="tblCreateNew_AgreementDetails" style="width: 100%; padding-top: 1em;">
+        <tr></tr>
+        <tr>
+            @if (PMGSY.Extensions.PMGSYSession.Current.RoleCode == 22 || PMGSY.Extensions.PMGSYSession.Current.RoleCode == 38 || PMGSY.Extensions.PMGSYSession.Current.RoleCode == 54)
+            {
+
+
+
+                <td style="text-align: right; width: 52%">
+                    <input type="button" id="btnCreateNew_AgreementDetails" name="btnCreateNew_AgreementDetails" value="Add Agreement Details" class="jqueryButton" title="Add Agreement Details" />
+
+
+                </td>
+                <td style="text-align: left">
+                    <input type="button" id="btnAgreementDetailsCancel" name="btnAgreementDetailsCancel" value="Back To List" class="jqueryButton" title="Cancel" tabindex="4" />
+                </td>
+            }
+        </tr>
+
+    </table>
+
+</div>
+
+
+<div id="dvIncompleteReason">
+</div>
+
+
+<div id="dvViewAgreementMaster">
+</div>

@@ -1,0 +1,80 @@
+﻿@model PMGSY.Models.NQMTourClaimModels.NQM_TOUR_DISTRICT_DETAILS_MODEL
+
+@{
+    ViewBag.Title = "AddTourDetails";
+}
+
+<script src="~/Scripts/custom/Generic.js"></script>
+<script src="~/Scripts/jquery-ui.js"></script>
+<script src="~/Scripts/TourClaim/AddBankAndTourDetails.js"></script>
+<script src="~/Scripts/jquery.validate.min.js"></script>
+<script src="~/Scripts/jquery.validate.unobtrusive.min.js"></script>
+
+<center>
+
+    <div id="addDetailsofNQM" style="width:100%;">
+
+        @*<div id="spanDiv" style="width:100%; height:20px;border:none; margin-top:20px; margin-bottom:-15px; " class="ui-corner-top ui-widget-header panelheader">
+                <span class="ui-jqgrid-title" style="float: left">&nbsp;Add Details</span>   <span style="float:right;margin-right:2Px; margin-top:2px" id="idCollapseSpanAdd" class="ui-icon ui-icon-circle-triangle-n"></span>
+            </div>*@
+
+        <form id="formAddTourDetails">
+            @*enctype="multipart/form-data"*@
+            @Html.AntiForgeryToken()
+            <center>@Html.ValidationSummary(true)</center>
+            @*@Html.HiddenFor(model => model.TOUR_CLAIM_ID)*@
+            @Html.HiddenFor(model => model.TOUR_CLAIM_ID, new { @id = "claimId" })
+            @Html.HiddenFor(model => model.ADMIN_QM_CODE)
+            <div style="width: 98%; border:none; margin-top:10px; margin-bottom:10px;" class="ui-state-default">
+
+                <table style="margin-top:15px; margin-bottom:5px;">
+
+                    <tr style="width: 9%; padding: 0.3rem">
+                        <td>
+                            @Html.LabelFor(model => model.STATE_CODE)<label style="color: red">*</label>
+                        </td>
+                        <td>
+                            @Html.DropDownListFor(model => model.STATE_CODE, new SelectList(Model.lstStates, "Value", "Text"), new { @id = "ddlStates" })
+                            @Html.ValidationMessageFor(model => model.STATE_CODE)
+                        </td>
+                        <td style="padding:0.5rem">
+                            @Html.LabelFor(model => model.DISTRICT_CODE)<label style="color: red">*</label>
+                        </td>
+                        <td>
+                            @*@Html.TextBoxFor(model => model.DISTRICT_CODE, new { @id = "ddlStates", @disabled = "disabled", @readonly = "readonly" })*@
+                            @Html.DropDownListFor(model => model.DISTRICT_CODE, new SelectList(Model.lstDistricts, "Value", "Text"), new { @id = "ddlDistrict" })
+                            @Html.ValidationMessageFor(model => model.DISTRICT_CODE)
+                        </td>
+
+                        <td style="padding: 0.5rem">
+                            @Html.LabelFor(model => model.DATE_FROM)<label style="color: red">*</label>
+                        </td>
+                        <td>
+                            @Html.TextBoxFor(model => model.DATE_FROM, new { style = "margin-bottom:0.6rem; margin-left:0.6", Value = "", @id = "dateFrom" })
+                            @Html.ValidationMessageFor(model => model.DATE_FROM)
+                        </td>
+
+                        <td style="padding: 0.5rem">
+                            @Html.LabelFor(model => model.DATE_TO)<label style="color: red">*</label>
+                        </td>
+                        <td>
+                            @Html.TextBoxFor(model => model.DATE_TO, new { style = "margin-bottom:0.6rem; margin-left:0.6", Value = "", @id = "dateTo" })
+                            @Html.ValidationMessageFor(model => model.DATE_TO)
+                        </td>
+
+                        <td style="padding: 0.5rem">
+                            <input style="padding: 0.5rem; margin-bottom:0.6rem" type="button" class="jqueryButton" value="Add Tour Details" id="btnAddNQMClaimDetails" name="btnAddNQMClaimDetails" title="Click here to add Tour Claim Details" />
+                        </td>
+                    </tr>
+
+                </table>
+
+            </div>
+        </form>
+
+    </div>
+
+
+</center>
+
+

@@ -1,0 +1,66 @@
+﻿@model PMGSY.Areas.QMSSRSReports.Models.ContractorInspectionModel
+
+<div id="dvContractorInspectionReportHeader" class="ui-corner-top ui-widget-header panelheader" style="text-align: left; height: 20px;">
+    <span class="ui-jqgrid-title" style="float: left">&nbsp;Contractor Inspection Report</span>
+</div>
+<div id="dvContractorInspectionReportFilter" class="ui-corner-bottom" style="display: block;">
+    <form id="frmdvContractorInspectionReportFilter">
+        @Html.AntiForgeryToken()
+        <table id="tblGradingAndATRReport" class="rowstyle" style="margin-top: 0px; text-align: center; border: ridge 0.1em #ccc; width: 100%;">
+            <tr>
+                <td style="width:20%;text-align:left;">
+                    &nbsp;
+                </td>
+                <td style="width: 10%;text-align:right; font-weight: bold;">
+                    @Html.LabelFor(model => model.SANCTION_YEAR)
+                </td>
+                <td style="width: 10%;text-align:left;">
+                    @Html.DropDownListFor(model => model.SANCTION_YEAR, new SelectList(Model.SANCTION_YEAR_LIST, "Value", "Text"), new { @id = "ddlSanctionYear", @title = "Sanction Year", @tabindex = 1})
+                    <br />
+                    @Html.ValidationMessageFor(m => m.SANCTION_YEAR)
+                </td>
+                <td style="width: 10%; text-align:right;font-weight: bold;">
+                    @Html.LabelFor(model => model.ROAD_STATUS)
+                </td>
+                <td style="width: 10%;text-align:left;">
+                    @Html.DropDownListFor(model => model.ROAD_STATUS, new SelectList(Model.ROAD_STATUS_LIST, "Value", "Text"), new { @id = "ddlWorkStatus", @title = "Work Status", @tabindex = 2 })
+                    <br />
+                    @Html.ValidationMessageFor(m => m.ROAD_STATUS)
+                </td>
+                <td style="width:10%;text-align:left;">
+                    <input type="button" class="jqueryButton" value="View" id="btnViewReport"/>
+                </td>
+                <td style="width:20%;text-align:left;">
+                    &nbsp;
+                </td>
+            </tr>
+           
+          
+
+        </table>
+    </form>
+</div>
+<div id="dvdvContractorInspectionReport"></div>
+
+<script type="text/javascript">
+
+    $(document).ready(function () {
+        $("#btnViewReport").click(function () {
+            var syear = $("#ddlSanctionYear").val();
+            var status = $("#ddlWorkStatus").val();
+            if (syear == 0)
+                alert("Select Sanction Year");
+            else {
+                //alert(syear + " : " + status);
+                $("#dvdvContractorInspectionReport").load("/QMSSRSReports/QMSSRSReports/ContractorInspectionReport", {syear:syear, status:status}, function (response) {
+                  //  alert("Loaded");
+                });
+            }
+        });
+    });
+
+</script>
+
+
+
+

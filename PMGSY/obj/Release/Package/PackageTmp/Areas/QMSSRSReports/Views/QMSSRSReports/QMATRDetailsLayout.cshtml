@@ -1,0 +1,106 @@
+﻿@model PMGSY.Areas.QMSSRSReports.Models.QualityReportsViewModel
+
+@if (Layout == null)
+{
+    Layout = Request.IsAjaxRequest() ? null : "~/Areas/AccountReports/Views/Account/_Layout.cshtml";
+}
+<script type="text/javascript" src="@Url.Content("~/Scripts/jquery.ui.dialog.js")"> </script>
+<script src="~/Areas/QMSSRSReports/Scripts/QMATRDetailsLayout.js"></script>
+<script src="~/Scripts/custom/Generic.js"></script>
+
+<div id="dvhdQMATRDetailsLayout" class="ui-corner-top ui-widget-header panelheader" style="text-align: left; height: 20px;">
+    <span class="ui-jqgrid-title" style="float: left">&nbsp;Action Taken Report</span>
+    <span id="spCollapseIconCN" class="ui-icon ui-icon-circle-triangle-n" style="float: right"></span>
+</div>
+<div id="dvQMATRDetailsLayout" class="ui-corner-bottom" style="display: block;">
+    <form id="frmQMATRDetailsLayout">
+        @Html.AntiForgeryToken()
+        <table id="tblGradingAndATRReport" class="rowstyle" style="margin-top: 0px; text-align: center; border: ridge 0.1em #ccc; width: 100%;">
+            <tr>
+                <td style="width: 15%; font-weight: bold;">
+                    @Html.LabelFor(model => model.FromMonth)
+                </td>
+                <td style="width: 10%">
+                    @*@Html.DropDownListFor(model => model.FROM_MONTH, new SelectList(Model.FROM_MONTH_LIST, "value", "text"), new { @id = "ddlFromMonthATRDetails"})*@
+                    @Html.DropDownListFor(model => model.FromMonth, new SelectList(Model.FromMonthList, "Value", "Text"), new { @id = "ddlFromMonthATRDetails", @title = "From Month", @tabindex = 1, })
+                    <br />
+                    @Html.ValidationMessageFor(m => m.FromMonth)
+                </td>
+                <td style="width: 15%; font-weight: bold;">
+                    @Html.LabelFor(model => model.FromYear)
+                </td>
+                <td style="width: 10%">
+                    @*@Html.DropDownListFor(model => model.FROM_YEAR, new SelectList(Model.FROM_YEAR_LIST, "value", "text"), new { @id = "ddlFromYearATRDetails"})*@
+                    @Html.DropDownListFor(model => model.FromYear, new SelectList(Model.FromYearList, "Value", "Text"), new { @id = "ddlFromYearATRDetails", @title = "From Year", @tabindex = 2, })
+                    <br />
+                    @Html.ValidationMessageFor(m => m.FromYear)
+                </td>
+
+                @*    </tr>
+            <tr>*@
+                <td style="width: 15%; font-weight: bold;">
+                    @Html.LabelFor(model => model.ToMonth)
+                </td>
+                <td style="width: 10%">
+                    @*@Html.DropDownListFor(model => model.TO_MONTH, new SelectList(Model.TO_MONTH_LIST, "value", "text"), new { @id = "ddlToMonthATRDetails"})*@
+                    @Html.DropDownListFor(model => model.ToMonth, new SelectList(Model.ToMonthList, "Value", "Text"), new { @id = "ddlToMonthATRDetails", @title = "To Month", @tabindex = 3, })
+                    <br />
+                    @Html.ValidationMessageFor(m => m.ToMonth)
+                </td>
+                <td style="width: 15%; font-weight: bold;">
+                    @Html.LabelFor(model => model.ToMonth)
+                </td>
+                <td style="width: 10%">
+                    @*@Html.DropDownListFor(model => model.TO_YEAR, new SelectList(Model.TO_YEAR_LIST, "value", "text"), new { @id = "ddlToYearATRDetails"})*@
+                    @Html.DropDownListFor(model => model.ToYear, new SelectList(Model.ToYearList, "Value", "Text"), new { @id = "ddlToYearATRDetails", @title = "To Year", @tabindex = 4, })
+                    <br />
+                    @Html.ValidationMessageFor(m => m.ToYear)
+                </td>
+                <td style="text-align: left;">
+                    <input type="button" id="btnViewATRDetails" value="View Details" class="jquerybutton" style="margin-left: 20px;" />
+                </td>
+            </tr>
+           @if(PMGSY.Extensions.PMGSYSession.Current.RoleCode !=8)
+           {
+     <tr>
+                <td style="width: 15%; font-weight: bold;">
+                   @Html.RadioButtonFor(model => model.ValueType, "S", new { @id = "rdoATR" }) ATR
+                </td>
+                <td style="width: 10%">
+                 
+                   
+                </td>
+                <td style="width: 15%; font-weight: bold;">
+                 @Html.RadioButtonFor(model => model.ValueType, "N", new { @id = "rdoNQMATR" }) NQM wise ATR
+                </td>
+                <td style="width: 10%">
+        
+                </td>
+
+                <td style="width: 15%; font-weight: bold;">
+                    
+                </td>
+                <td style="width: 10%">
+    
+                </td>
+                <td style="width: 15%; font-weight: bold;">
+                  
+                </td>
+                <td style="width: 10%">
+         
+                   
+                </td>
+                <td style="text-align: left;">
+                   
+              </td>
+        </tr>
+           }
+
+        </table>
+    </form>
+</div>
+<div id="dvLoadQMATRDetailsReport"></div>
+
+
+
+

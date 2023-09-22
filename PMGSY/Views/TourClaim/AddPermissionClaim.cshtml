@@ -1,0 +1,154 @@
+﻿@model PMGSY.Models.NQMTourClaimModels.NQM_TOUR_PERMISSION_MODEL
+@{
+    ViewBag.Title = "AddPermissionClaim";
+}
+
+<script src="~/Scripts/custom/Generic.js"></script>
+<script src="~/Scripts/jquery-ui.js"></script>
+<script src="~/Scripts/TourClaim/TourDetails.js"></script>
+<script src="~/Scripts/TourClaim/AddBankAndTourDetails.js"></script>
+<script src="~/Scripts/jquery.validate.min.js"></script>
+<script src="~/Scripts/jquery.validate.unobtrusive.min.js"></script>
+
+<div id="showPermissionsForm">
+
+    <div id="dvErrorMessage" class="ui-widget ui-state-error ui-corner-all" style="padding: 0.7em .7em; display: none; margin: 5px 5px 5px 5px; text-align: left">
+        <span class="ui-icon ui-icon-alert" style="float: left; margin-right: .3em; text-align: left"></span>
+        <strong>Alert:</strong> <span id="message"></span>
+    </div>
+
+    <form id="formAddPermissionClaim">
+        @Html.AntiForgeryToken()
+        <center>@Html.ValidationSummary(true)</center>
+        @Html.HiddenFor(m => m.TOUR_CLAIM_ID, new { @id = "tourClaimIdPermission" })
+        @Html.HiddenFor(m => m.ADMIN_SCHEDULE_CODE, new { @id = "scheduleCodePermission" })
+
+        @if (Model.ADD_EDIT == 1)
+        {
+            <table class="rowstyle" style="width: 100%; margin-top: 20px">
+
+                <tr>
+                    <td style="text-align: left; width: 15%;">
+                        @Html.LabelFor(model => model.DATE)<label style="color: red">*</label>
+                    </td>
+                    <td>
+                        @Html.TextBoxFor(model => model.DATE, new { @id = "dateOfPer", Value = "", style = "margin-bottom:0.6rem; margin-left:0.6", @class = "dateOfTour", @readonly = "readonly" })
+                        @Html.ValidationMessageFor(model => model.DATE)
+                    </td>
+
+                    <td>
+                        @Html.LabelFor(model => model.DESCRIPTION)<label style="color: red">*</label>
+                    </td>
+                    <td>
+                        @Html.TextAreaFor(model => model.DESCRIPTION, new { @id = "description" })
+                        @Html.ValidationMessageFor(model => model.DESCRIPTION)
+                    </td>
+                </tr>
+
+                <tr>
+                    <td>
+                        @Html.LabelFor(model => model.UPLOADED_FILE)<label style="color: red">*</label>
+                    </td>
+                    <td>
+                        @Html.TextBoxFor(model => model.UPLOADED_FILE, new { @id = "BGFile", type = "file", @tabindex = 1 })
+                        @Html.ValidationMessageFor(model => model.UPLOADED_FILE)
+                    </td>
+                    <td style="padding: 0.5rem" colspan="3">
+                        <label style="border: none">
+                            [ Note: File size should not be greater than 4MB.]
+                        </label>
+                    </td>
+                </tr>
+
+                <tr>
+                    <td></td>
+                    <td style="text-align: right">
+                        <input type="button" id="btnSavePermissionClaim" name="btnSave" value="Save" class="jqueryButton" title="Save Permission Details" tabindex="5" />
+                        <input type="reset" id="btnResetPermissionClaim" name="btnReset" value="Reset" class="jqueryButton" title="Reset Permission Details" tabindex="6" />
+                    </td>
+
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                </tr>
+
+                <tr>
+                    <td colspan="5">
+                        <label style="border: none">
+                            [ Note: Fields marked with<label style="color: red;"> * </label>
+                            are mandatory.]
+                        </label>
+                    </td>
+                </tr>
+
+            </table>
+        }
+        else
+        {
+            <table class="rowstyle" style="width: 100%; margin-top: 20px">
+                @Html.HiddenFor(m => m.PERMISSION_ID, new { @id = "permissionId" })
+
+                <tr>
+                    <td style="text-align: left; width: 15%;">
+                        @Html.LabelFor(model => model.DATE)<label style="color: red">*</label>
+                    </td>
+                    <td>
+                        @Html.TextBoxFor(model => model.DATE, new { @id = "dateOfPer", style = "margin-bottom:0.6rem; margin-left:0.6", @class = "dateOfTour", @readonly = "readonly" })
+                        @Html.ValidationMessageFor(model => model.DATE)
+                    </td>
+
+                    <td>
+                        @Html.LabelFor(model => model.DESCRIPTION)<label style="color: red">*</label>
+                    </td>
+                    <td>
+                        @Html.TextAreaFor(model => model.DESCRIPTION, new { @id = "description" })
+                        @Html.ValidationMessageFor(model => model.DESCRIPTION)
+                    </td>
+                </tr>
+
+                <tr>
+                    <td>
+                        @Html.LabelFor(model => model.UPLOADED_FILE)
+                    </td>
+                    <td>
+                        <table>
+                            <tr>
+                                <td style="background-color: #f6f3ec"><label>@Model.DEC_UPLOADED_FILE_NAME</label></td>
+                                <td style='border-color:white' class="viewAndDeletePermissionFile"><a href="@Url.Action("ViewUploadedPermissionDetails", "TourClaim", new { id1 = @Model.UPLOADED_FILE_NAME })" title='Click here to view uploaded file' class='ui-icon ui-icon-circle-zoomin ui-align-center' target=_blank></a></td>
+                                <td>
+                                    @Html.TextBoxFor(model => model.UPLOADED_FILE, new { @id = "BGFile", @class = "ui-icon ui-icon-circle-arrow-n", type = "file", @tabindex = 1 })
+                                </td>
+                            </tr>
+                        </table>
+                    </td>
+                    <td style="padding: 0.5rem" colspan="3">
+                        <label style="border: none">
+                            [ Note: File size should not be greater than 4MB.]
+                        </label>
+                    </td>
+                </tr>
+
+                <tr>
+                    <td></td>
+                    <td style="text-align: right">
+                        <input type="button" id="btnUpdatePermissionClaim" name="btnUpdate" value="Update" class="jqueryButton" title="Update Permission Details" tabindex="5" />
+                        <input type="button" class="jqueryButton" value="Back" id="btnBackPermission" name="btnBackPermission" title="Click here to go back to Permission Details" />
+                    </td>
+                    <td></td>
+                </tr>
+                <tr></tr>
+                <tr>
+                    <td colspan="6">
+                        <label style="border: none">
+                            [ Note: Fields marked with<label style="color: red;"> * </label>
+                            are mandatory.]
+                        </label>
+                    </td>
+                </tr>
+
+            </table>
+        }
+    </form>
+
+</div>

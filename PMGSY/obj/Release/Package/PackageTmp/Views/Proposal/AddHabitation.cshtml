@@ -1,0 +1,98 @@
+﻿@*
+    * Project Id    :
+    * Project Name  :   OMMAS II
+    * Name          :   AddHabitation.cshtml
+    * Description   :   This View Adds the Habitation Details to Road Proposal
+    * Author        :   Shivkumar Deshmukh        
+    * Creation Date :   16/April/2013    
+*@
+
+@model PMGSY.Models.Proposal.HabitationViewModel
+<script src="~/Scripts/jquery.multiselect.min.js"></script>
+<script src="~/Scripts/Proposal/Habitations.js"></script>
+<script src="~/Scripts/custom/Generic.js"></script>
+<link href="~/Content/jquery.multiselect.css" rel="stylesheet" />
+
+<center>  
+    
+    <div class="ui-corner-all ui-state-highlight" style="border:solid 1px black; text-align:left; width:90%">
+        <table style="width:100%">
+            <tr>
+                <td style="text-align:right;width:10%;font-weight:bold">@Html.LabelFor(model => model.IMS_YEAR):</td>
+                <td style="text-align:left;"> @Html.DisplayFor(model => model.IMS_YEAR) - @Convert.ToInt32(Model.IMS_YEAR + 1)  </td>
+
+                <td style="text-align: right; font-weight:bold"> @Html.LabelFor(model => model.IMS_BATCH):</td>
+                <td style="text-align: left;">Batch @Html.DisplayFor(model => model.IMS_BATCH)</td>
+
+                <td style="text-align:right; font-weight:bold">@Html.LabelFor(model => model.IMS_PACKAGE_ID):</td>
+                <td style="text-align:left; ">@Html.DisplayFor(model => model.IMS_PACKAGE_ID)</td>
+
+                <td style="text-align:right; font-weight:bold">@Html.LabelFor(model => model.PLAN_RD_NAME):</td>
+                <td style="text-align:left; ">@Html.DisplayFor(model => model.PLAN_RD_NAME)</td>
+            
+                <td style="text-align: right; font-weight: bold; width:10%">@Html.LabelFor(model => model.IMS_PAV_LENGTH):</td>
+                <td style="text-align: left;width:10%">@Html.DisplayFor(model => model.IMS_PAV_LENGTH)&nbsp;Kms.</td>
+            </tr>
+        </table>
+    </div>
+
+    <form id="frmMapHabitation">
+        @Html.HiddenFor(model => model.IMS_PR_ROAD_CODE)
+        @Html.HiddenFor(model=> model.PLAN_CN_ROAD_CODE)        
+        @Html.HiddenFor(model=> model.MAST_STATE_TYPE )
+        @Html.HiddenFor(model=> model.MAST_IAP_DISTRICT)
+        @Html.HiddenFor(model=> model.MAST_IS_TRIBAL )
+        @Html.HiddenFor(model => model.HAB_CODES_LIST)
+        @Html.HiddenFor(model => model.IMS_ISCOMPLETED)
+        @Html.HiddenFor(model => model.IsStageTwoProposal)
+        @Html.HiddenFor(model => model.PMGSYScheme)
+        @Html.HiddenFor(model => model.IMS_LOCK_STATUS)
+        @Html.HiddenFor(model => model.MAST_IAP_BLOCK)
+        @Html.HiddenFor(model => model.MAST_BLOCK_IS_DESERT)
+        @Html.HiddenFor(model => model.MAST_BLOCK_SCHEDULE5)
+
+        @if(Model.IMS_ISCOMPLETED != "E")
+        {
+            <div id="divHabStatus" style="text-align:left; width: 90%; padding:5px 0px 5px 5px;" class="ui-corner-all ui-state-default">    
+                Habitations are Finalized.
+            </div>
+        }
+        else if(Model.IMS_ISCOMPLETED == "E")
+        {
+            <div style="height:20px; width: 90%; text-align:left; padding-top: 0.6em;" class="ui-state-default ui-corner-all" > 
+                &nbsp;<strong> Note: </strong> Finalize the Habitations,Once you added all Habitations.
+            </div>
+        }
+        <table class="rowstyle" style="border:1px solid black; border:ridge 0.1em #ccc;  width:90%; padding:5px 5px 5px 5px" >   
+            <tr>                        
+                <td style="font-weight:bold; text-align:right;width:30%">      
+                    Habitation<span style="color:red">*</span>
+                </td>
+                <td style="text-align:left; width:40%">
+                    @Html.ListBox("MAST_HAB_CODE")                    
+                </td>     
+
+                @if(!Model.IsStageTwoProposal)
+                {
+                    <td colspan="2" style="text-align:left">
+                        <input type="button" id="btnAdd" name="btnAdd" value="Add" class="jqueryButton" onclick="AddHabitation(); return false;" />
+                    </td>
+                }
+            </tr>
+            <tr>
+                <td></td>
+                <td><span id="showHabError"> @Html.ValidationMessage("showHabError")</span></td>
+                <td colspan="2"></td>
+            </tr>
+        </table>
+    </form>
+    <div style="margin-top:10px">
+        <div id="divHabitation">
+            <table id="tbHabitation"></table>
+            <div id="dvHabitationPager"></div>
+        </div>
+    </div>
+</center>
+
+
+                

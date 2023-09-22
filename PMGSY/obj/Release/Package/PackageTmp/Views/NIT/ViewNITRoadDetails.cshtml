@@ -1,0 +1,738 @@
+﻿@*----------------------------------------------------------------------------------------
+
+ * Project Id:
+
+ * Project Name:OMMAS2
+
+ * File Name: ViewNITRoadDetails.cshtml
+
+ * Author : Koustubh Nakate
+
+ * Creation Date :09/Aug/2013
+
+ * Desc : This is partial view to view road  details.
+ * ---------------------------------------------------------------------------------------*@
+
+
+@model PMGSY.Models.NIT.NITRoadDetails
+
+
+<script src="@Url.Content("~/Scripts/custom/Generic.js")" type="text/javascript" ></script>
+
+<script type="text/javascript">
+
+    $(document).ready(function () {
+
+        $('#btnClose').click(function () {
+
+            $("#dvViewNITRoadDetails").dialog('close');
+        });
+
+
+    });
+
+</script>
+
+<form id="frmViewNITRoadDetails">
+
+        
+
+   
+           <div  >
+        
+              <table style="width:100%; border:1px solid #808080 ; "    class="rowstyle ui-corner-all" >
+
+                   
+           
+
+             
+                    <tr>
+                <td  >
+                   @Html.LabelFor(model => model.IMS_PR_ROAD_CODE)
+                </td>
+               
+                <td >
+                
+                     @if (!string.IsNullOrEmpty(ViewBag.RoadName))
+                 {
+                     @Html.Label(@ViewBag.RoadName as String)
+                 }
+                 else
+                 {
+                     @Html.Label("NA")
+                  }           
+                </td>
+
+                    <td  >
+                   @Html.LabelFor(model => model.IMS_WORK_CODE)
+                </td>
+               
+                <td > 
+                     @if (!string.IsNullOrEmpty(ViewBag.WorkName))
+                 {
+                     @Html.Label(@ViewBag.WorkName as String)
+                 }
+                 else
+                 {
+                     @Html.Label("NA")
+                  }       
+                      
+                </td>
+             
+            </tr> 
+
+
+                       <tr>
+                <td  >
+                   @Html.LabelFor(model => model.MAST_CON_CLASS)
+                </td>
+               
+                <td colspan="3" >
+                   
+                   @if (!string.IsNullOrEmpty(ViewBag.WorkName))
+                 {
+                     @Html.Label(@ViewBag.WorkName as String)
+                 }
+                 else
+                 {
+                     @Html.Label("NA")
+                  }       
+                      
+                </td>
+
+                  
+             
+            </tr>
+                  
+                   <tr>
+                 
+
+                     <td >
+                    @Html.LabelFor(model => model.TEND_COST_FORM) <label style="color:red;"> *</label>
+                </td >
+               
+                   <td > 
+                        
+                  @if (Model.TEND_COST_FORM != null)
+                 {
+                     @Model.TEND_COST_FORM.Value.ToString("F")
+                 }
+                 else
+                 {
+                     @Html.Label("NA")
+                    }
+                </td>
+                 <td >
+                     @Html.LabelFor(model => model.TEND_EARNEST_MONEY) <label style="color:red;"> *</label>
+                 </td>
+                 <td>
+
+                           
+                  @if (Model.TEND_EARNEST_MONEY != null)
+                 {
+                     @Model.TEND_EARNEST_MONEY.Value.ToString("F")
+                 }
+                 else
+                 {
+                     @Html.Label("NA")
+                    }
+                 </td>
+                 
+                 
+            </tr>
+            
+                     <tr>
+                 
+
+                     <td >
+                    @Html.LabelFor(model => model.TEND_RECEVING_DATE) <label style="color:red;"> *</label>
+                </td >
+               
+                   <td > 
+                       @if (!string.IsNullOrEmpty(Model.TEND_RECEVING_DATE))
+                 {
+                     @Model.TEND_RECEVING_DATE
+                 }
+                 else
+                 {
+                     @Html.Label("NA")
+                 }           
+
+                </td>
+                 <td >
+                     @Html.LabelFor(model => model.TEND_RECEVING_TIME) <label style="color:red;"> *</label>
+                 </td>
+                 <td>
+
+                      @if (!string.IsNullOrEmpty(Model.TEND_RECEVING_TIME))
+                 {
+                     @Model.TEND_RECEVING_TIME
+                 }
+                 else
+                 {
+                     @Html.Label("NA")
+                 }           
+                 </td>
+                 
+                 
+            </tr>
+            
+                   
+
+                    <tr>
+                 
+
+                     <td >
+                    @Html.LabelFor(model => model.TEND_OPENING_DATE) 
+                </td >
+               
+                   <td > 
+                        @if (!string.IsNullOrEmpty(Model.TEND_OPENING_DATE))
+                 {
+                     @Model.TEND_OPENING_DATE
+                 }
+                 else
+                 {
+                     @Html.Label("NA")
+                 }           
+
+                </td>
+                 <td >
+                     @Html.LabelFor(model => model.TEND_OPENING_TIME)
+                 </td>
+                 <td>
+
+                    @if (!string.IsNullOrEmpty(Model.TEND_OPENING_TIME))
+                 {
+                     @Model.TEND_OPENING_TIME
+                 }
+                 else
+                 {
+                     @Html.Label("NA")
+                 }           
+                 </td>
+                 
+                 
+            </tr>
+
+
+                  <tr>
+                 
+
+                     <td >
+                    @Html.LabelFor(model => model.TEND_DATE_OF_TECHNICAL_OPENING) @*<label style="color:red;"> *</label>*@
+                </td >
+               
+                   <td > 
+                      @if (!string.IsNullOrEmpty(Model.TEND_DATE_OF_TECHNICAL_OPENING))
+                 {
+                     @Model.TEND_DATE_OF_TECHNICAL_OPENING
+                 }
+                 else
+                 {
+                     @Html.Label("NA")
+                 }           
+
+                </td>
+                 <td >
+                     @Html.LabelFor(model => model.TEND_TIME_OF_TECHNICAL_OPENING)@*<label style="color:red;"> *</label>*@
+                 </td>
+                 <td>
+
+                   @if (!string.IsNullOrEmpty(Model.TEND_TIME_OF_TECHNICAL_OPENING))
+                 {
+                     @Model.TEND_TIME_OF_TECHNICAL_OPENING
+                 }
+                 else
+                 {
+                     @Html.Label("NA")
+                 }           
+                 </td>
+                 
+                 
+            </tr>
+
+                     
+                  
+            <tr>
+                 
+
+                     <td >
+                    @Html.LabelFor(model => model.TEND_DATE_OF_FINANCIAL_OPENING) <label style="color:red;"> *</label>
+                </td >
+               
+                   <td > 
+                       @if (!string.IsNullOrEmpty(Model.TEND_DATE_OF_FINANCIAL_OPENING))
+                 {
+                     @Model.TEND_DATE_OF_FINANCIAL_OPENING
+                 }
+                 else
+                 {
+                     @Html.Label("NA")
+                 }           
+
+                </td>
+                 <td >
+                     @Html.LabelFor(model => model.TEND_TIME_OF_FINANCIAL_OPENING)<label style="color:red;"> *</label>
+                 </td>
+                 <td>
+
+                      @if (!string.IsNullOrEmpty(Model.TEND_TIME_OF_FINANCIAL_OPENING))
+                 {
+                     @Model.TEND_TIME_OF_FINANCIAL_OPENING
+                 }
+                 else
+                 {
+                     @Html.Label("NA")
+                 }           
+                 </td>
+                 
+                 
+            </tr>
+
+
+
+             <tr>
+                <td>
+                    @Html.LabelFor(model => model.TEND_PLACE_OF_SALE) <label style="color:red;"> *</label>
+                </td>
+               
+                <td colspan="3">
+                  
+                  @if (!string.IsNullOrEmpty(Model.TEND_PLACE_OF_SALE))
+                 {
+                     @Model.TEND_PLACE_OF_SALE
+                 }
+                 else
+                 {
+                     @Html.Label("NA")
+                 }           
+
+
+                </td>
+             
+            </tr> 
+
+
+                  
+             <tr>
+                <td>
+                    @Html.LabelFor(model => model.TEND_RECEIVE_AUTH) <label style="color:red;"> *</label>
+                </td>
+               
+                <td colspan="3">
+                  
+                    @if (!string.IsNullOrEmpty(Model.TEND_RECEIVE_AUTH))
+                 {
+                     @Model.TEND_RECEIVE_AUTH
+                 }
+                 else
+                 {
+                     @Html.Label("NA")
+                 }           
+
+                </td>
+             
+            </tr> 
+
+
+                    <tr>
+                <td>
+                    @Html.LabelFor(model => model.TEND_PRE_BID_DETAILS) <label style="color:red;"> *</label>
+                </td>
+               
+                <td colspan="3">
+                  
+                  @if (!string.IsNullOrEmpty(Model.TEND_PRE_BID_DETAILS))
+                 {
+                     @Model.TEND_PRE_BID_DETAILS
+                 }
+                 else
+                 {
+                     @Html.Label("NA")
+                 }           
+
+
+
+                </td>
+             
+            </tr> 
+
+
+                    <tr>
+                 
+
+                     <td >
+                    @Html.LabelFor(model => model.TEND_DATE_OF_PREBID) <label style="color:red;"> *</label>
+                </td >
+               
+                   <td > 
+                       
+                  @if (!string.IsNullOrEmpty(Model.TEND_DATE_OF_PREBID))
+                 {
+                     @Model.TEND_DATE_OF_PREBID
+                 }
+                 else
+                 {
+                     @Html.Label("NA")
+                 }        
+
+                </td>
+                 <td >
+                     @Html.LabelFor(model => model.TEND_TIME_OF_PREBID)<label style="color:red;"> *</label>
+                 </td>
+                 <td>
+
+                     @if (!string.IsNullOrEmpty(Model.TEND_TIME_OF_PREBID))
+                 {
+                     @Model.TEND_TIME_OF_PREBID
+                 }
+                 else
+                 {
+                     @Html.Label("NA")
+                 }       
+                 </td>
+                 
+                 
+            </tr>
+
+
+                    <tr>
+                <td>
+                    @Html.LabelFor(model => model.TEND_PLACE_OF_OPENING) <label style="color:red;"> *</label>
+                </td>
+               
+                <td colspan="3">
+                  
+                   @if (!string.IsNullOrEmpty(Model.TEND_PLACE_OF_OPENING))
+                 {
+                     @Model.TEND_PLACE_OF_OPENING
+                 }
+                 else
+                 {
+                     @Html.Label("NA")
+                 }       
+
+                </td>
+             
+            </tr> 
+
+
+                   <tr>
+                 
+
+                     <td >
+                    @Html.LabelFor(model => model.TEND_DATE_OF_BID_VALIDITY) <label style="color:red;"> *</label>
+                </td >
+               
+                   <td > 
+                      @if (!string.IsNullOrEmpty(Model.TEND_DATE_OF_BID_VALIDITY))
+                 {
+                     @Model.TEND_DATE_OF_BID_VALIDITY
+                 }
+                 else
+                 {
+                     @Html.Label("NA")
+                 }       
+                </td>
+                 <td >
+                     @Html.LabelFor(model => model.TEND_TIME_OF_BID_VALIDITY)<label style="color:red;"> *</label>
+                 </td>
+                 <td>
+
+                    @if (!string.IsNullOrEmpty(Model.TEND_TIME_OF_BID_VALIDITY))
+                 {
+                     @Model.TEND_TIME_OF_BID_VALIDITY
+                 }
+                 else
+                 {
+                     @Html.Label("NA")
+                 }       
+                 </td>
+                 
+                 
+            </tr>
+
+         
+                     <tr>
+                 
+
+                     <td >
+                    @Html.LabelFor(model => model.TEND_EST_COST) <label style="color:red;"> *</label>
+                </td >
+               
+                   <td > 
+                       @if (Model.TEND_EST_COST != null)
+                 {
+                     @Model.TEND_EST_COST.Value.ToString("F")
+                 }
+                 else
+                 {
+                     @Html.Label("NA")
+                    }
+                </td>
+                 <td >
+                     @Html.LabelFor(model => model.TEND_COMPLETION_TIME) <label style="color:red;"> *</label>
+                 </td>
+                 <td>
+
+                     @if (Model.TEND_COMPLETION_TIME != null)
+                 {
+                     @Model.TEND_COMPLETION_TIME.Value.ToString("F")
+                 }
+                 else
+                 {
+                     @Html.Label("NA")
+                    }
+                 </td>
+                 
+                 
+            </tr>
+
+                   <tr>
+                 
+
+                     <td >
+                    @Html.LabelFor(model => model.TEND_MAINT_COST) <label style="color:red;"> *</label>
+                </td >
+               
+                   <td  colspan="3"> 
+                        @if (Model.TEND_MAINT_COST != null)
+                 {
+                     @Model.TEND_MAINT_COST.Value.ToString("F")
+                 }
+                 else
+                 {
+                     @Html.Label("NA")
+                    }
+                </td>
+                
+                 
+                 
+            </tr>
+
+
+                   <tr>
+                <td>
+                    @Html.LabelFor(model => model.TEND_SITE_CONTACT_PERSON_NAME) <label style="color:red;"> *</label>
+                </td>
+               
+                <td colspan="3">
+                  
+                 @if (!string.IsNullOrEmpty(Model.TEND_SITE_CONTACT_PERSON_NAME))
+                 {
+                     @Model.TEND_SITE_CONTACT_PERSON_NAME
+                 }
+                 else
+                 {
+                     @Html.Label("NA")
+                 }       
+
+
+                </td>
+             
+            </tr> 
+
+                    <tr>
+                <td>
+                    @Html.LabelFor(model => model.TEND_SITE_CONTACT_PERSON_ADDRESS) <label style="color:red;"> *</label>
+                </td>
+               
+                <td colspan="3">
+                  
+                    @if (!string.IsNullOrEmpty(Model.TEND_SITE_CONTACT_PERSON_ADDRESS))
+                 {
+                     @Model.TEND_SITE_CONTACT_PERSON_ADDRESS
+                 }
+                 else
+                 {
+                     @Html.Label("NA")
+                 }       
+
+
+                </td>
+             
+            </tr> 
+
+                  <tr>
+                <td>
+                    @Html.LabelFor(model => model.TEND_TELE_CODE) <label style="color:red;"> *</label>
+                </td>
+               
+                <td colspan="3">
+
+                    @if (string.IsNullOrEmpty(Model.TEND_TELE_CODE) && string.IsNullOrEmpty(Model.TEND_TELE_NUMBER))
+                    {
+                        @Html.Label("NA")
+                 }
+                    else
+                    {
+                        @if (!string.IsNullOrEmpty(Model.TEND_TELE_CODE))
+                        {
+                            @Model.TEND_TELE_CODE  
+                            }
+                        @if (!string.IsNullOrEmpty(Model.TEND_TELE_CODE) && !string.IsNullOrEmpty(Model.TEND_TELE_NUMBER))
+                        {
+                            @Html.Label("-")
+                         }
+                   
+                        @if (!string.IsNullOrEmpty(Model.TEND_TELE_NUMBER))
+                        {
+                            @Model.TEND_TELE_NUMBER
+                         }
+                     }
+
+                  
+                </td>
+             
+            </tr> 
+
+
+                      <tr>
+                <td>
+                    @Html.LabelFor(model => model.TEND_PLEDGED_EARN_MONEY_NAMEOF) <label style="color:red;"> *</label>
+                </td>
+               
+                <td colspan="3">
+                  
+                  @if (!string.IsNullOrEmpty(Model.TEND_PLEDGED_EARN_MONEY_NAMEOF))
+                 {
+                     @Model.TEND_PLEDGED_EARN_MONEY_NAMEOF
+                 }
+                 else
+                 {
+                     @Html.Label("NA")
+                 }       
+
+                </td>
+             
+            </tr> 
+
+                  
+                      <tr>
+                <td>
+                    @Html.LabelFor(model => model.TEND_EXTRA_COST_FOR_POST) <label style="color:red;"> *</label>
+                </td>
+               
+                <td colspan="3">
+                  
+                    @if (!string.IsNullOrEmpty(Model.TEND_EXTRA_COST_FOR_POST))
+                 {
+                     @Model.TEND_EXTRA_COST_FOR_POST
+                 }
+                 else
+                 {
+                     @Html.Label("NA")
+                 }       
+
+                </td>
+             
+            </tr> 
+
+
+                  <tr>
+                <td>
+                    @Html.LabelFor(model => model.TEND_ENGINEER_FOR_CONTRACT) @*<label style="color:red;"> *</label>*@
+                </td>
+               
+                <td colspan="3">
+                  
+                  @if (!string.IsNullOrEmpty(Model.TEND_ENGINEER_FOR_CONTRACT))
+                 {
+                     @Model.TEND_ENGINEER_FOR_CONTRACT
+                 }
+                 else
+                 {
+                     @Html.Label("NA")
+                 }       
+
+
+                </td>
+             
+            </tr> 
+
+                   <tr>
+                <td>
+                    @Html.LabelFor(model => model.TEND_OTHER_SUBMISSION_PLACES) @*<label style="color:red;"> *</label>*@
+                </td>
+               
+                <td colspan="3">
+                  
+                 @if (!string.IsNullOrEmpty(Model.TEND_OTHER_SUBMISSION_PLACES))
+                 {
+                     @Model.TEND_OTHER_SUBMISSION_PLACES
+                 }
+                 else
+                 {
+                     @Html.Label("NA")
+                 }       
+
+
+                </td>
+             
+            </tr> 
+
+
+                   <tr>
+                <td>
+                    @Html.LabelFor(model => model.TEND_SECTION_COMPLETION) @*<label style="color:red;"> *</label>*@
+                </td>
+               
+                <td colspan="3">
+                  
+                  @if (!string.IsNullOrEmpty(Model.TEND_SECTION_COMPLETION))
+                 {
+                     @Model.TEND_SECTION_COMPLETION
+                 }
+                 else
+                 {
+                     @Html.Label("NA")
+                 }       
+
+
+                </td>
+             
+            </tr> 
+
+
+                    <tr>
+                <td>
+                    @Html.LabelFor(model => model.TEND_SITE_INVESTIGATION_REPORT) @*<label style="color:red;"> *</label>*@
+                </td>
+               
+                <td colspan="3">
+                  
+                  @if (!string.IsNullOrEmpty(Model.TEND_SITE_INVESTIGATION_REPORT))
+                 {
+                     @Model.TEND_SITE_INVESTIGATION_REPORT
+                 }
+                 else
+                 {
+                     @Html.Label("NA")
+                 }       
+
+                </td>
+             
+            </tr> 
+
+                 
+             <tr>
+                
+                 <td colspan="4" style="text-align:center">
+
+                    <input type="button" id="btnClose" name="btnClose" value="Close" class="jqueryButton" title="Close" tabindex="300" />
+
+                </td>
+
+            </tr>
+
+           
+           
+
+        </table>
+
+           
+           </div>
+
+         
+        </form>

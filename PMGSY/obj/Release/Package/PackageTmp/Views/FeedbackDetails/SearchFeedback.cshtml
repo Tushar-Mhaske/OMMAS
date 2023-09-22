@@ -1,0 +1,110 @@
+﻿@model PMGSY.Models.Feedback.SearchFeedback
+@{
+    ViewBag.Title = "SearchFeedback";
+}
+@{ Layout = null;}
+
+<script src="~/Scripts/custom/Generic.js"></script>
+<script src="~/Scripts/Feedback/SearchFeedback.js"></script>
+
+@{
+    System.Globalization.CultureInfo CultureInfo = null;
+    CultureInfo = new System.Globalization.CultureInfo(Request.Cookies["language"] == null ? "en" : Request.Cookies["language"].Value.ToString());
+}
+<div id="divHeadersrchFB" class="tblHeader" style="width: 99%;">
+</div>
+
+<div id="dvearchFbMain" class="ui-corner-bottom" style="display: block; border: 1px solid #B5B8C8;">
+    <div class="ui-corner-top ui-widget-header panelheader" style="text-align: left; height: 20px;">
+        <b><span id="spnHeaderSummarysrchFB1" class="ui-jqgrid-title" style="float: left">View/Search Feedback</span>
+            <span id="spnHeaderSummarysrchFB2" class="ui-icon ui-icon-circle-triangle-n" style="float: right"></span></b>
+        <div class="box-tools pull-right">
+        </div>
+    </div>
+    <!-- /.box-header -->
+    <form id="frmsearchFB">
+        @Html.AntiForgeryToken()
+        @Html.ValidationSummary(true)
+        @Html.Hidden("TREE_PLANT_ID", new { id = "hdnTREE_PLANT_ID" })
+
+        @*<table id="tblDataEntry" style="width: 550px; margin-top: 10px; margin-left: 300px;" class="formbackground" border="0" cellspacing="1" cellpadding="0">*@
+        <table id="tblDataEntry" style="width: 100%; margin-top: 0px;" border="0" cellspacing="1" cellpadding="0" class="rowstyle">
+            <tr>
+                <td style="width: 5%"></td>
+                <td style="width: 10%"><b>Enter Feedback Token</b></td>
+                <td style="text-align: left; font-weight: bold; width: 15%">
+                    @Html.TextBoxFor(m => m.FBToken, new { @id = "txtToken", @maxlength = "15" })
+                    <br />
+                    @Html.ValidationMessageFor(m => m.FBToken)
+                </td>
+                <td style="width: 10%; text-align: center"><b>OR</b></td>
+
+                <td style="width: 10%">
+                    <b>@Html.Label("Search By Details")</b>
+                </td>
+                <td style="text-align: left; width: 20%">
+                    @Html.DropDownListFor(m => m.searchDetails, new List<SelectListItem>
+                     {
+                        new SelectListItem{ Text="Select", Value = "0" }, 
+                        new SelectListItem{ Text="Mobile Number", Value = "1" }, 
+                        new SelectListItem{ Text="Telephone Number", Value = "2" },
+                        new SelectListItem{ Text="Email-Id", Value = "3" },
+                        new SelectListItem{ Text="Name", Value = "4" },
+                        new SelectListItem{ Text="Feedback", Value = "5" },
+                     }
+                     , new { @id = "ddlsrDetails", @style = "vertical-align:central" })
+                    <br />
+                    @*@Html.ValidationMessageFor(m => m.searchDetails)*@
+                    <label id="lblErrMsg" style="display: none; color: #E80C4D; font-weight: bold; font-size: 13"></label>
+                    <label id="vMsgsearchDetails" style="display: none; color: #E80C4D; font-weight: bold; font-size: 13;"></label>
+                </td>
+                @*<td style="width: 30%"></td>*@
+            </tr>
+
+            <tr>
+                <td style="width: 5%"></td>
+                <td style="width: 10%"></td>
+                <td style="text-align: left; font-weight: bold; width: 15%"></td>
+                <td style="width: 10%"></td>
+                <td style="width: 10%">
+                    <b>@Html.Label("Enter Search By Details", new { @id = "lblcontactDetails" })</b>
+                    <b>@Html.LabelFor(m => m.mob, new
+                  {
+                      @id = "lblMobileNo",
+                      @title = "Enter Mobile Number"
+                  })</b>
+                    <b>@Html.LabelFor(m => m.telno, new
+                  {
+                      @id = "lblTelNo",
+                      @title = "Enter Telephone Number"
+                  })</b>
+                    <b>@Html.LabelFor(m => m.email, new
+                  {
+                      @id = "lblEmailId",
+                      @title = "Enter Email Id"
+                  })</b>
+                    <b>@Html.Label("Enter Name", new { @id = "lblName" })</b>
+                    <b>@Html.Label("Enter Feedback", new { @id = "lblSubject" })</b>
+                </td>
+                <td style="text-align: left; width: 20%">
+                    @Html.TextBoxFor(m => m.contactDetails, new { @id = "txtcontactDetails", @maxlength = "30" })
+                    <br />
+                    @Html.ValidationMessageFor(m => m.contactDetails)
+                </td>
+            </tr>
+
+            <tr>
+                <td colspan="6" style="text-align: center;">
+                    <input type="button" id="btnView" name="btnView" value="View Details" class="button" title="View Details" tabindex="5" />
+                </td>
+            </tr>
+        </table>
+    </form>
+
+</div>
+
+<div id="dvFBList" style="width: 100%;">
+</div>
+
+<div id="dvSearchFBDetails" style="margin-top: 10px; width: 100%;">
+</div>

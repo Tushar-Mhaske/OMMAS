@@ -1,0 +1,234 @@
+﻿@model PMGSY.Models.PaymentModel.ListModel
+
+@{
+    Layout = Layout;
+}
+
+<!DOCTYPE html>
+
+<html>
+<head>
+    <meta name="viewport" content="width=device-width" />
+    <title>GetPaymentList</title>
+    
+    <script src="~/Scripts/jquery.ui.datepicker.js"></script>
+    <script src="~/Scripts/custom/Generic.js"></script>
+    <script src="~/Scripts/Authorization/AuthorizationListMaster.js"></script>
+
+    <style type="text/css" media="screen">
+        th.ui-th-column div {
+            white-space: normal !important;
+            height: auto !important;
+            padding: 2px;
+        }
+
+        .ui-jqgrid .ui-jqgrid-resize {
+            height: 100% !important;
+        }
+    </style>
+  
+</head>
+<body>
+    <br />
+    <div class="ui-widget-header innerDivHeader">
+       Authorization Request
+    </div>
+    
+        @* Added By Abhishek Kamlbe 3-jan-2014 *@
+        <table style="margin-left: 10px; margin-right: 15px;width:99%">
+            <tr> 
+                <td style="width:20%">
+                    <div id="AccountStatusDiv" style="float:left">
+                        <table>
+                            <tbody>
+                                <tr id="TrMonthlyClosing" style="display:none">
+                                    <td style="text-align:center">
+                                        <div style="text-align: right; width: 100%;" id="1">
+                                            <label style="color:red" ><b>
+                                          Last Month Closed
+                                        -
+                         
+                                        <label id="lblMonth">
+                                
+                                        </label>
+                           
+                                        <label id="lblYear">
+                          
+                                             </label>
+                                    </b></label>
+                                        </div>
+                                    </td>
+                                </tr>
+                                 <tr id="AccountNotClosedTr">
+                                       <td style="text-align:center">
+                                        <div style="text-align: right; width: 100%;" id="2">
+                                            <label style="color:red" > <b>  Last Month Closed - -  </b>   </label>  
+                                         
+                                        </div>
+                                            </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                     </div>
+                </td>
+            </tr>
+        </table>
+         <div id="divError" style="margin-left: 10px; margin-right: 15px;margin-top:5px;margin-bottom:5px; display: none" class="ui-state-error ui-corner-all">
+        <span class="ui-icon ui-icon-alert " style="float: left"></span>
+        <span id="errorSpan"></span>
+        </div>
+        
+
+        <table style="margin-left: 10px; margin-right: 15px;margin-top:05px;margin-bottom:10px">
+            <tbody>
+                <tr>
+                    <td>
+
+                        <div style="padding: 0pt 0.7em; cursor: pointer;" class="jqueryButton" id="AddNew" title="Add New Authorization Request">
+
+                            <span class="ui-icon ui-icon-circle-plus" style="float: left; margin-right: 0.3em;"></span><strong>Add New Authorization Request
+                            </strong>
+                        </div>
+
+                    </td>
+                    <td>
+
+                        <div style="float: left; padding: 0pt 0.7em; cursor: pointer;" class="jqueryButton"
+                            id="Search" title="Search Authorization Request">
+                            <span class="ui-icon ui-icon-circle-zoomin " style="float: left; margin-right: 0.3em;"></span>
+                            <strong>Search Authorization Request  </strong>
+                        </div>
+
+                    </td>
+
+
+                </tr>
+            </tbody>
+        </table>
+      
+        <center>
+             
+  
+    <table id="tblOptions" class="ui-state-default ui-corner-all" style="width:98%;border:.1em solid gray">
+    
+         
+        <tr>
+        <td  style="text-align: right">
+            Month <font color="red">*</font>
+        
+        </td>
+        <td  style="text-align: left">
+         @Html.DropDownList("months", ViewData["months"] as SelectList, new { Title = "Month", tabindex = "1", @class = "dropdown" })
+           
+        </td>
+        <td  style="text-align: right">
+            Year <font color="red">*</font>
+        </td>
+        <td  style="text-align: left">
+          @Html.DropDownList("year", ViewData["year"] as SelectList, new { Title = "Year", tabindex = "2", @class = "dropdown" })
+            
+        </td>
+        <td >
+            <input type="submit" class="jqueryButton"
+                name="btnViewSubmit" id="btnViewSubmit" title="Click here to view details" value='View Details' />
+        </td>
+    </tr>
+</table>
+</center>
+
+<form id="listForm" style ="margin-top:5px;margin-bottom:5px">
+<center>
+<table id="tblSearch"  class="ui-state-default ui-corner-all" style="display:none;width:98%;border:.1em solid gray">
+
+
+    <tr>
+<td class="ui-widget ui-corner-bottom" colspan="2" style="text-align:left; border-bottom:0.1em solid gray">
+<span class="ui-icon ui-icon-info" style="float: left;"></span>
+<span style="float: left; font-weight:bold">Search Criteria</span>
+<span id="iconCloseAuthRequest" class="ui-icon ui-icon-circle-close" title="Close" style="float: right;"></span>
+</td>
+</tr>
+
+        <tr class="class-head-tr">
+            <td  style="text-align: right;width:50%">
+                @Html.LabelFor(model => model.fromDate)
+        
+            </td>
+            <td style="text-align: left;width:50%">
+             @Html.TextBox("fromDate", null, new { maxlength = 10 ,@title="From Date"})
+           <br />
+                 @Html.ValidationMessageFor(model => model.fromDate)
+            </td>
+            </tr>
+     <tr class="class-head-tr">
+        <td  style="text-align: right;width:50%">
+         @Html.LabelFor(model => model.toDate)
+        </td>
+        <td  style="text-align: left;width:50%">
+         @Html.TextBox("toDate", null, new { maxlength = 10 ,@title="To Date"})   
+             <br /> 
+            @Html.ValidationMessageFor(model => model.toDate)
+            </td>
+        
+        </tr>  
+     <tr class="class-head-tr">  
+         
+         
+         <td  style="text-align:right;width:50%">
+         @Html.LabelFor(model => model.TXN_ID)     </td>
+         <td style="text-align:left">     
+                 
+              @Html.DropDownListFor(model => model.TXN_ID, ViewData["TXN_ID"] as SelectList, new { Title = "Transaction Type", tabindex = "1", @class = "dropdown", @style = "width:50%" })
+             <br />
+              @Html.ValidationMessageFor(model => model.TXN_ID)
+              </td>
+          </tr>  
+
+    <tr class="class-head-tr">  
+         
+         
+         <td  style="text-align:right;width:50%;vertical-align:top">
+           @Html.LabelFor(model => model.AUTH_STATUS)     
+       
+         </td>
+         <td style="text-align:left">     
+                @Html.CheckBox("AUTH_STATUS_ALL",new { @id = "ChkAll", @checked = "checked" ,value="Z",@title="All"})  <label for="ChkAll" > All </label> <br />
+                @Html.CheckBox("AUTH_STATUS_F",new { @id = "chkForworded" , @checked = "checked",value="F",@class="AUTH_STATUS",@title="Request Forwarded to PIU"}) <label for="chkForworded" > Request Forwarded to PIU </label>  <br />
+                @Html.CheckBox("AUTH_STATUS_A",new { @id = "ChkApproved" , @checked = "checked", value="A",@class="AUTH_STATUS",@title="Approved By Empowered Officer"})  <label for="ChkApproved" > Approved By Empowered Officer </label> <br />
+                @Html.CheckBox("AUTH_STATUS_C",new { @id = "chkCancelled" , @checked = "checked",value="C",@class="AUTH_STATUS",@title="Request Cancel by Empowered Officer"})  <label for="chkCancelled" > Request Cancelled by Empowered Officer </label><br />
+                @Html.CheckBox("AUTH_STATUS_R",new { @id = "chkReceipt", @checked = "checked", value="R",@class="AUTH_STATUS",@title="Receipt of Authorization by PIU"})  <label for="chkReceipt" > Receipt of Authorization by PIU </label>  <br />       
+                @Html.CheckBox("AUTH_STATUS_P",new { @id = "chkReceipt", @checked = "checked",value="P",@class="AUTH_STATUS",@title="Payment by PIU"})  <label for="chkReceipt" > Payment by PIU </label>     
+
+              @*@Html.TextBoxFor(model => model.AUTH_STATUS,null, new { Title = "Authorization Status",maxlength=30})*@
+              <br />
+              @Html.ValidationMessageFor(model => model.AUTH_STATUS)
+              </td>
+          </tr>  
+
+         <tr class="class-head-tr">  
+            <td  style="text-align:right;width:50%">
+                 <input type="button" class="jqueryButton"
+                 name="btnSearch" id="btnSearch" title="Click here to search" value='Search Details' />
+            </td>
+                   
+            <td  style="text-align:left;width:50%">
+                 <input type="button" class="jqueryButton"
+                 name="btnClearSearch" id="btnClearSearch" title="Click here to cancel" value='Cancel' />
+            </td>
+           
+
+      </tr> 
+</table>
+</center>
+ </form>
+<center> 
+<div style="width: 98%">
+    
+<table id="AuthList" ></table>
+<div id="Authpager"></div>
+ </div>
+               
+</center>    
+ 
+</body>
+</html>

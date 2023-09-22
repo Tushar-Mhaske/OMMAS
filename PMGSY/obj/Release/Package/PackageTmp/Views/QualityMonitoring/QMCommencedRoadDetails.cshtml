@@ -1,0 +1,97 @@
+﻿@*
+    * Project Id    :
+    * Project Name  :   OMMAS II
+    * Name          :   QMCommencedRoadDetails.cshtml
+    * Description   :   Renders Commenced Work's Agreement Details in HTML Format
+    * Author        :   Shyam Yadav
+    * Creation Date :   30/July/2014
+*@
+
+@model PMGSY.Models.QualityMonitoring.QMCommencedWorkModel
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html>
+<body>
+    @Html.HiddenFor(model => model.STATE_NAME)
+    @Html.HiddenFor(model => model.DURATION)
+    <div id="divCommencedRoadTbl" class="dataTable" style="width:100%;">
+        <table class="head">
+           <tr>
+                <th style="width:30px;"> Sr. No.</th>
+                <th style="width:100px;"> Package </th>
+                <th style="width:100px;"> Sanction Year </th>
+                <th style="width:200px;"> Work Name </th>
+                <th style="width:100px;"> Commencement Date </th>
+                <th style="width:100px;"> Completion date entered in award </th>
+                <th style="width:100px;"> Expenditure from Execution (Cr.)</th>
+                <th style="width:200px;text-align:center;padding-left:0px;padding-right:0px;"> SQM Inspection
+                    <table style="border-top:1px solid #CCC;">
+                      <tr>
+                        <th style="width:100px;border-bottom:none;">Date</th>
+                        <th style="width:100px;border-bottom:none;">Grade</th>
+                      </tr>
+                    </table>
+                </th>
+                <th style="width:20px;"></th>
+        </tr>
+      </table>
+        <div id="divRecords" class="innerTable" style="height: 540px;">
+         <table id="tblRecords" style="width:99.5%;">
+            @{
+                var srNo = 1;
+             }
+
+            @if (Model.ERROR != null)
+            {
+                 <tr>
+                    <td colspan="9" style="color:#FF0000;">
+                        @Model.ERROR
+                    </td>
+                </tr>
+            }
+            else if (Model.COMMENCEMENT_LIST != null && Model.COMMENCEMENT_LIST.Count > 0)
+            {
+                foreach (var item in Model.COMMENCEMENT_LIST)
+                {
+                        <tr>
+                            <td style="width:30px;text-align:center;">@srNo</td>
+                            <td style="width:100px;">@item.IMS_PACKAGE_ID</td>
+                            <td style="width:100px;">@(item.IMS_YEAR.ToString() + "-" + (item.IMS_YEAR+1).ToString()) </td>
+                            <td style="width:200px;">@item.IMS_ROAD_NAME</td>
+                            <td style="width:100px;">@item.TEND_DATE_OF_COMMENCEMENT</td>
+                            <td style="width:100px;">@item.TEND_DATE_OF_COMPLETION</td>
+                            <td style="width:100px;text-align:right;">@item.EXPENDITURE</td>
+                            <td style="width:200px;height:100%;padding-left:0px;padding-right:0px;">
+                                <table style="width:100%;height:100%;border-bottom:none;">
+                                    <tr>
+                                        <td style="width:100px;border-bottom:none;">
+                                            @item.INSP_DATE
+                                        </td>
+                                         <td style="width:100px;border-bottom:none;">
+                                            @item.OVERALL_GRADE
+                                        </td>
+                                    </tr>
+                                </table>
+                            </td>
+                            @if (Model.COMMENCEMENT_LIST.Count < 15)
+                            {
+                                <td style="width:8px;"></td>
+                            }
+                        </tr>
+                        srNo++;
+                }
+            }
+            else
+            {
+                <tr>
+                    <td colspan="9">
+                        No records found
+                    </td>
+                </tr>
+            }
+        </table>
+        </div>
+    </div>
+
+</body>
+</html>

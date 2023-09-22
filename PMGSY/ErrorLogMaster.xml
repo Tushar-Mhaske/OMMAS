@@ -1,0 +1,131 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ErrorLogModules>
+  
+  <ModuleLogPath>
+    <ModuleID>1</ModuleID>
+    <LogKey>OMMASErrorLogPath</LogKey>
+    <LogPath>D:\ErrorLog</LogPath>
+    <FileNameAlias>OMMASErrorLog_</FileNameAlias>
+  </ModuleLogPath>
+
+  <ModuleLogPath>
+    <ModuleID>2</ModuleID>
+    <LogKey>EmargErrorPath</LogKey>
+    <LogPath>H:\OMMASII\EmargErrorData</LogPath>
+    <FileNameAlias>OMMASErrorLog_</FileNameAlias>
+  </ModuleLogPath>
+
+  <ModuleLogPath>
+    <ModuleID> 3 </ModuleID>
+    <LogKey>EmargPushDetailsErrorPath</LogKey>
+    <LogPath>H:\OMMASII\EmargErrorData\PushToEmarg</LogPath>
+    <FileNameAlias>ErrorLog_</FileNameAlias>
+  </ModuleLogPath>
+
+  <ModuleLogPath>
+    <ModuleID> 4 </ModuleID>
+    <LogKey>ContractorGrievancesLog</LogKey>
+    <LogPath>H:\OMMASII\ContractorGrievances\Log\Profile\</LogPath>
+    <FileNameAlias>ContractorGrievancesContractor GrievancesLog_</FileNameAlias>
+  </ModuleLogPath>   <!--doubt-->
+
+  <ModuleLogPath>
+    <ModuleID> 5 </ModuleID>
+    <LogKey>PMISLog</LogKey>
+    <LogPath>H:\ommasii\PMIS\Log\</LogPath>
+    <FileNameAlias>PMISPMISLog_</FileNameAlias>
+  </ModuleLogPath>  
+
+ 
+  <ModuleLogPath>
+    <ModuleID> 6</ModuleID>
+    <LogKey>OMMASIntegrationsErrorLogPath</LogKey>
+    <LogPath>D:\OMMAS_DEPLOY\Images\OMMASIntegrationsErrorLog</LogPath>
+    <FileNameAlias>ErrorLog_</FileNameAlias>
+  </ModuleLogPath>
+
+  
+    <ModuleLogPath>
+    <ModuleID> 7</ModuleID>
+    <LogKey>GepnicNregaErrorLogPath</LogKey>
+    <LogPath>H:\ommasii\GepnicNregaErrorLog</LogPath>
+    <FileNameAlias>ErrorLog_</FileNameAlias>
+  </ModuleLogPath>
+  
+  
+   <ModuleLogPath>
+    <ModuleID> 8</ModuleID>
+    <LogKey>MABProgressErrorLogPath</LogKey>
+    <LogPath>H:\ommasii\MABQMSErrorLog</LogPath>
+    <FileNameAlias>ErrorLog_</FileNameAlias>
+  </ModuleLogPath>
+  <!--doubt-->
+
+  <ModuleLogPath>
+    <ModuleID> 9</ModuleID>
+    <LogKey>MABQMSErrorLogPath</LogKey>
+    <LogPath>H:\ommasii\MABQMSErrorLog</LogPath>
+    <FileNameAlias>MABQMSSaveImageErrorLog_</FileNameAlias>
+  </ModuleLogPath>
+
+
+  <ModuleLogPath>
+    <ModuleID> 10</ModuleID>
+    <LogKey>DigSignErrorLogPath</LogKey>
+    <LogPath>H:\OMMASII\appleterrorlog\</LogPath>
+    <FileNameAlias>PdfSignerAppletErrorLog_</FileNameAlias>
+  </ModuleLogPath>
+
+
+  
+
+  <ModuleLogPath>
+    <ModuleID> 11</ModuleID>
+    <LogKey>REATBeneficiaryLog</LogKey>
+    <LogPath>H:\OMMASII\REAT\Log\Beneficiary\</LogPath>
+    <FileNameAlias>REATBeneficiaryLog_</FileNameAlias>
+  </ModuleLogPath>
+
+
+  <ModuleLogPath>
+    <ModuleID> 12</ModuleID>
+    <LogKey>REATDSCLog</LogKey>
+    <LogPath>H:\OMMASII\REAT\Log\DSC\</LogPath>
+    <FileNameAlias>REATDSCLog_</FileNameAlias>
+  </ModuleLogPath>
+  
+
+  <ModuleLogPath>
+    <ModuleID> 13</ModuleID>
+    <LogKey>REATPaymentLog</LogKey>
+    <LogPath>H:\OMMASII\REAT\Log\Payment\</LogPath>
+    <FileNameAlias>REATREAT PaymentLog_</FileNameAlias>
+  </ModuleLogPath>
+  
+
+  <ModuleLogPath>
+    <ModuleID> 14</ModuleID>
+    <LogKey>REATBankLog</LogKey>
+    <LogPath>H:\OMMASII\REAT\Log\Bank\</LogPath>
+    <FileNameAlias>REATREAT PaymentLog_</FileNameAlias>
+  </ModuleLogPath>
+ 
+  
+    <ModuleLogPath>
+    <ModuleID> 15</ModuleID>
+    <LogKey>REATOBLog</LogKey>
+    <LogPath>H:\OMMASII\REAT\Log\OpeningBalance\</LogPath>
+    <FileNameAlias>REATREAT OBLog_</FileNameAlias>
+  </ModuleLogPath>
+  
+  
+      <ModuleLogPath>
+    <ModuleID> 16</ModuleID>
+    <LogKey>REATFRLog</LogKey>
+    <LogPath>H:\OMMASII\REAT\Log\FundReceipt\</LogPath>
+    <FileNameAlias>REATREAT FRLog_</FileNameAlias>
+  </ModuleLogPath>
+  <!--doubt-->
+  
+  
+</ErrorLogModules>

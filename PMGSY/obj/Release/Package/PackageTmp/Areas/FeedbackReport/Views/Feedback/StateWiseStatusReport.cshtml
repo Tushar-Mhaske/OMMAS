@@ -1,0 +1,13 @@
+﻿@using MvcReportViewer
+
+    @Html.MvcReportViewer("/PMGSYCitizen/FeedbackStateWise",
+     new
+     {
+        LEVEL=1,
+	    FROM=@ViewBag.FromDate,
+	    TILL=@ViewBag.ToDate,
+        FEEDTHRU = @ViewBag.fbThrough
+     },
+     new { Height = 600, Width = "100%", style = "border:none;" })
+
+

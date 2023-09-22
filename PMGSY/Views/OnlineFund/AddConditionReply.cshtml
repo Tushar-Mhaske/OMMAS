@@ -1,0 +1,42 @@
+﻿
+@model PMGSY.Models.OnlineFundRequest.ConditionReplyViewModel
+
+<script src="~/Scripts/custom/Generic.js"></script>
+<script src="~/Scripts/jquery.ui.accordion.js"></script>
+<script src="~/Scripts/OnlineFundProcess/AddConditionReply.js"></script>
+
+<div style="margin-bottom:20px">
+    <table id="tblConditionDetails"></table>
+    <div id="pgConditionDetails"></div>
+</div>
+<form id="frmAddReply" style="width:99%">
+    @Html.AntiForgeryToken()
+    <div style="margin-left: 100px">
+        @Html.ValidationSummary(true)
+    </div>
+    @Html.HiddenFor(model=>model.REQUEST_ID)
+    <table id="tbAddReply" cellpadding="3px" class="rowstyle" style="margin-top: 0px; text-align: left; border: ridge 0.1em #ccc; width: 100%; padding-top: 5px 5px 5px 5px;">
+        <tr>
+            <td style="width: 5%"></td>
+            <td style="width: 10%">
+                @Html.LabelFor(model => model.CONDITION_REPLY)<label style="color: red">*</label>
+            </td>
+            <td  style="width: 15%" colspan="3">
+                @Html.TextAreaFor(model => model.CONDITION_REPLY, new { @id = "txtReply", @title = "Please Enter Reply", @tabindex = 1 })
+                @Html.ValidationMessageFor(model => model.CONDITION_REPLY)
+            </td>
+        </tr>
+        <tr>
+            <td colspan="5">
+            <center>
+                <table>
+                    <td>
+                        <input type="button" value="Save" name="btnAddReply" id="btnAddReply" class="jqueryButton" tabindex ="7" />
+                        <input type="reset" value="Reset" name="btnResetReply" id="btnResetReply" class="jqueryButton" tabindex="8"/>
+                    </td>
+                </table>
+            </center>
+            </td>
+        </tr>
+    </table>
+</form>

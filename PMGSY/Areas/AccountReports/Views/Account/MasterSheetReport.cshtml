@@ -1,0 +1,16 @@
+﻿@using MvcReportViewer
+@model PMGSY.Areas.AccountReports.Models.MasterSheetModel
+
+<div id="AccountMasterSheet" style="width:100%;height:590px;overflow-x:hidden;overflow-y:hidden;">
+@Html.MvcReportViewer("/PMGSYCitizen/AccountMasterSheet",
+     new {  
+            Level=Model.LvlId,
+            State=Model.StateCode,
+            Agency=Model.Agency,
+            Year=Model.Year,
+            Type=PMGSY.Extensions.PMGSYSession.Current.FundType,
+            SRRDACode=PMGSY.Extensions.PMGSYSession.Current.AdminNdCode
+         },
+     new { Height = 600, Width =1220, style = "border:none;" })
+
+</div>

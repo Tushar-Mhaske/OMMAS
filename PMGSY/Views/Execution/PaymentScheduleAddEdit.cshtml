@@ -1,0 +1,133 @@
+﻿@model PMGSY.Models.Execution.PaymentScheduleViewModel
+
+<script src="~/Scripts/custom/Generic.js"></script>
+<script src="~/Scripts/Execution/PaymentSchedule.js"></script>
+
+<center>  
+    <div id="divPaymentScheduleDetails" style="width: 100%;">
+
+    <form id="frmPaymentSchedule">
+    
+    @Html.HiddenFor(model => model.IMS_PR_ROAD_CODE)
+    @Html.HiddenFor(model => model.Operation)
+        @Html.HiddenFor(model => model.AgreementYear)
+        @Html.HiddenFor(model => model.AgreementMonth)
+        @Html.HiddenFor(model => model.AgreementDate)
+
+        @Html.ValidationSummary(true)
+          <div id="divError" class="ui-state-error ui-corner-all" style="text-align: left; display: none; width: 90%">
+                <span class="ui-icon ui-icon-alert" style="float: left;"></span>                   
+                <span></span>
+         </div>
+        <div style="height:70px; width: 89%; text-align:left; padding-top: 0.6em;" @*class="ui-state-default ui-corner-all"*@ > 
+            <table class="rowstyle ui-corner-all" style="width:100%; border:solid black 1px;">
+                  <tr>
+                    <td style="width:5%"></td>
+                    <td style="width:12%"><strong> @Html.LabelFor(model => model.District) :</strong></td><td style="width:22%">@Html.DisplayFor(model => model.District)</td>
+                    <td style="width:15%"> <strong> @Html.LabelFor(model => model.Block) :</strong> </td ><td style="width:11%">@Html.DisplayFor(model => model.Block)</td>
+                </tr>
+
+                <tr>
+                    <td></td>
+                    <td > <strong> @Html.LabelFor(model => model.SanctionedYear) :</strong></td><td> @Html.DisplayFor(model => model.SanctionedYear)</td>
+                    <td ><strong> @Html.LabelFor(model => model.PackageNumber) :</strong></td><td> @Html.DisplayFor(model => model.PackageNumber)</td>
+                </tr>
+
+                <tr>
+                    <td></td>
+                    <td><strong>@if(Model.ProposalType == "P"){<label>Road Name</label>}else{<label>Bridge Name</label>}</strong> : </td><td>@Html.DisplayFor(model => model.RoadName)</td>
+                    <td><strong>@Html.LabelFor(model => model.SanctionedCost)</strong> :</td><td>@Html.DisplayFor(model => model.SanctionedCost)</td>
+                </tr>
+                <tr>
+                    <td></td>
+                    <td><strong>@Html.LabelFor(model => model.AgreementAmount)</strong> :</td><td>@Html.DisplayFor(model => model.AgreementAmount)</td>
+                    <td><strong>@if(Model.ProposalType == "P"){<label>Sanction Length(in Kms)</label>}else{<label>Sanction Length(in Mtrs)</label>}</strong> :</td><td>@Html.DisplayFor(model => model.SactionedLength)</td>
+                </tr>
+            </table>
+        </div> 
+        
+        <div id="tbl" style="width:100%;margin-top:20px;margin-bottom:20px"> 
+                   <div id="divPaymentSchedule" style="width:100%">    
+                         <table id="tbPaymentSchedule" style="width:100%; clear:inherit">
+                        </table>
+                        <div id="dvPaymentSchedulePager"></div>
+                    </div>
+        </div>
+         <div style="height:20px; width: 90%; text-align:left; padding-top: 0.6em;" class="ui-state-default ui-corner-all" > 
+                   &nbsp; <strong> Note :</strong>  Fields marked with * are mandatory.
+         </div>
+        <table id="Table1" class="rowstyle" style="margin-top:0px; text-align:left; border:ridge 0.1em #ccc; width:90%; padding-top:5px; padding-left:5px; padding-right:5px; padding-bottom:5px;">
+
+        <tr>
+            <td style="width:10%">
+                @Html.LabelFor(model => model.EXEC_MPS_MONTH)<span style="color:red"> *</span>
+            </td>
+            <td style="table-layout:fixed;width:20%">           
+
+                @if (Model.Operation == "A")
+                {
+                    @Html.DropDownListFor(model => model.EXEC_MPS_MONTH, ViewData["EXEC_MPS_MONTH"] as IEnumerable<SelectListItem>, new { @title = "Please Select Month", @tabindex = 1 })
+                }
+                else
+                {
+                    @Html.DropDownListFor(model => model.EXEC_MPS_MONTH, ViewData["EXEC_MPS_MONTH"] as IEnumerable<SelectListItem>, new { @title = "Please Select Month", @tabindex = 1, @disabled = true })
+                }
+            </td>
+
+            <td style="width:10%">
+                @Html.LabelFor(model => model.EXEC_MPS_YEAR)<span style="color:red"> *</span>
+            </td>
+            <td style="width:20%">
+                @if (Model.Operation == "A")
+                {
+                    @Html.DropDownListFor(model => model.EXEC_MPS_YEAR, ViewData["EXEC_MPS_YEAR"] as IEnumerable<SelectListItem>, new { @title = "Please Select Year", @tabindex = 2 })
+                }
+                else
+                {
+                    @Html.DropDownListFor(model => model.EXEC_MPS_YEAR, ViewData["EXEC_MPS_YEAR"] as IEnumerable<SelectListItem>, new { @title = "Please Select Year", @tabindex = 2, @disabled = true })
+                    @Html.HiddenFor(model=>model.EXEC_MPS_YEAR)
+                }
+            </td>
+
+            <td style="width:20%">           
+                @Html.LabelFor(model => model.EXEC_MPS_AMOUNT)<span style="color:red"> *</span>
+            </td>
+            <td>
+                @Html.TextBoxFor(model => model.EXEC_MPS_AMOUNT, new { @title = "End Date", tabindex = 3, maxlength = 19 })
+            </td>
+        </tr>
+            <tr>
+                <td></td>
+                <td>@Html.ValidationMessageFor(model => model.EXEC_MPS_MONTH, null, new { id="valMsgMonth"})</td>
+
+                 <td></td>
+                <td>@Html.ValidationMessageFor(model => model.EXEC_MPS_YEAR,null,new { id="valMsgYear"})</td>
+
+                <td></td>
+                <td>@Html.ValidationMessageFor(model => model.EXEC_MPS_AMOUNT,null,new { id="valMsgAmount"})</td>
+            </tr>
+               
+        <tr id="rowAdd">
+            <td colspan="6" style="text-align:center">
+                <input type="button" id="btnSave" name="btnSave" value="Save" class="jqueryButton" title="Save Work Program Details" tabindex="4"/>
+                 <input type="button" value="Reset" class="jqueryButton" id="btnReset" name="btnReset"  title="Reset" tabindex="5"/>
+            </td>            
+        </tr>
+
+        <tr id="rowHideShow" style="display:none">
+            <td colspan="6" style="text-align:center">
+            </td>
+        </tr>
+
+        <tr id="rowUpdate" style="display:none">
+            <td colspan="6" style="text-align:center">
+                <input type="button" id="btnUpdate" name="btnUpdate" value="Update" class="jqueryButton" title="Update Work Program Details"/>
+                <input type="button" value="Cancel" class="jqueryButton" id="btnCancel" name="btnCancel"  title="Cancel" tabindex="5"/>
+            </td>            
+        </tr>
+        </table> 
+    </form>
+    </div>
+</center>
+
+

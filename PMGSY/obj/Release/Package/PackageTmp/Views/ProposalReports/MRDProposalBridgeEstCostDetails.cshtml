@@ -1,0 +1,138 @@
+﻿@using PMGSY.Models
+@using PMGSY.Models.ProposalReports
+@model PMGSY.Models.ProposalReports.MRDProposalBridgeTypeDetailsModel
+@using PMGSY.Extensions
+@using PMGSY.Common
+
+<style type="text/css">
+    div.CBHeader {
+        padding: 5px;
+        width: 98%;
+        display: inline-block;
+        cursor: default;
+        /*font:12px/14px Arial, Helvetica, sans-serif;*/
+        font-family: Trebuchet MS,Tahoma,Verdana,Arial,sans-serif;
+        color: #000;
+        background-color: #eee;
+        -moz-border-radius: 10px;
+        -webkit-border-radius: 10px;
+        -moz-box-shadow: #999 2px 0px 3px;
+        -webkit-box-shadow: #999 2px 0px 3px;
+    }
+</style>
+
+
+<script src="~/Scripts/custom/Generic.js"></script>
+
+<link href="~/Content/demo_page.css" rel="stylesheet" />
+<link href="~/Content/demo_table_jui.css" rel="stylesheet" />
+<link href="~/Content/TableTools.css" rel="stylesheet" />
+<link href="~/Content/TableTools_JUI.css" rel="stylesheet" />
+
+<script src="~/Scripts/DataTables/jquery.dataTables.js"></script>
+<script src="~/Scripts/DataTables/ZeroClipboard.js"></script>
+<script src="~/Scripts/DataTables/TableTools.js"></script>
+
+<script>
+    //var s = $('#tblBridgeEstCostDetails').dataTable({
+    //    "bJQueryUI": true,
+    //    "bFilter": false,
+    //    "bSort": false,
+    //    "bHeader": true,
+    //    "sScrollY": "420px",
+    //    "bPaginate": false,
+    //    "bScrollInfinite": true,
+    //    "bScrollCollapse": true,
+    //    "sDom": '<"H"Tfr>t<"F"ip>',
+    //    "oTableTools": {
+    //        "aButtons": []
+    //    },
+    //});
+</script>
+
+
+@{
+    CommonFunctions objCommonFunction = new CommonFunctions();
+}
+
+<div class="ui-widget-header innerDivHeader" style="width: 98%; text-align: center; margin-bottom: 5px">Bridge Cost Details</div>
+<table class="ui-state-default ui-corner-all" style="border: 0.1em solid gray; width: 97%; margin-top: 1px" id="tblFilterBridge">
+    <tr>
+
+        <td style="width: 2%"><b>State:</b></td>
+        <td style="width: 5%">@Html.DisplayFor(m => m.StateName)</td>
+        <td style="width: 2%"><b>District:</b></td>
+        <td style="width: 5%">@Html.DisplayFor(m => m.DistrictName)</td>
+        <td style="width: 2%"><b>Block:</b></td>
+        <td style="width: 10%;">@Html.DisplayFor(m => m.BlockName)</td>
+    </tr>
+    <tr>
+
+        <td style="width: 2%"><b>Year:</b></td>
+        <td style="width: 5%">@Html.DisplayFor(m => m.SanctionYear)</td>
+        <td style="width: 2%"><b>Package:</b></td>
+        <td style="width: 5%">@Html.DisplayFor(m => m.Package)</td>
+        <td style="width: 2%"><b>Road Name:</b></td>
+        <td style="width: 10%">@Html.DisplayFor(m => m.RoadName)</td>
+    </tr>
+    <tr>
+        <td style="width: 5%"><b>Road Length (In Kms):</b></td>
+        <td style="width: 5%">@Html.DisplayFor(m => m.RoadLength)</td>
+
+        <td style="width: 5%"><b>Bridge Length (In Mtrs):</b></td>
+        <td style="width: 5%">@Html.DisplayFor(m => m.BridgeLength)</td>
+        <td style="width: 2%"><b>Bridge Name:</b></td>
+        <td style="width: 15%">@Html.DisplayFor(m => m.BridgeName)</td>
+    </tr>
+    <tr>
+        <td colspan="2"><b>Note : All Costs Rs. in Lakhs</b></td>
+    </tr>
+</table>
+
+
+<table id="tblBridgeEstCostDetails" class="ui-state-default" style="width: 97%;">
+    <thead>
+        <tr>
+            <th>Bridge Structured Cost</th>
+            <th>Structure Cost</th>
+            <th>Bridge Other Cost</th>
+            <th>Approach Per Mtr.</th>
+            <th>Bridge Structure Per Mtr.</th>
+            <th>Structure Per Mtr.</th>
+            <th>Bridge Other Per Mtr.</th>
+        </tr>
+    </thead>
+    <tbody>
+        @if (Model.BridgeEstCostDetails.Count > 0)
+        {
+
+            foreach (var itm in Model.BridgeEstCostDetails)
+            {
+            <tr>
+                <td style="text-align: right; border: 0.1em solid white;">@objCommonFunction._IndianFormatAmount(itm.IMS_BRGD_STRUCTURE_COST)</td>
+                <td style="text-align: right; border: 0.1em solid white;">@objCommonFunction._IndianFormatAmount(itm.IMS_STRUCTURE_COST)</td>
+                <td style="text-align: right; border: 0.1em solid white;">@objCommonFunction._IndianFormatAmount(itm.IMS_BRGD_OTHER_COST)</td>
+                <td style="text-align: right; border: 0.1em solid white;">@objCommonFunction._IndianFormatAmount(itm.IMS_APPROACH_PER_MTR)</td>
+                <td style="text-align: right; border: 0.1em solid white;">@objCommonFunction._IndianFormatAmount(itm.IMS_BRGD_STRUCTURE_PER_MTR)</td>
+                <td style="text-align: right; border: 0.1em solid white;">@objCommonFunction._IndianFormatAmount(itm.IMS_STRUCTURE_PER_MTR)</td>
+                <td style="text-align: right; border: 0.1em solid white;">@objCommonFunction._IndianFormatAmount(itm.IMS_BRGD_OTHER_PER_MTR)</td>
+            </tr>
+        
+            }
+
+        }
+        else
+        {
+            <tr>
+                <td style="text-align: right; border: 0.1em solid white;">0.00</td>
+                <td style="text-align: right; border: 0.1em solid white;">0.00</td>
+                <td style="text-align: right; border: 0.1em solid white;">0.00</td>
+                <td style="text-align: right; border: 0.1em solid white;">0.00</td>
+                <td style="text-align: right; border: 0.1em solid white;">0.00</td>
+                <td style="text-align: right; border: 0.1em solid white;">0.00</td>
+                <td style="text-align: right; border: 0.1em solid white;">0.00</td>
+            </tr>
+        }
+    </tbody>
+</table>
+

@@ -1,0 +1,27 @@
+﻿@using MvcReportViewer
+
+@model PMGSY.Areas.MPR.Models.MPR1Model
+
+@Html.MvcReportViewer("/PMGSYCitizen/MPR1_Dynamic",
+     new
+     { //Level = fetchCookieData.LevelCode , State = fetchCookieData.StateCode, District = fetchCookieData.DistrictCode, Block = fetchCookieData.BlockCode, 
+         Level = Convert.ToString(Model.LevelCode),
+         State = Model.Mast_State_Code,
+         District = Model.Mast_District_Code,
+         Block = Model.Mast_Block_Code,
+         Year = Model.Year,
+         Month = Model.Month,
+         Collaboration = Model.Collab,
+         PMGSY = Model.Scheme,//fetchCookieData.Scheme,
+         AGENCY = Model.Agency,
+         StateName = Model.StateName,
+         DistName = Model.DistName,
+         BlockName = Model.BlockName,
+         LocalizationValue = "en",
+         MonthName = Model.MonthName,
+         YearName = Model.YearName,
+         CollaborationName = Model.CollaborationName,
+         AgencyName = Model.AgencyName,
+         pDisplayFields = Model.ColumnCode
+     },
+     new { Height = 600, Width = "100%", style = "border:none;" })

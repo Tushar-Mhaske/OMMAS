@@ -1,0 +1,11 @@
+﻿@using MvcReportViewer
+
+@model PMGSY.Areas.QMSSRSReports.Models.ContractorWiseReportModel
+
+@Html.MvcReportViewer("/PMGSYCitizen/QM_Contractorwise_Inspection",
+     new
+     {
+         Year = Model.YEAR_INSPECTION,
+         
+     },
+       new { Height = 600, Width = "100%", style = "border:none;" })

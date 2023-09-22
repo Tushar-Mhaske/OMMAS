@@ -1,0 +1,413 @@
+﻿@model PMGSY.Models.Master.AdminDepartmentViewModel
+@using PMGSY.Extensions
+@{
+    ViewBag.Title = "AddEditAdminDepartment";
+}
+
+<script src="~/Scripts/custom/Generic.js" type="text/javascript"></script>
+<script src="~/Scripts/jquery.ui.datepicker.js" type="text/javascript"></script>
+<script src="~/Scripts/Master/AddEditAdminDepartment.js" type="text/javascript"></script>
+
+<div id="dvhdAddNewAdminDetails" class="ui-corner-top ui-widget-header panelheader" style="text-align: left; height: 20px;">
+    <span class="ui-jqgrid-title" style="float: left">&nbsp;@if (Model.MAST_ND_TYPE == "S")
+                                                            {@Html.Label("SRRDA Details")}
+                                                            else
+                                                            {@Html.Label("DPIU Details")}</span>
+
+    <span id="spCollapseIconCN" class="ui-icon ui-icon-circle-triangle-n" style="float: right"></span>
+</div>
+
+<div id="dvAddNewAdminDetails" class="ui-corner-bottom" style="display: block; border: 1px solid #B5B8C8; text-align: left">
+    <div id="dvErrorMessage" class="ui-widget ui-state-error ui-corner-all" style="padding: 0.7em .7em; display: none; margin: 5px 5px 5px 5px;">
+        <span class="ui-icon ui-icon-alert" style="float: left; margin-right: .3em;"></span>
+        <strong>Alert:</strong> <span id="message"></span>
+    </div>
+    <form id="frmAddAdmin">
+        @Html.AntiForgeryToken()
+        <center>@Html.ValidationSummary(true)</center>
+        <table style="width: 100%; margin-top: 10px;" class="rowstyle">
+            <tr style="display: none">
+                <td colspan="5">
+                    @Html.HiddenFor(model => model.EncryptedAdminCode)
+                    @Html.HiddenFor(model => model.MAST_ND_TYPE)
+                    @Html.HiddenFor(model => model.MAST_PARENT_ND_CODE)
+                     @Html.Hidden("RoleCode",PMGSYSession.Current.RoleCode)
+                </td>
+
+            </tr>
+            <tr>
+                <td style="width: 5%;"></td>
+                <td style="text-align: left; width: 15%;">
+                    @Html.LabelFor(model => model.MAST_STATE_CODE)<label style="color: red;"> *</label>
+                </td>
+                <td style="width: 30%;">
+                    @if (Model.EncryptedAdminCode == null)
+                    {
+                        if (Model.MAST_STATE_CODE == null || Model.MAST_STATE_CODE == 0)
+                        {
+                        @Html.DropDownListFor(model => model.MAST_STATE_CODE, Model.States, new { @title = "State", @id = "ddlState", @tabindex = 1 })
+                        }
+                        else
+                        {
+                        @Html.DropDownListFor(model => model.MAST_STATE_CODE, Model.States, new { @title = "State", @id = "ddlState", @tabindex = 1, @disabled = "disabled" })
+                        }
+                    }
+                    else
+                    {
+                        @Html.DropDownListFor(model => model.MAST_STATE_CODE, Model.States, new { @title = "State", @id = "ddlState", @tabindex = 1, @disabled = "disabled" })
+                    }
+                    @Html.ValidationMessageFor(model => model.MAST_STATE_CODE)
+                </td>
+                <td style="width: 18%">
+                    @Html.LabelFor(model => model.MAST_AGENCY_CODE)
+                    <label style="color: red;">*</label>
+                </td>
+                <td>
+                    @if (Model.EncryptedAdminCode == null)
+                    {
+                        if (Model.MAST_AGENCY_CODE == null || Model.MAST_AGENCY_CODE == 0)
+                        {
+                            if (PMGSYSession.Current.RoleCode != 47 && PMGSYSession.Current.RoleCode != 36) //ITNO=36 && ITNOOA=47
+                            {
+                              @Html.DropDownListFor(model => model.MAST_AGENCY_CODE, Model.Agency, new { @id = "ddlAgency", @title = "Select Agency Name", @tabindex = 2 })
+                            }
+                            else
+                            {
+                              @Html.DropDownListFor(model => model.MAST_AGENCY_CODE, Model.Agency, new { @id = "ddlAgency", @title = "Select Agency Name", @tabindex = 2, @disabled = "disabled" })
+                            }
+                        }
+                        else
+                        {
+                        @Html.DropDownListFor(model => model.MAST_AGENCY_CODE, Model.Agency, new { @id = "ddlAgency", @title = "Select Agency Name", @tabindex = 2, @disabled = "disabled" })
+                        }
+                    }
+                    else
+                    {
+                         if (PMGSYSession.Current.RoleCode == 23)
+                            {
+                        @Html.DropDownListFor(model => model.MAST_AGENCY_CODE, Model.Agency, new { @id = "ddlAgency", @title = "Select Agency Name", @tabindex = 2 })
+                    
+                            }
+                            else
+                            { 
+                        @Html.DropDownListFor(model => model.MAST_AGENCY_CODE, Model.Agency, new { @id = "ddlAgency", @title = "Select Agency Name", @tabindex = 2, @disabled = "disabled" })
+                            }
+                    }
+                    @Html.ValidationMessageFor(model => model.MAST_AGENCY_CODE)
+                </td>
+            </tr>
+            <tr>
+                <td></td>
+                <td>
+                    @if (Model.MAST_ND_TYPE == "S")
+                    {
+                        @Html.Label("SRRDA Name") <label style="color: red;"> *</label>
+                    }
+                    else
+                    {
+                        @Html.Label("DPIU Name") <label style="color: red;"> *</label>
+                    }
+                </td>
+                <td>
+                    @Html.TextBoxFor(model => model.ADMIN_ND_NAME, new { @maxlength = 100, @title = "Enter Name", @tabindex = 3, @placeholder = "Enter Name..." })
+                    @Html.ValidationMessageFor(model => model.ADMIN_ND_NAME)
+                </td>
+                @if (Model.MAST_ND_TYPE == "S")
+                {
+                    <td>
+                        @Html.LabelFor(model => model.ADMIN_SBD_DATE)
+                    </td>
+                    <td>
+                        @Html.TextBoxFor(model => model.ADMIN_SBD_DATE, new { @title = "Enter SBD Date", @placeholder = "dd/mm/yyyy...", @tabindex = 4, @maxlength = 10 })
+                        @Html.ValidationMessageFor(model => model.ADMIN_SBD_DATE)
+                    </td>
+                }
+                @if (Model.MAST_ND_TYPE == "D")
+                {
+                    <td>
+                        @Html.LabelFor(model => model.ADMIN_ND_TAN_NO)
+                    </td>
+                    <td>
+                        @Html.TextBoxFor(model => model.ADMIN_ND_TAN_NO, new { @title = "Enter TAN Number", @placeholder = "Enter TAN Number...", @tabindex = 4, @maxlength = 10 })
+                        @Html.ValidationMessageFor(model => model.ADMIN_ND_TAN_NO)
+                    </td>
+                }
+            </tr>
+            <tr>
+                <td></td>
+                <td>
+                    @Html.LabelFor(model => model.ADMIN_ND_ADDRESS1)
+                </td>
+                <td>
+                    @Html.TextBoxFor(model => model.ADMIN_ND_ADDRESS1, new { maxlength = 255, @title = "Contact Address 1", @tabindex = 5, @placeholder = "Enter Contact Address..." })
+                    @Html.ValidationMessageFor(model => model.ADMIN_ND_ADDRESS1)
+                </td>
+                <td>
+                    @Html.LabelFor(model => model.MAST_DISTRICT_CODE)<label style="color: red;">*</label>
+                </td>
+                <td>
+                    @Html.DropDownListFor(model => model.MAST_DISTRICT_CODE, Model.Districts, new { @title = "District", @id = "ddlDistrict", @tabindex = 7 })
+                    @Html.ValidationMessageFor(model => model.MAST_DISTRICT_CODE)
+                </td>
+            </tr>
+            <tr>
+                <td></td>
+                <td></td>
+                <td>
+                    @Html.TextBoxFor(model => model.ADMIN_ND_ADDRESS2, new { @maxlength = 255, @title = "Contact Address 2", @tabindex = 6, @placeholder = "Enter Contact Address..." })
+                    @Html.ValidationMessageFor(model => model.ADMIN_ND_ADDRESS2)
+                </td>
+                <td>
+                    @Html.LabelFor(model => model.ADMIN_ND_PIN)
+                </td>
+
+                <td>
+                    @Html.TextBoxFor(model => model.ADMIN_ND_PIN, new { @maxlength = 6, @title = "Enter PIN Code", @tabindex = 8, @placeholder = "Enter PIN Code..." })
+                    @Html.ValidationMessageFor(model => model.ADMIN_ND_PIN)
+
+                </td>
+            </tr>
+            <tr>
+                <td></td>
+                <td>
+                    @Html.LabelFor(model => model.ADMIN_ND_STD1)
+                </td>
+                <td>
+                    @Html.TextBoxFor(model => model.ADMIN_ND_STD1, new { @maxlength = 5, @title = "Enter STD Code", @tabindex = 9, @style = "width:50px", @placeholder = "STD Code..." })
+                    @Html.LabelFor(model => model.ADMIN_ND_PHONE1)
+                    @Html.TextBoxFor(model => model.ADMIN_ND_PHONE1, new { @maxlength = 8, @title = "Enter Phone Number", @tabindex = 10, @placeholder = "Enter Phone...", @style = "width:85px" })
+                    @Html.ValidationMessageFor(model => model.ADMIN_ND_STD1)
+                    @Html.ValidationMessageFor(model => model.ADMIN_ND_PHONE1)
+                </td>
+                <td>
+                    @Html.LabelFor(model => model.ADMIN_ND_STD2)
+                </td>
+                <td>
+                    @Html.TextBoxFor(model => model.ADMIN_ND_STD2, new { @maxlength = 5, @title = "Enter STD Code", @tabindex = 11, @style = "width:50px", @placeholder = "STD Code..." })
+                    @Html.LabelFor(model => model.ADMIN_ND_PHONE2)
+                    @Html.TextBoxFor(model => model.ADMIN_ND_PHONE2, new { @maxlength = 8, @title = "Enter Phone Number", @tabindex = 12, @placeholder = "Enter Phone...", @style = "width:85px" })
+                    @Html.ValidationMessageFor(model => model.ADMIN_ND_STD2)
+                    @Html.ValidationMessageFor(model => model.ADMIN_ND_PHONE2)
+                </td>
+            </tr>
+            <tr>
+                <td></td>
+                <td>
+                    @Html.LabelFor(model => model.ADMIN_ND_STD_FAX)
+                </td>
+                <td>
+                    @Html.TextBoxFor(model => model.ADMIN_ND_STD_FAX, new { @maxlength = 5, @title = "Enter STD Code", @tabindex = 13, @style = "width:50px", @placeholder = "STD Code..." })
+                    @Html.LabelFor(model => model.ADMIN_ND_FAX)
+                    @Html.TextBoxFor(model => model.ADMIN_ND_FAX, new { @maxlength = 30, @title = "Enter Fax Number", @tabindex = 14, @placeholder = "Enter Fax Number...", @style = "width:85px" })
+                    @Html.ValidationMessageFor(model => model.ADMIN_ND_STD_FAX)
+                    @Html.ValidationMessageFor(model => model.ADMIN_ND_FAX)
+                </td>
+                <td>
+                    @Html.LabelFor(model => model.ADMIN_ND_MOBILE_NO)
+                </td>
+                <td>
+                    @Html.TextBoxFor(model => model.ADMIN_ND_MOBILE_NO, new { @maxlength = 10, @title = "Enter Mobile Number", @placeholder = "Enter Mobile Number...", @tabindex = 15 })
+                    @Html.ValidationMessageFor(model => model.ADMIN_ND_MOBILE_NO)
+                </td>
+            </tr>
+            <tr>
+                <td></td>
+                <td>
+                    @Html.LabelFor(model => model.ADMIN_ND_EMAIL)
+                </td>
+                <td>
+                    @Html.TextBoxFor(model => model.ADMIN_ND_EMAIL, new { @maxlength = 50, @title = "Enter Email Address", @placeholder = "Enter Email Address...", @tabindex = 16 })
+                    @Html.ValidationMessageFor(model => model.ADMIN_ND_EMAIL)
+                </td>
+                <td>
+                    @Html.LabelFor(model => model.ADMIN_ND_REMARKS)
+                </td>
+                <td>
+                    @Html.TextAreaFor(model => model.ADMIN_ND_REMARKS, new { @maxlength = 260, @title = "Enter Remark", @placeholder = "Enter Remark...", @tabindex = 17 })
+                    @Html.ValidationMessageFor(model => model.ADMIN_ND_REMARKS)
+                </td>
+            </tr>
+            @if (Model.MAST_ND_TYPE == "D")
+            {               
+                <tr>
+                    <td></td>
+                    <td>
+                        @Html.Label("Is Bank Authentication Enabled")
+                    </td>
+                    <td id="tdBankAuthEnabled" colspan="3">
+                        @if (Model.EncryptedAdminCode == null)
+                        {
+                            @Html.RadioButtonFor(model => model.ADMIN_BANK_AUTH_ENABLED, "Y", new { @id = "radioBankAuthYes", @title = "Yes" })
+                            @Html.Label("Yes")
+                            @Html.RadioButtonFor(model => model.ADMIN_BANK_AUTH_ENABLED, "N", new { @id = "radioBankAuthNo", @checked = "checked", @title = "No" })
+                            @Html.Label("No")
+                        }
+                        else
+                        {
+                            @Html.RadioButtonFor(model => model.ADMIN_BANK_AUTH_ENABLED, "Y", new { @id = "radioBankAuthYes", @title = "Yes" })
+                            @Html.Label("Yes")
+                            @Html.RadioButtonFor(model => model.ADMIN_BANK_AUTH_ENABLED, "N", new { @id = "radioBankAuthNo", @title = "No" })
+                            @Html.Label("No")
+                        }
+                        @Html.ValidationMessageFor(model => model.ADMIN_BANK_AUTH_ENABLED)
+                    </td>
+
+                    <td id="tdlblBank" style="display: none;">
+                        @Html.LabelFor(model => model.ADMIN_BA_ENABLE_DATE, new { @id = "lblBank" })
+                        <label id="lblBanRequired" style="color: red;">*</label>
+                    </td>
+                    <td id="dataBank" style="display: none;">
+                        @Html.TextBoxFor(model => model.ADMIN_BA_ENABLE_DATE, new { @title = "Enter BA Enable Date", @placeholder = "Enter BA Enable Date...", @tabindex = 18 })
+                        @Html.ValidationMessageFor(model => model.ADMIN_BA_ENABLE_DATE)
+                    </td>
+
+                </tr>
+            
+                <tr>
+                    <td></td>
+                    <td>
+                        @Html.Label("Is Remittance Enabled")
+                    </td>
+                    <td id="tdERemittanceEnabled" colspan="3">
+                        @if (Model.EncryptedAdminCode == null)
+                        {
+                            @Html.RadioButtonFor(model => model.ADMIN_EREMITTANCE_ENABLED, "Y", new { @id = "radioRemitYes", @title = "Yes" })
+                            @Html.Label("Yes")
+                            @Html.RadioButtonFor(model => model.ADMIN_EREMITTANCE_ENABLED, "N", new { @id = "radioRemitNo", @checked = "checked", @title = "No" })
+                            @Html.Label("No")
+                          
+                        }
+                        else
+                        {
+                            @Html.RadioButtonFor(model => model.ADMIN_EREMITTANCE_ENABLED, "Y", new { @id = "radioRemitYes", @title = "Yes" })
+                            @Html.Label("Yes")
+                            @Html.RadioButtonFor(model => model.ADMIN_EREMITTANCE_ENABLED, "N", new { @id = "radioRemitNo", @title = "No" })
+                            @Html.Label("No")
+                        }
+                        @Html.ValidationMessageFor(model => model.ADMIN_EREMITTANCE_ENABLED)
+                    </td>
+
+
+                    <td id="tdlblRemit" style="display: none;">
+                        @Html.LabelFor(model => model.ADMIN_EREMIT_ENABLED_DATE, new { @id = "lblRemit" })
+                        <label style="color: red;">*</label>
+                    </td>
+                    <td id="dataRemit" style="display: none;">
+                        @Html.TextBoxFor(model => model.ADMIN_EREMIT_ENABLED_DATE, new { @title = "Enter Remittance Enable Date", @placeholder = "Enter Remittance Enable Date...", @tabindex = 19 })
+                        @Html.ValidationMessageFor(model => model.ADMIN_EREMIT_ENABLED_DATE)
+                    </td>
+
+                </tr>
+                  
+                <tr>
+                    <td></td>
+                    <td>
+                        @Html.Label("Is E-Payment Enabled")
+                    </td>
+                    <td id="tdEPayEnabled" colspan="3">
+                        @if (Model.EncryptedAdminCode == null)
+                        {
+                            @Html.RadioButtonFor(model => model.ADMIN_EPAY_MAIL, "Y", new { @id = "radioEpayYes", @title = "Yes" })
+                            @Html.Label("Yes")
+                            @Html.RadioButtonFor(model => model.ADMIN_EPAY_MAIL, "N", new { @id = "radioEpayNo", @checked = "checked", @title = "No" })
+                            @Html.Label("No")
+                        }
+                        else
+                        {
+                            @Html.RadioButtonFor(model => model.ADMIN_EPAY_MAIL, "Y", new { @id = "radioEpayYes", @title = "Yes" })
+                            @Html.Label("Yes")
+                            @Html.RadioButtonFor(model => model.ADMIN_EPAY_MAIL, "N", new { @id = "radioEpayNo", @title = "No" })
+                            @Html.Label("No")
+                        }
+                        @Html.ValidationMessageFor(model => model.ADMIN_EPAY_MAIL)
+                    </td>
+
+                    <td id="tdlblEpay" style="display: none;">
+                        @Html.LabelFor(model => model.ADMIN_EPAY_ENABLE_DATE, new { @id = "lblEpay" })
+                        <label style="color: red;">*</label>
+                    </td>
+                    <td id="dataEpay" style="display: none;">
+                        @Html.TextBoxFor(model => model.ADMIN_EPAY_ENABLE_DATE, new { @title = "Enter Epay Enable Date", @placeholder = "Enter Epay Enable Date...", @tabindex = 20 })
+                        @Html.ValidationMessageFor(model => model.ADMIN_EPAY_ENABLE_DATE)
+                    </td>
+                </tr>
+                
+                <tr id="rowEpay" style="display: none;">
+                    <td></td>
+
+                    <td>
+                        @Html.LabelFor(model => model.ADMIN_EMAIL_CC, new { @id = "lblEmail" })
+                    </td>
+                    <td>
+                        @Html.TextBoxFor(model => model.ADMIN_EMAIL_CC, new { id = "dataEmail", @title = "Enter Email CC", @placeholder = "Enter Email CC...", @tabindex = 21 })
+                        @Html.ValidationMessageFor(model => model.ADMIN_EMAIL_CC)
+                    </td>
+
+                    <td>
+                        @Html.LabelFor(model => model.ADMIN_PDF_KEY, new { @id = "lblPdf" })
+                    </td>
+                    <td>
+                        @Html.TextBoxFor(model => model.ADMIN_PDF_KEY, new { id = "dataPdf", @maxlength = 10, @title = "Enter PDF Key", @placeholder = "Enter PDF Key...", @tabindex = 22 })
+                        @Html.ValidationMessageFor(model => model.ADMIN_SBD_DATE)
+                    </td>
+                </tr>    
+                        if (Model.EncryptedAdminCode != null)
+                        {
+                <tr>
+                    <td></td>
+                    <td>
+                        @Html.Label("PIU Is Active")
+                    </td>
+                    <td id="tdPiuIsActive" colspan="3">
+
+                        @Html.RadioButtonFor(model => model.PIUActive, "Y", new { @id = "radioPiuIsActiveYes", @title = "Yes" })
+                        @Html.Label("Yes")
+                        @Html.RadioButtonFor(model => model.PIUActive, "N", new { @id = "radioPiuIsActiveNo", @title = "No" })
+                        @Html.Label("No")
+
+                        @Html.ValidationMessageFor(model => model.PIUActive)
+                    </td>
+
+                    <td id="tdlblPiuIsActive" style="display: none;">
+                        @Html.LabelFor(model => model.PIU_Close_DATE, new { @id = "lblPiuIsActive" })
+                        <label style="color: red;">*</label>
+                    </td>
+                    <td id="dataPiuIsActive" style="display: none;">
+                        @Html.TextBoxFor(model => model.PIU_Close_DATE, new { @title = "Enter PIU Close Date", @placeholder = "Enter PIU Close Date...", @tabindex = 24 })
+                        @Html.ValidationMessageFor(model => model.PIU_Close_DATE)
+                    </td>
+                </tr>   
+                        }
+            }
+            <tr>
+                <td></td>
+                <td></td>
+
+                @if (Model.EncryptedAdminCode == null)
+                {   
+                    <td style="text-align: right;">
+                        <input type="button" id="btnSave" name="btnSave" value="Save" class="jqueryButton" title="Save SRRDA Details" tabindex="25" />
+                    </td> 
+                    <td colspan="2">
+                        <input type="reset" id="btnReset" name="btnReset" value="Reset" class="jqueryButton" title="Reset" tabindex="26" /></td> 
+                }
+                else
+                {
+                    <td style="text-align: right;">
+                        <input type="button" id="btnUpdate" name="btnUpdate" value="Update" class="jqueryButton" title="Update SRRDA Details" tabindex="27" />
+                    </td> 
+                    <td colspan="2">
+                        <input type="button" id="btnCancel" name="btnCancel" value="Cancel" class="jqueryButton" title="Cancel" tabindex="28" /></td> 
+                }
+            </tr>
+            <tr>
+                <td colspan="5">
+                    <label style="border: none">
+                        [ Note: Fields marked with<label style="color: red;"> * </label>
+                        are mandatory.]</label>
+                </td>
+            </tr>
+        </table>
+
+    </form>
+</div>

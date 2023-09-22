@@ -1,0 +1,107 @@
+﻿@*
+    * Project Id    :
+    * Project Name  :   OMMAS II
+    * Name          :   QualityFilters.cshtml
+    * Description   :   Render View for QualityTourFilters.
+    * Author        :   Shyam Yadav
+    * Creation Date :   12/Feb/2015
+*@
+
+
+@model PMGSY.Models.QualityMonitoring.QMFilterViewModel
+@{ Layout = null; }
+
+<!DOCTYPE html>
+
+<html>
+<head>
+
+<script src="~/Scripts/QualityMonitoring/QualityTourFilters.js"></script>
+
+</head>
+<body>
+
+     <div style="width: 99%; border:none; margin-top:-15px; margin-bottom:10px;" class="ui-state-default">      
+                <div id="divTourFiltersForm">
+                    <center>
+                        <form id="tourFiltersForm">     
+                            <table style="margin-top:10px; margin-bottom:5px; width:75%">
+                                <tr>
+                                    
+                                    <td style="width:10%;padding-left:25px;">
+                                        @Html.LabelFor(model => model.MAST_STATE_CODE)
+                                    </td>
+                                    <td style="width:10%">
+                                        @*@if(PMGSY.Extensions.PMGSYSession.Current.RoleCode == 5)*@
+                                        @if (PMGSY.Extensions.PMGSYSession.Current.RoleCode == 9 || PMGSY.Extensions.PMGSYSession.Current.RoleCode == 5)
+                                        {
+                                            @Html.DropDownListFor(model => model.MAST_STATE_CODE, new SelectList(Model.STATES, "Value", "Text"), new { @id = "ddlTourState" })
+                                        
+                                        }
+                                        else if (PMGSY.Extensions.PMGSYSession.Current.RoleCode == 8 || PMGSY.Extensions.PMGSYSession.Current.RoleCode == 22 || PMGSY.Extensions.PMGSYSession.Current.RoleCode == 38)
+                                        {
+                                            @Html.HiddenFor(model => model.MAST_STATE_CODE)
+                                            @PMGSY.Extensions.PMGSYSession.Current.StateName
+                                        }
+                                    </td> 
+                                     
+                                    <td style="text-align:right;width:15%;padding-right:20px;">
+                                        Schedule From : 
+                                    </td>
+                                    <td style="width:10%;padding-left:25px;">
+                                        @Html.LabelFor(model => model.FROM_MONTH)
+                                    </td>
+                                    <td style="width:10%">
+                                        @Html.DropDownListFor(model => model.FROM_MONTH, new SelectList(Model.FROM_MONTHS_LIST, "Value", "Text"), new { @id = "ddlTourFrmMonth"})
+                                    </td>
+                                    <td style="width:10%;padding-left:25px;">
+                                        @Html.LabelFor(model => model.FROM_YEAR)
+                                    </td>
+                                    <td style="width:10%">
+                                        @Html.DropDownListFor(model => model.FROM_YEAR, new SelectList(Model.FROM_YEARS_LIST, "Value", "Text"), new { @id = "ddlTourFrmYear"} )
+                                    </td>
+                                 </tr>
+                                 <tr>
+                                       <td style="width:10%;padding-left:25px;">
+                                            @Html.LabelFor(model => model.ADMIN_QM_CODE)
+                                       </td>
+                                       <td style="width:20%">
+                                            <div class="ui-widget">
+                                                @*@Html.TextBoxFor(model => model.ADMIN_QM_CODE)*@
+                                                @Html.DropDownListFor(model => model.ADMIN_QM_CODE, new SelectList(Model.MONITORS, "Value", "Text"), new { @id = "ddlTourMonitorId"})
+                                                @Html.ValidationMessageFor(model => model.ADMIN_QM_CODE)
+                                            </div>
+                                       </td>
+                                        <td style="text-align:right;width:15%;padding-right:20px;">
+                                        Schedule To : 
+                                        </td>
+                                        <td style="width:10%;padding-left:25px;">
+                                            @Html.LabelFor(model => model.TO_MONTH)
+                                        </td>
+                                        <td style="width:10%">
+                                            @Html.DropDownListFor(model => model.TO_MONTH, new SelectList(Model.TO_MONTHS_LIST, "Value", "Text"), new { @id = "ddlTourToMonth"})
+                                        </td>
+                                        <td style="width:10%;padding-left:25px;">
+                                            @Html.LabelFor(model => model.TO_YEAR)
+                                        </td>
+                                        <td style="width:10%">
+                                            @Html.DropDownListFor(model => model.TO_YEAR, new SelectList(Model.TO_YEARS_LIST, "Value", "Text"), new { @id = "ddlTourToYear" })
+                                        </td>
+                                 </tr>
+                                  <tr>
+                                    <td colspan="8" style="text-align:center;">
+                                        <input type="button" class="jqueryButton" value="View Details" id="btnViewTourDetails" name ="btnViewTourDetails"/>
+                                    </td>
+                                 </tr>                            
+                            </table>
+                        </form>  
+                    </center>
+            </div>
+        </div>
+
+         <div>
+            <table id="tbTourList"></table>
+            <div id="dvTourListPager"></div>
+        </div> 
+</body>
+</html>

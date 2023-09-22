@@ -1,0 +1,10 @@
+﻿@using MvcReportViewer
+
+@model PMGSY.Areas.QMSSRSReports.Models.QualityReportsViewModel
+
+    @Html.MvcReportViewer("/PMGSYCitizen/HabitationCoverageUnderPMGSY",
+     new
+     {
+                
+     },
+       new { Height = 600, Width = "100%", style = "border:none;" })

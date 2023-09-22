@@ -1,0 +1,87 @@
+﻿@model PMGSY.Models.Proposal.ProposalFilterViewModel   
+<script src="~/Scripts/custom/Generic.js"></script>
+<script src="~/Scripts/jquery.ui.accordion.js"></script>
+<script src="~/Scripts/StaPay/ListStaPaymentInovice.js"></script>
+<center>    
+    <div style="width:98%; height:25px;border:none; margin-top:5px;"  class="ui-corner-top ui-widget-header panelheader" @*class="ui-state-default"*@>
+        <span class="ui-jqgrid-title" style="float: left">&nbsp;STA Payment</span>
+        <span style="float:right;margin-right:2Px; margin-top:2px" id="idFilterDiv" class="ui-icon ui-icon-circle-triangle-n"></span>     
+    </div>
+   
+    <div style="width: 98%; border:none; margin-top:-15px; margin-bottom:10px;" class="ui-state-default">      
+        <div id="divFilterForm">
+            <center>
+                <form id="FilterForm"> 
+                    <table style="margin-top:10px; margin-bottom:5px">
+                        <tr>
+                            <td>
+                                @Html.LabelFor(model => model.MAST_STATE_CODE)
+                                <span style="color:red">*</span>            
+                            </td>
+                            <td>
+                                @Html.DropDownListFor(model => model.MAST_STATE_CODE, new SelectList(Model.STATES, "Value", "Text"), new { @id = "ddlState" })
+                            </td>
+                            <td>
+                                @Html.LabelFor(model => model.IMS_YEAR)
+                                <span style="color:red">*</span>   
+                            </td>
+                            <td>                            
+                                @Html.DropDownListFor(model => model.IMS_YEAR, new SelectList(Model.Years, "Value", "Text"), new { @id = "ddlImsYear" ,@style="width:100px"})
+                            </td>
+                            <td>
+                                @Html.LabelFor(model => model.IMS_BATCH)
+                                <span style="color:red">*</span>   
+                            </td>
+                            <td>
+                                @Html.DropDownListFor(model => model.IMS_BATCH, new SelectList(Model.BATCHS, "Value", "Text"), new { @id = "ddlImsBatch" ,@style="width:100px"})
+                            </td>
+                            <td>
+                                @Html.LabelFor(model => model.IMS_COLLABORATION)
+                                <span style="color:red">*</span>   
+                            </td>
+                            <td>
+                                @Html.DropDownListFor(model => model.IMS_COLLABORATION, new SelectList(Model.COLLABORATIONS, "Value", "Text"), new { @id = "ddlImsStreams"})
+                            </td>
+                            <td>
+                                @Html.LabelFor(model => model.IMS_PROPOSAL_TYPE)
+                                <span style="color:red">*</span>   
+                            </td>
+                            <td>
+                                @Html.DropDownListFor(model => model.IMS_PROPOSAL_TYPE, new SelectList(Model.PROPOSAL_TYPES, "Value", "Text"), new { @id = "ddlImsProposalTypes",@style="width:100px" })
+                            </td>
+                            <td>
+                                @Html.LabelFor(model => model.PMGSY_SCHEME)
+                                <span style="color:red">*</span>   
+                            </td>
+                            <td>
+                                @Html.DropDownListFor(model => model.PMGSY_SCHEME, new SelectList(Model.SCHEMELIST, "Value", "Text"), new { @id = "ddlImsProposalSchemes",@style="width:120px"  })
+                            </td>
+                        </tr>
+                    </table>                                        
+                    <table style="">
+                        <tr>
+                            <td>
+                                <input type="button" class="jqueryButton" value="Go" id="btnGo" name ="btnGo"/>
+                            </td>
+                        </tr>
+                    </table>  
+                </form>
+            </center>
+        </div>
+   </div>
+    <br />
+    <div style="margin-top: 0px;width:98%;margin-right:5px;">
+    <table id="tbStaInvoiceList"></table>
+    <div id="dvStaInvoicePager"></div>
+</div>
+    <div id="accordion" style="display:none;width:96%;margin-top:20px;margin-bottom:20px" >
+    <h3 style="text-align:left"><a id="" href="#" style=" font-size:.9em;" >STAPayment Details</a>
+                <a href="#"  style="float: right;">
+                    <img src="" class="ui-icon ui-icon-closethick" onclick="ClosePaymentDetails();" /></a>
+            </h3>
+    <div id="divAddSTAPayment" style="display:none">
+
+    </div>
+</div>
+
+</center>

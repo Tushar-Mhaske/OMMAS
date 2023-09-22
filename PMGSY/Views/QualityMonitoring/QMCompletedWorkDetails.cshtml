@@ -1,0 +1,106 @@
+﻿@*
+    * Project Id    :
+    * Project Name  :   OMMAS II
+    * Name          :   QMCompletedWorkDetails.cshtml
+    * Description   :   Renders Completed Work Details
+    * Author        :   Shyam Yadav
+    * Creation Date :   01/August/2014
+*@
+
+@model PMGSY.Models.QualityMonitoring.QMCompletedWorkModel
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html>
+@*<head>
+    <script src="~/Scripts/QualityMonitoring/QMCommencedWorkDetails.js"></script>
+</head>*@
+<body>
+    <div class="ui-state-default" style="text-align:center;font-weight:bold;padding:8px;">
+       Completed Works
+    </div>
+    <div id="divCompletedWorksTbl" class="dataTable" style="width:100%;">
+        <table class="head">
+           <tr>
+               <th style="width:30px;"> Sr. No.</th>
+               <th style="width:100px;"> State </th>
+               <th style="width:100px;"> Package </th>
+               <th style="width:200px;"> Work Name </th>
+               <th style="width:100px;"> Completed Date </th>
+               <th style="width:100px;"> SQM Inspection Date after Completion </th>
+               <th style="width:100px;"> NQM Inspection Date after Completion </th>
+               <th style="width:100px;"> No of SQM Inspection During Construction </th>
+               <th style="width:100px;"> No of NQM Inspection During Construction </th>
+               <th style="width:19px;"></th>
+        </tr>
+      </table>
+        <div class="innerTable" style="height: 580px;">
+         <table style="width:99.5%;">
+            @{
+                var srNo = 1;
+             }
+
+            @if (Model.ERROR != null)
+            {
+                 <tr>
+                    <td colspan="10" style="color:#FF0000;">
+                        @Model.ERROR
+                    </td>
+                </tr>
+            }
+            else if (Model.WORK_LIST != null && Model.WORK_LIST.Count > 0)
+            {
+                foreach (var item in Model.WORK_LIST)
+                {
+                        <tr>
+                            <td style="width:30px;text-align:center;">@srNo</td>
+                            <td style="width:100px;">@item.MAST_STATE_NAME</td>
+                            <td style="width:100px;">@item.IMS_PACKAGE_ID</td>
+                            <td style="width:200px;">@item.IMS_ROAD_NAME</td>
+                            <td style="width:100px;">@item.EXEC_COMPLETION_DATE</td>
+                            <td style="width:100px;">@item.SQM_DATE_AFTER</td>
+                            <td style="width:100px;">@item.NQM_DATE_AFTER</td>
+                            @if (item.SQM_PROGRESS_CNT > 0)
+                            {
+                                <td style="width:100px;">
+                                    <a href="#" title="Click to see details" style="text-decoration:none;color:#003e74;" onclick="showInspDetails(@item.IMS_PR_ROAD_CODE, 'S')" >@item.SQM_PROGRESS_CNT</a>
+                                </td>
+                            }
+                            else
+                            {
+                                <td style="width:100px;">@item.SQM_PROGRESS_CNT</td>
+                            }
+                            
+                            @if (item.NQM_PROGRESS_CNT > 0)
+                            {
+                                <td style="width:100px;">
+                                    <a href="#" title="Click to see details" style="text-decoration:none;color:#003e74;" onclick="showInspDetails(@item.IMS_PR_ROAD_CODE, 'I')" >@item.NQM_PROGRESS_CNT</a>
+                                </td>
+                            }
+                            else
+                            {
+                                <td style="width:100px;">@item.NQM_PROGRESS_CNT</td>
+                            }
+                        </tr>
+                        srNo++;
+                }
+            }
+            else
+            {
+                <tr>
+                    <td colspan="10">
+                        No records found
+                    </td>
+                </tr>
+            }
+        </table>
+        </div>
+    </div>
+
+<div id="divCompletedInspDetailsHeader" class="ui-corner-top" style="margin-top:5px;height:20px;width:100%;display:none;border:1px solid #CCC;">
+    <span id="lblCompletedInspDetailsHeader" style="float:left;padding:2px 5px;font-weight:bold;"></span>
+    <img  style="float:right;border:none;border-width:0;margin-top:2px;margin-right:2px;cursor:pointer;" title="Close" class="ui-icon ui-icon-closethick" onclick="CloseCompletedInspDetails();" />
+</div>
+<div id="divCompletedInspDetails" style="display:none;width:100%;"></div>
+
+</body>
+</html>

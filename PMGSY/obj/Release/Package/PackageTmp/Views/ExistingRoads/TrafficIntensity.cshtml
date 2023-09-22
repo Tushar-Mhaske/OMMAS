@@ -1,0 +1,111 @@
+﻿@model PMGSY.Models.ExistingRoads.TrafficViewModel
+
+
+<script src="~/Scripts/custom/Generic.js"></script>
+<script src="~/Scripts/ExistingRoads/Traffic.js"></script>  
+<center>
+
+     <div style="height:20px; width: 86%; text-align:left; padding-top: 0.6em;" class="ui-state-default ui-corner-all" > 
+                   &nbsp; 
+                   <strong> @Html.LabelFor(model=>model.RoadNumber) :</strong> @Html.DisplayFor(model => model.RoadNumber)&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;&nbsp; &nbsp;
+                   <strong> @Html.LabelFor(model=> model.RoadName) :</strong> @Html.DisplayFor(model => model.RoadName)                
+     </div>
+    <div id="divTraffic" style="width:86%">
+        <table id="tbTraffic" ></table>
+        <div id="dvTrafficPager"></div>
+    </div>
+
+    <br />
+
+
+    <div id="divTrafficIntensity">
+        <form id="frmTrafficIntensity">
+        @Html.HiddenFor(model => model.MAST_ER_ROAD_CODE)
+        @Html.HiddenFor(model => model.EncryptedErRoadCode)
+        @Html.HiddenFor(model => model.Operation)
+
+
+        
+    @*    <table class="rowstyle" style="border:1px solid black; width:75%">
+     *@     
+
+
+            <div id="divError" class="ui-state-error ui-corner-all" style="text-align: left; display: none; width: 86%">
+                <span class="ui-icon ui-icon-alert" style="float: left;"></span>                   
+                <span></span>
+         </div>
+            
+          <div style="height:20px; width: 86%; text-align:left; padding-top: 0.6em;" class="ui-state-default ui-corner-all" > 
+                   &nbsp; <strong> Note :</strong>  Fields marked with * are mandatory.
+         </div>
+           <table id="Table1"  cellspacing="0" cellpadding="3" class="rowstyle" style="margin-top:0px; text-align:left; border:ridge 0.1em #ccc; width:86%; padding-top:5px; padding-left:5px; padding-right:5px; padding-bottom:5px;">
+
+               @*new {@title="Select the Category of Road",@tabindex=1}*@
+            <tr>
+                <td>
+                    @Html.LabelFor(model=> model.MAST_TI_YEAR)<span style="color:red">*</span>
+                </td>
+                <td>
+                  @Html.DropDownListFor(model => model.MAST_TI_YEAR, ViewData["MAST_IT_YEAR"] as IEnumerable<SelectListItem>,new {@title="Please Select Year",@tabindex=1})
+                     </td>
+                <td>
+                    @Html.LabelFor(model => model.MAST_TOTAL_TI)<span style="color:red">*</span>
+                </td>
+                <td>
+
+                    @if(Model.Operation=="A")
+                    {
+                    @Html.TextBoxFor(model => model.MAST_TOTAL_TI, new { @maxlength="8",@title="Enter Total Motarised Traffic/Day",@tabindex=2,@Value="",@placeholder="Enter Total Motarised Traffic/Day"})
+                    }
+                    else
+                    {
+                    @Html.TextBoxFor(model => model.MAST_TOTAL_TI, new { @maxlength="8",@title="Enter Total Motarised Traffic/Day",@tabindex=2,@placeholder="Enter Total Motarised Traffic/Day"})
+                    }
+                </td>
+                <td>
+                    @Html.LabelFor(model => model.MAST_COMM_TI)<span style="color:red">*</span>
+                </td>
+                <td>
+                    @if(Model.Operation=="A")
+                    {
+                    @Html.TextBoxFor(model=> model.MAST_COMM_TI ,new { @maxlength="8",@title="Enter Commercial Vehicle Traffic/Day",@tabindex=3,@Value="",@placeholder="Enter Commercial Vehicle Traffic/Day"})
+                    }else{
+                    @Html.TextBoxFor(model=> model.MAST_COMM_TI ,new { @maxlength="8",@title="Enter Commercial Vehicle Traffic/Day",@tabindex=3,@placeholder="Enter Commercial Vehicle Traffic/Day"})
+                    }
+                </td>
+            </tr>  
+            <tr>
+                <td colspan="2" style="text-align:center">
+                    @Html.ValidationMessageFor(model => model.MAST_TI_YEAR)
+                </td>
+                <td colspan="2" style="text-align:center">
+                    @Html.ValidationMessageFor(model => model.MAST_TOTAL_TI, "", new { id="MotarisedTraffic"}) 
+                </td>
+                <td colspan="2" style="text-align:center">
+                    @Html.ValidationMessageFor(model => model.MAST_COMM_TI,"",new { id="CommercialTraffic"})
+                </td>
+            </tr>   
+             
+            <tr id="rowAdd">
+                <td colspan="6" style="text-align:center">
+                    <input type="button" value="Save" class="jqueryButton" id="btnSave" name="btnSave" title="Save Traffic Intensity Details" tabindex="4"/>
+                    <input type="button" value="Reset" class="jqueryButton" id="btnReset" name="btnReset"  title="Reset" tabindex="5"/>
+                </td>            
+            </tr>
+            <tr id="rowUpdate" style="display:none">
+                <td colspan="6" style="text-align:center">
+                   <input type="button" value="Update" class="jqueryButton" id="btnUpdate" name="btnUpdate" title="Update Traffic Intensity Details" tabindex="4"/>
+                   <input type="button" value="Cancel" class="jqueryButton" id="btnCancel" name="btnCancel"  title="Cancel" tabindex="5"/>
+                </td>            
+            </tr>
+
+        </table>
+        </form>
+    </div>
+
+        
+
+</center>
+
+
+

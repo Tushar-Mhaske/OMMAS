@@ -1,0 +1,71 @@
+﻿@{
+    ViewBag.Title = "Switch Login";
+}
+
+@model PMGSY.Areas.Accountant.Models.ACCModel
+ 
+@{ 
+    Layout = Request.IsAjaxRequest() ? null : "~/Views/Accountant/_Layout.cshtml";
+}
+
+ <script src="~/Scripts/Accountant/Acc_ListUsers.js"></script>
+<style>
+    .Acccentergrid > .ui-jqgrid {
+        margin-left: auto;
+        margin-right: auto;
+    }
+</style>
+
+<div class="ui-widget-header innerDivHeader" style="margin-bottom: 5px; width: 99%;text-align:left; height:21px; ">&nbsp;&#160;User List</div>
+ 
+<center>
+
+<form id="frmAccountant">
+    @Html.ValidationSummary(true)
+ 
+<div >
+<table class="table-content ui-state-default ui-corner-all " style="width: 99%; border: .1em solid gray;height:50px;"  id="tblViewDetails">
+        <tr>
+            <td style="width:2%"></td>
+               <td style="text-align:right;width:8%">
+                     @Html.LabelFor(model => model.RoleCode):
+                </td>
+                <td style="width:15%"> 
+                    @Html.DropDownListFor(model => model.RoleCode,Model.RoleList, new { @id = "lstRole", @title = "Role" })<br />
+                      @Html.ValidationMessageFor(model => model.RoleCode)
+                 </td>
+                 <td   style="text-align:right;width:8%"> 
+                  @Html.LabelFor(model => model.SRRDA):
+                 </td>            
+                <td style="width:15%">
+                     @Html.DropDownListFor(model => model.SRRDA,  Model.SRRDAList, new { @id = "lstSRRDA", @title = "SRRDA"})
+                </td>
+                
+                <td style="width:8%;text-align:right" >
+                     @Html.LabelFor(model => model.DPIU):
+                </td>
+                <td style="width:15%">
+                    @Html.DropDownListFor(model => model.DPIU, Model.DPIUList, new { @id = "lstDPIU", @title = "DPIU" }) <br />
+                    @Html.ValidationMessageFor(m => m.DPIU)
+
+                </td>
+                <td style="width:5%"><input type="button" id="btnAccView" value="View Details" class="jqueryButton" title="View Details"></td>        
+            </tr>
+         
+</table>
+
+</div>
+</form>
+</center>
+
+<div style="margin-top: 2%">
+    <div class="Acccentergrid" style="width:100%">
+        <table id="AccUserTable" class="scroll">
+        </table>
+        <div id="AccUserPager"></div>
+    </div>
+</div>
+
+
+
+

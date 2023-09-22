@@ -1,0 +1,17 @@
+﻿@using MvcReportViewer
+
+@model PMGSY.Areas.GPSVTSInstallationDetails.Models.GPSVTSReportModel
+
+
+@Html.MvcReportViewer("/PMGSYCitizen/GPSVTSReport",
+         new
+         {
+             STATECODE = Model.StateCode,
+             DISTCODE = Model.DistrictCode,
+             BLOCKCODE = Model.BlockCode,
+             YEAR = Model.Sanction_Year,
+             BATCH = Model.Batch,
+             SCHEME = Model.Scheme
+
+         },
+     new { Height = 700, Width = "100%", style = "border:none;" })

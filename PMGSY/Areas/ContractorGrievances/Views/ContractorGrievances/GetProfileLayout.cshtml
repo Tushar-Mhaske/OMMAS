@@ -1,0 +1,155 @@
+﻿@{
+    ViewBag.Title = "GetProfileLayout";
+}
+@model PMGSY.Areas.ContractorGrievances.Models.ContractorGrievancesViewModel
+
+<script src="~/Scripts/custom/Generic.js"></script>
+<script src="~/Areas/ContractorGrievances/Scripts/GetProfileLayout.js"></script>
+<div id="dvhdContractorProfileLayout" class="ui-corner-top ui-widget-header panelheader" style="text-align: left; height: 20px;width:800px;margin:auto;">
+    <span class="ui-jqgrid-title" style="float: left;font-size:1.3em;">&nbsp;Update Contractor Profile</span>
+</div>
+<div id="dvContractorProfileLayout" class="ui-corner-bottom" style="display: block; border: 1px solid #B5B8C8;width:800px;margin:auto;">
+
+ <div id="dvErrorMessage" class="ui-widget ui-state-error ui-corner-all" style="padding: 0.7em .7em; display: none; margin: 5px 5px 5px 5px; text-align: left">
+    <span class="ui-icon ui-icon-alert" style="float: left; margin-right: .3em; text-align: left"></span>
+    <strong>Alert:</strong> <span id="errmessage"></span>
+</div>
+    <form id="frmContractorProfileLayout">
+        @Html.ValidationSummary(true)
+        @Html.AntiForgeryToken()
+
+        <table style="margin-top: 0px; margin-bottom: 0px; width: 100%;" class="rowstyle">
+            <tr style="height:40px;font-size:1.2em;">
+                <td style="width: 5%"></td>
+                <td style="width: 10%;">
+                    <label style="color: red;">*</label><strong>@Html.Label("Firm Name :")</strong>
+                </td>
+                <td style="width: 10%;">@Html.DisplayFor(model => model.CON_FIRM_NAME)</td>
+                 <td style="width: 5%"></td>
+           </tr>
+            @*@if(Model.CON_MIDDLE_NAME != null){
+            <tr  style="height:40px;font-size:1.2em;">
+                <td style="width: 5%"></td>
+                <td style="width: 10%;">
+                     <strong>@Html.Label("Middle Name :")</strong>
+                </td>
+                <td style="width: 10%;">@Html.DisplayFor(model => model.CON_MIDDLE_NAME)</td>
+                 <td style="width: 5%"></td>
+            </tr>
+            }
+            <tr style="height:40px;font-size:1.2em;">
+                <td style="width: 5%"></td>
+                <td style="width: 10%;">
+                     <label style="color: red;">*</label><strong>@Html.Label("Last Name :")</strong>
+                </td>
+                <td style="width: 10%;">@Html.DisplayFor(model => model.CON_LAST_NAME)</td>
+                 <td style="width: 5%"></td>
+            </tr>*@
+            <tr style="height:40px;font-size:1.2em;">
+                <td style="width: 5%"></td>
+                <td style="width: 10%;">
+                     <label style="color: red;">*</label><strong>@Html.Label("Mobile No :")</strong> 
+                </td>
+                 <td style="width: 10%;">@Html.DisplayFor(model => model.MOBILE_NO)</td>
+                  <td style="width: 5%"></td>
+            </tr>
+            <tr style="height:40px;font-size:1.2em;">
+                <td style="width: 5%"></td>
+                <td style="width: 10%;">
+                    <label style="color: red;">*</label><strong>@Html.Label("Email Id :")</strong>
+                </td>
+                <td style="width: 10%;">@Html.DisplayFor(model => model.EMAIL_ID)</td>
+                 <td style="width: 5%"></td>
+            </tr>
+            <tr style="height:40px;font-size:1.2em;">
+                <td style="width: 5%"></td>
+                <td style="width: 10%;">
+                   <label style="color: red;">*</label><strong>@Html.Label("PAN No :")</strong>
+                </td>
+                <td style="width: 10%;">@Html.DisplayFor(model => model.PAN_NO)</td>
+                 <td style="width: 5%"></td>
+            </tr>
+            <tr style="height:40px;font-size:1.2em;">
+                <td style="width: 5%"></td>
+                <td style="width: 10%;">
+                     <label style="color: red;">*</label><strong>@Html.Label("Bank Name :")</strong> 
+                </td>
+                <td style="width: 10%;">
+                     @Html.DropDownListFor(model => model.BANK_NAME, new SelectList(Model.lstBankNames, "Value", "Text"), new { @id = "ddlBankName", @tabindex = 3 })
+                    <br />
+                    @Html.ValidationMessageFor(m => m.BANK_NAME)
+                </td>
+              
+                <td style="width: 5%"></td>
+            </tr>
+            <tr style="height:40px;font-size:1.2em;">
+                <td style="width: 5%"></td>
+                <td style="width: 10%;">
+                    <label style="color: red;">*</label><strong>@Html.Label("Branch Name :") </strong>
+                </td>
+                 @if (Model.BRANCH_NAME == null)
+              {
+                <td style="width: 10%;">
+                    @Html.TextBoxFor(m => m.BRANCH_NAME, new { @id = "txtBranchName", @maxlength = "50", placeholder = "Enter Branch Name", @style = "width:300px;", @tabindex = 3 })
+                    <br />
+                    @Html.ValidationMessageFor(m => m.BRANCH_NAME)
+                </td>
+                 }
+                else{
+                     <td style="width: 10%;font-size:1.2em;">@Html.TextBoxFor(model => model.BRANCH_NAME)</td>
+                 }
+                <td style="width: 5%"></td>
+            </tr>
+            <tr style="height:40px;font-size:1.2em;">
+                <td style="width: 5%"></td>
+                <td style="width: 10%;">
+                     <label style="color: red;">*</label><strong>@Html.Label("IFSC Code :") </strong> 
+                </td>
+                @if (Model.IFSC_CODE == null)
+              {
+                <td style="width: 10%;">
+                    @Html.TextBoxFor(m => m.IFSC_CODE, new { @id = "txtIFSCcode", @maxlength = "50", placeholder = "Enter IFSC Code", @style = "width:300px;", @tabindex = 3 })
+                    <br />
+                    @Html.ValidationMessageFor(m => m.IFSC_CODE)
+                </td>
+                }
+                else{
+                      <td style="width: 10%;font-size:1.2em;">@Html.TextBoxFor(model => model.IFSC_CODE)</td>
+                }
+                <td style="width: 5%"></td>
+            </tr>
+            <tr style="height:40px;font-size:1.2em;">
+                <td style="width: 5%"></td>
+                <td style="width: 10%;">
+                     <label style="color: red;">*</label><strong>@Html.Label("Bank Account No :") </strong>  
+                </td>
+                 @if (Model.IFSC_CODE == null)
+              {
+                <td style="width: 10%;">
+                    @Html.TextBoxFor(m => m.BANK_ACCOUNT_NO, new { @id = "txtAccountNo", @maxlength = "50", placeholder = "Enter Account No.", @style = "width:300px;", @tabindex = 3 })
+                    <br />
+                    @Html.ValidationMessageFor(m => m.BANK_ACCOUNT_NO)
+                </td>
+                 }
+                else{
+                      <td style="width: 10%;font-size:1.2em;">@Html.TextBoxFor(model => model.BANK_ACCOUNT_NO)</td>
+                 }
+                <td style="width: 5%"></td>
+            </tr>
+            <tr style="height:40px;font-size:1.2em;">
+                 <td style="width: 5%"></td>              
+                <td style =" text-align:right;">
+                    <input type="button" class="jqueryButton" value="Update" title="Update" id="btnUpdate" name="btnUpdate" tabindex="3" />                
+                </td>
+                <td style=" text-align:left;">
+                      <input type="reset" value="Reset" id="btnReset" class="jqueryButton" title="Reset" />
+                </td>
+                 <td style="text-align:center;font-size:0.8em;width: 5%">
+                     <span><strong>[Note : Fields marked with <label style="color: red;">*</label> are mandatory]</strong></span>
+                </td>
+            </tr>
+           
+        </table>
+    </form>
+</div>
+

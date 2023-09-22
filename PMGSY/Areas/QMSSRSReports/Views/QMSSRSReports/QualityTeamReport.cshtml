@@ -1,0 +1,40 @@
+﻿@using MvcReportViewer
+    <script>
+        function sendLetter(teamId)
+        {
+            $.ajax({
+                url: '/QualityMonitoring/SendLetterToTeam/',
+                type: 'POST',
+                data: { teamCode: teamId, value: Math.random() },
+                success: function (response) {
+                    if (response.Success) {
+                        if (response.Uploaded) {
+                            window.open(response.Path, "_blank");
+                        }
+                        else {
+                            LoadReport();
+                        }
+                    }
+                    else {
+                        alert(response.Message);
+                    }
+                },
+                error: function (xhr, ajaxOptions, thrownError) {
+                    alert(xhr.status);
+                    alert(thrownError);
+                }
+            });
+        }
+    </script>
+     @Html.Hidden("hdnYear", new { ViewBag.syear })
+     @Html.Hidden("hdnMonth", new { ViewBag.smonth })
+
+     @Html.MvcReportViewer("/PMGSYCitizen/QM_NQM_Team_Create",
+     new
+     {
+         SYEAR = ViewBag.syear,
+         SMONTH= ViewBag.smonth
+
+     },
+       new { Height = 600, Width = "100%", style = "border:none;" })
+

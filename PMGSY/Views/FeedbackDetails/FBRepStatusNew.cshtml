@@ -1,0 +1,150 @@
+﻿@model PMGSY.Models.Feedback.FBRepStatusNew
+@{
+    ViewBag.Title = "FBRepStatus";
+}
+
+
+
+<script src="~/Scripts/custom/Generic.js"></script>
+<script src="~/Scripts/Feedback/FBRepStatusNew.js"></script>
+
+<div id="dvViewFBMain">
+
+    <form id="frmFBRepStatus" style="display: none">
+        @Html.AntiForgeryToken()
+        @Html.ValidationSummary(true)
+        @Html.HiddenFor(m => m.RoleCode)
+        <div id="divRepStatus" style="width: 95%; padding: 10px 0px 5px 0px;">
+            <table id="tbFBRepStatusJqGrid"></table>
+            <div id="divFBRepStatusPager"></div>
+
+        </div>
+
+
+    </form>
+
+    @if (Model.hdnappr.Trim() == "Y")
+    {
+
+        {
+            <div id="divFBRepStatus" style="width: 99%; padding: 10px 0px 5px 0px;">
+                <table id="tbFBReplyStatusJqGrid" style="width: 99%"></table>
+                <div id="divFBRepStatusReportPager" style="width: 99%"></div>
+            </div>
+            if (
+                !(Model.hdnstate.Trim() != "" && Model.hdndist.Trim() != "" && Model.hdnblock.Trim() != "" && (PMGSY.Extensions.PMGSYSession.Current.RoleCode == 25 || PMGSY.Extensions.PMGSYSession.Current.RoleCode == 5))
+                && Model.hdRepStatus != "F"
+
+
+                )
+            {
+                if (!(PMGSY.Extensions.PMGSYSession.Current.RoleCode == 8 && Model.hdRole == 22 && Model.hdRepStatus.Trim() == "F"))
+                {
+                    <table>
+                        <tr>
+                            <td colspan="2">
+                                @if (PMGSY.Extensions.PMGSYSession.Current.RoleCode == 22 || PMGSY.Extensions.PMGSYSession.Current.RoleCode == 38 || PMGSY.Extensions.PMGSYSession.Current.RoleCode == 54)
+                                {
+                                    if (Model.isFinalReplyByPIU.Equals("Y"))
+                                    {
+                                    }
+                                    else
+                                    {
+
+                                        <input type="button" id="btnAdd" value="Add Reply ( PIU )" title="Add" class="jqueryButton" />
+                                    }
+
+
+                                }
+
+                                @*
+                                       @if (PMGSY.Extensions.PMGSYSession.Current.RoleCode == 8)
+                                    {
+                                        <input type="button" id="btnAddSQC" value="Add Reply ( SQC )" title="Add" class="jqueryButton" />
+                                    }*@
+
+                            </td>
+                        </tr>
+                    </table>
+                }
+            }
+            else
+            {
+                <table class="rowstyle">
+                    <tr>
+                        <td colspan="5">
+                            @if ((PMGSY.Extensions.PMGSYSession.Current.RoleCode == 8 || PMGSY.Extensions.PMGSYSession.Current.RoleCode == 25) &&
+                                    (Model.hdRole == 22 || Model.hdRole == 38 || Model.hdRole == 54) && Model.hdRepStatus.Trim() == "F")
+                            {
+                                @Html.Label("Final Reply is under review by SQC", new { @id = "Review" })
+                            }
+                            else if (Model.hdRepStatus == "F")
+                            {
+                                @Html.Label("Thank you for Viewing Feedback, the queries regarding this feedback are solved and this feedback is closed", new { @id = "Closed" })
+                            }
+                            else if (Model.hdnStateCode > 0 && Model.hdnDistrictCode > 0)
+                            {
+                                @Html.Label("The action against this feedback should be taken by respective SQC/PIU")
+                            }
+                        </td>
+                    </tr>
+                </table>
+            }
+            <div id="dvReplyStatus" style="display: none; width: 99%;">
+            </div>
+        }
+
+    }
+    else
+    {
+        <table class="rowstyle">
+            <tr>
+                <td style="width: 5%;"></td>
+                <td style="width: 25%;">
+                    <strong>
+                        @if (Model.RepStat == "F")
+                        {
+                            @Html.Label("Feedback not accepted on date : " + Model.fbapprDate)
+                        }
+                        else if (PMGSY.Extensions.PMGSYSession.Current.RoleCode == 8 && Model.IS_PMGSY_ROAD && Model.hdnDistrictCode > 0)
+                        {
+                            @Html.Label("Please accept the feedback")
+                        }
+                        else if ((PMGSY.Extensions.PMGSYSession.Current.RoleCode == 22 || PMGSY.Extensions.PMGSYSession.Current.RoleCode == 38 || PMGSY.Extensions.PMGSYSession.Current.RoleCode == 54) && Model.IS_PMGSY_ROAD && Model.hdnDistrictCode > 0)
+                        {
+                            @Html.Label("Feedback has to be accepted by SQC")
+                        }
+                        else if (PMGSY.Extensions.PMGSYSession.Current.RoleCode == 25 || PMGSY.Extensions.PMGSYSession.Current.RoleCode == 5)
+                        {
+                            if (Model.IS_PMGSY_ROAD && Model.hdnDistrictCode > 0)
+                            {
+                                @Html.Label("Feedback has to be accepted by SQC")
+                            }
+                            else
+                            {
+                                @Html.Label("Please accept the feedback")
+                            }
+                        }
+                        else
+                        {
+                            @Html.Label("The feedback has to be accepted by MORD")
+                        }
+                    </strong>
+                </td>
+                <td style="width: 5%;"></td>
+                <td style="width: 15%;"></td>
+            </tr>
+        </table>
+    }
+</div>
+
+<div id="accordion1" style="display: none; margin-top: 20px;">
+    <h4 style="text-align: left">
+        <a id="" href="#" style="font-size: .9em;"></a>
+        <a href="#" style="float: right;">
+            <img style="border: none; display: none" alt="Close" class="ui-icon ui-icon-closethick" id="imgCloseAgreementDetails1" />
+        </a>
+    </h4>
+    <div id="dvAddMaintenanceAgreementAgainstRoad1" style="display: none"></div>
+
+</div>

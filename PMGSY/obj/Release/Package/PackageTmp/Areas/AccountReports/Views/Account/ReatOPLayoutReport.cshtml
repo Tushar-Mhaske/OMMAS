@@ -1,0 +1,14 @@
+﻿@using MvcReportViewer
+
+@model PMGSY.Areas.AccountReports.Models.QualityReportsViewModel
+
+@Html.MvcReportViewer("/PMGSYCitizen/REAT_OB_Details",
+     new
+     {
+         //state = Model.State,
+         //StateName = Model.StateName,
+           NdCode= Model.Agency,
+           FundType = Model.fundType
+
+     },
+       new { Height = 600, Width = "100%", style = "border:none;" })

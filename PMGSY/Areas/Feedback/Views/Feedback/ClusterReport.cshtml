@@ -1,0 +1,14 @@
+﻿@using MvcReportViewer
+
+@model PMGSY.Areas.Feedback.Models.ClusterViewModel
+
+@Html.MvcReportViewer("/PMGSYCitizen/Cluster_Report",
+     new
+     {
+         Level = Model.level,
+         State = Model.stateCode,
+         District = Model.districtCode,
+         PMGSY = PMGSY.Extensions.PMGSYSession.Current.PMGSYScheme,
+     },
+     new { Height = 600, Width = "100%", style = "border:none;" })
+

@@ -1,0 +1,16 @@
+﻿@model PMGSY.Models.LoginRoleModel
+
+<link href="~/Content/Login/Login.css" rel="stylesheet" />
+<script src="~/Scripts/jquery.ui.dialog.js"></script>
+<script src="~/Scripts/Login/RoleLogin.js"></script>
+ 
+
+@using (Html.BeginForm("RedirectToHome", "Login", new { @id = "frmLoginRole" ,  style="height:25px" }))
+{
+     @*<span id="showLoginError"> @Html.ValidationMessage("showRoleLoginError")</span>*@
+     @Html.DropDownListFor(model => model.RoleId, new SelectList(Model.RoleList, "Value", "Text"), "Select Role", new { @class="role-combobox"})
+     <input type="button" id="btnGoLogin" value="Go">
+    
+}
+
+<div id="dialog-form-login"></div>

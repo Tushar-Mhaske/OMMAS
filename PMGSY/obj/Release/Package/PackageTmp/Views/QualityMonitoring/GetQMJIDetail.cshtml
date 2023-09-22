@@ -1,0 +1,211 @@
+﻿@model PMGSY.Models.QualityMonitoring.QMJIViewModel
+
+
+
+<script src="@Url.Content("~/Scripts/custom/Generic.js")" type="text/javascript" ></script>
+
+
+
+        <table style="width: 100%;" class="rowstyle">
+            <tr>
+                <td style="width: 3%; vertical-align: top"></td>
+                   
+                <td style="text-align: left; width: 5%; vertical-align: top">
+                    Block:
+                </td>
+                <td style="width: 10%; vertical-align: top">
+                   @Model.BlockName
+                </td>
+                <td style="text-align: left; width: 10%; vertical-align: top">
+                   Package: 
+                </td>
+                <td style="width: 10%; vertical-align: top">
+                   @Model.PackageId
+                </td>
+
+                <td style="width: 2%; vertical-align: top"></td>
+            </tr>
+            <tr>
+                <td style="width: 3%; vertical-align: top"></td>
+
+                <td style="text-align: left; width: 10%; vertical-align: top">
+                    Work Type:
+                </td>
+                <td style="width: 10%; vertical-align: top">
+                    @Model._workType
+                </td>
+                <td style="text-align: left; width: 10%; vertical-align: top">
+                    Work Name:
+                </td>
+                <td style="width: 10%; vertical-align: top">
+                    @Model.WorkName
+                </td>
+
+                <td style="width: 2%; vertical-align: top">
+                    
+
+                </td>
+                </tr>
+                <tr>
+                <td style="width:3%"></td>
+            
+                <td style="width: 10%; vertical-align: top">
+                    Connectivity Type:
+                </td>
+                <td style="vertical-align: top; text-align: left; width: 10%;">
+                    @Model.connectivityType
+                </td>
+                <td style="text-align: left; vertical-align: top">
+                    Progress Status: 
+
+                </td>
+                <td style="vertical-align: top; text-align: left; width: 10%;">
+                    @Model.progressStatus
+                </td>
+                <td style="width: 2%; vertical-align: top"></td>
+            </tr>
+            <tr class="ui-widget-header">
+                <td style="vertical-align: top; text-align: center;" colspan="6"><strong>Public Representative and Accompanying Government Officer Detail
+                </strong></td>
+            </tr>
+             <tr>
+                <td style="width: 3%; vertical-align: top"></td>
+                <td style="width: 10%; vertical-align: top">
+                    <b>@Html.LabelFor(model => model.publicRepresentativeType)</b>
+                </td>
+                <td style="width: 10%; vertical-align: top">
+                   
+                </td>
+                <td style="width: 10%; vertical-align: top">
+                    <b>@Html.LabelFor(model => model.accGovtOfficerType)</b>
+                </td>
+                <td style="width: 10%; vertical-align: top">
+                  
+                </td>
+                <td style="width: 2%; vertical-align: top"></td>
+            </tr>
+            <tr>
+                <td style="width: 3%; vertical-align: top"></td>
+                <td style="width: 10%; vertical-align: top">@Html.Label("MP name"):</td>
+                <td style="vertical-align: top; width: 10%;">
+                    @Model.mpName 
+                </td>
+                <td style="width: 5%; vertical-align: top">
+                    @Html.Label("SE name"):
+
+                </td>
+                <td style="vertical-align: top; width: 10%;">
+                    @Model.seName
+                    </td>
+                <td style="width: 2%; vertical-align: top"></td>
+            </tr>
+            <tr>
+                <td style="width: 3%; vertical-align: top"></td>
+                <td style="width: 10%; vertical-align: top">@Html.Label("MLA name"):</td>
+                <td style="vertical-align: top; width: 10%;">
+                    @Model.mlaName
+                </td>
+                <td style="width: 10%; vertical-align: top">@Html.Label("PIU incharge name"):</td>
+                <td style="vertical-align: top; width: 10%;">
+                    @Model.piuName
+                </td>
+                <td style="width: 2%; vertical-align: top"></td>
+            </tr>
+            <tr>
+                <td style="width: 3%; vertical-align: top"></td>
+                <td style="width: 10%; vertical-align: top">@Html.Label("GP level representative name"):</td>
+                <td style="vertical-align: top; width: 10%;">
+                    @Model.gpName
+                </td>
+                <td style="width: 10%; vertical-align: top">@Html.Label("AE name"):</td>
+                <td style="vertical-align: top; width: 10%;">
+                    @Model.aeName
+                </td>
+                <td style="width: 3%; vertical-align: top"></td>
+            </tr>
+            <tr>
+                <td style="width: 2%; vertical-align: top"></td>
+                <td style="width: 10%; vertical-align: top">
+                    Other Representative Name:
+                </td>
+                <td style="vertical-align: top; width: 10%;">
+                    @Model.otherRepresentativeName
+                </td>
+                <td style="width: 10%; vertical-align: top">District officer name:</td>
+                <td style="vertical-align: top; width: 10%;">
+                    @Model.districtOfficerName
+                </td>
+                <td style="width: 2%; vertical-align: top"></td>
+            </tr>
+            <tr class="ui-widget-header">
+                <td style="vertical-align: top; text-align: center;" colspan="6"><strong>Contractor Representative
+                </strong></td>
+            </tr>
+             <tr>
+                <td style="width: 3%; vertical-align: top"></td>
+                <td style="width: 10%; vertical-align: top">Name of Contractor/contractor representative:</td>
+                <td style="vertical-align: top; width: 10%;">
+                    @Model.contractorName
+                </td>
+                <td style="width: 10%; vertical-align: top"></td>
+                <td style="vertical-align: top; width: 10%;">
+
+                </td>
+                <td style="width: 2%; vertical-align: top"></td>
+            </tr>
+            <tr class="ui-widget-header">
+                <td style="vertical-align: top; text-align: center;" colspan="6"><strong>Inspection Detail
+                </strong></td>
+            </tr>
+            <tr>
+                <td style="width: 3%; vertical-align: top"></td>
+                <td style="width: 10%; vertical-align: top">Serve connectivity to target habitation (For new connectivity road):</td>
+                <td style="vertical-align: top; width: 10%;">
+                   @Model.serveConnectivity
+                </td>
+                <td style="width: 5%; vertical-align: top">Work progress satisfactory:</td>
+                <td style="vertical-align: top; width: 10%;">
+                    @Model.workProgressSatisfactory
+                </td>
+                <td style="width: 2%; vertical-align: top"></td>
+            </tr>
+            <tr>
+                <td style="width: 3%; vertical-align: top"></td>
+                <td style="width: 10%; vertical-align: top">CD work sufficient: </td>
+                <td style="vertical-align: top; width: 10%;">
+                   @Model.cdWorkSufficient
+                <td style="width: 10%; vertical-align: top">
+                    <label>Reason for variation in executed length w.r.t sanction length (if so)</label>:
+                  
+                </td>
+                <td style="vertical-align: top; width: 10%;">
+                      @Model.variationExecLengthReason
+                </td>
+                <td style="width: 2%; vertical-align: top"></td>
+            </tr>
+            <tr>
+                <td style="width: 3%; vertical-align: top"></td>
+                <td style="width: 10%; vertical-align: top">@Html.LabelFor(m => m.inspectionDate)</td>
+                <td style="vertical-align: top; width: 10%;">
+                     @Model.inspectionDate
+                </td>
+                <td style="width: 10%; vertical-align: top"></td>
+                <td style="vertical-align: top; width: 10%;">
+                     
+                </td>
+                <td style="width: 2%; vertical-align: top"></td>
+            </tr>
+            <tr>
+                <td style="width: 3%; vertical-align: top"></td>
+                <td style="width: 10%; vertical-align: top;font-weight:bold;"> Overall quality grading:</td>
+                <td  style="text-align: left;font-weight:bold; vertical-align: top">
+                   @Model.qualityGrading
+                </td>
+                <td style="vertical-align: top; width: 10%;"><label>Remarks:</label></td>
+                <td style="vertical-align: top; width: 10%;"> @Model.remarks</td>
+                <td style="width: 2%; vertical-align: top"></td>
+            </tr>
+         
+            
+        </table>
+    

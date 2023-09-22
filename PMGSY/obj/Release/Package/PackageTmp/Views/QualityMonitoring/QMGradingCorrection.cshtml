@@ -1,0 +1,1071 @@
+﻿@*
+    * Project Id    :
+    * Project Name  :   OMMAS II
+    * Name          :   QMGradingCorrection.cshtml
+    * Description   :   Render View for QMGradingCorrection.
+    * Author        :   Shyam Yadav
+    * Creation Date :   11/Jun/2013
+*@
+
+@model PMGSY.Models.QualityMonitoring.QMFillObservationModel
+
+<script src="~/Scripts/custom/Generic.js"></script>
+<script src="~/Scripts/QualityMonitoring/QMGradeCorrection.js"></script>
+
+ <form id="frmGradeCorrection">
+    <div id="divFillObservationsError" class="ui-state-error ui-corner-all" style="text-align: left; display: none; width: 100%">
+        <span class="ui-icon ui-icon-alert" style="float: left;"></span>
+        <span></span>
+        <span style="float: right;"><a style="float: right;" href="#">
+            <img class="ui-icon ui-icon-closethick" onclick="closeDivError();" style="border:none;color:red;border-width: 0;">
+        </a></span>
+    </div>
+      @Html.HiddenFor(model => model.ADMIN_SCHEDULE_CODE)
+      @Html.HiddenFor(model => model.IMS_PR_ROAD_CODE)
+      @Html.HiddenFor(model => model.QM_OBSERVATION_ID)
+      @Html.HiddenFor(model => model.IMS_ISCOMPLETED)
+      @Html.HiddenFor(model => model.IMS_PROPOSAL_TYPE)
+     @Html.HiddenFor(model=>model.LSBOverallCorrectedGrade)
+      @Html.Hidden("hdnRole",PMGSY.Extensions.PMGSYSession.Current.RoleCode.ToString())
+     <center>
+         <table class="rowstyle" id="tblFillObsDetails" style="margin-top:0px; text-align:left; border:ridge 0.1em #ccc; width:100%; padding:5px 5px 5px 5px;">
+                    <tr style="text-align:left;">
+                        <td style="width:15%;font-weight:bold;" >
+                            @Html.LabelFor(model => model.MONITOR_NAME)
+                        </td>
+                        <td colspan="3" >                            
+                            @Html.DisplayFor(model => model.MONITOR_NAME)
+                        </td>
+                    </tr>
+                    <tr style="text-align:left;">
+                        <td style="width:15%;font-weight:bold;" >
+                            @Html.LabelFor(model => model.STATE_NAME)
+                        </td>
+                        <td style="width:10%" >                            
+                            @Html.DisplayFor(model => model.STATE_NAME)
+                        </td>
+                        <td style="width:15%;font-weight:bold;" >
+                            @Html.LabelFor(model => model.DISTRICT_NAME)
+                        </td>
+                         <td style="width:10%">                            
+                            @Html.DisplayFor(model => model.DISTRICT_NAME)
+                        </td>
+                        @if (Model.IMS_PROPOSAL_TYPE.Equals("P"))
+                        {
+                            <td colspan="3">
+                                @Html.LabelFor(model => model.IMS_ROAD_NAME)
+                            </td>
+                            <td>                            
+                                @Html.DisplayFor(model => model.IMS_ROAD_NAME)
+                            </td>
+                        }
+                        else
+                        {
+                            <td style="width:12%;font-weight:bold;" >
+                                @Html.LabelFor(model => model.IMS_ROAD_NAME)
+                            </td>
+                            <td>                            
+                                @Html.DisplayFor(model => model.IMS_ROAD_NAME)
+                            </td>
+                            <td style="width:12%;font-weight:bold;" >
+                                @Html.LabelFor(model => model.IMS_BRIDGE_NAME)
+                            </td>
+                            <td>                            
+                                @Html.DisplayFor(model => model.IMS_BRIDGE_NAME)
+                            </td> 
+                        }
+                    </tr>
+                    <tr>
+                        <td style="width:15%;font-weight:bold;">
+                            @Html.LabelFor(model => model.IMS_YEAR)
+                        </td>
+                        <td style="width:10%">                            
+                            @Html.DisplayFor(model => model.IMS_YEAR)
+                        </td>
+                        <td style="width:15%;font-weight:bold;">
+                            @Html.LabelFor(model => model.IMS_PACKAGE_ID)
+                        </td>
+                        <td style="width:15%;">                            
+                            @Html.DisplayFor(model => model.IMS_PACKAGE_ID)
+                        </td>
+                        @if (Model.IMS_PROPOSAL_TYPE.Equals("P"))
+                        {
+                            <td style="width:10%;font-weight:bold;" >
+                                @Html.LabelFor(model => model.IMS_PAV_LENGTH)
+                            </td>
+                            <td colspan="3" >                            
+                                @Html.DisplayFor(model => model.IMS_PAV_LENGTH)
+                            </td>
+                        }
+                        else
+                        {
+                            <td style="width:10%;font-weight:bold;" >
+                                @Html.LabelFor(model => model.IMS_BRIDGE_LENGTH)
+                            </td>
+                            <td colspan="3" >                            
+                                @Html.DisplayFor(model => model.IMS_BRIDGE_LENGTH)
+                            </td>
+                        }
+                    </tr>
+
+                    <tr style="text-align:left;">
+                        <td style="width:15%;font-weight:bold;">
+                            @Html.LabelFor(model => model.IMS_ISCOMPLETED)
+                        </td>
+                        <td style="width:10%;">  
+                            @if (Model.IMS_ISCOMPLETED.Equals("C"))
+                            {
+                                 <b>Completed</b>
+                            }
+                            else if (Model.IMS_ISCOMPLETED.Equals("P"))
+                            {
+                                <b>In Progress</b>
+                            }
+                            else if (Model.IMS_ISCOMPLETED.Equals("M"))
+                            {
+                                <b>Maintenance</b>
+                            }
+                        </td>
+                        <td style="width:12%;font-weight:bold;" >
+                            @Html.LabelFor(model => model.COMPLETION_DATE)
+                        </td>
+                         <td style="width:15%;">                            
+                            @Html.DisplayFor(model => model.COMPLETION_DATE)
+                        </td>
+                        <td style="width:15%;font-weight:bold;" >
+                            @Html.LabelFor(model => model.QM_INSPECTION_DATE)
+                        </td>
+                        <td colspan="3">
+                            @Html.DisplayFor(model => model.QM_INSPECTION_DATE)
+                        </td>
+                    </tr>
+                    <tr style="text-align:left;">
+                        
+                        @if (Model.IMS_PROPOSAL_TYPE.Equals("P"))
+                        {
+                            <td style="width:15%;font-weight:bold;">
+                                @Html.LabelFor(model => model.FROM_ROAD_LENGTH)
+                            </td>
+                            <td style="width:10%;">                            
+                                 @Html.DisplayFor(model => model.FROM_ROAD_LENGTH)
+                            </td>
+                            <td style="width:12%;font-weight:bold;" >
+                                @Html.LabelFor(model => model.TO_ROAD_LENGTH)
+                            </td>
+                            <td style="width:15%;">                            
+                                @Html.DisplayFor(model => model.TO_ROAD_LENGTH)
+                            </td>
+                        }
+                        <td></td><td colspan="3"></td>
+                    </tr>
+        </table>
+        
+         @if (Model.IMS_PROPOSAL_TYPE.Equals("P") && Model.IMS_ISCOMPLETED.Equals("M"))
+           {
+             <div class="ui-state-default ui-corner-top" style="text-align:left; width:98.5%;height:20px;padding-left:15px; padding-top:3px; font-size:11px; font-weight:bold;">
+                Note : Overall Grading denotes, [ <strong> U </strong> - No Maintenance | <strong> SRI </strong> - Low Maintenance | <strong> S </strong> - Maintenance Not Required / Proper Maintenance ]
+             </div> 
+           }
+
+        <table style="margin-top:1px; text-align:left; margin-top:-1px; vertical-align:top; border:ridge 0.1em #ccc; width:100%; padding:5px 5px 5px 5px;">
+        <tr>  
+            @{ int i = 0; }
+
+
+            @*//---------------------------------------------------------- CQCAdmin Grading Correction for Completed & In Progress Roads Starts here ------------------------------------------------------------------------*@
+
+             @*//------- Road Proposals*@
+            @if(Model.IMS_PROPOSAL_TYPE.Equals("P"))
+            {
+                //if (PMGSY.Extensions.PMGSYSession.Current.RoleCode == 5 && (Model.IMS_ISCOMPLETED.Equals("C") || Model.IMS_ISCOMPLETED.Equals("P")))
+                if (PMGSY.Extensions.PMGSYSession.Current.RoleCode == 9 && (Model.IMS_ISCOMPLETED.Equals("C") || Model.IMS_ISCOMPLETED.Equals("P")))        
+                {             
+                              <td style="width:99%; vertical-align:top;">
+                                    <table  id="tblObsGrading" style="margin-top:1px; text-align:left; border:ridge 0.1em #ccc; width:100%; padding:5px 5px 5px 5px;">  
+                                    <tr style="text-align:left;">
+                                        <td style="font-weight:bold;text-align:center;">Sr.No.</td>
+                                        <td style="font-weight:bold;">Item Description</td>
+                                        <td colspan="4"></td>
+                                        <td style="width:30%;font-weight:bold;">Remarks</td>
+                                    </tr>
+                                  @while (i < Model.GRADE_DETAILS_LIST_CORRECTION.Count)
+                                  {
+                                        if (Model.GRADE_DETAILS_LIST_CORRECTION[i].MAST_ITEM_CODE == 13)   //For Overall Grade
+                                        {
+                                               var htmlAttributes1 = new Dictionary<string, object>();
+                                               var htmlAttributes2 = new Dictionary<string, object>();
+                                               var htmlAttributes3 = new Dictionary<string, object>();
+                                               var htmlAttributes4 = new Dictionary<string, object>();
+                                               if (Model.GRADE_DETAILS_LIST_CORRECTION[i].ASSIGNED_GRADE_CODE == 1)
+                                               {
+                                                  htmlAttributes1.Add("checked", "true");
+                                               }
+                                               else if (Model.GRADE_DETAILS_LIST_CORRECTION[i].ASSIGNED_GRADE_CODE == 2)
+                                               {
+                                                   htmlAttributes2.Add("checked", "true");
+                                               }
+                                               else if (Model.GRADE_DETAILS_LIST_CORRECTION[i].ASSIGNED_GRADE_CODE == 3)
+                                               {
+                                                   htmlAttributes3.Add("checked", "true");
+                                               }
+                                               else if (Model.GRADE_DETAILS_LIST_CORRECTION[i].ASSIGNED_GRADE_CODE == 4)
+                                               {
+                                                   htmlAttributes4.Add("checked", "true");
+                                               }
+                                               htmlAttributes1.Add("disabled", "disabled");
+                                               htmlAttributes1.Add("id", "item" + Model.GRADE_DETAILS_LIST_CORRECTION[i].NO_OF_ITEM);
+                                               htmlAttributes2.Add("disabled", "disabled");
+                                               htmlAttributes2.Add("id", "item" + Model.GRADE_DETAILS_LIST_CORRECTION[i].NO_OF_ITEM);
+                                               htmlAttributes3.Add("disabled", "disabled");
+                                               htmlAttributes3.Add("id", "item" + Model.GRADE_DETAILS_LIST_CORRECTION[i].NO_OF_ITEM);
+                                               htmlAttributes4.Add("disabled", "disabled");
+                                               htmlAttributes4.Add("id", "item" + Model.GRADE_DETAILS_LIST_CORRECTION[i].NO_OF_ITEM);
+                                        
+                                            <tr class="ui-state-default">
+                                                <td style="width:5%">&nbsp;</td>
+                                                <td style="text-align:center; width:35%;">
+                                                    @Model.GRADE_DETAILS_LIST_CORRECTION[i].MAST_ITEM_NAME
+                                                </td>
+                                                <td style="width:7%;">
+                                                    @Html.RadioButton("item" + Model.GRADE_DETAILS_LIST_CORRECTION[i].NO_OF_ITEM, "1", htmlAttributes1) <b> S </b>
+                                                </td>
+                                                <td style="width:10%;">
+                                                    @Html.RadioButton("item" + Model.GRADE_DETAILS_LIST_CORRECTION[i].NO_OF_ITEM, "2", htmlAttributes2) <b> SRI </b>
+                                                </td>
+                                                <td style="width:8%;">
+                                                    @Html.RadioButton("item" + Model.GRADE_DETAILS_LIST_CORRECTION[i].NO_OF_ITEM, "3", htmlAttributes3) <b> U </b>
+                                                </td>
+                                                <td style="width:10%;">
+                                                    @Html.RadioButton("item" + Model.GRADE_DETAILS_LIST_CORRECTION[i].NO_OF_ITEM, "4", htmlAttributes4) <b> NA </b>
+                                                </td>
+                                                <td style="width:25%;"></td>
+                                                    @Html.Hidden("hiddenitem" + Model.GRADE_DETAILS_LIST_CORRECTION[i].NO_OF_ITEM, Model.GRADE_DETAILS_LIST_CORRECTION[i].ASSIGNED_GRADE_CODE, new { @id = "hiddenitem" + Model.GRADE_DETAILS_LIST_CORRECTION[i].NO_OF_ITEM })
+                                            </tr>
+                                        }
+                                        else if (Model.GRADE_DETAILS_LIST_CORRECTION[i].MAST_SUB_ITEM_CODE == 0)      //For Main Grade Item
+                                        {
+                                                    var htmlAttributes1 = new Dictionary<string, object>();
+                                                    var htmlAttributes2 = new Dictionary<string, object>();
+                                                    var htmlAttributes3 = new Dictionary<string, object>();
+                                                    var htmlAttributes4 = new Dictionary<string, object>();
+                                                    if (Model.GRADE_DETAILS_LIST_CORRECTION[i].ASSIGNED_GRADE_CODE == 1)
+                                                    {
+                                                        htmlAttributes1.Add("checked", "true");
+                                                  
+                                                    }
+                                                    else if (Model.GRADE_DETAILS_LIST_CORRECTION[i].ASSIGNED_GRADE_CODE == 2)
+                                                    {
+                                                        htmlAttributes2.Add("checked", "true");
+                                                    
+                                                    }
+                                                    else if (Model.GRADE_DETAILS_LIST_CORRECTION[i].ASSIGNED_GRADE_CODE == 3)
+                                                    {
+                                                        htmlAttributes3.Add("checked", "true");
+                                                    
+                                                    }
+                                                    else if (Model.GRADE_DETAILS_LIST_CORRECTION[i].ASSIGNED_GRADE_CODE == 4)
+                                                    {
+                                                        htmlAttributes4.Add("checked", "true");
+                                                    
+                                                    }
+                                                    htmlAttributes1.Add("disabled", "disabled");
+                                                    htmlAttributes1.Add("id", "item" + Model.GRADE_DETAILS_LIST_CORRECTION[i].MAST_ITEM_CODE);
+                                                    htmlAttributes2.Add("disabled", "disabled");
+                                                    htmlAttributes2.Add("id", "item" + Model.GRADE_DETAILS_LIST_CORRECTION[i].MAST_ITEM_CODE);
+                                                    htmlAttributes3.Add("disabled", "disabled");
+                                                    htmlAttributes3.Add("id", "item" + Model.GRADE_DETAILS_LIST_CORRECTION[i].MAST_ITEM_CODE);
+                                                    htmlAttributes4.Add("disabled", "disabled");
+                                                    htmlAttributes4.Add("id", "item" + Model.GRADE_DETAILS_LIST_CORRECTION[i].MAST_ITEM_CODE);
+                                            <tr class="ui-state-default">
+                                                @if (Model.GRADE_DETAILS_LIST_CORRECTION[i].MAST_ITEM_CODE == 4 || Model.GRADE_DETAILS_LIST_CORRECTION[i].MAST_ITEM_CODE == 5 || Model.GRADE_DETAILS_LIST_CORRECTION[i].MAST_ITEM_CODE == 6 || Model.GRADE_DETAILS_LIST_CORRECTION[i].MAST_ITEM_CODE == 7)
+                                                {
+                                                <td style="width:5%;color:red;">
+                                                    @Model.GRADE_DETAILS_LIST_CORRECTION[i].MAST_ITEM_CODE                   
+                                                </td>
+                                                }
+                                                else
+                                                {
+                                                    <td style="width:5%;">
+                                                    @Model.GRADE_DETAILS_LIST_CORRECTION[i].MAST_ITEM_CODE                   
+                                                </td>
+                                                }
+                                               
+                                            <td style="text-align:left; width:35%;">
+                                                @Model.GRADE_DETAILS_LIST_CORRECTION[i].MAST_ITEM_NAME
+                                            </td>
+                                               
+                                            <td style="width:7%;">
+                                                @Html.RadioButton("item" + Model.GRADE_DETAILS_LIST_CORRECTION[i].MAST_ITEM_CODE, "1", htmlAttributes1) <b> S </b>
+                                            </td>
+                                            <td style="width:10%;">
+                                                        @if (Model.GRADE_DETAILS_LIST_CORRECTION[i].MAST_GRADE_CODE == 4)
+                                                        {
+                                                            @Html.RadioButton("item" + Model.GRADE_DETAILS_LIST_CORRECTION[i].MAST_ITEM_CODE, "2", htmlAttributes2) <b> SRI </b>
+                                                        }
+                                                        else
+                                                        {
+                                                            <b> &nbsp; </b>
+                                                        }
+                                            </td>
+                                            <td style="width:8%;">
+                                                @Html.RadioButton("item" + Model.GRADE_DETAILS_LIST_CORRECTION[i].MAST_ITEM_CODE, "3", htmlAttributes3) <b> U </b>
+                                            </td>
+                                            <td style="width:10%;">
+                                                @Html.RadioButton("item" + Model.GRADE_DETAILS_LIST_CORRECTION[i].MAST_ITEM_CODE, "4", htmlAttributes4) <b> NA </b>
+                                            </td>
+                                            <td style="width:25%;">@Model.GRADE_DETAILS_LIST_CORRECTION[i].REMARKS</td>
+                                                @Html.Hidden("hiddenitem" + Model.GRADE_DETAILS_LIST_CORRECTION[i].MAST_ITEM_CODE, "4", new { @id = "hiddenitem" + Model.GRADE_DETAILS_LIST_CORRECTION[i].MAST_ITEM_CODE})
+                                          </tr>    
+                                        }
+                                        else                                    //Sub Grade Items
+                                        {
+
+                                                var htmlAttributes1 = new Dictionary<string, object>();
+                                                var htmlAttributes2 = new Dictionary<string, object>();
+                                                var htmlAttributes3 = new Dictionary<string, object>();
+                                                var htmlAttributes4 = new Dictionary<string, object>();
+                                                if (Model.GRADE_DETAILS_LIST_CORRECTION[i].ASSIGNED_GRADE_CODE == 1)
+                                                {
+                                                    htmlAttributes1.Add("checked", "true");
+                                               
+
+                                                }
+                                                else if (Model.GRADE_DETAILS_LIST_CORRECTION[i].ASSIGNED_GRADE_CODE == 2)
+                                                {
+                                                    htmlAttributes2.Add("checked", "true");
+                                                
+                                                }
+                                                else if (Model.GRADE_DETAILS_LIST_CORRECTION[i].ASSIGNED_GRADE_CODE == 3)
+                                                {
+                                                    htmlAttributes3.Add("checked", "true");
+                                               
+                                                }
+                                                else if (Model.GRADE_DETAILS_LIST_CORRECTION[i].ASSIGNED_GRADE_CODE == 4)
+                                                {
+                                                    htmlAttributes4.Add("checked", "true");
+                                               
+                                                }
+                                                htmlAttributes1.Add("id", "subitem" + Model.GRADE_DETAILS_LIST_CORRECTION[i].MAST_ITEM_CODE + Model.GRADE_DETAILS_LIST_CORRECTION[i].MAST_SUB_ITEM_CODE);
+                                                htmlAttributes1.Add("onclick", "ItemGrade(" + Model.GRADE_DETAILS_LIST_CORRECTION[i].NO_OF_ITEM + "," + Model.GRADE_DETAILS_LIST_CORRECTION[i].MAST_ITEM_CODE + "," + Model.GRADE_DETAILS_LIST_CORRECTION[i].NO_OF_SUB_ITEM + ")");
+                                                htmlAttributes2.Add("id", "subitem" + Model.GRADE_DETAILS_LIST_CORRECTION[i].MAST_ITEM_CODE + Model.GRADE_DETAILS_LIST_CORRECTION[i].MAST_SUB_ITEM_CODE);
+                                                htmlAttributes2.Add("onclick", "ItemGrade(" + Model.GRADE_DETAILS_LIST_CORRECTION[i].NO_OF_ITEM + "," + Model.GRADE_DETAILS_LIST_CORRECTION[i].MAST_ITEM_CODE + "," + Model.GRADE_DETAILS_LIST_CORRECTION[i].NO_OF_SUB_ITEM + ")");
+                                                htmlAttributes3.Add("id", "subitem" + Model.GRADE_DETAILS_LIST_CORRECTION[i].MAST_ITEM_CODE + Model.GRADE_DETAILS_LIST_CORRECTION[i].MAST_SUB_ITEM_CODE);
+                                                htmlAttributes3.Add("onclick", "ItemGrade(" + Model.GRADE_DETAILS_LIST_CORRECTION[i].NO_OF_ITEM + "," + Model.GRADE_DETAILS_LIST_CORRECTION[i].MAST_ITEM_CODE + "," + Model.GRADE_DETAILS_LIST_CORRECTION[i].NO_OF_SUB_ITEM + ")");
+                                                htmlAttributes4.Add("id", "subitem" + Model.GRADE_DETAILS_LIST_CORRECTION[i].MAST_ITEM_CODE + Model.GRADE_DETAILS_LIST_CORRECTION[i].MAST_SUB_ITEM_CODE);
+                                                htmlAttributes4.Add("onclick", "ItemGrade(" + Model.GRADE_DETAILS_LIST_CORRECTION[i].NO_OF_ITEM + "," + Model.GRADE_DETAILS_LIST_CORRECTION[i].MAST_ITEM_CODE + "," + Model.GRADE_DETAILS_LIST_CORRECTION[i].NO_OF_SUB_ITEM + ")");
+                                        
+                                          <tr class="ui-state-hover">
+                                            <td>&nbsp;</td>
+                                            <td style="width:35%;">
+                                                @Model.GRADE_DETAILS_LIST_CORRECTION[i].MAST_SUB_ITEM_CODE  <b>.</b> @Model.GRADE_DETAILS_LIST_CORRECTION[i].MAST_ITEM_NAME             
+                                            </td>
+                                            <td style="width:7%;">
+                                                @Html.RadioButton("subitem" + Model.GRADE_DETAILS_LIST_CORRECTION[i].MAST_ITEM_CODE+ Model.GRADE_DETAILS_LIST_CORRECTION[i].MAST_SUB_ITEM_CODE, "1", htmlAttributes1) <b> S </b>
+                                            </td>
+                                            <td style="width:10%;">
+                                                        @if (Model.GRADE_DETAILS_LIST_CORRECTION[i].MAST_GRADE_CODE == 4)
+                                                        {
+                                                            @Html.RadioButton("subitem" + Model.GRADE_DETAILS_LIST_CORRECTION[i].MAST_ITEM_CODE+ Model.GRADE_DETAILS_LIST_CORRECTION[i].MAST_SUB_ITEM_CODE, "2", htmlAttributes2) <b> SRI </b>
+                                                        }
+                                                        else
+                                                        {
+                                                            <b> &nbsp; </b>
+                                                        }
+                                            </td>
+                                            <td style="width:8%;">
+                                                @Html.RadioButton("subitem" + Model.GRADE_DETAILS_LIST_CORRECTION[i].MAST_ITEM_CODE+ Model.GRADE_DETAILS_LIST_CORRECTION[i].MAST_SUB_ITEM_CODE, "3", htmlAttributes3) <b> U </b>
+                                            </td>
+                                            <td style="width:10%;">
+                                                @Html.RadioButton("subitem" + Model.GRADE_DETAILS_LIST_CORRECTION[i].MAST_ITEM_CODE+ Model.GRADE_DETAILS_LIST_CORRECTION[i].MAST_SUB_ITEM_CODE, "4", htmlAttributes4) <b> NA </b>
+                                            </td>
+                                            <td style="width:25%;">@Model.GRADE_DETAILS_LIST_CORRECTION[i].REMARKS</td>
+                                          </tr> 
+                                        }
+                                      i++;
+                                    }
+                                </table>
+                              </td>
+                      
+                 }
+                
+             
+                @*//---------------------------------------------------------- CQCAdmin Grading Correction for Completed & In Progress Roads Ends here ------------------------------------------------------------------------*@      
+           
+            
+            
+            
+                @*//---------------------------------------------------------- CQCAdmin Grading Correction for Maintenance Roads Starts here ------------------------------------------------------------------------*@      
+            
+            
+                //else if ( PMGSY.Extensions.PMGSYSession.Current.RoleCode == 5 &&  Model.IMS_ISCOMPLETED.Equals("M") )        
+                else if ( PMGSY.Extensions.PMGSYSession.Current.RoleCode == 9 &&  Model.IMS_ISCOMPLETED.Equals("M") )
+                    {
+                        <td style="width:99%; vertical-align:top;">
+                            <table  id="tblObsGrading" style="margin-top:1px; text-align:left; border:ridge 0.1em #ccc; width:100%; padding:5px 5px 5px 5px;"> 
+                                <tr style="text-align:left;">
+                                    <td style="font-weight:bold;text-align:center;">Sr.No.</td>
+                                    <td style="font-weight:bold;">Item Description</td>
+                                    <td colspan="4"></td>
+                                    <td style="width:25%;font-weight:bold;">Remarks</td>
+                                </tr>
+                                @while (i < Model.GRADE_DETAILS_LIST_CORRECTION.Count)
+                                  {
+                                        if (Model.GRADE_DETAILS_LIST_CORRECTION[i].MAST_SUB_ITEM_CODE == 7)   //For Overall Grade
+                                        {
+                                            var htmlAttributes1 = new Dictionary<string, object>();
+                                            var htmlAttributes2 = new Dictionary<string, object>();
+                                            var htmlAttributes3 = new Dictionary<string, object>();
+                                            var htmlAttributes4 = new Dictionary<string, object>();
+                                            if (Model.GRADE_DETAILS_LIST_CORRECTION[i].ASSIGNED_GRADE_CODE == 1)
+                                            {
+                                                htmlAttributes1.Add("checked", "true");
+                                            }
+                                            else if (Model.GRADE_DETAILS_LIST_CORRECTION[i].ASSIGNED_GRADE_CODE == 2)
+                                            {
+                                                htmlAttributes2.Add("checked", "true");
+                                            }
+                                            else if (Model.GRADE_DETAILS_LIST_CORRECTION[i].ASSIGNED_GRADE_CODE == 3)
+                                            {
+                                                htmlAttributes3.Add("checked", "true");
+                                            }
+                                            else if (Model.GRADE_DETAILS_LIST_CORRECTION[i].ASSIGNED_GRADE_CODE == 4)
+                                            {
+                                                htmlAttributes4.Add("checked", "true");
+                                            }
+                                            htmlAttributes1.Add("id", "optItemMaintenance");
+                                            htmlAttributes1.Add("disabled", "disabled");
+                                            htmlAttributes2.Add("id", "optItemMaintenance");
+                                            htmlAttributes2.Add("disabled", "disabled");
+                                            htmlAttributes3.Add("id", "optItemMaintenance");
+                                            htmlAttributes3.Add("disabled", "disabled");
+                                            htmlAttributes4.Add("id", "optItemMaintenance");
+                                            htmlAttributes4.Add("disabled", "disabled");
+                                        
+                                        
+                                            <tr class="ui-state-default">
+                                                <td style="width:3%">&nbsp;</td>
+                                                <td style="text-align:center; width:48%;">
+                                                    @Model.GRADE_DETAILS_LIST_CORRECTION[i].MAST_ITEM_NAME
+                                                </td>
+                                                <td style="width:6%;">
+                                                    @Html.RadioButton("optItemMaintenance", "1", htmlAttributes1) <b> S </b>
+                                                </td>
+                                                <td style="width:6%;">
+                                                    @Html.RadioButton("optItemMaintenance", "2", htmlAttributes2) <b> SRI </b>
+                                                </td>
+                                                <td style="width:6%;">
+                                                    @Html.RadioButton("optItemMaintenance", "3", htmlAttributes3) <b> U </b>
+                                                </td>
+                                                <td style="width:6%;">
+                                                    @Html.RadioButton("optItemMaintenance", "4", htmlAttributes4) <b> NA </b>
+                                                </td>
+                                                <td style="width:25%;"></td>
+                                                    @Html.Hidden("overAllGradeMaintenance", Model.GRADE_DETAILS_LIST_CORRECTION[i].ASSIGNED_GRADE_CODE, new { @id = "overAllGradeMaintenance" })
+                                            </tr>
+                                       }
+                                       else if(Model.GRADE_DETAILS_LIST_CORRECTION[i].MAST_SUB_ITEM_CODE != 0)
+                                       {
+
+                                           var htmlAttributes1 = new Dictionary<string, object>();
+                                           var htmlAttributes2 = new Dictionary<string, object>();
+                                           var htmlAttributes3 = new Dictionary<string, object>();
+                                           var htmlAttributes4 = new Dictionary<string, object>();
+                                           if (Model.GRADE_DETAILS_LIST_CORRECTION[i].ASSIGNED_GRADE_CODE == 1)
+                                           {
+                                               htmlAttributes1.Add("checked", "true");
+                                           }
+                                           else if (Model.GRADE_DETAILS_LIST_CORRECTION[i].ASSIGNED_GRADE_CODE == 2)
+                                           {
+                                               htmlAttributes2.Add("checked", "true");
+                                           }
+                                           else if (Model.GRADE_DETAILS_LIST_CORRECTION[i].ASSIGNED_GRADE_CODE == 3)
+                                           {
+                                               htmlAttributes3.Add("checked", "true");
+                                           }
+                                           else if (Model.GRADE_DETAILS_LIST_CORRECTION[i].ASSIGNED_GRADE_CODE == 4)
+                                           {
+                                               htmlAttributes4.Add("checked", "true");
+                                           }
+                                           htmlAttributes1.Add("id", "optItemMaintenance" + Model.GRADE_DETAILS_LIST_CORRECTION[i].MAST_SUB_ITEM_CODE);
+                                           htmlAttributes1.Add("onclick", "fnGradeValidateForMaintenanceRoad()");
+
+                                           htmlAttributes2.Add("id", "optItemMaintenance" + Model.GRADE_DETAILS_LIST_CORRECTION[i].MAST_SUB_ITEM_CODE);
+                                           htmlAttributes2.Add("onclick", "fnGradeValidateForMaintenanceRoad()");
+
+                                           htmlAttributes3.Add("id", "optItemMaintenance" + Model.GRADE_DETAILS_LIST_CORRECTION[i].MAST_SUB_ITEM_CODE);
+                                           htmlAttributes3.Add("onclick", "fnGradeValidateForMaintenanceRoad()");
+
+                                           htmlAttributes4.Add("id", "optItemMaintenance" + Model.GRADE_DETAILS_LIST_CORRECTION[i].MAST_SUB_ITEM_CODE);
+                                           htmlAttributes4.Add("onclick", "fnGradeValidateForMaintenanceRoad()");
+                                       
+                                           
+                                            <tr class="ui-state-hover">
+                                                <td style="width:3%"> @Model.GRADE_DETAILS_LIST_CORRECTION[i].MAST_SUB_ITEM_CODE  <b>.</b></td>
+                                                <td style="width:48%;">
+                                                     @Model.GRADE_DETAILS_LIST_CORRECTION[i].MAST_ITEM_NAME             
+                                                </td>
+                                                <td style="width:6%;">
+                                                    @Html.RadioButton("optItemMaintenance" + Model.GRADE_DETAILS_LIST_CORRECTION[i].MAST_SUB_ITEM_CODE, "1", htmlAttributes1) <b> S </b>
+                                                </td>
+                                                <td style="width:6%;">
+                                                            @if (Model.GRADE_DETAILS_LIST_CORRECTION[i].MAST_GRADE_CODE == 4)
+                                                            {
+                                                                @Html.RadioButton("optItemMaintenance" + Model.GRADE_DETAILS_LIST_CORRECTION[i].MAST_SUB_ITEM_CODE, "2", htmlAttributes2) <b> SRI </b>
+                                                            }
+                                                            else
+                                                            {
+                                                                <b> &nbsp; </b>
+                                                            }
+                                                </td>
+                                                <td style="width:6%;">
+                                                    @Html.RadioButton("optItemMaintenance" + Model.GRADE_DETAILS_LIST_CORRECTION[i].MAST_SUB_ITEM_CODE, "3", htmlAttributes3) <b> U </b>
+                                                </td>
+                                                <td style="width:6%;">
+                                                    @Html.RadioButton("optItemMaintenance" + Model.GRADE_DETAILS_LIST_CORRECTION[i].MAST_SUB_ITEM_CODE, "4", htmlAttributes4) <b> NA </b>
+                                                </td>
+                                                <td style="width:25%;">@Model.GRADE_DETAILS_LIST_CORRECTION[i].REMARKS</td>
+                                          </tr>
+                                        }
+                                      i++;
+                                    }
+
+                            </table>
+                        </td>
+                
+                    }
+            
+                
+                @*//---------------------------------------------------------- CQCAdmin Grading Correction for Maintenance Roads Ends here ------------------------------------------------------------------------*@      
+            
+            
+            
+            
+                @*//---------------------------------------------------------- SQC Grading Correction for Completed & In Progress Roads Starts here ------------------------------------------------------------------------*@      
+                    
+                else if ((PMGSY.Extensions.PMGSYSession.Current.RoleCode == 8 || PMGSY.Extensions.PMGSYSession.Current.RoleCode == 69) && (Model.IMS_ISCOMPLETED.Equals("C") || (Model.IMS_ISCOMPLETED.Equals("P"))))        
+                    {
+                        <td style="width:99%; vertical-align:top;">
+                            <table  id="tblObsGrading" style="margin-top:1px; text-align:left; border:ridge 0.1em #ccc; width:100%; padding:5px 5px 5px 5px;"> 
+                                <tr style="text-align:left;">
+                                    <td style="font-weight:bold;text-align:center;">Sr.No.</td>
+                                    <td style="font-weight:bold;">Item Description</td>
+                                    <td colspan="4"></td>
+                                    <td style="width:30%;font-weight:bold;">Remarks</td>
+                                </tr>
+                                @while (i < Model.GRADE_DETAILS_LIST_CORRECTION.Count)
+                                  {
+                                        if (Model.GRADE_DETAILS_LIST_CORRECTION[i].MAST_SUB_ITEM_CODE == 15)   //For Overall Grade
+                                        {
+                                            var htmlAttributes1 = new Dictionary<string, object>();
+                                            var htmlAttributes2 = new Dictionary<string, object>();
+                                            var htmlAttributes3 = new Dictionary<string, object>();
+                                            var htmlAttributes4 = new Dictionary<string, object>();
+                                            if (Model.GRADE_DETAILS_LIST_CORRECTION[i].ASSIGNED_GRADE_CODE == 1)
+                                            {
+                                                htmlAttributes1.Add("checked", "true");
+                                            }
+                                            else if (Model.GRADE_DETAILS_LIST_CORRECTION[i].ASSIGNED_GRADE_CODE == 2)
+                                            {
+                                                htmlAttributes2.Add("checked", "true");
+                                            }
+                                            else if (Model.GRADE_DETAILS_LIST_CORRECTION[i].ASSIGNED_GRADE_CODE == 3)
+                                            {
+                                                htmlAttributes3.Add("checked", "true");
+                                            }
+                                            else if (Model.GRADE_DETAILS_LIST_CORRECTION[i].ASSIGNED_GRADE_CODE == 4)
+                                            {
+                                                htmlAttributes4.Add("checked", "true");
+                                            }
+                                            htmlAttributes1.Add("id", "optItem");
+                                            htmlAttributes1.Add("disabled", "disabled");
+                                            htmlAttributes2.Add("id", "optItem");
+                                            htmlAttributes2.Add("disabled", "disabled");
+                                            htmlAttributes3.Add("id", "optItem");
+                                            htmlAttributes3.Add("disabled", "disabled");
+                                            htmlAttributes4.Add("id", "optItem");
+                                            htmlAttributes4.Add("disabled", "disabled");
+                                        
+                                        
+                                            <tr class="ui-state-default">
+                                                <td style="width:5%">&nbsp;</td>
+                                                <td style="text-align:center; width:35%;">
+                                                    @Model.GRADE_DETAILS_LIST_CORRECTION[i].MAST_ITEM_NAME
+                                                </td>
+                                                <td style="width:7%;">
+                                                    @Html.RadioButton("optItem", "1", htmlAttributes1) <b> S </b>
+                                                </td>
+                                                <td style="width:10%;">
+                                                    @Html.RadioButton("optItem", "2", htmlAttributes2) <b> SRI </b>
+                                                </td>
+                                                <td style="width:8%;">
+                                                    @Html.RadioButton("optItem", "3", htmlAttributes3) <b> U </b>
+                                                </td>
+                                                <td style="width:10%;">
+                                                    @Html.RadioButton("optItem", "4", htmlAttributes4) <b> NA </b>
+                                                </td>
+                                                <td style="width:25%;"></td>
+                                                    @Html.Hidden("overAllGrade", Model.GRADE_DETAILS_LIST_CORRECTION[i].ASSIGNED_GRADE_CODE, new { @id = "overAllGrade" })
+                                            </tr>
+                                       }
+                                       else if(Model.GRADE_DETAILS_LIST_CORRECTION[i].MAST_SUB_ITEM_CODE != 0)
+                                       {
+
+                                           var htmlAttributes1 = new Dictionary<string, object>();
+                                           var htmlAttributes2 = new Dictionary<string, object>();
+                                           var htmlAttributes3 = new Dictionary<string, object>();
+                                           var htmlAttributes4 = new Dictionary<string, object>();
+                                           if (Model.GRADE_DETAILS_LIST_CORRECTION[i].ASSIGNED_GRADE_CODE == 1)
+                                           {
+                                               htmlAttributes1.Add("checked", "true");
+
+
+                                           }
+                                           else if (Model.GRADE_DETAILS_LIST_CORRECTION[i].ASSIGNED_GRADE_CODE == 2)
+                                           {
+                                               htmlAttributes2.Add("checked", "true");
+
+                                           }
+                                           else if (Model.GRADE_DETAILS_LIST_CORRECTION[i].ASSIGNED_GRADE_CODE == 3)
+                                           {
+                                               htmlAttributes3.Add("checked", "true");
+
+                                           }
+                                           else if (Model.GRADE_DETAILS_LIST_CORRECTION[i].ASSIGNED_GRADE_CODE == 4)
+                                           {
+                                               htmlAttributes4.Add("checked", "true");
+
+                                           }
+                                           htmlAttributes1.Add("id", "optItem" + Model.GRADE_DETAILS_LIST_CORRECTION[i].MAST_SUB_ITEM_CODE);
+                                           htmlAttributes1.Add("onclick", "fnGradeValidate()");
+                                      
+                                           htmlAttributes2.Add("id", "optItem" + Model.GRADE_DETAILS_LIST_CORRECTION[i].MAST_SUB_ITEM_CODE);
+                                           htmlAttributes2.Add("onclick", "fnGradeValidate()");
+                                       
+                                           htmlAttributes3.Add("id", "optItem" + Model.GRADE_DETAILS_LIST_CORRECTION[i].MAST_SUB_ITEM_CODE);
+                                           htmlAttributes3.Add("onclick", "fnGradeValidate()");
+                                       
+                                           htmlAttributes4.Add("id", "optItem" + Model.GRADE_DETAILS_LIST_CORRECTION[i].MAST_SUB_ITEM_CODE);
+                                           htmlAttributes4.Add("onclick", "fnGradeValidate()");
+                                       
+                                           
+                                            <tr class="ui-state-hover">
+                                                <td>&nbsp;</td>
+                                                <td style="width:35%;">
+                                                    @Model.GRADE_DETAILS_LIST_CORRECTION[i].MAST_SUB_ITEM_CODE  <b>.</b> @Model.GRADE_DETAILS_LIST_CORRECTION[i].MAST_ITEM_NAME             
+                                                </td>
+                                                <td style="width:7%;">
+                                                    @Html.RadioButton("optItem" + Model.GRADE_DETAILS_LIST_CORRECTION[i].MAST_SUB_ITEM_CODE, "1", htmlAttributes1) <b> S </b>
+                                                </td>
+                                                <td style="width:10%;">
+                                                            @if (Model.GRADE_DETAILS_LIST_CORRECTION[i].MAST_GRADE_CODE == 4)
+                                                            {
+                                                                @Html.RadioButton("optItem" + Model.GRADE_DETAILS_LIST_CORRECTION[i].MAST_SUB_ITEM_CODE, "2", htmlAttributes2) <b> SRI </b>
+                                                            }
+                                                            else
+                                                            {
+                                                                <b> &nbsp; </b>
+                                                            }
+                                                </td>
+                                                <td style="width:8%;">
+                                                    @Html.RadioButton("optItem" + Model.GRADE_DETAILS_LIST_CORRECTION[i].MAST_SUB_ITEM_CODE, "3", htmlAttributes3) <b> U </b>
+                                                </td>
+                                                <td style="width:10%;">
+                                                    @Html.RadioButton("optItem" + Model.GRADE_DETAILS_LIST_CORRECTION[i].MAST_SUB_ITEM_CODE, "4", htmlAttributes4) <b> NA </b>
+                                                </td>
+                                                <td style="width:25%;">@Model.GRADE_DETAILS_LIST_CORRECTION[i].REMARKS</td>
+                                                </tr>
+                                        }
+                                      i++;
+                                    }
+
+                            </table>
+                        </td>
+                
+                    }
+
+
+                @*//---------------------------------------------------------- SQC Grading Correction for Completed & In Progress Roads Ends here ------------------------------------------------------------------------*@      
+            
+            
+            
+            
+                @*//---------------------------------------------------------- SQC Grading Correction for Maintenance Roads Starts here ------------------------------------------------------------------------*@         
+                
+            
+                else if ((PMGSY.Extensions.PMGSYSession.Current.RoleCode == 8 || PMGSY.Extensions.PMGSYSession.Current.RoleCode == 69) && Model.IMS_ISCOMPLETED.Equals("M"))       
+                    {
+                        <td style="width:99%; vertical-align:top;">
+                            <table  id="tblObsGrading" style="margin-top:1px; text-align:left; border:ridge 0.1em #ccc; width:100%; padding:5px 5px 5px 5px;"> 
+                                <tr style="text-align:left;">
+                                    <td style="font-weight:bold;text-align:center;">Sr.No.</td>
+                                    <td style="font-weight:bold;">Item Description</td>
+                                    <td colspan="4"></td>
+                                    <td style="width:30%;font-weight:bold;">Remarks</td>
+                                </tr>
+                                @while (i < Model.GRADE_DETAILS_LIST_CORRECTION.Count)
+                                  {
+                                        if (Model.GRADE_DETAILS_LIST_CORRECTION[i].MAST_SUB_ITEM_CODE == 7)   //For Overall Grade
+                                        {
+                                            var htmlAttributes1 = new Dictionary<string, object>();
+                                            var htmlAttributes2 = new Dictionary<string, object>();
+                                            var htmlAttributes3 = new Dictionary<string, object>();
+                                            var htmlAttributes4 = new Dictionary<string, object>();
+                                            if (Model.GRADE_DETAILS_LIST_CORRECTION[i].ASSIGNED_GRADE_CODE == 1)
+                                            {
+                                                htmlAttributes1.Add("checked", "true");
+                                            }
+                                            else if (Model.GRADE_DETAILS_LIST_CORRECTION[i].ASSIGNED_GRADE_CODE == 2)
+                                            {
+                                                htmlAttributes2.Add("checked", "true");
+                                            }
+                                            else if (Model.GRADE_DETAILS_LIST_CORRECTION[i].ASSIGNED_GRADE_CODE == 3)
+                                            {
+                                                htmlAttributes3.Add("checked", "true");
+                                            }
+                                            else if (Model.GRADE_DETAILS_LIST_CORRECTION[i].ASSIGNED_GRADE_CODE == 4)
+                                            {
+                                                htmlAttributes4.Add("checked", "true");
+                                            }
+                                            htmlAttributes1.Add("id", "optItemMaintenance");
+                                            htmlAttributes1.Add("disabled", "disabled");
+                                            htmlAttributes2.Add("id", "optItemMaintenance");
+                                            htmlAttributes2.Add("disabled", "disabled");
+                                            htmlAttributes3.Add("id", "optItemMaintenance");
+                                            htmlAttributes3.Add("disabled", "disabled");
+                                            htmlAttributes4.Add("id", "optItemMaintenance");
+                                            htmlAttributes4.Add("disabled", "disabled");
+                                        
+                                        
+                                            <tr class="ui-state-default">
+                                                <td style="width:3%">&nbsp;</td>
+                                                <td style="text-align:center; width:48%;">
+                                                    @Model.GRADE_DETAILS_LIST_CORRECTION[i].MAST_ITEM_NAME
+                                                </td>
+                                                <td style="width:6%;">
+                                                    @Html.RadioButton("optItemMaintenance", "1", htmlAttributes1) <b> S </b>
+                                                </td>
+                                                <td style="width:6%;">
+                                                    @Html.RadioButton("optItemMaintenance", "2", htmlAttributes2) <b> SRI </b>
+                                                </td>
+                                                <td style="width:6%;">
+                                                    @Html.RadioButton("optItemMaintenance", "3", htmlAttributes3) <b> U </b>
+                                                </td>
+                                                <td style="width:6%;">
+                                                    @Html.RadioButton("optItemMaintenance", "4", htmlAttributes4) <b> NA </b>
+                                                </td>
+                                                <td style="width:25%;"></td>
+                                                    @Html.Hidden("overAllGradeMaintenance", Model.GRADE_DETAILS_LIST_CORRECTION[i].ASSIGNED_GRADE_CODE, new { @id = "overAllGradeMaintenance" })
+                                            </tr>
+                                       }
+                                       else if(Model.GRADE_DETAILS_LIST_CORRECTION[i].MAST_SUB_ITEM_CODE != 0)
+                                       {
+
+                                           var htmlAttributes1 = new Dictionary<string, object>();
+                                           var htmlAttributes2 = new Dictionary<string, object>();
+                                           var htmlAttributes3 = new Dictionary<string, object>();
+                                           var htmlAttributes4 = new Dictionary<string, object>();
+                                           if (Model.GRADE_DETAILS_LIST_CORRECTION[i].ASSIGNED_GRADE_CODE == 1)
+                                           {
+                                               htmlAttributes1.Add("checked", "true");
+                                           }
+                                           else if (Model.GRADE_DETAILS_LIST_CORRECTION[i].ASSIGNED_GRADE_CODE == 2)
+                                           {
+                                               htmlAttributes2.Add("checked", "true");
+                                           }
+                                           else if (Model.GRADE_DETAILS_LIST_CORRECTION[i].ASSIGNED_GRADE_CODE == 3)
+                                           {
+                                               htmlAttributes3.Add("checked", "true");
+                                           }
+                                           else if (Model.GRADE_DETAILS_LIST_CORRECTION[i].ASSIGNED_GRADE_CODE == 4)
+                                           {
+                                               htmlAttributes4.Add("checked", "true");
+                                           }
+                                           htmlAttributes1.Add("id", "optItemMaintenance" + Model.GRADE_DETAILS_LIST_CORRECTION[i].MAST_SUB_ITEM_CODE);
+                                           htmlAttributes1.Add("onclick", "fnGradeValidateForMaintenanceRoad()");
+
+                                           htmlAttributes2.Add("id", "optItemMaintenance" + Model.GRADE_DETAILS_LIST_CORRECTION[i].MAST_SUB_ITEM_CODE);
+                                           htmlAttributes2.Add("onclick", "fnGradeValidateForMaintenanceRoad()");
+
+                                           htmlAttributes3.Add("id", "optItemMaintenance" + Model.GRADE_DETAILS_LIST_CORRECTION[i].MAST_SUB_ITEM_CODE);
+                                           htmlAttributes3.Add("onclick", "fnGradeValidateForMaintenanceRoad()");
+
+                                           htmlAttributes4.Add("id", "optItemMaintenance" + Model.GRADE_DETAILS_LIST_CORRECTION[i].MAST_SUB_ITEM_CODE);
+                                           htmlAttributes4.Add("onclick", "fnGradeValidateForMaintenanceRoad()");
+                                       
+                                           
+                                            <tr class="ui-state-hover">
+                                                <td style="width:3%"> @Model.GRADE_DETAILS_LIST_CORRECTION[i].MAST_SUB_ITEM_CODE  <b>.</b></td>
+                                                <td style="width:48%;">
+                                                     @Model.GRADE_DETAILS_LIST_CORRECTION[i].MAST_ITEM_NAME             
+                                                </td>
+                                                <td style="width:6%;">
+                                                    @Html.RadioButton("optItemMaintenance" + Model.GRADE_DETAILS_LIST_CORRECTION[i].MAST_SUB_ITEM_CODE, "1", htmlAttributes1) <b> S </b>
+                                                </td>
+                                                <td style="width:6%;">
+                                                            @if (Model.GRADE_DETAILS_LIST_CORRECTION[i].MAST_GRADE_CODE == 4)
+                                                            {
+                                                                @Html.RadioButton("optItemMaintenance" + Model.GRADE_DETAILS_LIST_CORRECTION[i].MAST_SUB_ITEM_CODE, "2", htmlAttributes2) <b> SRI </b>
+                                                            }
+                                                            else
+                                                            {
+                                                                <b> &nbsp; </b>
+                                                            }
+                                                </td>
+                                                <td style="width:6%;">
+                                                    @Html.RadioButton("optItemMaintenance" + Model.GRADE_DETAILS_LIST_CORRECTION[i].MAST_SUB_ITEM_CODE, "3", htmlAttributes3) <b> U </b>
+                                                </td>
+                                                <td style="width:6%;">
+                                                    @Html.RadioButton("optItemMaintenance" + Model.GRADE_DETAILS_LIST_CORRECTION[i].MAST_SUB_ITEM_CODE, "4", htmlAttributes4) <b> NA </b>
+                                                </td>
+                                                <td style="width:25%;">@Model.GRADE_DETAILS_LIST_CORRECTION[i].REMARKS</td>
+                                          </tr>
+                                        }
+                                      i++;
+                                    }
+
+                            </table>
+                        </td>
+                     }
+                @*//---------------------------------------------------------- SQC Grading Correction for Maintenance Roads Ends here ------------------------------------------------------------------------*@      
+            }@*//----------------------Road Proposal Ends here ----------------------*@
+
+            else if (Model.IMS_PROPOSAL_TYPE.Equals("L"))
+            { 
+                 <td style="width:99%; vertical-align:top;">
+                            <table  id="tblObsGrading" style="margin-top:1px; text-align:left; border:ridge 0.1em #ccc; width:100%; padding:5px 5px 5px 5px;"> 
+                                <tr style="text-align:left;">
+                                    <td style="font-weight:bold;text-align:center;">Sr.No.</td>
+                                    <td style="font-weight:bold;">Item Description</td>
+                                    <td colspan="4"></td>
+                                    <td style="width:30%;font-weight:bold;">Remarks</td>
+                                </tr>
+                                @while (i < Model.GRADE_DETAILS_LIST_CORRECTION.Count)
+                                  {
+                                        if (Model.GRADE_DETAILS_LIST_CORRECTION[i].MAST_ITEM_CODE == 8) //For Overall Grade
+                                        {
+                                               var htmlAttributes1 = new Dictionary<string, object>();
+                                               var htmlAttributes2 = new Dictionary<string, object>();
+                                               var htmlAttributes3 = new Dictionary<string, object>();
+                                               var htmlAttributes4 = new Dictionary<string, object>();
+                                               if (Model.GRADE_DETAILS_LIST_CORRECTION[i].ASSIGNED_GRADE_CODE == 1)
+                                               {
+                                                  htmlAttributes1.Add("checked", "true");
+                                               }
+                                               else if (Model.GRADE_DETAILS_LIST_CORRECTION[i].ASSIGNED_GRADE_CODE == 2)
+                                               {
+                                                   htmlAttributes2.Add("checked", "true");
+                                               }
+                                               else if (Model.GRADE_DETAILS_LIST_CORRECTION[i].ASSIGNED_GRADE_CODE == 3)
+                                               {
+                                                   htmlAttributes3.Add("checked", "true");
+                                               }
+                                               else if (Model.GRADE_DETAILS_LIST_CORRECTION[i].ASSIGNED_GRADE_CODE == 4)
+                                               {
+                                                   htmlAttributes4.Add("checked", "true");
+                                               }
+                                               htmlAttributes1.Add("disabled", "disabled");
+                                               htmlAttributes1.Add("id", "optItem" + Model.GRADE_DETAILS_LIST_CORRECTION[i].NO_OF_ITEM);
+                                               htmlAttributes2.Add("disabled", "disabled");
+                                               htmlAttributes2.Add("id", "optItem" + Model.GRADE_DETAILS_LIST_CORRECTION[i].NO_OF_ITEM);
+                                               htmlAttributes3.Add("disabled", "disabled");
+                                               htmlAttributes3.Add("id", "optItem" + Model.GRADE_DETAILS_LIST_CORRECTION[i].NO_OF_ITEM);
+                                               htmlAttributes4.Add("disabled", "disabled");
+                                               htmlAttributes4.Add("id", "optItem" + Model.GRADE_DETAILS_LIST_CORRECTION[i].NO_OF_ITEM);
+                                        
+                                            <tr class="ui-state-default">
+                                                <td style="width:5%">&nbsp;</td>
+                                                <td style="text-align:center; width:35%;">
+                                                    @Model.GRADE_DETAILS_LIST_CORRECTION[i].MAST_ITEM_NAME
+                                                </td>
+                                                <td style="width:7%;">
+                                                    @Html.RadioButton("optItem" + Model.GRADE_DETAILS_LIST_CORRECTION[i].NO_OF_ITEM, "1", htmlAttributes1) <b> S </b>
+                                                </td>
+                                                <td style="width:10%;">
+                                                    @Html.RadioButton("optItem" + Model.GRADE_DETAILS_LIST_CORRECTION[i].NO_OF_ITEM, "2", htmlAttributes2) <b> SRI </b>
+                                                </td>
+                                                <td style="width:8%;">
+                                                    @Html.RadioButton("optItem" + Model.GRADE_DETAILS_LIST_CORRECTION[i].NO_OF_ITEM, "3", htmlAttributes3) <b> U </b>
+                                                </td>
+                                                <td style="width:10%;">
+                                                    @Html.RadioButton("optItem" + Model.GRADE_DETAILS_LIST_CORRECTION[i].NO_OF_ITEM, "4", htmlAttributes4) <b> NA </b>
+                                                </td>
+                                                <td style="width:25%;"></td>
+                                                    @Html.Hidden("hiddenitem" + Model.GRADE_DETAILS_LIST_CORRECTION[i].NO_OF_ITEM, Model.GRADE_DETAILS_LIST_CORRECTION[i].ASSIGNED_GRADE_CODE, new { @id = "hiddenitem" + Model.GRADE_DETAILS_LIST_CORRECTION[i].NO_OF_ITEM })
+                                            </tr>
+                                        }
+                                        else if (Model.GRADE_DETAILS_LIST_CORRECTION[i].MAST_SUB_ITEM_CODE == 0)      //For Main Grade Item
+                                        {
+                                                    var htmlAttributes1 = new Dictionary<string, object>();
+                                                    var htmlAttributes2 = new Dictionary<string, object>();
+                                                    var htmlAttributes3 = new Dictionary<string, object>();
+                                                    var htmlAttributes4 = new Dictionary<string, object>();
+                                                    if (Model.GRADE_DETAILS_LIST_CORRECTION[i].ASSIGNED_GRADE_CODE == 1)
+                                                    {
+                                                        htmlAttributes1.Add("checked", "true");
+                                                  
+                                                    }
+                                                    else if (Model.GRADE_DETAILS_LIST_CORRECTION[i].ASSIGNED_GRADE_CODE == 2)
+                                                    {
+                                                        htmlAttributes2.Add("checked", "true");
+                                                    
+                                                    }
+                                                    else if (Model.GRADE_DETAILS_LIST_CORRECTION[i].ASSIGNED_GRADE_CODE == 3)
+                                                    {
+                                                        htmlAttributes3.Add("checked", "true");
+                                                    
+                                                    }
+                                                    else if (Model.GRADE_DETAILS_LIST_CORRECTION[i].ASSIGNED_GRADE_CODE == 4)
+                                                    {
+                                                        htmlAttributes4.Add("checked", "true");
+                                                    
+                                                    }
+													
+													if (Model.GRADE_DETAILS_LIST_CORRECTION[i].MAST_ITEM_CODE == 5 || Model.GRADE_DETAILS_LIST_CORRECTION[i].MAST_ITEM_CODE == 7)
+                                                    {
+                                                        htmlAttributes1.Add("disabled", "disabled");
+                                                        htmlAttributes2.Add("disabled", "disabled");
+                                                        htmlAttributes3.Add("disabled", "disabled");
+                                                        htmlAttributes4.Add("disabled", "disabled");
+                                                    }
+                                                    else
+                                                    {
+                                                        htmlAttributes1.Add("onclick", "fnGradeValidateForLSB()");
+                                                        htmlAttributes2.Add("onclick", "fnGradeValidateForLSB()");
+                                                        htmlAttributes3.Add("onclick", "fnGradeValidateForLSB()");
+                                                        htmlAttributes4.Add("onclick", "fnGradeValidateForLSB()");
+                                                    }
+                                                    
+                                                    htmlAttributes1.Add("id", "optItem" + Model.GRADE_DETAILS_LIST_CORRECTION[i].MAST_ITEM_CODE);
+                                                    htmlAttributes2.Add("id", "optItem" + Model.GRADE_DETAILS_LIST_CORRECTION[i].MAST_ITEM_CODE);
+                                                    htmlAttributes3.Add("id", "optItem" + Model.GRADE_DETAILS_LIST_CORRECTION[i].MAST_ITEM_CODE);
+                                                    htmlAttributes4.Add("id", "optItem" + Model.GRADE_DETAILS_LIST_CORRECTION[i].MAST_ITEM_CODE);
+                                            <tr class="ui-state-default">
+
+											<td style="width:5%;">
+												@Model.GRADE_DETAILS_LIST_CORRECTION[i].MAST_ITEM_CODE                   
+											</td>
+                                                
+                                               
+                                            <td style="text-align:left; width:35%;">
+                                                @Model.GRADE_DETAILS_LIST_CORRECTION[i].MAST_ITEM_NAME
+                                            </td>
+                                               
+                                            <td style="width:7%;">
+                                                @Html.RadioButton("optItem" + Model.GRADE_DETAILS_LIST_CORRECTION[i].MAST_ITEM_CODE, "1", htmlAttributes1) <b> S </b>
+                                            </td>
+                                            <td style="width:10%;">
+                                                        @if (Model.GRADE_DETAILS_LIST_CORRECTION[i].MAST_GRADE_CODE == 4)
+                                                        {
+                                                            @Html.RadioButton("optItem" + Model.GRADE_DETAILS_LIST_CORRECTION[i].MAST_ITEM_CODE, "2", htmlAttributes2) <b> SRI </b>
+                                                        }
+                                                        else
+                                                        {
+                                                            <b> &nbsp; </b>
+                                                        }
+                                            </td>
+                                            <td style="width:8%;">
+                                                @Html.RadioButton("optItem" + Model.GRADE_DETAILS_LIST_CORRECTION[i].MAST_ITEM_CODE, "3", htmlAttributes3) <b> U </b>
+                                            </td>
+                                            <td style="width:10%;">
+                                                @Html.RadioButton("optItem" + Model.GRADE_DETAILS_LIST_CORRECTION[i].MAST_ITEM_CODE, "4", htmlAttributes4) <b> NA </b>
+                                            </td>
+                                            <td style="width:25%;">@Model.GRADE_DETAILS_LIST_CORRECTION[i].REMARKS</td>
+
+                                                @Html.Hidden("hiddenitem" + Model.GRADE_DETAILS_LIST_CORRECTION[i].MAST_ITEM_CODE, "4", new { @id = "hiddenitem" + Model.GRADE_DETAILS_LIST_CORRECTION[i].MAST_ITEM_CODE})
+                                          </tr>        
+                                        }
+                                        else if(Model.GRADE_DETAILS_LIST_CORRECTION[i].MAST_SUB_ITEM_CODE != 0)
+                                        {
+                                                var htmlAttributes1 = new Dictionary<string, object>();
+                                                var htmlAttributes2 = new Dictionary<string, object>();
+                                                var htmlAttributes3 = new Dictionary<string, object>();
+                                                var htmlAttributes4 = new Dictionary<string, object>();
+                                                if (Model.GRADE_DETAILS_LIST_CORRECTION[i].ASSIGNED_GRADE_CODE == 1)
+                                                {
+                                                    htmlAttributes1.Add("checked", "true");
+                                               
+
+                                                }
+                                                else if (Model.GRADE_DETAILS_LIST_CORRECTION[i].ASSIGNED_GRADE_CODE == 2)
+                                                {
+                                                    htmlAttributes2.Add("checked", "true");
+                                                
+                                                }
+                                                else if (Model.GRADE_DETAILS_LIST_CORRECTION[i].ASSIGNED_GRADE_CODE == 3)
+                                                {
+                                                    htmlAttributes3.Add("checked", "true");
+                                               
+                                                }
+                                                else if (Model.GRADE_DETAILS_LIST_CORRECTION[i].ASSIGNED_GRADE_CODE == 4)
+                                                {
+                                                    htmlAttributes4.Add("checked", "true");
+                                               
+                                                }
+                                                htmlAttributes1.Add("id", "subitem" + Model.GRADE_DETAILS_LIST_CORRECTION[i].MAST_ITEM_CODE + Model.GRADE_DETAILS_LIST_CORRECTION[i].MAST_SUB_ITEM_CODE);
+                                                htmlAttributes1.Add("onclick", "ItemGradeForLSB(" + Model.GRADE_DETAILS_LIST_CORRECTION[i].NO_OF_ITEM + "," + Model.GRADE_DETAILS_LIST_CORRECTION[i].MAST_ITEM_CODE + "," + Model.GRADE_DETAILS_LIST_CORRECTION[i].NO_OF_SUB_ITEM + ")");
+                                                htmlAttributes2.Add("id", "subitem" + Model.GRADE_DETAILS_LIST_CORRECTION[i].MAST_ITEM_CODE + Model.GRADE_DETAILS_LIST_CORRECTION[i].MAST_SUB_ITEM_CODE);
+                                                htmlAttributes2.Add("onclick", "ItemGradeForLSB(" + Model.GRADE_DETAILS_LIST_CORRECTION[i].NO_OF_ITEM + "," + Model.GRADE_DETAILS_LIST_CORRECTION[i].MAST_ITEM_CODE + "," + Model.GRADE_DETAILS_LIST_CORRECTION[i].NO_OF_SUB_ITEM + ")");
+                                                htmlAttributes3.Add("id", "subitem" + Model.GRADE_DETAILS_LIST_CORRECTION[i].MAST_ITEM_CODE + Model.GRADE_DETAILS_LIST_CORRECTION[i].MAST_SUB_ITEM_CODE);
+                                                htmlAttributes3.Add("onclick", "ItemGradeForLSB(" + Model.GRADE_DETAILS_LIST_CORRECTION[i].NO_OF_ITEM + "," + Model.GRADE_DETAILS_LIST_CORRECTION[i].MAST_ITEM_CODE + "," + Model.GRADE_DETAILS_LIST_CORRECTION[i].NO_OF_SUB_ITEM + ")");
+                                                htmlAttributes4.Add("id", "subitem" + Model.GRADE_DETAILS_LIST_CORRECTION[i].MAST_ITEM_CODE + Model.GRADE_DETAILS_LIST_CORRECTION[i].MAST_SUB_ITEM_CODE);
+                                                htmlAttributes4.Add("onclick", "ItemGradeForLSB(" + Model.GRADE_DETAILS_LIST_CORRECTION[i].NO_OF_ITEM + "," + Model.GRADE_DETAILS_LIST_CORRECTION[i].MAST_ITEM_CODE + "," + Model.GRADE_DETAILS_LIST_CORRECTION[i].NO_OF_SUB_ITEM + ")");
+                                        
+                                          <tr class="ui-state-hover">
+                                            <td>&nbsp;</td>
+                                            <td style="width:35%;">
+                                                @Model.GRADE_DETAILS_LIST_CORRECTION[i].MAST_SUB_ITEM_CODE  <b>.</b> @Model.GRADE_DETAILS_LIST_CORRECTION[i].MAST_ITEM_NAME             
+                                            </td>
+                                            <td style="width:7%;">
+                                                @Html.RadioButton("subitem" + Model.GRADE_DETAILS_LIST_CORRECTION[i].MAST_ITEM_CODE+ Model.GRADE_DETAILS_LIST_CORRECTION[i].MAST_SUB_ITEM_CODE, "1", htmlAttributes1) <b> S </b>
+                                            </td>
+                                            <td style="width:10%;">
+                                                    @if (Model.GRADE_DETAILS_LIST_CORRECTION[i].MAST_GRADE_CODE == 4)
+                                                    {
+                                                        @Html.RadioButton("subitem" + Model.GRADE_DETAILS_LIST_CORRECTION[i].MAST_ITEM_CODE+ Model.GRADE_DETAILS_LIST_CORRECTION[i].MAST_SUB_ITEM_CODE, "2", htmlAttributes2) <b> SRI </b>
+                                                    }
+                                                    else
+                                                    {
+                                                        <b> &nbsp; </b>
+                                                    }
+                                            </td>
+                                            <td style="width:8%;">
+                                                @Html.RadioButton("subitem" + Model.GRADE_DETAILS_LIST_CORRECTION[i].MAST_ITEM_CODE+ Model.GRADE_DETAILS_LIST_CORRECTION[i].MAST_SUB_ITEM_CODE, "3", htmlAttributes3) <b> U </b>
+                                            </td>
+                                            <td style="width:10%;">
+                                                @Html.RadioButton("subitem" + Model.GRADE_DETAILS_LIST_CORRECTION[i].MAST_ITEM_CODE+ Model.GRADE_DETAILS_LIST_CORRECTION[i].MAST_SUB_ITEM_CODE, "4", htmlAttributes4) <b> NA </b>
+                                            </td>
+                                            <td style="width:25%;">@Model.GRADE_DETAILS_LIST_CORRECTION[i].REMARKS</td>
+                                          </tr> 
+                                        }
+                                    
+                                      i++;
+                               
+                                  }     @*While Ends Here*@
+
+                            </table>
+                        </td>
+            }
+
+        </tr> 
+        <tr  id="trGradeError" style="display:none;">    
+            <td colspan="2" style="text-align:right">
+                <div id="divGradeError" class="ui-state-error ui-corner-all" style="text-align: left; float:right; display: none; width: 50%">
+                    <span class="ui-icon ui-icon-alert" style="float: left;"></span>
+                    <span></span>
+                    <span style="float: right;"><a style="float: right;" href="#">
+                        <img class="ui-icon ui-icon-closethick" onclick="closeDivError();" style="border:none;color:red;border-width: 0;">
+                    </a></span>
+                </div>
+            </td>
+        </tr>
+        <tr>
+            <td colspan="2" style="text-align:right">
+                           
+                <input type="button" value="Save" class="jqueryButton" id="btnSave"/>
+                <input type="button" value="Cancel" class="jqueryButton" id="btnCancel"/>
+            </td>
+        </tr>
+
+    </table>  
+  </center>
+</form>

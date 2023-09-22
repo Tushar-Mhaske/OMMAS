@@ -1,0 +1,8 @@
+﻿@using MvcReportViewer
+@model PMGSY.Areas.AccountReports.Models.MonthlyAccountModel
+
+@Html.MvcReportViewer("/PMGSYCitizen/MonthlyAccount",
+     new {  
+            PINTAdminNDCode = @Model.AdminNdCode, PINTAccMonth = @Model.Month, PINTAccYear = @Model.Year, PCHARfundType=@Model.FundType,PCHARCreditDebit = @Model.CreditDebit, Level =  @Model.levelId,AllPIU=@Model.AllPIU,Self=Model.ISSelf},
+     new { Height = 675, Width = 1220, style = "border:none;" })
+

@@ -1,0 +1,254 @@
+﻿@model PMGSY.Models.NQMTourClaimModels.NQM_TOUR_CLAIM_MASTER_MODEL
+
+@{
+    ViewBag.Title = "ViewEditTourFinance2";
+}
+
+<script src="~/Scripts/custom/Generic.js"></script>
+<script src="~/Scripts/jquery-ui.js"></script>
+<script src="~/Scripts/TourClaim/ViewEditTourFinance2.js"></script>
+<link href="~/Content/TourClaim/TourClaimCss.css" rel="stylesheet" />
+
+<center>
+    @Html.HiddenFor(model => model.TOUR_CLAIM_ID, new { id = "tourClaimIdFin2" })
+    @Html.HiddenFor(model => model.ADMIN_SCHEDULE_CODE, new { id = "scheduleCodeFin2" })
+    @Html.HiddenFor(model => model.ADMIN_QM_CODE)
+
+    <table style="margin-top: 15px; margin-bottom: 5px; border: 1px solid black; white-space: nowrap; border-radius: 1rem" class="ui-state-default;">
+
+        <tr style="width: 9%; padding: 0.3rem">
+            <td style="padding:0.5rem">
+                @Html.LabelFor(model => model.ADMIN_QM_NAME)
+            </td>
+            <td style="padding: 0.5rem; font-weight: bold">
+                @Html.Raw(Model.ADMIN_QM_NAME)
+            </td>
+
+            <td style="padding:1rem">
+                @Html.LabelFor(model => model.NRRDA_LETTER_NUMBER)
+            </td>
+            <td style="padding: 0.5rem; font-weight: bold">
+                <a href="#" onclick="OpenNqmLetter()" style="color: blue;">
+                    @Html.Raw(Model.NRRDA_LETTER_NUMBER)
+                </a>
+            </td>
+
+            <td style="padding:1rem">
+                @Html.LabelFor(model => model.ADMIN_QM_PAN)
+            </td>
+            <td style="padding: 0.5rem; font-weight: bold">
+                @Html.Raw(Model.ADMIN_QM_PAN)
+            </td>
+        </tr>
+
+        <tr>
+            <td style="padding:0.5rem">
+                @Html.LabelFor(model => model.BANK_NAME)
+            </td>
+            <td style="padding: 0.5rem; font-weight: bold; width: 10%">
+                @Html.Raw(Model.BANK_NAME)
+            </td>
+
+            <td style="padding:1rem">
+                @Html.LabelFor(model => model.ACCOUNT_NUMBER)
+            </td>
+            <td style="padding: 0.5rem; font-weight: bold">
+                @Html.Raw(Model.ACCOUNT_NUMBER)
+            </td>
+
+            <td style="padding:1rem">
+                @Html.LabelFor(model => model.IFSC_CODE)
+            </td>
+            <td style="padding: 0.5rem; font-weight: bold">
+                @Html.Raw(Model.IFSC_CODE)
+            </td>
+        </tr>
+
+        <tr>
+            <td style="padding:0.5rem">
+                @Html.LabelFor(model => model.TOTAL_AMOUNT_CLAIMED)
+            </td>
+            <td style="padding: 0.5rem; font-weight: bold">
+                @Html.Raw(Model.TOTAL_AMOUNT_CLAIMED)
+            </td>
+
+            <td style="padding:1rem">
+                @Html.Label("Total Amount Proposed by CQC:")
+            </td>
+            <td style="padding: 0.5rem; font-weight: bold">
+                @Html.Raw(Model.TOTAL_AMOUNT_SANCTIONED)
+            </td>
+
+            <td style="padding:1rem">
+                @Html.LabelFor(model => model.TOTAL_AMOUNT_PASSED_FIN1)
+            </td>
+            <td style="padding: 0.5rem; font-weight: bold">
+                @Html.Raw(Model.TOTAL_AMOUNT_PASSED_FIN1)
+            </td>
+        </tr>
+
+    </table>
+</center>
+
+<div class="tab" style="margin-top: 10px; width: 20%; border-radius: 1rem;">
+    <button id="defaultOpen" class="tablinks" style="border-radius: 1rem; font-size: 0.8rem " onclick="AddDistrictDetails(event,$('#scheduleCodeFin2').val(), 'districtDiv')">District Details</button>
+    <button class="tablinks" style="border-radius: 1rem; font-size: 0.8rem " onclick="AddTravelClaim(event, $('#scheduleCodeFin2').val(), 'travelDiv')">Travel Details</button>
+    <button class="tablinks" style="border-radius: 1rem; font-size: 0.8rem " onclick="AddLodgeClaim(event,$('#scheduleCodeFin2').val(), 'lodgeDiv')">Lodge Details</button>
+    <button class="tablinks" style="border-radius: 1rem; font-size: 0.8rem " onclick="PerformInspectionOfRoad(event, $('#scheduleCodeFin2').val(), 'inspectionDiv')">Inspection Of Road</button>
+    <button class="tablinks" style="border-radius: 1rem; font-size: 0.8rem " onclick="MeetingWithPIU(event,$('#scheduleCodeFin2').val(), 'meetingDiv')">Meeting With PIU</button>
+    <button class="tablinks" style="border-radius: 1rem; font-size: 0.8rem " onclick="AddMiscellaneousClaim(event,$('#scheduleCodeFin2').val(), 'miscellaneousDiv')">Miscellaneous</button>
+    <button class="tablinks" style="border-radius: 1rem; font-size: 0.8rem " onclick="AddPermissionClaim(event,$('#scheduleCodeFin2').val(), 'permissionDiv')">Permissions</button>
+    @if (Model.finalizeFlag == 3 && Model.ROUND_SEQUENCE == 1)
+    {
+        <button class="tablinks" style="border-radius: 1rem; font-size: 0.8rem " onclick="AddApproveRevertToCQC(event,$('#scheduleCodeFin2').val(),'approveForwardDiv')">Preview and Approve</button>
+    }
+    else if (Model.finalizeFlag == 3)
+    {
+        <button class="tablinks" style="border-radius: 1rem; font-size: 0.8rem " onclick="AddApproveRevertToCQC(event,$('#scheduleCodeFin2').val(),'approveForwardDiv')">Preview and Approve/Revert to CQC</button>
+    }
+    else
+    {
+        <button class="tablinks" style="border-radius: 1rem; font-size: 0.8rem " onclick="AddApproveRevertToCQC(event,$('#scheduleCodeFin2').val(),'approveForwardDiv')">Preview details</button>
+    }
+
+</div>
+
+<div id="showMainForm">
+
+    <div></div>
+    <div></div>
+
+    <div id="districtPart" style="display: none; width: 100%; height: 30px; border: 1px solid black; margin-top: 5px; margin-bottom: -15px; " class="ui-corner-top ui-widget-header panelheader">
+        <span style="display: none; float: left; margin-right: 2Px; margin-top: 5px; font-size: x-large " id="idCollapseSpanViewDistrict" class="ui-icon ui-icon-circle-plus"></span>
+        <span style="float: left; margin-right: 2Px; margin-top: 5px; font-size: large " id="idCollapseSpanHideDistrict" class="ui-icon ui-icon-circle-minus"></span>
+        <span class="ui-jqgrid-title" style="float: left; font-size: 150%; margin-right: 2Px; margin-top: 5px">&nbsp;Add District Details</span>
+    </div>
+
+    <div id="districtDiv" class="tabcontent" style="margin-top: 10px; width: 80%; border-radius: 1rem; border: 1px solid grey; background-color: #f6f3ec">
+
+        <div></div>
+        <div id="divDistrictDetailsList" style="margin-top:30px; width:100%">
+            <table id="tbDistrictDetailsList"> </table>
+            <div id="pagerDistrictDetailsList"> </div>
+        </div>
+    </div>
+
+
+    <div></div>
+    <div></div>
+
+    <div id="travelPart" style="display: none; width: 100%; height: 30px; border: 1px solid black; margin-top: 25px; margin-bottom: -15px; " class="ui-corner-top ui-widget-header panelheader">
+        <span style="float: left; margin-right: 2Px; margin-top: 5px" id="idCollapseSpanViewTravel" class="ui-icon ui-icon-circle-plus"></span>
+        <span style="display: none; float: left; margin-right: 2Px; margin-top: 5px" id="idCollapseSpanHideTravel" class="ui-icon ui-icon-circle-minus"></span>
+        <span class="ui-jqgrid-title" style="float: left; font-size: 150%; margin-right: 2Px; margin-top: 5px">&nbsp;Add Travel Allowance</span>
+    </div>
+
+    <div id="travelDiv" style="display: none; margin-top: 10px; width: 80%; border-radius: 1rem; border: 1px solid grey; background-color: #f6f3ec" class="tabcontent">
+
+        <div></div>
+        <div id="divTravelClaimList" style="margin-top:30px; width:100%">
+            <table id="tbTravelClaimList"> </table>
+            <div id="pagerTravelClaimList"> </div>
+        </div>
+    </div>
+
+
+
+    <div></div>
+    <div></div>
+
+    <div id="lodgePart" style="display: none; width: 100%; height: 30px; border: 1px solid black; margin-top: 25px; margin-bottom: -15px; " class="ui-corner-top ui-widget-header panelheader">
+        <span style="float: left; margin-right: 2Px; margin-top: 5px" id="idCollapseSpanViewLodge" class="ui-icon ui-icon-circle-plus"></span>
+        <span style="display: none; float: left; margin-right: 2Px; margin-top: 5px" id="idCollapseSpanHideLodge" class="ui-icon ui-icon-circle-minus"></span>
+        <span class="ui-jqgrid-title" style="float: left; font-size: 150%; margin-right: 2Px; margin-top: 5px">&nbsp;Add Lodge and Daily Allowance</span>
+    </div>
+
+    <div id="lodgeDiv" style="display: none; margin-top: 10px; width: 80%; border-radius: 1rem; border: 1px solid grey; background-color: #f6f3ec" class="tabcontent">
+
+        <div></div>
+        <div id="divLodgeClaimList" style="margin-top:30px; width:100%">
+            <table id="tbLodgeClaimList"> </table>
+            <div id="pagerLodgeClaimList"> </div>
+        </div>
+    </div>
+
+
+
+    <div></div>
+    <div></div>
+
+    <div id="inspectionPart" style="display: none; width: 100%; height: 30px; border: 1px solid black; margin-top: 25px; margin-bottom: -15px; " class="ui-corner-top ui-widget-header panelheader">
+        <span style="float: left; margin-right: 2Px; margin-top: 5px" id="idCollapseSpanViewInspection" class="ui-icon ui-icon-circle-plus"></span>
+        <span style="display: none; float: left; margin-right: 2Px; margin-top: 5px" id="idCollapseSpanHideInspection" class="ui-icon ui-icon-circle-minus"></span>
+        <span class="ui-jqgrid-title" style="float: left; font-size: 150%; margin-right: 2Px; margin-top: 5px">&nbsp;Add Inspection of roads Allowance</span>
+    </div>
+
+    <div id="inspectionDiv" style="display: none; margin-top: 10px; width: 80%; border-radius: 1rem; border: 1px solid grey; background-color: #f6f3ec" class="tabcontent">
+
+        <div></div>
+        <div id="divInspectionOfRoadsHonorarium" style="margin-top:30px; width:100%">
+            <table id="tbInspectionOfRoadsHonorarium"> </table>
+            <div id="pagerInspectionOfRoadsHonorarium"> </div>
+        </div>
+    </div>
+
+
+    <div></div>
+    <div></div>
+
+    <div id="meetingPart" style="display: none; width: 100%; height: 30px; border: 1px solid black; margin-top: 25px; margin-bottom: -15px; " class="ui-corner-top ui-widget-header panelheader">
+        <span style="float: left; margin-right: 2Px; margin-top: 5px" id="idCollapseSpanViewMeeting" class="ui-icon ui-icon-circle-plus"></span>
+        <span style="display: none; float: left; margin-right: 2Px; margin-top: 5px" id="idCollapseSpanHideMeeting" class="ui-icon ui-icon-circle-minus"></span>
+        <span class="ui-jqgrid-title" style="float: left; font-size: 150%; margin-right: 2Px; margin-top: 5px">&nbsp;Add meeting with PIU Allowance</span>
+    </div>
+
+    <div id="meetingDiv" style="display: none; margin-top: 10px; width: 80%; border-radius: 1rem; border: 1px solid grey; background-color: #f6f3ec" class="tabcontent">
+
+        <div></div>
+        <div id="divMeetingHonorarium" style="margin-top:30px; width:100%">
+            <table id="tbMeetingHonorarium"> </table>
+            <div id="pagerMeetingHonorarium"> </div>
+        </div>
+    </div>
+
+    <div></div>
+    <div></div>
+
+    <div id="miscellaneousPart" style="display: none; width: 100%; height: 30px; border: 1px solid black; margin-top: 25px; margin-bottom: -15px; " class="ui-corner-top ui-widget-header panelheader">
+        <span style="float: left; margin-right: 2Px; margin-top: 5px" id="idCollapseSpanViewMiscellaneous" class="ui-icon ui-icon-circle-plus"></span>
+        <span style="display: none; float: left; margin-right: 2Px; margin-top: 5px" id="idCollapseSpanHideMeeting" class="ui-icon ui-icon-circle-minus"></span>
+        <span class="ui-jqgrid-title" style="float: left; font-size: 150%; margin-right: 2Px; margin-top: 5px">&nbsp;Add miscellaneous claim details</span>
+    </div>
+
+    <div id="miscellaneousDiv" style="display: none; margin-top: 10px; width: 80%; border-radius: 1rem; border: 1px solid grey; background-color: #f6f3ec" class="tabcontent">
+
+        <div></div>
+        <div id="divMiscellaneousClaimDetails" style="margin-top:30px; width:100%">
+            <table id="tbMiscellaneousClaimList"> </table>
+            <div id="pagerMiscellaneousClaimList"> </div>
+        </div>
+    </div>
+
+    <div id="permissionDiv" class="tabcontent" style="display: none; margin-top: 10px; width: 80%; border-radius: 1rem; border: 1px solid grey">
+
+        <div></div>
+        <div id="divPermissionClaimList" style="margin-top:30px; width:100%">
+            <table id="tbPermissionClaimList"> </table>
+            <div id="pagerPermissionClaimList"> </div>
+        </div>
+    </div>
+
+    <div id="approveForwardDiv" style="display: none; margin-top: 10px; width: 80%; border-radius: 1rem; border: 1px solid grey; background-color: #f6f3ec" class="tabcontent">
+
+        <div></div>
+        <div id="divapproveForwardDetails" style="margin-top:30px; width:100%"></div>
+    </div>
+
+</div>
+
+<br />
+<br />
+
+<div id="previewDiv" style="display: none; margin-top: 50px; border: 0.5px solid grey; border-radius: 1rem; background-color: #f6f3ec; " class="ui-state-default">
+    <div id="divViewPreviewDetails" style="display: none;"></div>
+</div>

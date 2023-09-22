@@ -1,0 +1,144 @@
+﻿@model PMGSY.Models.Feedback.SearchFeedback
+@{
+    ViewBag.Title = "searchFBDetails";
+}
+
+<script src="~/Scripts/custom/Generic.js"></script>
+
+<div id="dvsrFbDtlsMain" class="dataTable" style="margin-top: 10px; width: 98.8%; border: none; height: 360px;">
+    @*<span style="text-align: center;">&nbsp; </span>*@
+    <form id="frmsrFBDetails">
+        @Html.AntiForgeryToken()
+        @Html.ValidationSummary(true)
+
+        @{
+            System.Globalization.CultureInfo CultureInfo = null;
+            CultureInfo = new System.Globalization.CultureInfo(Request.Cookies["language"] == null ? "en" : Request.Cookies["language"].Value.ToString());
+        }
+
+        <table style="width: 100%; margin-left: 2px; border-left: #ccc solid 1px; border-radius: 5px;" class="rowstyle">
+            @if (Model.feedbackId != null)
+            { 
+                <tr class="ui-widget-header">
+                    <td colspan="4" style="text-align: center; background-color: #FCCC6B;"><b>Feedback Details</b></td>
+                </tr>
+                <tr>
+                    <td style="width: 15%; height: 25px; text-align: left; border-right: none;"><b>Feedback Date</b></td>
+                    <td style="width: 25%; text-align: left; border-left: none; border-right: none;">
+                        @Html.DisplayTextFor(m => m.FDate)
+                    </td>
+                    <td style="width: 15%; text-align: left; height: 25px; border-left: none; border-right: none;"><b>Feedback Against</b></td>
+                    <td style="width: 25%; text-align: left; border-left: none;">@Html.DisplayTextFor(m => m.FAgainst)</td>
+                </tr>
+                <tr>
+                    <td style="width: 15%; height: 25px; text-align: left; border-right: none;"><b>State</b></td>
+                    <td style="width: 25%; text-align: left; border-left: none; border-right: none;">
+                        @Html.DisplayTextFor(m => m.FState)
+                    </td>
+                    <td style="width: 15%; text-align: left; height: 25px; border-left: none; border-right: none;"><b>District</b></td>
+                    <td style="width: 25%; text-align: left; border-left: none;">@Html.DisplayTextFor(m => m.FDistrict)</td>
+                </tr>
+                <tr>
+                    <td style="width: 15%; height: 25px; text-align: left; border-right: none;"><b>Block</b></td>
+                    <td style="width: 25%; text-align: left; border-left: none; border-right: none;">
+                        @Html.DisplayTextFor(m => m.FBlock)
+                    </td>
+                    <td style="width: 15%; text-align: left; height: 25px; border-left: none; border-right: none;"><b>Feedback For</b></td>
+                    <td style="width: 25%; text-align: left; border-left: none;">@Html.DisplayTextFor(m => m.FFor)</td>
+                </tr>
+                <tr>
+                    <td style="width: 15%; height: 25px; text-align: left; border-right: none;"><b>Feedback</b></td>
+                    <td colspan="3" style="text-align: left; border-left: none;">
+                        <div style="word-wrap: break-word; width: 750px;">
+                            @Html.DisplayTextFor(m => m.FComments)
+                        </div>
+                    </td>
+                </tr>
+                <tr>
+                    <td style="width: 15%; height: 25px; text-align: left; border-right: none;"><b>Is PMGSY Road</b></td>
+                    <td style="width: 25%; text-align: left; border-left: none; border-right: none;">
+                        @Html.DisplayTextFor(m => m.PMGSYRoads)
+                    </td>
+                    @if (Model.FFor == "Habitation")
+                    {
+                        <td style="width: 15%; text-align: left; height: 25px; border-left: none; border-right: none;"><b>Habitation Name</b></td>
+                    }
+                    else
+                    {
+                        <td style="width: 15%; height: 25px; text-align: left; border-left: none; border-right: none;"><b>Road Name</b></td>
+                    }
+                    <td style="width: 25%; text-align: left; border-left: none;">
+                        @Html.DisplayTextFor(m => m.RoadName)
+                    </td>
+                </tr>
+                <tr>
+                    <td style="width: 15%; text-align: left; height: 25px; border-right: none;"><b>Village Name</b></td>
+                    <td style="width: 25%; text-align: left; border-left: none; border-right: none;">@Html.DisplayTextFor(m => m.VillageName)</td>
+                    <td style="width: 15%; height: 25px; text-align: left; border-left: none; border-right: none;"><b>Nearest Habitation</b></td>
+                    <td style="width: 25%; text-align: left; border-left: none;">
+                        @Html.DisplayTextFor(m => m.NearestHabitation)
+                    </td>
+                </tr>
+            }
+        </table>
+
+        @if (Model.statusList != null)
+        {
+            <table style="width: 100%; margin-top: 10px; margin-left: 2px; background-color: #FCCC6B; border-radius: 5px;">
+                <tr>
+                    <td style="width: 15%; height: 25px; text-align: center"><b>
+                        <span>Reply Type</span>
+                    </b></td>
+
+                    <td style="width: 50%; text-align: center">
+                        <b><span>Comments</span></b>
+                    </td>
+                    <td style="width: 15%; text-align: center">
+                        <b><span>Reply Date</span></b>
+                    </td>
+                </tr>
+            </table>
+            <div class="innerTable" style="height: 220px; margin-left: 2px; width: 100%;">
+                <table style="border-left: #ccc solid 1px; border-radius: 5px;" class="rowstyle">
+                    @foreach (PMGSY.Models.Feedback.SearchFeedReply item in Model.statusList)
+                    {
+                        <tr>
+                            @if (item.repstat == "I")
+                            {
+                                <td style="width: 15%; height: 25px; text-align: left">Interim Reply</td>
+                            }
+                            else
+                            {
+                                <td style="width: 15%; height: 25px; text-align: left">Final Reply</td>
+                            }
+                            <td style="width: 50%; text-align: left">
+                                @item.repcomment
+                            </td>
+                            <td style="width: 15%; text-align: left">
+                                @item.repdate
+                            </td>
+                        </tr>
+                    }
+                </table>
+            </div>
+        }
+        else
+        {
+            <table style="width: 100%;">
+                <tr>
+                    <td style="text-align: center">
+                        @if (Model.RepStatus == null && Model.feedcomm == null)
+                        {
+                            <span>Invalid Token or Contact Details</span>
+                        }
+                        else
+                        {
+                            <span>Your Feedback is under review, thank you for viewing the feedback.</span>
+                        }
+                    </td>
+                </tr>
+            </table>
+        }
+
+    </form>
+</div>

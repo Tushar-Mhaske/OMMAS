@@ -1,0 +1,56 @@
+﻿
+<!DOCTYPE html>
+<script src="~/Scripts/custom/Generic.js"></script>
+<script type="text/javascript">
+
+    $(document).ready(function () {
+    });
+
+    function downloadFileFromAction(paramurl) {                   
+        window.open(paramurl , '_blank');
+    }
+</script>
+<html>
+<head>
+    <meta name="viewport" content="width=device-width" />
+    <title>Report</title>
+</head>
+<body>
+    <p><strong> Crystal Report</strong></p>
+    <a  onclick="downloadFileFromAction('/Proposal/GetReport/'); return false;" href="#" target="_blank">
+        <img width="16" border="0" height="16" src="../../Content/images/PDF.ico" style="height:16px;width:16px">
+    </a>
+
+    <a  onclick="downloadFileFromAction('/Proposal/GetReportExcel/'); return false;" href="#" >
+        <img width="16" border="0" height="16" src="../../Content/images/Excel.gif" style="height:16px;width:16px">
+    </a>
+    <div>
+        <p><strong> SSRS Report</strong></p>
+
+        <a  onclick="downloadFileFromAction('/Proposal/SqlServerReport/'); return false;" href="#" target="_blank">
+            <img width="16" border="0" height="16" src="../../Content/images/PDF.png" style="height:16px;width:16px">
+        </a>
+
+        <a onclick="downloadFileFromAction('/Proposal/ExcelSqlServerReport/'); return false;" href="#" >
+            <img width="16" border="0" height="16" src="../../Content/images/Excel.gif" style="height:16px;width:16px">
+        </a>
+
+        Parameterized Report
+        <a onclick="downloadFileFromAction('/Proposal/ParameterizedExcelSqlServerReport/'); return false;" href="#" >
+            <img width="16" border="0" height="16" src="../../Content/images/Excel.gif" style="height:16px;width:16px">
+        </a>
+        <br />
+
+        Large Report
+        <a onclick="downloadFileFromAction('/Proposal/LargeReport/'); return false;" href="#" >
+            <img width="16" border="0" height="16" src="../../Content/images/PDF.png" style="height:16px;width:16px">
+        </a>
+
+        Large Report Excel
+        <a onclick="downloadFileFromAction('/Proposal/LargeReportexcel/'); return false;" href="#" >
+            <img width="16" border="0" height="16" src="../../Content/images/Excel.gif" style="height:16px;width:16px">
+        </a>
+    </div>
+
+</body>
+</html>

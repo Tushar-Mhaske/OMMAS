@@ -1,0 +1,99 @@
+﻿@model PMGSY.Models.Fund.FundReleaseFilterViewModel
+
+<script src="~/Scripts/jquery.ui.accordion.js"></script>
+<script src="~/Scripts/custom/Generic.js"></script>
+<script src="~/Scripts/Fund/ListFundReleaseDetails.js"></script>
+
+<center>
+<div style="width:98%; height:20px;border:none; margin-top:5px; margin-bottom:-15px; " class="ui-state-default">
+    <span style="float:right;margin-right:2Px; margin-top:2px" id="idFilterDiv" class="ui-icon ui-icon-circle-triangle-n"></span>     
+</div>
+
+<div id="searchForm" style="width: 98%; border:none; margin-top:-15px; margin-bottom:10px;" class="ui-state-default">
+   <form id="frmSearchFundRelease">
+       @Html.HiddenFor(model=>model.UrlParameter)
+       @Html.ValidationSummary(true) 
+         <table style="margin-top:10px; margin-bottom:5px">
+          <tr></tr>
+             @if (PMGSY.Extensions.PMGSYSession.Current.RoleCode == 2 || PMGSY.Extensions.PMGSYSession.Current.RoleCode == 37)
+             {
+                 <tr>@Html.HiddenFor(model=>model.State)
+                 @*<td><span style="display:none">@Html.DropDownListFor(model=>model.State, ViewData["State"] as IEnumerable<SelectListItem>,new {@id="ddlStateSearch", @title = "Select State", @tabindex = 1 }) </span></td>*@
+                 <td style="text-align:right;width:8%">@Html.Label("Fund Type")</td>
+                 <td style="text-align:center;width:10%">@Html.DropDownListFor(model=>model.FundType, ViewData["FundType"] as IEnumerable<SelectListItem>,new {@id="ddlFundTypeSearch", @title = "Select Fund Type", @tabindex = 1 })</td>
+                 <td style="text-align:right;width:5%">@Html.Label("Phase")</td>
+                 <td style="text-align:center;width:10%">@Html.DropDownListFor(model=>model.Year, ViewData["Year"] as IEnumerable<SelectListItem>,"--All--",new {@id="ddlYearSearch", @title = "Select Year", @tabindex = 1 })</td>
+                 <td style="text-align:right;width:5%">@Html.Label("Collaboration")</td>
+                 <td style="text-align:center;width:10%">@Html.DropDownListFor(model=>model.Collaboration, ViewData["FundingAgency"] as IEnumerable<SelectListItem>,"--All--",new {@id="ddlFundingAgencySearch",@title="Select Funding Agency",@tabindex=1 })</td>
+                 <td style="text-align:right;width:5%">@Html.Label("Released By")</td>
+                 <td style="text-align:center;width:10%">@Html.DropDownListFor(model=>model.ReleaseBy, ViewData["Releaser"] as IEnumerable<SelectListItem>,new {@id="ddlReleaser",@title="Select Released By",@tabindex=1 })</td>
+                </tr>
+             }
+             else
+             {
+             <tr>
+                 @Html.HiddenFor(model=>model.ReleaseBy)
+                 <td style="text-align:right;width:8%">@Html.Label("State")</td>
+                 <td style="text-align:center;width:15%">@Html.DropDownList("ddlState", ViewData["State"] as IEnumerable<SelectListItem>,new {@id="ddlStateSearch", @title = "Select State", @tabindex = 1 })</td>
+                 <td style="text-align:right;width:8%">@Html.Label("Fund Type")</td>
+                 <td style="text-align:center;width:15%">@Html.DropDownList("ddlFundType", ViewData["FundType"] as IEnumerable<SelectListItem>,new {@id="ddlFundTypeSearch", @title = "Select Fund Type", @tabindex = 1 })</td>
+                 <td style="text-align:right;width:8%">@Html.Label("Phase")</td>
+                 <td style="text-align:center;width:15%">@Html.DropDownList("ddlYear", ViewData["Year"] as IEnumerable<SelectListItem>,"--All--",new {@id="ddlYearSearch", @title = "Select Year", @tabindex = 1 })</td>
+                 <td style="text-align:right;width:8%">@Html.Label("Collaboration")</td>
+                 <td style="text-align:center;width:15%">@Html.DropDownList("ddlFundingAgency", ViewData["FundingAgency"] as IEnumerable<SelectListItem>,"--All--",new {@id="ddlFundingAgencySearch",@title="Select Funding Agency",@tabindex=1 })</td>
+                 
+             </tr>
+             }
+             <tr>
+             <td colspan="8">
+                <center>
+                <table>
+                    <tr>
+                        <td><input type="button" class="jqueryButton" value="List Fund Release Details" id="btnListFundReleaseDetails" name ="btnListNetworks" title="Click here to list Fund Release Details"/></td>
+                        <td><input type="button" value="Add Fund Release Details" class="jqueryButton" title="Click here to add fund release details" id="btnAddFundDetails" name="btnAddFundDetails"/></td>
+                    </tr>
+                </table>
+                </center>
+            </td>
+           </tr>
+         </table>
+   </form>
+</div>
+<div id="divFundReleaseList" style="margin-top:20px; width:98%">
+    <table id="tbFundReleaseList"></table>
+    <div id="pagerFundRelease"></div>
+</div>
+@*@if(PMGSY.Extensions.PMGSYSession.Current.RoleCode == 25)
+{
+
+}
+else
+{
+    <div id="tabs">
+    <ul>
+        <li><a href="#tabs-1">Fund Release By MoRD</a></li>
+        <li><a href="#tabs-2">Fund Release By State</a></li>
+    </ul>
+    <div id="tabs-1" style="text-align:left">
+    <div id="divMORD" style="text-align:left;width:100%">
+        <table id="tbMordReleaseList" style="width:95%"></table>
+        <div id="pagerMordReleaseList"></div>
+    </div>
+    </div>
+    <div id="tabs-2" style="text-align:left">
+    <div id="divState" style="text-align:left;width:100%">
+        <table id="tbStateReleaseList" style="width:95%"></table>
+        <div id="pagerStateReleaseList"></div>
+    </div>
+    </div>
+
+    </div>
+}*@
+<br />
+<div id="accordion" style="display:none;width:98%" >
+    <h3 style="text-align:left"><a id="" href="#" style=" font-size:.9em;" >Add Fund Release Details</a>
+                <a href="#"  style="float: right;"><img class="ui-icon ui-icon-closethick" onclick="CloseFundReleaseDetails();" /></a>
+    </h3>
+    <div id="divAddFundReleaseForm" style="display:none"></div>
+</div>
+</center>

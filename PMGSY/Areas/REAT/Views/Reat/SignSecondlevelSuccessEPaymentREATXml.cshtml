@@ -1,0 +1,68 @@
+﻿@model  PMGSY.Areas.REAT.Models.DSCREATModel
+<html>
+<head>
+    <script></script>
+</head>
+<body>
+
+    @if (Model.IsAccountNumberAvailableC && Model.IsAccountNumberAvailableD && Model.IsIFSCAvailableC && Model.IsIFSCAvailableD && Model.IsInitPartyAvailable && Model.IsEmailAvailable && Model.IsValidContractor)
+    {
+        string strKey = PMGSY.Extensions.PMGSYSession.Current.AdminNdCode.ToString() + "$" + Model.billId + "$" + Model.mastConId + "$" + Model.conAccountId;
+        string location = PMGSY.Extensions.PMGSYSession.Current.UserName;
+
+        <div id="divSignEpay">
+            <label id="lbPayMessage"><b>Note</b> : <a style="color: red;">Please do not click on Refresh or back button.</a></label>
+            <applet id="signApplet" code="com.epfo.establishment.applet.dsig.sign.Base64PdfSignerApplet.class" name="Digitally Sign E-Payment -REAT" archive="/DigSignDocs/JavaApplet/PdfSignerApplet_XML_http.jar" style="border: 1px solid #CCC;" width="100%" height="250">
+                <param name="pdfKey" value="@strKey" />
+                <param name="sessionKey" value="ASP.NET_SessionId" />
+                <param name="sessionValue" value="@HttpContext.Current.Session.SessionID" />
+                <param name="sourceUrl" value="/REAT/REAT/GetSecondlevelSuccessXml/" /> <!-- currently 1 as Pdf Key, later on change it to document id -->
+                <param name="destUrl" value="/REAT/REAT/SaveAccountHoldingPaymentXml?pdfKey=@strKey">
+                <param name="title" value="Sign E-Payment" />
+                <param name="redirectUrl" value="/Payment/PaymentWiseHoldingSecurityDepositeAccInfo/" />
+                <param name="successUrl" value="/Payment/PaymentWiseHoldingSecurityDepositeAccInfo/" />
+                <param name="failureUrl" value="/DigSign/SignFailure" />
+                <param name="location" value="@location" />
+                <param name="reason" value="Instructions for E-Payment" />
+            </applet>
+        </div>
+
+    }
+    else
+    {
+        <strong style="color: red; font-weight: bold">Alert :</strong><br />
+        if (Model.IsAccountNumberAvailableC == false)
+        {
+            <span style="color: red;">Credit Account Number is not available </span> <br />
+        }
+        if (Model.IsAccountNumberAvailableD == false)
+        {
+            <span style="color: red;">Debit Account Number is not available </span> <br />
+        }
+
+        if (Model.IsIFSCAvailableC == false)
+        {
+            <span style="color: red;">Credit IFSC Number is not available </span> <br />
+        }
+        if (Model.IsIFSCAvailableD == false)
+        {
+            <span style="color: red;">Debit IFSC Number is not available </span> <br />
+        }
+
+        if (Model.IsInitPartyAvailable == false)
+        {
+            <span style="color: red;">Initiating Party details is not available </span> <br />
+        }
+
+        if (Model.IsEmailAvailable == false)
+        {
+            <span style="color: red;">Email Id is not available </span> <br />
+        }
+        if (Model.IsValidContractor == false)
+        {
+            <span style="color: red;">[Contractor details are not verified by PFMS] OR [Contractor Bank Details are inactive/not finalised] OR [Contractor details are not verified by PFMS for @PMGSY.Extensions.PMGSYSession.Current.MastAgencyName]</span> <br />
+        }
+    }
+
+</body>
+</html>

@@ -1,0 +1,218 @@
+﻿@model PMGSY.Areas.PFMSReports.Models.DashBoardRecordModel
+@{Layout = null;}
+<html>
+<head>
+    <link href="~/Content/jquery.multiselect.css" rel="stylesheet" />
+    <style>
+        .c {
+            width: 100%;
+        }
+
+        .trcls {
+            width: 20%;
+        }
+
+        .trcls1 {
+            width: 10%;
+        }
+
+        .trcls2 {
+            width: 55%;
+        }
+
+        table {
+            border-collapse: collapse;
+        }
+
+        td {
+            padding-top: .5em;
+            padding-bottom: .5em;
+        }
+
+        @@media (max-width:992px) {
+            .c {
+                width: 100%;
+            }
+        }
+
+        .small-box .icon {
+            position: absolute;
+            top: 0%;
+            bottom: 5px;
+            right: 5px;
+            z-index: 0;
+            font-size: 600%;
+            color: rgba(0,0,0,.15);
+        }
+
+        .row {
+            margin-top: 2%;
+        }
+    </style>
+    <script>
+
+
+        function LoadWindow() {
+            var sd = $("#startdate").val().replace("/", "-");
+            sd = sd.replace("/", "-");
+            var ed = $("#enddate").val().replace("/", "-");
+            ed = ed.replace("/", "-");
+            //window.location.href = "/AccountReports/Account/DisplayPFMSPendingBills/" + sd + "$" + ed;
+            window.open("/AccountReports/Account/DisplayPFMSPendingBills/" + sd + "$" + ed, '_blank');
+        }
+
+        function LoadTempWindow() {
+            var sd = $("#startdate").val().replace("/", "-");
+            sd = sd.replace("/", "-");
+            var ed = $("#enddate").val().replace("/", "-");
+            ed = ed.replace("/", "-");
+            //window.location.href = "/AccountReports/Account/DisplayMISPayment/" + sd + "$" + ed;
+            window.open("/AccountReports/Account/DisplayMISPayment/" + sd + "$" + ed, '_blank');
+        }
+
+    </script>
+    @Html.Hidden("startdate", Model.StartDate)
+    @Html.Hidden("enddate", Model.EndDate)
+    <div>
+        <div class="row">
+        
+
+            <table>
+                <tr></tr>
+                <tr>
+                    
+                    <td></td>
+
+                    <td>
+                        
+                    </td>
+                    <td class="trcls1"></td>
+                    <td style="width: 20%">
+                        <div class="small-box bg-purple c">
+                            <div class="inner" style="text-align: center;">
+                                <p style="text-align: center; font-size: 40px; font-weight: bolder; color: white; text-decoration: none;">@String.Format(string.Format("{0:n0}", Model.Total_Payment))</p>
+                                <h4>Total Payment Files Generated</h4>
+                            </div>
+                            <div class="icon">
+                                <i class="fa fa-gears"></i>
+                            </div>
+                            <a class="small-box-footer" href="#" onclick="LoadTempWindow()">Click for More Info &nbsp;<i class="fa fa-arrow-circle-right" style="color: white"></i></a>
+                        </div>
+
+                    </td>
+                    <td class="trcls1"></td>
+                    <td>
+                       
+                    </td>
+                    <td></td>
+                </tr>
+
+                <tr></tr>
+                <tr>
+                   
+                    <td></td>
+
+                    <td style="width: 20%">
+                        <div class="small-box bg-yellow">
+                            <div class="inner">
+                                <p style="text-align: center; font-size: 40px; font-weight: bolder">@String.Format(string.Format("{0:n0}", Model.PFMS_RESPONSE_PENDING))</p>
+                                <h4>Payment Files Response Pending At PFMS</h4>
+
+                            </div>
+                            <div class="icon">
+                                <i class="fa fa-hourglass-start"></i>
+                            </div>
+                            <a class="small-box-footer" href="#" onclick="LoadTempWindow()">Click for More Info &nbsp;<i class="fa fa-arrow-circle-right" style="color: white"></i></a>
+                        </div>
+
+                    </td>
+                    <td class="trcls1"></td>
+                    <td style="width: 20%">
+                        <div class="small-box bg-green">
+                            <div class="inner" style="text-align: center;">
+                                <p style="text-align: center; font-size: 40px; font-weight: bolder">@String.Format(string.Format("{0:n0}", Model.ACK_PFMS))</p>
+                                <h4>Payment Files Accepted By PFMS</h4>
+
+                            </div>
+                            <div class="icon">
+                                <i class="fa fa-thumbs-up"></i>
+                            </div>
+                            <a class="small-box-footer" href="#" onclick="LoadTempWindow()">Click for More Info &nbsp;<i class="fa fa-arrow-circle-right" style="color: white"></i></a>
+                        </div>
+
+                    </td>
+                    <td class="trcls1"></td>
+                    <td style="width: 20%">
+                        <div class="small-box bg-red c">
+                            <div class="inner" style="text-align: center;">
+                                <p style="text-align: center; font-size: 40px; font-weight: bolder">@String.Format(string.Format("{0:n0}", Model.REJECTED_PFMS))</p>
+                                <h4>Payment Files Rejected By PFMS</h4>
+
+                            </div>
+                            <div class="icon">
+                                <i class="fa fa-window-close"></i>
+                            </div>
+                            <a class="small-box-footer" href="#" onclick="LoadTempWindow()">Click for More Info &nbsp;<i class="fa fa-arrow-circle-right" style="color: white"></i></a>
+                        </div>
+
+                    </td>
+                    <td></td>
+                </tr>
+
+                <tr></tr>
+                <tr>
+                    @*<td class="trcls"></td>*@
+                    <td></td>
+
+                    <td style="width: 20%">
+                        <div class="small-box bg-teal">
+                            <div class="inner" style="text-align: center;">
+                                <p style="text-align: center; font-size: 40px; font-weight: bolder">@String.Format(string.Format("{0:n0}", Model.ACK_BANK))</p>
+                                <h4>Payment Files Processed By Bank</h4>
+
+                            </div>
+                            <div class="icon">
+                                <i class="fa fa-calendar-check-o"></i>
+                            </div>
+                            <a class="small-box-footer" href="#" onclick="LoadTempWindow()">Click for More Info &nbsp;<i class="fa fa-arrow-circle-right" style="color: white"></i></a>
+                        </div>
+                    </td>
+                    <td class="trcls1"></td>
+                    <td style="width: 20%">
+                        <div class="small-box bg-yellow">
+                            <div class="inner" style="text-align: center;">
+                                <p style="text-align: center; font-size: 40px; font-weight: bolder">@String.Format(string.Format("{0:n0}", Model.BANK_RESPONSE_PENDING))</p>
+                                <h4>Payment Files Pending At Bank</h4>
+
+                            </div>
+                            <div class="icon">
+                                <i class="fa fa-hourglass-start"></i>
+                            </div>
+                            <a class="small-box-footer" href="#" onclick="LoadWindow()">Click for More Info &nbsp;<i class="fa fa-arrow-circle-right" style="color: white"></i></a>
+                        </div>
+
+                    </td>
+                    <td class="trcls1"></td>
+                    <td style="width: 20%">
+                        <div class="small-box bg-red">
+                            <div class="inner" style="text-align: center;">
+                                <p style="text-align: center; font-size: 40px; font-weight: bolder">@String.Format(string.Format("{0:n0}", Model.REJECTED_BANK))</p>
+                                <h4>Payment Files Rejected By Bank</h4>
+
+                            </div>
+                            <div class="icon">
+                                <i class="fa fa-window-close"></i>
+                            </div>
+                            <a class="small-box-footer" href="#" onclick="LoadTempWindow()">Click for More Info &nbsp;<i class="fa fa-arrow-circle-right" style="color: white"></i></a>
+                        </div>
+                    </td>
+                    <td></td>
+                </tr>
+
+            </table>
+        </div>
+    </div>
+
+</head>
+</html>
+

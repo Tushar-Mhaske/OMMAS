@@ -1,0 +1,114 @@
+﻿@*
+    * Project Id    :
+    * Project Name  :   OMMAS II
+    * Name          :   QualityLayoutSqc3Tier.cshtml
+    * Description   :   Render View for QualityLayoutSqc3Tier.
+    * Author        :   Shyam Yadav
+    * Creation Date :   11/Jun/2013
+*@
+
+<!DOCTYPE html>
+
+<html>
+<head>
+<style type="text/css">
+    #preview {        
+        border: 1px solid #ccc;
+        position: absolute;
+        background: #333;
+        padding: 5px;
+        display: none;
+        color: #fff;
+    }
+    td {
+        height: 20px;
+        text-align:left;
+    }
+    body {
+        text-align:left;
+    }
+
+</style>
+
+
+<script src="~/Scripts/custom/Generic.js"></script>
+<script src="~/Scripts/jquery.ui.tabs.js"></script>
+<script src="~/Scripts/Bootstrap/bootstrap.min.js"></script>
+<script src="~/Scripts/jquery-ui.js"></script>
+<script src="~/Scripts/QualityMonitoring/QualityLayoutSqc3Tier.js"></script>
+ 
+</head>
+<body>
+
+   @Html.Hidden("hdnRoleCodeOnSqcLayout3Tier",PMGSY.Extensions.PMGSYSession.Current.RoleCode.ToString())
+   <div id="divError" class="ui-state-error ui-corner-all" style="text-align: left; display: none; width: 98%">
+        <span class="ui-icon ui-icon-alert" style="float: left;"></span>
+        <span></span>
+       <span style="float: right;"><a style="float: right;" href="#">
+            <img class="ui-icon ui-icon-closethick" onclick="closeDivError();" style="border:none;border-width: 0;">
+       </a></span>
+    </div>    
+   @if(PMGSY.Extensions.PMGSYSession.Current.RoleCode == 8)  
+   {
+                <div class="ui-state-default ui-corner-top" style="text-align:center;width: 99%; font-size:11px; font-weight:bold;">
+                                3rd Tier Quality Monitoring
+                </div>
+                 <div id="tabs-3TierDetailsSqc" style="width: 99%;">
+                        <ul>
+                            <li><a href="#tabs-3TierDetailsSqc-1" onclick="Show3TierSqcScheduleListGrid(0,0);return false;">Schedule Details</a></li>
+                            <li><a href="#tabs-3TierDetailsSqc-2" onclick="Show3TierSqcATRDetails();return false;" >ATR Details</a></li>
+                        </ul>
+
+                     <div id="tabs-3TierDetailsSqc-1">
+                        <div id="div3TierSqcSchedulePreparation" style="width:100%">
+                            <table id="tb3TierSqcScheduleList"></table>
+                            <div id="dv3TierSqcScheduleListPager"></div>
+                        </div>
+            
+                        <div id="accordion3TierSqcSchedule" style="display:none;width:100%;margin-top:10px;">            
+                            <h3 style="text-align:left"><a id="" href="#" style=" font-size:.9em;" >Schedule Details</a>
+                                <a href="#"  style="float: right;">
+                                    <img style="border:none" class="ui-icon ui-icon-closethick" onclick="Close3TierSqcScheduleDetails();" /></a>
+                            </h3>
+                            <div id="div3TierSqcScheduleDetails" style="display:none;"></div>                     
+                        </div>
+                   </div>
+
+                    <div id="tabs-3TierDetailsSqc-2">
+                        <div id="div3TierSqcATRQualityFilters">
+                        </div>
+                        <div id="div3TierSqcATRDetails">
+                            <table id="tb3TierSqcATRList"></table>
+                            <div id="dv3TierSqcATRListPager"></div>
+                        </div>
+
+                        <div id="accordionATR3TierSqc" style="display:none;width:98%;margin-top:10px;">            
+                            <h3 style="text-align:left"><a id="" href="#" style=" font-size:.9em;" >ATR Details</a>
+                                <a href="#"  style="float: right;">
+                                    <img style="border:none" class="ui-icon ui-icon-closethick" onclick="CloseATR3TierSqcDetails;" /></a>
+                            </h3>
+                            <div id="divATR3TierSqcDetails" style="display:none;"></div>                     
+                        </div>
+                    </div>
+            </div>
+   }
+    else if (PMGSY.Extensions.PMGSYSession.Current.RoleCode == 22)
+    { 
+                    <div id="div3TierPIUSchedulePreparation" style="width:100%">
+                        <table id="tb3TierPIUScheduleList"></table>
+                        <div id="dv3TierPIUScheduleListPager"></div>
+                    </div>
+            
+                    <div id="accordion3TierPIUSchedule" style="display:none;width:100%;margin-top:10px;">            
+                        <h3 style="text-align:left"><a id="" href="#" style=" font-size:.9em;" >Schedule Details</a>
+                            <a href="#"  style="float: right;">
+                                <img style="border:none" class="ui-icon ui-icon-closethick" onclick="Close3TierPIUScheduleDetails();" /></a>
+                        </h3>
+                        <div id="div3TierPIUScheduleDetails" style="display:none;"></div>                     
+                    </div>
+    }
+
+  
+
+</body>
+</html>

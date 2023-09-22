@@ -1,0 +1,114 @@
+﻿@model PMGSY.Areas.GPSVTSInstallationDetails.Models.GPSVTS_DetailsModel
+<script src="~/Scripts/custom/Generic.js"></script>
+<script src="~/Scripts/jquery.ui.accordion.js"></script>
+<script src="~/Areas/GPSVTSInstallationDetails/Scripts/FileUpload.js"></script>
+
+@*<div class="ui-corner-all ui-state-highlight" style="border:solid 1px black; text-align:left; width:100%">
+        <table style="width:100%">
+            <tr>
+                <td style="text-align:right;width:10%;font-weight:bold">@Html.LabelFor(model => model.Year):</td>
+                <td style="text-align:left;"> @Html.DisplayFor(model => model.Year) </td>
+
+                <td style="text-align: right; font-weight:bold"> @Html.LabelFor(model => model.Batch):</td>
+                <td style="text-align: left;">@Html.DisplayFor(model => model.Batch)</td>
+
+                <td style="text-align:right; font-weight:bold">@Html.LabelFor(model => model.Package):</td>
+                <td style="text-align:left; ">@Html.DisplayFor(model => model.Package)</td>
+
+                <td style="text-align:right; font-weight:bold">@Html.LabelFor(model => model.RoadName):</td>
+                <td style="text-align:left; ">@Html.DisplayFor(model => model.RoadName)</td>
+
+
+            </tr>
+        </table>
+    </div>*@
+<style>
+    .row {
+        margin-bottom: 10px;
+    }
+
+    .label {
+        font-weight: bold;
+        width: 120px;
+        text-align: right;
+        margin-right: 10px;
+        background-color: transparent !important;
+        color: black !important;
+        display: unset !important;
+        font-size: 12.8px;
+    }
+
+    .span2 {
+        margin-right: 10px;
+    }
+
+    .btn-group button {
+        border-radius: 3px;
+        cursor: pointer;
+    }
+
+        .btn-group button.active {
+            background-color: #007bff;
+            color: #fff;
+        }
+
+    .hr_colour {
+        border-top: 1px solid black;
+    }
+</style>
+<div class="container">
+
+    <div class="row" style="margin-bottom: 1%">
+        <div class="span4"></div>
+        <div class="span2">
+            <label class="label">@Html.LabelFor(m => m.RoadName)</label>
+        </div>
+        <div class="span2">
+            <div>@Html.DisplayFor(m => m.RoadName)</div>
+        </div>
+        <div class="span4"></div>
+    </div>
+
+    <div class="row">
+        <div class="span2">
+            <label class="label">@Html.LabelFor(m => m.Year)</label>
+        </div>
+        <div class="span1">
+            <div>@Html.DisplayFor(m => m.Year)</div>
+        </div>
+        <div class="span2">
+            <label class="label">@Html.LabelFor(m => m.Batch)</label>
+        </div>
+        <div class="span2">
+            <div>@Html.DisplayFor(m => m.Batch)</div>
+        </div>
+        <div class="span2">
+            <label class="label">@Html.LabelFor(m => m.Package)</label>
+        </div>
+        <div class="span2">
+            <div>@Html.DisplayFor(m => m.Package)</div>
+        </div>
+        <div class="span2"></div>
+    </div>
+    <div class="row">
+        <div class="span11">
+            <hr class="hr_colour">
+
+
+        </div>
+    </div>
+
+</div>
+
+<div>
+    @*<input type="radio" name="UploadType" value="P" id="rdoPdf" /> <strong> <label>UpLoad File</label> </strong>*@
+
+
+
+</div>
+@Html.HiddenFor(model => model.RoadCode)
+@Html.HiddenFor(model => model.isFinalized)
+
+<div id="divPDF" style="display:none; width :100%">
+
+</div>

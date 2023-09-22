@@ -1,0 +1,103 @@
+﻿@model PMGSY.Models.MPMLAProposal.MPProposalViewModel
+
+<script src="~/Scripts/custom/Generic.js"></script>
+<script src="~/Scripts/MPMLAProposal/AddEditMPProposedRoadDetails.js"></script>
+@{    
+    <form id="frmCreateMPProposal">
+        <div style="margin-left: 100px">
+            @Html.ValidationSummary(true)
+        </div>
+        @Html.HiddenFor(m => m.EncryptedCode)
+
+        <div id="divError" class="ui-state-error ui-corner-all" style="text-align: left; display: none; width: 100%">
+            <span class="ui-icon ui-icon-alert" style="float: left;"></span>
+            <span></span>
+        </div>
+
+        <center>
+             <div style="height:20px; width: 100%; text-align:left; padding-top: 0.6em;" class="ui-state-default ui-corner-all" > 
+                  <strong>Fields marked with * are mandatory.</strong>
+             </div>
+              <table id="Table1"  cellspacing="0" cellpadding="3" class="rowstyle" style="margin-top:0px; text-align:left; border:ridge 0.1em #ccc; width:100%; padding-top:5px; padding-left:5px; padding-right:5px; padding-bottom:5px;">
+                <tr style="text-align:left;">
+                    </tr>
+                    <tr style="text-align:left;">
+                        <td class="editor-label" style="width:5%"></td>
+                        <td class="editor-label" style="width:2%">
+                            @Html.LabelFor(model => model.IMS_YEAR)
+                                <span style="color:red">*</span>
+                        </td>
+                        <td class="editor-field" style="width:10%">
+                            
+                            @if (Model.EncryptedCode == null)
+                            {       
+                                @Html.DropDownListFor(model => model.IMS_YEAR,Model.Years as IEnumerable<SelectListItem>, new { @title = "Select the Year", @tabindex = 1 })
+                                @Html.ValidationMessageFor(model => model.IMS_YEAR)
+                            }
+                            else
+                            {
+                                @Html.DisplayFor(model => model.display_Year)
+                                @Html.ValidationMessageFor(model => model.IMS_YEAR)
+                                @Html.HiddenFor(model => model.IMS_YEAR)
+                            }
+                        </td>
+
+                        <td class="editor-label" style="width:3%">
+                            @Html.LabelFor(model => model.MAST_MP_CONST_CODE)
+                            <span style="color:red">*</span>
+                        </td>
+                        <td class="editor-field" style="width:10%">                    
+                            
+                            @if (Model.EncryptedCode == null)
+                            {
+                                @Html.DropDownListFor(model => model.MAST_MP_CONST_CODE, Model.Constituency as IEnumerable<SelectListItem>, new { @title = "Select the Cnstituency", @tabindex = 2 })
+                                @Html.ValidationMessageFor(model => model.MAST_MP_CONST_CODE)
+                            }
+                            else
+                            {
+                                @Html.DisplayFor(model => model.display_Constituency)
+                                @Html.ValidationMessageFor(model => model.MAST_MP_CONST_CODE)
+                                @Html.HiddenFor(model => model.MAST_MP_CONST_CODE)
+                            }
+                        </td>
+                    </tr>
+                  <tr style="text-align:left;">
+                      <td></td>
+                       <td class="editor-label" style="width:3%">
+                            @Html.LabelFor(model => model.IMS_ROAD_DETAILS)
+                            <span style="color:red">*</span>
+                        </td>
+                        <td class="editor-field" style="width:10%" colspan="4">                    
+                            @Html.TextAreaFor(model => model.IMS_ROAD_DETAILS, new { maxlength = 255, @title = "Road Details", @tabindex = 3, @placeholder = "Enter Road Details" })
+                            @Html.ValidationMessageFor(model => model.IMS_ROAD_DETAILS)
+                        </td>
+                  </tr>
+                  <tr style="text-align:left;">                        
+                        @if (Model.EncryptedCode == null)
+                        {
+                        <td></td>
+                        <td></td>
+                        <td style="text-align:right">
+                            <input type="button" value="Save" class="jqueryButton" id="btnCreate" name="btnCreate" title="Save MP Proposed Road Details" tabindex="4"/>
+                            <input type="reset" value="Reset" class="jqueryButton" id="btnReset" name="btnReset"  title="Reset" tabindex="5"/>
+                        </td>
+                        <td></td>
+                        <td></td>
+                        }
+                        else
+                        {
+                        <td></td>                   
+                        <td></td>                   
+                        <td style="text-align:right">
+                            <input type="button" value="Update" class="jqueryButton" id="btnUpdate" name="btnUpdate" title="Update MP Proposed Road Details" tabindex="4"/>
+                            <input type="reset" value="Cancel" class="jqueryButton" id="btnCancel" name="btnCancel"  title="Cancel" tabindex="5"/
+                        </td>
+                        <td></td>                   
+                        <td></td>                   
+                        }
+                    </tr>
+            </table>
+     </center>
+    </form>
+}
+

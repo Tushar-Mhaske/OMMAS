@@ -1,0 +1,32 @@
+﻿@model PMGSY.Models.SignPDFModel
+@using Mvc.Mailer;
+<html>
+<head> 
+    <script></script>
+</head>
+<body>
+
+    @{
+        
+        string strKey = Model.BillID.ToString() + '$' + Model.PdfFileName + '$' + "E$" + System.DateTime.Now.Millisecond.ToString();               
+        }     
+         
+        <div id="divSignEpay" >
+            <applet id ="signApplet" code="com.epfo.establishment.applet.dsig.sign.Base64PdfSignerApplet.class" name="Digitally Sign E-Payment" archive="/DigSignDocs/JavaApplet/PdfSignerApplet.jar" style="border: 1px solid #CCC;" width="100%" height="250">
+            <param name="pdfKey" value="@strKey"/> 
+            <param name="sessionKey" value="ASP.NET_SessionId"/> 
+            <param name="sessionValue" value="@HttpContext.Current.Session.SessionID"/> 
+            <param name="sourceUrl" value="/Payment/GetPdf/"/> <!-- currently 1 as Pdf Key, later on change it to document id -->
+            <param name="destUrl" value="/Payment/SavePdf?pdfKey=@strKey"> 
+            <param name="title" value="Sign E-Payment" />
+            <param name="redirectUrl" value="/Payment/GetEPayList/" />
+            <param name="successUrl" value="/Payment/GetEPayList/" />
+            <param name="failureUrl" value="/DigSign/SignFailure" />
+            <param name="location" value="@Model.PiuName" />
+            <param name="reason" value="Instructions for E-Payment" />
+            </applet>
+        </div>
+       
+ 
+</body>
+</html>

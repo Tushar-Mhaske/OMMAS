@@ -1,0 +1,100 @@
+﻿@model PMGSY.Models.CommonFiltersModel
+<script type="text/javascript" src="@Url.Content("/Scripts/Login/CommonFilters.js")"></script>
+<script src="~/Scripts/custom/Generic.js"></script>
+<center>
+    <fieldset>
+<div>
+         <table>
+             <tr>
+                    @if (ViewBag.StateList != null)
+                    {
+                        <td> State : </td>
+                        <td> @Html.DropDownList("State", new SelectList(ViewBag.StateList, "Value", "Text"), new { @id="ddlState"})</td>
+                    }
+
+                    @if (ViewBag.DistrictList != null)
+                    {
+                         <td> District : </td>
+                         <td> @Html.DropDownList("District", new SelectList(ViewBag.DistrictList, "Value", "Text"), new { @id="ddlDistrict"})</td>
+                    }
+                    
+                    @if (ViewBag.BlockList != null)
+                    {
+                      <td> Block : </td>
+                      <td>@Html.DropDownList("Block", new SelectList(ViewBag.BlockList, "Value", "Text"), new { @id="ddlBlock"})</td>
+                    }
+                 </tr>
+                 <tr>
+                    @if (ViewBag.VillageList != null)
+                    {
+                      <td> Village : </td>
+                      <td>@Html.DropDownList("Village", new SelectList(ViewBag.VillageList, "Value", "Text"), new { @id="ddlVillage"})</td>
+                    }
+
+                    @if (ViewBag.HabitationList != null)
+                    {
+                      <td> Habitation : </td>
+                      <td>@Html.DropDownList("Habitation", new SelectList(ViewBag.HabitationList, "Value", "Text"), new { @id="ddlHab"})</td>
+                    }
+                    <td></td>
+                     <td></td>
+                </tr>
+                <tr>
+                    @if (ViewBag.StreamList != null)
+                    {
+                      <td> Stream : </td>
+                      <td>@Html.DropDownList("Stream", new SelectList(ViewBag.StreamList, "Value", "Text"), new { @id="ddlStream"} )</td>
+                    }
+
+                    @if (ViewBag.BatchList != null)
+                    {
+                      <td> Batch : </td>
+                      <td>@Html.DropDownList("Batch", new SelectList(ViewBag.BatchList, "Value", "Text"), new { @id="ddlBatch"} )</td>
+                    }
+                    <td></td>
+                    <td></td>
+                </tr>
+                <tr>
+                    @if (ViewBag.MonthList != null)
+                    {
+                      <td> Month : </td>
+                      <td>@Html.DropDownList("Year", new SelectList(ViewBag.MonthList, "Value", "Text"), new { @id="ddlMonth"})</td>
+                    }
+
+                    @if (ViewBag.YearList != null)
+                    {
+                      <td> Year : </td>
+                      <td>@Html.DropDownList("Year", new SelectList(ViewBag.YearList, "Value", "Text"), new { @id="ddlYear"})</td>
+                    }
+                    <td></td>
+                    <td></td>
+                </tr>
+
+              <tr>
+                    @if (ViewBag.ProposalTypeList != null)
+                    {
+                      <td> Proposals : </td>
+                      <td>@Html.DropDownList("Year", new SelectList(ViewBag.ProposalTypeList, "Value", "Text"), new { @id="ddlProposal"})</td>
+                    }
+                  <td></td>
+                  <td></td>
+                  <td></td>
+                  <td></td>
+              </tr>
+                
+                    
+                <tr>
+                      <td colspan="6" style="text-align:center;"> <input type="button" id="btnView" value="View Details" class="jqueryButton"/> </td>
+                </tr>
+
+         </table>
+</div>
+        </fieldset>
+</center>
+
+ 
+
+ 
+
+
+

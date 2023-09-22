@@ -1,0 +1,115 @@
+﻿
+
+@*----------------------------------------------------------------------------------------
+
+ * Project Id:
+
+ * Project Name:OMMAS2
+
+ * File Name: TOBEntry.cshtml
+
+ * Author : Koustubh Nakate
+
+ * Creation Date :27/Aug/2013
+
+ * Desc :This is partial view as container for TEO master and TEO details view 
+ * ---------------------------------------------------------------------------------------*@
+
+
+<script type="text/javascript">var billId = '@ViewBag.BILL_ID'; var isFinalize = '@ViewBag.IsFinalize'; month = '@ViewBag.Month'; year = '@ViewBag.Year'; var isMulTxn = '@ViewBag.IsMulTxn';var levelId = '@PMGSY.Extensions.PMGSYSession.Current.LevelId'</script>
+<script type="text/javascript" src="~/Scripts/jquery.ui.datepicker.js"></script>
+<script type="text/javascript" src="@Url.Content("~/Scripts/custom/Generic.js")"> </script>
+<script type="text/javascript" src="@Url.Content("~/Scripts/TransferEntryOrder/TOBEntry.js")"> </script>
+
+<br />
+<div id="teoHeader" class="ui-widget-header innerDivHeader">Transfer Of Balances </div>
+@* Added By Abhishek Kamlbe 3-jan-2014 *@
+        <table style="margin-left: 0px; margin-right: 15px;width:99%">
+            <tr> 
+                <td style="width:20%">
+                    <div id="AccountStatusDiv" style="float:left">
+                        <table>
+                            <tbody>
+                                <tr id="TrMonthlyClosing" style="display:none">
+                                    <td style="text-align:center">
+                                        <div style="text-align: right; width: 100%;" id="1">
+                                            <label style="color:red" ><b>
+                                          Last Month Closed
+                                        -
+                         
+                                        <label id="lblMonth">
+                                
+                                        </label>
+                           
+                                        <label id="lblYear">
+                          
+                                             </label>
+                                    </b></label>
+                                        </div>
+                                    </td>
+                                </tr>
+                                 <tr id="AccountNotClosedTr">
+                                       <td style="text-align:center">
+                                        <div style="text-align: right; width: 100%;" id="2">
+                                            <label style="color:red" > <b>  Last Month Closed - -  </b>   </label>  
+                                         
+                                        </div>
+                                            </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                     </div>
+                </td>
+            </tr>
+        </table>
+
+<div style="margin-left:10px;" class="ui-state-default ui-corner-all jqueryButton" id="lblBackToList">
+    <span style="float:left" class="ui-icon ui-icon-circle-triangle-w"></span>
+    <span style="float:left; margin-right:5px">Go to List Page</span>
+    @Html.Hidden("ImprestEntry")
+</div>
+<div id="divTEOEntryError" class="ui-state-error ui-corner-all" style="text-align: left; display: none; width: 98%">
+                <span class="ui-icon ui-icon-alert" style="float: left;"></span>
+                <span></span>
+            </div>
+<br/>
+
+<center>
+<div id="loadTEOMaster" style="width:98%; margin-bottom:5px"></div>  
+
+<div style="width:98%; margin-bottom:5px">
+        <table id="tblTEOMasterGrid"></table>
+        <div id="divTEOMasterPager"></div>
+</div>
+    @if (ViewBag.IsMulTxn == "N")
+    {       
+     <div class="ui-state-highlight ui-corner-all" style="width:98%; text-align:left; margin-bottom:5px" id="mulTxnMsg">
+                 <span style="float:left" class="ui-icon ui-icon-info"></span>
+                 <span style="text-align:left">Multiple transaction entry is not allowed for this Transfer Entry Order</span>    
+     </div>
+    }
+<table style="width:98%">
+    <tr>
+        <td style="width:100%; vertical-align:text-top">
+            <div id="loadTEOCreditDebitDetails" style="width:100%; margin-bottom:5px; margin-top:0px; vertical-align:text-top"></div>  
+        </td>
+      @*  <td style="width:50%; vertical-align:text-top">
+            <div id="loadTEODebitDetails" style="width:100%; margin-bottom:5px; margin-top:0px; vertical-align:text-top"></div>  
+        </td>*@
+    </tr>
+</table>
+
+<div style="width:98%; margin-bottom:5px">
+        <table id="tblTEODetailsGrid"></table>
+        <div id="divTEODetailsPager"></div>
+</div>
+
+<div class="ui-state-default ui-corner-all" style="width:98%; display:none" id="divFinalizeTEO">
+    <input type="button" value="Finalize" id="btnFinalizeTEO" class="jqueryButton" style="margin:2px 0 2px 0"/>
+</div>
+    
+</center>
+
+@section Scripts {
+    @Scripts.Render("~/bundles/jqueryval")
+}

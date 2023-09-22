@@ -1,0 +1,51 @@
+﻿@model PMGSY.Models.AssetDetails.AssetFilterViewModel
+
+
+<script src="~/Scripts/custom/Generic.js"></script>
+<script src="~/Scripts/jquery.ui.accordion.js"></script>
+<script src="~/Scripts/AssetDetails/ListAssetDetails.js"></script>
+
+<div class="ui-widget-header innerDivHeader">
+    Asset Payment Details
+</div>
+ 
+<div style="width:100%">
+<center>
+<div style="width:98%; height:20px;border:none; margin-top:5px; " class="ui-state-default">
+</div>
+<div style="width: 98%; border:none; margin-top:-15px; margin-bottom:10px;" class="ui-state-default">
+<div id="divSearchAsset">
+<form id="frmSearchAssetDetails">
+<table class="ui-state-default ui-corner-all" style="border:0.1em solid gray; width:98%" id="tblViewDetails">
+        <tr>
+            @Html.HiddenFor(model=>model.Urlparameter)
+            <td style="text-align:right; font-weight:bold; width:10%">Month:<label style="color:red;"> *</label></td>
+            <td style="width:15%">@Html.DropDownListFor(m => m.Month, new SelectList(Model.ddlMonth, "Value", "Text"), new {@id="ddlMonth", @title="Select Month to view details"})&nbsp;@Html.ValidationMessageFor(model => model.Month)</td>
+            <td style="text-align:right; font-weight:bold; width:10%">Year:<label style="color:red;"> *</label></td>
+            <td style="width:15%">@Html.DropDownListFor(m => m.Year, new SelectList(Model.ddlYear, "Value", "Text"), new { @id="ddlYear",@title="Select Year to view details"})&nbsp;@Html.ValidationMessageFor(model => model.Year)</td>
+            <td style="text-align:right; font-weight:bold; width:10%">Cheque No:<label style="color:red;"></label></td>
+            <td style="width:15%">@Html.TextBoxFor(m => m.ChequeNo, new {@placeholder="Enter Cheque No...",@tabindex=3,@title="Cheque No" })&nbsp;@Html.ValidationMessageFor(model => model.ChequeNo)</td>
+            <td style="text-align:right; font-weight:bold; width:10%">Voucher No:<label style="color:red;"></label></td>
+            <td style="width:15%">@Html.TextBoxFor(m => m.BillNo, new {@placeholder="Enter Voucher No...",@tabindex=4 ,@title="Voucher No"})&nbsp;@Html.ValidationMessageFor(model => model.BillNo)</td>
+            <td style="width:10%"><input type="button" id="btnView" value="View Details" class="jqueryButton" title="Click here to view details"></td>        
+        </tr>
+</table>
+</form>
+</div>
+<br/>
+</div>
+<div style="width:96%;margin-top:20px">
+    <table id="tbListAssetDetails"></table>
+    <div id="dvListAssetPager"></div>
+</div>
+<div id="accordion" style="display:none;width:96%;margin-bottom:20px;margin-top:20px" >
+    <h3 style="text-align:left"><a id="" href="#" style=" font-size:.9em;" >Asset Details</a>
+                <a href="#"  style="float: right;">
+                    <img class="ui-icon ui-icon-closethick" onclick="CloseAssetDetails();" /></a>
+            </h3>
+    <div id="divAddAssets" style="display:none">
+
+    </div>
+</div>
+</center>
+</div>

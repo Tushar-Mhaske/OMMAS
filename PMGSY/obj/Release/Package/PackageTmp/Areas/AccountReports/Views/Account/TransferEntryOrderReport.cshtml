@@ -1,0 +1,20 @@
+﻿@using MvcReportViewer
+@model PMGSY.Areas.AccountReports.Models.RptTrnasferEntryOrderList
+
+@{ PMGSY.Models.Report.ReportFilter objParam = new PMGSY.Models.Report.ReportFilter();}
+
+@Html.MvcReportViewer("/PMGSYCitizen/Acc_Transfer_Entry_Book_Report",
+     new
+     {
+         PrmFundType = Model.FundType,
+         PrmAdminNdCode = Model.AdminNDCode,
+         PrmMonth = Model.Month,
+         PrmYear = Model.Year,
+         FormNumber = Model.FormNumber,
+         Paragraph = Model.Paragraph,
+         SRRDAName = Model.SrrdaName,
+         PIUName = Model.PIUName,
+         Year = Model.YearName
+
+     },
+     new { Height = 600, Width = 1215, style = "border:none;" })

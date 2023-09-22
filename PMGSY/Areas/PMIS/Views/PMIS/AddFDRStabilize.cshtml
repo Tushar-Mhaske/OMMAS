@@ -1,0 +1,313 @@
+﻿@model PMGSY.Areas.PMIS.Models.AddFDRStabilizeModel
+
+<script src="~/Scripts/custom/Generic.js"></script>
+<script src="~/Scripts/jquery.ui.datepicker.js" type="text/javascript"></script>
+@*<script src="~/Scripts/jquery.ui.css" type="text/javascript"></script>*@
+<script src="~/Areas/PMIS/Scripts/TrialTechFDR.js"></script>
+@*<script src="~/Scripts/jquery.unobtrusive-ajax.js"></script>
+    <script src="~/Scripts/jquery.unobtrusive-ajax.min.js"></script>*@
+
+
+@{
+    ViewBag.Title = "AddFDRStabilize";
+}
+
+
+
+@using (Html.BeginForm("SubmitFDRDetail", "PMIS/PMIS", FormMethod.Post, new { enctype = "multipart/form-data", @id = "formProformaCImageUpload" }))
+{
+    <div id="FDRstabForm">
+
+        <form id="frmAddFDR">
+            <div style="margin-left: 100px">
+                @Html.ValidationSummary(true)
+                @Html.AntiForgeryToken()
+                @Html.HiddenFor(model => model.IMS_PR_ROAD_CODE)
+                @Html.HiddenFor(model => model.Sanction_length)
+                @Html.HiddenFor(model => model.IS_SUBMIT)
+                @Html.HiddenFor(model => model.ROW_LENGTH)
+            </div>
+
+            <div id="divError" class="ui-state-error ui-corner-all" style="text-align: left; display: none; width: 100%">
+                <span></span>
+                <span></span>
+            </div>
+
+
+            <table class="rowstyle ui-corner-all" id="tblAddFDR" style="width:100%; border:solid black 1px;">
+                <tr style="height:20px;text-align:left">
+
+                    <td>State Name : </td>
+                    <td>
+                        <strong>
+                            @ViewBag.StateName
+                        </strong>
+                        <input type="hidden" id="RoadCode" value="@ViewBag.RoadCode" />
+                    </td>
+                    <td style="width:15%">District Name : </td>
+                    <td>
+                        <strong>
+                            @ViewBag.DistrictName
+                        </strong>
+                    </td>
+                    <td>Block Name :</td>
+                    <td>
+                        <strong>
+                            @ViewBag.BlockName
+                        </strong>
+                    </td>
+                    <td>
+                        Package Name :
+                    </td>
+                    <td style="width:15%">
+                        <strong>
+                            @ViewBag.PackageName
+                        </strong>
+                    </td>
+                    <td style="width:15%">Sanction Year :</td>
+                    <td><strong>@ViewBag.SanctionYear </strong></td>
+
+                </tr>
+
+                <tr style="height:20px;text-align:left">
+
+                    <td>Sanction Date: </td>
+                    <td>
+                        <strong>
+                            @ViewBag.SanctionDate
+                        </strong>
+                    </td>
+
+                    <td>Batch : </td>
+                    <td>
+                        <strong>
+                            @ViewBag.Batch
+                        </strong>
+                    </td>
+                    <td>Sanction Length :</td>
+                    <td>
+                        <strong>
+                            @ViewBag.SanctionLength
+                        </strong>
+                    </td>
+                    <td> Road Name :</td>
+                    <td style="width:15%"><strong> @ViewBag.RoadName</strong></td>
+
+                    <td></td>
+                </tr>
+
+                <tr style="height:20px;text-align:left">
+                    <td>Technology Name :</td>
+                    <td style="width:15%"> @ViewBag.TechName</td>
+                    @*<td style="width:15%; color:darkviolet;">FDR Stabalize Base :</td>*@
+                    <!--<td class="ui-state-default ui-corner-all jqueryButton">-->
+                    @*<span style="float:left" class="ui-icon ui-icon-circle-zoomout"></span>*@
+                    <!--<input type="button" value="View Chainage-wise Detail" id="btnViewFDR" name="btnViewFDRName" />
+                    </td>-->
+                    <td> </td>
+                    <td> </td>
+                    <td> </td>
+                    <td> </td>
+                    <td> </td>
+                    <td> </td>
+                    <td> </td>
+                    <td> </td>
+                </tr>
+            </table>
+
+            @*style="text-align:left;height:20px"*@
+            @*class="ui-jqgrid-sortable" style="text-align:center;"*@
+
+            <table class="rowstyle ui-corner-all" id="tblAddFDRChainage" style="width:100%; border:solid black 1px;">
+                <tr style="text-align:left;height:25px">
+
+                    <td colspan="10" class="ui-widget-header">
+                        <strong>Construction of FDR stabilzed base </strong>
+                    </td>
+
+                </tr>
+                <tr style="font-size:1.1em">
+                    <td colspan="1" style="text-align:center;">
+                        <b>Chainage </b>
+                    </td>
+                    <td colspan="1" style="text-align:center">
+                        <b>Start Chainage</b>
+                    </td>
+                    <td colspan="1" style="text-align:center">
+                        <b>End Chainage</b>
+                    </td>
+                    <td colspan="1" style="text-align: center;">
+                        <b>Date</b>
+                    </td>
+                    <td style="text-align: center;"><b>Clear Date</b> </td>
+                    <td style="border-right: solid black 1px; border-color: black">  </td>
+                    <td colspan="1" style="text-align: center ">
+                        <b>Start Chainage</b>
+                    </td>
+                    <td colspan="1" style="text-align: center">
+                        <b>End Chainage</b>
+                    </td>
+                    <td colspan="1" style="text-align:center;">
+                        <b>Date</b>
+                    </td>
+                    <td style="text-align: center;"> <b>Clear Date</b></td>
+                    <td> </td>
+                </tr>
+
+
+                @{ int i = 0; }
+                @while (i < Model.ROW_LENGTH)
+                {
+                    <tr>
+
+                        @if (TempData["IsSubmit"] != null)
+                        {
+                            @Html.HiddenFor(model => model.AddFDRStabilizeListModelObj[i].CHAINAGE_FROM)
+                            @Html.HiddenFor(model => model.AddFDRStabilizeListModelObj[i].CHAINAGE_TO)
+                        }
+
+                        <td style="text-align:center">@i-@(i + 1) Km</td>
+                        <td style="text-align:center">
+                            @Html.TextBoxFor(model => Model.AddFDRStabilizeListModelObj[i].START_CHAINAGE_1, new { @title = "FChainageFrom", @id = "START_CHAINAGE_1" + i, @align = "center", @onkeypress = "return isNumericKeyStroke(event)", @placeholder = i + " - " + ((float)(i + (i + 1)) / 2) + " km" })
+                            <br />
+                            @Html.ValidationMessageFor(model => model.AddFDRStabilizeListModelObj[i].START_CHAINAGE_1)
+                        </td>
+                        <td style="text-align:center">
+                            @Html.TextBoxFor(model => Model.AddFDRStabilizeListModelObj[i].END_CHAINAGE_1, new { @title = "FChainageFrom", @id = "END_CHAINAGE_1" + i, @align = "center", @onkeypress = "return isNumericKeyStroke(event)", @placeholder = i + " - " + ((float)(i + (i + 1)) / 2) + " km" })
+                            <br />
+                            @Html.ValidationMessageFor(model => model.AddFDRStabilizeListModelObj[i].END_CHAINAGE_1)
+                        </td>
+                        <td style="text-align:right">
+                            @Html.TextBoxFor(model => Model.AddFDRStabilizeListModelObj[i].Chainage_Date_FirstChainage, "{0:d}", new { @title = "FChainageDate", @type = "text", @placeholder = "dd/mm/yyyy", @class = "TPS", @id = "Chainage_Date_FirstChainage" + i, @align = "center", @readonly = "readonly" })
+                            <br />
+                            @Html.ValidationMessageFor(model => model.AddFDRStabilizeListModelObj[i].Chainage_Date_FirstChainage)
+                        </td>
+                        @if (@Model.AddFDRStabilizeListModelObj != null)
+                        {
+                            if (@Model.AddFDRStabilizeListModelObj[i].Chainage_Date_FirstChainage == "")
+                            {
+                                <td><span id='deletedate1' onClick="deleteDateF('@i');" class='ui-icon  ui-icon-trash  ui-align-center' /> </td>
+                            }
+                            else
+                            {
+                                <td></td>
+                            }
+                        }
+                        else
+                        {
+                            <td><span id='deletedate1' onClick="deleteDateF('@i');" class='ui-icon  ui-icon-trash  ui-align-center' /> </td>
+
+                        }
+                        <td style="border-right: solid black 1px; border-color: black">  </td>
+                        @if (Convert.ToDecimal(i + 0.5) < Model.Sanction_length)
+                        {
+                            <td style="text-align: center">
+                                @Html.TextBoxFor(model => Model.AddFDRStabilizeListModelObj[i].START_CHAINAGE_2, new { @title = "SChainageFrom", @id = "START_CHAINAGE_2" + i, @align = "center", @onkeypress = "return isNumericKeyStroke(event)", @placeholder = (((float)(i + (i + 1)) / 2)) + " - " + (i + 1) + " km" })
+                                <br />
+                                @Html.ValidationMessageFor(model => model.AddFDRStabilizeListModelObj[i].START_CHAINAGE_2)
+                            </td>
+                            <td style="text-align: center;margin:auto">
+                                @Html.TextBoxFor(model => Model.AddFDRStabilizeListModelObj[i].END_CHAINAGE_2, new { @title = "SChainageFrom", @id = "END_CHAINAGE_2" + i, @align = "center", @onkeypress = "return isNumericKeyStroke(event)", @placeholder = (((float)(i + (i + 1)) / 2)) + " - " + (i + 1) + " km" })
+                                <br />
+                                @Html.ValidationMessageFor(model => model.AddFDRStabilizeListModelObj[i].END_CHAINAGE_2)
+                            </td>
+                            <td style="text-align: right">
+                                @Html.TextBoxFor(model => Model.AddFDRStabilizeListModelObj[i].Chainage_Date_SecondChainage, "{0:d}", new { @title = "SChainageDate", @type = "text", @placeholder = "dd/mm/yyyy", @class = "TPS", @id = "Chainage_Date_SecondChainage" + i, @align = "center", @readonly = "readonly" })
+
+                                <br />
+                                @Html.ValidationMessageFor(model => model.AddFDRStabilizeListModelObj[i].Chainage_Date_SecondChainage)
+                            </td>
+                            if (@Model.AddFDRStabilizeListModelObj != null)
+                            {
+                                if (@Model.AddFDRStabilizeListModelObj[i].Chainage_Date_SecondChainage == "")
+                                {
+                                    <td><span id='deletedate1' onClick="deleteDateS('@i');" class='ui-icon  ui-icon-trash  ui-align-center' /></td>
+                                }
+                                else
+                                {
+                                    <td></td>
+                                }
+                            }
+                            else
+                            {
+                                <td><span id='deletedate1' onClick="deleteDateS('@i');" class='ui-icon  ui-icon-trash  ui-align-center' /></td>
+                            }
+                        }
+
+
+                        @*<td style="text-align:center">
+
+                                @Html.TextBoxFor(model => Model.START_CHAINAGE_1[i].Value, new { @title = "FChainageFrom", @id = "START_CHAINAGE_1" + i, @align = "center", @onkeypress = "return isNumericKeyStroke(event)", @placeholder = i * 1000 + " - " + ((float)(i + (i + 1)) / 2) * 1000 + " m" })
+                                @Html.ValidationMessageFor(model => model.START_CHAINAGE_1[i].Value)
+                            </td>
+                            <td style="text-align:center">
+                                @Html.TextBoxFor(model => Model.END_CHAINAGE_1[i].Value, new { @title = "FChainageFrom", @id = "END_CHAINAGE_1" + i, @align = "center", @onkeypress = "return isNumericKeyStroke(event)", @placeholder = i * 1000 + " - " + ((float)(i + (i + 1)) / 2) * 1000 + " m" })
+                                @Html.ValidationMessageFor(model => model.END_CHAINAGE_1[i].Value)
+                            </td>
+                            <td style="text-align:right">
+                                @Html.TextBoxFor(model => Model.Chainage_Date_FirstChainage[i].Value, "{0:d}", new { @title = "FChainageDate", @type = "text", @placeholder = "dd/mm/yy", @class = "TPS", @id = "Chainage_Date_FirstChainage" + i, @align = "center" })
+                                @Html.ValidationMessageFor(model => model.Chainage_Date_FirstChainage[i].Value)
+                            </td>
+
+                            <td style="text-align: center">
+                                @Html.TextBoxFor(model => Model.START_CHAINAGE_2[i].Value, new { @title = "SChainageFrom", @id = "START_CHAINAGE_2" + i, @align = "center", @onkeypress = "return isNumericKeyStroke(event)", @placeholder = (((float)(i + (i + 1)) / 2) * 1000) + 1 + " - " + (i + 1) * 1000 + " m" })
+                                @Html.ValidationMessageFor(model => model.START_CHAINAGE_2[i].Value)
+                            </td>
+                            <td style="text-align: center;margin:auto">
+                                @Html.TextBoxFor(model => Model.END_CHAINAGE_2[i].Value, new { @title = "SChainageFrom", @id = "END_CHAINAGE_2" + i, @align = "center", @onkeypress = "return isNumericKeyStroke(event)", @placeholder = (((float)(i + (i + 1)) / 2) * 1000 + 1) + " - " + (i + 1) * 1000 + " m" })
+                                @Html.ValidationMessageFor(model => model.END_CHAINAGE_2[i].Value)
+                            </td>
+                            <td style="text-align: center">
+                                @Html.TextBoxFor(model => Model.Chainage_Date_SecondChainage[i].Value, "{0:d}", new { @title = "SChainageDate", @type = "text", @placeholder = "dd/mm/yy", @class = "TPS", @id = "Chainage_Date_SecondChainage" + i, @align = "center" })
+                                @Html.ValidationMessageFor(model => model.Chainage_Date_SecondChainage[i].Value)
+                            </td>*@
+
+
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                    </tr>
+                    i++;
+                }
+
+
+                <tr style="text-align:right;">
+                    <td colspan="1"></td>
+                    <td></td>
+                    <td></td>
+                    <td colspan="2" style="text-align:right">
+                        @if (TempData["IsSubmit"] == null)
+                        {
+                            <input type="submit" value="Submit" class="jqueryButton" id="btnSumit" />
+                        }
+                        else
+                        {
+
+                            <input type="submit" value="Update" class="jqueryButton" id="btnSumit" />
+                        }
+
+                    </td>
+                    <td colspan="2" style="text-align:left">
+                        <input type="button" class="jqueryButton" value="Cancel" id="btnCancel" name="btnCancel" />
+                    </td>
+                    <td></td>
+                    <td></td>
+                </tr>
+
+            </table>
+
+        </form>
+
+
+    </div>
+
+    <div id="errSummary" style="display: none; width: 100%; border: 0.5px solid #cfcac1; border-radius: 7px">
+        <div style="color: red; background-color: #fccc6b; padding: 2px; color: #880808; font-size: medium; border-top-left-radius: 7px; border-top-right-radius: 7px"> &nbsp; Error Summary <span style="float: right; margin-right: 5px;" id="closeErrorSummary" class="ui-icon ui-icon-closethick"></span></div>
+
+        <h3 style="text-align: left;margin-top:10px; color: #880808;padding:3px; margin-left:10px">Please correct below errors & submit again:</h3>
+        <div id="ErroMsg" style="overflow: scroll; color: red; font-size: 14px; padding: 20px; background-color: #fbfaf7; text-align: left; height: 250px"></div>
+    </div>
+}
+
+

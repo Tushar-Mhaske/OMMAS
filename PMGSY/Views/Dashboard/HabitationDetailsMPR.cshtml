@@ -1,0 +1,137 @@
+﻿<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html>
+<head>
+    <style>
+        .tblContent {
+            background-color: #FFF;
+            border: 1px solid #b1d7f7;
+            margin-top: -5px;
+        }
+
+        .dataTable {
+            width: 100%;
+            border: 1px solid #b1d7f7;
+        }
+
+            .dataTable table {
+                width: 97%;
+                table-layout: fixed;
+                border-spacing: 0;
+                /*border:none;*/
+                border: thin;
+            }
+
+                .dataTable table tr td {
+                    padding: 2px 5px;
+                    border: 1px solid #deedf8;
+                    border-bottom: 1px solid #deedf8;
+                    word-wrap: break-word;
+                }
+
+                .dataTable table.head tr td {
+                    background: #F0F2F2;
+                }
+
+        .innerTable {
+            /*height: 100px;*/
+            overflow-y: auto;
+        }
+
+        .dataTable th {
+            background-color: #F0F2F2;
+            padding: 3px 5px;
+            text-align: center;
+            border-right: 1px solid #CCC;
+            border-bottom: 1px solid #CCC;
+            word-wrap: break-word;
+        }
+
+        .subHeaderDataTable {
+            color: #003E74;
+            background-color: #FFF;
+            border-bottom: 1px solid #CCC;
+            font-weight: bold;
+            word-wrap: break-word;
+        }
+    </style>
+</head>
+<body>
+
+
+    <div id="divHabDetailsTbl" class="tblContent dataTable" style="width: 99%; border: 1px solid #b1d7f7; padding: 5px 10px 15px 10px;">
+        <center><span style="font-weight: bold; font-size: 15px; margin-top: -5px">Status of Habitations cleared but unconnected as per MPR</span></center>
+        <table class="dataTable" style="border: 1px solid #b1d7f7; width: 100%;">
+            <tr>
+                <th style="width: 80px;">States
+                </th>
+                <th style="width: 80px;">Habitations Cleared but unconnected (Balance as on 1st April @DateTime.Now.Year)
+                </th>
+                <th style="width: 80px;">Habitations cleared during the Year (@(DateTime.Now.Year) - @(DateTime.Now.Year + 1)) upto date
+                </th>
+                <th style="width: 80px;">Total Habitations cleared (2 + 3)
+                </th>
+                <th style="width: 80px;">Habitations connected during the year (@(DateTime.Now.Year) - @(DateTime.Now.Year + 1)) upto date
+                </th>
+                <th style="width: 80px;">Outstanding unconnected Habitations as on date (4 - 5)
+                </th>
+            </tr>
+            <tr>
+                <th>1
+                </th>
+                <th>2
+                </th>
+                <th>3
+                </th>
+                <th>4
+                </th>
+                <th>5
+                </th>
+                <th>6
+                </th>
+            </tr>
+
+
+            @{
+                var cnt = 1;
+                var cssClass = "background-color:#FFFFFF;";
+            }
+            @foreach (var item in ViewBag.HabDetails)
+            {
+                if (cnt % 2 == 0)
+                {
+                    cssClass = "background-color:#FFFFFF;";
+                }
+                else
+                {
+                    cssClass = "background-color:#FFFFFF;";
+                }
+                <tr style="@cssClass">
+                    <td style="text-align: center">
+                        @item.LOCATION_NAME
+                    </td>
+                    <td style="text-align: center">
+                        @item.TOTAL_HAB_CLR_NC
+                    </td>
+                    <td style="text-align: center">
+                        @item.TOTAL_HAB_CLR
+                    </td>
+                    <td style="text-align: center">
+                        @item.TOTAL_HABS
+                    </td>
+                    <td style="text-align: center">
+                        @item.TOTAL_HAB_CN
+                    </td>
+                    <td style="text-align: center">
+                        @item.TOTAL_BAL_HA
+                    </td>
+                </tr>
+                   
+                cnt++;
+            }
+        </table>
+
+    </div>
+
+
+</body>
+</html>

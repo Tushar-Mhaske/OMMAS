@@ -1,0 +1,49 @@
+﻿@using PMGSY.Extensions
+
+<style type="text/css">
+    #preview {
+        border: 1px solid #ccc;
+        position: absolute;
+        background: #333;
+        padding: 5px;
+        display: none;
+        color: #fff;
+    }
+
+    .ui-jqgrid tr.jqgrow td {
+        vertical-align: top !important;
+    }
+</style>
+
+<script src="~/Scripts/custom/Generic.js"></script>
+<script src="~/Scripts/jquery.ui.accordion.js"></script>
+<script src="~/Scripts/Bootstrap/bootstrap.min.js"></script>
+<script src="~/Scripts/QualityMonitoring/AddTechnicalExpert.js"></script>
+
+<center>
+    <div style="width:100%;">
+
+        <div id="dvAddTechnicalExpertDetails" style="display:none;"></div>
+
+        <div id="dvTechnicalExpertList">
+            <br />
+            <table style="width:100%; padding-top:1.5em;">
+                <tr>
+                    <td>
+                        <div class="ui-state-default ui-corner-all jqueryButton" id="btnCreateNew" title="Add Technical Expert">
+                            <span style="float:left" class="ui-icon ui-icon-circle-plus"></span>
+                            <span style="float:left; margin-right:5px">Add Technical Expert</span>
+                        </div>
+                    </td>
+                </tr>
+
+            </table>
+
+            <div id="divTechnicalExpertList" style="margin-bottom:30px;">
+                <table id="tblTechnicalExpertListDetails"> </table>
+                <div id="divPagerTechnicalExpertDetails" style="margin-bottom:20px;"></div>
+            </div>
+        </div>
+        <br />
+    </div>
+</center>

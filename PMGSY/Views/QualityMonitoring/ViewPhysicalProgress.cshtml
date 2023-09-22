@@ -1,0 +1,18 @@
+﻿@**
+        * Project Id    :
+        * Project Name  :   OMMAS II
+        * Name          :   ViewPhysicalProgress.cshtml
+        * Description   :   View for Physical Progress
+        * Author        :   Shyam Yadav 
+        * Creation Date :   30/Mar/2015
+ **@
+
+
+@model PMGSY.Models.QualityMonitoring.QMAssignRoadsModel
+
+<script src="~/Scripts/QualityMonitoring/ViewPhysicalProgress.js"></script>
+
+@Html.HiddenFor(m => m.IMS_PR_ROAD_CODE)
+
+ <table id="tbPhysicalRoadList"></table>
+ <div id="pagerPhysicalRoadList"></div>

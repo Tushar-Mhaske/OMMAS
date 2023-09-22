@@ -1,0 +1,121 @@
+﻿@model PMGSY.Models.Maintenance.PciIndexViewModel
+<script src="~/Scripts/custom/Generic.js"></script>
+<script src="~/Scripts/jquery.ui.datepicker.js"></script>
+<script src="~/Scripts/Maintenance/AddPciForPmgsyRoad.js"></script>
+<style type="text/css">
+    td {
+        text-align:left
+    }
+</style>
+<center> 
+    <div id="divPciForPmgsyRoad">    
+        <form id="frmPciForPmgsyRoad">
+            
+            <div id="divError" class="ui-state-error ui-corner-all" style="text-align: left; display: none; width: 98%">
+                <span></span>
+                <span></span>
+            </div>
+
+
+            @Html.HiddenFor(model => model.ENC_IMS_PR_ROAD_CODE)
+            
+            <table class="rowstyle" id="tblPciForPmgsyRoad" style="border:ridge 0.1em #ccc; padding:5px 5px 5px 5px;width:90%;">
+            
+            <tr>
+                <td style="font-weight: bold; ">
+                    @Html.LabelFor(model => model.RoadName)                   
+                </td>
+                <td colspan="3">
+                    @Html.DisplayFor(model => model.RoadName)
+                </td>
+      
+                <td style="font-weight:bold;">
+                    @Html.LabelFor(model => model.RoadLength)
+                </td>
+                <td colspan="3">
+                    @Html.DisplayFor(model => model.RoadLength) KM
+                    @Html.HiddenFor(model => model.RoadLength)
+                </td>                
+                
+            </tr>
+            <tr>
+                <td style="font-weight:bold;">
+                    @Html.LabelFor(model => model.MANE_PCI_YEAR)
+                    <span style="color:red">*</span>
+                </td>
+                <td colspan="3">
+                    @Html.DropDownListFor(model => model.MANE_PCI_YEAR, new SelectList(Model.YEARS, "Value", "Text"))    
+                    @Html.ValidationMessageFor(model=> model.MANE_PCI_YEAR)
+                </td>
+                <td style="font-weight:bold;">
+                    @Html.LabelFor(model => model.MANE_PCI_DATE)
+                    <span style="color:red">*</span>                   
+                </td>
+                <td colspan="3">
+                    @Html.TextBoxFor(model => model.MANE_PCI_DATE,new {@id="MANE_PCI_DATE"}) 
+                    @Html.ValidationMessageFor(model => model.MANE_PCI_DATE)
+                </td>     
+            </tr>
+              
+            <tr>
+
+                <td style="font-weight:bold;  width:12.5%">
+                    @Html.LabelFor(model => model.MANE_STR_CHAIN)<span style="color:red">*</span>
+                </td>
+                <td style="table-layout:fixed; width:12.5%">
+                    @Html.TextBoxFor(model => model.MANE_STR_CHAIN, new { style="width:80px;" , @maxlength=7, @readonly="readonly"})
+                </td>
+
+                <td style="font-weight:bold; width:12.5%">
+                    @Html.LabelFor(model => model.MANE_END_CHAIN)<span style="color:red">*</span>
+                </td>
+                <td style=" width:12.5%">
+                    @Html.TextBoxFor(model => model.MANE_END_CHAIN,new { style="width:80px;"})
+                </td>
+
+                <td style="font-weight:bold; width:12.5%">           
+                    @Html.LabelFor(model => model.MANE_PCIINDEX)<span style="color:red">*</span>
+                </td>
+                <td style="font-weight:bold; width:12.5%">
+                    @Html.TextBoxFor(model => model.MANE_PCIINDEX, new { style="width:80px;" , @maxlength='1'})
+                </td>
+
+                <td style="font-weight:bold; width:12.5%">
+                    @Html.LabelFor(model => model.MANE_SURFACE_TYPE)<span style="color:red">*</span>
+                </td>
+                <td style=" width:12.5%">
+                    @Html.DropDownListFor(model => model.MANE_SURFACE_TYPE, new SelectList(Model.SURFACES, "Value", "Text"))            
+                </td>
+
+            </tr>
+
+            <tr>
+                <td colspan="2" style="width:25%">@Html.ValidationMessageFor(model=> model.MANE_STR_CHAIN)</td>
+                <td colspan="2" style="width:25%"> @Html.ValidationMessageFor(model => model.MANE_END_CHAIN)</td>
+                <td colspan="2" style="width:25%">@Html.ValidationMessageFor(model=> model.MANE_PCIINDEX)</td>
+                <td colspan="2" style="width:25%">@Html.ValidationMessageFor(model=> model.MANE_SURFACE_TYPE)</td>
+            </tr>               
+
+            <tr id="rowAdd">
+                <td colspan="8" style="text-align:center">
+                    <input type="button" id="btnSave" name="btnSave" value="Save" class="jqueryButton" />
+                    <input type="reset" id="btnReset" name="btnReset" value="Reset" class="jqueryButton" />
+                </td>            
+            </tr>
+
+            <tr id="rowUpdate" style="display:none">
+                <td colspan="8" style="text-align:center">
+                    <input type="button" id="btnUpdate" name="btnUpdate" value="Update" class="jqueryButton" />
+                </td>            
+            </tr>
+            </table>
+
+            <div style="margin-top:10px">
+                <div id="divListPCI">                
+                    <table id="tbPciForPmgsyRoad"></table>
+                    <div id="dvPciForPmgsyRoadPager"></div>
+                </div>
+            </div>
+        </form>
+    </div> 
+</center>

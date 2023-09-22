@@ -1,0 +1,29 @@
+﻿
+#animate {
+    width: 30px;
+    height: 100px;
+    right:10px;
+    top:42%;
+    background-color: #F2F1EA;
+    position: fixed;
+    border-radius:2px;
+    border-color:#FCD481;
+    box-shadow: 2px 2px 3px #999;
+	z-index:1000;
+}
+#animate:hover  {
+    /*width:350px;
+    transition: width 0.5s ease-in-out;*/
+}
+
+/*#animate > div {
+ visibility:hidden;
+ }
+#animate:hover  > div{
+    visibility:visible;
+    transition: visibility 2s ease-in-out;
+}*/
+ 
+ 
+
+

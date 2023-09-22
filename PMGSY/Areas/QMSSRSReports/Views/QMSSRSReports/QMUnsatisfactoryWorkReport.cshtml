@@ -1,0 +1,16 @@
+﻿@using MvcReportViewer
+
+@model PMGSY.Areas.QMSSRSReports.Models.QualityReportsViewModel
+
+    @Html.MvcReportViewer("/PMGSYCitizen/QMUnsatisfactoryWorks",
+     new
+     {
+         stateCode = Model.State,
+         qmType = Model.qmType,
+         StateName = Model.StateName,
+         CEOName = Model.CEOName,
+         SQCName = Model.QCName,
+         TelephoneName1 = Model.CEOPhone,
+         TelephoneName2 = Model.QCPhone,
+     },
+       new { Height = 600, Width = "100%", style = "border:none;" })

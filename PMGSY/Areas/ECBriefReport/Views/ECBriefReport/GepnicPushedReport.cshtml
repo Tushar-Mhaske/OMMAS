@@ -1,0 +1,16 @@
+﻿@using MvcReportViewer
+
+@model PMGSY.Areas.ECBriefReport.Models.ECBriefReportViewModel
+
+
+    
+    @Html.MvcReportViewer("/PMGSYCitizen/ProposalsPushedToGepnic",
+     new
+     {
+       
+         StateCode = Model.StateCode,
+         DistrictCode = Model.DistrictCode,
+         BlockCode = Model.BlockCode               
+       
+     },
+       new { Height = 600, Width = "100%", style = "border:none;" })

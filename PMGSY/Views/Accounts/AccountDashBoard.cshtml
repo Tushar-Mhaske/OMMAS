@@ -1,0 +1,647 @@
+﻿@model PMGSY.Models.Accounts.DashBoardModel
+@using PMGSY.Extensions;
+@{
+    Layout = null;
+}
+
+
+<!DOCTYPE html>
+
+<html>
+<head>
+    <meta name="viewport" content="width=device-width" />
+    <META Http-Equiv="Cache-Control" Content="no-cache" />
+    <META Http-Equiv="Pragma" Content="no-cache" />
+    <META Http-Equiv="Expires" Content="0" />
+    <title>Account Dash Board</title>
+    <link href="~/Content/Site.css" rel="stylesheet" />
+    <link href="~/Content/jquery-ui.css" rel="stylesheet" />
+    <link href="~/Content/themes/Humanity/jquery-ui-1.9.2.custom.css" rel="stylesheet" />
+    <link href="~/Content/jquery.qtip.css" rel="stylesheet" />
+    <link href="~/Content/ui.jqgrid.css" rel="stylesheet" />
+
+
+    <script src="~/Scripts/jquery-1.9.1.min.js"></script>
+    <script src="~/Scripts/jquery.migrate.js"></script>
+    <script src="~/Content/themes/Humanity/js/jquery-ui-1.9.2.custom.js"></script>
+
+
+    <script src="~/Scripts/i18n/grid.locale-en.js"></script>
+    <script src="~/Scripts/i18n/jquery.jqGrid.src.js"></script>
+    <script src="~/Scripts/jquery.ui.core.js"></script>
+    <script src="~/Scripts/jquery.ui.mouse.js"></script>
+    <script src="~/Scripts/jquery.ui.widget.js"></script>
+    <script src="~/Scripts/jquery.ui.draggable.js"></script>
+    <script src="~/Scripts/jquery.ui.tabs.js"></script>
+
+    <script src="~/Scripts/jquery.validate.min.js"></script>
+    <script src="~/Scripts/jquery.validate.unobtrusive.min.js"></script>
+
+    <script src="~/Scripts/custom/Generic.js"></script>
+    <script src="~/Scripts/HighChart/highcharts.js"></script>
+
+
+    <script src="~/Scripts/jquery.blockUI.min.js" type="text/javascript"></script>
+
+    <script src="~/Scripts/jquery.qtip.js"></script>
+    <script type="text/javascript">
+         // $.blockUI();
+
+          var levelId = '@ViewBag.LevelId';
+
+    </script>
+
+
+    <script src="~/Scripts/Accounts/AccountDashBoard.js"></script>
+    <script type="text/javascript">
+
+
+        $(document).ready(function () {
+
+            $.blockUI({ message: '<img src="../../Content/images/ajax-loader.gif"/>' });
+
+            setTimeout(function () {
+
+                $.unblockUI();
+
+
+            }, 2000);
+
+
+            //$("#divProgram").draggable({ containment: "parent", axis: "x", revert: true });
+            //$("#divAdmin").draggable({ containment: "parent", axis: "x", revert: true });
+            //$("#divMain").draggable({ containment: "parent", axis: "x", revert: true });
+
+
+
+        });//end of doc ready
+
+        $(function () {
+            /* $(".column").sortable({
+                 connectWith: ".column"
+             });*/
+
+            $("#ProgramLink,#divPFAuth,#ProgramDiv3").sortable({
+                connectWith: "#ProgramLink,#divPFAuth,#ProgramDiv3"
+            });
+
+            $(".portlet").addClass("ui-widget ui-widget-content ui-helper-clearfix ui-corner-all")
+                .find(".portlet-header")
+                .addClass("ui-widget-header ui-corner-all")
+                .prepend("<span class='ui-icon ui-icon-minusthick'></span>")
+                .end()
+                .find(".portlet-content");
+
+            $(".portlet-header .ui-icon").click(function () {
+                $(this).toggleClass("ui-icon-minusthick").toggleClass("ui-icon-plusthick");
+                $(this).parents(".portlet:first").find(".portlet-content").toggle('slow');
+            });
+
+            $(".column").disableSelection();
+
+        });
+
+    </script>
+    <style>
+
+        .column {
+            width: 99%;
+            padding-bottom: 10px;
+            margin-left: 5px;
+        }
+
+        .portlet {
+            margin: 0 1em 1em 0;
+        }
+
+        .portlet-header {
+            margin: 0.3em;
+            padding-bottom: 4px;
+            padding-left: 0.2em;
+        }
+
+            .portlet-header .ui-icon {
+                float: right;
+            }
+
+        .portlet-content {
+            padding: 0.4em;
+        }
+
+        .ui-sortable-placeholder {
+            border: 1px dotted black;
+            visibility: visible !important;
+            height: 50px !important;
+        }
+
+            .ui-sortable-placeholder * {
+                visibility: hidden;
+            }
+
+        body {
+            background-color: #fff transparent;
+            color: #333;
+            font-size: .70em;
+            font-family: "Segoe UI", Verdana, Helvetica, Sans-Serif;
+            margin: 0 auto;
+            padding: 0;
+            max-width: 98%;
+            height: 98%;
+        }
+
+        html {
+            height: 95%;
+        }
+
+        .ui-tabs .ui-tabs-panel {
+            padding: 0;
+        }
+    </style>
+
+
+</head>
+<body id="mainbody">
+    @Html.Hidden("PMGSY2StateCode", PMGSYSession.Current.StateCode)
+    <div id="header" class="ui-corner-all" style="border: solid #CCC 1px; margin-top: 5px; height: 5%;">
+        <div id="UserLogin" style="cursor:pointer;font-size: 10.5px; color: #7D0000; float: right; padding: 2px 2px 3px 2px; margin-bottom: 1px; margin-right:170px; border: none; border-radius: 8px;">
+            <table>
+                <tr>
+                    <td> <span> <img src="~/Content/images/User-yellow-icon.png" /> </span> </td>
+                    <td>
+                        @if (PMGSYSession.Current.UserName != null)
+                        {
+                            @Html.Hidden("hdnRoleHomePage", PMGSYSession.Current.HomePageURL.ToString())
+                            <span style=" border-radius: 8px;padding-bottom:5px;">&nbsp;&nbsp;Welcome <b>@PMGSYSession.Current.UserName</b></span>
+                        }
+                        @if (PMGSYSession.Current.RoleName != null)
+                        {
+                            <span style="padding-bottom:5px;"> ( @PMGSYSession.Current.RoleName ) </span>
+                        }
+
+                        @if (PMGSYSession.Current.ModuleName != null)
+                        {
+                            <span style="padding-bottom:2px;">|&nbsp; Module -&nbsp;</span><span id="spnModuleName" style="padding-bottom:2px;border-radius: 8px;">@PMGSYSession.Current.ModuleName </span>
+                        }
+                    </td>
+                </tr>
+            </table>
+        </div>
+
+    </div>
+    <div id="userProfile" class="" style="width:350px;float:none;display:none;">
+
+        <div style="padding: 2px 2px 2px 2px;width:100%;">
+            <table style="width:102%;padding-left:-10px;">
+                <tr>
+                    <td>
+                        <div style="padding-bottom: 8px;float:left;">
+                            <fieldset class="ui-corner-all" style="border:ridge 0.1em #CCC;color: #464646; padding:2px 2px 2px 2px;width:200px;height:35px;">
+                                @if (PMGSYSession.Current.PMGSYScheme != null)
+                                {
+                                    if (PMGSYSession.Current.PMGSYScheme == 1)
+                                    {
+                                        <input type="radio" id="rdoScheme1" name="rdoScheme" checked="checked" /><label style="font-size: 10.5px; color: #464646;">PMGSY-1</label>
+                                        <span id="spnPMGSY2"><input type="radio" id="rdoScheme2" name="rdoScheme" /><label style="font-size: 10.5px; color: #464646;">PMGSY-2</label></span>
+                                    }
+                                    else
+                                    {
+                                        <input type="radio" id="rdoScheme1" name="rdoScheme" /><label style="font-size: 10.5px; color: #464646;">PMGSY-1</label>
+                                        <span id="spnPMGSY2"><input type="radio" id="rdoScheme2" name="rdoScheme" checked="checked" /><label style="font-size: 10.5px; color: #464646;">PMGSY-2</label></span>
+                                    }
+                                }
+                                else
+                                {
+                                    <input type="radio" id="rdoScheme1" name="rdoScheme" /><label style="font-size: 10.5px; color: #464646;">PMGSY-1</label>
+                                    <span id="spnPMGSY2"><input type="radio" id="rdoScheme2" name="rdoScheme" /><label style="font-size: 10.5px; color: #464646;">PMGSY-2</label></span>
+                                }
+                            </fieldset>
+                        </div>
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        @{Html.RenderAction("ValidateRoles", "Login", new { id = @PMGSYSession.Current.UserName });}
+                    </td>
+                </tr>
+            </table>
+        </div>
+        <div style="border-top:ridge 0.1em #000000;background-color:#e8e8e2; margin:0 0 -15px -10px; padding-top:5px;padding-bottom:2px;width:300px;height:45px;">
+            <input type="button" value="Log Off" style="color: #464646;width:80px;height:25px;background-color:transparent;border:ridge 0.1em #7a7a7a;margin:2px 2px 2px 10px;" onclick="window.location.href = '/login/logout'" />
+            <input type="button" value="Change Password" style="color: #464646;width:120px;height:25px;background-color:transparent;border:ridge 0.1em #7a7a7a;margin:2px 2px 2px 25px;" onclick="window.location.href = '/login/ChangePassword'" />
+        </div>
+    </div>
+
+    <table class="ui-state-default ui-corner-all" style="border:0.1em solid gray; width:99%;margin-left: 5px;" id="tblSearch">
+
+
+        <tr id="secondRow">
+
+            <td style="text-align: center;" id="SRRDATD">
+                @Html.RadioButtonFor(model => model.LEVEL, "4", new { @id = "rdSRRDA", @checked = "checked" })  <label for="rdSRRDA">SRRDA </label>
+                &nbsp; &nbsp; &nbsp;
+                @* Added By Abhishek kamble 28-Feb-2014 *@
+
+                @if (PMGSYSession.Current.LevelId == 4 || PMGSYSession.Current.LevelId == 6)
+                {
+
+                    @Html.DropDownListFor(m => m.SRRDA, new SelectList(Model.SRRDA_LIST, "Value", "Text"), new { @title = "SRRDA", tabindex = "3", @class = "dropdown", @id = "ddlSRRDA" })
+                }
+
+                @Html.RadioButtonFor(model => model.LEVEL, "5", new { @id = "rdDPIU" })  <label for="rdDPIU">DPIU </label>
+                &nbsp; &nbsp; &nbsp;
+                @Html.DropDownListFor(model => model.DPIU, new SelectList(Model.DPIU_LIST, "Value", "Text"), new { Title = "DPIU", tabindex = "3", @class = "dropdown", @Style = "display:none" })
+                <br />
+                @Html.ValidationMessageFor(model => model.DPIU)
+
+            </td>
+            <td style="text-align: center; width: 5%">
+                Month <label style="color:red">*</label>
+
+            </td>
+            <td style="text-align: center; width: 20%">
+
+                @Html.DropDownListFor(model => model.MONTH, new SelectList(Model.MONTH_LIST, "Value", "Text"), new { Title = "Voucher Month", tabindex = "1", @class = "dropdown" })
+                @Html.ValidationMessageFor(model => model.MONTH)
+            </td>
+            <td style="text-align: center; width:5%">
+                Year <label style="color:red">*</label>
+            </td>
+            <td style="text-align: center; width: 20%">
+
+                @Html.DropDownListFor(model => model.YEAR, new SelectList(Model.YEAR_LIST, "Value", "Text"), new { Title = "Voucher Year", tabindex = "2", @class = "dropdown" })
+                @Html.ValidationMessageFor(model => model.YEAR)
+            </td>
+
+
+            <td style="text-align: center;">
+                <input type="button" class="jqueryButton"
+                       name="btnView" id="btnView" title="" value='View Details' />
+            </td>
+        </tr>
+
+    </table>
+
+
+    <div style="height:90%;">
+        @*border: solid gray 1px;" class="ui-corner-all*@
+
+        <div id="divProgram" style="overflow: auto; margin-left: 5px; margin-top: 5px; margin-bottom: 5px; height: 40%; width: 98%; border: solid gray 1px; float: left" class="ui-corner-all">
+
+            <div class="ui-widget ui-widget-content ui-corner-all" style="text-align:center">
+                <div class="ui-widget-header ui-corner-all">
+                    <span style="text-align:center;">
+                        <h3> <u> PROGRAMME FUND </u> </h3>
+                    </span>
+                </div>
+            </div>
+
+            <center>
+                @*following code is commented for timebeing*@
+                @*Commented by Srishti *@
+                @*  <div id="programmeTabs1"  style="margin-top:10px;width:96%;height:100%; padding-bottom: 10px;">
+                            <ul>
+                                <li><a href="#assetTab">Assets</a> </li>
+                                <li><a href="#liabilityTab">Liabilities</a></li>
+                            </ul>
+                            <div id="assetTab" style="width:100%;height:320px;">
+                                <div id="AssetGridDiv" style="margin-top:2px;width:100%;">
+                                    <table id="tblAssetList"></table>
+                                    <div id="divAssetPager"></div>
+                                </div>
+
+                                <div id="AssetChart" style="height:100%;">
+
+                                </div>
+
+                                <div id="AssetMinorChart" style="height:100%;display:none">
+
+                                </div>
+
+
+                            </div>
+                            <div id="liabilityTab" style="width:100%;height:320px;">
+                                <div id="LiabilityGridDiv" style="margin-top:2px;width:100%">
+                                    <table id="tblLiaList"></table>
+                                    <div id="divLiaPager"></div>
+                                </div>
+
+                                <div id="LiaChart" style="height:100%;">
+
+                                </div>
+                                <div id="LiaMinorChart" style="height:100%;display:none">
+
+                                </div>
+
+                            </div>
+
+                    </div>
+                *@
+                @*Comment end by Srishti *@
+
+                @{ var authTabTitle = string.Empty; }
+                @if (PMGSY.Extensions.PMGSYSession.Current.LevelId == 4)
+                {
+                    authTabTitle = "Fund Received";
+                }
+                else if (PMGSY.Extensions.PMGSYSession.Current.LevelId == 5)
+                {
+                    authTabTitle = "Authorization Received";
+                }
+                @* <div style="margin-top:2px; width: 96%; padding-bottom: 10px;">
+                        <span class="ui-icon ui-icon-image" title="chart" style="float: left;display:none" id="divProgramChartIcon"></span>
+                        <span class="ui-icon ui-icon-calculator" title="grid" style="float: left;" id="divProgramGridIcon"></span>
+                    </div>
+                *@
+                <div id="programmeTabs2" style="margin-top:10px; width: 96%; padding-bottom: 10px; margin-left: 5px;">
+                    <ul>
+                        <li><a href="#authTab"><span id="spnProgrammeAuthTab">@authTabTitle</span></a></li>
+                        <li><a href="#summaryTab">Account Summary</a></li>
+                        @* Commented By Abhishek kamble 13-jan-2014 *@
+                        @* @{if (ViewBag.LevelId == 5)
+                            {<li><a href="#authRequestTab">Authorization Request</a></li> }}*@
+                    </ul>
+                    <div id="authTab">
+
+
+                        <div id="divProgramAuthDetails" class="column" style="margin-top: 10px;">
+
+                            <table id="tblProgramAuthReceivedList"></table>
+                            <div id="divProgramAuthReceivedPager"></div>
+
+                        </div>
+
+
+                    </div>
+                    <div id="summaryTab">
+
+                        <div id="divProgramSummaryDetails" class="column" style="margin-top: 10px;">
+
+                            <table id="tblProgramSummaryList"></table>
+                            <div id="divProgramSummaryPager"></div>
+
+                        </div>
+                    </div>
+                    @*   @{if (ViewBag.LevelId == 5)
+                        {   <div  id="authRequestTab">
+                                        <div id="divPFAuth" class="column" style="margin-top: 10px;">
+
+                                        <table id="tblPFAuthList"></table>
+                                        <div id="divPFAuthPager"></div>
+
+                                        </div>
+
+                        </div> }}*@
+
+                </div>
+                @* Commented By Abhishek kamble 13-jan-2014 *@
+                @* <div id="ProgramLink" class="column" style="margin-top:10px;width:96%;">
+                        <div class="portlet">
+                            <div class="portlet-content">
+                                @{ string url = "/Home/Index/" + ViewBag.EncryptedProgram;}
+                                 <a id="ProgramClick" href='@url'>
+                                <span style="color:blue;font-weight:bold"> Click Here To Proceed With Programme Fund </span>
+                                </a>
+                            </div>
+                        </div>
+
+                    </div>*@
+
+            </center>
+
+            <div class="ui-widget ui-corner-all" style="text-align: center; font-size: 14px; font-weight: bold;">
+                @*  <div class="ui-widget-header ui-corner-all">*@
+                @{ string url = "/Home/Index/" + ViewBag.EncryptedProgram;}
+                <span style="text-align:center;">
+                    <a style="color:blue;text-align:center" id="ProgramClick" href='@url'>>> Go To Programme Fund >></a>
+                </span>
+                @*<span class="ui-icon ui-icon-circle-plus" title="Maximise" style="float: right" id="divProgramPlus"></span>
+                    <span class="ui-icon ui-icon-circle-minus" title="Minimise" style="float: right;display:none" id="divProgramMinus"></span>*@
+                @*</div>*@
+            </div>
+
+        </div>
+
+
+        <div id="divAdmin" style="overflow: auto; margin-left: 8px; margin-top: 5px; margin-bottom: 5px; height: 40%; width: 98%; border: solid gray 1px; float: left" class="ui-corner-all">
+
+
+            <div class="ui-widget ui-widget-content ui-corner-all" style="text-align:center">
+                <div class="ui-widget-header ui-corner-all">
+                    <span style="text-align:center;">
+                        <h3> <u> ADMIN FUND </u> </h3>
+                    </span>
+                </div>
+            </div>
+
+            <center>
+
+                @*Commented by Srishti*@
+                @*   <div id="adminTabs1"  style="margin-top:10px; width: 96%;height:100%; padding-bottom: 10px; margin-left: 5px;">
+                    <ul>
+                    <li><a href="#assetadminTab">Assets</a> </li>
+                    <li><a href="#liabilityadminTab">Liabilities</a></li>
+                    </ul>
+                    <div id="assetadminTab" style="width:100%;height:320px;">
+
+                         <div id="adminAssetGridDiv" style="margin-top:2px;width:100%;">
+                                        <table id="admintblAssetList"></table>
+                                        <div id="admindivAssetPager"></div>
+                         </div>
+
+                        <div id="adminAssetChart" style="height:100%;" >
+
+                        </div>
+
+                    </div>
+                    <div id="liabilityadminTab"  style="width:100%;height:320px;">
+
+                        <div id="adminLiabilityGridDiv" style="margin-top:2px;width:100%;">
+                                        <table id="admintblLiaList"></table>
+                                        <div id="admindivLiaPager"></div>
+                      </div>
+
+                        <div id="adminLiaChart" style="height:100%;">
+
+                        </div>
+
+
+                    </div>
+
+                    </div>
+                *@
+                @*Comment end by Srishti*@
+
+                @*  <div style="margin-top:2px; width: 96%; padding-bottom: 10px;">
+                        <span class="ui-icon ui-icon-image" title="chart" style="float:left;display:none" id="divAdminChartIcon"></span>
+                        <span class="ui-icon ui-icon-calculator" title="grid" style="float:left;" id="divAdminGridIcon"></span>
+                    </div>*@
+
+                <div id="adminTabs2" style="margin-top:10px; width: 96%; padding-bottom: 10px; margin-left: 5px;">
+                    <ul>
+                        <li><a href="#authadminTab"><span id="spnAdministrativeAuthTab">@authTabTitle</span></a> </li>
+                        <li><a href="#summaryadminTab">Account Summary</a></li>
+                    </ul>
+                    <div id="authadminTab">
+                        <div id="divAdminAuthDetails" class="column" style="margin-top: 10px;">
+
+                            <table id="tblAdminAuthReceivedList"></table>
+                            <div id="divAdminAuthReceivedPager"></div>
+
+                        </div>
+                    </div>
+                    <div id="summaryadminTab">
+                        <div id="divAdminSummaryDetails" class="column" style="margin-top: 10px;">
+
+                            <table id="tblAdminSummaryList"></table>
+                            <div id="divAdminSummaryPager"></div>
+
+                        </div>
+                    </div>
+
+                </div>
+
+                @*     <div class="column" style="margin-top:10px">
+                        <div class="portlet">
+
+                            <div class="portlet-content">
+
+                                <a id="AdminClick"  href="/Home/Index/@ViewBag.EncryptedAdmin">
+                                <span style="color:blue;font-weight:bold">Click Here To Proceed With Administrative Expenses Fund </span>
+                                </a>
+                            </div>
+                       </div>
+
+                    </div>*@
+            </center>
+
+            <div class="ui-widget ui-corner-all" style="text-align: center; font-size: 14px; font-weight: bold;">
+                @*<div class="ui-widget-header ui-corner-all" style="text-align: center; font-size: 14px; font-weight: bold;">*@
+                <a id="AdminClick" href="/Home/Index/@ViewBag.EncryptedAdmin">
+                    <span id="ui-dialog-title-dialog" class="ui-dialog-title" style="color:blue">>> Go To Administrative Expenses Fund >></span>
+                </a>
+                @*<span class="ui-icon ui-icon-circle-plus" title="Maximise" style="float: right" id="divAdminPlus"></span>
+                    <span class="ui-icon ui-icon-circle-minus" title="Minimise" style="float: right;display:none" id="divAdminMinus"></span>*@
+                @*</div>*@
+            </div>
+
+        </div>
+
+        <div id="divMain" style="overflow: auto; margin-left: 5px; margin-top: 5px; margin-bottom: 5px; height: 40%; width: 98%; border: solid gray 1px; float: left" class="ui-corner-all">
+
+            <div class="ui-widget ui-widget-content ui-corner-all" style="text-align:center">
+                <div class="ui-widget-header ui-corner-all">
+                    <span style="text-align:center;">
+                        <h3> <u> MAINTENANCE FUND </u> </h3>
+                    </span>
+                </div>
+            </div>
+
+            <center>
+                @*Commented by Srishti*@
+                @*   <div id="mainTabs1"  style="margin-top:10px;height:100%; width: 96%; padding-bottom: 10px; margin-left: 5px;">
+                    <ul>
+                    <li><a href="#assetmainTab">Assets</a> </li>
+                    <li><a href="#liabilitymainTab">Liabilities</a></li>
+                    </ul>
+                    <div id="assetmainTab"  style="width:100%;height:320px;">
+
+                         <div id="mainAssetGridDiv" style="margin-top:2px;width:100%;">
+                                        <table id="maintblAssetList"></table>
+                                        <div id="mainivAssetPager"></div>
+                      </div>
+                        <div id="mainAssetChart" style="height:100%;">
+
+                        </div>
+                    </div>
+                    <div id="liabilitymainTab"  style="width:100%;height:320px;">
+
+                         <div id="mainLiabilityGridDiv" style="margin-top:2px;width:100%;">
+                                        <table id="maintblLiaList"></table>
+                                        <div id="maindivLiaPager"></div>
+                      </div>
+
+                        <div id="mainLiaChart" style="height:100%;">
+
+                        </div>
+
+
+                    </div>
+
+                    </div>
+                *@
+                @*Comment end by Srishti*@
+                @* <div style="margin-top:2px; width: 96%; padding-bottom: 10px;">
+                        <span class="ui-icon ui-icon-image" title="chart" style="float:left;display:none" id="divMainChartIcon"></span>
+                        <span class="ui-icon ui-icon-calculator" title="grid" style="float: left;" id="divMainGridIcon"></span>
+                    </div>*@
+
+                <div id="mainTabs2" style="margin-top:10px; width: 96%; padding-bottom: 10px; margin-left: 5px;">
+                    <ul>
+                        <li><a href="#authmainTab"><span id="spnMaintenanceAuthTab">@authTabTitle</span></a> </li>
+                        <li><a href="#summarymainTab">Account Summary</a></li>
+                    </ul>
+                    <div id="authmainTab">
+
+
+                        <div id="divMainAuthDetails" class="column" style="margin-top: 10px;">
+
+                            <table id="tblMainAuthReceivedList"></table>
+                            <div id="divMainAuthReceivedPager"></div>
+
+                        </div>
+
+                    </div>
+                    <div id="summarymainTab">
+                        <div id="divMainSummaryDetails" class="column" style="margin-top: 10px;">
+
+                            <table id="tblMainSummaryList"></table>
+                            <div id="divMainSummaryPager"></div>
+
+                        </div>
+                    </div>
+
+                </div>
+
+                @*  <div class="column" style="margin-top:10px">
+                        <div class="portlet" style="margin-bottom:10px;">
+                                 <div class="portlet-content">
+                                            <a id="MaintainClick"  href="/Home/Index/@ViewBag.EncryptedMainten">
+                               <span style="color:blue;font-weight:bold"> Click Here To Proceed With Maintenance Fund </span>
+                                </a>
+                          </div>
+                        </div>
+
+                    </div>*@
+
+            </center>
+
+            <div class="ui-widget ui-corner-all" style="text-align: center; font-size: 14px; font-weight: bold">
+                @*<div class="ui-widget-header ui-corner-all" style="text-align: center; font-size: 14px; font-weight: bold">*@
+                <a id="MaintainClick" href="/Home/Index/@ViewBag.EncryptedMainten">
+                    <span id="" class="ui-dialog-title" style="color:blue">>> Go To Maintenance Fund >></span>
+                </a>
+                @*<span class="ui-icon ui-icon-circle-plus" title="Maximise" style="float: right;" id="divMainPlus"></span>
+                    <span class="ui-icon ui-icon-circle-minus" title="Minimise" style="float: right;display:none" id="divMainMinus"></span>*@
+                @* </div>*@
+            </div>
+
+        </div>
+
+    </div>
+
+    <div id="DigReceiptPayment" style="display:none">
+    </div>
+
+    @*div for dialog which will contain the asset liability minor details *@
+
+    <div id="minorAssetLiabilityDiv">
+
+        <div id="minorChart" style="display:none">
+
+        </div>
+
+    </div>
+
+
+</body>
+</html>

@@ -1,0 +1,14 @@
+﻿@using MvcReportViewer
+
+@model PMGSY.Areas.QMSSRSReports.Models.QualityReportsViewModel
+
+    @Html.MvcReportViewer("/PMGSYCitizen/Hab_Cleared_Connected_Report",
+     new
+     {
+                Level = ViewBag.Level,
+                State = ViewBag.State,
+                District = ViewBag.District,
+                Block = ViewBag.Block,
+                PMGSY = PMGSY.Extensions.PMGSYSession.Current.PMGSYScheme
+     },
+       new { Height = 600, Width = "100%", style = "border:none;" })

@@ -1,0 +1,60 @@
+﻿@model PMGSY.Models.Master.MasterCarriageViewModel
+<script src="~/Scripts/custom/Generic.js"></script>
+<script src="~/Scripts/Master/AddCarriageDetails.js"></script>
+<div id="dvheaderCarriageDetails" class="ui-corner-top ui-widget-header panelheader" style="text-align: left; height: 20px;">
+    <span class="ui-jqgrid-title" style="float: left">&nbsp;Carriage Details</span>
+    <span id="iconClose" class="ui-icon ui-icon-circle-close" style="float: right"></span>
+</div>
+<div id="dvAddCarriageDetails" style="display: block; border: 1px solid #B5B8C8;">
+    <div id="dvErrorMessage" class="ui-widget ui-state-error ui-corner-all" style="padding: 0.7em .7em; display: none; margin: 5px 5px 5px 5px; text-align: left;">
+        <span class="ui-icon ui-icon-alert" style="float: left; margin-right: .3em;"></span>
+        <strong>Alert:</strong> <span id="message"></span>
+    </div>
+<form id="frmCarriageDetails">
+    @Html.AntiForgeryToken()
+    @Html.HiddenFor(model => model.EncryptedCarriageCode)            
+
+<center>@Html.ValidationSummary(true)</center>
+<table style="width: 100%; margin-top: 10px;" class="rowstyle">  
+    <tr>
+        <td style="width:10%"></td>
+        <td style="width:05%">@Html.LabelFor(model=>model.MAST_CARRIAGE_WIDTH) <span style="color:red"> *</span></td>
+        <td style="width:15%">
+            @if (Model.EncryptedCarriageCode == null)
+            { 
+            @Html.TextBoxFor(model => model.MAST_CARRIAGE_WIDTH, new {@placeholder="Enter Width...",@tabindex=1,@title="Enter Width",@maxlength=8 ,@Value=String.Empty})
+            @Html.ValidationMessageFor(model=>model.MAST_CARRIAGE_WIDTH)
+            }
+            else
+            {
+            @Html.TextBoxFor(model => model.MAST_CARRIAGE_WIDTH, new {@placeholder="Enter Width...",@tabindex=1,@title="Enter Width",@maxlength=8 })
+            @Html.ValidationMessageFor(model=>model.MAST_CARRIAGE_WIDTH)
+            }
+        </td>                       
+    </tr>
+    <tr>
+        <td colspan="3">
+            @if(Model.EncryptedCarriageCode==null)
+            {
+            <center>
+                    <input type="button" value="Save" name="btnSaveCarriageDetails" id="btnSaveCarriageDetails" class="jqueryButton" tabindex="2" title="Save Details"/>
+                    <input type="reset" value="Reset" name="btnResetCarriageDetails" id="btnResetCarriageDetails" class="jqueryButton" tabindex="3" title="Reset"/>
+            </center>
+            }
+            else
+            {
+            <center>
+                <input type="button" value="Update" name="btnUpdateCarriageDetails" id="btnUpdateCarriageDetails" class="jqueryButton" tabindex="2" title="Update Details"/>
+                <input type="button" value="Cancel" name="btnCancelCarriageDetails" id="btnCancelCarriageDetails" class="jqueryButton" tabindex="3" title="Cancel"/>
+            </center>
+            }
+        </td>
+    </tr>
+      <tr>
+            <td colspan="3">
+                   <label style="border:none">[ Note: Fields marked with<label style="color: red;"> * </label>are mandatory.]</label>
+            </td>
+       </tr>
+</table>
+</form>
+</div>

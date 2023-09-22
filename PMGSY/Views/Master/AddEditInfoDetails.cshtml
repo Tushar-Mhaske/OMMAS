@@ -1,0 +1,171 @@
+﻿@model PMGSY.Models.Master.MasterInfoViewModel
+<script src="~/Scripts/custom/Generic.js"></script>
+<script src="~/Scripts/Master/AddEditInformationDetails.js"></script>
+
+<div id="dvheaderCarriageDetails" class="ui-corner-top ui-widget-header panelheader" style="text-align: left; height: 20px;">
+    <span class="ui-jqgrid-title" style="float: left">&nbsp;
+        @if (Model.MAST_INFO_TYPE == "A")
+        {   
+            <span>Accounts Trainers Details</span>
+        }
+        else if (Model.MAST_INFO_TYPE == "M")
+        {   
+            <span>MRD Details</span>                    
+        }
+        else if (Model.MAST_INFO_TYPE == "N")
+        {   
+            <span>NRRDA Details</span>                  
+        }
+        else if (Model.MAST_INFO_TYPE == "T")
+        {   
+            <span>Trainers Details</span>               
+        }
+    </span>
+    <span id="iconClose" class="ui-icon ui-icon-circle-close" style="float: right"></span>
+</div>
+
+<div id="dvAddInfoDetails" style="display: block; border: 1px solid #B5B8C8;">
+
+    <div id="dvErrorMessage" class="ui-widget ui-state-error ui-corner-all" style="padding: 0.7em .7em; display: none; margin: 5px 5px 5px 5px; text-align: left;">
+        <span class="ui-icon ui-icon-alert" style="float: left; margin-right: .3em;"></span>
+        <strong>Alert:</strong> <span id="message"></span>
+    </div>
+
+    <form id="frmInfoDetails">
+        @Html.AntiForgeryToken()
+        @Html.HiddenFor(model => model.EncryptedInfoCode)
+
+        <center>@Html.ValidationSummary(true)</center>
+        <table style="width: 100%; margin-top: 10px;" class="rowstyle">
+            <tr>
+                <td style="width: 05%"></td>
+                <td style="width: 05%">@Html.LabelFor(model => model.MAST_INFO_NAME) <span style="color: red">*</span></td>
+                <td style="width: 08%">
+                    @Html.TextBoxFor(model => model.MAST_INFO_NAME, new { @placeholder = "Enter Name...", @tabindex = 1, @title = "Enter Name", @maxlength = 255 })
+                    @Html.ValidationMessageFor(model => model.MAST_INFO_NAME)
+                </td>
+                <td style="width: 05%">@Html.LabelFor(model => model.MAST_INFO_DESIGNATION) <span style="color: red">*</span></td>
+                <td style="width: 07%">
+                    @Html.TextBoxFor(model => model.MAST_INFO_DESIGNATION, new { @placeholder = "Enter Designation...", @tabindex = 2, @title = "Enter Designation", @maxlength = 255 })
+                    @Html.ValidationMessageFor(model => model.MAST_INFO_DESIGNATION)
+                </td>
+                <td style="width: 05%">@Html.LabelFor(model => model.MAST_INFO_OFFICE) <span style="color: red">*</span></td>
+                <td style="width: 08%">
+                    @Html.TextBoxFor(model => model.MAST_INFO_OFFICE, new { @placeholder = "Enter Office address...", @tabindex = 3, @title = "Enter Office address", @maxlength = 255 })
+                    @Html.ValidationMessageFor(model => model.MAST_INFO_OFFICE)
+                </td>
+                <td style="width: 05%"></td>
+            </tr>
+
+            <tr>
+                <td></td>
+                <td>@Html.LabelFor(model => model.MAST_INFO_TELE_OFF)</td>
+                <td>
+                    @Html.TextBoxFor(model => model.MAST_INFO_TELE_OFF, new { @placeholder = "Enter Office telephone...", @tabindex = 4, @title = "Enter Office telephone", @maxlength = 100 })
+                    @Html.ValidationMessageFor(model => model.MAST_INFO_TELE_OFF)
+                </td>
+                <td>@Html.LabelFor(model => model.MAST_INFO_TELE_RES)</td>
+                <td>
+                    @Html.TextBoxFor(model => model.MAST_INFO_TELE_RES, new { @placeholder = "Enter residential telephone...", @tabindex = 5, @title = "Enter Residential Telephone", @maxlength = 100 })
+                    @Html.ValidationMessageFor(model => model.MAST_INFO_TELE_RES)
+                </td>
+                <td>@Html.LabelFor(model => model.MAST_INFO_MOBILE)</td>
+                <td>
+                    @Html.TextBoxFor(model => model.MAST_INFO_MOBILE, new { @placeholder = "Enter Mobile Number...", @tabindex = 6, @title = "Enter Mobile Number", @maxlength = 13 })
+                    @Html.ValidationMessageFor(model => model.MAST_INFO_MOBILE)
+                </td>
+                <td></td>
+            </tr>
+            <tr>
+                <td></td>
+                <td>@Html.LabelFor(model => model.MAST_INFO_FAX) </td>
+                <td>
+                    @Html.TextBoxFor(model => model.MAST_INFO_FAX, new { @placeholder = "Enter Fax Number...", @tabindex = 7, @title = "Enter Fax Number", @maxlength = 13 })
+                    @Html.ValidationMessageFor(model => model.MAST_INFO_FAX)
+                </td>
+                <td>@Html.LabelFor(model => model.MAST_INFO_EMAIL)</td>
+                <td>
+                    @Html.TextBoxFor(model => model.MAST_INFO_EMAIL, new { @placeholder = "Enter Email Address...", @tabindex = 8, @title = "Enter Email Address", @maxlength = 100 })
+                    @Html.ValidationMessageFor(model => model.MAST_INFO_EMAIL)
+                </td>
+                <td>@Html.LabelFor(model => model.MAST_INFO_TYPE)</td>
+                <td>
+                    @if (Model.MAST_INFO_TYPE == "A")
+                    {   
+                        <span>Accounts Trainers</span>
+                    }
+                    else if (Model.MAST_INFO_TYPE == "M")
+                    {   
+                        <span>MRD</span>                    
+                    }
+                    else if (Model.MAST_INFO_TYPE == "N")
+                    {   
+                        <span>NRRDA</span>                  
+                    }
+                    else if (Model.MAST_INFO_TYPE == "T")
+                    {   
+                        <span>Trainers</span>               
+                    }
+                    @Html.HiddenFor(m => m.MAST_INFO_TYPE)
+
+                </td>
+                <td></td>
+
+            </tr>
+
+            @if (Model.MAST_INFO_TYPE == "T")
+            {
+                <tr>
+                    <td></td>
+                    <td>@Html.LabelFor(model => model.MAST_STATE_CODE)<span style="color: red">*</span></td>
+                    <td>
+                        @Html.DropDownListFor(m => m.MAST_STATE_CODE, Model.States, new { @tabindex = 9, @title = "Select state", @id = "ddlState" })
+                        @Html.ValidationMessageFor(model => model.MAST_STATE_CODE)
+                    </td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                </tr>
+            }
+            <tr>
+                <td></td>
+                <td>@Html.LabelFor(model => model.MAST_SORT_ORDER)<span style="color: red">*</span></td>
+                <td>
+                    @Html.TextBoxFor(model => model.MAST_SORT_ORDER, new { @placeholder = "Enter Sort Order..", @tabindex = 10, @title = "Enter Sort Order", @maxlength = 4 })
+                    @Html.ValidationMessageFor(model => model.MAST_SORT_ORDER)
+                </td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+            </tr>
+            <tr>
+                <td colspan="8">
+                    @if (Model.EncryptedInfoCode == null)
+                    {
+                        <center>
+                        <input type="button" value="Save" name="btnSaveInfoDetails" id="btnSaveInfoDetails" class="jqueryButton" tabindex="11" title="Save Details"/>
+                        <input type="reset" value="Reset" name="btnResetInfoDetails" id="btnResetInfoDetails" class="jqueryButton" tabindex="12" title="Reset"/>
+                    </center>
+                    }
+                    else
+                    {
+                        <center>
+                        <input type="button" value="Update" name="btnUpdateInfoDetails" id="btnUpdateInfoDetails" class="jqueryButton" tabindex="11" title="Update Details"/>
+                        <input type="button" value="Cancel" name="btnCancelInfoDetails" id="btnCancelInfoDetails" class="jqueryButton" tabindex="12" title="Cancel"/>
+                    </center>
+                    }
+                </td>
+            </tr>
+            <tr>
+                <td colspan="8">
+                    <label style="border: none">
+                        [ Note: Fields marked with<label style="color: red;"> * </label>
+                        are mandatory.]</label>
+                </td>
+            </tr>
+        </table>
+    </form>
+</div>
+

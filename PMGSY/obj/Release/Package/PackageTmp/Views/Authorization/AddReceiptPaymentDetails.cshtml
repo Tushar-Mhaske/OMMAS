@@ -1,0 +1,21 @@
+﻿
+<script type="text/javascript">var currentStatus = '@ViewBag.CurrentStatus'; var authId = '@ViewBag.AuthId'; var billId = '@ViewBag.BillId';</script>
+<script type="text/javascript" src="@Url.Content("~/Scripts/custom/Generic.js")"> </script>
+<script src="~/Scripts/jquery.ui.datepicker.js"></script>
+<script type="text/javascript" src="@Url.Content("~/Scripts/Authorization/AddReceiptPayment.js")"> </script>
+
+
+<center> 
+<div class="ui-state-highlight ui-corner-all" style="width:100%; text-align:left">
+    <span style="float:left" class="ui-icon ui-icon-info"></span>
+    Once Saved, It's Finalize. Entries cannot be open for change.
+</div>
+<div id="loadReceiptMaster" style="width:100%"></div>  
+<br/>
+<div id="loadPaymentMaster" style="width:100%"></div>     
+
+
+</center>
+
+
+

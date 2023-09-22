@@ -1,0 +1,27 @@
+﻿@model PMGSY.Models.ExistingRoads.FilterViewModel
+
+@{
+    ViewBag.Title = "ListCdWorks";
+}
+
+<script src="~/Scripts/custom/Generic.js"></script>
+<script src="~/Scripts/ExistingRoads/ListCdWorksPMGSY3.js"></script>
+
+<form id="frmListCDWorksPMGSY3">
+    <div style="height: 20px; width: 92%; text-align: left; padding-top: 0.6em;" class="ui-state-default ui-corner-all">
+        &nbsp; 
+                   <strong>Road No.:</strong> @ViewBag.RoadNo&nbsp;  &nbsp;  &nbsp;  &nbsp;  &nbsp;  &nbsp;  &nbsp; 
+                 <strong>Road Name:</strong> @ViewBag.RoadName
+    </div>
+    @Html.AntiForgeryToken()
+
+    @Html.HiddenFor(model => model.EncryptedRoadCode)
+    @Html.HiddenFor(model => model.ExistingRoadCode)
+    <div id="divCDWorks" style="width: 96%">
+        <table id="tbCdWorks"></table>
+        <div id="dvCdWorksPager"></div>
+    </div>
+</form>
+
+<div id="divAddCdWorks">
+</div>

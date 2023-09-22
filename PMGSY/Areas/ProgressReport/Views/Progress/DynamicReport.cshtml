@@ -1,0 +1,15 @@
+﻿@using MvcReportViewer
+
+@model PMGSY.Areas.ProgressReport.Models.DynamicSQL
+
+@Html.MvcReportViewer("/PMGSYCitizen/TestDynamicReport",
+         new
+         {
+             //fromDate = Model.fromDate,
+             //toDate = Model.toDate,
+             
+             SqlTxt=Model.Query
+         },
+     new { Height = 600, Width = "100%", style = "border:none;" })
+
+

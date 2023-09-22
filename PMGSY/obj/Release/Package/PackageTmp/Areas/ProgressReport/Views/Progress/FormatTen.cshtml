@@ -1,0 +1,14 @@
+﻿
+
+@using MvcReportViewer
+
+@model PMGSY.Areas.ProgressReport.Models.MonthYear
+
+@Html.MvcReportViewer("/PMGSYCitizen/Format10FinancialReleases",
+         new
+         {
+
+             FYEAR =  Model.Year,
+             FundType="P"
+         },
+     new { Height = "100%", Width = "100%", style = "border:none;" })

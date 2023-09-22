@@ -1,0 +1,60 @@
+﻿@using MvcReportViewer
+
+@model PMGSY.Areas.ProposalSSRSReports.Models.DPIUWiseCumulativePositionModel
+
+
+@if (Model.RoadWise == false)
+{
+
+    @Html.MvcReportViewer("/PMGSYCitizen/DPIUWiseCumulativePosition",
+     new
+     {
+         Level = Model.LevelCode,
+         State = Model.Mast_State_Code,
+         District = Model.Mast_District_Code,
+        // Block = Model.Mast_Block_Code,
+          Agency=0,
+          DPIU=0,
+         Year = Model.PhaseYear,
+         Batch = Model.Batch,
+         Collaboration = Model.FundingAgency,
+         PMGSY = PMGSY.Extensions.PMGSYSession.Current.PMGSYScheme,
+         StateName = Model.StateName,
+         DistrictName = Model.DistName,
+        // BlockName = Model.BlockName,
+         BatchName = Model.BatchName,
+         CollaborationName = Model.FundingAgencyName,
+         AgencyName="All",
+         DPIUName="All"
+
+
+     },
+     new { Height = 600, Width = 1215, style = "border:none;" })
+}
+else
+{
+    @Html.MvcReportViewer("/PMGSYCitizen/DPIUWiseCumulativePosition",
+     new
+     {
+         Level = Model.LevelCode,
+         State = Model.Mast_State_Code,
+         District = Model.Mast_District_Code,
+        // Block = Model.Mast_Block_Code,
+          Agency=0,
+          DPIU=0,
+         Year = Model.PhaseYear,
+         Batch = Model.Batch,
+         Collaboration = Model.FundingAgency,
+         PMGSY = PMGSY.Extensions.PMGSYSession.Current.PMGSYScheme,
+         StateName = Model.StateName,
+         DistrictName = Model.DistName,
+        // BlockName = Model.BlockName,
+         BatchName = Model.BatchName,
+         CollaborationName = Model.FundingAgencyName,
+         AgencyName="All",
+         DPIUName="All"
+     },
+     new { Height = 600, Width = 1215, style = "border:none;" })
+}
+
+

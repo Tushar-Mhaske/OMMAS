@@ -1,0 +1,50 @@
+﻿@model PMGSY.Areas.PackageAgreementSanctionList.Models.WronglyAwardedWorksViewModel
+
+<script src="~/Scripts/custom/Generic.js" type="text/javascript"></script>
+<script src="~/Areas/PackageAgreementSanctionList/Scripts/WronglyAwardedWorksLayout.js"></script>
+
+<div id="dvhdLayout" class="ui-corner-top ui-widget-header panelheader" style="text-align: left; height: 20px;">
+    <span class="ui-jqgrid-title" style="float: left">&nbsp;Wrongly Awarded Works</span>
+
+    <span id="spCollapseIconCN" class="ui-icon ui-icon-circle-triangle-n" style="float: right"></span>
+</div>
+<form id="frmWronglyAwardedLayout">
+    @Html.AntiForgeryToken()
+    @Html.ValidationSummary(true)
+    @Html.HiddenFor(m=>m.pmgsyScheme)
+    <table style="width: 100%;" class="rowstyle">
+        <tr>
+            <td style="width: 2%;"></td>
+            <td style="text-align: left; width: 8%;">
+                @Html.Label("State")
+            </td>
+
+            <td style="width: 25%;">
+                @Html.DropDownListFor(model => model.stateCode, new SelectList(Model.lstState, "Value", "Text"), new { @title = "State", @tabindex = 1, @id = "ddlState", @style = "width:150px" })
+                @Html.ValidationMessageFor(m => m.stateCode)
+
+            </td>
+            <td style="text-align: left; width: 8%;">
+                @Html.Label("District")
+            </td>
+
+            <td style="width: 25%;">
+                @Html.DropDownListFor(model => model.districtCode, new SelectList(Model.lstDistrict, "Value", "Text"), new { @title = "District", @tabindex = 2, @id = "ddlDistrict", @style = "width:150px" })
+                @Html.ValidationMessageFor(m => m.districtCode)
+
+            </td>
+           @* <td style="text-align: left; width: 8%;">
+                @Html.Label("Year")
+            </td>
+            <td style="width: 25%;">
+                @Html.DropDownListFor(model => model.yearCode, new SelectList(Model.lstYear, "Value", "Text"), new { @title = "Year", @id = "ddlYear", @tabindex = 3, @style = "width:150px" })
+                @Html.ValidationMessageFor(model => model.yearCode)
+            </td>*@
+            <td>
+                <input type="button" id="btnView" value="View" class="button" title="View" tabindex="4" />
+            </td>
+        </tr>
+    </table>
+</form>
+
+<div id="dvloadReport" class="divLoadReport"></div>

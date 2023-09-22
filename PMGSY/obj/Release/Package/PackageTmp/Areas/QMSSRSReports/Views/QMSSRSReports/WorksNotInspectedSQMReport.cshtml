@@ -1,0 +1,11 @@
+﻿@using MvcReportViewer
+
+@model PMGSY.Areas.QMSSRSReports.Models.QualityReportsViewModel
+
+    @Html.MvcReportViewer("/PMGSYCitizen/QM_Works_Not_Inspected_by_SQM_Report",
+     new
+     {
+         LEVEL = Model.Level,
+         STATE = Model.State,
+     },
+       new { Height = 600, Width = "100%", style = "border:none;" })

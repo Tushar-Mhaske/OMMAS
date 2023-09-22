@@ -1,0 +1,77 @@
+﻿@model PMGSY.Areas.AccountReports.Models.AbstractSheduleOfRoads
+@{
+    Layout = Request.IsAjaxRequest() ? null : "~/Areas/AccountReports/Views/Account/_Layout.cshtml";
+}
+
+<script src="~/Scripts/custom/Generic.js"></script>
+<script src="~/Areas/AccountReports/Scripts/AbstractScheduleOfRoads.js"></script>
+<div class="ui-widget-header innerDivHeader" style="margin-bottom: 5px; height: 20px; width: 99%">Abstract Schedule of Roads<span style="float: right; margin-right: 2Px; margin-top: 2px" id="spnhdSchedule" class="ui-icon ui-icon-circle-triangle-n"></span></div>
+
+<div id="dvContainer" style="height: 500px">
+    <form id="frmSheduleView">
+        @Html.ValidationSummary(true)
+        <center>
+           
+ <div id="dvError" class="ui-state-error ui-corner-all" style="text-align: left; display: none; width: 99%;height: 30px">
+                <span class="ui-icon ui-icon-alert" style="float: left;"></span>
+                <span></span>
+            </div>
+<div class="CBHeader ui-corner-all" id="dvScheduleView">
+    <table class="table-content ui-corner-all" style="width: 100%; border: .1em solid gray">
+    <tr>
+        @*<td style="width:5%"></td>*@
+        <td style="width:07%">
+            @Html.LabelFor(m => m.AdminNdCode) 
+        </td>
+        <td style="width:15%">
+            @Html.DropDownListFor(m => m.AdminNdCode, Model.PopulateAgency, new { id = "ddlAgency", @title = "Nodal Agency" })  
+            @Html.ValidationMessageFor(m => m.AdminNdCode)
+        </td>  
+         <td style="width:05%">
+          @Html.LabelFor(m => m.HeadId) <label style="color:red">*</label>
+          </td>
+      <td style="width:15%">
+          @Html.DropDownListFor(m => m.HeadId, Model.PopulateHead, new { id = "ddlHead", style = "width:200px", @title = "Head" })
+          @Html.ValidationMessageFor(m => m.HeadId)
+      </td> 
+        <td style="width:15%">
+            @Html.RadioButtonFor(m => m.MonthlyYearly, "M", new {@checked="Checked", @id = "rdoMonthly", @tital = "Monthly" }) @Html.Label("Monthly")
+            @Html.RadioButtonFor(m => m.MonthlyYearly, "Y", new { @id = "rdoYearly", @tital = "Yearly" }) @Html.Label("Yearly")
+        </td>
+          <td class="tdMonth" style="width:05%">
+                @Html.LabelFor(m => m.Month) <label style="color:red">*</label>
+          </td>
+      <td class="tdMonth" style="width:15%">
+          @Html.DropDownListFor(m => m.Month, Model.PopulateMonth, new { id = "ddlMonth", @title = "Month" })
+          @Html.ValidationMessageFor(m => m.Month)
+      </td>
+          <td style="width:05%">
+                 @Html.LabelFor(m => m.Year) <label style="color:red">*</label>
+          </td>
+      <td class="tdYear" style="width:15%">
+          @Html.DropDownListFor(m => m.Year, Model.PopulateYears, new { id = "ddlYear", @title = "Year" })
+          @Html.ValidationMessageFor(m => m.Year)
+      </td>
+      <td style="display:none" class="tdFinYear" style="width:15%">
+          @Html.DropDownListFor(m => m.FinancialYear, Model.PopulateFinYears, new { id = "ddlFinYear", @title = "Year" })
+          @Html.ValidationMessageFor(m => m.FinancialYear)
+      </td>
+       <td class="tdFinYear" colspan="2" style="width:20%">
+       </td>
+
+    </tr>
+  <tr>     
+      <td style="text-align:center" colspan="9">
+            <input type="button" id="btnViewDetails" value="View Details" class="jqueryButton" title="Click here to view details" />
+      </td>
+  </tr>
+    </table>
+    </div>
+    </center>
+
+        <div id="ScheduleDetails" style="width: 95%;">
+        </div>
+
+    </form>
+
+</div>

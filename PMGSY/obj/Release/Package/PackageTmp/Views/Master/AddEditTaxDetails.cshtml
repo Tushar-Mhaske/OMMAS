@@ -1,0 +1,114 @@
+﻿@model PMGSY.Models.Master.MasterTaxViewModel
+
+@{
+    ViewBag.Title = "AddEditTaxDetails";
+}
+
+<script src="~/Scripts/custom/Generic.js"></script>
+<script src="~/Scripts/jquery.ui.datepicker.js"></script>
+<script src="~/Scripts/Master/AddTaxDetails.js"></script>
+
+<div id="dvheaderTaxDetails" class="ui-corner-top ui-widget-header panelheader" style="text-align: left; height: 20px;">
+    <span class="ui-jqgrid-title" style="float: left">&nbsp;Tax Details</span>
+    <span id="iconClose" class="ui-icon ui-icon-circle-close" style="float: right"></span>
+</div>
+<div id="dvAddTaxDetails" style="display: block; border: 1px solid #B5B8C8;">
+    <div id="dvErrorMessage" class="ui-widget ui-state-error ui-corner-all" style="padding: 0.7em .7em; display: none; margin: 5px 5px 5px 5px; text-align: left;">
+        <span class="ui-icon ui-icon-alert" style="float: left; margin-right: .3em;"></span>
+        <strong>Alert:</strong> <span id="message"></span>
+    </div>
+<form id="frmTaxDetails">
+    @Html.AntiForgeryToken()
+<center>@Html.ValidationSummary(true)</center>
+<table style="width: 100%; margin-top: 10px;" class="rowstyle">
+    <tr>
+        <td colspan="5">
+            @Html.HiddenFor(model => model.EncryptedTaxCode)
+            @Html.HiddenFor(model => model.Operation)
+        </td>
+    </tr>
+    <tr>
+        <td style="width:15%"></td>
+        <td style="width:10%">@Html.LabelFor(model=>model.TDS) <span style="color:red"> *</span></td>
+        <td style="width:20%">
+
+            @if (Model.TDS == 0 && Model.EncryptedTaxCode == null)
+            {            
+                @Html.TextBoxFor(model => model.TDS, new {@placeholder="Enter TDS...",@tabindex=1,@title="Enter TDS",@maxlength=8,@Value=String.Empty })            
+            }
+            else
+            {
+                @Html.TextBoxFor(model => model.TDS, new {@placeholder="Enter TDS...",@tabindex=1,@title="Enter TDS",@maxlength=8 })
+            }
+
+            @Html.ValidationMessageFor(model=>model.TDS)
+        </td>
+        <td style="width:10%">@Html.LabelFor(model=>model.Service_Charge) <span style="color:red"> *</span></td>
+        <td style="width:20%">
+              @if(Model.TDS==0 && Model.EncryptedTaxCode==null){                        
+                    @Html.TextBoxFor(model => model.Service_Charge, new {@placeholder="Enter Service Charge...",@tabindex=2,@title="Enter Service Charge",@maxlength=8 ,@Value=String.Empty })
+              }
+            else
+            {              
+                    @Html.TextBoxFor(model => model.Service_Charge, new {@placeholder="Enter Service Charge...",@tabindex=2,@title="Enter Service Charge",@maxlength=8 })
+            }
+            @Html.ValidationMessageFor(model=>model.Service_Charge)
+        </td>
+    </tr>
+    <tr>
+    
+         <td style="width:15%"></td>
+        <td style="width:10%">@Html.LabelFor(model=>model.Effective_Date) <span style="color:red"> *</span></td>
+        <td style="width:20%">
+
+           @Html.TextBoxFor(model => model.Effective_Date, new {@placeholder="Enter Effective Date...",@tabindex=3,@title="Enter Effective Date",@readonly="readonly" })
+            @Html.ValidationMessageFor(model=>model.Effective_Date)
+        </td>
+        <td style="width:10%">@Html.LabelFor(model=>model.Service_TAX)<span style="color:red"> *</span> </td>
+        <td style="width:20%">
+              @if (Model.TDS == 0 && Model.EncryptedTaxCode == null)
+              {                        
+                    @Html.TextBoxFor(model => model.Service_TAX, new {@placeholder="Enter Service Tax...",@tabindex=2,@title="Enter Service Tax",@maxlength=8  })
+              }
+            else
+            {              
+                    @Html.TextBoxFor(model => model.Service_TAX, new {@placeholder="Enter Service Tax...",@tabindex=2,@title="Enter Service Tax",@maxlength=8 })
+            }
+            @Html.ValidationMessageFor(model=>model.Service_TAX)
+        </td>
+       
+    </tr>
+    <tr>
+        <td colspan="5">
+            @if(Model.Operation == "A")
+            {
+            <center>
+            <table>
+                <td>
+                    <input type="button" value="Save" name="btnAddTaxDetails" id="btnAddTaxDetails" class="jqueryButton" tabindex="4"/>
+                    <input type="reset" value="Reset" name="btnResetTaxDetails" id="btnResetTaxDetails" class="jqueryButton" tabindex="5"/>
+                </td>
+            </table>
+            </center>
+            }
+            else
+            {
+            <center>
+            <table>
+                <td>
+                <input type="button" value="Update" name="btnUpdateTaxDetails" id="btnUpdateTaxDetails" class="jqueryButton" tabindex="4"/>
+                <input type="button" value="Cancel" name="btnCancelTaxDetails" id="btnCancelTaxDetails" class="jqueryButton" tabindex="5"/>
+                </td>
+            </table>
+            </center>
+            }
+        </td>
+    </tr>
+      <tr>
+            <td colspan="5">
+                   <label @*class="ui-state-default"*@ style="border:none">[Note: Fields marked with<label style="color: red;"> * </label>are mandatory.]</label>
+            </td>
+       </tr>
+</table>
+</form>
+</div>

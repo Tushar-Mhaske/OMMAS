@@ -1,0 +1,343 @@
+﻿ @*----------------------------------------------------------------------------------------
+
+ * Project Id:
+
+ * Project Name:OMMAS2
+
+ * File Name: ViewPeriodicMaintenance.cshtml
+
+ * Author : Pradip Patil
+
+ * Creation Date :27/April/2017
+
+ * Desc : This view to disaplys all periodic maintenance records..
+ * ---------------------------------------------------------------------------------------*@
+<script>
+    $(function () {
+        $('#accheader').text('View Periodic Maintenance Details');
+
+        $('#imgCloseAgreementDetails').click(function () {
+            $('#spCollapseIconS').trigger('click');
+            $('#tbProposedRoadList').jqGrid("setGridState", "visible");
+            $('#accordion').hide('slow');
+        })
+
+       
+    });
+</script>
+<script src="@Url.Content("~/Scripts/custom/Generic.js")" type="text/javascript" ></script>
+<script src="~/Scripts/MaintenanceAgreement/ViewMaintenanceAgreement.js"></script>
+
+<form id="frmViewPeriodicMaintenance">
+      
+    @Html.Hidden("RoadCode",ViewData["RoadCode"])
+    @Html.Hidden("RoadLength",ViewData["RoadLength"])
+    <center>
+        <div id="dvMaintenanceLst" style="width:100%; margin-top:25px;">
+               <table id="tbMaintenanceList"></table>
+            <div id="dvMaintenancePager"></div>
+       </div>
+          <div id="dvViewMaintenanceAgreementAgainstRoad" style="display:none"></div>  
+    </center>
+
+
+
+  @*<table style="width: 100%; margin-top: 10px;" class="rowstyle">
+        @{
+            Tuple<String, String, String, String> currentCutple = ViewData["CurrentRoadTuple"] as Tuple<String, String, String, String>;
+          }
+        <tr> 
+            <td></td>
+            <td style="font-size:12px;"><b>Year</b> : @currentCutple.Item1</td>
+            <td style="font-size:12px;"><b>Package</b>: @currentCutple.Item2</td>
+            <td style="font-size:12px;"><b>Road Name</b> : @currentCutple.Item3</td>
+            <td style="font-size:12px;text-align:center"><b>Completion Date</b>: @currentCutple.Item4</td>
+        </tr>
+          @foreach (var item in Model)
+          {    
+        
+            <tr>
+                <th></th>
+                <th>
+                    @if (item.IsSecondPeriodic == "N")
+                    {
+                
+                        <div id="dvviewmaintenanceDetails" class="ui-corner-all ui-widget-header panelheader" style="text-align: left; height: 20px;">
+                            <span class="ui-jqgrid-title" style="float: left">&nbsp; First Periodic Maintenance Details</span>
+                        </div>
+                    }
+                    else
+                    {
+                         <div id="" class="ui-corner-all ui-widget-header panelheader" style="text-align: left; height: 20px;">
+                            <span class="ui-jqgrid-title" style="float: left">&nbsp; Second Periodic Maintenance Details</span>
+                        </div>
+                    }
+                </th>
+            </tr>
+         
+            <tr style="border:solid red 2px !important">
+                
+                <td></td>
+                <td>
+                    @Html.LabelFor(modelItem => item.MANE_MAIN_YEAR)
+
+                </td>
+                @{
+                        
+                    var year = item.MANE_MAIN_YEAR;
+                    string financialyear = year + "-" + (year + 1);
+                        
+                        }
+                <td>@financialyear
+
+                </td>
+                 <td>
+                    @Html.LabelFor(model => item.MonthName)
+               </td>
+                <td>
+                    @Html.DisplayFor(model=>  item.MonthName)
+
+                </td>
+            </tr>
+            <tr>
+                <td style="width: 8%"></td>
+                <td style="text-align: left; width: 15%;">
+                    @Html.LabelFor(modelItem => item.Length)
+                </td>
+
+                <td style="width: 30%;">
+                    @Html.DisplayFor(modelItem => item.Length)
+                </td>
+
+                <td style="text-align: left; width: 15%;">
+                    @Html.LabelFor(modelItem => item.ProfileCorrectionCost)
+                </td>
+
+                <td>
+                    @Html.DisplayFor(modelItem => item.ProfileCorrectionCost, new { @id = "profileCorrCost", @title = "Profile Correction Cost", @tabindex = 2 })
+                </td>
+            </tr>
+              
+               <tr>
+                <td></td>
+
+                <td>
+                    @Html.LabelFor(model => item.StartChainage)
+
+                </td>
+
+                <td>
+                    @Html.DisplayFor(model => item.StartChainage)
+
+                </td>
+
+                <td>
+                    @Html.LabelFor(model => item.EndChainage)
+
+                </td>
+
+                <td>
+                    @Html.DisplayFor(model => item.EndChainage)
+               </td>
+            </tr>
+              
+            <tr>
+                <td></td>
+                <td>
+                    @Html.LabelFor(modelItem => item.RenewalType)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.RenewalName)
+                </td>
+                <td>
+                    @Html.LabelFor(modelItem => item.Technology)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.technologyName)
+                </td>
+            </tr>
+
+            <tr>
+                <td></td>
+                <td>
+                    @Html.LabelFor(modelItem => item.MaintanenaceCost)
+                </td>
+
+                <td>
+                    @Html.DisplayFor(modelItem => item.MaintanenaceCost)
+                </td>
+
+                <td>
+                    @Html.LabelFor(modelItem => item.OtherCost)
+                </td>
+
+                <td>
+                    @Html.DisplayFor(modelItem => item.OtherCost)
+                </td>
+            </tr>
+            <tr>
+                <td colspan="3"></td>
+
+                <td>[Cost of other items executed with periodic maintenance including Profile Correction.]
+                </td>
+
+                <td></td>
+            </tr>
+            <tr>
+                <td></td>
+                <td>
+                    @Html.LabelFor(modelItem => item.TotalMaintenanceCost)
+                </td>
+   
+                <td>
+                    @Html.DisplayFor(modelItem => item.TotalMaintenanceCost)
+                </td>
+
+                <td>
+                    @Html.LabelFor(modelItem => item.MaintenanceCompleteDate)
+                </td>
+
+                <td>
+                    @Html.DisplayFor(modelItem => item.MaintenanceCompleteDate)
+                </td>
+            </tr>
+
+
+            <tr>
+                <td></td>
+                <td>
+                    @Html.LabelFor(modelItem => item.IsPerformaceIncentive)
+                </td>
+                <td>
+                    @{
+                    if (item.IsPerformaceIncentive == "Y")
+                    { 
+                        <span>Yes</span>
+                    }
+                    else
+                    {
+                        <span>No</span>
+                    }
+                    }
+                </td>
+                <td>
+                    @Html.LabelFor(modelItem => item.PerformanceIntensiveYear)
+                </td>
+                   @{
+                        
+              var PerformanceIntensiveYear = item.PerformanceIntensiveYear;
+              string PerformanceIntYear = PerformanceIntensiveYear== 0 ?"-": PerformanceIntensiveYear + "-" + (PerformanceIntensiveYear + 1);
+                        
+                        }
+                <td>
+                    @PerformanceIntYear
+
+                </td>
+
+            </tr>
+            <tr></tr>
+            <tr>
+                <td></td>
+                <td>
+                    <label>[Is periodic maintenance expenditure is from Performance incentive of GoI]</label>
+                </td>
+                <td colspan="3"></td>
+            </tr>
+          
+            if (item.IsSecondPeriodic == "N")
+            {  
+            <tr style="display:none">
+                <td></td>
+          
+                <td>
+                    @Html.LabelFor(modelItem => item.MANE_YEAR1_AMOUNT)
+
+                </td>
+
+                <td>
+                    @Html.DisplayFor(modelItem => item.MANE_YEAR1_AMOUNT, new { @id = "ddlMaintanenaceCostYr1", @title = "Maintanenace Cost year 1", @tabindex = 13 })
+                </td>
+
+                <td>
+                    @Html.LabelFor(modelItem => item.MANE_YEAR2_AMOUNT)
+
+                </td>
+
+                <td>
+                    @Html.DisplayFor(model => item.MANE_YEAR2_AMOUNT, new { @id = "ddlMaintanenaceCostYr2", @title = "Maintanenace Cost year 2", @tabindex = 14 })
+
+                </td>
+            </tr>
+
+            <tr style="display:none">
+                <td></td>
+
+                <td>
+                    @Html.LabelFor(model => item.MANE_YEAR3_AMOUNT)
+
+                </td>
+
+                <td>
+                    @Html.DisplayFor(model => item.MANE_YEAR3_AMOUNT, new { @id = "ddlMaintanenaceCostYr3", @title = "Maintanenace Cost year 3", @tabindex = 15 })
+
+                </td>
+
+                <td>
+                    @Html.LabelFor(model => item.MANE_YEAR4_AMOUNT)
+
+                </td>
+
+                <td>
+                    @Html.DisplayFor(model => item.MANE_YEAR4_AMOUNT, new { @id = "ddlMaintanenaceCostYr4", @title = "Maintanenace Cost year 4", @tabindex = 16 })
+
+                </td>
+            </tr>
+
+            <tr style="border-bottom:solid brown 1px; display:none">
+                <td></td>
+
+                <td>
+                    @Html.LabelFor(model => item.MANE_YEAR5_AMOUNT)
+
+                </td>
+
+                <td>
+                    @Html.DisplayFor(model => item.MANE_YEAR5_AMOUNT, new { @id = "ddlMaintanenaceCostYr5", @title = "Maintanenace Cost year5", @tabindex = 17 })
+
+                </td>
+
+                <td>
+                    @Html.LabelFor(model => item.MANE_TOTAL_AMOUNT)
+
+                </td>
+
+                <td>
+                    @Html.DisplayFor(model => item.MANE_TOTAL_AMOUNT, new { @id = "ddlMaintanenaceTotalYr6", @readonly = "readonly", @title = "Total Maintanenace Cost after periodic renewal", @tabindex = 18 })
+
+            </td>
+            </tr>
+            }
+
+            <tr>
+                <td></td>
+                <td></td>
+             
+                    <td style="text-align: right">
+                    <input type="button" id="btnClose" name="btnClose" value="Close" class="jqueryButton" title="" tabindex="19" /> 
+                    </td>
+                 
+            </tr>
+          
+          }
+    </table>
+       <label style="border: none">
+        [ <b>Note</b>: 1. All Cost(s) are in Lakhs]
+    </label>
+   <input type="button" id="btnClose" name="btnClose" value="Close" class="jqueryButton" title="" tabindex="19" /> *@
+    
+
+</form>
+
+
+
+

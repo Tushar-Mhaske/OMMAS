@@ -1,0 +1,26 @@
+﻿
+
+
+<script src="@Url.Content("~/Scripts/custom/Generic.js")" type="text/javascript" ></script>
+<script type="text/javascript">
+    $(document).ready(function () {
+        //alert("Ready ATR");
+        LoadQMATRAddForm();
+        LoadQMATRListForm();
+    });
+
+    function LoadQMATRAddForm() {
+        var jicode = $("#hdjicode").val();
+        $("#dvQMJIATRAdd").load("/QualityMonitoring/QMJIATRAdd/" + jicode);
+
+    }
+    function LoadQMATRListForm() {
+        var jicode = $("#hdjicode").val();
+        $("#QMJIATRList").load("/QualityMonitoring/QMJIATRList/" + jicode);
+
+    }
+</script>
+<input type="hidden" id="hdjicode" value="@ViewBag.jicode" />
+<div id="dvQMJIATRAdd"></div>
+<p >&nbsp;</p>
+<div id="QMJIATRList"></div>

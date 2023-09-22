@@ -1,0 +1,17 @@
+﻿@using MvcReportViewer
+@model PMGSY.Areas.PackageAgreementSanctionList.Models.PackageAgreementViewModel
+
+
+
+
+@Html.MvcReportViewer("/PMGSYCitizen/HabitationDownload",
+     new
+     {
+         
+         state = Model.Mast_State_Code,
+         district = Model.Mast_District_Code,
+         Block = @Model.Mast_Block_Code
+       
+       
+     },
+     new { Height = 600, Width = "100%", style = "border:none;" })

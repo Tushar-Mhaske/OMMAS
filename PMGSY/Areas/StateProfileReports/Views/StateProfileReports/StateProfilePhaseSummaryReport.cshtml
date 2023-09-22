@@ -1,0 +1,18 @@
+﻿@using MvcReportViewer
+
+@model PMGSY.Areas.StateProfileReports.Models.SPFilters
+
+@Html.MvcReportViewer("/PMGSYCitizen/StateProfilePhaseWiseSummaryGovSection",
+     new
+     {
+         Level=(Model.DPIUCode==0 ? 1 : 2),
+         State = Model.StateId,
+         District=0,
+         Block=0,
+         Agency=Model.Agency,
+         Collaboration=0,
+         DPIU=Model.DPIUCode,
+         PMGSY=1
+        
+     },
+       new { Height = 600, Width = "100%", style = "border:none;" })

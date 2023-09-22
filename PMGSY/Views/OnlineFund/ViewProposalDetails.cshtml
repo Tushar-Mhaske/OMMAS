@@ -1,0 +1,11 @@
+﻿
+<script src="~/Scripts/jquery.ui.accordion.js"></script>
+<script src="~/Scripts/OnlineFundProcess/ViewProposalDetails.js"></script>
+
+
+@Html.Hidden("RequestId",ViewBag.EncryptedParams as string)
+<div id="dvProposalList" style="margin-top:20px">
+    <table id="tbProposalList"></table>
+    <div id="dvProposalListPager"></div>
+</div>
+

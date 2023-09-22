@@ -1,0 +1,182 @@
+﻿@model PMGSY.Areas.MPR.Models.MPR1Model
+
+@*<script src="~/Scripts/jquery-1.7.2.min.js"></script>*@
+@*<script src="~/Scripts/jquery.ui.widget.js"></script>*@
+<link href="~/Content/jquery.multiselect.css" rel="stylesheet" />
+<script src="~/Scripts/jquery.multiselect.min.js"></script>
+<script src="~/Areas/Feedback/Scripts/MPR1Layout.js"></script>
+<script src="~/Scripts/custom/Generic.js"></script>
+
+<style>
+    /*CSS Dropdown*/
+    .ui-multiselect.ui-widget.ui-state-default.ui-corner-all {
+        width: 200px !important;
+        /*color:#3399ff !Important;*/
+        
+    }
+</style>
+
+<div id="dvhdMPR1Layout" class="ui-corner-top ui-widget-header panelheader" style="text-align: left; height: 20px;">
+    <span class="ui-jqgrid-title" style="float: left">MPR 1 Report</span>
+    <span id="spCollapseIconCN" class="ui-icon ui-icon-circle-triangle-n" style="float: right"></span>
+</div>
+
+<div id="loadFilters" class="ui-corner-bottom" style="display: block; border: 1px solid #B5B8C8;">
+    <form id="frmMPR1">
+        @Html.ValidationSummary(true)
+
+        @Html.HiddenFor(model => model.Mast_State_Code)
+        @Html.HiddenFor(model => model.Mast_District_Code)
+        @Html.HiddenFor(model => model.Mast_Block_Code)
+        @Html.HiddenFor(model => model.StateName)
+        @Html.HiddenFor(model => model.DistName)
+        @Html.HiddenFor(model => model.BlockName)
+        @Html.HiddenFor(model => model.LevelCode)
+        @Html.HiddenFor(model => model.localizedValue)
+
+        @Html.HiddenFor(model => model.MonthName)
+        @Html.HiddenFor(model => model.YearName)
+        @Html.HiddenFor(model => model.CollaborationName)
+        @Html.HiddenFor(model => model.AgencyName)
+        @Html.HiddenFor(model => model.ColumnCode, new { id = "hdColumnCode" })
+
+        @*   @{
+            System.Globalization.CultureInfo CultureInfo = null;
+            CultureInfo = new System.Globalization.CultureInfo(Request.Cookies["language"] == null ? "en" : Request.Cookies["language"].Value.ToString());
+        }*@
+
+        <table class="rowstyle" style="width: 100%;">
+            <tr>
+                <td style="width: 5%; vertical-align: top"></td>
+                @*<td style="width: 5%;">
+                @Html.LabelFor(model => model.RoadCat) : 
+            </td>
+            <td style="width: 3%;">
+                @Html.DropDownListFor(model => model.RoadCat, new SelectList(Model.RoadCatList, "Value", "Text"), new { @id = "ddlRoadCatCNRW" })
+            </td>*@
+                <td style="text-align: left; width: 5%; vertical-align: top">
+                    @Html.LabelFor(model => model.StateCode)
+                </td>
+
+                <td style="width: 15%; vertical-align: top">
+                    @if (Model.Mast_State_Code == 0)
+                    {
+                        @Html.DropDownListFor(model => model.StateCode, new SelectList(Model.StateList, "Value", "Text"), new { @title = "State", @tabindex = 1, @id = "StateList_CompletedRoadDetails", @style = "width:150px" })
+                        <br />
+                        @Html.ValidationMessageFor(m => m.StateCode)
+                    }
+                    else
+                    {
+                        @Html.DisplayFor(model => model.StateName) 
+                        @Html.Hidden("StateCode", Model.Mast_State_Code)                            
+                    }
+                </td>
+                <td style="text-align: left; width: 5%; vertical-align: top">
+                    @Html.LabelFor(model => model.DistrictCode)
+                </td>
+                <td style="width: 15%; vertical-align: top">
+                    @if (Model.Mast_District_Code == 0)
+                    {
+                        @Html.DropDownListFor(model => model.DistrictCode, new SelectList(Model.DistrictList, "Value", "Text"), new { @title = "District", @id = "DistrictList_CompletedRoadDetails", @tabindex = 2, @style = "width:150px" })
+                        <br />
+                        @Html.ValidationMessageFor(m => m.DistrictCode)
+
+                    }
+                    else
+                    {
+                        @Html.DisplayFor(model => model.DistName)
+                        @Html.Hidden("DistrictCode", Model.Mast_District_Code)     
+                              
+                    }
+                </td>
+                <td style="text-align: left; width: 5%; vertical-align: top">
+                    @Html.LabelFor(model => model.BlockCode)
+                </td>
+
+                <td style="width: 15%; vertical-align: top">
+                    @if (Model.Mast_Block_Code == 0)
+                    {
+                        @Html.DropDownListFor(model => model.BlockCode, new SelectList(Model.BlockList, "Value", "Text"), new { @title = "Block", @id = "BlockList_CompletedRoadDetails", @tabindex = 3, @style = "width:150px" })
+                        <br />
+                        @Html.ValidationMessageFor(m => m.BlockCode)
+                    }
+                    else
+                    {
+                        @Html.DisplayFor(model => model.BlockName)
+                        @Html.Hidden("BlockCode", Model.Mast_Block_Code)  
+                    }
+                </td>
+                <td style="width: 5%; vertical-align: top">
+                    @Html.HiddenFor(m => m.localizedValue)
+                    @Html.LabelFor(model => model.Year)
+                </td>
+                <td style="width: 15%; vertical-align: top">
+                    @Html.DropDownListFor(model => model.Year, new SelectList(Model.YearList, "Value", "Text"), new { @title = "Year", @id = "ddlYearMPR1", @style = "width:150px" })
+                    <br />
+                    @Html.ValidationMessageFor(m => m.Year)
+                </td>
+                <td style="width: 5%; vertical-align: top"></td>
+            </tr>
+            <tr>
+                <td style="width: 5%; vertical-align: top"></td>
+                <td style="width: 5%; vertical-align: top">
+                    @Html.LabelFor(model => model.Month)
+                </td>
+                <td style="width: 15%; vertical-align: top">
+                    @Html.DropDownListFor(model => model.Month, new SelectList(Model.MonthList, "Value", "Text"), new { @title = "Month", @id = "ddlMonthMPR1", @style = "width:150px" })
+                    <br />
+                    @Html.ValidationMessageFor(m => m.Month)
+                </td>
+
+                <td style="width: 5%; vertical-align: top">
+                    @Html.LabelFor(model => model.Collab)
+                </td>
+                <td style="width: 15%; vertical-align: top">
+                    @Html.DropDownListFor(model => model.Collab, new SelectList(Model.CollabList, "Value", "Text"), new { @title = "Collaboration", @id = "ddlCollabMPR1", @style = "width:150px" })
+                    <br />
+                    @Html.ValidationMessageFor(m => m.Collab)
+                </td>
+                <td style="width: 5%; vertical-align: top">
+                    @Html.LabelFor(model => model.Agency)
+                </td>
+                <td style="width: 15%; vertical-align: top">
+                    @Html.DropDownListFor(model => model.Agency, new SelectList(Model.AgencyList, "Value", "Text"), new { @id = "ddlAgencyMPR1", @style = "width:150px" })
+                    <br />
+                    @Html.ValidationMessageFor(m => m.Agency)
+                </td>
+
+                <td style="width: 5%; vertical-align: top">@Html.LabelFor(model => model.Scheme)</td>
+                <td style="width: 15%; vertical-align: top">@Html.DropDownListFor(model => model.Scheme, new SelectList(Model.SchemeList, "Value", "Text"), new { @title = "PMGSY Scheme", @id = "ddlScheme", @style = "width:150px" })</td>
+
+                @*<td style="width: 5%; text-align: center; vertical-align: top"></td>*@
+                <td style="width: 5%; vertical-align: top"></td>
+                @*<td style="width: 5%; vertical-align: top"></td>*@
+
+            </tr>
+            <tr>
+                <td style="width: 5%; text-align: center; vertical-align: top"></td>
+                <td style="width: 5%; vertical-align: top">@Html.Label("Columns")
+                </td>
+                <td style="width: 15%; vertical-align: top">
+                    <div id="dvColumnList"></div>
+                    <br />
+                    <span id="showLevelError">@Html.ValidationMessage("showLevelError")</td>
+                <td style="width: 5%; vertical-align: top">
+                    <input type="button" class="button" value="View" id="btnViewMPR1Report" title="View" />
+                </td>
+                <td style="width: 15%; vertical-align: top"></td>
+
+                <td style="width: 5%; text-align: center; vertical-align: top"></td>
+                <td style="width: 15%; vertical-align: top"></td>
+                <td style="width: 5%; text-align: center; vertical-align: top"></td>
+                <td style="width: 15%; vertical-align: top"></td>
+                <td style="width: 5%; text-align: center; vertical-align: top"></td>
+            </tr>
+        </table>
+    </form>
+    @*<div id="divCompRoads" class="modal" style="margin-top: 12px; float: right; margin-left: 870px">
+        <span id="spnCompRoads" class="close">X</span>
+        <span>@HttpContext.GetLocalResourceObject(@"~\Views\Shared\CommonFilters", "lblNoteDrillDown", CultureInfo)</span>
+    </div>*@
+</div>
+<div id="loadReport" class="divLoadReport"></div>

@@ -1,0 +1,43 @@
+﻿@model PMGSY.Models.Master.GrowthScoreSubItemViewModel
+<script src="~/Scripts/custom/Generic.js" type="text/javascript"></script>
+<script src="~/Scripts/Master/GrowthScoreSubItemLayout.js" type="text/javascript"></script>
+
+<center>
+    <div id="dvHeader" style="height:25px;text-align:left; vertical-align:middle;" class="ui-accordion-header ui-helper-reset ui-state-default ui-accordion-header-active ui-state-active ui-corner-top">Score Sub Item
+        <img class="ui-icon ui-icon-closethick" style="float: right;" onclick="closeSubItemDetails();">
+    </div>
+     <div style="width:99.7%; border:ridge 0.1em #ccc;">@*ui-corner-top ui-widget-header panelheader*@
+     <div id="dvGrowthScoreSubItem">     
+</div>
+ <div id="dvGrowthScoreSubItemDetails" style="margin-top:5px; display:none; width:99%;">
+ </div> 
+<div id="dvGrowthScoreSubItemList" >
+    <form id="frmGrowthScoreSubItemLayout">
+        @Html.AntiForgeryToken()
+        <center>@Html.ValidationSummary(true)</center>
+        @Html.HiddenFor(model => model.hdnScoreCode)
+    <table style="width:99%; padding-top:.5em;">
+    <tr>  
+            <td style="text-align:left;"> 
+             <div class="ui-state-default ui-corner-all jqueryButton" id="btnAddSubItem" title="Add Sub Items">
+    <span style="float:left" class="ui-icon ui-icon-circle-plus"></span>
+    <span style="float:left; margin-right:5px">Add Sub Items</span>
+</div>
+             <div class="ui-state-default ui-corner-all jqueryButton" id="btnViewSubItem" title="View Sub Item Details" style="display:none;">
+    <span style="float:left" class="ui-icon ui-icon-search"></span>
+    <span style="float:left; margin-right:5px">View Sub Items Details</span>
+</div>
+            </td>
+        </tr>
+     </table>
+        <div id="dvGrowthScoreSubItemInfo" style="margin-bottom:2px;">
+             
+        </div>
+    <table id="tblGrowthScoreSubItemList" style="width:97%;">
+    </table>
+    <div id="divPagerGrowthScoreSubItemList">
+    </div>
+        </form>
+</div>
+         </div>
+</center>

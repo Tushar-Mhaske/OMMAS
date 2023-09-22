@@ -1,0 +1,204 @@
+﻿@model PMGSY.Models.ProposalReports.MRDProposalBridgeTypeDetailsModel
+@{
+    ViewBag.Title = "Upload Photo for Proposed Road";
+}
+
+<script src="~/Scripts/jquery.cycle.all.js"></script>
+
+<script>
+    $('.slideshow').cycle({
+        fx: 'fade',
+        pause: 1,
+        prev: '#prev',
+        next: '#next'
+
+    });
+
+    //var oSingleCB = $('#tblFilterBridgeFile').dataTable({
+    //    "bJQueryUI": true,
+    //    "bFilter": false,
+    //    "bSort": false,
+    //    "bHeader": true,
+    //    "sScrollY": "320px",
+    //    "bPaginate": false,
+    //    "bScrollInfinite": true,
+    //    "bScrollCollapse": true,
+    //    "sDom": '<"H"Tfr>t<"F"ip>',
+    //    "oTableTools": {
+    //        "aButtons": []
+    //    },
+    //});
+</script>
+
+
+<style type="text/css">
+    /** {
+        margin: 0px;
+        padding: 0px;
+        border: 0px;
+    }*/
+
+    body {
+        background: url() repeat-x;
+    }
+
+    h1 {
+        text-indent: -9999px;
+        background: url() no-repeat;
+        width: 340px;
+        height: 92px;
+        margin: 0 auto;
+    }
+
+    #slideshowContainer {
+        width: 632px;
+        margin: 10px auto 0 auto;
+        position: relative;
+    }
+
+    .slideshow {
+        /*height: 600px;*/
+        height: auto;
+    }
+
+        .slideshow img {
+            padding: 15px;
+            border: 1px solid #ccc;
+            background-color: #eee;
+        }
+
+        .slideshow iframe {
+            padding: 15px;
+            border: 1px solid #ccc;
+            background-color: #eee;
+        }
+
+    #nav {
+        list-style-type: none;
+        z-index: 150;
+    }
+
+        #nav li a {
+            display: block;
+            width: 58px;
+            height: 102px;
+            text-indent: -9999px;
+            outline: none;
+        }
+
+    #prev a {
+        background: url(/Content/images/left.png);
+        width: 58px;
+        height: 102px;
+        position: absolute;
+        top: 120px;
+        left: -70px;
+    }
+
+    #next a {
+        background: url(/Content/images/right.png);
+        width: 58px;
+        height: 102px;
+        position: absolute;
+        top: 120px;
+        right: -70px;
+    }
+
+        #next a:hover {
+            background: url(/Content/images/right_over.png);
+        }
+
+    #prev a:hover {
+        background: url(/Content/images/left_over.png);
+    }
+</style>
+
+<form id="frmNewsFilesDisplay">
+    @Html.AntiForgeryToken()
+    @Html.ValidationSummary(true)
+    <div class="ui-widget-header innerDivHeader" style="width: 98%; text-align: center; margin-bottom: 5px">@(Model.Proposal=="P"?"Upload Photo for Proposed Road":"Upload Photo for Proposed Bridge")</div>
+    <table class="ui-state-default ui-corner-all" style="border: 0.1em solid gray; width: 97%; margin-top: 1px" id="tblFilterBridgeFile">
+        <tr>
+            <td style="width: 5%"><b>State:</b></td>
+            <td style="width: 10%">@Html.DisplayFor(m => m.StateName)</td>
+            <td style="width: 5%"><b>District:</b></td>
+            <td style="width: 10%">@Html.DisplayFor(m => m.DistrictName)</td>
+            <td style="width: 5%"><b>Block:</b></td>
+            <td style="width: 10%;">@Html.DisplayFor(m => m.BlockName)</td>
+            <td style="width: 8%"><b>Sanctioned Year:</b></td>
+            <td style="width: 10%">@Html.DisplayFor(m => m.SanctionYear)</td>
+            <td style="width: 5%"><b>Package:</b></td>
+            <td style="width: 10%">@Html.DisplayFor(m => m.Package)</td>
+        </tr>
+        <tr>
+            <td style="width: 5%"><b>Batch:</b></td>
+            <td style="width: 10%">@Html.DisplayFor(m => m.BatchName)</td>
+            <td style="width: 5%"><b>Collaboration:</b></td>
+            <td style="width: 10%">@Html.DisplayFor(m => m.CollabName)</td>
+            <td style="width: 8%"><b>Road Length:</b></td>
+            <td style="width: 10%">@Html.DisplayFor(m => m.RoadLength)</td>
+            <td style="width: 5%"><b>Road:</b></td>
+            <td colspan="4" style="width: 20%">@Html.DisplayFor(m => m.RoadName)</td>
+        </tr>
+        @if (Model.Proposal == "L")
+        {
+            <tr>
+                <td style="width: 2%"><b>Bridge:</b></td>
+                <td style="width: 10%">@Html.DisplayFor(m => m.BridgeName)</td>
+                <td style="width: 2%"><b>Bridge Length:</b></td>
+                <td style="width: 10%">@Html.DisplayFor(m => m.BridgeLength)</td>
+            </tr>
+        }
+    </table>
+    <center>
+    @if (Model.path != null)
+    {
+        
+        <table>
+            <tr>
+                <td colspan="2">
+                    <div id="slideshowContainer">
+
+                        @*<h1>News Files</h1>*@
+                        <div class="slideshow">
+
+                            @*<div id="dv4" class="ui-state-default ui-corner-all " style="margin-bottom: 05px; height: 20px"><span style="float: right; margin-right: 2Px; margin-top: 2px;cursor:pointer" id="spn5" >@Html.DisplayFor(m=>m.IssuedBy)</span>  </div>*@
+
+                            @foreach (var a in Model.path)
+                            {
+                                if (a.Value == "I")
+                                {
+                                <a href="#">
+                                    <img src="@Url.Content((a.Text.Trim()))" width="600" height="300" /></a>
+                                }
+                                else
+                                {
+                                <a href="#">
+                                    <iframe src="@Url.Content((a.Text.Trim()))" width="600" height="300"></iframe>
+                                </a>
+                                }
+                            }
+
+                        </div>
+                        <ul id="nav">
+                            <li id="prev"><a href="#">Previous</a></li>
+                            <li id="next"><a href="#">Next</a></li>
+                        </ul>
+
+                    </div>
+                </td>
+            </tr>
+        </table>
+            
+    }
+    else
+    {
+        <table>
+            <tr>
+                <td colspan="2"></td>
+                @Html.Label("No Files Uploaded for this Proposal")
+            </tr>
+        </table>
+    }
+            </center>
+</form>

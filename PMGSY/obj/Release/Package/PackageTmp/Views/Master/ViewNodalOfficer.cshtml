@@ -1,0 +1,288 @@
+﻿@model PMGSY.Models.Master.AdminNodalOfficerViewModel
+
+<script src="~/Scripts/custom/Generic.js"></script>
+<script src="~/Scripts/jquery.ui.datepicker.js"></script>
+
+<script src="~/Scripts/Master/AddNodalOfficer.js"></script>
+
+<div id="dvhdCreateNewDetails" class="ui-corner-top ui-widget-header panelheader" style="text-align: left; height: 20px;">
+    <span class="ui-jqgrid-title" style="float: left">&nbsp;Nodal Officer Details</span>
+
+    <span id="spCollapseIconCN" class="ui-icon ui-icon-circle-triangle-n" style="float: right"></span>
+</div>
+
+<div id="dvCreateNewDetails" style="display: block; border: 1px solid #B5B8C8;">
+
+    <div id="dvErrorMessage" class="ui-widget ui-state-error ui-corner-all" style="padding: 0.7em .7em; display: none; margin: 5px 5px 5px 5px; text-align: left">
+        <span class="ui-icon ui-icon-alert" style="float: left; margin-right: .3em;"></span>
+        <strong>Alert:</strong> <span id="message"></span>
+    </div>
+
+    <form id="frmNodalOfficer">
+
+        @Html.ValidationSummary(true)
+        @Html.AntiForgeryToken()
+        <table style="width: 100%; margin-top: 10px;" class="rowstyle">
+
+            <tr style="display: none">
+                <td colspan="5">
+                    @Html.HiddenFor(model => model.EncryptedOfficerCode)
+                </td>
+            </tr>
+            <tr>
+                <td style="width: 8%"></td>
+                <td style="width: 15%">
+                    @Html.LabelFor(model => model.ADMIN_ND_CODE)
+                </td>
+                <td style="width: 30%">
+                   
+
+                    @Html.DisplayFor(model => model.ADMIN_NAME)
+
+                </td>
+                <td>
+                    @Html.LabelFor(model => model.ADMIN_NO_TYPE)
+                </td>
+
+                <td>
+                 
+                   
+                    @Html.DisplayFor(model => model.ADMIN_TYPE)
+                   
+                  
+                </td>
+            </tr>
+            <tr>
+                <td></td>
+                <td>
+                    @Html.LabelFor(model => model.ADMIN_NO_FNAME)
+
+                </td>
+                <td>
+                   
+                    @Html.DisplayFor(model => model.ADMIN_NO_FNAME)
+                </td>
+                <td>
+                    @Html.LabelFor(model => model.ADMIN_NO_MNAME)
+                </td>
+                <td>
+                  
+                    @Html.DisplayFor(model => model.ADMIN_NO_MNAME)
+                </td>
+
+            </tr>
+            <tr>
+                <td></td>
+                <td>
+                    @Html.LabelFor(model => model.ADMIN_NO_LNAME)
+                </td>
+                <td>
+                  
+                    @Html.DisplayFor(model => model.ADMIN_NO_LNAME)
+                </td>
+                <td>
+                    @Html.LabelFor(model => model.ADMIN_NO_DESIGNATION)
+                </td>
+                <td>
+                    
+
+                    @Html.DisplayFor(model => model.ADMIN_DESIGNATION)
+                </td>
+            </tr>
+
+            <tr>
+                <td></td>
+                <td>
+                    @Html.LabelFor(model => model.ADMIN_NO_ADDRESS1)
+                </td>
+                <td>
+                  
+                    @Html.DisplayFor(model => model.ADMIN_NO_ADDRESS1)
+                </td>
+
+                <td>
+                    @Html.LabelFor(model => model.MAST_DISTRICT_CODE)
+                </td>
+                <td>
+                   
+
+                     @Html.DisplayFor(model => model.ADMIN_DISTRICT)
+                </td>
+            </tr>
+            <tr>
+                <td></td>
+                <td></td>
+                <td>
+                    
+                    @Html.DisplayFor(model => model.ADMIN_NO_ADDRESS2)
+                </td>
+                <td>
+                    @Html.LabelFor(model => model.ADMIN_NO_PIN)
+                </td>
+                <td>
+                   
+                    @Html.DisplayFor(model => model.ADMIN_NO_PIN)
+                </td>
+            </tr>
+
+            <tr>
+                <td></td>
+                <td>
+                    @Html.LabelFor(model => model.ADMIN_NO_OFFICE_STD)
+                </td>
+                <td>
+                   
+                  
+                                @Html.DisplayFor(model => model.ADMIN_NO_PIN) <label>-</label> @Html.DisplayFor(model=>model.ADMIN_NO_OFFICE_PHONE)
+       
+                </td>
+                <td>
+                    @Html.LabelFor(model => model.ADMIN_NO_RESIDENCE_STD)
+                </td>
+                <td>
+                   
+                    @Html.DisplayFor(model => model.ADMIN_NO_RESIDENCE_STD) <label>- </label> @Html.DisplayFor(model=>model.ADMIN_NO_RESIDENCE_PHONE)
+                </td>
+            </tr>
+
+            <tr>
+                <td></td>
+                <td>
+                    @Html.LabelFor(model => model.ADMIN_NO_MOBILE)
+                </td>
+                <td>
+                   
+                    @Html.DisplayFor(model => model.ADMIN_NO_MOBILE)
+
+                </td>
+                <td>
+                    @Html.LabelFor(model => model.ADMIN_NO_STD_FAX)
+                </td>
+                <td>
+                  
+                  
+                   @Html.DisplayFor(model => model.ADMIN_NO_STD_FAX) <label> - </label> @Html.DisplayFor(model=>model.ADMIN_NO_FAX)
+     
+                </td>
+            </tr>
+            <tr>
+                <td></td>
+                <td>
+                    @Html.LabelFor(model => model.ADMIN_NO_MAIL_FLAG)
+                </td>
+                <td>
+                  
+                    @if (Model.ADMIN_NO_MAIL_FLAG == "Y")
+                    {
+                        @Html.Label("Yes")
+                        //<label>Yes</label> 
+                    }
+                    else
+                    {  @Html.Label("No")
+                    }
+                </td>
+                <td>
+                    @Html.LabelFor(model => model.ADMIN_NO_EMAIL)
+                </td>
+                <td>
+                  
+                    @Html.DisplayFor(model => model.ADMIN_NO_EMAIL)
+
+
+                </td>
+            </tr>
+            <tr>
+                <td></td>
+                <td>
+                    @Html.LabelFor(model => model.ADMIN_ACTIVE_START_DATE)
+                </td>
+                <td>
+                  
+                    @Html.DisplayFor(model => model.ADMIN_ACTIVE_START_DATE)
+
+                </td>
+               
+                <td>
+
+                    @Html.LabelFor(model => model.ADMIN_NO_REMARKS)
+                </td>
+                <td>
+                   
+                    @Html.DisplayFor(model => model.ADMIN_NO_REMARKS)
+                </td>
+
+
+            </tr>
+            @if (Model.EncryptedOfficerCode != null)
+            {
+                <tr id="trStatus">
+                    <td></td>
+                    <td>Status
+                    </td>
+                    <td>
+                       
+                        @if (Model.ADMIN_ACTIVE_STATUS == "Y")
+                        {
+                            @Html.Label("Active")
+                            //<label>Yes</label> 
+                        }
+                        else
+                        {  @Html.Label("Deactive")
+                        }
+                    </td>
+                    <td id="tdlablEndDate">
+                        @Html.LabelFor(model => model.ADMIN_ACTIVE_END_DATE)
+
+                    </td>
+                    <td id="tdtxtEndDate">
+                     
+                    @Html.DisplayFor(model => model.ADMIN_ACTIVE_END_DATE)
+
+                    </td>
+                    <td id="tdNew"></td>
+                    <td id="tdAdd"></td>
+                  
+
+
+                </tr>
+            }
+               <tr>
+                <td></td>
+                <td>
+                    @Html.LabelFor(model => model.ADMIN_AADHAR_NO)
+                </td>
+                <td>
+                  
+                    @Html.DisplayFor(model => model.ADMIN_AADHAR_NO)
+
+                </td>
+               
+                <td>
+
+                   
+                </td>
+                <td>
+                   
+                   
+                </td>
+
+
+            </tr>
+
+            <tr>
+
+                <td colspan="5" style="text-align: center">
+                 
+
+                     @*   <input type="button" id="btnCancelView" name="btnCancelView" value="Back" class="jqueryButton" title="Back" tabindex="24" />*@
+                        <input type="button" id="btnCancel" name="btnCancel" value="Back" class="jqueryButton" title="Back" tabindex="1" />
+
+                </td>
+            </tr>
+          
+        </table>
+
+    </form>
+
+
+</div>

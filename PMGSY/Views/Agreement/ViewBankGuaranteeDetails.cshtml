@@ -1,0 +1,139 @@
+﻿<!-- ----------------------------------------------------------------------------------------
+
+ * Project Id:
+
+ * Project Name:OMMAS2
+
+ * File Name: ViewbankguaranteeDetails.cshtml
+
+ * Author : Pradip Patil
+
+ * Creation Date :20/March/2017
+
+ * Desc : This page shows the Bank guarantee details on dialog
+ * --------------------------------------------------------------------------------------- -->
+
+@model PMGSY.Models.Agreement.BankGuaranteeDetailsModel
+@using PMGSY.Common;
+
+<script src="@Url.Content("~/Scripts/custom/Generic.js")" type="text/javascript" ></script>
+<script type="text/javascript">
+
+    $(document).ready(function () {
+
+        $('#btnClose').click(function () {
+
+            $("#dvViewBankDiadlog").dialog('close');
+        });
+         
+
+
+    });
+
+</script>
+ 
+
+<form id="frmViewAgreementDetails">
+
+
+    <div>
+
+        <table id="tblNewAgreement" style="width: 100%; border: 1px solid #808080; margin-top: 0px;" class="rowstyle ui-corner-all">
+
+             <tr>
+                <td></td>
+                <td>
+                     @Html.LabelFor(model => model.AGREEMENT_CODE)
+                     
+                </td>
+
+                <td>
+                     <label id="bkagreement_dialog"></label> 
+                </td>
+
+                <td>
+                   @Html.Label("Contractor")
+                </td>
+                <td>
+                  <label id="lblContName_dialog"></label>
+                </td>
+            </tr>
+ 
+            <tr>
+                <td></td>
+
+                <td>
+                   @Html.LabelFor(model => model.BG_BANK_NAME) 
+                </td>
+                <td>
+                   <label id="lblBankName">@Model.BG_BANK_NAME</label>
+                    
+                </td>
+
+                <td>
+                    @Html.LabelFor(model => model.BG_AMOUNT) 
+                </td>
+
+                <td>
+                      
+                   <label id="lblAmount">@Model.BG_AMOUNT</label>
+                </td>
+            </tr>
+        
+         <tr>
+                <td></td>
+                <td>
+                     @Html.LabelFor(model => model.BG_ISSUE_DATE ) 
+                </td>
+                <td >
+                     <label id="lblIssuedate">@Model.BG_ISSUE_DATE</label>
+                </td>
+                 <td>
+                     @Html.LabelFor(model => model.BG_EXPIRY_DATE) 
+                   
+                </td>
+                <td >
+              <label id="lblExpdate">@Model.BG_EXPIRY_DATE</label>
+                    
+                </td>
+    
+            </tr>
+           <tr>
+                <td></td>
+                <td>
+                     @Html.LabelFor(model => model.BG_VERIFICATION_DATE ) 
+                </td>
+                <td >
+                     <label id="lblverificationate">@Model.BG_VERIFICATION_DATE</label>
+                </td>
+                 <td>
+                     @Html.LabelFor(model => model.VERIFIEDBY) 
+                   
+                </td>
+                <td >
+              <label id="lblverifiedby">@Model.VERIFIEDBY</label>
+                    
+                </td>
+    
+            </tr>
+
+            <tr>
+                <td></td>
+                <td></td>
+                <td colspan="2" style="text-align: center">
+
+                    <input type="button" id="btnClose" style="align-self:center;margin-left:30%" name="btnClose" value="Close" class="jqueryButton" title="Close" tabindex="3" />
+
+                </td>
+                <td></td>
+                <td></td>
+
+            </tr>
+ 
+        </table>
+
+
+    </div>
+
+
+</form>

@@ -1,0 +1,8 @@
+﻿@using MvcReportViewer
+@model PMGSY.Areas.AccountReports.Models.BalanceSheet
+
+@Html.MvcReportViewer("/PMGSYCitizen/BalanceSheet",
+     new {  
+            PrmSRRDANDCode = Model.StateAdminCode,PINTRptID = Model.PINTRptID,PINTAdminNDCode = Model.AdminCode, PINTAccMonth = Model.Month, PINTAccYear = Model.Year,PINTisAllPIU = Model.IsAllPiu, PCHARFUNDTYPE = Model.FundType,PCHARRType = Model.ReportLevel, PINTLVL = Model.levelId},
+     new { Height = 675, Width = 1220, style = "border:none;" })
+

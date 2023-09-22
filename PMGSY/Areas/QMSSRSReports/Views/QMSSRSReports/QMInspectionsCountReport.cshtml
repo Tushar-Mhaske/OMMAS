@@ -1,0 +1,20 @@
+﻿@using MvcReportViewer
+
+@model PMGSY.Areas.QMSSRSReports.Models.QualityReportsViewModel
+
+@Html.MvcReportViewer("/PMGSYCitizen/QM_Inspection_Count_Report",
+     new
+     {
+         LEVEL = Model.Level,
+         STATE = Model.State,
+         DISTRICT = Model.District,
+         BLOCK = Model.Block,
+         YEAR = Model.Year,
+         QMTYPE = Model.qmType,
+         RDSTATUS = Model.RoadStat,
+         INSPCOUNT = Model.InspCount,
+         StateName = Model.StateName,
+         DistName = Model.DistName,
+         BlockName = Model.BlockName,
+     },
+       new { Height = 600, Width = "100%", style = "border:none;" })

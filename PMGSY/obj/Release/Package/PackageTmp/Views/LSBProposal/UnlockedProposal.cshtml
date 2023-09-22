@@ -1,0 +1,220 @@
+﻿@*
+    * Project Id    :
+    * Project Name  :   OMMAS II
+    * Name          :   UnlockedProposal.cshtml
+    * Description   :   This View displays Details of Unlocked LSB Proposal
+    * Author        :   Shivkumar Deshmukh        
+    * Creation Date :   15/July/2013
+*@
+@model PMGSY.Models.Proposal.LSBViewModel
+
+<script src="~/Scripts/custom/Generic.js"></script>
+<script src="~/Scripts/Proposal/DisplayLSB.js"></script>
+<style type="text/css">
+    #preview {
+        border: 1px solid #ccc;
+        position: absolute;
+        background: #333;
+        padding: 5px;
+        display: none;
+        color: #fff;
+    }
+
+    td {
+        height: 20px;
+        text-align: left;
+    }
+
+    body {
+        text-align: left;
+    }
+</style>
+<div style="height:20px;  width: 100%; text-align:left; padding-top: 0.6em;" class="ui-state-default ui-corner-all" > 
+    &nbsp; <strong> Road Name :</strong> @Html.DisplayFor(model => model.IMS_ROAD_NAME)  
+        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+           <strong> Bridge Name :</strong> @Html.DisplayFor(model => model.IMS_BRIDGE_NAME)
+</div>                    
+<div style="height:20px; width: 100%; text-align:left; padding-top: 0.6em;" class="ui-state-default ui-corner-all" > 
+            &nbsp; <strong> Note :</strong>  All Amounts are in Lakhs and All Lengths in mtrs.
+</div>
+@Html.HiddenFor(model => model.IMS_PR_ROAD_CODE)
+@Html.HiddenFor(model => model.isAllDetailsEntered)
+        
+<table class="rowstyle" cellpadding="3px" id="tblLSBProposalDetails" style="text-align:left; border:ridge 0.1em #ccc; width:100%; padding:5px 5px 5px 5px;">
+    <tr class="ui-widget-header">
+        <td style="text-align: left;">Construction Type </td>
+        @{
+            if (Model.IMS_UPGRADE_CONNECT == "N")
+            {
+            <td colspan="3">New Proposal (LSB on Core Network Road) </td>
+            }
+            else
+            {
+            <td colspan="3">Upgradation Proposal (LSB on Proposal Road)</td>
+            }
+        }
+    </tr>
+    <tr>
+        <td  style="text-align: left;font-weight:bold;">
+            @Html.LabelFor(model => model.IMS_YEAR)  
+        </td>
+        <td  style="text-align: left;">
+            @* @Html.DisplayFor(model => model.IMS_YEAR)*@
+            @Model.IMS_YEAR - @(Model.IMS_YEAR + 1)
+        </td>
+        <td style="text-align: left;font-weight:bold;">
+            @Html.LabelFor(model => model.IMS_BATCH)
+        </td>
+        <td style="text-align: left;">Batch @Html.DisplayFor(model => model.IMS_BATCH)
+        </td>
+    </tr>
+    <tr>
+        <td style="text-align: left;font-weight:bold;">
+            @Html.LabelFor(model => model.MAST_BLOCK_CODE) 
+        </td>
+        <td style="text-align: left">
+            @Html.DisplayFor(model => model.MAST_BLOCK_NAME)
+        </td>   
+
+        <td style="font-weight:bold;">
+            @Html.LabelFor(model => model.IMS_COLLABORATION) 
+        </td>
+        <td colspan="3">
+            @Html.DisplayFor(model => model.MAST_FUNDING_AGENCY_NAME)
+        </td>
+    </tr>
+    <tr>
+        <td style="font-weight:bold;" >
+            @Html.LabelFor(model => model.MAST_STREAM_NAME)
+        </td>
+        <td colspan="3">
+            @Html.DisplayFor(model => model.MAST_STREAM_NAME)
+        </td>                
+             
+    </tr>
+
+    <tr id="trPackageText">
+                
+        <td  style="font-weight:bold;">
+            @if (Model.IMS_EXISTING_PACKAGE == "N")
+            { 
+                <span> New Package</span>
+            }
+            else
+            {
+                <span> Existing Package</span>
+            }
+        </td>
+        <td colspan="3">
+            @Html.DisplayFor(model => model.IMS_PACKAGE_ID)
+        </td>
+    </tr>
+    @if(Model.IMS_UPGRADE_CONNECT == "N")
+    {
+        <tr>
+            <td  style="font-weight:bold;">
+                @Html.LabelFor(model => model.IMS_ROAD_NAME)  
+            </td>
+            <td  colspan="3">
+                @Html.DisplayFor(model => model.IMS_ROAD_NAME)
+            </td>
+        </tr>
+        <tr>
+        <td  style="font-weight:bold;">
+            @Html.LabelFor(model => model.IMS_ROAD_FROM) 
+
+        </td>
+        <td >
+            @Html.DisplayFor(model => model.IMS_ROAD_FROM)
+        </td>
+
+        <td  style="font-weight:bold;">
+            @Html.LabelFor(model => model.IMS_ROAD_TO) 
+
+        </td>
+        <td >
+            @Html.DisplayFor(model => model.IMS_ROAD_TO)
+
+        </td>
+    </tr>
+    }
+    else
+    {
+        <tr>
+            <td  style="font-weight:bold;">
+                @Html.LabelFor(model => model.IMS_STAGED_YEAR)  
+            </td>
+            <td >
+                @Html.DisplayFor(model => model.IMS_STAGED_YEAR)
+            </td>
+            <td  style="font-weight:bold;">
+                @Html.LabelFor(model => model.IMS_STAGED_PACKAGE_ID)  
+            </td>
+            <td >
+                @Html.DisplayFor(model => model.IMS_STAGED_PACKAGE_ID)
+            </td>
+        </tr>
+                
+        <tr>
+            <td  style="font-weight:bold;">
+                @Html.LabelFor(model => model.IMS_STAGED_ROAD_ID)  
+            </td>
+            <td  colspan="3">
+                @Html.DisplayFor(model => model.IMS_ROAD_NAME)
+            </td>
+        </tr>
+    }
+    <tr>
+        <td  style="font-weight:bold;">
+            @Html.LabelFor(model => model.IMS_ROAD_NAME)  
+        </td>
+        <td  colspan="3">
+            @Html.DisplayFor(model => model.IMS_ROAD_NAME)
+        </td>
+    </tr>
+    <tr>
+        <td  style="font-weight:bold;">
+            @Html.LabelFor(model => model.IMS_BRIDGE_NAME)
+        </td>
+        <td >
+            @Html.DisplayFor(model => model.IMS_BRIDGE_NAME)
+        </td>
+        <td  style="font-weight:bold;">
+            @Html.LabelFor(model => model.IMS_BRIDGE_LENGTH)
+        </td>
+        <td >
+            @Html.DisplayFor(model => model.IMS_BRIDGE_LENGTH)
+        </td>
+    </tr>
+    <tr>
+        <td  style="font-weight:bold;">
+            @Html.LabelFor(model => model.IMS_BRIDGE_EST_COST_STATE) 
+        </td>
+        <td >
+            @Html.DisplayFor(model => model.IMS_BRIDGE_EST_COST_STATE)
+        </td>
+        <td  style="font-weight:bold;">
+            @Html.LabelFor(model => model.IMS_BRIDGE_WORKS_EST_COST)
+        </td>
+        <td >
+            @Html.DisplayFor(model => model.IMS_BRIDGE_WORKS_EST_COST)
+        </td>
+    </tr>
+    <tr>
+        <td>
+            @Html.LabelFor(model=> model.TotalEstimatedCost)
+        </td>
+        <td colspan="3">
+            @Html.DisplayFor(model => model.TotalEstimatedCost)
+        </td>
+    </tr>
+    <tr>
+        <td  style="font-weight:bold;">
+            @Html.LabelFor(model => model.IMS_REMARKS) 
+        </td>
+        <td  colspan="3">
+            @Html.DisplayFor(model => model.IMS_REMARKS)
+        </td>
+    </tr>
+
+</table>    

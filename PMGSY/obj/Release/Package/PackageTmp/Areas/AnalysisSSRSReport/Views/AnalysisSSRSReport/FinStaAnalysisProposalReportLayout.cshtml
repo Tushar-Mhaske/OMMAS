@@ -1,0 +1,66 @@
+﻿@model PMGSY.Areas.AnalysisSSRSReport.Models.FinStaAnalysisProposalModel
+@using MvcReportViewer
+@if( ViewBag.ReportType!=null)
+{
+
+    Layout = "~/Views/Shared/_ExternalLinkLayout.cshtml";
+
+}
+
+@if(Model.Report=="R")
+{
+
+@Html.MvcReportViewer("/PMGSYCitizen/Analysis_Proposal_Status_Report",
+     new
+     {  
+         State = Model.Mast_State_Code,
+         District = Model.Mast_District_Code,
+         Block = Model.Mast_Block_Code,
+         Year=Model.PhaseYear,
+         Batch=Model.Batch,
+         Collaboration = Model.FundingAgency, 
+         PMGSY = PMGSY.Extensions.PMGSYSession.Current.PMGSYScheme,
+         Agency=Model.Agency,
+         Rpt=Model.ReportType,
+         Proposal=Model.Proposal,
+         Type=Model.Type,
+         Status=Model.Status,
+         Drop=Model.Drop      
+         //StatusName=Model.StatusName,
+         //  StateName = Model.StateName,
+         //DistName = Model.DistName,
+         //BlockName = Model.BlockName ,
+         //BatchName=Model.BatchName,
+         //CollaborationName=Model.FundingAgencyName
+                   
+     },
+     new { Height = 650, Width = 1198, style = "border:none;" })
+}
+else
+{
+    
+@Html.MvcReportViewer("/PMGSYCitizen/Analysis_Proposal_HAB_Status_Report",
+     new
+     {  
+         State = Model.Mast_State_Code,
+         District = Model.Mast_District_Code,
+         Block = Model.Mast_Block_Code,
+         Year=Model.PhaseYear,
+         Batch=Model.Batch,        
+         Type=Model.Type,
+         Status=Model.Status,        
+         PMGSY = PMGSY.Extensions.PMGSYSession.Current.PMGSYScheme,
+         Sanction=Model.Sanctioned,
+         Progress=Model.Progress,
+         Rpt=Model.ReportType, 
+         Pop=Model.Population     
+         //StatusName=Model.StatusName,
+         //  StateName = Model.StateName,
+         //DistName = Model.DistName,
+         //BlockName = Model.BlockName ,
+         //BatchName=Model.BatchName,
+         //CollaborationName=Model.FundingAgencyName
+                   
+     },
+     new { Height = 650, Width = 1198, style = "border:none;" })
+}

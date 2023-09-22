@@ -1,0 +1,183 @@
+﻿
+@model PMGSY.Models.QualityMonitoring.TechDetailsAgainstRoadModel
+@{
+    ViewBag.Title = "FDRTechDetailsAgainstRoad";
+}
+
+<script>
+    $(".demo").hide();
+    $("#UserLogin").hide();
+    $("#footer").hide();
+
+</script>
+
+<html>
+<head>
+    <title></title>
+    <script src="~/Scripts/jquery-ui.js"></script>
+    <script src="~/Scripts/jquery.ui.tabs.js"></script>
+    <script src="~/Scripts/QualityMonitoring/QualityLayout.js"></script>
+    <script src="~/Scripts/custom/Generic.js"></script>
+    @*<script src="~/Scripts/jquery.ui.accordion.js"></script>*@
+
+    <script src="~/Scripts/Bootstrap/bootstrap.min.js"></script>
+    <script src="~/Scripts/QualityMonitoring/QMAutocomplete.js"></script>
+
+    <style type="text/css">
+        #preview {
+            border: 1px solid #ccc;
+            position: absolute;
+            background: #333;
+            padding: 5px;
+            display: none;
+            color: #fff;
+        }
+
+        #mainDiv {
+            width: 100%;
+        }
+
+        td {
+            height: 20px;
+            text-align: left;
+        }
+
+        body {
+            text-align: left;
+        }
+    </style>
+
+
+    <style>
+        /*.fixTableHead {
+                //overflow-y: auto;
+                height: 380px;
+            }*/
+
+        .fixTableHead thead th {
+            position: sticky;
+            top: 0;
+        }
+
+        /*table {
+                border-collapse: collapse;
+                width: 100%;
+            }
+
+            th,
+            td {
+                padding: 8px 15px;
+                border: 2px solid #529432;
+            }
+            */
+        th {
+            background: #fccc6b;
+        }
+    </style>
+</head>
+<body>
+
+
+
+
+
+
+    <br><br>
+    <div style=" background: #fccc6b;font-size:17px" class="ui-accordion-header ui-helper-reset ui-state-default ui-accordion-header-active ui-state-active ui-corner-top"><b>FDR Cement Stabilization Details Against Road :</b></div>
+    <div class="dataTable" style="width:100%;overflow-y:scroll; height:400px;">
+        @{
+            var srNo = 1;
+        }
+        <div class="fixTableHead">
+         
+            <table @*class="head ui-state-active"*@ style="background-color: #f8f8f8;height:50px ">
+                <thead style="border: 1px;">
+                    <tr>
+
+                        <th style="width: 4%;"> State </th>
+                        <th style="width: 2%;"> District </th>
+                        <th style="width:2%;"> Block </th>
+                        <th style="width:8%;"> Road/Bridge Name </th>
+                        <th style="width:2%;"> Package </th>
+                        <th style="width:2%;"> Road/Bridge </th>
+                        <th style="width:2%;"> Scheme </th>
+                        <th style="width:5%;"> Technology Name & Length  </th>
+                        <th style="width:6%;"> Additive Used  </th>
+                        <th style="width:4%;"> Date of Casting Trail Stretch  </th>
+                        <th style="width:4%;"> Executed Length of Stabilized Base Course </th>
+
+                    </tr>
+                </thead>
+                <tbody style="border: 1px;">
+                    @if (Model.ERROR != null)
+                    {
+                        <tr>
+                            <td colspan="23" style="color:#FF0000;">
+                                @Model.ERROR
+                            </td>
+                        </tr>
+                    }
+                    else if (Model.TECH_DETAILS_AGAINST_ROAD_LIST != null && Model.TECH_DETAILS_AGAINST_ROAD_LIST.Count > 0)
+                    {
+                        foreach (var obsItem in Model.TECH_DETAILS_AGAINST_ROAD_LIST)
+                        {
+                           
+                            <tr>
+
+                    <td>@obsItem.STATE_NAME</td>
+                    <td>@obsItem.DISTRICT_NAME</td>
+                    <td>@obsItem.BLOCK_NAME</td>
+
+                    <td>@obsItem.IMS_ROAD_NAME</td>
+                    <td>@obsItem.IMS_PACKAGE_ID</td>
+                    <td>@obsItem.IMS_PROPOSAL_TYPE</td>
+                    <td>@obsItem.PMGSY_SCHEME</td>
+                    <td>@Html.Raw(@obsItem.TECHNLOGY)</td>
+                    <td>@Html.Raw(@obsItem.ALL_ADDITIVE_NAME)</td>
+                    <td>@obsItem.STRETCH_CONSTR_DATE</td>
+                    <td>@obsItem.EXEC_LENGTH_STAB_BC</td>
+
+
+
+
+
+                </tr>
+                            
+                            
+
+
+                            srNo++;
+                        }
+                    }
+                    else
+                    {
+                        <tr>
+                            <td colspan="23">
+                                No records found
+                            </td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+        </div>
+
+    </div>
+
+
+
+
+
+
+
+
+     
+
+</body>
+
+
+
+
+
+</html>
+
+

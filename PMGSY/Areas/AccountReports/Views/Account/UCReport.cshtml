@@ -1,0 +1,17 @@
+﻿@using MvcReportViewer
+@model PMGSY.Areas.AccountReports.Models.UtilizationCertificate
+
+<div id="dvReport" style="width: 100%; height: 590px; overflow-x: hidden; overflow-y: hidden">
+    @Html.MvcReportViewer("/PMGSYCitizen/ACCUtilizationCertificates",
+     new
+     {
+        
+         AdminNDCode=Model.AgencyCode,
+         Fyear = Model.YearCode,
+         FundType = PMGSY.Extensions.PMGSYSession.Current.FundType
+         
+         //AdminNDCode = (Model.ReportLevel == "D" ? Model.DpiuAdminCode : Model.SrrdaAdminCode),
+       
+     },
+     new { Height = 600, Width = 1201, style = "border:none;" })
+</div>

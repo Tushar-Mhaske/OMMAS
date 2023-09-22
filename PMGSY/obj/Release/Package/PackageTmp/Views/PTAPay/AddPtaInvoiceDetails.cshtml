@@ -1,0 +1,147 @@
+﻿<script src="~/Scripts/custom/Generic.js"></script>
+<script src="~/Scripts/PtaPay/GenerateBill.js"></script>
+@model PMGSY.Models.PTAPayment.PTAInvoiceViewModel
+
+
+
+
+
+
+<form id="frmPtaInvoice">    
+     <div id="divError" class="ui-state-error ui-corner-all" style="text-align: left; display: none; width: 99%;margin-bottom:10px;margin-top:10px">
+        <span class="ui-icon ui-icon-alert" style="float: left;"></span>                   
+        <span></span>
+    </div>
+   
+
+    @Html.HiddenFor(model => model.MAST_STATE_CODE)
+    @Html.HiddenFor(model=> model.IMS_YEAR)
+    @Html.HiddenFor(model => model.IMS_BATCH)
+    @Html.HiddenFor(model => model.IMS_STREAM)
+    @Html.HiddenFor(model => model.IMS_PROPOSAL_TYPE)
+    @Html.HiddenFor(model => model.MAST_TDS_ID)
+    @Html.HiddenFor(model => model.PTA_SANCTIONED_BY)
+    @Html.HiddenFor(model => model.SAS_ABBREVATION)
+    @Html.HiddenFor(model => model.HONORARIUM_AMOUNT)
+    @Html.HiddenFor(model => model.PMGSY_SCHEME)
+    <table class="rowstyle" style="border:ridge 0.1em #ccc; width:90%;  padding:5px 5px 5px 5px">        
+        <tr>
+            <td style="font-weight:bold">
+                @Html.LabelFor(model=> model.HONORARIUM_AMOUNT)
+            </td>
+            <td>
+                @Html.DisplayFor(model => model.HONORARIUM_AMOUNT)             
+            </td>    
+            
+            <td style="font-weight:bold">
+                @Html.LabelFor(model=> model.Balance_Amount)
+            </td>
+            <td>                
+                @Html.TextBoxFor(model => model.Balance_Amount, new { @id="Balance_Amount", @readonly = "true" })                
+            </td>                                                    
+        </tr>  
+        <tr>
+            <td style="font-weight:bold">
+                @Html.LabelFor(model=> model.PENALTY_AMOUNT)<span style="color:red">*</span>
+            </td>
+            <td>
+                @Html.TextBoxFor(model => model.PENALTY_AMOUNT, new { @maxlength = 19 })           
+            </td>
+            <td style="font-weight:bold">
+                @Html.LabelFor(model => model.INVOICE_FILE_NO)<span style="color:red">*</span>
+            </td>
+            <td>
+                @Html.TextBoxFor(model => model.INVOICE_FILE_NO, new { @maxlength = 50 })
+                
+            </td>
+        </tr>
+        <tr>
+            <td colspan="2">
+                @Html.ValidationMessageFor(model => model.PENALTY_AMOUNT)
+            </td>
+            <td colspan="2">
+                @Html.ValidationMessageFor(model => model.INVOICE_FILE_NO)
+            </td>
+        </tr>
+        
+        <tr>
+            <td style="font-weight:bold">
+                @Html.LabelFor(model=> model.Honorarium_Amount_After_Deduction)
+            </td>
+            <td colspan="3">
+                @Html.TextBoxFor(model => model.Honorarium_Amount_After_Deduction, new { @id="Honorarium_Amount_After_Deduction", @readonly = "true" })
+            </td>            
+        </tr>
+        <tr>
+            <td style="font-weight:bold">
+                @Html.LabelFor(model=> model.Per_Tds)
+            </td>
+            <td  style="font-weight:bold">
+                @Html.DisplayFor(model => model.Per_Tds)
+                @Html.HiddenFor(model => model.Per_Tds)
+            </td>
+            <td  style="font-weight:bold">
+                @Html.LabelFor(model => model.Per_Sc)
+            </td>
+            <td  style="font-weight:bold">
+                @Html.DisplayFor(model => model.Per_Sc)
+                @Html.HiddenFor(model => model.Per_Sc)
+            </td>
+        </tr>
+     @*   <tr>
+            <td style="font-weight:bold">
+                @Html.LabelFor(model=> model.Per_Service_Tax)
+            </td>
+            <td  style="font-weight:bold" colspan="3">
+                @Html.DisplayFor(model => model.Per_Service_Tax)
+                @Html.HiddenFor(model => model.Per_Service_Tax)
+            </td>
+        </tr>*@
+        @Html.HiddenFor(model => model.Per_Service_Tax)
+        <tr>
+            <td style="font-weight:bold">
+                @Html.LabelFor(model=> model.TDS_AMOUNT)
+            </td>
+            <td>
+                @Html.TextBoxFor(model => model.TDS_AMOUNT, new { @readonly = "true" })
+            </td>
+            <td  style="font-weight:bold">
+                @Html.LabelFor(model => model.SC_AMOUNT)
+            </td>
+            <td>
+                @Html.TextBoxFor(model => model.SC_AMOUNT, new { @readonly = "true" })
+            </td>
+        </tr>
+        <tr>
+            <td  style="font-weight:bold">
+                @Html.LabelFor(model => model.ServiceTaxNo)
+            </td>
+            <td>
+                @Html.DisplayFor(model => model.ServiceTaxNo)
+                @Html.HiddenFor(model => model.ServiceTaxNo)
+                @*HiddenFor added by rohit 8Apr2015*@
+            </td>
+            <td  style="font-weight:bold">
+                @Html.LabelFor(model => model.SERVICE_TAX_AMOUNT)
+                <label>@Model.Per_Service_Tax.ToString()  [In Rs.]</label>
+            </td>
+            <td>
+                @Html.TextBoxFor(model => model.SERVICE_TAX_AMOUNT, new { @readonly = "true" })
+            </td>
+        </tr>
+        <tr>
+            
+            <td style="font-weight:bold">
+                @Html.LabelFor(model => model.Amount_To_Be_Paid)
+            </td>
+            <td>
+                @Html.TextBoxFor(model => model.Amount_To_Be_Paid, new { @readonly = "true" })
+            </td>
+        </tr>
+        <tr id="trSaveDetails">
+            <td colspan="4" style="text-align:center">
+                <input type="button" name="btnSave" id="btnSave" value="Generate Bill"  class="jqueryButton"/>
+            </td>
+        </tr>
+     </table>
+</form>

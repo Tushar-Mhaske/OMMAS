@@ -1,0 +1,15 @@
+﻿@using MvcReportViewer
+@model PMGSY.Areas.PackageAgreementSanctionList.Models.UnfinalizedDRRPRoadsViewModel
+
+@Html.MvcReportViewer("/PMGSYCitizen/UnfinalizedDRRPROADS",
+     new
+     {
+         
+         STATE = Model.Mast_State_Code,
+         DISTRICT = Model.Mast_District_Code,
+         BLOCK = @Model.Mast_Block_Code,
+         PMGSY=4 @*Suggeseted By Shrinivasa Sir*@
+       
+       
+     },
+     new { Height = 600, Width = "100%", style = "border:none;" })

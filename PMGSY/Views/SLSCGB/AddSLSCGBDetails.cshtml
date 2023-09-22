@@ -1,0 +1,97 @@
+﻿@model PMGSY.Models.SLSCGB.SLSCGBViewModel
+
+<script src="~/Scripts/custom/Generic.js"></script>
+<script src="~/Scripts/jquery.ui.datepicker.js"></script>
+@*<script src="~/Scripts/jquery.ui.accordion.js"></script>*@
+<script src="~/Scripts/SLSCGB/AddSLSCGBDetails.js"></script>
+
+<div id="divAddSLSCGBDetails" style="margin-top: 20px">
+    <form id="frmSLSCGBDetails">
+        <center>
+
+<div>
+    @Html.ValidationSummary(true)   
+
+    @*@Html.HiddenFor(model => model.Operation)*@
+
+</div>       
+             <div id="dvhdSLSCGB" class="ui-corner-top ui-widget-header panelheader" style="text-align: center; height: 20px;">
+        <span class="ui-jqgrid-title" style="float: left">&nbsp;Meeting Details</span>
+        <span id="spCollapseIconSLSCGB" class="ui-icon ui-icon-circle-triangle-n" style="float: right"></span>
+    </div>
+        <div id="dvSLSCGBMain" class="ui-corner-bottom" style="display: block; border: 1px solid #B5B8C8;">         
+<div id="divErrorSLSCGB" class="ui-state-error ui-corner-all" style="text-align: left; display: none; width: 99.9%;">
+        <span class="ui-icon ui-icon-alert" style="float: left;"></span>                   
+        <span></span>
+</div>
+
+<div id="dvSLSCGBNote" style="height:20px; width: 99.9%; text-align:left; padding-top: 0.4em;" class="ui-state-default ui-corner-all" > 
+            &nbsp;<strong> Note :</strong>  Fields marked with * are mandatory.
+    <a href="#"  style="float: right;">
+                    <img style="margin-right:5px" alt="Close" src="" class="ui-icon ui-icon-closethick" id="imgCloseSLSCGBDetails" /></a>
+</div>
+
+<table id="tbSLSCGBDetails" cellpadding="3px" class="rowstyle" style="margin-top:0px; text-align:left; width:99.9%; padding-top:5px 5px 5px 5px;">
+    <tr>
+        <td style="width:5%">
+        </td>
+        <td style="width:10%">
+            @Html.LabelFor(model => model.state)<label style="color:red">*</label>
+        </td>
+        <td style="width:20%">
+                @Html.DropDownListFor(m => m.state, new SelectList(Model.stateList, "Value", "Text"), new { @id = "ddlState", @tabindex = 1, })
+                <br />
+                @Html.ValidationMessageFor(model => model.state)
+        </td>
+         <td style="width:10%">
+            @Html.Label("Meeting Type")<label style="color:red">*</label>
+        </td>
+        <td style="width:20%; text-align:left;">
+                @Html.RadioButtonFor(m => m.meetingFlag, "S", new { @id = "rdbSLSC", @tabindex = 2, })
+                @Html.Label("SLSC")
+                @Html.RadioButtonFor(m => m.meetingFlag, "G", new { @id = "rdbGB", @tabindex = 3 })
+                @Html.Label("GB")
+                <br />
+                @Html.ValidationMessageFor(x => x.meetingFlag)
+        </td>
+        <td style="width:5%">
+        </tr>
+    <tr>
+        <td style="width:5%">
+        </td>
+        <td style="width:10%">
+            @Html.LabelFor(model => model.meetingDate)<label style="color:red">*</label>
+        </td>
+        <td style="width:20%">
+                    @Html.TextBoxFor(model => model.meetingDate, new { @title = "Meeting Date", @maxlength = 10, @tabindex = 4, @placeholder = "Enter Date...", @id = "txtMeetingDate" })
+            <br />
+            @Html.ValidationMessageFor(model => model.meetingDate)
+        </td>
+         <td style="width:20%">
+             @Html.Label("SLSC/GB", new { @id = "lblMeetingFile" }) (File pdf/doc upto 4 MB)<span style="color:red">*</span>
+        </td>
+        <td style="width:30%">
+            <input type="file" name="file" id="flSLSCGBFile" tabindex="5" />
+                    <label id="lblSLSCGBFile"></label>
+                    <img id="imgSLSCFBFile" style="display: none; margin-left: 5px; cursor: pointer;" title="Click here to clear file" src="~/Content/images/close-icon.png" />
+        </td>
+        <td style="width:5%">
+        </tr>
+    <tr>
+        <td colspan="6" style="text-align:center;">
+            <input type="button" value="Save" name="btnAddSLSCGBDetails" id="btnAddSLSCGBDetails" class="jqueryButton" tabindex="6" />
+                    <input type="reset" value="Reset" name="btnResetSLSCGBDetails" id="btnResetSLSCGBDetails" class="jqueryButton" tabindex="7"/>
+        </td>
+    </tr>
+    </table>
+    </div>
+            </center>
+    </form>
+</div>
+<br />
+ <div id="divMeetingDetailsGrid" style="width: 100%;">
+        <table id="tbMeetingDetailsList">
+        </table>
+        <div id="pgMeetingDetailsList">
+        </div>
+    </div>

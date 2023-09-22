@@ -1,0 +1,112 @@
+﻿@model PMGSY.Models.Proposal.DistrictMappingModel
+
+@{
+    ViewBag.Title = "ListHabitationDetails";
+}
+
+<link href="~/Content/Multiselect/multi-select.css" rel="stylesheet" />
+<script src="~/Scripts/custom/Generic.js"></script>
+@*<script src="~/Scripts/Multiselect/jquery.multi-select.js"></script>*@
+@*<script src="~/Scripts/jquery.multiselect.min.js"></script>*@
+<script src="~/Scripts/Execution/jquery.multi-select.js"></script>
+<script async defer src="~/Scripts/Proposal/ListDistrictDetails.js"></script>
+<script src="~/Scripts/jquery-ui.js"></script>
+<script>
+   
+</script>
+<div id="dvDistrictMapping">
+    <div id="Title">
+        <div id="dvhdCreateNewReportDetails" class="ui-corner-top ui-widget-header panelheader" style="text-align: left; width: 99.9%; height: 20px; margin-top: 3px;">
+            <span class="ui-jqgrid-title" style="float: left; margin-top: 1px;">&nbsp;District Maping Details</span>
+        </div>
+    </div>
+    <form id="frmListDistrict">
+
+        @Html.ValidationSummary(true)
+        @Html.AntiForgeryToken()
+        @Html.HiddenFor(s => s.hiddenDistrictCode)
+        @Html.Hidden("PMGSYScheme", PMGSY.Extensions.PMGSYSession.Current.PMGSYScheme)
+        @if (PMGSY.Extensions.PMGSYSession.Current.PMGSYScheme == 2)
+        {
+            if (Model.isStateEntered)
+            {
+            <div id="divDistrictDeatislDetails" style="width: 99.9%" class=" ui-state-default ui-corner-bottom">
+                <table style="width: 99%">
+                    <tr>
+                        <td colspan="3" style="width: 10%;"></td>
+                        @if (Model.DistrictList != null && Model.DistrictList.Count > 0)
+                        {   
+                            <br />
+                            <td class="tdDistricts" style="text-align: justify; vertical-align: top">
+                                @Html.DropDownListFor(model => model.DistrictCode, new SelectList(Model.DistrictList, "Value", "Text"), new { @style = "text-align: justify !important" })
+                                @Html.ValidationMessageFor(model => model.DistrictCode)
+                                <span id="showDistrictError">@Html.ValidationMessage("showDistrictError")</span>
+                            </td>
+                        }
+                        else
+                        { 
+                            <td class="tdHabs" style="text-align: center;">
+                                <label id="lbHabs" style="color: #e80c4d">All Districts are Connected</label>
+                            </td>    
+                        }
+                        <td>
+
+                            <table id="tbMappedDistrictList">
+                            </table>
+                            <div id="pagerDistrictList">
+                            </div>
+                        </td>
+                        <td>
+                            <div style="margin-top: 0px; width: 98%; margin-left: -5px;">
+                                <table id="tblMappedDistricts"></table>
+                                <div id="dvPagerMappedDistricts"></div>
+                            </div>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td colspan="3"></td>
+                        <td style="text-align: center" colspan="3">
+                            <input type="button" id="btnSaveDistrict" name="btnSave" value="Map District" class="jqueryButton" title="Map District Details" style="margin-top: 17px;" />
+                            <input style="display: none; margin-top: 17px;" type="button" id="btnSaveCluster" name="btnSave" value="Map Cluster" class="jqueryButton" title="Map Cluster Details" />
+                        </td>
+                    </tr>
+                </table>
+            </div>
+            }
+            else
+            {
+            <center>
+                <table class="rowstyle">
+                    <tr>
+                        <td style="width: 5%;"></td>
+                        <td style="width: 25%;">
+                            <strong>
+                                <label>District Mapping details for Matrix will be available only after adding Matrix Details</label>
+                            </strong>
+                        </td>
+                        <td style="width: 5%;"></td>
+                        <td style="width: 15%;"></td>
+                    </tr>
+                </table>
+        </center>
+            }
+        }
+        else
+        {
+            <center>
+                <table class="rowstyle">
+                    <tr>
+                        <td style="width: 5%;"></td>
+                        <td style="width: 25%;">
+                            <strong>
+                                <label>District Mapping details for Matrix are available only for PMGSY Scheme 2</label>
+                            </strong>
+                        </td>
+                        <td style="width: 5%;"></td>
+                        <td style="width: 15%;"></td>
+                    </tr>
+                </table>
+        </center>
+        }
+    </form>
+</div>

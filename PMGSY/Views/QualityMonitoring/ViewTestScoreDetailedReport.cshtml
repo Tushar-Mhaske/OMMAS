@@ -1,0 +1,10 @@
+﻿@using MvcReportViewer
+
+@Html.MvcReportViewer("/PMGSYCitizen/PROFICIENCY_TEST_REPORT_DETAILED",
+ new
+ {
+     AdminQmCode = @ViewBag.adminQmCode,
+     MonitorType = @ViewBag.monitorType,
+     StateCode = @ViewBag.stateCode
+ },
+   new { Height = 600, Width = "100%", style = "border:none;" })

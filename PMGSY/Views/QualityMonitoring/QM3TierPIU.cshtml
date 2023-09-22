@@ -1,0 +1,246 @@
+﻿@**
+        * Project Id    :
+        * Project Name  :   OMMAS II
+        * Name          :   QM3TierPIU.cshtml
+        * Description   :   View for QM3TierPIU
+        * Author        :   Shyam Yadav 
+        * Creation Date :   10/Jun/2013
+ **@
+
+<!DOCTYPE html>
+@{Layout = null;}
+<html>
+<head>
+
+    <script src="~/Scripts/custom/Generic.js"></script>
+    <script src="~/Scripts/jquery.ui.tabs.js"></script>
+    <script src="~/Scripts/Bootstrap/bootstrap.min.js"></script>
+    <script src="~/Scripts/jquery-ui.js"></script>
+    <script src="~/Scripts/QualityMonitoring/QM3TierPIU.js"></script>
+
+</head>
+<body>
+
+    @Html.Hidden("hdnRoleCodeOnSqcLayout3Tier", PMGSY.Extensions.PMGSYSession.Current.RoleCode.ToString())
+    @Html.Hidden("hdnTierId", "3Tier")
+
+    <div id="tabs-3TierDetailsPIU" style="width: 99%;">
+        <ul>
+            @if (PMGSY.Extensions.PMGSYSession.Current.RoleCode == 5)
+            {
+                <li><a href="#tabs-3TierDetailsPIU-0" onclick="Show3TierPIUInspectionDetails();return false;">Inspection Details</a></li>
+                <li><a href="#tabs-3TierDetailsPIU-1" onclick="ScheduleListGrid(0,0);return false;">Schedule Details</a></li>
+                <li><a href="#tabs-3TierDetailsPIU-3" onclick="Show3TierPIUATR();return false;">ATR Details</a></li>
+                <li><a href="#tabs-3TierDetailsPIU-7" onclick="ShowSQCATR();return false;">Maintenance ATR</a></li>
+                <li><a href="#tabs-3TierDetails-4" onclick="ShowMonitorsDetails();return false;">Monitors Details</a></li>
+                <li><a href="#tabs-3TierDetails-5" onclick="MaintenanceInspection();return false;">Maintenance Inspection</a></li>
+                <li><a href="#tabs-3TierDetails-6" onclick="LoadSQCDetails();return false;">SQC Details</a></li>
+                <li><a href="#tabs-3TierDetails-8" onclick="showTourClaimNotification();return false;">Tour Claim Notification</a></li>
+                @*<li><a href="#tabs-3TierDetails-7" onclick="LoadTourDetails();return false;">Tour Details</a></li>*@
+            }
+            else
+            {
+                <li><a href="#tabs-3TierDetailsPIU-0" onclick="Show3TierPIUInspectionDetails();return false;">Inspection Details</a></li>
+                <li><a href="#tabs-3TierDetailsPIU-1" onclick="PIU3TierScheduleListGrid();return false;">Schedule Details</a></li>
+                <li><a href="#tabs-3TierDetailsPIU-3" onclick="Show3TierPIUATR();return false;">ATR Details</a></li>
+                <li><a href="#tabs-3TierDetailsPIU-7" onclick="ShowSQCATR();return false;">Maintenance ATR</a></li>
+            }
+            <div style="width: 98%; text-align: right; padding-top: 5px;">3rd Tier Quality Monitoring </div>
+        </ul>
+
+        <div id="tabs-3TierDetailsPIU-0">
+            <div id="div3TierPIUInspFilters"></div>
+            <div id="div3TierPIUInspectionDetails" style="width: 100%; margin-top: 15px;">
+                <table id="tb3TierSqcInspList"></table>
+                <div id="dv3TierSqcInspListPager"></div>
+            </div>
+
+            <div id="accordion3TierPIUInspection" style="display: none; width: 100%; margin-top: 10px;">
+                <h3 style="text-align: left">
+                    <a id="" href="#" style="font-size: .9em;">Inspections Details</a>
+                    <a href="#" style="float: right;">
+                        <img style="border: none" class="ui-icon ui-icon-closethick" onclick="Close3TierPIUInspDetails();" />
+                    </a>
+                </h3>
+                <div id="div3TierPIUInspDetails" style="display: none;"></div>
+                @*<div id="div3TierSqcInspDetails" style="display: none;"></div>*@
+            </div>
+        </div>
+        @if (PMGSY.Extensions.PMGSYSession.Current.RoleCode == 5)
+        {
+            <div id="tabs-3TierDetailsPIU-1">
+                <div id="div3TierScheduleFilters" style="width: 100%; margin-top: 15px;">
+                    @{Html.RenderAction("ScheduleFilters", "QualityMonitoring");}
+                </div>
+                <div id="div3TierSchedulePreparation" style="width: 100%; margin-top: 15px;">
+                    <table id="tb3TierScheduleList"></table>
+                    <div id="dv3TierScheduleListPager"></div>
+                </div>
+                <div id="accordionSchedule" style="display: none; width: 100%; margin-top: 10px;">
+                    <h3 style="text-align: left">
+                        <a id="" href="#" style="font-size: .9em;">Create Schedule</a>
+                        <a href="#" style="float: right;">
+                            <img style="border: none" class="ui-icon ui-icon-closethick" onclick="CloseScheduleDetails();" />
+                        </a>
+                    </h3>
+                    <div id="divScheduleDetails" style="display: none;"></div>
+                </div>
+
+
+                <div id="accordionSQCLetter" style="display: none; width: 100%; margin-top: 10px;">
+                    <h3 style="text-align: left">
+                        <a id="" href="#" style="font-size: .9em;">SQC Letter</a>
+                        <a href="#" style="float: right;">
+                            <img style="border: none" class="ui-icon ui-icon-closethick" onclick="CloseSQCLetter();" />
+                        </a>
+                    </h3>
+                    <div id="divSQCLetter" style="display: none;"></div>
+                </div>
+
+                <div id="accordionTeamSchedule" style="display: none; width: 100%; margin-top: 10px;">
+                    <h3 style="text-align: left">
+                        <a id="" href="#" style="font-size: .9em;">Create Team</a>
+                        <a href="#" style="float: right;">
+                            <img style="border: none" class="ui-icon ui-icon-closethick" onclick="CloseTeamDetails();" />
+                        </a>
+                    </h3>
+                    <div id="divTeamScheduleDetails" style="display: none;"></div>
+                </div>
+
+
+
+                <div id="accordionPriorityList" style="display: none; width: 100%; margin-top: 10px;">
+                    <h3 style="text-align: left">
+                        <a id="" href="#" style="font-size: .9em;">Priority List</a>
+                        <a href="#" style="float: right;">
+                            <img style="border: none" class="ui-icon ui-icon-closethick" onclick="ClosePriorityList();" />
+                        </a>
+                    </h3>
+                    <div id="divPriorityList" style="display: none;"></div>
+                </div>
+            </div>
+
+            <div id="tabs-3TierDetails-8" style="padding:1rem;margin-top:2rem; height: 600px; display:none;">
+                <div id="divNotificationCQC"></div>
+            </div>
+
+            <div id="tabs-3TierDetails-8" style="padding: 1rem; margin-top: 2rem; height: 600px; display: none;">
+                <div id="divNotificationCQC"></div>
+            </div>
+        }
+        else
+        {
+            <div id="tabs-3TierDetailsPIU-1">
+                <div id="div3TierPIUSchedulePreparation" style="width: 100%; margin-top: 15px;">
+                    <table id="tb3TierPIUScheduleList"></table>
+                    <div id="dv3TierPIUScheduleListPager"></div>
+                </div>
+
+                <div id="accordion3TierPIUSchedule" style="display: none; width: 100%; margin-top: 10px;">
+                    <h3 style="text-align: left">
+                        <a id="" href="#" style="font-size: .9em;">Schedule Details</a>
+                        <a href="#" style="float: right;">
+                            <img style="border: none" class="ui-icon ui-icon-closethick" onclick="Close3TierPIUScheduleDetails();" />
+                        </a>
+                    </h3>
+                    <div id="div3TierPIUScheduleDetails" style="display: none;"></div>
+                </div>
+            </div>
+        }
+
+        <div id="tabs-3TierDetailsPIU-3">
+            <div id="div3TierATRQualityFiltersHtml"></div>
+            @*<div style="width: 99%; height: 20px; border: none; margin-top: 5px; margin-bottom: -15px;" class="ui-state-default">
+                <span style="float: left; margin-left: 5px; padding: 2px;">Action Taken Report</span>
+                <span style="float: right; margin-right: 2Px; margin-top: 2px" id="spn3TierATRHtml" class="ui-icon ui-icon-circle-triangle-n"></span>
+            </div>*@
+            <div id="div3TierATRQualityActionReport" style="width: 99%; height: 20px; border: none; margin-top: 5px; margin-bottom: -15px;" class="ui-state-default">
+                <span style="float: left; margin-left: 5px; padding: 2px;">Action Taken Report</span>
+                <span style="float: right; margin-right: 2Px; margin-top: 2px" id="spn3TierATRHtml" class="ui-icon ui-icon-circle-triangle-n"></span>
+            </div>
+
+            <div id="div3TierATRDetailsHtml" style="width: 99%; overflow: auto; height: 350px;"></div>
+            <br />
+            <div id="accordionATRInspection" style="display: none; width: 100%; margin-top: 10px;">
+                @*Added by Aditi on 25 Jan 2021*@
+                <h3 style="text-align: left">
+                    <a id="" href="#" style="font-size: .9em;">Inspection Report List</a>
+                    <a href="#" style="float: right;">
+                        <img style="border: none" class="ui-icon ui-icon-closethick" id="close12" onclick="CloseATRInspection();" />
+                    </a>
+                </h3>
+                <div id="divATRInspectionDetails" style="display: none;"></div>
+            </div>
+            <br />
+            @*added by rahul on 6/1/22*@
+            <div id="accordionATR3TierCqc" style="display: none; width: 100%; margin-top: 10px;">
+                <h3 style="text-align: left">
+                    <a id="" href="#" style="font-size: .9em;">ATR Details</a>
+                    <a href="#" style="float: right;">
+                        <img style="border: none" class="ui-icon ui-icon-closethick" onclick="CloseATR3TierCqcDetails();" />
+                    </a>
+                </h3>
+                <div id="divATR3TierCqcDetails" style="display: none;"></div>
+            </div>
+            @*-------------end*@
+            @*<div id="accordion3TierATRDetailsPIU" style="display: none; width: 100%; margin-top: 10px;">
+                <h3 style="text-align: left"><a id="" href="#" style="font-size: .9em;">ATR Details</a>
+                    <a href="#" style="float: right;">
+                        <img style="border: none" class="ui-icon ui-icon-closethick" onclick="Close3TierATRDetailsPIU();" /></a>
+                </h3>
+                <div id="div3TierATRDetailsPIU" style="display: none;"></div>
+            </div>*@
+            <div id="accordionATR3TierSqcLab" class="ui-state-default ui-corner-all" style="display:none;width:100%;margin-top:10px;">
+                @* Added by Deendayal*@
+                <h3 class="ui-accordion-header ui-helper-reset ui-state-default ui-accordion-header-active ui-state-active ui-corner-top">
+                    @*<a id="" href="#" style=" font-size:.9em;" >Lab Details</a>
+                    <a href="#"  style="float: right;">
+                        <img style="border:none" class="ui-icon ui-icon-closethick" onclick="CloseATR3TierSqcLabDetails();" /></a>*@
+            </h3>
+            <div id="divATR3TierSqcLabDetails" style="display:none;"></div>
+        </div>
+
+    </div>
+    <div id="tabs-3TierDetailsPIU-7">
+        <div id="div2TierATRQualityFiltersHtml"></div>
+        <div style="width: 99%; height: 20px; border: none; margin-top: 5px; margin-bottom: -15px;" class="ui-state-default">
+            <span style="float: left; margin-left: 5px; padding: 2px;">Maintenance ATR Details</span>
+            <span style="float: right; margin-right: 2Px; margin-top: 2px" id="spn2TierATRHtml" class="ui-icon ui-icon-circle-triangle-n"></span>
+        </div>
+        <div id="div2TierATRDetailsHtml" style="width: 99%; overflow: auto; height: 350px;"></div>
+        <br />
+        <div id="accordionATR2TierSqc" style="display: none; width: 100%; margin-top: 10px;">
+            <h3 style="text-align: left">
+                <a id="" href="#" style="font-size: .9em;">Maintenance ATR Details</a>
+                <a href="#" style="float: right;">
+                    <img style="border: none" class="ui-icon ui-icon-closethick" onclick="CloseATR2TierSqcDetails();" />
+                </a>
+            </h3>
+            <div id="divATR2TierSqcDetails" style="display: none;"></div>
+        </div>
+
+        <div id="accordionBulkSQCATRDetails" style="display: none; width: 100%; margin-top: 10px;">
+            <h3 style="text-align: left">
+                <a id="" href="#" style="font-size: .9em;">Regrade ATR</a>
+                <a href="#" style="float: right;">
+                    <img style="border: none" class="ui-icon ui-icon-closethick" onclick="CloseBulkSQCATRDetails();" />
+                </a>
+            </h3>
+            <div id="divBulkSQCATRDetails" style="display: none;"></div>
+        </div>
+    </div>
+    <div id="tabs-3TierDetails-4">
+        <div id="div3TierAddMonitor"></div>
+    </div>
+    <div id="tabs-3TierDetails-5">
+        <div id="div3TierAddMaintenanceInspection"></div>
+    </div>
+    <div id="tabs-3TierDetails-6">
+        <div id="div3TierSQCDetails"></div>
+    </div>
+    <div id="tabs-3TierDetails-7">
+        <div id="div3TierTourDetails"></div>
+    </div>
+    </div>
+</body>
+</html>

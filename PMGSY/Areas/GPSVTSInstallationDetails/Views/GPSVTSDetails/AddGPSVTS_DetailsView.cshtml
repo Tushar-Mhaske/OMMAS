@@ -1,0 +1,331 @@
+﻿@model PMGSY.Areas.GPSVTSInstallationDetails.Models.GPSVTS_DetailsModel
+@{
+    Layout = null;
+
+}
+
+<!DOCTYPE html>
+
+<html>
+<head>
+    <meta name="viewport" content="width=device-width" />
+    <title>AddGPSVTS_DetailsView</title>
+
+    <script src="~/Scripts/custom/Generic.js"></script>
+    <script src="~/Scripts/jquery.ui.datepicker.js"></script>
+    <script src="~/Scripts/jquery.ui.accordion.js"></script>
+    <script src="~/Scripts/jquery.ui.tabs.js"></script>
+    <script src="~/Scripts/Bootstrap/bootstrap.min.js"></script>
+    <link href="~/Content/Bootstrap/bootstrap.min.css" rel="stylesheet" />
+    <script src="~/Areas/GPSVTSInstallationDetails/Scripts/AddGPSVTS_DetailsView.js"></script>
+
+    @*<style>
+            .tbl td {
+                padding: 5px;
+            }
+        </style>*@
+    <style>
+        .row {
+            margin-bottom: 10px;
+        }
+
+        .label {
+            font-weight: bold;
+            width: 120px;
+            text-align: right;
+            margin-right: 10px;
+            background-color: transparent !important;
+            color: black !important;
+            display: unset !important;
+            font-size: 12.8px;
+        }
+
+        .span2 {
+            margin-right: 10px;
+        }
+
+        .btn-group button {
+            border-radius: 3px;
+            cursor: pointer;
+        }
+
+            .btn-group button.active {
+                background-color: #007bff;
+                color: #fff;
+            }
+
+        .hr_colour {
+            border-top: 1px solid black;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div id="DivContainer">
+            <form id="frmAddViewGPSVTSDetail">
+                @*@Html.AntiForgeryToken()*@
+                @Html.HiddenFor(m => m.RoadCode)
+                <div id="dvfirst">
+
+                    <div class="row" style="margin-bottom: 1%">
+                        <div class="span4"></div>
+                        <div class="span2">
+                            <label class="label">@Html.LabelFor(m => m.RoadName)</label>
+                        </div>
+                        <div class="span2">
+                            <div>@Html.DisplayFor(m => m.RoadName)</div>
+                        </div>
+                        <div class="span4"></div>
+                    </div>
+
+                    <div class="row">
+                        <div class="span2">
+                            <label class="label">@Html.LabelFor(m => m.Year)</label>
+                        </div>
+                        <div class="span1">
+                            <div>@Html.DisplayFor(m => m.Year)</div>
+                        </div>
+                        <div class="span2">
+                            <label class="label">@Html.LabelFor(m => m.Batch)</label>
+                        </div>
+                        <div class="span2">
+                            <div>@Html.DisplayFor(m => m.Batch)</div>
+                        </div>
+                        <div class="span2">
+                            <label class="label">@Html.LabelFor(m => m.Package)</label>
+                        </div>
+                        <div class="span2">
+                            <div>@Html.DisplayFor(m => m.Package)</div>
+                        </div>
+                        <div class="span2"></div>
+                    </div>
+                    <div class="row">
+                        <div class="span12">
+                            <hr class="hr_colour">
+
+
+                        </div>
+                    </div>
+
+                    <div class="row">
+
+                        <div class="span12">
+                            <label class="label" style="line-height: 31px !important;">@Html.LabelFor(m => m.Is_GPSVTS_Installed)</label>
+                        </div>
+                    </div>
+                    @if (Model.IsEditDetails || Model.IsDetailsAlreadyPresent)
+                    {
+                        @*<div class="row">
+                    <div class="span12">
+                        <div class="btn-group" data-toggle="buttons-radio" style="font-size: 20px !important;">
+                            <button type="button" class="btn btn-info" style="display: inline-table" disabled="disabled">@Html.RadioButtonFor(m => m.Is_GPSVTS_Installed, "Y") Yes</button>
+                            <button type="button" id="noButton" class="btn btn-info" disabled="disabled">@Html.RadioButtonFor(m => m.Is_GPSVTS_Installed, "N") No</button>
+                        </div>
+                    </div>
+                </div>*@
+                        <div class="row">
+                            <div class="span12">
+                                <div class="btn-group" data-toggle="buttons-radio" style="font-size: 20px !important;">
+                                    <button type="button" class="btn btn-info" style="display: inline-table" disabled="disabled">@Html.RadioButtonFor(m => m.Is_GPSVTS_Installed, "Y", new { disabled = "disabled" }) Yes</button>
+                                    <button type="button" class="btn btn-info" disabled="disabled">@Html.RadioButtonFor(m => m.Is_GPSVTS_Installed, "N", new { disabled = "disabled" }) No</button>
+                                </div>
+                            </div>
+                        </div>
+
+
+                    }
+                    else
+                    {<div class="row">
+                            <div class="span12">
+                                <div class="btn-group" data-toggle="buttons-radio" style="font-size: 20px !important;">
+                                    <button type="button" class="btn btn-info" style="display: inline-table ">@Html.RadioButtonFor(m => m.Is_GPSVTS_Installed, "Y") Yes</button>
+                                    <button type="button" id="noButton" class="btn btn-info">@Html.RadioButtonFor(m => m.Is_GPSVTS_Installed, "N") No</button>
+
+                                </div>
+                            </div>
+
+                        </div>
+                    }
+                    <div class="row">
+                        <div class="span2"></div>
+                        <div class="span8">
+                            <label class="label" style="color:red !important;">(Vehicle details are required only if GPS is installed.)</label>
+                        </div>
+                        <div class="span1"></div>
+                    </div>
+                    <div class="row">
+                        <div class="span12">
+                            <hr>
+                        </div>
+                    </div>
+
+                    <div class="row VehicleDetails">
+                        <div class="span12">
+                            <div class="row">
+                                <div class="span1" style="margin-top:0.5%">
+                                    <label class="label">@Html.LabelFor(m => m.Vehicle)</label>
+                                </div>
+                                @*<div class="span2">
+            @Html.DropDownListFor(m => m.Vehicle, new SelectList(Model.VehicleList, "Value", "Text"), new { @class = "Vehicle" })
+        </div>*@
+                                @if (Model.IsEditDetails)
+                                {
+                                    <div class="span2">
+                                        @Html.DropDownListFor(m => m.Vehicle, Model.VehicleList, new { @class = "Vehicle", id = "vehicleDropdown" })
+                                    </div>
+                                    <script>
+                                        $(document).ready(function () {
+                                            $('#vehicleDropdown').prop('disabled', true);
+                                        });
+                                    </script>
+                                }
+                                else
+                                {
+                                    <div class="span2">
+                                        @Html.DropDownListFor(m => m.Vehicle, Model.VehicleList, new { @class = "Vehicle" })
+                                    </div>
+                                }
+                                <div class="span2" style="margin-top:0.5%">
+                                    <label class="label">@Html.LabelFor(m => m.VehiclesCount)</label>
+                                </div>
+                                @if (Model.IsEditDetails)
+                                {@Html.HiddenFor(m => m.Vehicle_Gps_Ids)
+                                <div class="span1">
+                                    @Html.TextBoxFor(m => m.VehiclesCount, new { @class = "VehiclesCount", style = "width: 74px !important;", @readonly = "readonly", @maxlength = "2" })
+
+                                </div>
+                            }
+                            else
+                            {<div class="span1">
+                                    @Html.TextBoxFor(m => m.VehiclesCount, new { @class = "VehiclesCount", style = "width: 74px !important;" })
+                                    <br />
+                                    @Html.ValidationMessageFor(model => model.VehiclesCount)
+                                </div>
+                            }
+
+                                <div class="span2" style="margin-left:5%; margin-top:0.5%">
+                                    <label class="label">@Html.LabelFor(m => m.VTS_InstallationDate)</label>
+                                </div>
+                                <div class="span3">
+                                    @*@Html.TextBoxFor(m => m.VTS_InstallationDate, new { @placeholder = "", @class = "datepicker", @readonly = "readonly" })*@
+                                    @Html.TextBoxFor(m => m.VTS_InstallationDate, new { @placeholder = "", @class = "datepicker" })
+                                    <br />
+                                    @Html.ValidationMessageFor(model => model.VTS_InstallationDate)
+                                </div>
+                                @*<div class="span1"></div>*@
+                            </div>
+                            @if (Model.IsEditDetails)
+                            {
+                                <div class="row">
+                                    <div class="span2" style="margin-top:2%">
+                                        <label class="label">@Html.LabelFor(m => m.VehiclesID)</label>
+                                    </div>
+                                    @*<div class="span3 vehiclesIdContainer" style="margin-top:2.5%">
+                                @{
+
+                                    var index = 1;
+                                }
+                                @foreach (var vehicleID in Model.VehiclesID)
+                                {
+
+                                    <label> @index) </label>
+                                    @Html.TextBox("VehiclesID", vehicleID, new { @class = "VehiclesID", style = "margin-bottom: 3%;" })
+                                    <br />
+                                    index++;
+                                }
+
+                            </div>*@
+                                    <div class="span3 vehiclesIdContainer" style="margin-top: 2.5%">
+                                        @{
+                                            var index = 1;
+                                        }
+                                        @foreach (var vehicleID in Model.VehiclesID)
+                                        {
+                                            var gpsInstrumentID = Model.VehiclesID[index - 1];
+                                            <label> @index) </label>
+                                            @Html.TextBox("GPSInstrumentID_" + index, gpsInstrumentID, new { @class = "gps-instrument-id VehiclesID", data_original_value = gpsInstrumentID, style = "margin-bottom: 3%;" })
+                                            <br />
+
+                                            index++;
+                                        }
+                                    </div>
+
+
+
+                                </div>
+                            }
+                            else
+                            {
+                                <div class="row">
+                                    <div class="span2" style="margin-top:2%">
+                                        <label class="label">@Html.LabelFor(m => m.VehiclesID)</label>
+                                    </div>
+                                    @*<div class="span2 vehiclesIdContainer" style="margin-top:2.5%">
+
+                            </div>*@
+                                    <div class="span3 vehiclesIdContainer" style="margin-top:2.5%"></div>
+
+
+                                </div>
+                            }
+
+
+                            <div class="row">
+                                <div class="span12">
+                                    <hr>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    @if (Model.IsEditDetails)
+                    {
+                        <div class="row">
+                            <div class="span12" style="text-align: center;">
+                                <input type="submit" value="Update" class="btn btn-primary" id="BtnSubmitEditGPSDetails" style="font-size:12px !important">
+                                <input type="reset" value="Reset" class="btn" style="font-size:12px !important">
+                            </div>
+                        </div>
+                    }
+                    else
+                    {
+                        @*<div class="row ADD_DEL_BTN">
+                    <div class="span12">
+                        <button class="btn btn-success btnAddVehicle" style="font-size:12px !important">Add Vehicle</button>
+
+                        <button class="btn btn-danger btnDeleteVehicle" type="button" style="font-size:12px !important">Delete Vehicle</button>
+                    </div>
+                </div>*@
+                        <div class="row TotalCount" style="height:50px;">
+                            <div class="span12">
+                                <div class="span4"></div>
+                                <div class="span2" style="margin-top:0.5%">
+                                    <label class="label">@Html.LabelFor(m => m.TotalNoVehicles)</label>
+                                </div>
+                                <div class="span1">
+                                    @Html.TextBoxFor(m => m.TotalNoVehicles, new { @style = "width: 74px !important;", @readonly = "readonly", id = "TotalNoVehicles" })
+
+
+                                </div>
+                                <div class="span5"></div>
+                            </div>
+                        </div>
+
+
+                        <div class="row">
+                            <div class="span12" style="text-align: center;">
+                                <input type="submit" value="Submit" class="btn btn-primary" id="BtnSubmitGPSDetails" style="font-size:12px !important">
+                                <input type="reset" value="Reset" class="btn" style="font-size:12px !important">
+                            </div>
+                        </div>
+                    }
+
+                </div>
+                <div>
+                    <div id="dvsecond"></div>
+                </div>
+            </form>
+        </div>
+    </div>
+</body>
+
+</html>

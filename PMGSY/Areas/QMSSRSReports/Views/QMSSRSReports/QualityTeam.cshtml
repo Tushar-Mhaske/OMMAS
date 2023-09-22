@@ -1,0 +1,73 @@
+﻿@model PMGSY.Areas.QMSSRSReports.Models.QMFilterViewModel
+
+<div style="width: 99%; border:none; margin-top:-15px; margin-bottom:10px;" class="ui-state-default">      
+        <div id="divTeamFiltersForm">
+            <center>
+                <form id="TeamFiltersForm">  
+                    <table style="margin-top:10px; margin-bottom:5px; width:70%">
+                        <tr>
+                            <td style="width:10%;padding-left:25px;">
+                                @Html.LabelFor(model => model.FROM_MONTH)
+                            </td>
+                            <td style="width:10%">
+                                @Html.DropDownListFor(model => model.FROM_MONTH, new SelectList(Model.FROM_MONTHS_LIST, "Value", "Text"), new { @id = "ddlTeamMonth" })
+                            </td>
+                            <td style="width:10%;padding-left:25px;">
+                              @Html.LabelFor(model => model.FROM_YEAR)
+                            </td>
+                            <td style="width:10%;">
+                                @Html.DropDownListFor(model => model.FROM_YEAR, new SelectList(Model.FROM_YEARS_LIST, "Value", "Text"), new { @id = "ddlTeamYear" })
+                            </td>
+                            <td style="width:10%;">
+                                <input type="button" class="jqueryButton" value="View" id="btnViewTeam"/>
+                            </td>
+                       </tr>
+                    </table>
+                </form>  
+            </center>
+    </div>
+</div>
+
+<div id="dvLoadQMTeamReport"></div>
+<script type="text/javascript">
+
+    $(document).ready(function () {
+
+        $("#btnViewTeam").click(function () {
+            LoadReport();
+        });
+    });
+    function LoadReport() {
+        var smonth = $("#ddlTeamMonth").val();
+        var syear = $("#ddlTeamYear").val();
+
+        $("#dvLoadQMTeamReport").load("/QMSSRSReports/QMSSRSReports/QualityTeamReport/", { smonth: smonth, syear: syear });
+    }
+
+    function FnMonitorAddToTeam(teamcode, scode, isteamlead) {
+        var IsConfirm = confirm("Are your sure to add NQM as Team Member!");
+        if (IsConfirm == true) {
+            $.post("/QualityMonitoring/QMTeamCreate", { teamcode: teamcode, scode: scode, isteamlead: isteamlead }, function (response) {
+                alert(response.flag);
+                LoadReport();
+
+            });
+        } 
+
+       
+    }
+   
+    function FnQMTeamDeActivate(teamid) {
+        var IsConfirm = confirm("Are your sure to De-Actvate!");
+        if (IsConfirm == true) {
+
+            $.post("/QualityMonitoring/QMTeamDeActivate", { teamid: teamid }, function (response) {
+                
+                alert(response.flag);
+                LoadReport();
+            });
+        }
+    }
+    
+</script>
+

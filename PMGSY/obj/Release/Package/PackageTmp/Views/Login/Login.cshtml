@@ -1,0 +1,131 @@
+﻿@model PMGSY.Models.LoginModel
+@{Layout = null;}
+@using PMGSY.Extensions
+@using CaptchaLib
+<!DOCTYPE HTML>
+<html lang="en">
+<head>
+
+ <META Http-Equiv="Cache-Control" Content="no-cache"/>
+ <META Http-Equiv="Pragma" Content="no-cache"/>
+ <META Http-Equiv="Expires" Content="0"/>
+
+<title>PMGSY</title>
+<link href="~/Content/themes/Humanity/jquery-ui-1.9.2.custom.css" rel="stylesheet" />
+    
+<link href="~/Content/jquery.qtip.min.css" rel="stylesheet" />
+@*<link href="~/Content/Login/Login.css" rel="stylesheet" />*@
+<link href="~/Content/Login/LoginPage.css" rel="stylesheet" />
+@*@Styles.Render("~/Content/css")*@      
+@Scripts.Render("~/bundles/jquery")
+ 
+<script src="~/Content/themes/Humanity/js/jquery-ui-1.9.2.custom.js"></script>
+<script src="~/Scripts/jquery.validate.min.js"></script>
+<script src="~/Scripts/jquery.validate.unobtrusive.min.js"></script>
+<script src="~/Scripts/Login/md5.js"></script>
+<script src="~/Scripts/Login/Login.js"></script>
+<script src="~/Scripts/custom/Generic.js"></script>
+<script src="~/Scripts/jquery.qtip.js"></script>
+<script src="~/Scripts/custom/GenericUIControl.js"></script>
+<script src="~/Scripts/captcha.js"></script>
+</head>
+
+<body id="mainbody" >
+<div id="root-div">
+<div id="board">
+	<div id="board-content" class="border-radius-5">
+		<div id="header-login" class="border-radius-top-5">
+			<div class="float-left padding-left" id="pmgsy-logo">
+				<div class="float-left">
+					<img src="/Content/Login/Images/pmgsy_logo.png" width="60">
+				</div>
+							
+				<div id="main-title" class="float-left">
+					Pradhan Mantri Gram Sadak Yojana
+				</div>
+			</div>
+						
+			<div class="float-right padding-right" id="ommas-whole">
+				<div id="ommas">O M M A S</div>
+				<div id="ommas-punch">Online Management, Monitoring<br />and Accounting System</div>
+			</div>
+		</div>
+					
+		<div id="body" class="border-bottom-radius-5 clear-both text-align-center horiz-diff">
+        	<form id = "loginFrm" name="login-form" action="/Login/Login" method="post" autocomplete = "off">
+                @Html.Hidden("IsValidCaptcha",Model.ValidateCaptcha)
+                @Html.Hidden("HiddenUserName",Model.UserName)
+                @*@Html.Hidden("sessionSalt", PMGSY.Extensions.PMGSYSession.Current.SessionSalt)*@
+                @Html.Hidden("IsShowCaptch",Model.ShowCaptcha)
+                @Html.HiddenFor(m=>m.ValidateCaptcha)
+
+				<br />
+				<span id="instruction">Enter your username and password. Then click the "Login" button.</span>
+				<div class="horiz-diff"><br /></div>
+							
+				<div class="error">
+					@Html.ValidationSummary(true)
+				</div>
+							
+				<b>Username &nbsp;</b>@Html.TextBoxFor(m => m.UserName, new {  @placeholder = "User Name", @class="border-radius-3", @maxlength = 30, onCopy="return false" ,onDrag="return false", onDrop="return false", onPaste="return false", autocomplete="off" })
+				<span class="validation-error" style="position: absolute; z-index: 1; margin: 5px 0px 0px 15px;">@Html.ValidationMessageFor(m => m.UserName)</span>
+				<div class="horiz-diff"></div>
+							
+				<b>Password &nbsp;</b>@Html.PasswordFor(m => m.Password, new {  @placeholder = "Password", @class = "border-radius-3", @maxlength = 32, onCopy="return false" ,onDrag="return false", onDrop="return false", onPaste="return false", autocomplete="off" })
+				<span class="validation-error" style="position: absolute; z-index: 1; margin: 5px 0px 0px 15px;">@Html.ValidationMessageFor(m => m.Password) </span>
+				<div class="horiz-diff"></div>
+                
+                <div id="trCapcha" style="display:none">
+                    @Html.CaptchaFor(x => x.Captcha, "GetCaptchaImages", "Login", null, "Try Another Image? Click Here", new { @id = "CaptchaImg", @class = "border-radius-3 captcha-registration", @tabindex = "21"})
+                    <span class="validation-error" style="position: absolute; z-index: 1; margin: 5px 0px 0px 15px;">@Html.ValidationMessageFor(x => x.Captcha)</span>
+                    
+                </div>
+                
+				<div class="horiz-diff"></div>
+                							
+				&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+				&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+							
+				<input type="button" class="button border-radius-3" value="Login" id="btnSubmitLogin"/>
+				<input type="reset" class="button border-radius-3" value="Reset" id="btnResetLogin"/>
+							
+				<div class="horiz-diff" style="margin-top: 5px;"></div>
+							
+				<div class="float-left" style="width: 54%; text-align: right; color: #F00;">
+					&diams; @Html.ActionLink("Forgot password?", "RecoverPwdrQuestion", "Login", new { @class="font-12 a-decoration", title = "Click to recover password" })
+				</div>
+							
+				<div class="float-right" style="width: 44%; text-align: left;">
+					&diams; <a class="font-12 a-decoration" title = "Click here redirect to Citizen Section" href="http://omms.nic.in">Citizen Section</a>
+				</div>
+			</form>
+            		
+			<div class="horiz-diff">&nbsp;</div>
+			<br />
+						
+			<div class="font-12" id="copyright">
+				&copy; 2014 National Rural Infrastructure Development Agency (NRIDA). All Rights Reserved.
+			</div>
+			<div class="font-12 border-bottom-radius-5" id="footer">
+                
+				Best viewed in all open browsers &amp; Internet Explorer 9 or Higher in 1280 x 1024 screen resolution.
+				<br />
+				Download Links - 
+				<a class="footer-link font-12 a-decoration" title="Download latest version of Firefox" target="_blank" href="http://www.mozilla.org/en-US/firefox/new/" >Firefox</a>
+				&nbsp;|&nbsp;
+				<a class="footer-link font-12 a-decoration" title="Download latest version of Google Chrome" target="_blank" href="https://www.google.com/intl/en/chrome/browser/" >Google Chrome</a> 
+				&nbsp;|&nbsp;
+				<a class="footer-link font-12 a-decoration" title="Download latest version of Internet Explorer" target="_blank" href="http://windows.microsoft.com/en-IN/internet-explorer/download-ie" >Internet Explorer</a>
+                @{
+                    DateTime prevDate = DateTime.Now.AddDays (-1) ;
+                }
+                <br />Last updated on: @prevDate.ToString("dddd") ,  @prevDate.Day.ToString().PadLeft(2,'0')  @prevDate.ToString("MMMM")  @prevDate.Year
+			</div>
+            
+		</div>
+	</div>
+</div>
+</div>
+
+</body>
+</html>

@@ -1,0 +1,121 @@
+﻿@**
+        * Project Id    :
+        * Project Name  :   OMMAS II
+        * Name          :   MonitorDetails.cshtml
+        * Description   :   View for ImageUpload
+        * Author        :   Shyam Yadav 
+        * Creation Date :   10/Jun/2013
+ **@
+
+@model PMGSY.Models.Master.MasterAdminQualityMonitorViewModel
+
+<script src="~/Scripts/custom/Generic.js"></script>
+
+<table class="rowstyle" cellpadding="3px" style="text-align: left; border: ridge 0.1em #ccc; width: 100%; padding: 5px 5px 5px 5px;">
+    <tr>
+        <td style="width: 20%; font-weight: bold;">Monitor Name
+        </td>
+        <td style="width: 30%">
+            @Html.DisplayFor(model => model.ADMIN_QM_LNAME) &nbsp; @Html.DisplayFor(model => model.ADMIN_QM_FNAME) &nbsp; @Html.DisplayFor(model => model.ADMIN_QM_MNAME)
+            
+                @if (Model.ADMIN_QM_TYPE == "I")
+                {
+                    <strong>( NQM )</strong>
+                }
+                @if (Model.ADMIN_QM_TYPE == "S")
+                { 
+                    <strong>( SQM )</strong>
+                }
+        </td>
+        <td style="width: 20%; font-weight: bold;">
+            @Html.LabelFor(model => model.ADMIN_QM_DESG)
+        </td>
+        <td style="width: 30%">
+            @Html.DisplayFor(model => model.DESIGNATION_NAME)
+        </td>
+    </tr>
+
+    <tr>
+        <td style="width: 20%; font-weight: bold;">
+            @Html.LabelFor(model => model.MAST_STATE_CODE)
+        </td>
+        <td style="width: 30%">
+            @Html.DisplayFor(model => model.STATE_NAME)
+        </td>
+        <td style="width: 20%; font-weight: bold;">
+            @Html.LabelFor(model => model.MAST_DISTRICT_CODE)
+        </td>
+        <td style="width: 30%">
+            @Html.DisplayFor(model => model.DISTRICT_NAME)
+        </td>
+    </tr>
+
+    <tr>
+        <td style="width: 20%; font-weight: bold;">Address
+        </td>
+        <td style="width: 30%">
+            @Html.DisplayFor(model => model.ADMIN_QM_ADDRESS1) &nbsp; @Html.DisplayFor(model => model.ADMIN_QM_ADDRESS2)
+        </td>
+        <td style="width: 20%; font-weight: bold;">
+            @Html.LabelFor(model => model.ADMIN_QM_PIN)
+        </td>
+        <td style="width: 30%">
+            @Html.DisplayFor(model => model.ADMIN_QM_PIN)
+        </td>
+    </tr>
+
+    <tr>
+        <td style="width: 20%; font-weight: bold;">Phone1
+        </td>
+        <td style="width: 30%">
+            @Html.DisplayFor(model => model.ADMIN_QM_STD1) &nbsp; @Html.DisplayFor(model => model.ADMIN_QM_PHONE1)
+        </td>
+        <td style="width: 20%; font-weight: bold;">Phone2
+        </td>
+        <td style="width: 30%">
+            @Html.DisplayFor(model => model.ADMIN_QM_STD2) &nbsp; @Html.DisplayFor(model => model.ADMIN_QM_PHONE2)
+        </td>
+    </tr>
+
+
+    <tr>
+        <td style="padding-top: 10px; width: 20%; font-weight: bold;">
+            @Html.LabelFor(model => model.ADMIN_QM_MOBILE1)
+        </td>
+        <td style="width: 30%">
+            @Html.DisplayFor(model => model.ADMIN_QM_MOBILE1)
+        </td>
+        <td style="padding-top: 10px; width: 20%; font-weight: bold;">
+            @Html.LabelFor(model => model.ADMIN_QM_MOBILE2)
+        </td>
+        <td style="width: 30%">
+            @Html.DisplayFor(model => model.ADMIN_QM_MOBILE2)
+        </td>
+    </tr>
+
+
+    <tr>
+        <td style="padding-top: 10px; width: 20%; font-weight: bold;">
+            @Html.LabelFor(model => model.ADMIN_QM_FAX)
+        </td>
+        <td style="width: 30%">
+            @Html.DisplayFor(model => model.ADMIN_QM_FAX)
+        </td>
+        <td style="padding-top: 10px; width: 20%; font-weight: bold;">
+            @Html.LabelFor(model => model.ADMIN_QM_EMAIL)
+        </td>
+        <td style="width: 30%">
+            @Html.DisplayFor(model => model.ADMIN_QM_EMAIL)
+        </td>
+    </tr>
+
+    <tr>
+        <td style="padding-top: 10px; width: 20%; font-weight: bold;">
+            @Html.LabelFor(model => model.ADMIN_QM_REMARKS)
+        </td>
+        <td colspan="3">
+            @Html.DisplayFor(model => model.ADMIN_QM_REMARKS)
+        </td>
+    </tr>
+</table>
+

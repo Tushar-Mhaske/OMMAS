@@ -1,0 +1,74 @@
+﻿@*
+    * Project Id    :
+    * Project Name  :   OMMAS II
+    * Name          :   AddRepackagingDetails.cshtml
+    * Description   :   This View allows to change the status of Proposal to Stage 2
+    * Author        :   Vikram Nandanwar
+    * Creation Date :   31/07/2014
+*@
+
+@model PMGSY.Models.Proposal.Stage1ToStage2ViewModel
+
+
+<script src="~/Scripts/custom/Generic.js"></script>
+<script src="~/Scripts/Proposal/ChangeStage1ProposalToStage2.js"></script>
+
+<center>
+<form id="frmUpdateDetails" style="width:98%">
+    <div style="margin-left: 100px">
+        @Html.AntiForgeryToken()
+        @Html.ValidationSummary(true)
+        @Html.HiddenFor(model=>model.ProposalCode)
+        @Html.HiddenFor(model=>model.Batch)
+        @Html.HiddenFor(model=>model.AdminCode)
+        @Html.HiddenFor(model=>model.DistrictCode)
+    </div>
+    <div id="divError" class="ui-state-error ui-corner-all" style="text-align: left; display: none; width: 100%">
+        <span class="ui-icon ui-icon-alert" style="float: left;"></span>
+        <span></span>
+    </div>
+    <div style="height: 20px; width: 100%; text-align: left; padding-top: 0.6em;" class="ui-state-default ui-corner-all">
+        &nbsp; <strong>Note :</strong>  Fields marked with * are mandatory.
+    </div>
+    <table id="tb" cellpadding="3px" class="rowstyle" style="margin-top: 10px; text-align: left; border: ridge 0.1em #ccc; width: 100%; padding-top: 5px 5px 5px 5px;">
+        <tr></tr>
+        <tr>
+            <td style="width:10%">
+            </td>
+            <td style="width: 10%;">
+                @Html.LabelFor(model=>model.STAGE_YEAR)
+            </td>
+            <td style="width: 30%;">
+                @Html.DropDownListFor(model=>model.STAGE_YEAR,Model.lstStagedYears,new{@id="ddlStagedYears",@title= "Select Staged Year",@tabindex = 1})
+                @Html.ValidationMessageFor(model=>model.STAGE_YEAR)
+            </td>
+            <td style="width: 10%;">
+                @Html.LabelFor(model=>model.STAGE_PACKAGE)
+            </td>
+            <td style="width: 30%;">
+                @Html.DropDownListFor(model=>model.STAGE_PACKAGE,Model.lstStagedPackages,new{@id="ddlStagedPackages",@title= "Select Staged Package",@tabindex = 2 })
+                @Html.ValidationMessageFor(model=>model.STAGE_PACKAGE)
+            </td>
+        </tr>
+        <tr>
+            <td>
+            </td>
+            <td>
+                @Html.LabelFor(model=>model.STAGE_PROPOSAL)
+            </td>
+            <td colspan="3">
+                @Html.DropDownListFor(model=>model.STAGE_PROPOSAL,Model.lstStagedProposals,new{@id="ddlStagedProposals",@title= "Select Staged Road",@tabindex = 3,@style="width:340px"})
+                @Html.ValidationMessageFor(model=>model.STAGE_PROPOSAL)
+            </td>
+        </tr>
+        <tr>
+            <td colspan="5">
+                <center>
+                <input type="button" id="btnUpdate" name="btnUpdate" value="Update" class= "jqueryButton" title="Update Details" tabindex="3"  />  
+                <input type="reset" id="btnReset" name="btnReset" value="Reset" class= "jqueryButton" title="Reset" tabindex="4"  />
+                </center>
+            </td>
+        </tr>
+    </table>
+</form>
+</center>

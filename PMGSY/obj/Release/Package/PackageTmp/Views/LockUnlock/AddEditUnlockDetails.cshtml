@@ -1,0 +1,98 @@
+﻿@model PMGSY.Models.LockUnlock.UnlockDetailsViewModel
+
+@{
+    ViewBag.Title = "AddEditUnlockDetails";
+}
+
+
+<script src="~/Scripts/custom/Generic.js"></script>
+<script src="~/Scripts/jquery.ui.datepicker.js"></script>
+<script src="~/Scripts/LockUnlock/AddEditUnlockDetails.js"></script>
+
+<form id="frmAddUnlockDetails">
+    <div style="margin-left: 100px">
+        @Html.ValidationSummary(true)             
+        
+        @Html.HiddenFor(model=>model.sanctionType)
+
+        @Html.HiddenFor(model=>model.UnlockLevel)
+        @Html.HiddenFor(model=>model.UnlockTable)
+        @Html.HiddenFor(model=>model.UnlockBy)
+        @Html.HiddenFor(model=>model.UnlockRoleCode)
+        @Html.HiddenFor(model=>model.PMGSYScheme)
+        @for (int i = 0; i < Model.dataID.Length; ++i)
+        {
+            @Html.HiddenFor(model=>model.dataID[i])    
+        }
+        @if (PMGSY.Extensions.PMGSYSession.Current.RoleCode == 36 || PMGSY.Extensions.PMGSYSession.Current.RoleCode == 47 || PMGSY.Extensions.PMGSYSession.Current.RoleCode == 56)
+        {
+            @Html.HiddenFor(model=>model.UnlockEndDate)
+            @Html.HiddenFor(model=>model.UnlockStartDate)
+        }
+        @if (Model.UnlockLevel == "T")
+        {
+            @Html.HiddenFor(model=>model.StateCode)
+            @Html.HiddenFor(model=>model.DistrictCode)
+            @Html.HiddenFor(model=>model.BlockCode)
+            @Html.HiddenFor(model=>model.YearCode)
+        }
+        @if (Model.UnlockLevel == "Y")
+        {
+            @Html.HiddenFor(model=>model.StateCode)
+            @Html.HiddenFor(model=>model.DistrictCode)
+            @Html.HiddenFor(model=>model.BlockCode)
+        }
+        @if (Model.UnlockLevel == "R")
+        {
+            @Html.HiddenFor(model=>model.StateCode)
+            @Html.HiddenFor(model=>model.DistrictCode)
+            @Html.HiddenFor(model=>model.BlockCode)
+            @Html.HiddenFor(model=>model.YearCode)
+            @Html.HiddenFor(model=>model.BatchCode)
+            @Html.HiddenFor(model=>model.Package)
+        }
+    </div>            
+    <div id="divError" class="ui-state-error ui-corner-all" style="text-align: left; display: none; width: 100%">
+            <span class="ui-icon ui-icon-alert" style="float: left;"></span>     <span></span>              
+    </div>
+    <center>
+        <div style="height:20px; width: 100%; text-align:left; padding-top: 0.6em;" class="ui-state-default ui-corner-all" > 
+                   &nbsp;&nbsp; &nbsp; &nbsp;
+                   <strong> Note :</strong>  Fields marked with * are mandatory.
+        </div>
+        <table id="Table1"  cellpadding="3px" class="rowstyle" style="margin-top:5px; text-align:left; border:ridge 0.1em #ccc; width:100%; padding-top:5px 5px 5px 5px;">
+            @if (PMGSY.Extensions.PMGSYSession.Current.RoleCode != 36 && PMGSY.Extensions.PMGSYSession.Current.RoleCode != 47 && PMGSY.Extensions.PMGSYSession.Current.RoleCode != 56)
+            {
+            <tr>
+                <td style="width:8%"></td>
+                <td style="width:5%">@Html.LabelFor(model=>model.UnlockStartDate)<label style="color:red">*</label></td>
+                <td style="width:15%">
+                    @Html.TextBoxFor(model => model.UnlockStartDate, new {@title="Enter Unlock Start Date" ,@tabindex=1,@placeholder="Enter Unlock Start Date..."})
+                    @Html.ValidationMessageFor(model=>model.UnlockStartDate)
+                </td>
+                <td style="width:5%">@Html.LabelFor(model=>model.UnlockEndDate)<label style="color:red">*</label></td>
+                <td style="width:15%">
+                    @Html.TextBoxFor(model => model.UnlockEndDate, new {@title="Enter Unlock End Date",@tabindex=2,@placeholder="Enter Unlock End Date..." })
+                    @Html.ValidationMessageFor(model=>model.UnlockEndDate)
+                </td>
+            </tr>
+            }
+            <tr>
+                <td></td>
+                <td>@Html.LabelFor(model=>model.UnlockRemarks)<label style="color:red">*</label></td>
+                <td colspan="3">
+                    @Html.TextAreaFor(model => model.UnlockRemarks, new {@maxlength=255, @title="Enter Unlock Remarks..." ,@tabindex=3,@placeholder="Enter Unlock Remarks..."})
+                    @Html.ValidationMessageFor(model=>model.UnlockRemarks)
+                </td>
+            </tr>
+            <tr>
+                <td colspan="5">
+                    <center>
+                        <input type="button" id="btnSubmit" name="btnSubmit" value="Submit" class= "jqueryButton" title="Submit unlock details" tabindex="4" style="text-align:center" /> 
+                        <input type="reset" id="btnReset" name="btnReset" value="Reset" class= "jqueryButton" title="Reset unlock details" tabindex="5" style="text-align:center" /> 
+                    </center>
+                </td>
+            </tr>
+        </table>
+    </center>
+</form>

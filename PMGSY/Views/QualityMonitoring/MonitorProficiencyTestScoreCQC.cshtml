@@ -1,0 +1,56 @@
+﻿@model PMGSY.Models.QualityMonitoring.ProficiencyTestScoreModel
+
+@{
+    ViewBag.Title = "MonitorProficiencyTestScoreCQC";
+}
+
+<script src="~/Scripts/custom/Generic.js"></script>
+<link href="~/Content/Chosen/chosen.min.css" rel="stylesheet" />
+<script src="~/Scripts/chosen.jquery.min.js"></script>
+<script src="~/Scripts/QualityMonitoring/MonitorProficiencyTestScoreCQC.js"></script>
+<script src="~/Scripts/jquery-ui.js"></script>
+<script src="~/Scripts/jquery.validate.min.js"></script>
+<script src="~/Scripts/jquery.validate.unobtrusive.min.js"></script>
+
+<div style="padding: 0.3rem; cursor: pointer; width:5%; margin-top:1rem" class="jqueryButton" id="searchMonitor">
+    <span class="ui-icon ui-icon-circle-zoomin " style="float: left; margin-right: 0.3em;"></span>
+    <strong>Search  </strong>
+</div>
+
+<center>
+    <form id="formAddScore" style="display: none">
+        @Html.AntiForgeryToken()
+        <center>@Html.ValidationSummary(true)</center>
+        <div id="divAddScore" class="ui-corner-top ui-widget-header panelheader" style="text-align: center; margin-top: 20px; height: 20px; width: 100%">
+            <span class="ui-jqgrid-title" id="inspOperation" style="float: left">&nbsp;&nbsp;Upload Proficiency Test Score</span>
+            <span id="spCollapseIconCQC" class="ui-icon ui-icon-circle-close" style="float: right"></span>
+        </div>
+        <table class="rowstyle" style="width: 100%; margin-top: 0px; border: 1px solid grey; border-radius:0.5rem; padding: 0.5%">
+
+            <tr>
+                <td style="padding:0.5rem; width:50rem">
+                    @*; width:50rem"*@
+                    @Html.LabelFor(model => model.NQM_SQM)<label style="color: red">*</label>
+                </td>
+                <td style="width:40rem">
+                    @Html.DropDownListFor(model => model.NQM_SQM, new SelectList(Model.NQM_SQM_LIST, "Value", "Text"), new { @id = "monitorTypeList" })
+                    @Html.ValidationMessageFor(model => model.NQM_SQM)
+                </td>
+
+                <td style="width:50rem">
+                    <input type="button" id="btnViewScore" name="btnSave" value="Search" class="jqueryButton" title="Search Details" tabindex="5" />
+                </td>
+            </tr>
+
+        </table>
+
+    </form>
+
+    <div id="formScore"></div>
+
+    <div id="divListScore" style="margin-top:20px; width:100%">
+        <table id="tbScoreList"></table>
+        <div id="pagerScore"></div>
+    </div>
+
+</center>

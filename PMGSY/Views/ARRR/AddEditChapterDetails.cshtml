@@ -1,0 +1,76 @@
+﻿@model PMGSY.Models.ARRR.Chapter
+<script src="~/Scripts/custom/Generic.js"></script>
+<script src="~/Scripts/ARRR/AddChapterDetails.js"></script>
+<div id="dvheaderchapterdetails" class="ui-corner-top ui-widget-header panelheader" style="text-align:left;height:20px">
+    <span class="ui-jqgrid-title" style="float:left" >&nbsp;
+        Chapter Details
+    </span>
+    <span id="iconClose" class="ui-icon ui-icon-circle-close" style="float:right">
+    </span>
+
+</div>
+<div id="dvLayoutofAddChapterView" style="display: block; border: 1px solid #B5B8C8;">
+      <div id="dvErrorMessage" class="ui-widget ui-state-error ui-corner-all" style="padding: 0.7em .7em; display: none; margin: 5px 5px 5px 5px; text-align: left;">
+        <span class="ui-icon ui-icon-alert" style="float: left; margin-right: .3em;"></span>
+        <strong>Alert:</strong> 
+        <span id="message"></span>
+    </div>
+    <form id="frmAddChapterDetails">
+         @Html.AntiForgeryToken()
+        <center>@Html.ValidationSummary(true)</center>
+        <table style="width:100%; margin-top:10px" class="rowstyle">
+            <tr>
+                <td colspan="5">
+                    @Html.HiddenFor(model=>model.EncryptedChapterCode)
+                    @Html.HiddenFor(model=>model.Operation)
+                </td>
+            </tr>
+            <tr>
+               <td colspan="5" align="center">
+              
+                   
+                      
+                @Html.LabelFor(model=>model.ChapterName)<span style="color:red">*</span>
+                @Html.TextBoxFor(model => Model.ChapterName, new {@placeholder="Enter Chapter Description",@title="Enter Chapter Description",@tabindex=1 })@Html.ValidationMessageFor(model=>model.ChapterName)
+                </td>
+                          
+                  
+            </tr>
+            <tr>
+
+                <td colspan="5" >
+                  @if (Model.Operation == "A")
+                  { 
+                      <center>
+                          <table>
+                              <td >
+                                  <input type="button" value="Save" name="btnSave" id="btnSave" class="jqueryButton" tabindex="2">
+                                  <input type="reset" value="Reset" name="btnReset" id="btnReset" class="jqueryButton" tabindex="3">
+                              </td>
+                         </table>
+                      </center>
+                  }
+                    else
+                  {
+                       <center>
+                          <table>
+                              <td>
+                                  <input type="button" value="Update" name="btnUpdate" id="btnUpdate" class="jqueryButton" tabindex="2">
+                                  <input type="button" value="Cancel" name="btnCancel" id="btnCancel" class="jqueryButton" tabindex="3">
+                              </td>
+                          </table>
+                      </center>
+                      
+                  }
+               </td>
+
+            </tr>
+
+            <tr>
+            <td colspan="5">
+                   <label @*class="ui-state-default"*@ style="border:none">[ Note: Fields marked with<label style="color: red;"> * </label>are mandatory.]</label>
+            </td>
+       </tr>
+        </table>
+    </form>
+ </div>
